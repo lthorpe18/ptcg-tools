@@ -67,20 +67,57 @@ button:active,.linkbtn:active{transform:translateY(1px)}
   padding:6px 10px;background:rgba(255,255,255,.03)
 }
 
+/* --- Grouped grid layout --- */
 .cards{
-  display:flex;flex-direction:column;gap:8px;
-  max-height:520px;overflow:auto;padding-right:4px
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  max-height:560px;
+  overflow:auto;
+  padding-right:4px;
+}
+.group{
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:rgba(255,255,255,.02);
+  padding:10px;
+}
+.grouphead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.gtitle{
+  margin:0;
+  font-size:13px;
+  letter-spacing:.2px;
+}
+.gmeta{
+  color:var(--muted);
+  font-size:12px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:5px 9px;
+  background:rgba(255,255,255,.03);
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(170px, 1fr));
+  gap:10px;
 }
 .carditem{
   border:1px solid var(--border);border-radius:14px;
-  background:rgba(255,255,255,.04);padding:10px;cursor:pointer
+  background:rgba(255,255,255,.04);padding:10px;cursor:pointer;
+  min-height:70px;
 }
 .carditem.active{
   border-color:rgba(122,162,255,.6);
   box-shadow:0 0 0 4px rgba(122,162,255,.10)
 }
-.carditem .name{font-weight:900}
-.carditem .meta{color:var(--muted);font-size:12px;margin-top:4px}
+.carditem .name{font-weight:900;line-height:1.15}
+.carditem .meta{color:var(--muted);font-size:12px;margin-top:6px}
 
 .empty{padding:14px;color:var(--muted)}
 .hidden{display:none!important}
@@ -114,6 +151,6 @@ button:active,.linkbtn:active{transform:translateY(1px)}
 
 @media (max-width:980px){
   .split{grid-template-columns:1fr}
-  .cards{max-height:280px}
+  .cards{max-height:320px}
+  .grid{grid-template-columns:repeat(auto-fill, minmax(150px, 1fr))}
 }
-
