@@ -1,1 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Decklist Manager</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="back" href="../../">← PTCG Tools</a>
+      <div class="titlewrap">
+        <h1>Decklist Manager</h1>
+        <p class="sub">Save decks • Copy/Paste formats • Attach images</p>
+      </div>
+      <div class="top-actions">
+        <button id="btnExportAll" class="ghost" type="button">Export All</button>
+        <label class="ghost filelike">
+          Import Backup
+          <input id="importBackupFile" type="file" accept="application/json" hidden />
+        </label>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="sidebar">
+        <div class="sidebar-actions">
+          <button id="btnNew" type="button">+ New Deck</button>
+          <input id="search" type="search" placeholder="Search decks..." />
+        </div>
+
+        <div id="deckList" class="decklist" aria-label="Saved decklists"></div>
+      </section>
+
+      <section class="editor">
+        <div id="emptyState" class="empty">
+          <h2>No deck selected</h2>
+          <p>Create a deck on the left, or select one to edit.</p>
+        </div>
+
+        <div id="editorPane" class="pane hidden">
+          <div class="row">
+            <label class="grow">
+              Deck name
+              <input id="deckName" type="text" placeholder="e.g. Charizard / Pidgeot" />
+            </label>
+
+            <div class="row-actions">
+              <button id="btnSave" class="accent" type="button">Save</button>
+              <button id="btnDuplicate" class="ghost" type="button">Duplicate</button>
+              <button id="btnDelete" class="danger" type="button">Delete</button>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="block">
+              <div class="blockhead">
+                <h3>Decklist text</h3>
+                <div class="mini">
+                  <span id="formatHint" class="pill">Format: —</span>
+                  <span id="cardCountHint" class="pill">Cards: —</span>
+                </div>
+              </div>
+
+              <textarea
+                id="deckText"
+                placeholder="Paste a PTCGL or Limitless decklist here…"
+                spellcheck="false"
+              ></textarea>
+
+              <div class="btnrow">
+                <button id="btnCopyPTCGL" type="button">Copy as PTCGL</button>
+                <button id="btnCopyLimitless" type="button">Copy as Limitless</button>
+                <button id="btnImgGen" class="ghost" type="button">Generate image via Limitless</button>
+              </div>
+
+              <div class="hint">
+                “Generate image” copies the Limitless format to your clipboard and opens the Limitless ImgGen page. :contentReference[oaicite:1]{index=1}
+              </div>
+            </div>
+
+            <div class="block">
+              <div class="blockhead">
+                <h3>Deck image</h3>
+                <div class="mini">
+                  <label class="ghost filelike">
+                    Upload image
+                    <input id="imageFile" type="file" accept="image/*" hidden />
+                  </label>
+                  <button id="btnClearImage" class="ghost" type="button">Clear</button>
+                </div>
+              </div>
+
+              <div id="imageDrop" class="imagedrop" tabindex="0">
+                <div id="imageEmpty" class="imageempty">
+                  <p><strong>No image yet</strong></p>
+                  <p>Upload an image, or paste one from your clipboard.</p>
+                  <p class="small">(Tip: after generating on Limitless, save the image then upload here.)</p>
+                </div>
+                <img id="imagePreview" alt="Deck image preview" class="hidden" />
+              </div>
+
+              <div class="btnrow">
+                <button id="btnDownloadImage" class="ghost" type="button">Download image</button>
+              </div>
+
+              <div class="hint small">
+                Pasting: tap the image box and paste (iOS sometimes requires the paste button).
+              </div>
+            </div>
+          </div>
+
+          <div class="meta">
+            <span id="savedHint">—</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
 
