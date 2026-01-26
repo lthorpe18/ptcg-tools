@@ -91,6 +91,10 @@ const tourListEl = $("tourList");
 const emptyEl = $("empty");
 const paneEl = $("pane");
 
+const filterFormatEl = $("filterFormat");
+const filterTypeEl = $("filterType");
+const filterRoundsEl = $("filterRounds");
+
 const btnNew = $("btnNew");
 const btnSave = $("btnSave");
 const btnDelete = $("btnDelete");
@@ -745,6 +749,10 @@ btnAddPlayer2.addEventListener("click", ()=> addPlayer(newPlayerNameEl.value));
 newPlayerNameEl.addEventListener("keydown", (e)=>{ if (e.key==="Enter") addPlayer(newPlayerNameEl.value); });
 
 btnRemovePlayer.addEventListener("click", removeSelectedPlayer);
+
+[filterFormatEl, filterTypeEl, filterRoundsEl].forEach(el => {
+  el.addEventListener("change", refreshTourList);
+});
 
 // Player editing
 pNameEl.addEventListener("input", ()=>{
