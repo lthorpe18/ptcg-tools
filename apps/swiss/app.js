@@ -1,7 +1,9 @@
 // Swiss Tournament Manager (static)
 // Storage: IndexedDB
 // Pairing: points brackets, avoid rematches when possible, downpair if needed, bye if odd.
-// Standings: Points, Opp Win %, OppOpp Win % (resistance-style). Byes excluded from Opp Win% averaging. :contentReference[oaicite:3]{index=3}
+// Standings: based on FULLY COMPLETED rounds only.
+// Results entry: changes are "draft" until Save round is clicked.
+// Completed rounds: click Edit to modify (draft until Save).
 
 const DB_NAME = "ptcg-tools-db";
 const DB_VERSION = 2;
@@ -11,6 +13,12 @@ let db;
 let currentId = null;
 let current = null;
 let dirty = false;
+
+let selectedPlayerId = null;
+
+// Round editing state (draft until save)
+let editingRoundNumber = null; // number or null
+let roundDraft = null; // { roundNumber, results: string[], dirty: boolean }
 
 const $ = (id) => document.getElementById(id);
 const toastEl = $("toast");
@@ -31,7 +39,7 @@ function openDB(){
     req.onupgradeneeded = () => {
       const d = req.result;
       if (!d.objectStoreNames.contains("decks")) {
-        // keep compatibility if you already had decklists app using a "decks" store in v1
+        // compatibility if you already have the decklists app store in v1
         d.createObjectStore("decks", { keyPath: "id" });
       }
       if (!d.objectStoreNames.contains(STORE)) {
@@ -140,8 +148,6 @@ const roundHintEl = $("roundHint");
 
 const standingsTableBody = $("standingsTable").querySelector("tbody");
 
-let selectedPlayerId = null;
-
 // ---------- Helpers ----------
 function showPane(show){
   if (show){
@@ -153,19 +159,6 @@ function showPane(show){
   }
 }
 
-function isMatchComplete(m){
-  if (m.bye) return true;
-  return m.result === "P1" || m.result === "P2" || m.result === "T";
-}
-
-function isRoundComplete(r){
-  return r.matches.every(isMatchComplete);
-}
-
-function completedRounds(){
-  return current.rounds.filter(isRoundComplete);
-}
-
 function setDirty(v){
   dirty = v;
   if (!current) return;
@@ -174,7 +167,12 @@ function setDirty(v){
 }
 
 function escapeHtml(s){
-  return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  return String(s)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
 function shortAge(iso){
@@ -267,6 +265,26 @@ function blankTournament(){
 }
 
 // result options: "", "P1", "P2", "T", "BYE"
+function isMatchComplete(m){
+  if (m.bye) return true;
+  return m.result === "P1" || m.result === "P2" || m.result === "T";
+}
+function isRoundComplete(r){
+  return r.matches.every(isMatchComplete);
+}
+function completedRounds(){
+  return current.rounds.filter(isRoundComplete);
+}
+
+// Only use fully completed rounds for standings/records
+function allMatches(){
+  const out = [];
+  for (const r of completedRounds()){
+    for (const m of r.matches) out.push({round:r.roundNumber, ...m});
+  }
+  return out;
+}
+
 function pointsFor(match, playerId){
   if (match.bye && match.p1 === playerId) return 3;
   if (!match.result) return 0;
@@ -289,18 +307,10 @@ function getPlayer(id){
   return current.players.find(p=>p.id===id) || null;
 }
 
-function allMatches(){
-  const out = [];
-  for (const r of completedRounds()){
-    for (const m of r.matches) out.push({round:r.roundNumber, ...m});
-  }
-  return out;
-}
-
 function opponentsOf(playerId){
   const opps = [];
   for (const m of allMatches()){
-    if (m.bye) continue; // byes excluded from opponent averaging :contentReference[oaicite:4]{index=4}
+    if (m.bye) continue; // exclude byes from opponent averaging
     if (m.p1 === playerId && m.p2) opps.push(m.p2);
     else if (m.p2 === playerId && m.p1) opps.push(m.p1);
   }
@@ -318,13 +328,10 @@ function record(playerId){
   return {w,l,t,pts};
 }
 
-// “Win %” used for resistance calculations.
-// In Play! Pokémon ops guidance, opponent win% uses wins/rounds (with floors/caps; drops behave differently). :contentReference[oaicite:5]{index=5}
-// MVP simplification for live events: win% = max(0.25, wins / roundsPlayedSoFar), capped at 1.0.
-// (No drops handling yet; we can add a “dropped after round N” toggle later.)
+// MVP resistance-like win%: max(0.25, wins / roundsPlayed), capped at 1.0
 function liveWinPct(playerId){
   const rec = record(playerId);
-  const roundsPlayed = Math.max(1, rec.w + rec.l + rec.t); // ignore unplayed
+  const roundsPlayed = Math.max(1, rec.w + rec.l + rec.t);
   const raw = rec.w / roundsPlayed;
   return Math.max(0.25, Math.min(1.0, raw));
 }
@@ -367,14 +374,79 @@ function playedAgainst(a,b){
   return false;
 }
 
+// ---------- Round editing (draft until save) ----------
+function getRoundByNumber(n){
+  return current.rounds.find(r => r.roundNumber === n) || null;
+}
+
+function startEditRound(n){
+  const r = getRoundByNumber(n);
+  if (!r) return;
+
+  // if switching edit rounds with unsaved draft
+  if (roundDraft?.dirty && editingRoundNumber !== n){
+    const ok = confirm("Discard unsaved changes to the currently edited round?");
+    if (!ok) return;
+  }
+
+  editingRoundNumber = n;
+  roundDraft = {
+    roundNumber: n,
+    results: r.matches.map(m => (m.bye ? "BYE" : (m.result || ""))),
+    dirty: false
+  };
+  renderRounds();
+  toast(`Editing Round ${n}`);
+}
+
+function cancelEditRound(){
+  editingRoundNumber = null;
+  roundDraft = null;
+  renderRounds();
+  toast("Draft changes discarded");
+}
+
+function saveEditRound(){
+  if (!roundDraft) return;
+  const r = getRoundByNumber(roundDraft.roundNumber);
+  if (!r) return;
+
+  // Commit draft results into stored matches
+  r.matches.forEach((m, i) => {
+    if (m.bye) {
+      m.result = "BYE";
+      return;
+    }
+    m.result = roundDraft.results[i] || "";
+  });
+
+  current.updatedAt = nowISO();
+  setDirty(true);
+
+  // Close editor
+  editingRoundNumber = null;
+  roundDraft = null;
+
+  // Now update UI that depends on completed rounds
+  renderRounds();
+  renderPlayers();
+  renderStandings();
+  updateRoundHint();
+
+  toast("Round saved");
+}
+
 // ---------- Pairing ----------
 function generateNextRound(){
+  // Don't allow new round if last round exists and isn't complete (based on committed results)
   if (current.rounds.length){
-  const last = current.rounds[current.rounds.length - 1];
-  if (!isRoundComplete(last)){
-    toast("Finish entering results for the current round first.");
-    return;
+    const last = current.rounds[current.rounds.length - 1];
+    if (!isRoundComplete(last)){
+      toast("Finish and Save the current round first.");
+      return;
+    }
   }
+
   const roundNumber = current.rounds.length + 1;
   const totalRounds = Math.max(1, current.roundsPlanned);
   if (roundNumber > totalRounds){
@@ -386,8 +458,8 @@ function generateNextRound(){
     return;
   }
 
-  // group by points (Swiss)
-  const st = standings(); // already sorted by pts/tiebreakers, but pairing mostly by pts
+  // group by points (Swiss) using completed rounds only
+  const st = standings();
   const byPts = new Map();
   for (const row of st){
     const arr = byPts.get(row.pts) || [];
@@ -396,25 +468,22 @@ function generateNextRound(){
   }
   const ptsLevels = Array.from(byPts.keys()).sort((a,b)=>b-a);
 
-  // Create a queue in descending point brackets
   const queue = [];
   for (const pts of ptsLevels){
-    // shuffle within bracket slightly to reduce deterministic rematch issues
     const arr = byPts.get(pts);
     queue.push(...arr);
   }
 
-  // If odd, assign bye to lowest points player without a previous bye (simple)
+  // If odd, assign bye to lowest points player without previous bye
   const hadBye = new Set();
+  // NOTE: byes only exist in completed rounds; that's fine for “no repeat bye” in MVP
   for (const m of allMatches()){
     if (m.bye && m.p1) hadBye.add(m.p1);
   }
   let byePlayer = null;
   if (queue.length % 2 === 1){
-    // lowest points = end of standings list
     const reversed = [...st].reverse();
     byePlayer = reversed.find(r => !hadBye.has(r.id))?.id || reversed[0].id;
-    // remove byePlayer from queue
     const idx = queue.indexOf(byePlayer);
     if (idx >= 0) queue.splice(idx,1);
   }
@@ -423,10 +492,7 @@ function generateNextRound(){
   const matches = [];
 
   function pickOpponent(p1){
-    // prefer same points first, then downpair, avoid rematches
     const p1Pts = record(p1).pts;
-
-    // candidates sorted by closeness of points
     const candidates = Array.from(unpaired).filter(id=>id!==p1);
     candidates.sort((a,b)=>{
       const da = Math.abs(record(a).pts - p1Pts);
@@ -434,8 +500,6 @@ function generateNextRound(){
       if (da !== db) return da - db;
       return (getPlayer(a)?.name||"").localeCompare(getPlayer(b)?.name||"");
     });
-
-    // first pass: no rematch
     const noRematch = candidates.find(c => !playedAgainst(p1, c));
     return noRematch || candidates[0] || null;
   }
@@ -448,7 +512,6 @@ function generateNextRound(){
       unpaired.delete(p2);
       matches.push({p1, p2, result:"", bye:false});
     } else {
-      // should not happen
       matches.push({p1, p2:null, result:"BYE", bye:true});
     }
   }
@@ -460,6 +523,10 @@ function generateNextRound(){
   current.rounds.push({roundNumber, matches});
   current.updatedAt = nowISO();
   setDirty(true);
+
+  // Automatically jump into editing the new current round
+  startEditRound(roundNumber);
+
   toast(`Round ${roundNumber} generated`);
   renderRounds();
   renderStandings();
@@ -558,49 +625,134 @@ function renderSelectedPlayer(){
   updateImageUI(p);
 }
 
+function resultLabel(m){
+  if (m.bye) return "BYE";
+  if (!m.result) return "Pending";
+  if (m.result === "T") return "Tie";
+  if (m.result === "P1") return "P1 wins";
+  if (m.result === "P2") return "P2 wins";
+  return "Pending";
+}
+
 function renderRounds(){
   roundsListEl.innerHTML = "";
+
   if (!current.rounds.length){
     roundsListEl.innerHTML = `<div class="empty small">No rounds generated yet.</div>`;
     return;
   }
-  for (const r of [...current.rounds].reverse()){
+
+  // Show most recent at top
+  const rounds = [...current.rounds].reverse();
+  const latestRoundNumber = current.rounds[current.rounds.length - 1].roundNumber;
+
+  for (const r of rounds){
+    const isComplete = isRoundComplete(r);
+    const isLatest = r.roundNumber === latestRoundNumber;
+
+    const isEditing = editingRoundNumber === r.roundNumber;
+
     const wrap = document.createElement("div");
     wrap.className = "round";
-    wrap.innerHTML = `<h3 style="margin:0 0 10px;font-size:14px">Round ${r.roundNumber}</h3>`;
 
+    const head = document.createElement("div");
+    head.className = "roundhead";
+
+    const title = document.createElement("div");
+    title.className = "roundtitle";
+
+    const h3 = document.createElement("h3");
+    h3.textContent = `Round ${r.roundNumber}`;
+    title.appendChild(h3);
+
+    const status = document.createElement("span");
+    status.className = "roundstatus" + (isComplete ? " complete" : "") + (isEditing ? " editing" : "");
+    status.textContent = isEditing ? "Editing (draft)" : (isComplete ? "Complete" : "In progress");
+    title.appendChild(status);
+
+    const actions = document.createElement("div");
+    actions.className = "roundactions";
+
+    if (!isEditing) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "ghost smallbtn";
+
+      if (!isComplete && isLatest) {
+        btn.textContent = "Enter results";
+      } else if (isComplete) {
+        btn.textContent = "Edit";
+      } else {
+        btn.textContent = "Edit";
+      }
+
+      btn.addEventListener("click", () => startEditRound(r.roundNumber));
+      actions.appendChild(btn);
+    } else {
+      const saveBtn = document.createElement("button");
+      saveBtn.type = "button";
+      saveBtn.className = "accent smallbtn";
+      saveBtn.textContent = "Save round";
+      saveBtn.addEventListener("click", saveEditRound);
+
+      const cancelBtn = document.createElement("button");
+      cancelBtn.type = "button";
+      cancelBtn.className = "ghost smallbtn";
+      cancelBtn.textContent = "Cancel";
+      cancelBtn.addEventListener("click", cancelEditRound);
+
+      actions.appendChild(saveBtn);
+      actions.appendChild(cancelBtn);
+    }
+
+    head.appendChild(title);
+    head.appendChild(actions);
+    wrap.appendChild(head);
+
+    // Matches
     r.matches.forEach((m, idx)=>{
-      const p1 = getPlayer(m.p1)?.name || "—";
-      const p2 = m.bye ? "BYE" : (getPlayer(m.p2)?.name || "—");
+      const p1Name = getPlayer(m.p1)?.name || "—";
+      const p2Name = m.bye ? "BYE" : (getPlayer(m.p2)?.name || "—");
 
       const row = document.createElement("div");
       row.className = "match";
 
+      row.innerHTML = `
+        <div><strong>${escapeHtml(p1Name)}</strong></div>
+        <div class="vs">vs</div>
+        <div><strong>${escapeHtml(p2Name)}</strong></div>
+      `;
+
       const sel = document.createElement("select");
       sel.className = "result";
-      sel.innerHTML = `
-        <option value="">Pending</option>
-        <option value="P1">${p1} wins</option>
-        <option value="P2">${p2} wins</option>
-        <option value="T">Tie</option>
-        ${m.bye ? `<option value="BYE">BYE</option>` : ``}
-      `;
-      sel.value = m.bye ? "BYE" : (m.result || "");
-      if (m.bye) sel.disabled = true;
 
-      sel.addEventListener("change", ()=>{
-        m.result = sel.value;
-        current.updatedAt = nowISO();
-        setDirty(true);
-        renderPlayers();
-        renderStandings();
-      });
+      const options = [];
+      options.push(`<option value="">Pending</option>`);
+      if (!m.bye) {
+        options.push(`<option value="P1">${escapeHtml(p1Name)} wins</option>`);
+        options.push(`<option value="P2">${escapeHtml(p2Name)} wins</option>`);
+        options.push(`<option value="T">Tie</option>`);
+      } else {
+        options.push(`<option value="BYE">BYE</option>`);
+      }
+      sel.innerHTML = options.join("");
 
-      row.innerHTML = `
-        <div><strong>${escapeHtml(p1)}</strong></div>
-        <div class="vs">vs</div>
-        <div><strong>${escapeHtml(p2)}</strong></div>
-      `;
+      if (m.bye) {
+        sel.value = "BYE";
+        sel.disabled = true;
+      } else if (isEditing && roundDraft?.roundNumber === r.roundNumber) {
+        sel.disabled = false;
+        sel.value = roundDraft.results[idx] || "";
+        sel.addEventListener("change", ()=>{
+          roundDraft.results[idx] = sel.value;
+          roundDraft.dirty = true;
+        });
+      } else {
+        // Not editing: show committed value but keep disabled
+        sel.disabled = true;
+        sel.value = m.result || "";
+      }
+
       row.appendChild(sel);
       wrap.appendChild(row);
     });
@@ -610,7 +762,7 @@ function renderRounds(){
 }
 
 function pct(n){
-  if (!Number.isFinite(n)) return "0.000";
+  if (!Number.isFinite(n)) return "0.0%";
   return (n*100).toFixed(1) + "%";
 }
 
@@ -642,6 +794,9 @@ async function newTournament(){
   current = blankTournament();
   currentId = current.id;
   selectedPlayerId = null;
+  editingRoundNumber = null;
+  roundDraft = null;
+
   showPane(true);
   renderTournamentFields();
   renderPlayers();
@@ -649,6 +804,7 @@ async function newTournament(){
   renderRounds();
   renderStandings();
   updateRoundHint();
+
   await putTour(current);
   await refreshTourList();
   toast("Tournament created");
@@ -656,11 +812,29 @@ async function newTournament(){
 
 async function loadTournament(id){
   if (dirty) await saveTournament(true);
+
+  if (roundDraft?.dirty) {
+    const ok = confirm("Discard unsaved round draft changes?");
+    if (!ok) return;
+  }
+
   const t = await getTour(id);
   if (!t) return;
+
   current = t;
   currentId = id;
   selectedPlayerId = null;
+
+  // If there's an incomplete latest round, auto-open it for editing
+  editingRoundNumber = null;
+  roundDraft = null;
+  if (current.rounds.length) {
+    const last = current.rounds[current.rounds.length - 1];
+    if (!isRoundComplete(last)) {
+      startEditRound(last.roundNumber);
+    }
+  }
+
   showPane(true);
   renderTournamentFields();
   renderPlayers();
@@ -668,17 +842,20 @@ async function loadTournament(id){
   renderRounds();
   renderStandings();
   updateRoundHint();
+
   setDirty(false);
   await refreshTourList();
 }
 
 async function saveTournament(silent=false){
   if (!current) return;
+
   current.name = tNameEl.value.trim() || "Untitled tournament";
   current.format = tFormatEl.value;
   current.type = tTypeEl.value;
   current.roundsPlanned = Math.max(1, readInt(tRoundsEl, 5));
   current.updatedAt = nowISO();
+
   await putTour(current);
   setDirty(false);
   await refreshTourList();
@@ -693,6 +870,8 @@ async function deleteTournament(){
   current = null;
   currentId = null;
   selectedPlayerId = null;
+  editingRoundNumber = null;
+  roundDraft = null;
   showPane(false);
   await refreshTourList();
   toast("Deleted");
@@ -712,7 +891,7 @@ function removeSelectedPlayer(){
   if (!current || !selectedPlayerId) return;
   const p = current.players.find(x=>x.id===selectedPlayerId);
   if (!p) return;
-  const ok = confirm(`Remove "${p.name}"? (Matches involving them will remain in history; best to do this before Round 1.)`);
+  const ok = confirm(`Remove "${p.name}"? (Best before Round 1.)`);
   if (!ok) return;
   current.players = current.players.filter(x=>x.id!==selectedPlayerId);
   selectedPlayerId = null;
@@ -771,6 +950,7 @@ btnNew.addEventListener("click", newTournament);
 btnSave.addEventListener("click", ()=> saveTournament(false));
 btnDelete.addEventListener("click", deleteTournament);
 searchEl.addEventListener("input", refreshTourList);
+[filterFormatEl, filterTypeEl, filterRoundsEl].forEach(el => el.addEventListener("change", refreshTourList));
 
 [tNameEl,tRoundsEl].forEach(el => el.addEventListener("input", ()=> setDirty(true)));
 [tFormatEl,tTypeEl].forEach(el => el.addEventListener("change", ()=> setDirty(true)));
@@ -781,10 +961,6 @@ newPlayerNameEl.addEventListener("keydown", (e)=>{ if (e.key==="Enter") addPlaye
 
 btnRemovePlayer.addEventListener("click", removeSelectedPlayer);
 
-[filterFormatEl, filterTypeEl, filterRoundsEl].forEach(el => {
-  el.addEventListener("change", refreshTourList);
-});
-
 // Player editing
 pNameEl.addEventListener("input", ()=>{
   const p = selectedPlayerId ? current.players.find(x=>x.id===selectedPlayerId) : null;
@@ -794,6 +970,7 @@ pNameEl.addEventListener("input", ()=>{
   setDirty(true);
   renderPlayers();
 });
+
 pDeckTextEl.addEventListener("input", ()=>{
   const p = selectedPlayerId ? current.players.find(x=>x.id===selectedPlayerId) : null;
   if (!p) return;
@@ -801,6 +978,7 @@ pDeckTextEl.addEventListener("input", ()=>{
   current.updatedAt = nowISO();
   setDirty(true);
 });
+
 pDeckImageFileEl.addEventListener("change", async ()=>{
   const p = selectedPlayerId ? current.players.find(x=>x.id===selectedPlayerId) : null;
   if (!p) return;
@@ -813,6 +991,7 @@ pDeckImageFileEl.addEventListener("change", async ()=>{
   updateImageUI(p);
   toast("Image attached");
 });
+
 btnClearImg.addEventListener("click", ()=>{
   const p = selectedPlayerId ? current.players.find(x=>x.id===selectedPlayerId) : null;
   if (!p) return;
@@ -849,6 +1028,7 @@ btnCopyLimitless.addEventListener("click", async ()=>{
   if (!p) return;
   await copyToClipboard(toLimitlessText(p.deckText || ""));
 });
+
 btnOpenImgGen.addEventListener("click", async ()=>{
   const p = selectedPlayerId ? current.players.find(x=>x.id===selectedPlayerId) : null;
   if (!p) return;
@@ -856,10 +1036,10 @@ btnOpenImgGen.addEventListener("click", async ()=>{
   window.open("https://limitlesstcg.com/tools/imggen", "_blank", "noopener,noreferrer");
 });
 
-btnNewRound.addEventListener("click", ()=>{
-  generateNextRound();
-});
+// Pairing / rounds
+btnNewRound.addEventListener("click", ()=> generateNextRound());
 
+// Export/import
 btnExport.addEventListener("click", exportData);
 importFileEl.addEventListener("change", async ()=>{
   const f = importFileEl.files?.[0];
@@ -873,6 +1053,7 @@ importFileEl.addEventListener("change", async ()=>{
 (async function init(){
   db = await openDB();
   await refreshTourList();
+
   const tours = await getAllTours();
   if (tours.length){
     await loadTournament(tours[0].id);
@@ -884,4 +1065,3 @@ importFileEl.addEventListener("change", async ()=>{
   console.error(e);
   alert("Failed to start: " + (e?.message || e));
 });
-
