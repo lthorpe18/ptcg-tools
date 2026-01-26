@@ -153,6 +153,19 @@ function showPane(show){
   }
 }
 
+function isMatchComplete(m){
+  if (m.bye) return true;
+  return m.result === "P1" || m.result === "P2" || m.result === "T";
+}
+
+function isRoundComplete(r){
+  return r.matches.every(isMatchComplete);
+}
+
+function completedRounds(){
+  return current.rounds.filter(isRoundComplete);
+}
+
 function setDirty(v){
   dirty = v;
   if (!current) return;
@@ -278,7 +291,7 @@ function getPlayer(id){
 
 function allMatches(){
   const out = [];
-  for (const r of current.rounds){
+  for (const r of completedRounds()){
     for (const m of r.matches) out.push({round:r.roundNumber, ...m});
   }
   return out;
@@ -356,6 +369,12 @@ function playedAgainst(a,b){
 
 // ---------- Pairing ----------
 function generateNextRound(){
+  if (current.rounds.length){
+  const last = current.rounds[current.rounds.length - 1];
+  if (!isRoundComplete(last)){
+    toast("Finish entering results for the current round first.");
+    return;
+  }
   const roundNumber = current.rounds.length + 1;
   const totalRounds = Math.max(1, current.roundsPlanned);
   if (roundNumber > totalRounds){
@@ -450,12 +469,23 @@ function generateNextRound(){
 // ---------- Rendering ----------
 async function refreshTourList(){
   const q = (searchEl.value||"").trim().toLowerCase();
+  const fmt = (filterFormatEl?.value || "").trim();
+  const typ = (filterTypeEl?.value || "").trim();
+  const rnd = (filterRoundsEl?.value || "").trim();
+
   const tours = await getAllTours();
-  const filtered = q ? tours.filter(t => (t.name||"").toLowerCase().includes(q)) : tours;
+
+  const filtered = tours.filter(t => {
+    if (q && !(t.name || "").toLowerCase().includes(q)) return false;
+    if (fmt && (t.format || "") !== fmt) return false;
+    if (typ && (t.type || "") !== typ) return false;
+    if (rnd && String(t.roundsPlanned || "") !== rnd) return false;
+    return true;
+  });
 
   tourListEl.innerHTML = "";
   if (!filtered.length){
-    tourListEl.innerHTML = `<div class="empty"><h2>No tournaments yet</h2><p>Create one with “New Tournament”.</p></div>`;
+    tourListEl.innerHTML = `<div class="empty"><h2>No tournaments found</h2><p>Try clearing filters.</p></div>`;
     return;
   }
 
@@ -464,7 +494,7 @@ async function refreshTourList(){
     div.className = "item" + (t.id===currentId ? " active":"");
     div.innerHTML = `
       <div class="name">${escapeHtml(t.name || "Untitled")}</div>
-      <div class="meta">${escapeHtml(t.type||"")} • ${escapeHtml(t.format||"")} • Updated ${escapeHtml(shortAge(t.updatedAt))}</div>
+      <div class="meta">${escapeHtml(t.type||"")} • ${escapeHtml(t.format||"")} • ${escapeHtml(t.roundsPlanned||"—")} rounds • Updated ${escapeHtml(shortAge(t.updatedAt))}</div>
     `;
     div.addEventListener("click", ()=> loadTournament(t.id));
     tourListEl.appendChild(div);
@@ -534,7 +564,7 @@ function renderRounds(){
     roundsListEl.innerHTML = `<div class="empty small">No rounds generated yet.</div>`;
     return;
   }
-  for (const r of current.rounds){
+  for (const r of [...current.rounds].reverse()){
     const wrap = document.createElement("div");
     wrap.className = "round";
     wrap.innerHTML = `<h3 style="margin:0 0 10px;font-size:14px">Round ${r.roundNumber}</h3>`;
@@ -602,7 +632,8 @@ function renderStandings(){
 }
 
 function updateRoundHint(){
-  roundHintEl.textContent = `Rounds: ${current.rounds.length}/${current.roundsPlanned}`;
+  const done = completedRounds().length;
+  roundHintEl.textContent = `Rounds: ${current.rounds.length}/${current.roundsPlanned} • Counted: ${done}`;
 }
 
 // ---------- Actions ----------
