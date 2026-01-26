@@ -3,13 +3,12 @@
 // DB: "ptcg-tools-db" store: "decks" objects: { id, name, rawText, ... }
 
 const DB_NAME = "ptcg-tools-db";
-const DB_VERSION = 2; // ok if higher than actual; IDB will just open at current version
 const STORE_DECKS = "decks";
 
 let db = null;
 
 let currentDeck = null;      // {id, name, rawText}
-let currentCards = [];       // [{name, count}]
+let currentCards = [];       // [{name, count, type}]
 let selectedCardName = null; // string
 
 const $ = (id) => document.getElementById(id);
@@ -55,7 +54,7 @@ function tx(storeName, mode = "readonly") {
 }
 
 async function getAllDecks() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     try {
       const store = tx(STORE_DECKS, "readonly");
       const req = store.getAll();
@@ -64,22 +63,21 @@ async function getAllDecks() {
         rows.sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));
         resolve(rows);
       };
-      req.onerror = () => reject(req.error);
-    } catch (e) {
-      // store may not exist yet
+      req.onerror = () => resolve([]);
+    } catch {
       resolve([]);
     }
   });
 }
 
 async function getDeck(id) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     try {
       const store = tx(STORE_DECKS, "readonly");
       const req = store.get(id);
       req.onsuccess = () => resolve(req.result || null);
-      req.onerror = () => reject(req.error);
-    } catch (e) {
+      req.onerror = () => resolve(null);
+    } catch {
       resolve(null);
     }
   });
@@ -90,31 +88,42 @@ async function getDeck(id) {
 // 4 Card Name (SET 123)
 // 4 Card Name SET 123
 // ignores headers like Pokémon:, Trainer:, Energy:
+// Tracks section headers to set type.
+
 const RE_PTCGL = /^(\d+)\s+(.+?)\s+\(([\w-]+)\s+([0-9]+[a-zA-Z]?)\)\s*$/;
 const RE_LIMITLESS = /^(\d+)\s+(.+?)\s+([\w-]+)\s+([0-9]+[a-zA-Z]?)\s*$/;
 
-function isHeaderLine(line) {
+function detectHeaderType(line) {
+  const low = line.trim().toLowerCase();
+  if (low === "pokémon:" || low === "pokemon:") return "Pokemon";
+  if (low === "trainer:" || low === "trainers:") return "Trainer";
+  if (low === "energy:") return "Energy";
+  return null;
+}
+
+function isNoiseLine(line) {
   const s = line.trim();
   if (!s) return true;
   const low = s.toLowerCase();
-  return (
-    low === "pokémon:" ||
-    low === "pokemon:" ||
-    low === "trainer:" ||
-    low === "trainers:" ||
-    low === "energy:" ||
-    low.startsWith("total cards")
-  );
+  if (low.startsWith("total cards")) return true;
+  return false;
 }
 
 function parseDeckToCardCounts(rawText) {
   const lines = String(rawText || "").replace(/\r\n/g, "\n").split("\n");
-  const map = new Map(); // name -> count
+  const map = new Map(); // key: `${type}||${name}` -> count
+
+  let currentType = "Trainer"; // default bucket before any header appears
 
   for (const line0 of lines) {
     const line = line0.trim();
-    if (isHeaderLine(line)) continue;
-    if (!line) continue;
+    if (isNoiseLine(line)) continue;
+
+    const headerType = detectHeaderType(line);
+    if (headerType) {
+      currentType = headerType;
+      continue;
+    }
 
     let m = line.match(RE_PTCGL);
     if (!m) m = line.match(RE_LIMITLESS);
@@ -123,7 +132,8 @@ function parseDeckToCardCounts(rawText) {
       const count = Number(m[1]);
       const name = m[2].trim();
       if (!Number.isFinite(count) || count <= 0) continue;
-      map.set(name, (map.get(name) || 0) + count);
+      const key = `${currentType}||${name}`;
+      map.set(key, (map.get(key) || 0) + count);
       continue;
     }
 
@@ -133,13 +143,24 @@ function parseDeckToCardCounts(rawText) {
       const count = Number(m2[1]);
       const name = m2[2].trim();
       if (!Number.isFinite(count) || count <= 0) continue;
-      map.set(name, (map.get(name) || 0) + count);
+      const key = `${currentType}||${name}`;
+      map.set(key, (map.get(key) || 0) + count);
       continue;
     }
   }
 
-  const cards = Array.from(map.entries()).map(([name, count]) => ({ name, count }));
-  cards.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  const cards = Array.from(map.entries()).map(([key, count]) => {
+    const [type, name] = key.split("||");
+    return { name, count, type };
+  });
+
+  // Stable sort inside type
+  cards.sort((a, b) =>
+    a.type.localeCompare(b.type) ||
+    b.count - a.count ||
+    a.name.localeCompare(b.name)
+  );
+
   return cards;
 }
 
@@ -148,7 +169,6 @@ function parseDeckToCardCounts(rawText) {
 // C(K, k) * C(N-K, n-k) / C(N, n)
 
 function logFactorial(n) {
-  // simple cache for speed
   if (!logFactorial.cache) logFactorial.cache = [0];
   const c = logFactorial.cache;
   for (let i = c.length; i <= n; i++) c[i] = c[i - 1] + Math.log(i);
@@ -184,6 +204,28 @@ function fmtNum(x) {
   return x.toFixed(3);
 }
 
+function escapeHtml(s) {
+  return String(s)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+// --- Grouping helpers ---
+const TYPE_ORDER = ["Pokemon", "Trainer", "Energy"];
+
+function groupCards(cards) {
+  const groups = new Map();
+  for (const t of TYPE_ORDER) groups.set(t, []);
+  for (const c of cards) {
+    if (!groups.has(c.type)) groups.set(c.type, []);
+    groups.get(c.type).push(c);
+  }
+  return groups;
+}
+
 // --- UI ---
 function renderDeckDropdown(decks) {
   deckSelectEl.innerHTML = "";
@@ -200,50 +242,82 @@ function renderDeckDropdown(decks) {
   }
 }
 
-function renderCardsList() {
+function renderCardsGrid() {
   const q = (cardSearchEl.value || "").trim().toLowerCase();
+
   const filtered = q
     ? currentCards.filter(c => c.name.toLowerCase().includes(q))
     : currentCards;
 
   cardsListEl.innerHTML = "";
 
-  const total = currentCards.reduce((a, c) => a + c.count, 0);
-  deckMetaEl.textContent = currentDeck ? `${currentDeck.name || "Deck"} • ${total} parsed cards` : "—";
-
   if (!currentDeck) {
+    deckMetaEl.textContent = "—";
     cardsListEl.innerHTML = `<div class="empty">Choose a deck above.</div>`;
     return;
   }
+
+  const totals = { Pokemon: 0, Trainer: 0, Energy: 0, All: 0 };
+  for (const c of currentCards) {
+    totals.All += c.count;
+    if (totals[c.type] !== undefined) totals[c.type] += c.count;
+  }
+  deckMetaEl.textContent = `${currentDeck.name || "Deck"} • ${totals.All} cards (P ${totals.Pokemon} / T ${totals.Trainer} / E ${totals.Energy})`;
 
   if (!filtered.length) {
     cardsListEl.innerHTML = `<div class="empty">No cards match that search.</div>`;
     return;
   }
 
-  for (const c of filtered) {
-    const div = document.createElement("div");
-    div.className = "carditem" + (c.name === selectedCardName ? " active" : "");
-    div.innerHTML = `
-      <div class="name">${escapeHtml(c.name)}</div>
-      <div class="meta">${c.count} copies</div>
-    `;
-    div.addEventListener("click", () => {
-      selectedCardName = c.name;
-      renderCardsList();
-      renderStats();
-    });
-    cardsListEl.appendChild(div);
-  }
-}
+  const groups = groupCards(filtered);
 
-function escapeHtml(s) {
-  return String(s)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  for (const type of TYPE_ORDER) {
+    const cards = groups.get(type) || [];
+    if (!cards.length) continue;
+
+    // Sort inside group: copies desc, then name
+    cards.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+
+    const groupEl = document.createElement("div");
+    groupEl.className = "group";
+
+    const headEl = document.createElement("div");
+    headEl.className = "grouphead";
+
+    const titleEl = document.createElement("h4");
+    titleEl.className = "gtitle";
+    titleEl.textContent = type === "Pokemon" ? "Pokémon" : type;
+
+    const metaEl = document.createElement("span");
+    metaEl.className = "gmeta";
+    const groupTotal = cards.reduce((a, c) => a + c.count, 0);
+    metaEl.textContent = `${cards.length} cards • ${groupTotal} copies`;
+
+    headEl.appendChild(titleEl);
+    headEl.appendChild(metaEl);
+
+    const gridEl = document.createElement("div");
+    gridEl.className = "grid";
+
+    for (const c of cards) {
+      const div = document.createElement("div");
+      div.className = "carditem" + (c.name === selectedCardName ? " active" : "");
+      div.innerHTML = `
+        <div class="name">${escapeHtml(c.name)}</div>
+        <div class="meta">${c.count} copies</div>
+      `;
+      div.addEventListener("click", () => {
+        selectedCardName = c.name;
+        renderCardsGrid();
+        renderStats();
+      });
+      gridEl.appendChild(div);
+    }
+
+    groupEl.appendChild(headEl);
+    groupEl.appendChild(gridEl);
+    cardsListEl.appendChild(groupEl);
+  }
 }
 
 function renderStats() {
@@ -261,7 +335,7 @@ function renderStats() {
   const n = clampInt(handSizeEl.value, 1, N);
   const K = clampInt(card.count, 0, N);
 
-  selMetaEl.textContent = `${selectedCardName}`;
+  selMetaEl.textContent = `${selectedCardName} • ${card.type === "Pokemon" ? "Pokémon" : card.type}`;
 
   const p0 = hypergeomPMF(N, K, n, 0);
   const pAtLeast1 = 1 - p0;
@@ -272,7 +346,6 @@ function renderStats() {
   p0El.textContent = fmtPct(p0);
   expEl.textContent = fmtNum(expected);
 
-  // distribution up to min(K, n)
   distEl.innerHTML = "";
   const maxK = Math.min(K, n);
   for (let k = 0; k <= maxK; k++) {
@@ -287,7 +360,6 @@ function renderStats() {
   statsEl.classList.remove("hidden");
 }
 
-// --- Navigation integration ---
 // Deep link support: /apps/outs/?deckId=...
 function getQueryParam(name) {
   const u = new URL(window.location.href);
@@ -302,7 +374,7 @@ deckSelectEl.addEventListener("change", async () => {
   if (!id) {
     currentDeck = null;
     currentCards = [];
-    renderCardsList();
+    renderCardsGrid();
     renderStats();
     return;
   }
@@ -312,9 +384,10 @@ deckSelectEl.addEventListener("change", async () => {
     toast("Deck not found");
     return;
   }
+
   currentDeck = d;
   currentCards = parseDeckToCardCounts(d.rawText || "");
-  renderCardsList();
+  renderCardsGrid();
   renderStats();
 });
 
@@ -323,7 +396,7 @@ btnRefreshEl.addEventListener("click", async () => {
   toast("Refreshed");
 });
 
-cardSearchEl.addEventListener("input", () => renderCardsList());
+cardSearchEl.addEventListener("input", () => renderCardsGrid());
 handSizeEl.addEventListener("input", () => renderStats());
 deckSizeEl.addEventListener("input", () => renderStats());
 
@@ -332,25 +405,22 @@ async function loadDecks() {
   const decks = await getAllDecks();
   renderDeckDropdown(decks);
 
-  // preselect via query param
   const qp = getQueryParam("deckId");
   if (qp) {
     deckSelectEl.value = qp;
-    // trigger load
     const d = await getDeck(qp);
     if (d) {
       currentDeck = d;
       currentCards = parseDeckToCardCounts(d.rawText || "");
-      renderCardsList();
+      renderCardsGrid();
       renderStats();
       return;
     }
   }
 
-  // otherwise do nothing
   currentDeck = null;
   currentCards = [];
-  renderCardsList();
+  renderCardsGrid();
   renderStats();
 }
 
@@ -361,4 +431,3 @@ async function loadDecks() {
   console.error(e);
   toast("Failed to load database (open Decklist Manager once first).");
 });
-
