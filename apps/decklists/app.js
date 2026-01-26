@@ -65,21 +65,45 @@ function humanTime(iso) {
   }
 }
 
-function openDB() {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME);
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains(STORE)) {
-        const os = db.createObjectStore(STORE, { keyPath: "id" });
-        os.createIndex("updatedAt", "updatedAt", { unique: false });
-        os.createIndex("name", "name", { unique: false });
-      }
-    };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
+async function openDB() {
+  const open = (version) =>
+    new Promise((resolve, reject) => {
+      const req = version == null ? indexedDB.open(DB_NAME) : indexedDB.open(DB_NAME, version);
+
+      req.onupgradeneeded = () => {
+        const d = req.result;
+        if (!d.objectStoreNames.contains(STORE)) {
+          const os = d.createObjectStore(STORE, { keyPath: "id" });
+          os.createIndex("updatedAt", "updatedAt", { unique: false });
+          os.createIndex("name", "name", { unique: false });
+        }
+      };
+
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+      req.onblocked = () => reject(new Error("Database upgrade blocked (another tab open?). Close other tabs and retry."));
+    });
+
+  // 1) Open whatever exists
+  let d = await open();
+
+  // 2) If store exists, we're done
+  if (d.objectStoreNames.contains(STORE)) return d;
+
+  // 3) Store missing: bump version to force an upgrade that creates it
+  const nextVersion = (d.version || 1) + 1;
+  d.close();
+
+  d = await open(nextVersion);
+
+  if (!d.objectStoreNames.contains(STORE)) {
+    d.close();
+    throw new Error(`DB opened but "${STORE}" store still missing after upgrade.`);
+  }
+
+  return d;
 }
+
 
 function tx(storeName, mode = "readonly") {
   const t = db.transaction(storeName, mode);
