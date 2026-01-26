@@ -2,7 +2,7 @@
 // Storage: IndexedDB (decks persist between visits on the same device)
 
 const DB_NAME = "ptcg-tools-db";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const STORE = "decks";
 
 let db;
