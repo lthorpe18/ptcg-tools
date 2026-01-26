@@ -25,6 +25,14 @@ h1{margin:0;font-size:18px}
 .item .name{font-weight:900}
 .item .meta{color:var(--muted);font-size:12px;margin-top:4px}
 
+.filters{
+  display:grid;
+  gap:10px;
+}
+.filters select{
+  width:100%;
+}
+
 .main{padding:12px}
 .empty{padding:18px;color:var(--muted)}
 .pane.hidden{display:none!important}
