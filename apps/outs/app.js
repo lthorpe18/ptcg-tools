@@ -7,9 +7,9 @@ const STORE_DECKS = "decks";
 
 let db = null;
 
-let currentDeck = null;      // {id, name, rawText}
-let currentCards = [];       // [{name, count, type}]
-let selectedCardName = null; // string
+let currentDeck = null; // {id, name, rawText}
+let currentCards = [];  // [{key, name, setCode, number, count, type}]
+let selectedCardKey = null; // string (unique per printing)
 
 const $ = (id) => document.getElementById(id);
 
@@ -87,7 +87,6 @@ async function getDeck(id) {
 // Supports:
 // 4 Card Name (SET 123)
 // 4 Card Name SET 123
-// ignores headers like Pokémon:, Trainer:, Energy:
 // Tracks section headers to set type.
 
 const RE_PTCGL = /^(\d+)\s+(.+?)\s+\(([\w-]+)\s+([0-9]+[a-zA-Z]?)\)\s*$/;
@@ -96,7 +95,7 @@ const RE_LIMITLESS = /^(\d+)\s+(.+?)\s+([\w-]+)\s+([0-9]+[a-zA-Z]?)\s*$/;
 function detectHeaderType(line) {
   const low = line.trim().toLowerCase();
 
-  // Match common header variants like:
+  // Match common variants like:
   // "Pokémon:", "Pokémon: 17", "Pokemon (17)", "Trainers: 33", "Energy: 10"
   if (/^pok(?:é|e)mon\b/.test(low)) return "Pokemon";
   if (/^trainer(s)?\b/.test(low)) return "Trainer";
@@ -115,9 +114,16 @@ function isNoiseLine(line) {
 
 function parseDeckToCardCounts(rawText) {
   const lines = String(rawText || "").replace(/\r\n/g, "\n").split("\n");
-  const map = new Map(); // key: `${type}||${name}` -> count
+  const map = new Map(); // key -> { key, name, setCode, number, count, type }
 
   let currentType = "Trainer"; // default bucket before any header appears
+
+  const add = (type, count, name, setCode = "", number = "") => {
+    const key = `${type}||${name}||${setCode}||${number}`;
+    const prev = map.get(key);
+    if (prev) prev.count += count;
+    else map.set(key, { key, type, name, setCode, number, count });
+  };
 
   for (const line0 of lines) {
     const line = line0.trim();
@@ -135,9 +141,10 @@ function parseDeckToCardCounts(rawText) {
     if (m) {
       const count = Number(m[1]);
       const name = m[2].trim();
+      const setCode = (m[3] || "").trim();
+      const number = (m[4] || "").trim();
       if (!Number.isFinite(count) || count <= 0) continue;
-      const key = `${currentType}||${name}`;
-      map.set(key, (map.get(key) || 0) + count);
+      add(currentType, count, name, setCode, number);
       continue;
     }
 
@@ -147,22 +154,19 @@ function parseDeckToCardCounts(rawText) {
       const count = Number(m2[1]);
       const name = m2[2].trim();
       if (!Number.isFinite(count) || count <= 0) continue;
-      const key = `${currentType}||${name}`;
-      map.set(key, (map.get(key) || 0) + count);
+      add(currentType, count, name);
       continue;
     }
   }
 
-  const cards = Array.from(map.entries()).map(([key, count]) => {
-    const [type, name] = key.split("||");
-    return { name, count, type };
-  });
+  const cards = Array.from(map.values());
 
-  // Stable sort inside type
   cards.sort((a, b) =>
     a.type.localeCompare(b.type) ||
     b.count - a.count ||
-    a.name.localeCompare(b.name)
+    a.name.localeCompare(b.name) ||
+    (a.setCode || "").localeCompare(b.setCode || "") ||
+    (a.number || "").localeCompare(b.number || "")
   );
 
   return cards;
@@ -250,7 +254,9 @@ function renderCardsGrid() {
   const q = (cardSearchEl.value || "").trim().toLowerCase();
 
   const filtered = q
-    ? currentCards.filter(c => c.name.toLowerCase().includes(q))
+    ? currentCards.filter((c) =>
+        (`${c.name} ${c.setCode} ${c.number}`).toLowerCase().includes(q)
+      )
     : currentCards;
 
   cardsListEl.innerHTML = "";
@@ -279,8 +285,14 @@ function renderCardsGrid() {
     const cards = groups.get(type) || [];
     if (!cards.length) continue;
 
-    // Sort inside group: copies desc, then name
-    cards.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+    // Sort inside group: copies desc, then name, then set/number
+    cards.sort(
+      (a, b) =>
+        b.count - a.count ||
+        a.name.localeCompare(b.name) ||
+        (a.setCode || "").localeCompare(b.setCode || "") ||
+        (a.number || "").localeCompare(b.number || "")
+    );
 
     const groupEl = document.createElement("div");
     groupEl.className = "group";
@@ -305,16 +317,19 @@ function renderCardsGrid() {
 
     for (const c of cards) {
       const div = document.createElement("div");
-      div.className = "carditem" + (c.name === selectedCardName ? " active" : "");
+      div.className = "carditem" + (c.key === selectedCardKey ? " active" : "");
+
       div.innerHTML = `
         <div class="name">${escapeHtml(c.name)}</div>
-        <div class="meta">${c.count} copies</div>
+        <div class="meta">${c.count} copies${c.setCode ? ` • ${escapeHtml(c.setCode)} ${escapeHtml(c.number)}` : ""}</div>
       `;
+
       div.addEventListener("click", () => {
-        selectedCardName = c.name;
+        selectedCardKey = c.key;
         renderCardsGrid();
         renderStats();
       });
+
       gridEl.appendChild(div);
     }
 
@@ -325,21 +340,22 @@ function renderCardsGrid() {
 }
 
 function renderStats() {
-  if (!currentDeck || !selectedCardName) {
+  if (!currentDeck || !selectedCardKey) {
     selMetaEl.textContent = "—";
     statsEl.classList.add("hidden");
     emptyStateEl.classList.remove("hidden");
     return;
   }
 
-  const card = currentCards.find(c => c.name === selectedCardName);
+  const card = currentCards.find((c) => c.key === selectedCardKey);
   if (!card) return;
 
   const N = clampInt(deckSizeEl.value, 1, 60);
   const n = clampInt(handSizeEl.value, 1, N);
   const K = clampInt(card.count, 0, N);
 
-  selMetaEl.textContent = `${selectedCardName} • ${card.type === "Pokemon" ? "Pokémon" : card.type}`;
+  selMetaEl.textContent =
+    `${card.name}${card.setCode ? ` • ${card.setCode} ${card.number}` : ""} • ${card.type === "Pokemon" ? "Pokémon" : card.type}`;
 
   const p0 = hypergeomPMF(N, K, n, 0);
   const pAtLeast1 = 1 - p0;
@@ -373,7 +389,7 @@ function getQueryParam(name) {
 // --- Events ---
 deckSelectEl.addEventListener("change", async () => {
   const id = deckSelectEl.value;
-  selectedCardName = null;
+  selectedCardKey = null;
 
   if (!id) {
     currentDeck = null;
