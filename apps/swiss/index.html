@@ -25,10 +25,38 @@
 
     <main class="layout">
       <section class="sidebar">
-        <div class="sidebar-actions">
-          <button id="btnNew" type="button">+ New Tournament</button>
-          <input id="search" type="search" placeholder="Search tournaments..." />
-        </div>
+<div class="sidebar-actions">
+  <button id="btnNew" type="button">+ New Tournament</button>
+
+  <input id="search" type="search" placeholder="Search tournaments..." />
+
+  <div class="filters">
+    <select id="filterFormat">
+      <option value="">Any format</option>
+      <option value="Bo1">Best of 1</option>
+      <option value="Bo3">Best of 3</option>
+    </select>
+
+    <select id="filterType">
+      <option value="">Any type</option>
+      <option value="Cup">Cup</option>
+      <option value="Challenge">Challenge</option>
+      <option value="League">League</option>
+      <option value="GLC">GLC</option>
+      <option value="Cube">Cube</option>
+    </select>
+
+    <select id="filterRounds">
+      <option value="">Any rounds</option>
+      <option value="3">3 rounds</option>
+      <option value="4">4 rounds</option>
+      <option value="5">5 rounds</option>
+      <option value="6">6 rounds</option>
+      <option value="7">7 rounds</option>
+      <option value="8">8 rounds</option>
+    </select>
+  </div>
+</div>
         <div id="tourList" class="list"></div>
       </section>
 
