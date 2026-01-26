@@ -95,9 +95,13 @@ const RE_LIMITLESS = /^(\d+)\s+(.+?)\s+([\w-]+)\s+([0-9]+[a-zA-Z]?)\s*$/;
 
 function detectHeaderType(line) {
   const low = line.trim().toLowerCase();
-  if (low === "pokémon:" || low === "pokemon:") return "Pokemon";
-  if (low === "trainer:" || low === "trainers:") return "Trainer";
-  if (low === "energy:") return "Energy";
+
+  // Match common header variants like:
+  // "Pokémon:", "Pokémon: 17", "Pokemon (17)", "Trainers: 33", "Energy: 10"
+  if (/^pok(?:é|e)mon\b/.test(low)) return "Pokemon";
+  if (/^trainer(s)?\b/.test(low)) return "Trainer";
+  if (/^energy\b/.test(low)) return "Energy";
+
   return null;
 }
 
