@@ -154,3 +154,41 @@ button:active,.linkbtn:active{transform:translateY(1px)}
   .cards{max-height:320px}
   .grid{grid-template-columns:repeat(auto-fill, minmax(150px, 1fr))}
 }
+/* -------- Mobile header fix (all apps) -------- */
+@media (max-width: 520px){
+  .topbar{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "back actions"
+      "title title";
+    gap: 10px;
+    align-items: center;
+  }
+
+  .back{
+    grid-area: back;
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+
+  .top-actions{
+    grid-area: actions;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .titlewrap{
+    grid-area: title;
+    min-width: 0;
+  }
+
+  /* Make header action buttons more compact */
+  .topbar button,
+  .topbar .filelike,
+  .topbar .linkbtn{
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
