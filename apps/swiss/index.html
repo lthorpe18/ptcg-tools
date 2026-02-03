@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Swiss Tournament Manager</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="back" href="../../" id="btnBackHome">← PTCG Tools</a>
+
+      <div class="titlewrap">
+        <h1>Swiss Tournament Manager</h1>
+        <p class="sub">Create • Pair • Enter results • Live standings</p>
+      </div>
+
+      <div class="top-actions" id="libraryActions">
+        <button id="btnExport" class="ghost" type="button">Export</button>
+        <label class="ghost filelike">
+          Import
+          <input id="importFile" type="file" accept="application/json" hidden />
+        </label>
+      </div>
+    </header>
+
+    <!-- Library screen -->
+    <main id="screenLibrary" class="screen">
+      <section class="card">
+        <div class="row row-gap">
+          <input id="search" type="search" placeholder="Search tournaments..." />
+          <button id="btnNew" class="accent" type="button">+ New tournament</button>
+        </div>
+
+        <div class="filters">
+          <select id="filterFormat">
+            <option value="">Any format</option>
+            <option value="Bo1">Best of 1</option>
+            <option value="Bo3">Best of 3</option>
+          </select>
+
+          <select id="filterType">
+            <option value="">Any type</option>
+            <option value="Cup">Cup</option>
+            <option value="Challenge">Challenge</option>
+            <option value="League">League</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <select id="filterRounds">
+            <option value="">Any rounds</option>
+            <option value="3">3 rounds</option>
+            <option value="4">4 rounds</option>
+            <option value="5">5 rounds</option>
+            <option value="6">6 rounds</option>
+            <option value="7">7 rounds</option>
+            <option value="8">8 rounds</option>
+          </select>
+        </div>
+
+        <div id="tourList" class="list"></div>
+        <div id="empty" class="empty hidden">
+          <p>No tournaments yet.</p>
+          <button id="btnNew2" class="accent" type="button">Create your first tournament</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Tournament screen -->
+    <main id="screenTournament" class="screen hidden">
+      <section class="tour-head card">
+        <div class="tour-head-row">
+          <button id="btnBackLibrary" class="ghost" type="button">← Back</button>
+
+          <div class="tour-head-title">
+            <div class="tour-title" id="tourTitle">Tournament</div>
+            <div class="tour-meta" id="tourMeta">—</div>
+          </div>
+
+          <div class="timer">
+            <div class="timer-display" id="timerDisplay">--:--</div>
+            <button id="btnTimerStartPause" class="accent smallbtn" type="button">Start</button>
+            <button id="btnTimerReset" class="ghost smallbtn" type="button">Reset</button>
+          </div>
+
+          <button id="btnOpenSettings" class="ghost" type="button">Settings</button>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-tab="rounds">Run</button>
+          <button class="tab" data-tab="players">Players</button>
+          <button class="tab" data-tab="standings">Standings</button>
+          <button id="tabTopCutBtn" class="tab hidden" data-tab="topcut">Top cut</button>
+        </div>
+      </section>
+
+      <!-- Run -->
+      <section id="tab-rounds" class="tabpane">
+        <section class="card">
+          <div class="blockhead">
+            <h3>Rounds</h3>
+            <div class="mini">
+              <span id="roundHint" class="hintpill">Rounds: 0/0 • Counted: 0</span>
+              <button id="btnNewRound" class="accent" type="button">Generate next round pairings</button>
+            </div>
+          </div>
+
+          <p class="hint" id="savedHint">
+            Tip: changing results does <b>not</b> update standings until you tap <b>Save round</b>.
+            Completed rounds can be edited with <b>Edit</b>.
+          </p>
+
+          <div id="roundsList"></div>
+
+          <div id="cupTopCutCTA" class="cta hidden">
+            <div>
+              <div class="cta-title">Swiss complete</div>
+              <div class="hint">Start top cut for a Cup tournament.</div>
+            </div>
+            <button id="btnStartTopCut" class="accent" type="button">Start top cut</button>
+          </div>
+        </section>
+      </section>
+
+      <!-- Players -->
+      <section id="tab-players" class="tabpane hidden">
+        <section class="card">
+          <div class="split">
+            <div class="block">
+              <div class="blockhead">
+                <h3>Participants</h3>
+                <div class="mini">
+                  <button id="btnAddPlayer" class="ghost" type="button">+ Add</button>
+                </div>
+              </div>
+
+              <div class="row">
+                <input id="newPlayerName" type="text" placeholder="Player name…" />
+                <button id="btnAddPlayer2" type="button">Add</button>
+              </div>
+
+              <div id="playerList" class="playerlist"></div>
+            </div>
+
+            <div class="block">
+              <div class="blockhead">
+                <h3>Selected player</h3>
+                <div class="mini">
+                  <button id="btnRemovePlayer" class="danger" type="button">Remove</button>
+                </div>
+              </div>
+
+              <div id="playerPane" class="playerpane">
+                <div class="muted">Select a player to edit their deck details.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Standings -->
+      <section id="tab-standings" class="tabpane hidden">
+        <section class="card">
+          <div class="blockhead">
+            <h3>Standings</h3>
+            <div class="mini">
+              <span class="hint">Counted rounds only (fully completed Swiss rounds).</span>
+            </div>
+          </div>
+
+          <div id="standingsTable"></div>
+        </section>
+      </section>
+
+      <!-- Top cut -->
+      <section id="tab-topcut" class="tabpane hidden">
+        <section class="card">
+          <div class="blockhead">
+            <h3>Top cut</h3>
+            <div class="mini">
+              <span class="hint">No ties in top cut.</span>
+            </div>
+          </div>
+          <div id="topCutView" class="muted">Top cut hasn’t started yet.</div>
+        </section>
+      </section>
+    </main>
+
+    <!-- Settings modal -->
+    <div id="settingsModal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <div class="modal-head">
+          <h2>Settings</h2>
+          <button id="btnCloseSettings" class="ghost" type="button">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="formgrid">
+            <label class="field">
+              <span>Tournament name</span>
+              <input id="tName" type="text" placeholder="Tournament name" />
+            </label>
+
+            <label class="field">
+              <span>Format</span>
+              <select id="tFormat">
+                <option value="Bo1">Best of 1</option>
+                <option value="Bo3">Best of 3</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Type</span>
+              <select id="tType">
+                <option value="Cup">Cup</option>
+                <option value="Challenge">Challenge</option>
+                <option value="League">League</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Pairing mode</span>
+              <select id="tPairingMode">
+                <option value="swiss">Swiss</option>
+                <option value="round_robin">Round robin</option>
+              </select>
+            </label>
+
+            <label class="field" id="roundsField">
+              <span>Swiss rounds planned</span>
+              <input id="tRounds" type="number" inputmode="numeric" min="1" max="20" value="5" />
+            </label>
+
+            <label class="field">
+              <span>Round timer (minutes)</span>
+              <input id="tTimerMins" type="number" inputmode="numeric" min="1" max="240" value="30" />
+            </label>
+
+            <label class="field inline">
+              <input id="tAutoStartTimer" type="checkbox" />
+              <span>Auto-start timer on “Generate next round”</span>
+            </label>
+
+            <label class="field" id="topCutSizeField">
+              <span>Top cut size (Cup only)</span>
+              <select id="tTopCutSize">
+                <option value="4">Top 4</option>
+                <option value="8" selected>Top 8</option>
+                <option value="16">Top 16</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row row-gap">
+            <button id="btnSave" class="accent" type="button">Save</button>
+            <button id="btnDelete" class="danger" type="button">Delete tournament</button>
+          </div>
+
+          <p class="hint">
+            Round robin sets the number of rounds automatically (everyone plays everyone once).
+            Changing pairing mode after rounds exist may discard schedule state.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
