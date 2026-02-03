@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Decklists</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- LIBRARY SCREEN -->
+    <div id="screenLibrary">
+      <header class="topbar">
+        <a class="back" href="../../">← PTCG Tools</a>
+        <div class="titlewrap">
+          <h1>Decklists</h1>
+          <p class="sub">Manage decks • Visual IDs • Odds & consistency</p>
+        </div>
+        <div class="top-actions">
+          <button id="btnExport" class="btn ghost">Export</button>
+          <label class="btn ghost filebtn" for="fileImport">Import</label>
+          <input id="fileImport" type="file" accept="application/json" hidden />
+          <button id="btnNewDeck" class="btn primary">+ New</button>
+        </div>
+      </header>
+
+      <main class="container">
+        <section class="panel">
+          <div class="row gap">
+            <input id="search" class="input" type="search" placeholder="Search decks…" autocomplete="off" />
+            <select id="sort" class="input select">
+              <option value="updated">Sort: Updated</option>
+              <option value="name">Sort: Name</option>
+            </select>
+          </div>
+          <div id="deckGrid" class="deck-grid" aria-live="polite"></div>
+          <div id="emptyState" class="empty hidden">
+            <h2>No decks yet</h2>
+            <p>Create a deck, paste a list, and pin a few key cards for quick odds.</p>
+            <button id="btnNewDeck2" class="btn primary">Create your first deck</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- DECK DETAIL SCREEN -->
+    <div id="screenDeck" class="hidden">
+      <header class="topbar sticky">
+        <button id="btnBackToLibrary" class="btn ghost">← Decks</button>
+
+        <div class="deckhead">
+          <input id="deckName" class="deckname" type="text" placeholder="Deck name" />
+          <div class="deckhead-meta">
+            <div id="deckSprites" class="sprite-duo" aria-label="Deck sprites"></div>
+            <span id="saveHint" class="hinttext">—</span>
+          </div>
+        </div>
+
+        <div class="top-actions">
+          <button id="btnDeckMenu" class="btn ghost">⋯</button>
+        </div>
+      </header>
+
+      <main class="container">
+        <nav class="tabs" role="tablist" aria-label="Deck tabs">
+          <button class="tab active" data-tab="overview" role="tab" aria-selected="true">Overview</button>
+          <button class="tab" data-tab="cards" role="tab" aria-selected="false">Cards</button>
+          <button class="tab" data-tab="stats" role="tab" aria-selected="false">Statistics</button>
+        </nav>
+
+        <section id="tab-overview" class="tabpane">
+          <div class="grid-2">
+            <div class="panel">
+              <h2 class="h2">Deck identity</h2>
+              <p class="muted">Pick up to two Pokémon sprites so decks are easy to spot.</p>
+
+              <div class="sprite-pickers">
+                <div class="sprite-picker" data-slot="0">
+                  <label class="label">Sprite 1</label>
+                  <div class="sprite-row">
+                    <img class="sprite-img" alt="" />
+                    <div class="typeahead">
+                      <input class="input sprite-input" type="text" placeholder="Type Pokémon name…" autocomplete="off" />
+                      <div class="suggestions hidden" role="listbox"></div>
+                    </div>
+                    <button class="btn ghost sprite-clear" title="Clear">✕</button>
+                  </div>
+                </div>
+
+                <div class="sprite-picker" data-slot="1">
+                  <label class="label">Sprite 2</label>
+                  <div class="sprite-row">
+                    <img class="sprite-img" alt="" />
+                    <div class="typeahead">
+                      <input class="input sprite-input" type="text" placeholder="Type Pokémon name…" autocomplete="off" />
+                      <div class="suggestions hidden" role="listbox"></div>
+                    </div>
+                    <button class="btn ghost sprite-clear" title="Clear">✕</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row gap topgap">
+                <button id="btnSaveDeck" class="btn primary">Save</button>
+                <button id="btnDuplicateDeck" class="btn ghost">Duplicate</button>
+                <button id="btnDeleteDeck" class="btn danger">Delete</button>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2 class="h2">Insights</h2>
+              <div id="insights" class="insights"></div>
+              <div class="divider"></div>
+              <h3 class="h3">Pinned odds (opening 7)</h3>
+              <div id="pinnedOdds" class="pinned"></div>
+              <p class="muted small">Tip: pin cards from the Cards tab (★) to surface quick odds here.</p>
+              <div class="row gap topgap">
+                <button id="btnCopyDecklist" class="btn ghost">Copy decklist</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-cards" class="tabpane hidden">
+          <div class="grid-2">
+            <div class="panel">
+              <h2 class="h2">Deck list</h2>
+              <p class="muted">Paste your deck list (PTCGL or Limitless formats). Editing does not auto-save.</p>
+              <textarea id="deckText" class="textarea" placeholder="Paste decklist here…"></textarea>
+              <div class="row gap topgap">
+                <button id="btnParsePreview" class="btn ghost">Refresh preview</button>
+                <span id="parseHint" class="muted small"></span>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2 class="h2">Card preview</h2>
+              <div id="cardPreview" class="card-preview"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-stats" class="tabpane hidden">
+          <div class="grid-2">
+            <div class="panel">
+              <h2 class="h2">Deck statistics</h2>
+              <div id="statsSummary" class="insights"></div>
+              <div class="divider"></div>
+              <h3 class="h3">Most played</h3>
+              <div id="topCards" class="list"></div>
+            </div>
+            <div class="panel">
+              <h2 class="h2">Energy mix</h2>
+              <div id="energyMix" class="list"></div>
+              <div class="divider"></div>
+              <h3 class="h3">Staples</h3>
+              <p class="muted small">Quick counts for common consistency cards.</p>
+              <div id="staples" class="list"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+
+            <h2 class="h2">Opening-hand odds</h2>
+            <p class="muted">Choose a card and see your opening-hand odds (hypergeometric).</p>
+
+            <div class="grid-3">
+              <div>
+                <label class="label">Card</label>
+                <select id="calcCard" class="input select"></select>
+              </div>
+              <div>
+                <label class="label">Copies in deck (K)</label>
+                <input id="calcCopies" class="input" type="number" min="0" max="60" />
+              </div>
+              <div>
+                <label class="label">Cards drawn (n)</label>
+                <input id="calcDraws" class="input" type="number" min="1" max="60" />
+              </div>
+            </div>
+
+            <div class="calc-results">
+              <div class="metric">
+                <div class="metric-label">P(≥1)</div>
+                <div id="pAtLeast" class="metric-value">—</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">P(0)</div>
+                <div id="pZero" class="metric-value">—</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Expected copies</div>
+                <div id="expCopies" class="metric-value">—</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Deck size (N)</div>
+                <div id="deckSize" class="metric-value">—</div>
+              </div>
+            </div>
+
+            <details class="dist">
+              <summary>Exact distribution</summary>
+              <div id="distTable" class="dist-table"></div>
+            </details>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- MENU MODAL -->
+    <div id="menuModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Deck menu">
+      <div class="modal-card">
+        <div class="modal-head">
+          <div class="modal-title">Deck actions</div>
+          <button id="btnCloseMenu" class="btn ghost">✕</button>
+        </div>
+        <div class="modal-body">
+          <button id="btnExportOne" class="btn ghost full">Export this deck</button>
+          <button id="btnCopyPinned" class="btn ghost full">Copy pinned odds summary</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script src="../_shared/deckParser.js"></script>
+    <script src="../_shared/probability.js"></script>
+    <script src="../_shared/sprites.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
