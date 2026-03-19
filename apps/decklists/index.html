@@ -52,67 +52,142 @@
             </div>
           </div>
 
-          <div class="split">
-            <div class="block">
-              <div class="blockhead">
-                <h3>Decklist text</h3>
-                <div class="mini">
-                  <span id="formatHint" class="pill">Format: —</span>
-                  <span id="cardCountHint" class="pill">Cards: —</span>
+          <div class="viewtabs" role="tablist" aria-label="Deck views">
+            <button id="tabEdit" class="tab active" type="button" role="tab" aria-selected="true">Deck</button>
+            <button id="tabStats" class="tab" type="button" role="tab" aria-selected="false">Stats</button>
+            <span class="tabhint">Stats use the current deck text (including unsaved edits).</span>
+          </div>
+
+          <section id="editorView">
+            <div class="split">
+              <div class="block">
+                <div class="blockhead">
+                  <h3>Decklist text</h3>
+                  <div class="mini">
+                    <span id="formatHint" class="pill">Format: —</span>
+                    <span id="cardCountHint" class="pill">Cards: —</span>
+                  </div>
+                </div>
+
+                <textarea
+                  id="deckText"
+                  placeholder="Paste a PTCGL or Limitless decklist here…"
+                  spellcheck="false"
+                ></textarea>
+
+                <div class="btnrow">
+                  <button id="btnCopyPTCGL" type="button">Copy as PTCGL</button>
+                  <button id="btnCopyLimitless" type="button">Copy as Limitless</button>
+                  <button id="btnImgGen" class="ghost" type="button">Generate image via Limitless</button>
+                </div>
+
+                <div class="hint">
+                  “Generate image” copies the Limitless format to your clipboard and opens the Limitless ImgGen page. :contentReference[oaicite:1]{index=1}
                 </div>
               </div>
 
-              <textarea
-                id="deckText"
-                placeholder="Paste a PTCGL or Limitless decklist here…"
-                spellcheck="false"
-              ></textarea>
+              <div class="block">
+                <div class="blockhead">
+                  <h3>Deck image</h3>
+                  <div class="mini">
+                    <label class="ghost filelike">
+                      Upload image
+                      <input id="imageFile" type="file" accept="image/*" hidden />
+                    </label>
+                    <button id="btnClearImage" class="ghost" type="button">Clear</button>
+                  </div>
+                </div>
 
-              <div class="btnrow">
-                <button id="btnCopyPTCGL" type="button">Copy as PTCGL</button>
-                <button id="btnCopyLimitless" type="button">Copy as Limitless</button>
-                <button id="btnImgGen" class="ghost" type="button">Generate image via Limitless</button>
-              </div>
+                <div id="imageDrop" class="imagedrop" tabindex="0">
+                  <div id="imageEmpty" class="imageempty">
+                    <p><strong>No image yet</strong></p>
+                    <p>Upload an image, or paste one from your clipboard.</p>
+                    <p class="small">(Tip: after generating on Limitless, save the image then upload here.)</p>
+                  </div>
+                  <img id="imagePreview" alt="Deck image preview" class="hidden" />
+                </div>
 
-              <div class="hint">
-                “Generate image” copies the Limitless format to your clipboard and opens the Limitless ImgGen page. :contentReference[oaicite:1]{index=1}
+                <div class="btnrow">
+                  <button id="btnDownloadImage" class="ghost" type="button">Download image</button>
+                </div>
+
+                <div class="hint small">
+                  Pasting: tap the image box and paste (iOS sometimes requires the paste button).
+                </div>
               </div>
             </div>
 
-            <div class="block">
-              <div class="blockhead">
-                <h3>Deck image</h3>
-                <div class="mini">
-                  <label class="ghost filelike">
-                    Upload image
-                    <input id="imageFile" type="file" accept="image/*" hidden />
-                  </label>
-                  <button id="btnClearImage" class="ghost" type="button">Clear</button>
+            <div class="meta">
+              <span id="savedHint">—</span>
+            </div>
+          </section>
+
+          <section id="statsView" class="hidden" role="tabpanel">
+            <div class="stats-controls">
+              <label class="grow">
+                Search card
+                <input id="statsCardSearch" type="search" placeholder="Type to filter cards…" />
+              </label>
+              <label>
+                Opening hand size
+                <input id="statsHandSize" type="number" min="1" max="60" step="1" value="7" />
+              </label>
+              <label>
+                Deck size
+                <input id="statsDeckSize" type="number" min="1" max="60" step="1" value="60" />
+              </label>
+            </div>
+
+            <div class="stats-split">
+              <div class="block">
+                <div class="blockhead">
+                  <h3>Cards in deck</h3>
+                  <span id="statsDeckMeta" class="pill">—</span>
                 </div>
+                <div id="statsCardsList" class="cards"></div>
               </div>
 
-              <div id="imageDrop" class="imagedrop" tabindex="0">
-                <div id="imageEmpty" class="imageempty">
-                  <p><strong>No image yet</strong></p>
-                  <p>Upload an image, or paste one from your clipboard.</p>
-                  <p class="small">(Tip: after generating on Limitless, save the image then upload here.)</p>
+              <div class="block">
+                <div class="blockhead">
+                  <h3>Selected card odds</h3>
+                  <span id="statsSelMeta" class="pill">—</span>
                 </div>
-                <img id="imagePreview" alt="Deck image preview" class="hidden" />
-              </div>
 
-              <div class="btnrow">
-                <button id="btnDownloadImage" class="ghost" type="button">Download image</button>
-              </div>
+                <div id="statsEmpty" class="empty">Select a card on the left.</div>
 
-              <div class="hint small">
-                Pasting: tap the image box and paste (iOS sometimes requires the paste button).
+                <div id="statsPanel" class="stats hidden">
+                  <div class="statrow">
+                    <div class="statlabel">Copies in deck</div>
+                    <div id="statsCopies" class="statval">—</div>
+                  </div>
+
+                  <div class="statrow">
+                    <div class="statlabel">P(at least 1 in opening hand)</div>
+                    <div id="statsAtLeast1" class="statval">—</div>
+                  </div>
+
+                  <div class="statrow">
+                    <div class="statlabel">P(exactly 0)</div>
+                    <div id="statsP0" class="statval">—</div>
+                  </div>
+
+                  <div class="statrow">
+                    <div class="statlabel">Expected copies in hand</div>
+                    <div id="statsExpected" class="statval">—</div>
+                  </div>
+
+                  <details class="detail">
+                    <summary>Distribution (exactly k copies)</summary>
+                    <div id="statsDist" class="dist"></div>
+                  </details>
+
+                  <p class="hint">
+                    Uses the hypergeometric distribution (sampling without replacement).
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="meta">
-            <span id="savedHint">—</span>
-          </div>
+          </section>
         </div>
       </section>
     </main>
@@ -122,4 +197,3 @@
     <script src="app.js"></script>
   </body>
 </html>
-

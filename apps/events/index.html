@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Events</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="back" href="../../">← PTCG Tools</a>
+      <div class="titlewrap">
+        <h1>Events</h1>
+        <p class="sub">Upcoming tournaments from your Google Sheet</p>
+      </div>
+      <div class="top-actions">
+        <button id="btnRefresh" class="ghost" type="button">Refresh</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <div class="toolbar">
+          <label class="grow">
+            Search
+            <input id="search" type="search" placeholder="Location, event type, registration…" />
+          </label>
+
+          <label>
+            Date range
+            <select id="dateRange">
+              <option value="all">All upcoming</option>
+              <option value="7">Next 7 days</option>
+              <option value="30" selected>Next 30 days</option>
+              <option value="90">Next 90 days</option>
+            </select>
+          </label>
+
+          <label>
+            Event Type
+            <select id="eventTypeFilter">
+              <option value="">All</option>
+            </select>
+          </label>
+
+          <label>
+            Swiss Format
+            <select id="swissFilter">
+              <option value="">All</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="viewtabs" role="tablist" aria-label="Events views">
+          <button id="tabCards" class="tab active" type="button" aria-selected="true">Cards</button>
+          <button id="tabMap" class="tab" type="button" aria-selected="false">Map</button>
+          <span id="meta" class="meta">—</span>
+        </div>
+
+        <section id="cardsView">
+          <div id="cardsGrid" class="cards"></div>
+        </section>
+
+        <section id="mapView" class="hidden">
+          <div class="map-wrap">
+            <div id="map" class="map"></div>
+          </div>
+          <p class="hint">
+            Tip: map pins require coordinates. Add <code>Latitude</code>/<code>Longitude</code> columns to your sheet for best results.
+          </p>
+        </section>
+
+        <div id="loading" class="empty">Loading events…</div>
+        <div id="empty" class="empty hidden">No events match your current filters.</div>
+        <div id="error" class="empty hidden"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="app.js"></script>
+  </body>
+</html>

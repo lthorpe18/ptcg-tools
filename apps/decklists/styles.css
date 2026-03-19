@@ -95,6 +95,31 @@ h1{ margin:0; font-size:18px; }
 .pane{ padding: 6px; }
 .hidden{ display:none !important; }
 
+.viewtabs{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 0 6px 8px;
+  flex-wrap: wrap;
+}
+.tab{
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 800;
+  font-size: 13px;
+}
+.tab.active{
+  background: rgba(122, 162, 255, 0.18);
+  border-color: rgba(122, 162, 255, 0.5);
+}
+.tabhint{
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .row{
   display:flex;
   gap: 12px;
@@ -111,7 +136,7 @@ label{
   font-size: 13px;
 }
 
-input[type="text"], input[type="search"], textarea{
+input[type="text"], input[type="search"], input[type="number"], textarea{
   width: 100%;
   padding: 12px 12px;
   border-radius: 12px;
@@ -137,6 +162,20 @@ input:focus, textarea:focus{
 .split{
   display:grid;
   grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 6px;
+}
+
+.stats-controls{
+  display:flex;
+  gap: 12px;
+  align-items:flex-end;
+  flex-wrap: wrap;
+  padding: 6px;
+}
+.stats-split{
+  display:grid;
+  grid-template-columns: 1.35fr 1fr;
   gap: 12px;
   padding: 6px;
 }
@@ -243,6 +282,91 @@ button.ghost, .filelike.ghost{
   font-size: 12px;
 }
 
+.cards{
+  display:flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: min(70vh, 760px);
+  overflow:auto;
+  padding-right: 4px;
+}
+.group{
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+  padding: 10px;
+}
+.grouphead{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.gtitle{
+  margin:0;
+  font-size: 13px;
+  letter-spacing: .2px;
+}
+.gmeta{
+  color: var(--muted);
+  font-size: 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: rgba(255,255,255,0.03);
+}
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+}
+.carditem{
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  padding: 12px;
+  cursor: pointer;
+  min-height: 84px;
+  touch-action: manipulation;
+}
+.carditem.active{
+  border-color: rgba(122, 162, 255, 0.6);
+  box-shadow: 0 0 0 4px rgba(122, 162, 255, 0.10);
+}
+.carditem .name{ font-weight: 900; line-height: 1.15; }
+.carditem .meta{ color: var(--muted); font-size: 12px; margin-top: 6px; }
+
+.stats{ display:flex; flex-direction: column; gap: 10px; }
+.statrow{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px;
+  background: rgba(255,255,255,0.03);
+}
+.statlabel{ color: var(--muted); font-size: 13px; }
+.statval{ font-weight: 900; }
+.detail{
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px;
+  background: rgba(255,255,255,0.02);
+}
+.detail summary{ cursor: pointer; font-weight: 900; }
+.dist{ margin-top: 10px; display:grid; gap: 6px; }
+.distline{
+  display:flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.distline strong{ color: var(--text); }
+
 .toast{
   position: fixed;
   left: 50%;
@@ -262,6 +386,11 @@ button.ghost, .filelike.ghost{
   .layout{ grid-template-columns: 1fr; }
   .decklist{ max-height: 260px; }
   .split{ grid-template-columns: 1fr; }
+  .stats-split{ grid-template-columns: 1fr; }
+  .cards{ max-height: none; overflow: visible; }
+  .grid{ grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+  .carditem{ padding: 14px; min-height: 92px; }
+  .carditem .name{ font-size: 16px; }
 }
 
 /* -------- Mobile header fix (all apps) -------- */

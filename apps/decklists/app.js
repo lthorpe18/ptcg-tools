@@ -40,10 +40,33 @@ const imagePreviewEl = $("imagePreview");
 const btnClearImage = $("btnClearImage");
 const btnDownloadImage = $("btnDownloadImage");
 
+const tabEditEl = $("tabEdit");
+const tabStatsEl = $("tabStats");
+const editorViewEl = $("editorView");
+const statsViewEl = $("statsView");
+
+const statsCardSearchEl = $("statsCardSearch");
+const statsHandSizeEl = $("statsHandSize");
+const statsDeckSizeEl = $("statsDeckSize");
+const statsCardsListEl = $("statsCardsList");
+const statsDeckMetaEl = $("statsDeckMeta");
+const statsSelMetaEl = $("statsSelMeta");
+const statsEmptyEl = $("statsEmpty");
+const statsPanelEl = $("statsPanel");
+const statsCopiesEl = $("statsCopies");
+const statsAtLeast1El = $("statsAtLeast1");
+const statsP0El = $("statsP0");
+const statsExpectedEl = $("statsExpected");
+const statsDistEl = $("statsDist");
+
 const btnExportAll = $("btnExportAll");
 const importBackupFileEl = $("importBackupFile");
 
 const toastEl = $("toast");
+
+let activeView = "edit";
+let currentStatsCards = [];
+let selectedCardKey = null;
 
 function toast(msg) {
   toastEl.textContent = msg;
@@ -237,6 +260,130 @@ function parseDeckText(rawText) {
   return { entries, detectedFormat: detected, totalCards: totalCardsFromLines || null };
 }
 
+// --- Stats parsing ---
+function detectHeaderType(line) {
+  const low = line.trim().toLowerCase();
+  if (/^pok(?:é|e)mon\b/.test(low)) return "Pokemon";
+  if (/^trainer(s)?\b/.test(low)) return "Trainer";
+  if (/^energy\b/.test(low)) return "Energy";
+  return null;
+}
+
+function isNoiseLine(line) {
+  const s = line.trim();
+  if (!s) return true;
+  const low = s.toLowerCase();
+  return low.startsWith("total cards");
+}
+
+function parseDeckToCardCounts(rawText) {
+  const lines = String(rawText || "").replace(/\r\n/g, "\n").split("\n");
+  const map = new Map();
+
+  let currentType = "Trainer";
+
+  const add = (type, count, name, setCode = "", number = "") => {
+    const key = `${type}||${name}||${setCode}||${number}`;
+    const prev = map.get(key);
+    if (prev) prev.count += count;
+    else map.set(key, { key, type, name, setCode, number, count });
+  };
+
+  for (const line0 of lines) {
+    const line = line0.trim();
+    if (isNoiseLine(line)) continue;
+
+    const headerType = detectHeaderType(line);
+    if (headerType) {
+      currentType = headerType;
+      continue;
+    }
+
+    let m = line.match(RE_PTCGL);
+    if (!m) m = line.match(RE_LIMITLESS);
+
+    if (m) {
+      const count = Number(m[1]);
+      const name = m[2].trim();
+      const setCode = (m[3] || "").trim();
+      const number = (m[4] || "").trim();
+      if (!Number.isFinite(count) || count <= 0) continue;
+      add(currentType, count, name, setCode, number);
+      continue;
+    }
+
+    const m2 = line.match(/^(\d+)\s*x\s+(.+)$/i);
+    if (m2) {
+      const count = Number(m2[1]);
+      const name = m2[2].trim();
+      if (!Number.isFinite(count) || count <= 0) continue;
+      add(currentType, count, name);
+      continue;
+    }
+  }
+
+  const cards = Array.from(map.values());
+
+  cards.sort((a, b) =>
+    a.type.localeCompare(b.type) ||
+    b.count - a.count ||
+    a.name.localeCompare(b.name) ||
+    (a.setCode || "").localeCompare(b.setCode || "") ||
+    (a.number || "").localeCompare(b.number || "")
+  );
+
+  return cards;
+}
+
+// --- Hypergeometric stats ---
+function logFactorial(n) {
+  if (!logFactorial.cache) logFactorial.cache = [0];
+  const c = logFactorial.cache;
+  for (let i = c.length; i <= n; i++) c[i] = c[i - 1] + Math.log(i);
+  return c[n];
+}
+
+function logChoose(n, k) {
+  if (k < 0 || k > n) return -Infinity;
+  return logFactorial(n) - logFactorial(k) - logFactorial(n - k);
+}
+
+function hypergeomPMF(N, K, n, k) {
+  if (k < 0 || k > K) return 0;
+  if (k > n) return 0;
+  if (n - k > N - K) return 0;
+  const logP = logChoose(K, k) + logChoose(N - K, n - k) - logChoose(N, n);
+  return Math.exp(logP);
+}
+
+function clampInt(x, lo, hi) {
+  const n = Math.floor(Number(x));
+  if (!Number.isFinite(n)) return lo;
+  return Math.max(lo, Math.min(hi, n));
+}
+
+function fmtPct(p) {
+  if (!Number.isFinite(p)) return "—";
+  return (p * 100).toFixed(2) + "%";
+}
+
+function fmtNum(x) {
+  if (!Number.isFinite(x)) return "—";
+  return x.toFixed(3);
+}
+
+const TYPE_ORDER = ["Pokemon", "Trainer", "Energy"];
+
+function groupCards(cards) {
+  const groups = new Map();
+  for (const t of TYPE_ORDER) groups.set(t, []);
+  for (const c of cards) {
+    if (!groups.has(c.type)) groups.set(c.type, []);
+    groups.get(c.type).push(c);
+  }
+  return groups;
+}
+
 function toPTCGLText(deck) {
   // If we have structured entries with set+number, output PTCGL lines; otherwise keep raw
   const parsed = parseDeckText(deck.rawText);
@@ -307,6 +454,7 @@ function showEditor(show) {
   } else {
     emptyStateEl.classList.remove("hidden");
     editorPaneEl.classList.add("hidden");
+    setActiveView("edit");
   }
 }
 
@@ -363,6 +511,165 @@ function refreshHintsFromText() {
   const { detectedFormat, totalCards } = parseDeckText(deckTextEl.value);
   formatHintEl.textContent = `Format: ${detectedFormat}`;
   cardCountHintEl.textContent = `Cards: ${totalCards ?? "—"}`;
+}
+
+function setActiveView(view) {
+  activeView = view;
+  const isEdit = view === "edit";
+  tabEditEl.classList.toggle("active", isEdit);
+  tabStatsEl.classList.toggle("active", !isEdit);
+  tabEditEl.setAttribute("aria-selected", String(isEdit));
+  tabStatsEl.setAttribute("aria-selected", String(!isEdit));
+  editorViewEl.classList.toggle("hidden", !isEdit);
+  statsViewEl.classList.toggle("hidden", isEdit);
+  if (!isEdit) refreshStatsData();
+}
+
+function refreshStatsData() {
+  if (!currentDeck) {
+    currentStatsCards = [];
+    selectedCardKey = null;
+    renderStatsCards();
+    renderStatsPanel();
+    return;
+  }
+
+  currentStatsCards = parseDeckToCardCounts(deckTextEl.value || "");
+  const totalCards = currentStatsCards.reduce((sum, card) => sum + card.count, 0);
+  if (totalCards > 0) {
+    statsDeckSizeEl.value = String(totalCards);
+  }
+
+  if (selectedCardKey && !currentStatsCards.some((c) => c.key === selectedCardKey)) {
+    selectedCardKey = null;
+  }
+  renderStatsCards();
+  renderStatsPanel();
+}
+
+function renderStatsCards() {
+  const q = (statsCardSearchEl.value || "").trim().toLowerCase();
+  const filtered = q
+    ? currentStatsCards.filter((c) =>
+        (`${c.name} ${c.setCode} ${c.number}`).toLowerCase().includes(q)
+      )
+    : currentStatsCards;
+
+  statsCardsListEl.innerHTML = "";
+
+  if (!currentDeck) {
+    statsDeckMetaEl.textContent = "—";
+    statsCardsListEl.innerHTML = `<div class="empty">Choose a deck to view stats.</div>`;
+    return;
+  }
+
+  const totals = { Pokemon: 0, Trainer: 0, Energy: 0, All: 0 };
+  for (const c of currentStatsCards) {
+    totals.All += c.count;
+    if (totals[c.type] !== undefined) totals[c.type] += c.count;
+  }
+  statsDeckMetaEl.textContent = `${currentDeck.name || "Deck"} • ${totals.All} cards (P ${totals.Pokemon} / T ${totals.Trainer} / E ${totals.Energy})`;
+
+  if (!filtered.length) {
+    statsCardsListEl.innerHTML = `<div class="empty">No cards match that search.</div>`;
+    return;
+  }
+
+  const groups = groupCards(filtered);
+
+  for (const type of TYPE_ORDER) {
+    const cards = groups.get(type) || [];
+    if (!cards.length) continue;
+
+    cards.sort(
+      (a, b) =>
+        b.count - a.count ||
+        a.name.localeCompare(b.name) ||
+        (a.setCode || "").localeCompare(b.setCode || "") ||
+        (a.number || "").localeCompare(b.number || "")
+    );
+
+    const groupEl = document.createElement("div");
+    groupEl.className = "group";
+
+    const headEl = document.createElement("div");
+    headEl.className = "grouphead";
+
+    const titleEl = document.createElement("h4");
+    titleEl.className = "gtitle";
+    titleEl.textContent = type === "Pokemon" ? "Pokémon" : type;
+
+    const metaEl = document.createElement("span");
+    metaEl.className = "gmeta";
+    const groupTotal = cards.reduce((a, c) => a + c.count, 0);
+    metaEl.textContent = `${cards.length} cards • ${groupTotal} copies`;
+
+    headEl.appendChild(titleEl);
+    headEl.appendChild(metaEl);
+
+    const gridEl = document.createElement("div");
+    gridEl.className = "grid";
+
+    for (const c of cards) {
+      const div = document.createElement("div");
+      div.className = "carditem" + (c.key === selectedCardKey ? " active" : "");
+      div.innerHTML = `
+        <div class="name">${escapeHtml(c.name)}</div>
+        <div class="meta">${c.count} copies${c.setCode ? ` • ${escapeHtml(c.setCode)} ${escapeHtml(c.number)}` : ""}</div>
+      `;
+      div.addEventListener("click", () => {
+        selectedCardKey = c.key;
+        renderStatsCards();
+        renderStatsPanel();
+      });
+      gridEl.appendChild(div);
+    }
+
+    groupEl.appendChild(headEl);
+    groupEl.appendChild(gridEl);
+    statsCardsListEl.appendChild(groupEl);
+  }
+}
+
+function renderStatsPanel() {
+  if (!currentDeck || !selectedCardKey) {
+    statsSelMetaEl.textContent = "—";
+    statsPanelEl.classList.add("hidden");
+    statsEmptyEl.classList.remove("hidden");
+    return;
+  }
+
+  const card = currentStatsCards.find((c) => c.key === selectedCardKey);
+  if (!card) return;
+
+  const N = clampInt(statsDeckSizeEl.value, 1, 60);
+  const n = clampInt(statsHandSizeEl.value, 1, N);
+  const K = clampInt(card.count, 0, N);
+
+  statsSelMetaEl.textContent =
+    `${card.name}${card.setCode ? ` • ${card.setCode} ${card.number}` : ""} • ${card.type === "Pokemon" ? "Pokémon" : card.type}`;
+
+  const p0 = hypergeomPMF(N, K, n, 0);
+  const pAtLeast1 = 1 - p0;
+  const expected = n * (K / N);
+
+  statsCopiesEl.textContent = String(K);
+  statsAtLeast1El.textContent = fmtPct(pAtLeast1);
+  statsP0El.textContent = fmtPct(p0);
+  statsExpectedEl.textContent = fmtNum(expected);
+
+  statsDistEl.innerHTML = "";
+  const maxK = Math.min(K, n);
+  for (let k = 0; k <= maxK; k++) {
+    const pk = hypergeomPMF(N, K, n, k);
+    const line = document.createElement("div");
+    line.className = "distline";
+    line.innerHTML = `<span>Exactly ${k}</span><strong>${fmtPct(pk)}</strong>`;
+    statsDistEl.appendChild(line);
+  }
+
+  statsEmptyEl.classList.add("hidden");
+  statsPanelEl.classList.remove("hidden");
 }
 
 // --- Image handling ---
@@ -436,6 +743,8 @@ async function loadDeckIntoEditor(id) {
   refreshHintsFromText();
   updateImageUI();
   showEditor(true);
+  refreshStatsData();
+  setActiveView(activeView);
 
   setDirty(false);
   await refreshList();
@@ -491,6 +800,7 @@ async function deleteCurrentDeck() {
   currentDeck = null;
   currentId = null;
   showEditor(false);
+  refreshStatsData();
   await refreshList();
 }
 
@@ -565,10 +875,14 @@ btnDuplicate.addEventListener("click", duplicateCurrentDeck);
 
 searchEl.addEventListener("input", refreshList);
 
-deckNameEl.addEventListener("input", () => setDirty(true));
+deckNameEl.addEventListener("input", () => {
+  setDirty(true);
+  renderStatsCards();
+});
 deckTextEl.addEventListener("input", () => {
   setDirty(true);
   refreshHintsFromText();
+  refreshStatsData();
 });
 
 btnCopyPTCGL.addEventListener("click", async () => {
@@ -591,6 +905,13 @@ btnImgGen.addEventListener("click", async () => {
   window.open("https://limitlesstcg.com/tools/imggen", "_blank", "noopener,noreferrer");
   if (ok) toast("Copied. Paste into ImgGen and Submit.");
 });
+
+tabEditEl.addEventListener("click", () => setActiveView("edit"));
+tabStatsEl.addEventListener("click", () => setActiveView("stats"));
+
+statsCardSearchEl.addEventListener("input", () => renderStatsCards());
+statsHandSizeEl.addEventListener("input", () => renderStatsPanel());
+statsDeckSizeEl.addEventListener("input", () => renderStatsPanel());
 
 imageFileEl.addEventListener("change", async () => {
   if (!currentDeck) return;
@@ -660,4 +981,3 @@ importBackupFileEl.addEventListener("change", async () => {
   console.error(e);
   alert("Failed to start app: " + (e?.message || e));
 })();
-
