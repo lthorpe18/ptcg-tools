@@ -1,0 +1,76 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="900" fill="#0B1220"/>
+  <circle cx="160" cy="-80" r="420" fill="#1A2B4F" opacity="0.45"/>
+
+  <rect x="120" y="70" width="1160" height="760" rx="24" fill="#121B2E" stroke="#2A3857" stroke-width="2"/>
+
+  <rect x="140" y="90" width="1120" height="76" rx="16" fill="#0F1729" stroke="#2A3857"/>
+  <rect x="156" y="108" width="134" height="40" rx="12" fill="#1B2842" stroke="#32456B"/>
+  <text x="172" y="133" fill="#DCE6FF" font-family="Arial, sans-serif" font-size="13">← PTCG Tools</text>
+  <text x="312" y="127" fill="#EEF3FF" font-family="Arial, sans-serif" font-size="26" font-weight="700">Events</text>
+  <text x="312" y="148" fill="#9FB0D0" font-family="Arial, sans-serif" font-size="13">Upcoming tournaments at a glance</text>
+
+  <rect x="150" y="190" width="1100" height="82" rx="14" fill="#0F1729" stroke="#2A3857"/>
+  <rect x="170" y="213" width="124" height="36" rx="18" fill="#1B2842" stroke="#32456B"/>
+  <rect x="306" y="213" width="102" height="36" rx="18" fill="#1B2842" stroke="#32456B"/>
+  <rect x="420" y="213" width="130" height="36" rx="18" fill="#1B2842" stroke="#32456B"/>
+  <rect x="562" y="213" width="152" height="36" rx="18" fill="#1B2842" stroke="#32456B"/>
+  <text x="188" y="236" fill="#DCE6FF" font-family="Arial, sans-serif" font-size="13">This Month</text>
+  <text x="334" y="236" fill="#DCE6FF" font-family="Arial, sans-serif" font-size="13">Standard</text>
+  <text x="446" y="236" fill="#DCE6FF" font-family="Arial, sans-serif" font-size="13">League Cups</text>
+  <text x="586" y="236" fill="#DCE6FF" font-family="Arial, sans-serif" font-size="13">Within 100 mi</text>
+
+  <rect x="150" y="290" width="740" height="510" rx="16" fill="#0F1729" stroke="#2A3857"/>
+  <text x="170" y="320" fill="#EEF3FF" font-family="Arial, sans-serif" font-size="18" font-weight="700">Upcoming Events</text>
+
+  <rect x="170" y="338" width="700" height="130" rx="14" fill="#16233B" stroke="#2D4062"/>
+  <rect x="188" y="354" width="120" height="30" rx="15" fill="#223B6E"/>
+  <text x="216" y="374" fill="#DCE6FF" font-family="Arial, sans-serif" font-size="12">Regional</text>
+  <text x="188" y="404" fill="#EEF3FF" font-family="Arial, sans-serif" font-size="22" font-weight="700">Orlando Regional Championship</text>
+  <text x="188" y="430" fill="#9FB0D0" font-family="Arial, sans-serif" font-size="14">Apr 12, 2026 • 9:00 AM</text>
+  <text x="188" y="450" fill="#9FB0D0" font-family="Arial, sans-serif" font-size="14">Lake Buena Vista, FL • BO3 Swiss</text>
+  <rect x="730" y="424" width="120" height="30" rx="12" fill="#7AA2FF"/>
+  <text x="758" y="444" fill="#071023" font-family="Arial, sans-serif" font-size="13" font-weight="700">Register</text>
+
+  <rect x="170" y="488" width="700" height="130" rx="14" fill="#16233B" stroke="#2D4062"/>
+  <rect x="188" y="504" width="120" height="30" rx="15" fill="#223B6E"/>
+  <text x="204" y="524" fill="#DCE6FF" font-family="Arial, sans-serif" font-size="12">League Cup</text>
+  <text x="188" y="554" fill="#EEF3FF" font-family="Arial, sans-serif" font-size="22" font-weight="700">North Carolina League Cup</text>
+  <text x="188" y="580" fill="#9FB0D0" font-family="Arial, sans-serif" font-size="14">Apr 19, 2026 • 11:00 AM</text>
+  <text x="188" y="600" fill="#9FB0D0" font-family="Arial, sans-serif" font-size="14">Raleigh, NC • BO1 Swiss</text>
+  <rect x="730" y="574" width="120" height="30" rx="12" fill="#7AA2FF"/>
+  <text x="758" y="594" fill="#071023" font-family="Arial, sans-serif" font-size="13" font-weight="700">Register</text>
+
+  <rect x="170" y="638" width="700" height="130" rx="14" fill="#16233B" stroke="#2D4062"/>
+  <rect x="188" y="654" width="120" height="30" rx="15" fill="#223B6E"/>
+  <text x="222" y="674" fill="#DCE6FF" font-family="Arial, sans-serif" font-size="12">Special</text>
+  <text x="188" y="704" fill="#EEF3FF" font-family="Arial, sans-serif" font-size="22" font-weight="700">Texas Special Event</text>
+  <text x="188" y="730" fill="#9FB0D0" font-family="Arial, sans-serif" font-size="14">May 2, 2026 • 10:30 AM</text>
+  <text x="188" y="750" fill="#9FB0D0" font-family="Arial, sans-serif" font-size="14">Dallas, TX • BO3 Swiss</text>
+  <rect x="730" y="724" width="120" height="30" rx="12" fill="#7AA2FF"/>
+  <text x="758" y="744" fill="#071023" font-family="Arial, sans-serif" font-size="13" font-weight="700">Register</text>
+
+  <rect x="910" y="290" width="340" height="510" rx="16" fill="#0F1729" stroke="#2A3857"/>
+  <text x="930" y="320" fill="#EEF3FF" font-family="Arial, sans-serif" font-size="18" font-weight="700">Map View</text>
+  <rect x="928" y="340" width="304" height="440" rx="12" fill="#14213A" stroke="#2D4062"/>
+
+  <path d="M945 380 L1210 400" stroke="#243A61" stroke-width="3"/>
+  <path d="M945 450 L1210 470" stroke="#243A61" stroke-width="3"/>
+  <path d="M945 520 L1210 540" stroke="#243A61" stroke-width="3"/>
+  <path d="M945 590 L1210 610" stroke="#243A61" stroke-width="3"/>
+  <path d="M945 660 L1210 680" stroke="#243A61" stroke-width="3"/>
+  <path d="M960 350 L1010 760" stroke="#243A61" stroke-width="3"/>
+  <path d="M1030 350 L1080 760" stroke="#243A61" stroke-width="3"/>
+  <path d="M1100 350 L1150 760" stroke="#243A61" stroke-width="3"/>
+  <path d="M1170 350 L1220 760" stroke="#243A61" stroke-width="3"/>
+
+  <circle cx="1008" cy="470" r="10" fill="#FF6B7A" stroke="#FFD1D7" stroke-width="2"/>
+  <circle cx="1110" cy="540" r="10" fill="#FF6B7A" stroke="#FFD1D7" stroke-width="2"/>
+  <circle cx="1160" cy="460" r="10" fill="#FF6B7A" stroke="#FFD1D7" stroke-width="2"/>
+  <circle cx="1060" cy="650" r="10" fill="#FF6B7A" stroke="#FFD1D7" stroke-width="2"/>
+
+  <rect x="942" y="688" width="276" height="86" rx="12" fill="#1B2842" stroke="#32456B"/>
+  <text x="958" y="718" fill="#EEF3FF" font-family="Arial, sans-serif" font-size="14" font-weight="700">Orlando Regional Championship</text>
+  <text x="958" y="739" fill="#9FB0D0" font-family="Arial, sans-serif" font-size="13">Apr 12, 2026 • 9:00 AM</text>
+  <text x="958" y="758" fill="#9FB0D0" font-family="Arial, sans-serif" font-size="13">Lake Buena Vista, FL</text>
+</svg>

@@ -108,6 +108,42 @@ function parseCSV(text) {
   });
 }
 
+function normalizeHeaderName(name) {
+  return String(name || "")
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]/g, "");
+}
+
+function withNormalizedKeys(row) {
+  const mapped = { ...row };
+  for (const [k, v] of Object.entries(row || {})) {
+    mapped[normalizeHeaderName(k)] = v;
+  }
+  return mapped;
+}
+
+function firstValue(row, keys) {
+  for (const k of keys) {
+    const direct = row[k];
+    if (direct != null && String(direct).trim() !== "") return String(direct).trim();
+
+    const normalized = row[normalizeHeaderName(k)];
+    if (normalized != null && String(normalized).trim() !== "") return String(normalized).trim();
+  }
+  return "";
+}
+
+function firstValueByHeaderPattern(row, patterns) {
+  for (const [k, v] of Object.entries(row || {})) {
+    const key = normalizeHeaderName(k);
+    if (!key) continue;
+    if (!patterns.some((p) => key.includes(normalizeHeaderName(p)))) continue;
+    if (v != null && String(v).trim() !== "") return String(v).trim();
+  }
+  return "";
+}
+
 function toDateTime(dateRaw, timeRaw) {
   const d = String(dateRaw || "").trim();
   const t = String(timeRaw || "").trim();
@@ -129,6 +165,38 @@ function parseCoordinateValue(value) {
 }
 
 function normalizeEvent(row, idx) {
+  const mapped = withNormalizedKeys(row);
+
+  const location =
+    firstValue(mapped, [
+    "Location",
+    "Event Location",
+    "Venue",
+    "Store",
+    "Shop",
+    "City",
+    "Town",
+    "Address",
+  ]) ||
+    firstValueByHeaderPattern(mapped, ["location", "venue", "store", "shop", "city", "address"]);
+
+  const date =
+    firstValue(mapped, ["Date", "Event Date", "Start Date"]) ||
+    firstValueByHeaderPattern(mapped, ["date"]);
+  const time =
+    firstValue(mapped, ["Time", "Start Time"]) ||
+    firstValueByHeaderPattern(mapped, ["time"]);
+  const eventType = firstValue(mapped, ["Event Type", "Type"]) || "Other";
+  const registrationMethod = firstValue(mapped, [
+    "Registration Method",
+    "Registration",
+    "Signup",
+    "Entry",
+  ]);
+  const swissFormat = firstValue(mapped, ["Swiss Format", "Format", "Bo", "Best Of"]);
+
+  const latitude = parseCoordinateValue(firstValue(mapped, ["Latitude", "Lat"]));
+  const longitude = parseCoordinateValue(firstValue(mapped, ["Longitude", "Lng", "Long"]));
   const location = row.Location || "";
   const date = row.Date || "";
   const time = row.Time || "";
