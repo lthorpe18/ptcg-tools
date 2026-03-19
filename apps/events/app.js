@@ -197,6 +197,15 @@ function normalizeEvent(row, idx) {
 
   const latitude = parseCoordinateValue(firstValue(mapped, ["Latitude", "Lat"]));
   const longitude = parseCoordinateValue(firstValue(mapped, ["Longitude", "Lng", "Long"]));
+  const location = row.Location || "";
+  const date = row.Date || "";
+  const time = row.Time || "";
+  const eventType = row["Event Type"] || "Other";
+  const registrationMethod = row["Registration Method"] || "";
+  const swissFormat = row["Swiss Format"] || "";
+
+  const latitude = parseCoordinateValue(row.Latitude);
+  const longitude = parseCoordinateValue(row.Longitude);
 
   const startsAt = toDateTime(date, time);
 
@@ -496,3 +505,4 @@ loadData().catch((e) => {
   console.error(e);
   setError("Unexpected error loading events.");
 });
+
