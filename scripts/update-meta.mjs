@@ -3,9 +3,10 @@ import path from 'node:path';
 
 const BASE = 'https://play.limitlesstcg.com/api';
 const GAME = 'PTCG';
+const API_FORMAT = 'STANDARD';
 const CURRENT_FORMAT = 'TEF-PBL';
+const FORMAT_START = new Date('2026-07-17T00:00:00Z').getTime();
 const MIN_TOURNAMENT_SIZE = 50;
-const SEED_DAYS = 30;
 const CONCURRENCY = 6;
 const DATA_DIR = path.join(process.cwd(), 'data', 'meta');
 const FORMAT_DIR = path.join(DATA_DIR, 'formats');
@@ -35,12 +36,12 @@ async function readJson(file, fallback = null) {
 
 async function fetchTournamentIndex() {
   const found = [];
-  // The first build only needs the current legality. Querying by its Limitless
-  // format ID prevents old Standard card pools being mixed into this dataset.
   for (let page = 0; page < 10; page++) {
-    const rows = await get(`/tournaments?game=${GAME}&format=${encodeURIComponent(CURRENT_FORMAT)}&limit=100&page=${page}`);
+    const rows = await get(`/tournaments?game=${GAME}&format=${API_FORMAT}&limit=100&page=${page}`);
     if (!Array.isArray(rows) || !rows.length) break;
     found.push(...rows);
+    const validDates = rows.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
+    if (validDates.length && Math.min(...validDates) < FORMAT_START) break;
     if (rows.length < 100) break;
   }
   return found;
@@ -81,21 +82,19 @@ async function main() {
   const cachedById = new Map(existingTournaments.map(t => [String(t.id), t]));
 
   const index = await fetchTournamentIndex();
-  const now = Date.now();
-  const seedCutoff = now - SEED_DAYS * 86400000;
-  const hasSeed = existingTournaments.some(t => (t.standings?.length || 0) > 0 && (t.pairings?.length || 0) > 0);
-
   const eligible = index.filter(t => {
     const date = new Date(t.date).getTime();
-    if (!Number.isFinite(date) || Number(t.players || 0) < MIN_TOURNAMENT_SIZE) return false;
-    // First run: seed 30 days quickly. Once seeded, keep all cached events and
-    // add every new tournament in this same legality as it appears.
-    return hasSeed || date >= seedCutoff;
+    return Number.isFinite(date)
+      && date >= FORMAT_START
+      && Number(t.players || 0) >= MIN_TOURNAMENT_SIZE;
   });
 
   const retained = new Map();
   for (const t of existingTournaments) {
-    if (Number(t.players || 0) >= MIN_TOURNAMENT_SIZE) retained.set(String(t.id), t);
+    const date = new Date(t.date).getTime();
+    if (Number.isFinite(date) && date >= FORMAT_START && Number(t.players || 0) >= MIN_TOURNAMENT_SIZE) {
+      retained.set(String(t.id), t);
+    }
   }
 
   const missing = eligible.filter(t => {
@@ -116,16 +115,16 @@ async function main() {
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const generatedAt = new Date().toISOString();
-  const payload = {
+  await fs.writeFile(FORMAT_FILE, JSON.stringify({
     generatedAt,
     game: GAME,
+    apiFormat: API_FORMAT,
     format: CURRENT_FORMAT,
+    formatStart: new Date(FORMAT_START).toISOString(),
     minTournamentSize: MIN_TOURNAMENT_SIZE,
-    seedDays: SEED_DAYS,
     tournamentCount: tournaments.length,
     tournaments,
-  };
-  await fs.writeFile(FORMAT_FILE, JSON.stringify(payload));
+  }));
 
   const oldIndex = await readJson(INDEX_FILE, { formats: [] });
   const formats = new Map((oldIndex.formats || []).map(f => [f.id, f]));
@@ -133,15 +132,12 @@ async function main() {
     id: CURRENT_FORMAT,
     label: CURRENT_FORMAT,
     file: `formats/${CURRENT_FORMAT}.json`,
+    formatStart: new Date(FORMAT_START).toISOString(),
     generatedAt,
     tournamentCount: tournaments.length,
     minTournamentSize: MIN_TOURNAMENT_SIZE,
   });
-  await fs.writeFile(INDEX_FILE, JSON.stringify({
-    generatedAt,
-    current: CURRENT_FORMAT,
-    formats: [...formats.values()],
-  }));
+  await fs.writeFile(INDEX_FILE, JSON.stringify({ generatedAt, current: CURRENT_FORMAT, formats: [...formats.values()] }));
 
   console.log(`Wrote ${FORMAT_FILE} with ${tournaments.length} tournaments.`);
 }
