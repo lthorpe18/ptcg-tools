@@ -1,9 +1,11 @@
 (() => {
   const $p = id => document.getElementById(id);
   const pct = n => Number.isFinite(n) ? `${n.toFixed(1)}%` : '—';
+  const pp = n => Number.isFinite(n) ? `${n >= 0 ? '+' : ''}${n.toFixed(2)} pp` : '—';
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
   let autoMatchupsRequested = false;
   let quickDeckName = '';
+  let breakdownDeckName = '';
 
   function initDate() {
     const el = $p('prepDate');
@@ -103,9 +105,7 @@
           if (m.estimate >= 55) goodField += opp.share;
           if (m.estimate <= 45) badField += opp.share;
         }
-        if (opp.share >= 0.015 || field.length <= 12) {
-          keyMatchups.push({ opponent: opp.name, share: opp.share, wr: m.estimate, games: m.games, known: m.known, observed: m.observed });
-        }
+        keyMatchups.push({ opponent: opp.name, share: opp.share, wr: m.estimate, games: m.games, known: m.known, observed: m.observed });
       }
 
       const expectedWR = knownShare > 0 ? weightedKnownWR / knownShare : null;
@@ -155,6 +155,35 @@
     return row.qualifies && row.rank ? `#${row.rank}` : 'Watchlist';
   }
 
+  function breakdownData(row) {
+    const covered = row.keyMatchups.filter(m => m.known && Number.isFinite(m.wr));
+    const unknown = row.keyMatchups.filter(m => !m.known);
+    const coverage = Math.max(0, Number(row.knownShare || 0));
+    const rows = row.keyMatchups.map(m => {
+      const normalizedShare = m.known && coverage > 0 ? m.share / coverage : 0;
+      const contribution = m.known ? normalizedShare * m.wr : null;
+      const impact = m.known ? normalizedShare * (m.wr - 50) : null;
+      return { ...m, normalizedShare, contribution, impact };
+    }).sort((a, b) => b.share - a.share);
+    const helpers = covered.map(m => ({ ...m, impact: coverage > 0 ? (m.share / coverage) * (m.wr - 50) : 0 })).filter(m => m.impact > 0).sort((a,b) => b.impact-a.impact).slice(0, 3);
+    const hurts = covered.map(m => ({ ...m, impact: coverage > 0 ? (m.share / coverage) * (m.wr - 50) : 0 })).filter(m => m.impact < 0).sort((a,b) => a.impact-b.impact).slice(0, 3);
+    return { rows, unknown, helpers, hurts };
+  }
+
+  function breakdownHtml(row, open = false, idPrefix = 'breakdown') {
+    if (!row) return '';
+    const data = breakdownData(row);
+    const rows = data.rows.map(m => {
+      const evidence = m.known ? `${m.games} games` : m.games ? `${m.games} games · ignored` : 'No qualifying sample';
+      const cls = m.known ? (m.impact > 0.25 ? 'bd-positive' : m.impact < -0.25 ? 'bd-negative' : '') : 'bd-unknown';
+      return `<tr class="${cls}"><td><b>${escapeHtml(m.opponent)}</b></td><td>${pct(m.share * 100)}</td><td>${m.known ? pct(m.wr) : '—'}</td><td>${m.known ? pct(m.normalizedShare * 100) : '—'}</td><td>${m.known ? `${m.contribution.toFixed(2)} pp` : '—'}</td><td>${m.known ? pp(m.impact) : '—'}</td><td>${escapeHtml(evidence)}</td></tr>`;
+    }).join('');
+    const helperText = data.helpers.length ? data.helpers.map(m => `${m.opponent} ${pp(m.impact)}`).join(' · ') : 'None materially above 50%';
+    const hurtText = data.hurts.length ? data.hurts.map(m => `${m.opponent} ${pp(m.impact)}`).join(' · ') : 'None materially below 50%';
+    const unknownShare = data.unknown.reduce((s,m) => s + Number(m.share || 0), 0);
+    return `<details class="recommendation-breakdown" ${open ? 'open' : ''} data-breakdown-for="${escapeHtml(row.name)}"><summary><span>Why ${pct(row.expectedWR)}?</span><small>${pct(row.knownShare * 100)} coverage · show calculation</small></summary><div class="breakdown-body"><div class="breakdown-head"><div><b>${escapeHtml(row.name)}</b><span>Your selected field, weighted by qualifying matchup data</span></div><div class="breakdown-score"><b>${pct(row.expectedWR)}</b><span>final matchup-weighted WR</span></div></div><div class="breakdown-drivers"><div><span>Helps most</span><b>${escapeHtml(helperText)}</b></div><div><span>Hurts most</span><b>${escapeHtml(hurtText)}</b></div>${unknownShare > 0 ? `<div><span>Unknown</span><b>${pct(unknownShare * 100)} of selected field</b></div>` : ''}</div><div class="tablewrap"><table class="breakdown-table"><thead><tr><th>Opponent</th><th>Your field</th><th>Matchup WR</th><th>Weight within covered field</th><th>WR contribution</th><th>Lift vs 50%</th><th>Evidence</th></tr></thead><tbody>${rows}</tbody></table></div><p class="breakdown-note">The final WR is calculated over the covered portion of your field. “Weight within covered field” renormalises qualifying matchups to 100%; “Lift vs 50%” shows which matchups push the recommendation above or below an even baseline.</p></div></details>`;
+  }
+
   function renderInspect(model) {
     const select = $p('prepInspect'), target = $p('prepInspectResult');
     if (!select || !target) return;
@@ -177,7 +206,7 @@
       : model.equalMode
         ? 'No qualifying matchup evidence • not rankable'
         : `Below ${threshold}% coverage threshold • insufficient evidence for main ranking`;
-    target.innerHTML = `<div class="inspect-metrics"><div class="metric"><b>${displayRank(row)}</b><span>Recommendation status</span></div><div class="metric"><b>${pct(row.expectedWR)}</b><span>Matchup WR on covered field</span></div><div class="metric"><b>${pct(row.winRate)}</b><span>Overall WR</span></div><div class="metric"><b>${pct(row.knownShare * 100)}</b><span>Matchup coverage</span></div></div><div class="inspect-note"><b>${escapeHtml(row.name)}</b> • ${row.entries} observed entries • ${escapeHtml(verdict)} • ${escapeHtml(window.PrepField?.sourceLabel?.() || '')}</div><div class="tablewrap"><table><thead><tr><th>Opponent</th><th>Your field</th><th>Used matchup WR</th><th>Evidence</th></tr></thead><tbody>${matchupRows}</tbody></table></div>`;
+    target.innerHTML = `<div class="inspect-metrics"><div class="metric"><b>${displayRank(row)}</b><span>Recommendation status</span></div><div class="metric"><b>${pct(row.expectedWR)}</b><span>Matchup WR on covered field</span></div><div class="metric"><b>${pct(row.winRate)}</b><span>Overall WR</span></div><div class="metric"><b>${pct(row.knownShare * 100)}</b><span>Matchup coverage</span></div></div><div class="inspect-note"><b>${escapeHtml(row.name)}</b> • ${row.entries} observed entries • ${escapeHtml(verdict)} • ${escapeHtml(window.PrepField?.sourceLabel?.() || '')}</div>${breakdownHtml(row, false, 'inspect')}<div class="tablewrap"><table><thead><tr><th>Opponent</th><th>Your field</th><th>Used matchup WR</th><th>Evidence</th></tr></thead><tbody>${matchupRows}</tbody></table></div>`;
     window.SearchableDecks?.sync?.();
   }
 
@@ -214,6 +243,25 @@
     window.SearchableDecks?.upgrade?.();
   }
 
+  function renderSelectedBreakdown(model) {
+    const target = $p('selectedBreakdown');
+    if (!target) return;
+    const row = model.allRows.find(r => r.name === breakdownDeckName) || model.qualified[0] || null;
+    target.innerHTML = row ? breakdownHtml(row, true, 'selected') : '';
+  }
+
+  function bindRankingRows(model) {
+    $p('prepResults')?.querySelectorAll('.prep-row[data-deck]').forEach(rowEl => rowEl.addEventListener('click', () => {
+      breakdownDeckName = rowEl.dataset.deck;
+      const row = model.allRows.find(r => r.name === breakdownDeckName);
+      const target = $p('selectedBreakdown');
+      if (target && row) {
+        target.innerHTML = breakdownHtml(row, true, 'selected');
+        target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }));
+  }
+
   function renderPrep() {
     const target = $p('prepResults');
     if (!target) return;
@@ -235,7 +283,7 @@
     const dateLabel = date ? new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { weekday:'short', day:'numeric', month:'short' }) : 'upcoming event';
 
     const topCopy = qualified.length
-      ? `<span>BEST POSITIONED FOR ${dateLabel.toUpperCase()}</span><b>${escapeHtml(qualified[0].name)}</b><strong>${pct(qualified[0].expectedWR)} matchup-weighted WR</strong><em>${pct(qualified[0].knownShare * 100)} matchup coverage • ${qualified[0].confidence.label.toLowerCase()} confidence</em>`
+      ? `<span>BEST POSITIONED FOR ${dateLabel.toUpperCase()}</span><b>${escapeHtml(qualified[0].name)}</b><strong>${pct(qualified[0].expectedWR)} matchup-weighted WR</strong><em>${pct(qualified[0].knownShare * 100)} matchup coverage • ${qualified[0].confidence.label.toLowerCase()} confidence</em>${breakdownHtml(qualified[0], false, 'top')}`
       : `<span>RECOMMENDATION</span><b>Not enough matchup evidence</b><em>${model.equalMode ? 'Equal-deck mode ignores the coverage threshold, but a deck still needs at least one qualifying matchup.' : `No deck currently meets the ${Math.round(model.minCoverage * 100)}% coverage threshold.`}</em>`;
     const topCallout = `<div class="prep-callout ${qualified.length ? '' : 'empty-callout'}">${topCopy}${quickDeckPanel(model)}</div>`;
 
@@ -245,7 +293,7 @@
 
     const mainRows = qualified.slice(0, 10);
     const mainTable = mainRows.length
-      ? `<div class="tablewrap"><table class="prep-table"><thead><tr><th>#</th><th>Deck</th><th>Expected WR</th><th>Overall WR</th><th>Entries</th><th>Matchup coverage</th><th>Confidence</th><th>Why</th></tr></thead><tbody>${mainRows.map(r => `<tr class="prep-row ${r === mainRows[0] ? 'prep-winner' : ''}" data-deck="${escapeHtml(r.name)}"><td>${r.rank}</td><td><b>${escapeHtml(r.name)}</b></td><td class="prep-expected"><b>${pct(r.expectedWR)}</b></td><td>${pct(r.winRate)}</td><td>${r.entries}</td><td>${pct(r.knownShare * 100)}</td><td><span class="confidence confidence-${r.confidence.label.toLowerCase()}">${r.confidence.label}</span></td><td class="prep-reason">${escapeHtml(reason(r))}</td></tr>`).join('')}</tbody></table></div>`
+      ? `<div class="tablewrap"><table class="prep-table"><thead><tr><th>#</th><th>Deck</th><th>Expected WR</th><th>Overall WR</th><th>Entries</th><th>Matchup coverage</th><th>Confidence</th><th>Why</th></tr></thead><tbody>${mainRows.map(r => `<tr class="prep-row ${r === mainRows[0] ? 'prep-winner' : ''}" data-deck="${escapeHtml(r.name)}" title="Click to break down this score"><td>${r.rank}</td><td><b>${escapeHtml(r.name)}</b></td><td class="prep-expected"><b>${pct(r.expectedWR)}</b></td><td>${pct(r.winRate)}</td><td>${r.entries}</td><td>${pct(r.knownShare * 100)}</td><td><span class="confidence confidence-${r.confidence.label.toLowerCase()}">${r.confidence.label}</span></td><td class="prep-reason">${escapeHtml(reason(r))}</td></tr>`).join('')}</tbody></table></div><div id="selectedBreakdown" class="selected-breakdown"></div>`
       : `<div class="prep-empty">${model.equalMode ? 'No archetype has qualifying matchup evidence for the selected decks.' : `No archetype meets the current ${Math.round(model.minCoverage * 100)}% matchup-coverage threshold.`}</div>`;
 
     const watchRows = watchlist.slice(0, 12);
@@ -254,17 +302,25 @@
       : '';
 
     const coverageText = model.equalMode ? 'coverage threshold bypassed in equal-deck mode' : `minimum ranking coverage ${Math.round(model.minCoverage * 100)}%`;
-    target.innerHTML = `<div class="prep-table-note">${escapeHtml(window.PrepField?.sourceLabel?.() || '')} • ${escapeHtml(evidenceLabel())} • ${coverageText}. Expected WR uses qualifying matchup data only.</div>${mainTable}${watchTable}<p class="prep-method">Your selected field is always renormalised to 100% after decks are added or removed. Expected WR is calculated only across the portion of that field with qualifying matchup evidence; Matchup Coverage shows how much of your selected field is represented. Overall WR is supporting context only and does not fill missing matchups.</p>`;
-    target.querySelectorAll('.prep-row').forEach(row => row.addEventListener('click', () => openArchetype(row.dataset.deck)));
+    target.innerHTML = `<div class="prep-table-note">${escapeHtml(window.PrepField?.sourceLabel?.() || '')} • ${escapeHtml(evidenceLabel())} • ${coverageText}. Expected WR uses qualifying matchup data only. Click any ranked deck to inspect the calculation.</div>${mainTable}${watchTable}<p class="prep-method">Your selected field is always renormalised to 100% after decks are added or removed. Expected WR is calculated only across the portion of that field with qualifying matchup evidence; Matchup Coverage shows how much of your selected field is represented. Overall WR is supporting context only and does not fill missing matchups.</p>`;
+    bindRankingRows(model);
+    if (breakdownDeckName && model.allRows.some(r => r.name === breakdownDeckName)) renderSelectedBreakdown(model);
     renderInspect(model);
     window.SearchableDecks?.upgrade?.();
   }
 
-  function activate() { renderPrep(); window.MetaLive?.loadMatchupPairings?.().then(renderPrep); }
+  function activate() {
+    renderPrep();
+    if (window.DeckAggregate?.hasData?.()) return;
+    window.MetaLive?.loadMatchupPairings?.().then(renderPrep);
+  }
   function handleMetaUpdated() {
     renderPrep();
     const prepIsActive = document.querySelector('[data-tab="prep"]')?.classList.contains('active');
-    if (prepIsActive && !autoMatchupsRequested && CACHE?.format === 'TEF-PBL' && CACHE?.tournaments?.length && !(DATA?.matches > 0)) { autoMatchupsRequested = true; window.MetaLive?.loadMatchupPairings?.().then(renderPrep); }
+    if (prepIsActive && !window.DeckAggregate?.hasData?.() && !autoMatchupsRequested && CACHE?.format === 'TEF-PBL' && CACHE?.tournaments?.length && !(DATA?.matches > 0)) {
+      autoMatchupsRequested = true;
+      window.MetaLive?.loadMatchupPairings?.().then(renderPrep);
+    }
   }
 
   initDate();
@@ -279,4 +335,5 @@
   window.addEventListener('meta:updated', handleMetaUpdated);
   window.addEventListener('field:updated', renderPrep);
   window.addEventListener('irl:updated', renderPrep);
+  window.addEventListener('deckagg:updated', renderPrep);
 })();
