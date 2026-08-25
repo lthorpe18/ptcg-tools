@@ -37,6 +37,7 @@
         <label>Tournament date<input id="prepDate" type="date" /></label>
         <label>Recent-meta weighting<select id="prepRecency"><option value="high">High — react quickly</option><option value="balanced" selected>Balanced</option><option value="equal">Equal — whole legality</option></select></label>
         <label>Matchup evidence<select id="prepEvidence"><option value="min10" selected>Ignore under 10 games</option><option value="min5">Ignore under 5 games</option><option value="conservative">Conservative shrinkage</option><option value="raw">Use raw results</option></select></label>
+        <label>Minimum matchup coverage<input id="prepMinCoverage" type="number" min="0" max="100" step="5" value="50" /></label>
         <label>Minimum deck entries<input id="prepMinEntries" type="number" min="1" max="100" value="5" /></label>
         <button id="prepRun" class="btn primary">Recommend decks</button>
       </div>
@@ -62,7 +63,7 @@
     </div>
 
     <section class="panel prep-results-panel">
-      <div class="sectionhead"><div><div class="eyebrow">RECOMMENDATION</div><h2>Top 10 decks for this field</h2></div><span class="muted">Expected win rate vs your selected metagame</span></div>
+      <div class="sectionhead"><div><div class="eyebrow">RECOMMENDATION</div><h2>Best positioned decks for this field</h2></div><span class="muted">Matchup-weighted expected win rate</span></div>
       <div id="prepResults"><div class="prep-empty">Current meta data is loading…</div></div>
     </section>
     <section class="panel prep-inspect-panel">
