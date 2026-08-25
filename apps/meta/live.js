@@ -88,6 +88,7 @@
       $('format').value = CURRENT.id;
       applyFilters();
       setStatus(`${CURRENT.label} • ${DATA.tournamentCount} tournaments • live standings loaded`);
+      window.dispatchEvent(new CustomEvent('meta:updated'));
       loadPreviousArchive(false);
     } catch (error) {
       console.error(error);
@@ -96,6 +97,7 @@
       DATA = MetaEngine.aggregate([]);
       render();
       renderComparison();
+      window.dispatchEvent(new CustomEvent('meta:updated'));
     } finally {
       setBusy(false);
     }
@@ -121,6 +123,7 @@
       pairingsLoaded = true;
       applyFilters();
       setStatus(`${CURRENT.label} • ${DATA.tournamentCount} tournaments • matchup sample ${selected.length} events`);
+      window.dispatchEvent(new CustomEvent('meta:updated'));
     } finally {
       pairingsLoading = false;
     }
@@ -145,12 +148,15 @@
     }
   }
 
+  window.MetaLive = { loadCurrentLive, loadMatchupPairings };
+
   $('refresh').textContent = 'Refresh live data';
   $('refresh').onclick = () => loadCurrentLive(true);
   $('format').onchange = async () => {
     if ($('format').value === CURRENT.id) {
       CACHE = FORMAT_CACHES.get(CURRENT.id) || CACHE;
       applyFilters();
+      window.dispatchEvent(new CustomEvent('meta:updated'));
       return;
     }
     setBusy(true);
@@ -160,6 +166,7 @@
       CACHE = FORMAT_CACHES.get(PREVIOUS.id);
       if (!CACHE) throw new Error('Previous-format archive is not available yet');
       applyFilters();
+      window.dispatchEvent(new CustomEvent('meta:updated'));
     } catch (error) {
       setStatus(error.message);
     } finally {
@@ -169,6 +176,7 @@
 
   document.querySelector('[data-tab="matchups"]')?.addEventListener('click', loadMatchupPairings);
   document.querySelector('[data-tab="archetype"]')?.addEventListener('click', loadMatchupPairings);
+  document.querySelector('[data-tab="prep"]')?.addEventListener('click', loadMatchupPairings);
 
   loadCurrentLive(false);
 })();
