@@ -47,10 +47,10 @@ function formatMeta(id) {
 
 async function loadFormatCache(id, force = false) {
   const meta = formatMeta(id);
-  if (!meta) throw new Error(`Unknown format ${id}`);
+  if (!meta?.file) throw new Error(`No archived cache is available for ${id}`);
   if (!force && FORMAT_CACHES.has(id)) return FORMAT_CACHES.get(id);
   const payload = await fetchJson(`../../data/meta/${meta.file}`, force);
-  if (!payload || !Array.isArray(payload.tournaments)) throw new Error(`${id} cache is invalid`);
+  if (!payload || !Array.isArray(payload.tournaments)) throw new Error(`${id} archive is invalid`);
   FORMAT_CACHES.set(id, payload);
   return payload;
 }
@@ -58,24 +58,13 @@ async function loadFormatCache(id, force = false) {
 async function loadManifest(force = false) {
   MANIFEST = await fetchJson(INDEX_URL, force);
   if (!MANIFEST || !Array.isArray(MANIFEST.formats)) throw new Error('Meta format manifest is invalid');
-
-  const formats = [...MANIFEST.formats].sort((a, b) => new Date(b.formatStart || 0) - new Date(a.formatStart || 0));
-  $('format').innerHTML = formats.map(f => {
-    const role = f.id === MANIFEST.current ? ' (current)' : f.id === MANIFEST.previous ? ' (previous)' : '';
-    return `<option value="${escapeHtml(f.id)}">${escapeHtml(f.label || f.id)}${role}</option>`;
-  }).join('');
-
-  if (!formats.some(f => f.id === $('format').value)) $('format').value = MANIFEST.current || formats[0]?.id || '';
-}
-
-async function preloadActiveFormats(force = false) {
-  const ids = (MANIFEST.activeComparison || [MANIFEST.current, MANIFEST.previous]).filter(Boolean);
-  await Promise.all(ids.map(id => loadFormatCache(id, force)));
+  return MANIFEST;
 }
 
 async function loadSelectedFormat(force = false) {
-  const selectedId = $('format').value || MANIFEST.current;
+  const selectedId = $('format').value || MANIFEST?.current;
   CACHE = await loadFormatCache(selectedId, force);
+  return CACHE;
 }
 
 function filteredFor(cache, daysValue, minPlayers) {
@@ -88,15 +77,15 @@ function filteredFor(cache, daysValue, minPlayers) {
 }
 
 function renderComparison() {
-  const current = FORMAT_CACHES.get(MANIFEST?.current);
-  const previous = FORMAT_CACHES.get(MANIFEST?.previous);
-  const currentMeta = formatMeta(MANIFEST?.current);
-  const previousMeta = formatMeta(MANIFEST?.previous);
+  const current = FORMAT_CACHES.get(MANIFEST?.current || 'TEF-PBL');
+  const previous = FORMAT_CACHES.get(MANIFEST?.previous || 'TEF-CRI');
+  const currentMeta = formatMeta(MANIFEST?.current || 'TEF-PBL');
+  const previousMeta = formatMeta(MANIFEST?.previous || 'TEF-CRI');
 
-  if (!current || !previous || !current.generatedAt || !previous.generatedAt || !current.tournaments.length || !previous.tournaments.length) {
+  if (!current || !previous || !current.tournaments?.length || !previous.tournaments?.length) {
     $('comparisonTitle').textContent = 'Current vs previous legality';
-    $('comparisonStatus').textContent = 'Waiting for both caches';
-    $('comparison').innerHTML = '<div class="comparison-empty">The comparison will appear once the current and previous legality caches have both been built.</div>';
+    $('comparisonStatus').textContent = 'Historical reference unavailable';
+    $('comparison').innerHTML = '<div class="comparison-empty">Current meta is live. Previous-format comparison will appear when the archived reference data is available.</div>';
     return;
   }
 
@@ -122,8 +111,8 @@ function renderComparison() {
     };
   }).sort((a, b) => Math.abs(b.change) - Math.abs(a.change) || b.current - a.current).slice(0, 20);
 
-  const currentLabel = currentMeta?.label || MANIFEST.current;
-  const previousLabel = previousMeta?.label || MANIFEST.previous;
+  const currentLabel = currentMeta?.label || 'TEF–PBL';
+  const previousLabel = previousMeta?.label || 'TEF–CRI';
   $('comparisonTitle').textContent = `${currentLabel} vs ${previousLabel}`;
   $('comparisonStatus').textContent = `${currentData.tournamentCount} vs ${previousData.tournamentCount} tournaments`;
   $('comparison').innerHTML = '<table><thead><tr><th>Archetype</th><th>Current</th><th>Previous</th><th>Change</th><th>Status</th></tr></thead><tbody>' + rows.map(r => {
@@ -144,37 +133,6 @@ function applyFilters() {
   DATA = MetaEngine.aggregate(FILTERED_TOURNAMENTS);
   render();
   renderComparison();
-
-  const generated = CACHE.generatedAt ? new Date(CACHE.generatedAt).toLocaleString() : 'not generated yet';
-  const floorNote = requestedMinPlayers < cacheFloor ? ` • cache minimum ${cacheFloor}` : '';
-  setStatus(`${CACHE.label || CACHE.format || $('format').value} • ${DATA.tournamentCount} tournaments • updated ${generated}${floorNote}`);
-}
-
-async function loadShared(force = false) {
-  if (loading) return;
-  setBusy(true);
-  try {
-    setStatus(force ? 'Reloading GitHub cache…' : 'Loading cached meta…');
-    if (force) FORMAT_CACHES.clear();
-    await loadManifest(force);
-    await preloadActiveFormats(force);
-    await loadSelectedFormat(force);
-
-    if (!CACHE.generatedAt || !CACHE.tournaments.length) {
-      FILTERED_TOURNAMENTS = [];
-      DATA = MetaEngine.aggregate([]);
-      render();
-      renderComparison();
-      setStatus(`${CACHE.label || CACHE.format || $('format').value} cache is being generated by GitHub Actions.`);
-      return;
-    }
-    applyFilters();
-  } catch (error) {
-    console.error(error);
-    setStatus('Error: ' + error.message);
-  } finally {
-    setBusy(false);
-  }
 }
 
 function render() {
@@ -325,20 +283,6 @@ function openArchetype(name) {
 }
 
 $('apply').onclick = applyFilters;
-$('refresh').onclick = () => loadShared(true);
-$('format').onchange = async () => {
-  if (loading) return;
-  setBusy(true);
-  try {
-    setStatus(`Loading ${$('format').value}…`);
-    await loadSelectedFormat(false);
-    applyFilters();
-  } catch (error) {
-    console.error(error);
-    setStatus('Error: ' + error.message);
-  } finally {
-    setBusy(false);
-  }
-};
 setupTabs();
-loadShared(false);
+// Startup is deliberately owned by live.js. Archived GitHub data is loaded only
+// if live loading fails or the user explicitly selects a historical legality.
