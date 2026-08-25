@@ -1,6 +1,7 @@
 const MetaEngine = (() => {
   function pct(n, d) { return d ? (100 * n / d) : 0; }
   function archetypeName(standing) { return standing?.deck?.name || 'Unknown'; }
+  function ignoredArchetype(name) { return name === 'Unknown' || name === 'Other'; }
 
   function aggregate(tournaments) {
     const archetypes = new Map();
@@ -13,7 +14,7 @@ const MetaEngine = (() => {
 
       for (const standing of tournament.standings) {
         const name = archetypeName(standing);
-        if (name === 'Unknown') continue;
+        if (ignoredArchetype(name)) continue;
         const row = archetypes.get(name) || { name, players: 0, wins: 0, losses: 0, ties: 0 };
         row.players += 1;
         row.wins += standing.record?.wins || 0;
@@ -21,12 +22,6 @@ const MetaEngine = (() => {
         row.ties += standing.record?.ties || 0;
         archetypes.set(name, row);
 
-        // Limitless can return null placings for players without an official final
-        // placing (for example dropped/removed players or not-yet-final standings).
-        // Those entries should still count towards aggregate meta statistics, but
-        // they are not meaningful tournament finishes and must not be shown as
-        // top results. In JavaScript, null sorts like 0, which previously caused
-        // these entries to incorrectly appear above 1st-place finishes.
         const placing = Number(standing.placing);
         if (standing.placing != null && Number.isFinite(placing) && placing > 0) {
           results.push({
@@ -48,7 +43,7 @@ const MetaEngine = (() => {
         if (!s1 || !s2) continue;
         const a1 = archetypeName(s1);
         const a2 = archetypeName(s2);
-        if (a1 === 'Unknown' || a2 === 'Unknown') continue;
+        if (ignoredArchetype(a1) || ignoredArchetype(a2)) continue;
 
         matches += 1;
         const key = `${a1}|||${a2}`;
