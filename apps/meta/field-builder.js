@@ -1,6 +1,6 @@
 (() => {
   const $f = id => document.getElementById(id);
-  const state = { custom: new Map(), touched: false };
+  const state = { custom: new Map(), touched: false, showAll: false };
   const pct = n => `${Number(n || 0).toFixed(1)}%`;
 
   function onlineFieldFromCache() {
@@ -72,6 +72,18 @@
     return rows.map(r => ({ name: r.name, share: total ? Math.max(0, Number(r.share || 0)) / total : 1 / rows.length }));
   }
 
+  function visibleRows(rows) {
+    if (state.showAll) return rows;
+    let cumulative = 0;
+    const visible = [];
+    for (const row of rows) {
+      if (cumulative >= 0.9 && visible.length) break;
+      visible.push(row);
+      cumulative += Math.max(0, Number(row.share || 0));
+    }
+    return visible;
+  }
+
   function render() {
     const editor = $f('fieldEditor');
     if (!editor) return;
@@ -82,21 +94,38 @@
       window.dispatchEvent(new CustomEvent('field:updated'));
       return;
     }
-    editor.innerHTML = `<div class="tablewrap"><table class="field-table"><thead><tr><th>Use</th><th>Archetype</th><th>Expected share</th></tr></thead><tbody>${rows.map(r => `<tr><td><input class="field-check" data-name="${escapeHtml(r.name)}" type="checkbox" ${r.included ? 'checked' : ''}></td><td><b>${escapeHtml(r.name)}</b></td><td><input class="field-share" data-name="${escapeHtml(r.name)}" type="number" min="0" max="100" step="0.1" value="${(Number(r.share || 0) * 100).toFixed(1)}">%</td></tr>`).join('')}</tbody></table></div>`;
+    const shown = visibleRows(rows);
+    const shownShare = shown.reduce((sum, r) => sum + Number(r.share || 0), 0);
+    const coverage = $f('fieldCoverage');
+    if (coverage) coverage.textContent = state.showAll ? `Showing all ${rows.length} archetypes.` : `Showing ${shown.length} archetypes covering ${pct(shownShare * 100)} of the modelled field.`;
+    const showAll = $f('fieldShowAll');
+    if (showAll) showAll.textContent = state.showAll ? 'Top 90%' : 'Show all';
+
+    editor.innerHTML = `<div class="tablewrap"><table class="field-table"><thead><tr><th>Use</th><th>Archetype</th><th>Share</th></tr></thead><tbody>${shown.map(r => `<tr class="field-row ${r.included ? 'included' : 'excluded'}" data-name="${escapeHtml(r.name)}"><td><input class="field-check" data-name="${escapeHtml(r.name)}" type="checkbox" ${r.included ? 'checked' : ''}></td><td><b>${escapeHtml(r.name)}</b></td><td><input class="field-share" data-name="${escapeHtml(r.name)}" type="number" min="0" max="100" step="0.1" value="${(Number(r.share || 0) * 100).toFixed(1)}">%</td></tr>`).join('')}</tbody></table></div>`;
+    editor.querySelectorAll('.field-row').forEach(row => row.addEventListener('click', e => {
+      if (e.target.matches('input')) return;
+      toggle(row.dataset.name);
+    }));
     editor.querySelectorAll('.field-check').forEach(el => el.addEventListener('change', () => {
-      const r = state.custom.get(el.dataset.name); if (r) { r.included = el.checked; state.touched = true; notify(); }
+      const r = state.custom.get(el.dataset.name); if (r) { r.included = el.checked; state.touched = true; render(); notify(); }
     }));
     editor.querySelectorAll('.field-share').forEach(el => el.addEventListener('change', () => {
-      const r = state.custom.get(el.dataset.name); if (r) { r.share = Math.max(0, Number(el.value || 0)) / 100; state.touched = true; notify(); }
+      const r = state.custom.get(el.dataset.name); if (r) { r.share = Math.max(0, Number(el.value || 0)) / 100; state.touched = true; render(); notify(); }
     }));
     notify(false);
   }
 
+  function toggle(name) {
+    syncCustom(false);
+    const row = state.custom.get(name);
+    if (!row) return;
+    row.included = !row.included;
+    state.touched = true;
+    render();
+    notify();
+  }
+
   function notify(dispatch = true) {
-    const chosen = selectedField();
-    const sum = chosen.reduce((s, r) => s + r.share, 0);
-    const note = $f('fieldEditor')?.querySelector('.field-total');
-    if (note) note.textContent = pct(sum * 100);
     if (dispatch) window.dispatchEvent(new CustomEvent('field:updated'));
   }
 
@@ -131,19 +160,20 @@
   function bind() {
     $f('fieldSource')?.addEventListener('change', () => {
       $f('blendControl')?.classList.toggle('hidden', $f('fieldSource').value !== 'blend');
-      state.touched = false; syncCustom(true); render();
+      state.touched = false; syncCustom(true); render(); notify();
     });
-    $f('fieldBlend')?.addEventListener('input', () => { $f('blendValue').textContent = `${$f('fieldBlend').value}%`; state.touched = false; syncCustom(true); render(); });
+    $f('fieldBlend')?.addEventListener('input', () => { $f('blendValue').textContent = `${$f('fieldBlend').value}%`; state.touched = false; syncCustom(true); render(); notify(); });
     $f('fieldAnalysisMode')?.addEventListener('change', () => notify());
     $f('matchupSource')?.addEventListener('change', () => notify());
-    $f('fieldReset')?.addEventListener('click', () => { state.touched = false; syncCustom(true); render(); });
-    $f('fieldAll')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) r.included = true; state.touched = true; render(); });
-    $f('fieldNone')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) r.included = false; state.touched = true; render(); });
-    $f('prepRecency')?.addEventListener('change', () => { if (!state.touched) { syncCustom(true); render(); } });
+    $f('fieldReset')?.addEventListener('click', () => { state.touched = false; syncCustom(true); render(); notify(); });
+    $f('fieldAll')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) r.included = true; state.touched = true; render(); notify(); });
+    $f('fieldNone')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) r.included = false; state.touched = true; render(); notify(); });
+    $f('fieldShowAll')?.addEventListener('click', () => { state.showAll = !state.showAll; render(); });
+    $f('prepRecency')?.addEventListener('change', () => { if (!state.touched) { syncCustom(true); render(); notify(); } });
     window.addEventListener('meta:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
     window.addEventListener('irl:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
   }
 
-  window.PrepField = { getField: selectedField, getMatchup: matchup, render, sourceLabel };
+  window.PrepField = { getField: selectedField, getMatchup: matchup, render, sourceLabel, toggle };
   bind();
 })();
