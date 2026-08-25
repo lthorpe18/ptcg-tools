@@ -40,9 +40,29 @@
     <div class="panel">
       <div class="sectionhead"><h2 id="archTitle">Choose an archetype</h2><select id="archSelect"></select></div>
       <div id="archSummary" class="metrics"></div>
-      <div class="twocol">
-        <div><h3>Matchups</h3><div id="archMatchups" class="tablewrap"></div></div>
-        <div><h3>Recent results</h3><div id="archResults" class="tablewrap"></div></div>
+
+      <div class="detailgrid">
+        <section class="detailpanel matchup-panel">
+          <div class="detailhead">
+            <div>
+              <div class="eyebrow">MATCHUP PERFORMANCE</div>
+              <h3>How this deck performs against the field</h3>
+              <p>Aggregated head-to-head results for this archetype against each opposing archetype.</p>
+            </div>
+          </div>
+          <div id="archMatchups" class="tablewrap"></div>
+        </section>
+
+        <section class="detailpanel results-panel">
+          <div class="detailhead">
+            <div>
+              <div class="eyebrow">TOURNAMENT RESULTS</div>
+              <h3>Players and event finishes</h3>
+              <p>Individual tournament entries using this archetype, ordered by best finishing position.</p>
+            </div>
+          </div>
+          <div id="archResults" class="tablewrap"></div>
+        </section>
       </div>
     </div>
   </section>
