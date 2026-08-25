@@ -2,6 +2,7 @@
   const $f = id => document.getElementById(id);
   const state = { custom: new Map(), touched: false, showAll: false };
   const pct = n => `${Number(n || 0).toFixed(1)}%`;
+  const ignored = name => !name || name === 'Other' || name === 'Unknown';
 
   function onlineFieldFromCache() {
     if (!CACHE?.tournaments?.length) return [];
@@ -17,7 +18,7 @@
       const weight = Number.isFinite(halfLife) ? Math.pow(0.5, age / halfLife) : 1;
       for (const s of t.standings || []) {
         const name = s?.deck?.name;
-        if (!name) continue;
+        if (ignored(name)) continue;
         counts.set(name, (counts.get(name) || 0) + weight);
         total += weight;
       }
@@ -27,7 +28,7 @@
 
   function irlField() {
     const data = window.IRLLabs?.getData?.() || {};
-    const decks = Array.isArray(data.decks) ? data.decks : [];
+    const decks = (Array.isArray(data.decks) ? data.decks : []).filter(d => !ignored(d.name));
     const total = decks.reduce((sum, d) => sum + Number(d.entries || 0), 0);
     return decks.map(d => ({ name: d.name, share: total ? Number(d.entries || 0) / total : Number(d.share || 0), source: 'irl' }));
   }
@@ -98,7 +99,7 @@
 
   function selectedRows() {
     syncCustom(false);
-    return [...state.custom.values()].filter(r => r.included);
+    return [...state.custom.values()].filter(r => r.included && !ignored(r.name));
   }
 
   function selectedField() {
@@ -119,7 +120,7 @@
     syncCustom(false);
     const selectedShares = new Map(selectedField().map(r => [r.name, r.share]));
     return [...state.custom.values()]
-      .filter(r => r.defaultIncluded || r.included)
+      .filter(r => !ignored(r.name) && (r.defaultIncluded || r.included))
       .sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0))
       .map(r => ({
         name: r.name,
@@ -149,7 +150,7 @@
     const editor = $f('fieldEditor');
     if (!editor) return;
     syncCustom(false);
-    const rows = [...state.custom.values()].sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0));
+    const rows = [...state.custom.values()].filter(r => !ignored(r.name)).sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0));
     if (!rows.length) {
       editor.innerHTML = '<div class="prep-empty">No data is available for this field source in the current legality.</div>';
       const coverage = $f('fieldCoverage');
@@ -182,6 +183,7 @@
   }
 
   function toggle(name) {
+    if (ignored(name)) return;
     syncCustom(false);
     const row = state.custom.get(name);
     if (!row) return;
@@ -204,10 +206,11 @@
   }
 
   function matchup(candidate, opponent, onlineFallback) {
+    if (ignored(candidate) || ignored(opponent)) return null;
     const mode = $f('matchupSource')?.value || 'online';
     const online = DATA?.matchups?.get(`${candidate}|||${opponent}`) || null;
     const irlRows = window.IRLLabs?.getData?.()?.matchups || [];
-    const irl = irlRows.find(m => m.a === candidate && m.b === opponent) || null;
+    const irl = irlRows.find(m => m.a === candidate && m.b === opponent && !ignored(m.a) && !ignored(m.b)) || null;
     if (mode === 'irl') return irl || null;
     if (mode === 'combined') {
       if (!online) return irl || null;
@@ -240,7 +243,7 @@
     $f('fieldAnalysisMode')?.addEventListener('change', () => notify());
     $f('matchupSource')?.addEventListener('change', () => notify());
     $f('fieldReset')?.addEventListener('click', resetField);
-    $f('fieldAll')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) r.included = true; state.touched = true; render(); notify(); });
+    $f('fieldAll')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) if (!ignored(r.name)) r.included = true; state.touched = true; render(); notify(); });
     $f('fieldNone')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) r.included = false; state.touched = true; render(); notify(); });
     $f('fieldShowAll')?.addEventListener('click', () => { state.showAll = !state.showAll; render(); });
     $f('prepRecency')?.addEventListener('change', () => { if (!state.touched) { syncCustom(true); render(); notify(); } });
