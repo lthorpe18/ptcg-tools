@@ -129,7 +129,8 @@
     const rows = [...state.custom.values()].sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0));
     if (!rows.length) {
       editor.innerHTML = '<div class="prep-empty">No data is available for this field source in the current legality.</div>';
-      window.dispatchEvent(new CustomEvent('field:updated'));
+      const coverage = $f('fieldCoverage');
+      if (coverage) coverage.textContent = '0.0% of the original filtered meta selected.';
       return;
     }
     const shown = visibleRows(rows);
@@ -155,7 +156,6 @@
     editor.querySelectorAll('.field-share').forEach(el => el.addEventListener('change', () => {
       const r = state.custom.get(el.dataset.name); if (r) { r.share = Math.max(0, Number(el.value || 0)) / 100; state.touched = true; render(); notify(); }
     }));
-    notify(false);
   }
 
   function toggle(name) {
