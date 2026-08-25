@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meta Lab · PTCG Tools</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <a class="back" href="../../">← PTCG Tools</a>
+  <div><h1>Meta Lab</h1><p>Limitless online meta • share • win rates • matchups</p></div>
+  <button id="refresh" class="btn">Refresh</button>
+</header>
+<main class="wrap">
+  <section class="controls panel">
+    <label>Window<select id="days"><option value="7">7 days</option><option value="14">14 days</option><option value="30" selected>30 days</option><option value="60">60 days</option><option value="90">90 days</option></select></label>
+    <label>Minimum tournament size<input id="minPlayers" type="number" min="2" max="1000" value="16" /></label>
+    <label>Minimum matchup games<input id="minMatches" type="number" min="1" max="1000" value="5" /></label>
+    <button id="apply" class="btn primary">Apply</button>
+    <span id="status" class="status">Ready</span>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="overview">Overview</button>
+    <button class="tab" data-tab="matchups">Matchups</button>
+    <button class="tab" data-tab="archetype">Archetype</button>
+  </nav>
+
+  <section id="overview" class="tabpane">
+    <div id="summary" class="metrics"></div>
+    <div class="panel"><div class="sectionhead"><h2>Meta overview</h2><span class="muted">Click an archetype for detail</span></div><div class="tablewrap"><table><thead><tr><th>Archetype</th><th>Players</th><th>Share</th><th>W</th><th>L</th><th>T</th><th>Win %</th></tr></thead><tbody id="metaBody"></tbody></table></div></div>
+  </section>
+
+  <section id="matchups" class="tabpane hidden">
+    <div class="panel"><div class="sectionhead"><h2>Matchup matrix</h2><span class="muted">Row archetype win rate vs column archetype</span></div><div id="matrix" class="matrixwrap"></div></div>
+  </section>
+
+  <section id="archetype" class="tabpane hidden">
+    <div class="panel">
+      <div class="sectionhead"><h2 id="archTitle">Choose an archetype</h2><select id="archSelect"></select></div>
+      <div id="archSummary" class="metrics"></div>
+      <div class="twocol">
+        <div><h3>Matchups</h3><div id="archMatchups" class="tablewrap"></div></div>
+        <div><h3>Recent results</h3><div id="archResults" class="tablewrap"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel note"><strong>Data:</strong> public Limitless Tournament Platform API. V1 uses recent Standard tournaments with auto-assigned archetypes; byes and double-losses are excluded from matchup calculations.</section>
+</main>
+<script src="limitless.js"></script>
+<script src="meta-engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
