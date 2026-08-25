@@ -135,6 +135,10 @@
     target.innerHTML = `<div class="inspect-metrics"><div class="metric"><b>#${row.rank}</b><span>Field rank</span></div><div class="metric"><b>${pct(row.expectedWR)}</b><span>Expected WR</span></div><div class="metric"><b>${pct(row.winRate)}</b><span>Overall WR</span></div><div class="metric"><b>${pct(row.knownShare * 100)}</b><span>Matchup coverage</span></div></div><div class="inspect-note"><b>${escapeHtml(row.name)}</b> • ${row.entries} observed entries • ${row.confidence.label} confidence • ${escapeHtml(window.PrepField?.sourceLabel?.() || '')}</div><div class="tablewrap"><table><thead><tr><th>Opponent</th><th>Expected field</th><th>Used WR</th><th>Evidence</th></tr></thead><tbody>${matchupRows}</tbody></table></div>`;
   }
 
+  function bindFieldChips() {
+    $p('prepSummary')?.querySelectorAll('.field-chip[data-field-toggle]').forEach(chip => chip.addEventListener('click', () => window.PrepField?.toggle?.(chip.dataset.fieldToggle)));
+  }
+
   function renderPrep() {
     const target = $p('prepResults');
     if (!target) return;
@@ -143,16 +147,17 @@
     const model = buildRecommendations();
     const { rows, field, tournaments } = model;
     if (!field.length) {
-      $p('prepSummary').innerHTML = '';
+      $p('prepSummary').innerHTML = '<div class="prep-callout empty-callout"><span>EXPECTED FIELD</span><b>No decks selected</b><em>Click decks in the field editor to add them back.</em></div>';
       target.innerHTML = '<div class="prep-empty">No decks are selected in the expected metagame, or this source has no current-format data yet.</div>';
       renderInspect(model); return;
     }
     if (!rows.length) { target.innerHTML = '<div class="prep-empty">No archetypes meet the candidate sample threshold.</div>'; renderInspect(model); return; }
-    const top = rows.slice(0, 10), fieldTop = field.slice().sort((a,b)=>b.share-a.share).slice(0, 10);
+    const top = rows.slice(0, 10), fieldTop = field.slice().sort((a,b)=>b.share-a.share);
     const matchupReady = model.allRows.some(r => r.knownShare > 0);
     const date = $p('prepDate')?.value;
     const dateLabel = date ? new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { weekday:'short', day:'numeric', month:'short' }) : 'upcoming event';
-    $p('prepSummary').innerHTML = `<div class="prep-callout"><span>TOP PICK FOR ${dateLabel.toUpperCase()}</span><b>${escapeHtml(top[0].name)}</b><strong>${pct(top[0].expectedWR)} expected win rate</strong><em>${top[0].confidence.label.toLowerCase()} confidence • ${escapeHtml(window.PrepField?.sourceLabel?.() || '')}</em></div><div class="prep-field"><span>Your expected field</span>${fieldTop.map(x => `<i><b>${escapeHtml(x.name)}</b> ${pct(x.share * 100)}</i>`).join('')}</div>`;
+    $p('prepSummary').innerHTML = `<div class="prep-callout"><span>TOP PICK FOR ${dateLabel.toUpperCase()}</span><b>${escapeHtml(top[0].name)}</b><strong>${pct(top[0].expectedWR)} expected win rate</strong><em>${top[0].confidence.label.toLowerCase()} confidence • ${escapeHtml(window.PrepField?.sourceLabel?.() || '')}</em></div><div class="prep-field"><span>Your expected field · click to remove</span><div class="field-chip-list">${fieldTop.map(x => `<button type="button" class="field-chip" data-field-toggle="${escapeHtml(x.name)}"><b>${escapeHtml(x.name)}</b><small>${pct(x.share * 100)}</small><span>×</span></button>`).join('')}</div></div>`;
+    bindFieldChips();
     target.innerHTML = `<div class="prep-table-note">${escapeHtml(window.PrepField?.sourceLabel?.() || '')} • ${escapeHtml(evidenceLabel())}. ${matchupReady ? 'Selected matchup evidence is included.' : 'No qualifying matchup evidence is available yet, so estimates lean on overall results.'}</div><div class="tablewrap"><table class="prep-table"><thead><tr><th>#</th><th>Deck</th><th>Expected WR</th><th>Overall WR</th><th>Entries</th><th>Matchup coverage</th><th>Confidence</th><th>Why</th></tr></thead><tbody>${top.map(r => `<tr class="prep-row ${r === top[0] ? 'prep-winner' : ''}" data-deck="${escapeHtml(r.name)}"><td>${r.rank}</td><td><b>${escapeHtml(r.name)}</b></td><td class="prep-expected"><b>${pct(r.expectedWR)}</b></td><td>${pct(r.winRate)}</td><td>${r.entries}</td><td>${pct(r.knownShare * 100)}</td><td><span class="confidence confidence-${r.confidence.label.toLowerCase()}">${r.confidence.label}</span></td><td class="prep-reason">${escapeHtml(reason(r))}</td></tr>`).join('')}</tbody></table></div><p class="prep-method">Expected WR is calculated against the metagame you built above. Field composition and matchup evidence can come from different sources. Missing or ignored matchup evidence falls back to the deck’s conservatively adjusted overall win rate.</p>`;
     target.querySelectorAll('.prep-row').forEach(row => row.addEventListener('click', () => openArchetype(row.dataset.deck)));
     renderInspect(model);
