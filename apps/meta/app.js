@@ -1,4 +1,5 @@
 let DATA = null;
+let loading = false;
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n || 0).toFixed(1) + '%';
 
@@ -23,6 +24,11 @@ function setupTabs() {
 }
 
 async function load() {
+  if (loading) return;
+  loading = true;
+  $('apply').disabled = true;
+  $('refresh').disabled = true;
+
   try {
     const days = Number($('days').value);
     const minPlayers = Number($('minPlayers').value);
@@ -53,6 +59,10 @@ async function load() {
   } catch (error) {
     console.error(error);
     setStatus('Error: ' + error.message);
+  } finally {
+    loading = false;
+    $('apply').disabled = false;
+    $('refresh').disabled = false;
   }
 }
 
@@ -127,6 +137,9 @@ function openArchetype(name) {
 }
 
 $('apply').onclick = load;
-$('refresh').onclick = load;
+$('refresh').onclick = () => {
+  LimitlessAPI.clearCache();
+  load();
+};
 setupTabs();
 load();
