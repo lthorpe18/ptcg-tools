@@ -31,7 +31,7 @@ jobs:
         run: node scripts/update-limitless-decks.mjs
       - name: Publish deck matchup dataset
         run: |
-          if git diff --quiet -- data/meta/decks; then
+          if [ -z "$(git status --porcelain -- data/meta/decks)" ]; then
             echo "Deck matchup dataset unchanged"
             exit 0
           fi
