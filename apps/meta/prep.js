@@ -172,6 +172,12 @@
 
   function bindFieldChips() {
     $p('prepSummary')?.querySelectorAll('.field-chip[data-field-toggle]').forEach(chip => chip.addEventListener('click', () => window.PrepField?.toggle?.(chip.dataset.fieldToggle)));
+    $p('prepSummary')?.querySelector('[data-field-reset]')?.addEventListener('click', () => window.PrepField?.reset?.());
+  }
+
+  function fieldPanel(originalCoverage) {
+    const chips = window.PrepField?.getChipRows?.() || [];
+    return `<div class="prep-field"><div class="prep-field-head"><span>Your expected field · active decks = 100% · ${pct(originalCoverage * 100)} original meta coverage</span><button type="button" class="btn field-reset-btn" data-field-reset>Reset field</button></div><div class="field-chip-list">${chips.map(x => `<button type="button" class="field-chip ${x.included ? '' : 'excluded'}" data-field-toggle="${escapeHtml(x.name)}" aria-pressed="${x.included ? 'true' : 'false'}"><b>${escapeHtml(x.name)}</b><small>${x.included ? pct(x.share * 100) : 'Off'}</small><span>${x.included ? '×' : '+'}</span></button>`).join('')}</div></div>`;
   }
 
   function renderPrep() {
@@ -181,14 +187,15 @@
     if (!CACHE?.tournaments?.length || CACHE.format !== 'TEF-PBL') { target.innerHTML = '<div class="prep-empty">Load the current TEF–PBL data to generate tournament recommendations.</div>'; return; }
     const model = buildRecommendations();
     const { qualified, watchlist, field } = model;
+    const originalCoverage = Math.max(0, Math.min(1, Number(window.PrepField?.getOriginalCoverage?.() || 0)));
+
     if (!field.length) {
-      $p('prepSummary').innerHTML = '<div class="prep-callout empty-callout"><span>EXPECTED FIELD</span><b>No decks selected</b><em>Open Field settings or reset the field to add decks.</em></div>';
+      $p('prepSummary').innerHTML = `<div class="prep-callout empty-callout"><span>EXPECTED FIELD</span><b>No decks selected</b><em>Tap a dimmed chip to add it back, or reset the field.</em></div>${fieldPanel(originalCoverage)}`;
+      bindFieldChips();
       target.innerHTML = '<div class="prep-empty">No decks are selected in your expected metagame.</div>';
       renderInspect(model); return;
     }
 
-    const fieldTop = field.slice().sort((a,b)=>b.share-a.share);
-    const originalCoverage = Math.max(0, Math.min(1, Number(window.PrepField?.getOriginalCoverage?.() || 0)));
     const date = $p('prepDate')?.value;
     const dateLabel = date ? new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { weekday:'short', day:'numeric', month:'short' }) : 'upcoming event';
 
@@ -196,7 +203,7 @@
       ? `<div class="prep-callout"><span>BEST POSITIONED FOR ${dateLabel.toUpperCase()}</span><b>${escapeHtml(qualified[0].name)}</b><strong>${pct(qualified[0].expectedWR)} matchup-weighted WR</strong><em>${pct(qualified[0].knownShare * 100)} matchup coverage • ${qualified[0].confidence.label.toLowerCase()} confidence</em></div>`
       : `<div class="prep-callout empty-callout"><span>RECOMMENDATION</span><b>Not enough matchup evidence</b><em>No deck currently meets the ${Math.round(model.minCoverage * 100)}% coverage threshold.</em></div>`;
 
-    $p('prepSummary').innerHTML = `${topCallout}<div class="prep-field"><span>Your expected field · 100% selected · ${pct(originalCoverage * 100)} original meta coverage · click to remove</span><div class="field-chip-list">${fieldTop.map(x => `<button type="button" class="field-chip" data-field-toggle="${escapeHtml(x.name)}"><b>${escapeHtml(x.name)}</b><small>${pct(x.share * 100)}</small><span>×</span></button>`).join('')}</div></div>`;
+    $p('prepSummary').innerHTML = `${topCallout}${fieldPanel(originalCoverage)}`;
     bindFieldChips();
 
     const mainRows = qualified.slice(0, 10);
