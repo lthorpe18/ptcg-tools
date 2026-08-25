@@ -20,15 +20,25 @@ const MetaEngine = (() => {
         row.losses += standing.record?.losses || 0;
         row.ties += standing.record?.ties || 0;
         archetypes.set(name, row);
-        results.push({
-          archetype: name,
-          placing: standing.placing,
-          player: standing.name || standing.player,
-          tournament: tournament.name,
-          date: tournament.date,
-          players: tournament.players,
-          record: standing.record,
-        });
+
+        // Limitless can return null placings for players without an official final
+        // placing (for example dropped/removed players or not-yet-final standings).
+        // Those entries should still count towards aggregate meta statistics, but
+        // they are not meaningful tournament finishes and must not be shown as
+        // top results. In JavaScript, null sorts like 0, which previously caused
+        // these entries to incorrectly appear above 1st-place finishes.
+        const placing = Number(standing.placing);
+        if (standing.placing != null && Number.isFinite(placing) && placing > 0) {
+          results.push({
+            archetype: name,
+            placing,
+            player: standing.name || standing.player,
+            tournament: tournament.name,
+            date: tournament.date,
+            players: tournament.players,
+            record: standing.record,
+          });
+        }
       }
 
       for (const pairing of tournament.pairings) {
