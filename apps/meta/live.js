@@ -5,6 +5,8 @@
   const MAX_LIVE_TOURNAMENTS = 36;
   const MATCHUP_TOURNAMENTS = 12;
   const CONCURRENCY = 8;
+  const INDEX_PAGE_SIZE = 100;
+  const MAX_INDEX_PAGES = 10;
   let pairingsLoaded = false;
   let pairingsLoading = false;
 
@@ -24,9 +26,32 @@
 
   async function currentTournamentIndex(force = false) {
     const cutoff = new Date(CURRENT.start).getTime();
-    const batch = await LimitlessAPI.tournaments({ limit: 500, page: 0, format: 'STANDARD', force });
     const unique = new Map();
-    for (const t of Array.isArray(batch) ? batch : []) unique.set(String(t.id), t);
+
+    // Limitless documents this endpoint as paginated. Do not rely on an oversized
+    // single-page limit: some responses are capped, which can hide older 50+
+    // player events behind many newer small tournaments.
+    for (let page = 0; page < MAX_INDEX_PAGES; page++) {
+      setStatus(`Scanning TEF–PBL tournaments • page ${page + 1}…`);
+      const batch = await LimitlessAPI.tournaments({
+        limit: INDEX_PAGE_SIZE,
+        page,
+        format: 'STANDARD',
+        force,
+      });
+      const rows = Array.isArray(batch) ? batch : [];
+      if (!rows.length) break;
+
+      for (const t of rows) unique.set(String(t.id), t);
+
+      const timestamps = rows
+        .map(t => new Date(t.date).getTime())
+        .filter(Number.isFinite);
+      const oldest = timestamps.length ? Math.min(...timestamps) : Infinity;
+
+      if (oldest < cutoff || rows.length < INDEX_PAGE_SIZE) break;
+    }
+
     return [...unique.values()]
       .filter(t => {
         const ts = new Date(t.date).getTime();
