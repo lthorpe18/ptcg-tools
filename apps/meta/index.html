@@ -51,9 +51,9 @@
       <section class="panel field-builder-panel">
         <div class="sectionhead compact-sectionhead"><div><div class="eyebrow">EXPECTED METAGAME</div><h2>Field settings</h2></div><span id="irlStatus" class="muted">Loading IRL source…</span></div>
         <div class="field-source-controls">
-          <label>Field source<select id="fieldSource"><option value="online" selected>Online only</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom field</option></select></label>
+          <label>Field source<select id="fieldSource"><option value="online" selected>50+ online tournaments</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom field</option></select></label>
           <label id="blendControl" class="hidden">IRL share <span id="blendValue">50%</span><input id="fieldBlend" type="range" min="0" max="100" value="50" /></label>
-          <label>Matchups<select id="matchupSource"><option value="online" selected>Online only</option><option value="irl">IRL only</option><option value="combined">Online + IRL combined</option></select></label>
+          <label>Matchups<select id="matchupSource"><option value="online" selected>Limitless · all PBL events</option><option value="irl">IRL only</option><option value="combined">All PBL events + IRL</option></select></label>
           <label>Weighting<select id="fieldAnalysisMode"><option value="shares" selected>Expected shares</option><option value="equal">Equal selected decks</option></select></label>
         </div>
         <div class="field-actions">
@@ -77,10 +77,10 @@
   <section id="overview" class="tabpane hidden">
     <div id="summary" class="metrics"></div>
     <section id="comparisonPanel" class="panel comparison-panel"><div class="sectionhead"><div><div class="eyebrow">FORMAT SHIFT</div><h2 id="comparisonTitle">Current vs previous legality</h2></div><span id="comparisonStatus" class="muted"></span></div><p class="comparison-copy">See which archetypes gained or lost meta share when the legal card pool changed. Formats are never blended.</p><div id="comparison" class="tablewrap"></div></section>
-    <div class="panel"><div class="sectionhead"><h2>Meta overview</h2><span class="muted">Click an archetype for detail</span></div><div class="tablewrap"><table><thead><tr><th>Archetype</th><th>Players</th><th>Share</th><th>W</th><th>L</th><th>T</th><th>Win %</th></tr></thead><tbody id="metaBody"></tbody></table></div></div>
+    <div class="panel"><div class="sectionhead"><h2>Meta overview</h2><span class="muted">50+ player tournaments • click an archetype for detail</span></div><div class="tablewrap"><table><thead><tr><th>Archetype</th><th>Players</th><th>Share</th><th>W</th><th>L</th><th>T</th><th>Win %</th></tr></thead><tbody id="metaBody"></tbody></table></div></div>
   </section>
 
-  <section id="matchups" class="tabpane hidden"><div class="panel"><div class="sectionhead"><h2>Matchup matrix</h2><span class="muted">Row archetype win rate vs column archetype</span></div><div id="matrix" class="matrixwrap"></div></div></section>
+  <section id="matchups" class="tabpane hidden"><div class="panel"><div class="sectionhead"><h2>Matchup matrix</h2><span class="muted">All PBL Standard events when aggregate data is available</span></div><div id="matrix" class="matrixwrap"></div></div></section>
 
   <section id="archetype" class="tabpane hidden">
     <div class="panel">
@@ -88,17 +88,18 @@
       <div id="archSummary" class="metrics"></div>
       <section class="trendpanel"><div class="trendhead"><div><div class="eyebrow">META SHARE TREND</div><h3>Popularity within this set legality</h3></div><div id="trendSummary" class="trend-summary"></div></div><div id="trendChart" class="trend-chart"></div></section>
       <div class="detailgrid">
-        <section class="detailpanel matchup-panel"><div class="detailhead"><div><div class="eyebrow">MATCHUP PERFORMANCE</div><h3>How this deck performs against the field</h3><p>Aggregated head-to-head results against each opposing archetype.</p></div></div><div id="archMatchups" class="tablewrap"></div></section>
-        <section class="detailpanel results-panel"><div class="detailhead"><div><div class="eyebrow">TOURNAMENT RESULTS</div><h3>Players, finishes and decklists</h3><p>Official finishes using this archetype. Open submitted lists directly on Limitless where available.</p></div></div><div id="archResults" class="tablewrap"></div></section>
+        <section class="detailpanel matchup-panel"><div class="detailhead"><div><div class="eyebrow">MATCHUP PERFORMANCE</div><h3>How this deck performs against the field</h3><p>Broad PBL head-to-head data is used independently from the 50+ event field model.</p></div></div><div id="archMatchups" class="tablewrap"></div></section>
+        <section class="detailpanel results-panel"><div class="detailhead"><div><div class="eyebrow">TOURNAMENT RESULTS</div><h3>Players, finishes and decklists</h3><p>50+ player event finishes using this archetype. Open submitted lists directly on Limitless where available.</p></div></div><div id="archResults" class="tablewrap"></div></section>
       </div>
     </div>
   </section>
 
-  <section class="panel note"><strong>Sources:</strong> online tournaments come from play.limitlesstcg.com; IRL major data comes from labs.limitlesstcg.com. Field composition and matchup evidence can be sourced independently. Only data from the selected set legality is used. Expected win rates are estimates, not guarantees.</section>
+  <section class="panel note"><strong>Sources:</strong> 50+ player events from play.limitlesstcg.com define the online field, meta share and tournament results. Online matchup evidence comes from the full PBL Standard Decks aggregate when available. IRL major data comes from labs.limitlesstcg.com. “Other” is excluded throughout. Only data from the selected set legality is used.</section>
 </main>
 <script src="meta-engine.js"></script>
 <script src="limitless.js"></script>
 <script src="app.js"></script>
+<script src="deck-aggregate.js?v=1"></script>
 <script src="live.js"></script>
 <script src="irl-labs.js"></script>
 <script src="field-builder.js"></script>
