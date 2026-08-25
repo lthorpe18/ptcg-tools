@@ -70,6 +70,7 @@
         state.custom.set(row.name, {
           name: row.name,
           share: row.share,
+          originalShare: row.share,
           included: defaults.has(row.name),
         });
       }
@@ -77,21 +78,36 @@
       return;
     }
     for (const row of base) {
-      if (!state.custom.has(row.name)) {
-        state.custom.set(row.name, { name: row.name, share: row.share, included: false });
+      const existing = state.custom.get(row.name);
+      if (!existing) {
+        state.custom.set(row.name, { name: row.name, share: row.share, originalShare: row.share, included: false });
+      } else {
+        existing.originalShare = row.share;
       }
     }
   }
 
-  function selectedField() {
+  function selectedRows() {
     syncCustom(false);
-    const rows = [...state.custom.values()].filter(r => r.included);
+    return [...state.custom.values()].filter(r => r.included);
+  }
+
+  function selectedField() {
+    const rows = selectedRows();
     if (!rows.length) return [];
     if (($f('fieldAnalysisMode')?.value || 'shares') === 'equal') {
-      return rows.map(r => ({ name: r.name, share: 1 / rows.length }));
+      return rows.map(r => ({ name: r.name, share: 1 / rows.length, originalShare: Number(r.originalShare || 0) }));
     }
     const total = rows.reduce((sum, r) => sum + Math.max(0, Number(r.share || 0)), 0);
-    return rows.map(r => ({ name: r.name, share: total ? Math.max(0, Number(r.share || 0)) / total : 1 / rows.length }));
+    return rows.map(r => ({
+      name: r.name,
+      share: total ? Math.max(0, Number(r.share || 0)) / total : 1 / rows.length,
+      originalShare: Number(r.originalShare || 0),
+    }));
+  }
+
+  function originalCoverage() {
+    return selectedRows().reduce((sum, r) => sum + Math.max(0, Number(r.originalShare || 0)), 0);
   }
 
   function visibleRows(rows) {
@@ -101,7 +117,7 @@
     for (const row of rows) {
       if (cumulative >= 0.9 && visible.length) break;
       visible.push(row);
-      cumulative += Math.max(0, Number(row.share || 0));
+      cumulative += Math.max(0, Number(row.originalShare || row.share || 0));
     }
     return visible;
   }
@@ -110,26 +126,25 @@
     const editor = $f('fieldEditor');
     if (!editor) return;
     syncCustom(false);
-    const rows = [...state.custom.values()].sort((a, b) => Number(b.share || 0) - Number(a.share || 0));
+    const rows = [...state.custom.values()].sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0));
     if (!rows.length) {
       editor.innerHTML = '<div class="prep-empty">No data is available for this field source in the current legality.</div>';
       window.dispatchEvent(new CustomEvent('field:updated'));
       return;
     }
     const shown = visibleRows(rows);
-    const shownShare = shown.reduce((sum, r) => sum + Number(r.share || 0), 0);
     const selected = rows.filter(r => r.included);
-    const selectedRawShare = selected.reduce((sum, r) => sum + Number(r.share || 0), 0);
+    const selectedOriginalCoverage = originalCoverage();
     const coverage = $f('fieldCoverage');
     if (coverage) {
       coverage.textContent = state.showAll
-        ? `Showing all ${rows.length} archetypes • ${selected.length} selected (${pct(selectedRawShare * 100)} raw meta coverage).`
-        : `Default field: ${selected.length} archetypes covering ${pct(selectedRawShare * 100)} of the modelled meta.`;
+        ? `Showing all ${rows.length} archetypes • ${selected.length} selected • ${pct(selectedOriginalCoverage * 100)} original meta coverage.`
+        : `${selected.length} selected • ${pct(selectedOriginalCoverage * 100)} of the original filtered meta.`;
     }
     const showAll = $f('fieldShowAll');
     if (showAll) showAll.textContent = state.showAll ? 'Top 90%' : 'Show all';
 
-    editor.innerHTML = `<div class="tablewrap"><table class="field-table"><thead><tr><th>Use</th><th>Archetype</th><th>Share</th></tr></thead><tbody>${shown.map(r => `<tr class="field-row ${r.included ? 'included' : 'excluded'}" data-name="${escapeHtml(r.name)}"><td><input class="field-check" data-name="${escapeHtml(r.name)}" type="checkbox" ${r.included ? 'checked' : ''}></td><td><b>${escapeHtml(r.name)}</b></td><td><input class="field-share" data-name="${escapeHtml(r.name)}" type="number" min="0" max="100" step="0.1" value="${(Number(r.share || 0) * 100).toFixed(1)}">%</td></tr>`).join('')}</tbody></table></div>`;
+    editor.innerHTML = `<div class="tablewrap"><table class="field-table"><thead><tr><th>Use</th><th>Archetype</th><th>Model share</th></tr></thead><tbody>${shown.map(r => `<tr class="field-row ${r.included ? 'included' : 'excluded'}" data-name="${escapeHtml(r.name)}"><td><input class="field-check" data-name="${escapeHtml(r.name)}" type="checkbox" ${r.included ? 'checked' : ''}></td><td><b>${escapeHtml(r.name)}</b></td><td><input class="field-share" data-name="${escapeHtml(r.name)}" type="number" min="0" max="100" step="0.1" value="${(Number(r.share || 0) * 100).toFixed(1)}">%</td></tr>`).join('')}</tbody></table></div>`;
     editor.querySelectorAll('.field-row').forEach(row => row.addEventListener('click', e => {
       if (e.target.matches('input')) return;
       toggle(row.dataset.name);
@@ -202,6 +217,6 @@
     window.addEventListener('irl:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
   }
 
-  window.PrepField = { getField: selectedField, getMatchup: matchup, render, sourceLabel, toggle };
+  window.PrepField = { getField: selectedField, getOriginalCoverage: originalCoverage, getMatchup: matchup, render, sourceLabel, toggle };
   bind();
 })();
