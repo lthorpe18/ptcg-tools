@@ -10,7 +10,7 @@
 <header class="topbar">
   <a class="back" href="../../">← PTCG Tools</a>
   <div><h1>Meta Lab</h1><p>Limitless meta • set legality • share • win rates • matchups</p></div>
-  <button id="refresh" class="btn">Reload data</button>
+  <button id="refresh" class="btn">Reload cached data</button>
 </header>
 <main class="wrap">
   <section class="controls panel">
@@ -30,6 +30,11 @@
 
   <section id="overview" class="tabpane">
     <div id="summary" class="metrics"></div>
+    <section id="comparisonPanel" class="panel comparison-panel">
+      <div class="sectionhead"><div><div class="eyebrow">FORMAT SHIFT</div><h2 id="comparisonTitle">Current vs previous legality</h2></div><span id="comparisonStatus" class="muted"></span></div>
+      <p class="comparison-copy">See which archetypes gained or lost meta share when the legal card pool changed. Formats are never blended.</p>
+      <div id="comparison" class="tablewrap"></div>
+    </section>
     <div class="panel"><div class="sectionhead"><h2>Meta overview</h2><span class="muted">Click an archetype for detail</span></div><div class="tablewrap"><table><thead><tr><th>Archetype</th><th>Players</th><th>Share</th><th>W</th><th>L</th><th>T</th><th>Win %</th></tr></thead><tbody id="metaBody"></tbody></table></div></div>
   </section>
 
@@ -64,7 +69,7 @@
     </div>
   </section>
 
-  <section class="panel note"><strong>Data:</strong> shared Limitless cache. Tournaments are kept separate by set legality and only events with 50+ players are collected.</section>
+  <section class="panel note"><strong>Data:</strong> GitHub-hosted Limitless cache refreshed every six hours. Only 50+ player events are collected. The current and previous set legalities are kept as active references; older legality files remain archived.</section>
 </main>
 <script src="meta-engine.js"></script>
 <script src="app.js"></script>
