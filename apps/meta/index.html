@@ -30,8 +30,8 @@
   </nav>
 
   <section id="prep" class="tabpane">
-    <section class="panel prep-hero">
-      <div class="prep-heading"><div><div class="eyebrow">TOURNAMENT PREP</div><h2>What should I play?</h2><p>Define the field you actually expect, then rank decks by estimated win rate against it.</p></div></div>
+    <section class="panel prep-hero compact-prep-hero">
+      <div class="prep-heading"><div><div class="eyebrow">TOURNAMENT PREP</div><h2>What should I play?</h2><p>Define the field you expect, then rank decks by estimated win rate against it.</p></div></div>
       <div class="prep-controls">
         <label>Tournament date<input id="prepDate" type="date" /></label>
         <label>Recent-meta weighting<select id="prepRecency"><option value="high">High — react quickly</option><option value="balanced" selected>Balanced</option><option value="equal">Equal — whole legality</option></select></label>
@@ -41,22 +41,25 @@
       </div>
     </section>
 
-    <section class="panel field-builder-panel">
-      <div class="sectionhead"><div><div class="eyebrow">EXPECTED METAGAME</div><h2>Build the field you expect to face</h2></div><span id="irlStatus" class="muted">Loading IRL source…</span></div>
-      <div class="field-source-controls">
-        <label>Field source<select id="fieldSource"><option value="online" selected>Online only</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom field</option></select></label>
-        <label id="blendControl" class="hidden">IRL share of blend <span id="blendValue">50%</span><input id="fieldBlend" type="range" min="0" max="100" value="50" /></label>
-        <label>Matchup evidence source<select id="matchupSource"><option value="online" selected>Online only</option><option value="irl">IRL only</option><option value="combined">Online + IRL combined</option></select></label>
-        <label>Analysis mode<select id="fieldAnalysisMode"><option value="shares" selected>Use expected shares</option><option value="equal">Equal weight selected decks</option></select></label>
-      </div>
-      <div class="field-actions">
-        <button id="fieldAll" class="btn">Select all</button><button id="fieldNone" class="btn">Select none</button><button id="fieldReset" class="btn">Reset to model</button>
-        <span class="muted">Untick decks you do not care about, or edit shares directly. Selected shares are automatically normalised to 100%.</span>
-      </div>
-      <div id="fieldEditor" class="field-editor"><div class="prep-empty">Waiting for meta data…</div></div>
-    </section>
+    <div class="prep-workspace">
+      <section class="panel field-builder-panel">
+        <div class="sectionhead compact-sectionhead"><div><div class="eyebrow">EXPECTED METAGAME</div><h2>Build the field</h2></div><span id="irlStatus" class="muted">Loading IRL source…</span></div>
+        <div class="field-source-controls">
+          <label>Field source<select id="fieldSource"><option value="online" selected>Online only</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom field</option></select></label>
+          <label id="blendControl" class="hidden">IRL share <span id="blendValue">50%</span><input id="fieldBlend" type="range" min="0" max="100" value="50" /></label>
+          <label>Matchups<select id="matchupSource"><option value="online" selected>Online only</option><option value="irl">IRL only</option><option value="combined">Online + IRL combined</option></select></label>
+          <label>Weighting<select id="fieldAnalysisMode"><option value="shares" selected>Expected shares</option><option value="equal">Equal selected decks</option></select></label>
+        </div>
+        <div class="field-actions">
+          <button id="fieldAll" class="btn">All</button><button id="fieldNone" class="btn">None</button><button id="fieldReset" class="btn">Reset</button><button id="fieldShowAll" class="btn">Show all</button>
+          <span id="fieldCoverage" class="muted">Showing decks covering ~90% of the modelled field.</span>
+        </div>
+        <div id="fieldEditor" class="field-editor"><div class="prep-empty">Waiting for meta data…</div></div>
+      </section>
 
-    <div id="prepSummary" class="prep-summary"></div>
+      <aside id="prepSummary" class="prep-summary prep-summary-live"></aside>
+    </div>
+
     <section class="panel prep-results-panel">
       <div class="sectionhead"><div><div class="eyebrow">RECOMMENDATION</div><h2>Top 10 decks for this field</h2></div><span class="muted">Expected win rate vs your selected metagame</span></div>
       <div id="prepResults"><div class="prep-empty">Current meta data is loading…</div></div>
