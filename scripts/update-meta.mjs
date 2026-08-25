@@ -4,13 +4,21 @@ import path from 'node:path';
 const BASE = 'https://play.limitlesstcg.com/api';
 const GAME = 'PTCG';
 const API_FORMAT = 'STANDARD';
-const CURRENT_FORMAT = 'TEF-PBL';
-const FORMAT_START = new Date('2026-07-17T00:00:00Z').getTime();
 const MIN_TOURNAMENT_SIZE = 50;
-const CONCURRENCY = 6;
+const CONCURRENCY = 8;
+
+// Keep legality boundaries explicit so Standard card pools never get blended.
+// Older format files remain archived in data/meta/formats; the app highlights
+// the current and previous legality as the useful comparison pair.
+const FORMATS = [
+  { id: 'TEF-CRI', label: 'TEF–CRI', start: '2026-05-22T00:00:00Z', end: '2026-07-17T00:00:00Z' },
+  { id: 'TEF-PBL', label: 'TEF–PBL', start: '2026-07-17T00:00:00Z', end: null },
+];
+const CURRENT_FORMAT = FORMATS[FORMATS.length - 1].id;
+const PREVIOUS_FORMAT = FORMATS.length > 1 ? FORMATS[FORMATS.length - 2].id : null;
+
 const DATA_DIR = path.join(process.cwd(), 'data', 'meta');
 const FORMAT_DIR = path.join(DATA_DIR, 'formats');
-const FORMAT_FILE = path.join(FORMAT_DIR, `${CURRENT_FORMAT}.json`);
 const INDEX_FILE = path.join(DATA_DIR, 'index.json');
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -20,7 +28,7 @@ async function get(pathname, attempt = 0) {
     const retryAfter = Number(res.headers.get('retry-after'));
     const waitMs = Number.isFinite(retryAfter) && retryAfter > 0
       ? retryAfter * 1000
-      : Math.min(30000, 1000 * (2 ** attempt));
+      : Math.min(30000, 750 * (2 ** attempt));
     console.log(`429 for ${pathname}; retrying in ${waitMs}ms`);
     await sleep(waitMs);
     return get(pathname, attempt + 1);
@@ -35,16 +43,28 @@ async function readJson(file, fallback = null) {
 }
 
 async function fetchTournamentIndex() {
+  const earliest = Math.min(...FORMATS.map(f => new Date(f.start).getTime()));
   const found = [];
-  for (let page = 0; page < 10; page++) {
+  for (let page = 0; page < 20; page++) {
     const rows = await get(`/tournaments?game=${GAME}&format=${API_FORMAT}&limit=100&page=${page}`);
     if (!Array.isArray(rows) || !rows.length) break;
     found.push(...rows);
-    const validDates = rows.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
-    if (validDates.length && Math.min(...validDates) < FORMAT_START) break;
-    if (rows.length < 100) break;
+    const dates = rows.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
+    if ((dates.length && Math.min(...dates) < earliest) || rows.length < 100) break;
   }
-  return found;
+  const unique = new Map();
+  for (const t of found) unique.set(String(t.id), t);
+  return [...unique.values()];
+}
+
+function formatForTournament(t) {
+  const ts = new Date(t.date).getTime();
+  if (!Number.isFinite(ts)) return null;
+  return FORMATS.find(f => {
+    const start = new Date(f.start).getTime();
+    const end = f.end ? new Date(f.end).getTime() : Infinity;
+    return ts >= start && ts < end;
+  }) || null;
 }
 
 async function mapConcurrent(items, limit, fn) {
@@ -75,24 +95,19 @@ async function fetchTournament(t, i, total) {
   }
 }
 
-async function main() {
-  await fs.mkdir(FORMAT_DIR, { recursive: true });
-  const existing = await readJson(FORMAT_FILE, { tournaments: [] });
+async function buildFormat(format, tournamentIndex) {
+  const file = path.join(FORMAT_DIR, `${format.id}.json`);
+  const existing = await readJson(file, { tournaments: [] });
   const existingTournaments = Array.isArray(existing?.tournaments) ? existing.tournaments : [];
   const cachedById = new Map(existingTournaments.map(t => [String(t.id), t]));
 
-  const index = await fetchTournamentIndex();
-  const eligible = index.filter(t => {
-    const date = new Date(t.date).getTime();
-    return Number.isFinite(date)
-      && date >= FORMAT_START
-      && Number(t.players || 0) >= MIN_TOURNAMENT_SIZE;
-  });
+  const eligible = tournamentIndex.filter(t =>
+    Number(t.players || 0) >= MIN_TOURNAMENT_SIZE && formatForTournament(t)?.id === format.id
+  );
 
   const retained = new Map();
   for (const t of existingTournaments) {
-    const date = new Date(t.date).getTime();
-    if (Number.isFinite(date) && date >= FORMAT_START && Number(t.players || 0) >= MIN_TOURNAMENT_SIZE) {
+    if (Number(t.players || 0) >= MIN_TOURNAMENT_SIZE && formatForTournament(t)?.id === format.id) {
       retained.set(String(t.id), t);
     }
   }
@@ -106,40 +121,69 @@ async function main() {
     return true;
   });
 
-  console.log(`${CURRENT_FORMAT}: ${eligible.length} eligible tournaments; ${missing.length} need fetching.`);
+  console.log(`${format.id}: ${eligible.length} qualifying tournaments; ${missing.length} need fetching.`);
   const fetched = await mapConcurrent(missing, CONCURRENCY, (t, i) => fetchTournament(t, i, missing.length));
   for (const t of fetched) if (t) retained.set(String(t.id), t);
 
   const tournaments = [...retained.values()]
-    .filter(t => Number(t.players || 0) >= MIN_TOURNAMENT_SIZE)
+    .filter(t => Number(t.players || 0) >= MIN_TOURNAMENT_SIZE && formatForTournament(t)?.id === format.id)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const generatedAt = new Date().toISOString();
-  await fs.writeFile(FORMAT_FILE, JSON.stringify({
+  const payload = {
+    schemaVersion: 2,
     generatedAt,
     game: GAME,
     apiFormat: API_FORMAT,
-    format: CURRENT_FORMAT,
-    formatStart: new Date(FORMAT_START).toISOString(),
+    format: format.id,
+    label: format.label,
+    formatStart: format.start,
+    formatEnd: format.end,
     minTournamentSize: MIN_TOURNAMENT_SIZE,
     tournamentCount: tournaments.length,
     tournaments,
-  }));
+  };
+  await fs.writeFile(file, JSON.stringify(payload));
+  console.log(`Wrote ${file} with ${tournaments.length} tournaments.`);
+  return payload;
+}
 
+async function main() {
+  await fs.mkdir(FORMAT_DIR, { recursive: true });
+  const tournamentIndex = await fetchTournamentIndex();
+  console.log(`Indexed ${tournamentIndex.length} Standard tournaments across retained legality windows.`);
+
+  const built = [];
+  for (const format of FORMATS) built.push(await buildFormat(format, tournamentIndex));
+
+  const generatedAt = new Date().toISOString();
   const oldIndex = await readJson(INDEX_FILE, { formats: [] });
-  const formats = new Map((oldIndex.formats || []).map(f => [f.id, f]));
-  formats.set(CURRENT_FORMAT, {
-    id: CURRENT_FORMAT,
-    label: CURRENT_FORMAT,
-    file: `formats/${CURRENT_FORMAT}.json`,
-    formatStart: new Date(FORMAT_START).toISOString(),
-    generatedAt,
-    tournamentCount: tournaments.length,
-    minTournamentSize: MIN_TOURNAMENT_SIZE,
-  });
-  await fs.writeFile(INDEX_FILE, JSON.stringify({ generatedAt, current: CURRENT_FORMAT, formats: [...formats.values()] }));
+  const archived = new Map((oldIndex.formats || []).map(f => [f.id, f]));
+  for (let i = 0; i < FORMATS.length; i++) {
+    const f = FORMATS[i];
+    const payload = built[i];
+    archived.set(f.id, {
+      id: f.id,
+      label: f.label,
+      file: `formats/${f.id}.json`,
+      formatStart: f.start,
+      formatEnd: f.end,
+      generatedAt: payload.generatedAt,
+      tournamentCount: payload.tournamentCount,
+      minTournamentSize: MIN_TOURNAMENT_SIZE,
+      role: f.id === CURRENT_FORMAT ? 'current' : f.id === PREVIOUS_FORMAT ? 'previous' : 'archive',
+    });
+  }
 
-  console.log(`Wrote ${FORMAT_FILE} with ${tournaments.length} tournaments.`);
+  const formats = [...archived.values()].sort((a, b) => new Date(b.formatStart || 0) - new Date(a.formatStart || 0));
+  await fs.writeFile(INDEX_FILE, JSON.stringify({
+    schemaVersion: 2,
+    generatedAt,
+    current: CURRENT_FORMAT,
+    previous: PREVIOUS_FORMAT,
+    activeComparison: [CURRENT_FORMAT, PREVIOUS_FORMAT].filter(Boolean),
+    formats,
+  }));
 }
 
 main().catch(error => {
