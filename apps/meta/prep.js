@@ -68,11 +68,19 @@
 
   function matchupEstimate(candidate, opponent, fallback) {
     const m = DATA?.matchups?.get(`${candidate}|||${opponent}`);
-    if (!m) return { estimate: fallback, games: 0, known: false };
-    const decisive = Number(m.wins || 0) + Number(m.losses || 0);
-    if (!decisive) return { estimate: fallback, games: Number(m.games || 0), known: false };
-    const estimate = 100 * (Number(m.wins || 0) + 6) / (decisive + 12);
-    return { estimate, games: Number(m.games || decisive), known: true };
+    const decisive = m ? Number(m.wins || 0) + Number(m.losses || 0) : 0;
+    const games = m ? Number(m.games || decisive) : 0;
+    if (!m || !decisive) return { estimate: fallback, games, known: false, observed: null };
+
+    const raw = 100 * Number(m.wins || 0) / decisive;
+    const mode = $p('prepEvidence')?.value || 'min10';
+    if (mode === 'min10' && decisive < 10) return { estimate: fallback, games, known: false, observed: raw };
+    if (mode === 'min5' && decisive < 5) return { estimate: fallback, games, known: false, observed: raw };
+    if (mode === 'conservative') {
+      const estimate = 100 * (Number(m.wins || 0) + 6) / (decisive + 12);
+      return { estimate, games, known: true, observed: raw };
+    }
+    return { estimate: raw, games, known: true, observed: raw };
   }
 
   function confidence(entries, matchupGames, coverage) {
@@ -84,20 +92,20 @@
 
   function buildRecommendations() {
     const tournaments = eligibleTournaments();
-    if (!tournaments.length) return { rows: [], field: [], tournaments: 0 };
+    if (!tournaments.length) return { rows: [], allRows: [], field: [], tournaments: 0 };
     const mode = $p('prepRecency')?.value || 'balanced';
     const minEntries = Math.max(1, Number($p('prepMinEntries')?.value || 5));
     const field = fieldModel(tournaments, mode);
     const stats = aggregateCandidateStats(tournaments);
-    const rows = [];
+    const allRows = [];
 
     for (const row of stats.values()) {
-      if (row.entries < minEntries) continue;
       let expectedWR = 0;
       let knownShare = 0;
       let matchupGames = 0;
       let goodField = 0;
       let badField = 0;
+      const keyMatchups = [];
 
       for (const opp of field) {
         const m = matchupEstimate(row.name, opp.name, row.adjustedWR);
@@ -108,13 +116,15 @@
           if (m.estimate >= 55) goodField += opp.share;
           if (m.estimate <= 45) badField += opp.share;
         }
+        if (opp.share >= 0.02) keyMatchups.push({ opponent: opp.name, share: opp.share, wr: m.estimate, games: m.games, known: m.known, observed: m.observed });
       }
 
-      rows.push({ ...row, expectedWR, knownShare, matchupGames, goodField, badField, confidence: confidence(row.entries, matchupGames, knownShare) });
+      allRows.push({ ...row, expectedWR, knownShare, matchupGames, goodField, badField, confidence: confidence(row.entries, matchupGames, knownShare), keyMatchups });
     }
 
-    rows.sort((a, b) => b.expectedWR - a.expectedWR || b.confidence.score - a.confidence.score || b.entries - a.entries);
-    return { rows, field, tournaments: tournaments.length };
+    allRows.sort((a, b) => b.expectedWR - a.expectedWR || b.confidence.score - a.confidence.score || b.entries - a.entries);
+    allRows.forEach((row, i) => row.rank = i + 1);
+    return { rows: allRows.filter(r => r.entries >= minEntries), allRows, field, tournaments: tournaments.length };
   }
 
   function reason(row) {
@@ -127,6 +137,43 @@
     return parts.length ? parts.join(' • ') : 'balanced profile against the observed field';
   }
 
+  function evidenceLabel() {
+    const mode = $p('prepEvidence')?.value || 'min10';
+    if (mode === 'min10') return 'matchups under 10 games ignored';
+    if (mode === 'min5') return 'matchups under 5 games ignored';
+    if (mode === 'conservative') return 'small samples shrunk toward 50%';
+    return 'raw matchup results used';
+  }
+
+  function renderInspect(model) {
+    const select = $p('prepInspect');
+    const target = $p('prepInspectResult');
+    if (!select || !target) return;
+    const previous = select.value;
+    select.innerHTML = model.allRows.map(r => `<option value="${escapeHtml(r.name)}">#${r.rank} ${escapeHtml(r.name)}</option>`).join('');
+    if (model.allRows.some(r => r.name === previous)) select.value = previous;
+    const row = model.allRows.find(r => r.name === select.value) || model.allRows[0];
+    if (!row) {
+      target.innerHTML = '<div class="prep-empty">No archetype data available.</div>';
+      return;
+    }
+
+    const matchupRows = row.keyMatchups.slice(0, 12).map(m => {
+      const source = m.known ? `${m.games} games` : m.games ? `${m.games} games — ignored` : 'no matchup sample';
+      return `<tr><td><b>${escapeHtml(m.opponent)}</b></td><td>${pct(m.share * 100)}</td><td>${pct(m.wr)}</td><td>${escapeHtml(source)}</td></tr>`;
+    }).join('');
+
+    target.innerHTML = `
+      <div class="inspect-metrics">
+        <div class="metric"><b>#${row.rank}</b><span>Field rank</span></div>
+        <div class="metric"><b>${pct(row.expectedWR)}</b><span>Expected WR</span></div>
+        <div class="metric"><b>${pct(row.winRate)}</b><span>Overall WR</span></div>
+        <div class="metric"><b>${pct(row.knownShare * 100)}</b><span>Matchup coverage</span></div>
+      </div>
+      <div class="inspect-note"><b>${escapeHtml(row.name)}</b> • ${row.entries} observed entries • ${row.confidence.label} confidence • ${escapeHtml(evidenceLabel())}</div>
+      <div class="tablewrap"><table><thead><tr><th>Opponent</th><th>Expected field</th><th>Used WR</th><th>Evidence</th></tr></thead><tbody>${matchupRows}</tbody></table></div>`;
+  }
+
   function renderPrep() {
     const target = $p('prepResults');
     if (!target) return;
@@ -135,9 +182,11 @@
       return;
     }
 
-    const { rows, field, tournaments } = buildRecommendations();
+    const model = buildRecommendations();
+    const { rows, field, tournaments } = model;
     if (!rows.length) {
       target.innerHTML = '<div class="prep-empty">No archetypes meet the candidate sample threshold.</div>';
+      renderInspect(model);
       return;
     }
 
@@ -151,13 +200,14 @@
       <div class="prep-callout"><span>TOP PICK FOR ${dateLabel.toUpperCase()}</span><b>${escapeHtml(top[0].name)}</b><strong>${pct(top[0].expectedWR)} expected win rate</strong><em>${top[0].confidence.label.toLowerCase()} confidence • ${top[0].entries} observed entries</em></div>
       <div class="prep-field"><span>Expected field</span>${fieldTop.map(x => `<i><b>${escapeHtml(x.name)}</b> ${pct(x.share * 100)}</i>`).join('')}</div>`;
 
-    target.innerHTML = `<div class="prep-table-note">Based on ${tournaments} recent 50+ player tournaments. ${matchupReady ? 'Observed matchup data is included.' : 'Matchup data is loading; estimates currently fall back more heavily on each deck’s overall results.'}</div>
+    target.innerHTML = `<div class="prep-table-note">Based on ${tournaments} recent 50+ player tournaments • ${escapeHtml(evidenceLabel())}. ${matchupReady ? 'Observed matchup data is included.' : 'Matchup data is loading; estimates currently fall back more heavily on each deck’s overall results.'}</div>
       <div class="tablewrap"><table class="prep-table"><thead><tr><th>#</th><th>Deck</th><th>Expected WR</th><th>Overall WR</th><th>Entries</th><th>Matchup coverage</th><th>Confidence</th><th>Why</th></tr></thead><tbody>
-      ${top.map((r, i) => `<tr class="prep-row ${i === 0 ? 'prep-winner' : ''}" data-deck="${escapeHtml(r.name)}"><td>${i + 1}</td><td><b>${escapeHtml(r.name)}</b></td><td class="prep-expected"><b>${pct(r.expectedWR)}</b></td><td>${pct(r.winRate)}</td><td>${r.entries}</td><td>${pct(r.knownShare * 100)}</td><td><span class="confidence confidence-${r.confidence.label.toLowerCase()}">${r.confidence.label}</span></td><td class="prep-reason">${escapeHtml(reason(r))}</td></tr>`).join('')}
+      ${top.map(r => `<tr class="prep-row ${r === top[0] ? 'prep-winner' : ''}" data-deck="${escapeHtml(r.name)}"><td>${r.rank}</td><td><b>${escapeHtml(r.name)}</b></td><td class="prep-expected"><b>${pct(r.expectedWR)}</b></td><td>${pct(r.winRate)}</td><td>${r.entries}</td><td>${pct(r.knownShare * 100)}</td><td><span class="confidence confidence-${r.confidence.label.toLowerCase()}">${r.confidence.label}</span></td><td class="prep-reason">${escapeHtml(reason(r))}</td></tr>`).join('')}
       </tbody></table></div>
-      <p class="prep-method">Expected WR is the deck’s estimated win rate against the current expected field. Head-to-head results are shrunk toward 50% to control small samples; where matchup evidence is missing, the model falls back to that deck’s conservatively adjusted overall win rate. Click a deck to inspect its archetype page.</p>`;
+      <p class="prep-method">Expected WR is the deck’s estimated win rate against the current expected field. Missing or ignored matchup evidence falls back to that deck’s conservatively adjusted overall win rate. Click a Top 10 deck to inspect its archetype page, or use the selector below to evaluate any observed archetype.</p>`;
 
     target.querySelectorAll('.prep-row').forEach(row => row.addEventListener('click', () => openArchetype(row.dataset.deck)));
+    renderInspect(model);
   }
 
   function activate() {
@@ -177,8 +227,10 @@
   initDate();
   $p('prepRun')?.addEventListener('click', activate);
   $p('prepRecency')?.addEventListener('change', renderPrep);
+  $p('prepEvidence')?.addEventListener('change', renderPrep);
   $p('prepMinEntries')?.addEventListener('change', renderPrep);
   $p('prepDate')?.addEventListener('change', renderPrep);
+  $p('prepInspect')?.addEventListener('change', () => renderInspect(buildRecommendations()));
   document.querySelector('[data-tab="prep"]')?.addEventListener('click', activate);
   window.addEventListener('meta:updated', handleMetaUpdated);
 })();
