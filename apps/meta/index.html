@@ -9,7 +9,7 @@
 <body>
 <header class="topbar">
   <a class="back" href="../../">← PTCG Tools</a>
-  <div><h1>Meta Lab</h1><p>Limitless meta • set legality • share • win rates • matchups</p></div>
+  <div><h1>Meta Lab</h1><p>Limitless meta • tournament prep • share • win rates • matchups</p></div>
   <button id="refresh" class="btn">Refresh live data</button>
 </header>
 <main class="wrap">
@@ -23,10 +23,30 @@
   </section>
 
   <nav class="tabs">
+    <button class="tab prep-tab" data-tab="prep">What Should I Play?</button>
     <button class="tab active" data-tab="overview">Overview</button>
     <button class="tab" data-tab="matchups">Matchups</button>
     <button class="tab" data-tab="archetype">Archetype</button>
   </nav>
+
+  <section id="prep" class="tabpane hidden">
+    <section class="panel prep-hero">
+      <div class="prep-heading">
+        <div><div class="eyebrow">TOURNAMENT PREP</div><h2>What should I play?</h2><p>Rank the current field's decks by how well positioned they are for your next event.</p></div>
+      </div>
+      <div class="prep-controls">
+        <label>Tournament date<input id="prepDate" type="date" /></label>
+        <label>Recent-meta weighting<select id="prepRecency"><option value="high">High — react quickly</option><option value="balanced" selected>Balanced</option><option value="equal">Equal — whole legality</option></select></label>
+        <label>Minimum deck entries<input id="prepMinEntries" type="number" min="1" max="100" value="5" /></label>
+        <button id="prepRun" class="btn primary">Recommend decks</button>
+      </div>
+    </section>
+    <div id="prepSummary" class="prep-summary"></div>
+    <section class="panel prep-results-panel">
+      <div class="sectionhead"><div><div class="eyebrow">RECOMMENDATION</div><h2>Deck ranking</h2></div><span class="muted">Population-level positioning</span></div>
+      <div id="prepResults"><div class="prep-empty">Current meta data is loading…</div></div>
+    </section>
+  </section>
 
   <section id="overview" class="tabpane">
     <div id="summary" class="metrics"></div>
@@ -69,11 +89,12 @@
     </div>
   </section>
 
-  <section class="panel note"><strong>Data:</strong> the current legality loads directly from Limitless in your browser for speed. GitHub-hosted caches are used only as fallback and for historical-format comparisons. Only 50+ player events are included.</section>
+  <section class="panel note"><strong>Data:</strong> the current legality loads directly from Limitless in your browser for speed. Historical caches are used only for format comparisons. Only 50+ player events are included. Tournament recommendations are estimates from observed population data, not guarantees of future results.</section>
 </main>
 <script src="meta-engine.js"></script>
 <script src="limitless.js"></script>
 <script src="app.js"></script>
 <script src="live.js"></script>
+<script src="prep.js"></script>
 </body>
 </html>
