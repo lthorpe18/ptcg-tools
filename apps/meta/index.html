@@ -37,6 +37,7 @@
       <div class="prep-controls">
         <label>Tournament date<input id="prepDate" type="date" /></label>
         <label>Recent-meta weighting<select id="prepRecency"><option value="high">High — react quickly</option><option value="balanced" selected>Balanced</option><option value="equal">Equal — whole legality</option></select></label>
+        <label>Matchup evidence<select id="prepEvidence"><option value="min10" selected>Ignore under 10 games</option><option value="min5">Ignore under 5 games</option><option value="conservative">Conservative shrinkage</option><option value="raw">Use raw results</option></select></label>
         <label>Minimum deck entries<input id="prepMinEntries" type="number" min="1" max="100" value="5" /></label>
         <button id="prepRun" class="btn primary">Recommend decks</button>
       </div>
@@ -45,6 +46,10 @@
     <section class="panel prep-results-panel">
       <div class="sectionhead"><div><div class="eyebrow">RECOMMENDATION</div><h2>Top 10 decks right now</h2></div><span class="muted">Expected win rate vs current field</span></div>
       <div id="prepResults"><div class="prep-empty">Current meta data is loading…</div></div>
+    </section>
+    <section class="panel prep-inspect-panel">
+      <div class="sectionhead"><div><div class="eyebrow">ANY ARCHETYPE</div><h2>Expected field result</h2></div><label class="inspect-select">Deck<select id="prepInspect"></select></label></div>
+      <div id="prepInspectResult"><div class="prep-empty">Choose an archetype to inspect its expected result against the field.</div></div>
     </section>
   </section>
 
@@ -82,7 +87,7 @@
         </section>
 
         <section class="detailpanel results-panel">
-          <div class="detailhead"><div><div class="eyebrow">TOURNAMENT RESULTS</div><h3>Players and event finishes</h3><p>Official finishes using this archetype, ordered by best placing.</p></div></div>
+          <div class="detailhead"><div><div class="eyebrow">TOURNAMENT RESULTS</div><h3>Players, finishes and decklists</h3><p>Official finishes using this archetype. Open submitted lists directly on Limitless where available.</p></div></div>
           <div id="archResults" class="tablewrap"></div>
         </section>
       </div>
@@ -96,5 +101,6 @@
 <script src="app.js"></script>
 <script src="live.js"></script>
 <script src="prep.js"></script>
+<script src="decklinks.js"></script>
 </body>
 </html>
