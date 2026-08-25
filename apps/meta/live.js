@@ -28,9 +28,6 @@
     const cutoff = new Date(CURRENT.start).getTime();
     const unique = new Map();
 
-    // Limitless documents this endpoint as paginated. Do not rely on an oversized
-    // single-page limit: some responses are capped, which can hide older 50+
-    // player events behind many newer small tournaments.
     for (let page = 0; page < MAX_INDEX_PAGES; page++) {
       setStatus(`Scanning TEF–PBL tournaments • page ${page + 1}…`);
       const batch = await LimitlessAPI.tournaments({
@@ -112,7 +109,10 @@
       $('format').innerHTML = `<option value="${CURRENT.id}">${CURRENT.label} (current · live)</option><option value="${PREVIOUS.id}">${PREVIOUS.label} (previous · archive)</option>`;
       $('format').value = CURRENT.id;
       applyFilters();
-      setStatus(`${CURRENT.label} • ${DATA.tournamentCount} tournaments • live standings loaded`);
+      const aggregate = window.DeckAggregate?.getData?.();
+      setStatus(aggregate?.overview?.matches
+        ? `${CURRENT.label} • ${DATA.tournamentCount} 50+ tournaments • ${Number(aggregate.overview.matches).toLocaleString()} all-event matchup games`
+        : `${CURRENT.label} • ${DATA.tournamentCount} tournaments • live standings loaded`);
       window.dispatchEvent(new CustomEvent('meta:updated'));
       loadPreviousArchive(false);
     } catch (error) {
@@ -129,6 +129,15 @@
   }
 
   async function loadMatchupPairings() {
+    if (window.DeckAggregate?.hasData?.()) {
+      pairingsLoaded = true;
+      const aggregate = window.DeckAggregate.getData();
+      const matches = Number(aggregate?.overview?.matches || 0);
+      if (CACHE?.format === CURRENT.id && matches) {
+        setStatus(`${CURRENT.label} • ${DATA?.tournamentCount || 0} 50+ tournaments • ${matches.toLocaleString()} all-event matchup games`);
+      }
+      return;
+    }
     if (pairingsLoaded || pairingsLoading || !CACHE?.tournaments?.length || CACHE.format !== CURRENT.id) return;
     pairingsLoading = true;
     try {
@@ -136,7 +145,7 @@
         .filter(t => filteredFor({ tournaments: [t] }, $('days').value, Math.max(50, Number($('minPlayers').value))).length)
         .slice(0, MATCHUP_TOURNAMENTS);
       if (!selected.length) return;
-      setStatus(`Loading matchup data from ${selected.length} recent tournaments…`);
+      setStatus(`Aggregate matchup cache unavailable • loading ${selected.length} recent tournaments as fallback…`);
       await mapConcurrent(selected, 4, async t => {
         try {
           t.pairings = await LimitlessAPI.pairings(t.id);
@@ -147,7 +156,7 @@
       });
       pairingsLoaded = true;
       applyFilters();
-      setStatus(`${CURRENT.label} • ${DATA.tournamentCount} tournaments • matchup sample ${selected.length} events`);
+      setStatus(`${CURRENT.label} • ${DATA.tournamentCount} tournaments • fallback matchup sample ${selected.length} events`);
       window.dispatchEvent(new CustomEvent('meta:updated'));
     } finally {
       pairingsLoading = false;
