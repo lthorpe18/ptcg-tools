@@ -50,15 +50,37 @@
     return online;
   }
 
+  function top90Names(base) {
+    const names = new Set();
+    let cumulative = 0;
+    for (const row of base) {
+      if (cumulative >= 0.9 && names.size) break;
+      names.add(row.name);
+      cumulative += Math.max(0, Number(row.share || 0));
+    }
+    return names;
+  }
+
   function syncCustom(reset = false) {
     const base = baseField().sort((a, b) => b.share - a.share);
     if (reset || !state.touched) {
+      const defaults = top90Names(base);
       state.custom.clear();
-      for (const row of base) state.custom.set(row.name, { name: row.name, share: row.share, included: true });
+      for (const row of base) {
+        state.custom.set(row.name, {
+          name: row.name,
+          share: row.share,
+          included: defaults.has(row.name),
+        });
+      }
       state.touched = false;
       return;
     }
-    for (const row of base) if (!state.custom.has(row.name)) state.custom.set(row.name, { name: row.name, share: row.share, included: true });
+    for (const row of base) {
+      if (!state.custom.has(row.name)) {
+        state.custom.set(row.name, { name: row.name, share: row.share, included: false });
+      }
+    }
   }
 
   function selectedField() {
@@ -96,8 +118,14 @@
     }
     const shown = visibleRows(rows);
     const shownShare = shown.reduce((sum, r) => sum + Number(r.share || 0), 0);
+    const selected = rows.filter(r => r.included);
+    const selectedRawShare = selected.reduce((sum, r) => sum + Number(r.share || 0), 0);
     const coverage = $f('fieldCoverage');
-    if (coverage) coverage.textContent = state.showAll ? `Showing all ${rows.length} archetypes.` : `Showing ${shown.length} archetypes covering ${pct(shownShare * 100)} of the modelled field.`;
+    if (coverage) {
+      coverage.textContent = state.showAll
+        ? `Showing all ${rows.length} archetypes • ${selected.length} selected (${pct(selectedRawShare * 100)} raw meta coverage).`
+        : `Default field: ${selected.length} archetypes covering ${pct(selectedRawShare * 100)} of the modelled meta.`;
+    }
     const showAll = $f('fieldShowAll');
     if (showAll) showAll.textContent = state.showAll ? 'Top 90%' : 'Show all';
 
