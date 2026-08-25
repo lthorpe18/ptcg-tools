@@ -15,12 +15,12 @@ permissions:
 
 concurrency:
   group: update-meta-cache
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,12 +30,12 @@ jobs:
         run: node scripts/update-meta.mjs
       - name: Commit cache if changed
         run: |
-          if git diff --quiet -- data/meta/standard.json; then
+          if git diff --quiet -- data/meta; then
             echo "No cache changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/meta/standard.json
+          git add data/meta
           git commit -m "Update Limitless meta cache"
           git push
