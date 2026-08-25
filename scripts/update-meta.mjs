@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+// Shared Limitless cache builder. Scheduled by GitHub Actions every six hours.
 const BASE = 'https://play.limitlesstcg.com/api';
 const FORMAT = 'STANDARD';
 const WINDOW_DAYS = 90;
