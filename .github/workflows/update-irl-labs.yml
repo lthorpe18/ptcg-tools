@@ -1,0 +1,39 @@
+name: Update IRL Meta
+
+on:
+  schedule:
+    - cron: '41 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-irl-meta
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read Limitless Labs current-format majors
+        run: node scripts/update-irl-labs.mjs
+      - name: Publish IRL dataset
+        run: |
+          if git diff --quiet -- data/meta/irl; then
+            echo "IRL dataset unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/meta/irl
+          git commit -m "Update Limitless Labs IRL meta"
+          git pull --rebase
+          git push
