@@ -16,9 +16,7 @@ const ignored = name => !name || name === 'Other' || name === 'Unknown';
 const num = value => Number(String(value || '').replace(/,/g, '')) || 0;
 
 function decodeEntities(value) {
-  const named = {
-    amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", '#39': "'", nbsp: ' ',
-  };
+  const named = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", '#39': "'", nbsp: ' ' };
   return String(value || '')
     .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
     .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
@@ -62,9 +60,7 @@ function scoreFromCells(values) {
 function parseOverview(html) {
   const summary = text(html).match(/([\d,]+)\s+tournaments,\s*([\d,]+)\s+players,\s*([\d,]+)\s+matches/i);
   const stats = summary ? {
-    tournaments: num(summary[1]),
-    players: num(summary[2]),
-    matches: num(summary[3]),
+    tournaments: num(summary[1]), players: num(summary[2]), matches: num(summary[3]),
   } : { tournaments: 0, players: 0, matches: 0 };
 
   const decks = [];
@@ -82,17 +78,11 @@ function parseOverview(html) {
     if (!count) continue;
     seen.add(link.name);
     decks.push({
-      name: link.name,
-      slug: link.slug,
-      count,
-      share,
-      wins: score.wins,
-      losses: score.losses,
-      ties: score.ties,
+      name: link.name, slug: link.slug, count, share,
+      wins: score.wins, losses: score.losses, ties: score.ties,
       winRate: winRate ? Number(winRate[1]) : (score.wins + score.losses ? 100 * score.wins / (score.wins + score.losses) : 0),
     });
   }
-
   decks.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
   return { stats, decks };
 }
@@ -103,20 +93,12 @@ function parseMatchups(html, sourceName) {
   for (const row of tableRows(html)) {
     const link = deckLink(row);
     if (!link || ignored(link.name) || seen.has(link.name)) continue;
-    const values = cells(row);
-    const score = scoreFromCells(values);
+    const score = scoreFromCells(cells(row));
     if (!score) continue;
     const games = score.wins + score.losses + score.ties;
     if (!games) continue;
     seen.add(link.name);
-    rows.push({
-      a: sourceName,
-      b: link.name,
-      wins: score.wins,
-      losses: score.losses,
-      ties: score.ties,
-      games,
-    });
+    rows.push({ a: sourceName, b: link.name, wins: score.wins, losses: score.losses, ties: score.ties, games });
   }
   return rows;
 }
@@ -156,16 +138,22 @@ async function mapConcurrent(items, limit, fn) {
   return out;
 }
 
-async function previousGeneratedAt() {
-  try {
-    const previous = JSON.parse(await readFile(OUTPUT, 'utf8'));
-    return previous?.generatedAt || null;
-  } catch {
-    return null;
-  }
+async function readPrevious() {
+  try { return JSON.parse(await readFile(OUTPUT, 'utf8')); }
+  catch { return null; }
+}
+
+function comparable(payload) {
+  return JSON.stringify({
+    overview: payload?.overview || null,
+    coverage: payload?.coverage || null,
+    decks: payload?.decks || [],
+    matchups: payload?.matchups || [],
+  });
 }
 
 async function main() {
+  const previous = await readPrevious();
   console.log(`Reading ${OVERVIEW_URL}`);
   const overviewHtml = await fetchText(OVERVIEW_URL);
   const overview = parseOverview(overviewHtml);
@@ -174,10 +162,7 @@ async function main() {
     throw new Error(`Overview validation failed: ${JSON.stringify({ stats: overview.stats, decks: overview.decks.length })}`);
   }
 
-  const targets = overview.decks
-    .filter(deck => deck.count >= MIN_DECK_COUNT)
-    .slice(0, MAX_DECKS);
-
+  const targets = overview.decks.filter(deck => deck.count >= MIN_DECK_COUNT).slice(0, MAX_DECKS);
   console.log(`Overview: ${overview.stats.tournaments} tournaments, ${overview.stats.players} players, ${overview.stats.matches} matches, ${overview.decks.length} named decks`);
   console.log(`Fetching matchup pages for ${targets.length} decks (count >= ${MIN_DECK_COUNT}, cap ${MAX_DECKS})`);
 
@@ -207,13 +192,8 @@ async function main() {
   const payload = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
-    previousGeneratedAt: await previousGeneratedAt(),
-    source: 'limitless-decks',
-    game: 'PTCG',
-    format: 'TEF-PBL',
-    apiFormat: 'STANDARD',
-    rotation: 2026,
-    set: 'PBL',
+    previousGeneratedAt: previous?.generatedAt || null,
+    source: 'limitless-decks', game: 'PTCG', format: 'TEF-PBL', apiFormat: 'STANDARD', rotation: 2026, set: 'PBL',
     sourceUrl: OVERVIEW_URL,
     overview: overview.stats,
     coverage: {
@@ -228,9 +208,14 @@ async function main() {
     matchups,
   };
 
+  if (previous && comparable(previous) === comparable(payload)) {
+    console.log('Limitless aggregate is unchanged; keeping existing snapshot and timestamp');
+    return;
+  }
+
   await mkdir(dirname(OUTPUT), { recursive: true });
   const temp = `${OUTPUT}.tmp`;
-  await writeFile(temp, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  await writeFile(temp, `${JSON.stringify(payload)}\n`, 'utf8');
   await rename(temp, OUTPUT);
   console.log(`Wrote ${OUTPUT}: ${payload.decks.length} decks, ${payload.matchups.length} matchup rows`);
 }
