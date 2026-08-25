@@ -205,10 +205,16 @@
     if (dispatch) window.dispatchEvent(new CustomEvent('field:updated'));
   }
 
+  function onlineMatchup(candidate, opponent) {
+    return window.DeckAggregate?.getMatchup?.(candidate, opponent)
+      || DATA?.matchups?.get(`${candidate}|||${opponent}`)
+      || null;
+  }
+
   function matchup(candidate, opponent, onlineFallback) {
     if (ignored(candidate) || ignored(opponent)) return null;
     const mode = $f('matchupSource')?.value || 'online';
-    const online = DATA?.matchups?.get(`${candidate}|||${opponent}`) || null;
+    const online = onlineMatchup(candidate, opponent);
     const irlRows = window.IRLLabs?.getData?.()?.matchups || [];
     const irl = irlRows.find(m => m.a === candidate && m.b === opponent && !ignored(m.a) && !ignored(m.b)) || null;
     if (mode === 'irl') return irl || null;
@@ -229,8 +235,13 @@
   function sourceLabel() {
     const field = $f('fieldSource')?.value || 'online';
     const matchup = $f('matchupSource')?.value || 'online';
-    const fieldLabels = { online: 'online field', irl: 'IRL Labs field', blend: `${$f('fieldBlend')?.value || 50}% IRL blend`, custom: 'custom field' };
-    const matchLabels = { online: 'online matchups', irl: 'IRL matchups', combined: 'combined matchups' };
+    const fieldLabels = { online: '50+ online field', irl: 'IRL Labs field', blend: `${$f('fieldBlend')?.value || 50}% IRL blend`, custom: 'custom field' };
+    const richOnline = window.DeckAggregate?.hasData?.();
+    const matchLabels = {
+      online: richOnline ? 'all-event Limitless matchups' : 'online tournament matchups',
+      irl: 'IRL matchups',
+      combined: richOnline ? 'all-event Limitless + IRL matchups' : 'online + IRL matchups',
+    };
     return `${fieldLabels[field]} • ${matchLabels[matchup]}`;
   }
 
@@ -249,6 +260,7 @@
     $f('prepRecency')?.addEventListener('change', () => { if (!state.touched) { syncCustom(true); render(); notify(); } });
     window.addEventListener('meta:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
     window.addEventListener('irl:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
+    window.addEventListener('deckagg:updated', () => notify());
   }
 
   window.PrepField = {
