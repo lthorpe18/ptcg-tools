@@ -1,60 +1,36 @@
-name: Update Meta Cache
+name: Archive Meta History
 
 on:
   schedule:
-    - cron: '17 */6 * * *'
+    - cron: '17 3 * * *'
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'scripts/update-meta.mjs'
-      - '.github/workflows/update-meta.yml'
 
 permissions:
   contents: write
 
 concurrency:
-  group: update-meta-cache
+  group: meta-history-archive
   cancel-in-progress: true
 
 jobs:
-  update:
+  archive:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      - name: Build current legality cache
-        run: node scripts/update-meta.mjs current
-
-      - name: Publish current legality cache
+      - name: Archive Limitless meta data
+        run: node scripts/update-meta.mjs
+      - name: Commit archive if changed
         run: |
           if git diff --quiet -- data/meta; then
-            echo "Current cache unchanged"
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/meta
-            git commit -m "Update current Limitless meta cache"
-            git push
+            echo "No archive changes"
+            exit 0
           fi
-
-      - name: Backfill previous legality cache
-        run: node scripts/update-meta.mjs previous
-
-      - name: Publish previous legality cache
-        run: |
-          if git diff --quiet -- data/meta; then
-            echo "Previous cache unchanged"
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/meta
-            git commit -m "Update previous Limitless meta cache"
-            git push
-          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/meta
+          git commit -m "Archive Limitless meta history"
+          git push
