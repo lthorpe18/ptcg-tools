@@ -7,15 +7,13 @@ const API_FORMAT = 'STANDARD';
 const MIN_TOURNAMENT_SIZE = 50;
 const CONCURRENCY = 8;
 
-// Keep legality boundaries explicit so Standard card pools never get blended.
-// Older format files remain archived in data/meta/formats; the app highlights
-// the current and previous legality as the useful comparison pair.
 const FORMATS = [
   { id: 'TEF-CRI', label: 'TEF–CRI', start: '2026-05-22T00:00:00Z', end: '2026-07-17T00:00:00Z' },
   { id: 'TEF-PBL', label: 'TEF–PBL', start: '2026-07-17T00:00:00Z', end: null },
 ];
 const CURRENT_FORMAT = FORMATS[FORMATS.length - 1].id;
 const PREVIOUS_FORMAT = FORMATS.length > 1 ? FORMATS[FORMATS.length - 2].id : null;
+const MODE = (process.argv[2] || 'current').toLowerCase();
 
 const DATA_DIR = path.join(process.cwd(), 'data', 'meta');
 const FORMAT_DIR = path.join(DATA_DIR, 'formats');
@@ -42,21 +40,6 @@ async function readJson(file, fallback = null) {
   catch { return fallback; }
 }
 
-async function fetchTournamentIndex() {
-  const earliest = Math.min(...FORMATS.map(f => new Date(f.start).getTime()));
-  const found = [];
-  for (let page = 0; page < 20; page++) {
-    const rows = await get(`/tournaments?game=${GAME}&format=${API_FORMAT}&limit=100&page=${page}`);
-    if (!Array.isArray(rows) || !rows.length) break;
-    found.push(...rows);
-    const dates = rows.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
-    if ((dates.length && Math.min(...dates) < earliest) || rows.length < 100) break;
-  }
-  const unique = new Map();
-  for (const t of found) unique.set(String(t.id), t);
-  return [...unique.values()];
-}
-
 function formatForTournament(t) {
   const ts = new Date(t.date).getTime();
   if (!Number.isFinite(ts)) return null;
@@ -65,6 +48,29 @@ function formatForTournament(t) {
     const end = f.end ? new Date(f.end).getTime() : Infinity;
     return ts >= start && ts < end;
   }) || null;
+}
+
+async function fetchTournamentIndex(format) {
+  const start = new Date(format.start).getTime();
+  const end = format.end ? new Date(format.end).getTime() : Infinity;
+  const found = [];
+
+  for (let page = 0; page < 20; page++) {
+    const rows = await get(`/tournaments?game=${GAME}&format=${API_FORMAT}&limit=100&page=${page}`);
+    if (!Array.isArray(rows) || !rows.length) break;
+    found.push(...rows);
+
+    const dates = rows.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
+    if (dates.length && Math.min(...dates) < start) break;
+    if (rows.length < 100) break;
+  }
+
+  const unique = new Map();
+  for (const t of found) {
+    const ts = new Date(t.date).getTime();
+    if (Number.isFinite(ts) && ts >= start && ts < end) unique.set(String(t.id), t);
+  }
+  return [...unique.values()];
 }
 
 async function mapConcurrent(items, limit, fn) {
@@ -95,16 +101,14 @@ async function fetchTournament(t, i, total) {
   }
 }
 
-async function buildFormat(format, tournamentIndex) {
+async function buildFormat(format) {
   const file = path.join(FORMAT_DIR, `${format.id}.json`);
   const existing = await readJson(file, { tournaments: [] });
   const existingTournaments = Array.isArray(existing?.tournaments) ? existing.tournaments : [];
   const cachedById = new Map(existingTournaments.map(t => [String(t.id), t]));
+  const tournamentIndex = await fetchTournamentIndex(format);
 
-  const eligible = tournamentIndex.filter(t =>
-    Number(t.players || 0) >= MIN_TOURNAMENT_SIZE && formatForTournament(t)?.id === format.id
-  );
-
+  const eligible = tournamentIndex.filter(t => Number(t.players || 0) >= MIN_TOURNAMENT_SIZE);
   const retained = new Map();
   for (const t of existingTournaments) {
     if (Number(t.players || 0) >= MIN_TOURNAMENT_SIZE && formatForTournament(t)?.id === format.id) {
@@ -131,7 +135,7 @@ async function buildFormat(format, tournamentIndex) {
 
   const generatedAt = new Date().toISOString();
   const payload = {
-    schemaVersion: 2,
+    schemaVersion: 3,
     generatedAt,
     game: GAME,
     apiFormat: API_FORMAT,
@@ -148,42 +152,58 @@ async function buildFormat(format, tournamentIndex) {
   return payload;
 }
 
-async function main() {
-  await fs.mkdir(FORMAT_DIR, { recursive: true });
-  const tournamentIndex = await fetchTournamentIndex();
-  console.log(`Indexed ${tournamentIndex.length} Standard tournaments across retained legality windows.`);
-
-  const built = [];
-  for (const format of FORMATS) built.push(await buildFormat(format, tournamentIndex));
-
-  const generatedAt = new Date().toISOString();
+async function updateManifest(format, payload) {
   const oldIndex = await readJson(INDEX_FILE, { formats: [] });
   const archived = new Map((oldIndex.formats || []).map(f => [f.id, f]));
-  for (let i = 0; i < FORMATS.length; i++) {
-    const f = FORMATS[i];
-    const payload = built[i];
-    archived.set(f.id, {
-      id: f.id,
-      label: f.label,
-      file: `formats/${f.id}.json`,
-      formatStart: f.start,
-      formatEnd: f.end,
-      generatedAt: payload.generatedAt,
-      tournamentCount: payload.tournamentCount,
-      minTournamentSize: MIN_TOURNAMENT_SIZE,
-      role: f.id === CURRENT_FORMAT ? 'current' : f.id === PREVIOUS_FORMAT ? 'previous' : 'archive',
-    });
+  archived.set(format.id, {
+    id: format.id,
+    label: format.label,
+    file: `formats/${format.id}.json`,
+    formatStart: format.start,
+    formatEnd: format.end,
+    generatedAt: payload.generatedAt,
+    tournamentCount: payload.tournamentCount,
+    minTournamentSize: MIN_TOURNAMENT_SIZE,
+    role: format.id === CURRENT_FORMAT ? 'current' : format.id === PREVIOUS_FORMAT ? 'previous' : 'archive',
+  });
+
+  for (const f of FORMATS) {
+    if (!archived.has(f.id)) {
+      archived.set(f.id, {
+        id: f.id,
+        label: f.label,
+        file: `formats/${f.id}.json`,
+        formatStart: f.start,
+        formatEnd: f.end,
+        generatedAt: null,
+        tournamentCount: 0,
+        minTournamentSize: MIN_TOURNAMENT_SIZE,
+        role: f.id === CURRENT_FORMAT ? 'current' : f.id === PREVIOUS_FORMAT ? 'previous' : 'archive',
+      });
+    }
   }
 
   const formats = [...archived.values()].sort((a, b) => new Date(b.formatStart || 0) - new Date(a.formatStart || 0));
   await fs.writeFile(INDEX_FILE, JSON.stringify({
-    schemaVersion: 2,
-    generatedAt,
+    schemaVersion: 3,
+    generatedAt: new Date().toISOString(),
     current: CURRENT_FORMAT,
     previous: PREVIOUS_FORMAT,
     activeComparison: [CURRENT_FORMAT, PREVIOUS_FORMAT].filter(Boolean),
     formats,
   }));
+}
+
+async function main() {
+  await fs.mkdir(FORMAT_DIR, { recursive: true });
+  const target = MODE === 'previous'
+    ? FORMATS.find(f => f.id === PREVIOUS_FORMAT)
+    : FORMATS.find(f => f.id === CURRENT_FORMAT);
+  if (!target) throw new Error(`No format configured for mode ${MODE}`);
+
+  console.log(`Building ${MODE} legality first: ${target.id}`);
+  const payload = await buildFormat(target);
+  await updateManifest(target, payload);
 }
 
 main().catch(error => {
