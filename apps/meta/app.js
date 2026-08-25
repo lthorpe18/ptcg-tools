@@ -7,6 +7,7 @@ const FORMAT_CACHES = new Map();
 const INDEX_URL = '../../data/meta/index.json';
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n || 0).toFixed(1) + '%';
+const ignoredArchetype = name => !name || name === 'Unknown' || name === 'Other';
 
 function setStatus(text) { $('status').textContent = text; }
 function escapeHtml(value) {
@@ -76,6 +77,24 @@ function filteredFor(cache, daysValue, minPlayers) {
   });
 }
 
+function usingFullMatchups() {
+  return CACHE?.format === 'TEF-PBL' && window.DeckAggregate?.hasData?.();
+}
+
+function onlineMatchup(a, b) {
+  if (ignoredArchetype(a) || ignoredArchetype(b)) return null;
+  if (usingFullMatchups()) return window.DeckAggregate?.getMatchup?.(a, b) || null;
+  return DATA?.matchups?.get(`${a}|||${b}`) || null;
+}
+
+function onlineMatchupsFor(name) {
+  if (ignoredArchetype(name)) return [];
+  if (usingFullMatchups()) {
+    return (window.DeckAggregate?.getData?.()?.matchups || []).filter(row => row.a === name && !ignoredArchetype(row.b));
+  }
+  return [...(DATA?.matchups?.values?.() || [])].filter(row => row.a === name && !ignoredArchetype(row.b));
+}
+
 function renderComparison() {
   const current = FORMAT_CACHES.get(MANIFEST?.current || 'TEF-PBL');
   const previous = FORMAT_CACHES.get(MANIFEST?.previous || 'TEF-CRI');
@@ -140,7 +159,7 @@ function render() {
   $('summary').innerHTML = `
     <div class="metric"><b>${DATA?.tournamentCount || 0}</b><span>Tournaments</span></div>
     <div class="metric"><b>${DATA?.totalPlayers || 0}</b><span>Deck entries</span></div>
-    <div class="metric"><b>${DATA?.matches || 0}</b><span>Matches</span></div>
+    <div class="metric"><b>${DATA?.matches || 0}</b><span>Loaded pairings</span></div>
     <div class="metric"><b>${archetypes.length}</b><span>Archetypes</span></div>`;
 
   $('metaBody').innerHTML = archetypes.map(row => `
@@ -163,6 +182,7 @@ function render() {
     $('archMatchups').innerHTML = '';
     $('archResults').innerHTML = '';
   }
+  window.SearchableDecks?.sync?.();
 }
 
 function renderMatrix() {
@@ -172,11 +192,12 @@ function renderMatrix() {
   for (const row of top) {
     html += `<tr><th>${escapeHtml(row.name)}</th>`;
     for (const col of top) {
-      const matchup = DATA.matchups.get(`${row.name}|||${col.name}`);
-      const decisive = matchup ? matchup.wins + matchup.losses : 0;
-      const value = matchup && matchup.games >= minMatches && decisive > 0 ? fmt(100 * matchup.wins / decisive) : '—';
-      const title = matchup ? `${matchup.wins}-${matchup.losses}-${matchup.ties} (${matchup.games} games)` : '';
-      html += `<td title="${title}">${value}</td>`;
+      const matchup = onlineMatchup(row.name, col.name);
+      const decisive = matchup ? Number(matchup.wins || 0) + Number(matchup.losses || 0) : 0;
+      const games = matchup ? Number(matchup.games || decisive + Number(matchup.ties || 0)) : 0;
+      const value = matchup && games >= minMatches && decisive > 0 ? fmt(100 * Number(matchup.wins || 0) / decisive) : '—';
+      const title = matchup ? `${matchup.wins}-${matchup.losses}-${matchup.ties} (${games} games)${usingFullMatchups() ? ' • all PBL events' : ''}` : '';
+      html += `<td title="${escapeHtml(title)}">${value}</td>`;
     }
     html += '</tr>';
   }
@@ -214,7 +235,7 @@ function trendPoints(name) {
       if (ts < windowStart.getTime() || ts > end.getTime()) continue;
       for (const standing of t.standings || []) {
         const arch = archetypeOf(standing);
-        if (arch === 'Unknown') continue;
+        if (ignoredArchetype(arch)) continue;
         total += 1;
         if (arch === name) target += 1;
       }
@@ -256,25 +277,27 @@ function renderTrend(name) {
 }
 
 function renderArchetype(name) {
-  const archetype = DATA.archetypes.find(x => x.name === name);
+  const archetype = DATA?.archetypes?.find(x => x.name === name);
   if (!archetype) return;
   $('archTitle').textContent = name;
   $('archSelect').value = name;
   $('archSummary').innerHTML = `
-    <div class="metric"><b>${archetype.players}</b><span>Players</span></div>
-    <div class="metric"><b>${fmt(archetype.share)}</b><span>Meta share</span></div>
-    <div class="metric"><b>${fmt(archetype.winRate)}</b><span>Win rate</span></div>
-    <div class="metric"><b>${archetype.wins}-${archetype.losses}-${archetype.ties}</b><span>Record</span></div>`;
+    <div class="metric"><b>${archetype.players}</b><span>50+ event entries</span></div>
+    <div class="metric"><b>${fmt(archetype.share)}</b><span>50+ event meta share</span></div>
+    <div class="metric"><b>${fmt(archetype.winRate)}</b><span>50+ event win rate</span></div>
+    <div class="metric"><b>${archetype.wins}-${archetype.losses}-${archetype.ties}</b><span>50+ event record</span></div>`;
 
   renderTrend(name);
 
-  const matchups = [...DATA.matchups.values()].filter(x => x.a === name).sort((a, b) => b.games - a.games).slice(0, 20);
-  $('archMatchups').innerHTML = '<table><thead><tr><th>Opponent</th><th>Games</th><th>Record</th><th>Win %</th></tr></thead><tbody>' +
-    matchups.map(m => { const d = m.wins + m.losses; return `<tr><td>${escapeHtml(m.b)}</td><td>${m.games}</td><td>${m.wins}-${m.losses}-${m.ties}</td><td>${d ? fmt(100 * m.wins / d) : '—'}</td></tr>`; }).join('') + '</tbody></table>';
+  const matchups = onlineMatchupsFor(name).sort((a, b) => Number(b.games || 0) - Number(a.games || 0)).slice(0, 30);
+  const matchupSource = usingFullMatchups() ? 'All PBL Standard events' : 'Loaded tournament pairings';
+  $('archMatchups').innerHTML = `<div class="inspect-note"><b>${escapeHtml(matchupSource)}</b> • matchup evidence is independent from the 50+ event meta model.</div><table><thead><tr><th>Opponent</th><th>Games</th><th>Record</th><th>Win %</th></tr></thead><tbody>` +
+    matchups.map(m => { const d = Number(m.wins || 0) + Number(m.losses || 0); const games = Number(m.games || d + Number(m.ties || 0)); return `<tr><td>${escapeHtml(m.b)}</td><td>${games}</td><td>${m.wins}-${m.losses}-${m.ties}</td><td>${d ? fmt(100 * Number(m.wins || 0) / d) : '—'}</td></tr>`; }).join('') + '</tbody></table>';
 
   const results = DATA.results.filter(x => x.archetype === name).sort((a, b) => a.placing - b.placing || new Date(b.date) - new Date(a.date)).slice(0, 20);
   $('archResults').innerHTML = '<table><thead><tr><th>Place</th><th>Player</th><th>Event</th><th>Record</th></tr></thead><tbody>' +
     results.map(r => `<tr><td>${r.placing}/${r.players}</td><td>${escapeHtml(r.player)}</td><td>${escapeHtml(r.tournament)}</td><td>${r.record?.wins || 0}-${r.record?.losses || 0}-${r.record?.ties || 0}</td></tr>`).join('') + '</tbody></table>';
+  window.SearchableDecks?.sync?.();
 }
 
 function openArchetype(name) {
@@ -284,5 +307,11 @@ function openArchetype(name) {
 
 $('apply').onclick = applyFilters;
 setupTabs();
+window.addEventListener('deckagg:updated', () => {
+  if (!DATA || CACHE?.format !== 'TEF-PBL') return;
+  renderMatrix();
+  const selected = $('archSelect')?.value;
+  if (selected) renderArchetype(selected);
+});
 // Startup is deliberately owned by live.js. Archived GitHub data is loaded only
 // if live loading fails or the user explicitly selects a historical legality.
