@@ -1,6 +1,5 @@
 (() => {
   const $p = id => document.getElementById(id);
-  const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
   const pct = n => Number.isFinite(n) ? `${n.toFixed(1)}%` : '—';
 
   function initDate() {
@@ -39,7 +38,8 @@
         total += w;
       }
     }
-    return [...counts.entries()].map(([name, value]) => ({ name, share: total ? value / total : 0 }))
+    return [...counts.entries()]
+      .map(([name, value]) => ({ name, share: total ? value / total : 0 }))
       .sort((a, b) => b.share - a.share);
   }
 
@@ -60,7 +60,7 @@
     for (const row of map.values()) {
       const decisive = row.wins + row.losses;
       row.winRate = decisive ? 100 * row.wins / decisive : 50;
-      // Conservative shrinkage toward 50% so tiny samples do not dominate.
+      // Conservative overall estimate: 20 virtual games at 50%.
       row.adjustedWR = 100 * (row.wins + 10) / (decisive + 20);
     }
     return map;
@@ -71,7 +71,7 @@
     if (!m) return { estimate: fallback, games: 0, known: false };
     const decisive = Number(m.wins || 0) + Number(m.losses || 0);
     if (!decisive) return { estimate: fallback, games: Number(m.games || 0), known: false };
-    // Beta-style shrinkage: 12 virtual games at 50%.
+    // Shrink observed head-to-head results toward 50% so tiny samples cannot dominate.
     const estimate = 100 * (Number(m.wins || 0) + 6) / (decisive + 12);
     return { estimate, games: Number(m.games || decisive), known: true };
   }
@@ -94,7 +94,7 @@
 
     for (const row of stats.values()) {
       if (row.entries < minEntries) continue;
-      let projected = 0;
+      let expectedWR = 0;
       let knownShare = 0;
       let matchupGames = 0;
       let goodField = 0;
@@ -103,7 +103,7 @@
 
       for (const opp of field) {
         const m = matchupEstimate(row.name, opp.name, row.adjustedWR);
-        projected += opp.share * m.estimate;
+        expectedWR += opp.share * m.estimate;
         if (m.known) {
           knownShare += opp.share;
           matchupGames += m.games;
@@ -113,22 +113,18 @@
         }
       }
 
-      // Blend field projection with stable overall performance. As matchup coverage grows,
-      // the recommendation increasingly trusts the matchup-derived projection.
-      const matchupTrust = clamp(knownShare * 0.9, 0, 0.78);
-      const score = projected * matchupTrust + row.adjustedWR * (1 - matchupTrust);
       const conf = confidence(row.entries, matchupGames, knownShare);
       keyMatchups.sort((a, b) => b.share - a.share);
-      rows.push({ ...row, projected, score, knownShare, matchupGames, goodField, badField, confidence: conf, keyMatchups });
+      rows.push({ ...row, expectedWR, knownShare, matchupGames, goodField, badField, confidence: conf, keyMatchups });
     }
 
-    rows.sort((a, b) => b.score - a.score || b.entries - a.entries);
+    rows.sort((a, b) => b.expectedWR - a.expectedWR || b.confidence.score - a.confidence.score || b.entries - a.entries);
     return { rows, field, tournaments: tournaments.length };
   }
 
   function reason(row) {
     const parts = [];
-    if (row.goodField >= 0.25) parts.push(`favoured into ~${Math.round(row.goodField * 100)}% of the known field`);
+    if (row.goodField >= 0.25) parts.push(`favoured into ~${Math.round(row.goodField * 100)}% of known field`);
     if (row.badField >= 0.20) parts.push(`unfavoured into ~${Math.round(row.badField * 100)}%`);
     if (row.adjustedWR >= 54) parts.push('strong overall results');
     else if (row.adjustedWR < 49) parts.push('weak overall results');
@@ -157,14 +153,16 @@
     const dateLabel = date ? new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { weekday:'short', day:'numeric', month:'short' }) : 'upcoming event';
 
     $p('prepSummary').innerHTML = `
-      <div class="prep-callout"><span>TOP PICK FOR ${dateLabel.toUpperCase()}</span><b>${escapeHtml(top[0].name)}</b><em>${top[0].score.toFixed(1)} positioning score • ${top[0].confidence.label.toLowerCase()} confidence</em></div>
+      <div class="prep-callout"><span>TOP PICK FOR ${dateLabel.toUpperCase()}</span><b>${escapeHtml(top[0].name)}</b><strong>${pct(top[0].expectedWR)} expected win rate</strong><em>${top[0].confidence.label.toLowerCase()} confidence • ${top[0].entries} observed entries</em></div>
       <div class="prep-field"><span>Expected field</span>${fieldTop.map(x => `<i><b>${escapeHtml(x.name)}</b> ${pct(x.share * 100)}</i>`).join('')}</div>`;
 
-    target.innerHTML = `<div class="prep-table-note">Based on ${tournaments} recent 50+ player tournaments. ${matchupReady ? 'Matchup data is included.' : 'Matchup data is still loading; rankings currently lean more heavily on overall results.'}</div>
-      <div class="tablewrap"><table class="prep-table"><thead><tr><th>#</th><th>Deck</th><th>Positioning</th><th>Overall WR</th><th>Entries</th><th>Matchup coverage</th><th>Confidence</th><th>Why</th></tr></thead><tbody>
-      ${top.map((r, i) => `<tr class="${i === 0 ? 'prep-winner' : ''}"><td>${i + 1}</td><td><b>${escapeHtml(r.name)}</b></td><td><b>${r.score.toFixed(1)}</b></td><td>${pct(r.winRate)}</td><td>${r.entries}</td><td>${pct(r.knownShare * 100)}</td><td><span class="confidence confidence-${r.confidence.label.toLowerCase()}">${r.confidence.label}</span></td><td class="prep-reason">${escapeHtml(reason(r))}</td></tr>`).join('')}
+    target.innerHTML = `<div class="prep-table-note">Based on ${tournaments} recent 50+ player tournaments. ${matchupReady ? 'Observed matchup data is included.' : 'Matchup data is still loading; estimates currently fall back more heavily on each deck’s overall results.'}</div>
+      <div class="tablewrap"><table class="prep-table"><thead><tr><th>#</th><th>Deck</th><th>Expected WR</th><th>Overall WR</th><th>Entries</th><th>Matchup coverage</th><th>Confidence</th><th>Why</th></tr></thead><tbody>
+      ${top.map((r, i) => `<tr class="prep-row ${i === 0 ? 'prep-winner' : ''}" data-deck="${escapeHtml(r.name)}"><td>${i + 1}</td><td><b>${escapeHtml(r.name)}</b></td><td class="prep-expected"><b>${pct(r.expectedWR)}</b></td><td>${pct(r.winRate)}</td><td>${r.entries}</td><td>${pct(r.knownShare * 100)}</td><td><span class="confidence confidence-${r.confidence.label.toLowerCase()}">${r.confidence.label}</span></td><td class="prep-reason">${escapeHtml(reason(r))}</td></tr>`).join('')}
       </tbody></table></div>
-      <p class="prep-method">Positioning is a conservative estimate: observed matchup win rates are shrunk toward 50%, weighted by the expected field, then blended with the deck's overall results according to matchup coverage. It is a population-level recommendation, not yet adjusted for your personal proficiency.</p>`;
+      <p class="prep-method">Expected WR is the deck’s estimated win rate against the current expected field. Head-to-head results are shrunk toward 50% to control small samples; where matchup evidence is missing, the model falls back to that deck’s conservatively adjusted overall win rate. Click a deck to inspect its archetype page.</p>`;
+
+    target.querySelectorAll('.prep-row').forEach(row => row.addEventListener('click', () => openArchetype(row.dataset.deck)));
   }
 
   function activate() {
