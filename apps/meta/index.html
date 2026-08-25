@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Meta Lab · PTCG Tools</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="collapsible.css" />
 </head>
 <body>
 <header class="topbar">
@@ -42,8 +43,10 @@
     </section>
 
     <div class="prep-workspace">
+      <aside id="prepSummary" class="prep-summary prep-summary-live"></aside>
+
       <section class="panel field-builder-panel">
-        <div class="sectionhead compact-sectionhead"><div><div class="eyebrow">EXPECTED METAGAME</div><h2>Build the field</h2></div><span id="irlStatus" class="muted">Loading IRL source…</span></div>
+        <div class="sectionhead compact-sectionhead"><div><div class="eyebrow">EXPECTED METAGAME</div><h2>Field settings</h2></div><span id="irlStatus" class="muted">Loading IRL source…</span></div>
         <div class="field-source-controls">
           <label>Field source<select id="fieldSource"><option value="online" selected>Online only</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom field</option></select></label>
           <label id="blendControl" class="hidden">IRL share <span id="blendValue">50%</span><input id="fieldBlend" type="range" min="0" max="100" value="50" /></label>
@@ -56,8 +59,6 @@
         </div>
         <div id="fieldEditor" class="field-editor"><div class="prep-empty">Waiting for meta data…</div></div>
       </section>
-
-      <aside id="prepSummary" class="prep-summary prep-summary-live"></aside>
     </div>
 
     <section class="panel prep-results-panel">
@@ -100,5 +101,6 @@
 <script src="field-builder.js"></script>
 <script src="prep.js"></script>
 <script src="decklinks.js"></script>
+<script src="collapsible.js"></script>
 </body>
 </html>
