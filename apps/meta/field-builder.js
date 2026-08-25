@@ -72,17 +72,26 @@
           share: row.share,
           originalShare: row.share,
           included: defaults.has(row.name),
+          defaultIncluded: defaults.has(row.name),
         });
       }
       state.touched = false;
       return;
     }
+    const defaults = top90Names(base);
     for (const row of base) {
       const existing = state.custom.get(row.name);
       if (!existing) {
-        state.custom.set(row.name, { name: row.name, share: row.share, originalShare: row.share, included: false });
+        state.custom.set(row.name, {
+          name: row.name,
+          share: row.share,
+          originalShare: row.share,
+          included: false,
+          defaultIncluded: defaults.has(row.name),
+        });
       } else {
         existing.originalShare = row.share;
+        existing.defaultIncluded = defaults.has(row.name);
       }
     }
   }
@@ -104,6 +113,20 @@
       share: total ? Math.max(0, Number(r.share || 0)) / total : 1 / rows.length,
       originalShare: Number(r.originalShare || 0),
     }));
+  }
+
+  function chipRows() {
+    syncCustom(false);
+    const selectedShares = new Map(selectedField().map(r => [r.name, r.share]));
+    return [...state.custom.values()]
+      .filter(r => r.defaultIncluded || r.included)
+      .sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0))
+      .map(r => ({
+        name: r.name,
+        included: r.included,
+        share: r.included ? Number(selectedShares.get(r.name) || 0) : null,
+        originalShare: Number(r.originalShare || 0),
+      }));
   }
 
   function originalCoverage() {
@@ -168,6 +191,14 @@
     notify();
   }
 
+  function resetField() {
+    state.touched = false;
+    state.showAll = false;
+    syncCustom(true);
+    render();
+    notify();
+  }
+
   function notify(dispatch = true) {
     if (dispatch) window.dispatchEvent(new CustomEvent('field:updated'));
   }
@@ -208,7 +239,7 @@
     $f('fieldBlend')?.addEventListener('input', () => { $f('blendValue').textContent = `${$f('fieldBlend').value}%`; state.touched = false; syncCustom(true); render(); notify(); });
     $f('fieldAnalysisMode')?.addEventListener('change', () => notify());
     $f('matchupSource')?.addEventListener('change', () => notify());
-    $f('fieldReset')?.addEventListener('click', () => { state.touched = false; syncCustom(true); render(); notify(); });
+    $f('fieldReset')?.addEventListener('click', resetField);
     $f('fieldAll')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) r.included = true; state.touched = true; render(); notify(); });
     $f('fieldNone')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) r.included = false; state.touched = true; render(); notify(); });
     $f('fieldShowAll')?.addEventListener('click', () => { state.showAll = !state.showAll; render(); });
@@ -217,6 +248,15 @@
     window.addEventListener('irl:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
   }
 
-  window.PrepField = { getField: selectedField, getOriginalCoverage: originalCoverage, getMatchup: matchup, render, sourceLabel, toggle };
+  window.PrepField = {
+    getField: selectedField,
+    getChipRows: chipRows,
+    getOriginalCoverage: originalCoverage,
+    getMatchup: matchup,
+    render,
+    sourceLabel,
+    toggle,
+    reset: resetField,
+  };
   bind();
 })();
