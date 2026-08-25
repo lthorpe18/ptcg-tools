@@ -9,7 +9,7 @@
 <body>
 <header class="topbar">
   <a class="back" href="../../">← PTCG Tools</a>
-  <div><h1>Meta Lab</h1><p>Limitless meta • tournament prep • share • win rates • matchups</p></div>
+  <div><h1>Meta Lab</h1><p>Limitless online + IRL meta • tournament prep • expected field • matchups</p></div>
   <button id="refresh" class="btn">Refresh live data</button>
 </header>
 <main class="wrap">
@@ -31,9 +31,7 @@
 
   <section id="prep" class="tabpane">
     <section class="panel prep-hero">
-      <div class="prep-heading">
-        <div><div class="eyebrow">TOURNAMENT PREP</div><h2>What should I play?</h2><p>Rank the current field's decks by estimated win rate against the meta you are most likely to face.</p></div>
-      </div>
+      <div class="prep-heading"><div><div class="eyebrow">TOURNAMENT PREP</div><h2>What should I play?</h2><p>Define the field you actually expect, then rank decks by estimated win rate against it.</p></div></div>
       <div class="prep-controls">
         <label>Tournament date<input id="prepDate" type="date" /></label>
         <label>Recent-meta weighting<select id="prepRecency"><option value="high">High — react quickly</option><option value="balanced" selected>Balanced</option><option value="equal">Equal — whole legality</option></select></label>
@@ -42,9 +40,25 @@
         <button id="prepRun" class="btn primary">Recommend decks</button>
       </div>
     </section>
+
+    <section class="panel field-builder-panel">
+      <div class="sectionhead"><div><div class="eyebrow">EXPECTED METAGAME</div><h2>Build the field you expect to face</h2></div><span id="irlStatus" class="muted">Loading IRL source…</span></div>
+      <div class="field-source-controls">
+        <label>Field source<select id="fieldSource"><option value="online" selected>Online only</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom field</option></select></label>
+        <label id="blendControl" class="hidden">IRL share of blend <span id="blendValue">50%</span><input id="fieldBlend" type="range" min="0" max="100" value="50" /></label>
+        <label>Matchup evidence source<select id="matchupSource"><option value="online" selected>Online only</option><option value="irl">IRL only</option><option value="combined">Online + IRL combined</option></select></label>
+        <label>Analysis mode<select id="fieldAnalysisMode"><option value="shares" selected>Use expected shares</option><option value="equal">Equal weight selected decks</option></select></label>
+      </div>
+      <div class="field-actions">
+        <button id="fieldAll" class="btn">Select all</button><button id="fieldNone" class="btn">Select none</button><button id="fieldReset" class="btn">Reset to model</button>
+        <span class="muted">Untick decks you do not care about, or edit shares directly. Selected shares are automatically normalised to 100%.</span>
+      </div>
+      <div id="fieldEditor" class="field-editor"><div class="prep-empty">Waiting for meta data…</div></div>
+    </section>
+
     <div id="prepSummary" class="prep-summary"></div>
     <section class="panel prep-results-panel">
-      <div class="sectionhead"><div><div class="eyebrow">RECOMMENDATION</div><h2>Top 10 decks right now</h2></div><span class="muted">Expected win rate vs current field</span></div>
+      <div class="sectionhead"><div><div class="eyebrow">RECOMMENDATION</div><h2>Top 10 decks for this field</h2></div><span class="muted">Expected win rate vs your selected metagame</span></div>
       <div id="prepResults"><div class="prep-empty">Current meta data is loading…</div></div>
     </section>
     <section class="panel prep-inspect-panel">
@@ -55,51 +69,32 @@
 
   <section id="overview" class="tabpane hidden">
     <div id="summary" class="metrics"></div>
-    <section id="comparisonPanel" class="panel comparison-panel">
-      <div class="sectionhead"><div><div class="eyebrow">FORMAT SHIFT</div><h2 id="comparisonTitle">Current vs previous legality</h2></div><span id="comparisonStatus" class="muted"></span></div>
-      <p class="comparison-copy">See which archetypes gained or lost meta share when the legal card pool changed. Formats are never blended.</p>
-      <div id="comparison" class="tablewrap"></div>
-    </section>
+    <section id="comparisonPanel" class="panel comparison-panel"><div class="sectionhead"><div><div class="eyebrow">FORMAT SHIFT</div><h2 id="comparisonTitle">Current vs previous legality</h2></div><span id="comparisonStatus" class="muted"></span></div><p class="comparison-copy">See which archetypes gained or lost meta share when the legal card pool changed. Formats are never blended.</p><div id="comparison" class="tablewrap"></div></section>
     <div class="panel"><div class="sectionhead"><h2>Meta overview</h2><span class="muted">Click an archetype for detail</span></div><div class="tablewrap"><table><thead><tr><th>Archetype</th><th>Players</th><th>Share</th><th>W</th><th>L</th><th>T</th><th>Win %</th></tr></thead><tbody id="metaBody"></tbody></table></div></div>
   </section>
 
-  <section id="matchups" class="tabpane hidden">
-    <div class="panel"><div class="sectionhead"><h2>Matchup matrix</h2><span class="muted">Row archetype win rate vs column archetype</span></div><div id="matrix" class="matrixwrap"></div></div>
-  </section>
+  <section id="matchups" class="tabpane hidden"><div class="panel"><div class="sectionhead"><h2>Matchup matrix</h2><span class="muted">Row archetype win rate vs column archetype</span></div><div id="matrix" class="matrixwrap"></div></div></section>
 
   <section id="archetype" class="tabpane hidden">
     <div class="panel">
       <div class="sectionhead"><h2 id="archTitle">Choose an archetype</h2><select id="archSelect"></select></div>
       <div id="archSummary" class="metrics"></div>
-
-      <section class="trendpanel">
-        <div class="trendhead">
-          <div><div class="eyebrow">META SHARE TREND</div><h3>Popularity within this set legality</h3></div>
-          <div id="trendSummary" class="trend-summary"></div>
-        </div>
-        <div id="trendChart" class="trend-chart"></div>
-      </section>
-
+      <section class="trendpanel"><div class="trendhead"><div><div class="eyebrow">META SHARE TREND</div><h3>Popularity within this set legality</h3></div><div id="trendSummary" class="trend-summary"></div></div><div id="trendChart" class="trend-chart"></div></section>
       <div class="detailgrid">
-        <section class="detailpanel matchup-panel">
-          <div class="detailhead"><div><div class="eyebrow">MATCHUP PERFORMANCE</div><h3>How this deck performs against the field</h3><p>Aggregated head-to-head results against each opposing archetype.</p></div></div>
-          <div id="archMatchups" class="tablewrap"></div>
-        </section>
-
-        <section class="detailpanel results-panel">
-          <div class="detailhead"><div><div class="eyebrow">TOURNAMENT RESULTS</div><h3>Players, finishes and decklists</h3><p>Official finishes using this archetype. Open submitted lists directly on Limitless where available.</p></div></div>
-          <div id="archResults" class="tablewrap"></div>
-        </section>
+        <section class="detailpanel matchup-panel"><div class="detailhead"><div><div class="eyebrow">MATCHUP PERFORMANCE</div><h3>How this deck performs against the field</h3><p>Aggregated head-to-head results against each opposing archetype.</p></div></div><div id="archMatchups" class="tablewrap"></div></section>
+        <section class="detailpanel results-panel"><div class="detailhead"><div><div class="eyebrow">TOURNAMENT RESULTS</div><h3>Players, finishes and decklists</h3><p>Official finishes using this archetype. Open submitted lists directly on Limitless where available.</p></div></div><div id="archResults" class="tablewrap"></div></section>
       </div>
     </div>
   </section>
 
-  <section class="panel note"><strong>Data:</strong> the current legality loads directly from Limitless in your browser for speed. Historical caches are used only for format comparisons. Only 50+ player events are included. Expected win rates are estimates from observed population data, not guarantees of future results.</section>
+  <section class="panel note"><strong>Sources:</strong> online tournaments come from play.limitlesstcg.com; IRL major data comes from labs.limitlesstcg.com. Field composition and matchup evidence can be sourced independently. Only data from the selected set legality is used. Expected win rates are estimates, not guarantees.</section>
 </main>
 <script src="meta-engine.js"></script>
 <script src="limitless.js"></script>
 <script src="app.js"></script>
 <script src="live.js"></script>
+<script src="irl-labs.js"></script>
+<script src="field-builder.js"></script>
 <script src="prep.js"></script>
 <script src="decklinks.js"></script>
 </body>
