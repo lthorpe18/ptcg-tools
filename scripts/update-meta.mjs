@@ -5,7 +5,7 @@ import path from 'node:path';
 const BASE = 'https://play.limitlesstcg.com/api';
 const FORMAT = 'STANDARD';
 const WINDOW_DAYS = 90;
-const MIN_TOURNAMENT_SIZE = 16;
+const MIN_TOURNAMENT_SIZE = 50;
 const OUT = path.join(process.cwd(), 'data', 'meta', 'standard.json');
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
