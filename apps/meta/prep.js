@@ -1,6 +1,7 @@
 (() => {
   const $p = id => document.getElementById(id);
   const pct = n => Number.isFinite(n) ? `${n.toFixed(1)}%` : '—';
+  let autoMatchupsRequested = false;
 
   function initDate() {
     const el = $p('prepDate');
@@ -60,7 +61,6 @@
     for (const row of map.values()) {
       const decisive = row.wins + row.losses;
       row.winRate = decisive ? 100 * row.wins / decisive : 50;
-      // Conservative overall estimate: 20 virtual games at 50%.
       row.adjustedWR = 100 * (row.wins + 10) / (decisive + 20);
     }
     return map;
@@ -71,7 +71,6 @@
     if (!m) return { estimate: fallback, games: 0, known: false };
     const decisive = Number(m.wins || 0) + Number(m.losses || 0);
     if (!decisive) return { estimate: fallback, games: Number(m.games || 0), known: false };
-    // Shrink observed head-to-head results toward 50% so tiny samples cannot dominate.
     const estimate = 100 * (Number(m.wins || 0) + 6) / (decisive + 12);
     return { estimate, games: Number(m.games || decisive), known: true };
   }
@@ -99,7 +98,6 @@
       let matchupGames = 0;
       let goodField = 0;
       let badField = 0;
-      const keyMatchups = [];
 
       for (const opp of field) {
         const m = matchupEstimate(row.name, opp.name, row.adjustedWR);
@@ -109,13 +107,10 @@
           matchupGames += m.games;
           if (m.estimate >= 55) goodField += opp.share;
           if (m.estimate <= 45) badField += opp.share;
-          if (opp.share >= 0.035) keyMatchups.push({ opponent: opp.name, share: opp.share, wr: m.estimate, games: m.games });
         }
       }
 
-      const conf = confidence(row.entries, matchupGames, knownShare);
-      keyMatchups.sort((a, b) => b.share - a.share);
-      rows.push({ ...row, expectedWR, knownShare, matchupGames, goodField, badField, confidence: conf, keyMatchups });
+      rows.push({ ...row, expectedWR, knownShare, matchupGames, goodField, badField, confidence: confidence(row.entries, matchupGames, knownShare) });
     }
 
     rows.sort((a, b) => b.expectedWR - a.expectedWR || b.confidence.score - a.confidence.score || b.entries - a.entries);
@@ -156,7 +151,7 @@
       <div class="prep-callout"><span>TOP PICK FOR ${dateLabel.toUpperCase()}</span><b>${escapeHtml(top[0].name)}</b><strong>${pct(top[0].expectedWR)} expected win rate</strong><em>${top[0].confidence.label.toLowerCase()} confidence • ${top[0].entries} observed entries</em></div>
       <div class="prep-field"><span>Expected field</span>${fieldTop.map(x => `<i><b>${escapeHtml(x.name)}</b> ${pct(x.share * 100)}</i>`).join('')}</div>`;
 
-    target.innerHTML = `<div class="prep-table-note">Based on ${tournaments} recent 50+ player tournaments. ${matchupReady ? 'Observed matchup data is included.' : 'Matchup data is still loading; estimates currently fall back more heavily on each deck’s overall results.'}</div>
+    target.innerHTML = `<div class="prep-table-note">Based on ${tournaments} recent 50+ player tournaments. ${matchupReady ? 'Observed matchup data is included.' : 'Matchup data is loading; estimates currently fall back more heavily on each deck’s overall results.'}</div>
       <div class="tablewrap"><table class="prep-table"><thead><tr><th>#</th><th>Deck</th><th>Expected WR</th><th>Overall WR</th><th>Entries</th><th>Matchup coverage</th><th>Confidence</th><th>Why</th></tr></thead><tbody>
       ${top.map((r, i) => `<tr class="prep-row ${i === 0 ? 'prep-winner' : ''}" data-deck="${escapeHtml(r.name)}"><td>${i + 1}</td><td><b>${escapeHtml(r.name)}</b></td><td class="prep-expected"><b>${pct(r.expectedWR)}</b></td><td>${pct(r.winRate)}</td><td>${r.entries}</td><td>${pct(r.knownShare * 100)}</td><td><span class="confidence confidence-${r.confidence.label.toLowerCase()}">${r.confidence.label}</span></td><td class="prep-reason">${escapeHtml(reason(r))}</td></tr>`).join('')}
       </tbody></table></div>
@@ -170,11 +165,20 @@
     window.MetaLive?.loadMatchupPairings?.().then(renderPrep);
   }
 
+  function handleMetaUpdated() {
+    renderPrep();
+    const prepIsActive = document.querySelector('[data-tab="prep"]')?.classList.contains('active');
+    if (prepIsActive && !autoMatchupsRequested && CACHE?.format === 'TEF-PBL' && CACHE?.tournaments?.length && !(DATA?.matches > 0)) {
+      autoMatchupsRequested = true;
+      window.MetaLive?.loadMatchupPairings?.().then(renderPrep);
+    }
+  }
+
   initDate();
   $p('prepRun')?.addEventListener('click', activate);
   $p('prepRecency')?.addEventListener('change', renderPrep);
   $p('prepMinEntries')?.addEventListener('change', renderPrep);
   $p('prepDate')?.addEventListener('change', renderPrep);
   document.querySelector('[data-tab="prep"]')?.addEventListener('click', activate);
-  window.addEventListener('meta:updated', renderPrep);
+  window.addEventListener('meta:updated', handleMetaUpdated);
 })();
