@@ -139,8 +139,12 @@ async function mapConcurrent(items, limit, fn) {
 }
 
 async function readPrevious() {
-  try { return JSON.parse(await readFile(OUTPUT, 'utf8')); }
-  catch { return null; }
+  try {
+    const raw = await readFile(OUTPUT, 'utf8');
+    return { raw, data: JSON.parse(raw) };
+  } catch {
+    return null;
+  }
 }
 
 function comparable(payload) {
@@ -150,6 +154,13 @@ function comparable(payload) {
     decks: payload?.decks || [],
     matchups: payload?.matchups || [],
   });
+}
+
+async function writeAtomic(payload) {
+  await mkdir(dirname(OUTPUT), { recursive: true });
+  const temp = `${OUTPUT}.tmp`;
+  await writeFile(temp, `${JSON.stringify(payload)}\n`, 'utf8');
+  await rename(temp, OUTPUT);
 }
 
 async function main() {
@@ -192,7 +203,7 @@ async function main() {
   const payload = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
-    previousGeneratedAt: previous?.generatedAt || null,
+    previousGeneratedAt: previous?.data?.generatedAt || null,
     source: 'limitless-decks', game: 'PTCG', format: 'TEF-PBL', apiFormat: 'STANDARD', rotation: 2026, set: 'PBL',
     sourceUrl: OVERVIEW_URL,
     overview: overview.stats,
@@ -208,15 +219,18 @@ async function main() {
     matchups,
   };
 
-  if (previous && comparable(previous) === comparable(payload)) {
-    console.log('Limitless aggregate is unchanged; keeping existing snapshot and timestamp');
+  if (previous && comparable(previous.data) === comparable(payload)) {
+    const compact = `${JSON.stringify(previous.data)}\n`;
+    if (previous.raw !== compact) {
+      await writeAtomic(previous.data);
+      console.log('Limitless aggregate unchanged; compacted existing snapshot without changing its timestamp');
+    } else {
+      console.log('Limitless aggregate is unchanged; keeping existing snapshot and timestamp');
+    }
     return;
   }
 
-  await mkdir(dirname(OUTPUT), { recursive: true });
-  const temp = `${OUTPUT}.tmp`;
-  await writeFile(temp, `${JSON.stringify(payload)}\n`, 'utf8');
-  await rename(temp, OUTPUT);
+  await writeAtomic(payload);
   console.log(`Wrote ${OUTPUT}: ${payload.decks.length} decks, ${payload.matchups.length} matchup rows`);
 }
 
