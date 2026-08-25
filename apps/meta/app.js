@@ -3,6 +3,7 @@ let MANIFEST = null;
 let CACHE = null;
 let FILTERED_TOURNAMENTS = [];
 let loading = false;
+const FORMAT_CACHES = new Map();
 const INDEX_URL = '../../data/meta/index.json';
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n || 0).toFixed(1) + '%';
@@ -40,22 +41,96 @@ async function fetchJson(url, force = false) {
   return response.json();
 }
 
+function formatMeta(id) {
+  return MANIFEST?.formats?.find(f => f.id === id) || null;
+}
+
+async function loadFormatCache(id, force = false) {
+  const meta = formatMeta(id);
+  if (!meta) throw new Error(`Unknown format ${id}`);
+  if (!force && FORMAT_CACHES.has(id)) return FORMAT_CACHES.get(id);
+  const payload = await fetchJson(`../../data/meta/${meta.file}`, force);
+  if (!payload || !Array.isArray(payload.tournaments)) throw new Error(`${id} cache is invalid`);
+  FORMAT_CACHES.set(id, payload);
+  return payload;
+}
+
 async function loadManifest(force = false) {
   MANIFEST = await fetchJson(INDEX_URL, force);
   if (!MANIFEST || !Array.isArray(MANIFEST.formats)) throw new Error('Meta format manifest is invalid');
 
-  const formats = MANIFEST.formats;
-  $('format').innerHTML = formats.map(f => `<option value="${escapeHtml(f.id)}">${escapeHtml(f.label || f.id)}${f.id === MANIFEST.current ? ' (current)' : ''}</option>`).join('');
-  const wanted = formats.some(f => f.id === $('format').value) ? $('format').value : MANIFEST.current;
-  if (wanted) $('format').value = wanted;
+  const formats = [...MANIFEST.formats].sort((a, b) => new Date(b.formatStart || 0) - new Date(a.formatStart || 0));
+  $('format').innerHTML = formats.map(f => {
+    const role = f.id === MANIFEST.current ? ' (current)' : f.id === MANIFEST.previous ? ' (previous)' : '';
+    return `<option value="${escapeHtml(f.id)}">${escapeHtml(f.label || f.id)}${role}</option>`;
+  }).join('');
+
+  if (!formats.some(f => f.id === $('format').value)) $('format').value = MANIFEST.current || formats[0]?.id || '';
+}
+
+async function preloadActiveFormats(force = false) {
+  const ids = (MANIFEST.activeComparison || [MANIFEST.current, MANIFEST.previous]).filter(Boolean);
+  await Promise.all(ids.map(id => loadFormatCache(id, force)));
 }
 
 async function loadSelectedFormat(force = false) {
-  const selected = MANIFEST.formats.find(f => f.id === $('format').value) || MANIFEST.formats.find(f => f.id === MANIFEST.current) || MANIFEST.formats[0];
-  if (!selected) throw new Error('No cached formats are available');
-  $('format').value = selected.id;
-  CACHE = await fetchJson(`../../data/meta/${selected.file}`, force);
-  if (!CACHE || !Array.isArray(CACHE.tournaments)) throw new Error('Selected format cache is invalid');
+  const selectedId = $('format').value || MANIFEST.current;
+  CACHE = await loadFormatCache(selectedId, force);
+}
+
+function filteredFor(cache, daysValue, minPlayers) {
+  if (!cache) return [];
+  const cutoff = daysValue === 'all' ? -Infinity : Date.now() - Number(daysValue) * 86400000;
+  return (cache.tournaments || []).filter(t => {
+    const date = new Date(t.date).getTime();
+    return Number.isFinite(date) && date >= cutoff && Number(t.players || 0) >= minPlayers;
+  });
+}
+
+function renderComparison() {
+  const current = FORMAT_CACHES.get(MANIFEST?.current);
+  const previous = FORMAT_CACHES.get(MANIFEST?.previous);
+  const currentMeta = formatMeta(MANIFEST?.current);
+  const previousMeta = formatMeta(MANIFEST?.previous);
+
+  if (!current || !previous || !current.generatedAt || !previous.generatedAt || !current.tournaments.length || !previous.tournaments.length) {
+    $('comparisonTitle').textContent = 'Current vs previous legality';
+    $('comparisonStatus').textContent = 'Waiting for both caches';
+    $('comparison').innerHTML = '<div class="comparison-empty">The comparison will appear once the current and previous legality caches have both been built.</div>';
+    return;
+  }
+
+  const minPlayers = Math.max(50, Number($('minPlayers').value));
+  const currentData = MetaEngine.aggregate(filteredFor(current, 'all', minPlayers));
+  const previousData = MetaEngine.aggregate(filteredFor(previous, 'all', minPlayers));
+  const previousByName = new Map(previousData.archetypes.map(x => [x.name, x]));
+  const currentByName = new Map(currentData.archetypes.map(x => [x.name, x]));
+  const names = new Set([...currentByName.keys(), ...previousByName.keys()]);
+
+  const rows = [...names].map(name => {
+    const now = currentByName.get(name);
+    const before = previousByName.get(name);
+    return {
+      name,
+      current: now?.share ?? 0,
+      previous: before?.share ?? 0,
+      change: (now?.share ?? 0) - (before?.share ?? 0),
+      currentPlayers: now?.players ?? 0,
+      previousPlayers: before?.players ?? 0,
+      isNew: !!now && !before,
+      disappeared: !now && !!before,
+    };
+  }).sort((a, b) => Math.abs(b.change) - Math.abs(a.change) || b.current - a.current).slice(0, 20);
+
+  const currentLabel = currentMeta?.label || MANIFEST.current;
+  const previousLabel = previousMeta?.label || MANIFEST.previous;
+  $('comparisonTitle').textContent = `${currentLabel} vs ${previousLabel}`;
+  $('comparisonStatus').textContent = `${currentData.tournamentCount} vs ${previousData.tournamentCount} tournaments`;
+  $('comparison').innerHTML = '<table><thead><tr><th>Archetype</th><th>Current</th><th>Previous</th><th>Change</th><th>Status</th></tr></thead><tbody>' + rows.map(r => {
+    const status = r.isNew ? 'New' : r.disappeared ? 'Absent now' : '';
+    const changeClass = r.change > 0.05 ? 'change-up' : r.change < -0.05 ? 'change-down' : '';
+    return `<tr><td><b>${escapeHtml(r.name)}</b></td><td>${fmt(r.current)}</td><td>${r.previousPlayers ? fmt(r.previous) : '—'}</td><td class="${changeClass}">${r.change >= 0 ? '+' : ''}${r.change.toFixed(1)} pp</td><td>${status}</td></tr>`;
+  }).join('') + '</tbody></table>';
 }
 
 function applyFilters() {
@@ -64,33 +139,33 @@ function applyFilters() {
   const requestedMinPlayers = Number($('minPlayers').value);
   const cacheFloor = Number(CACHE.minTournamentSize || 0);
   const minPlayers = Math.max(requestedMinPlayers, cacheFloor);
-  const cutoff = daysValue === 'all' ? -Infinity : Date.now() - Number(daysValue) * 86400000;
 
-  FILTERED_TOURNAMENTS = CACHE.tournaments.filter(t => {
-    const date = new Date(t.date).getTime();
-    return Number.isFinite(date) && date >= cutoff && Number(t.players || 0) >= minPlayers;
-  });
-
+  FILTERED_TOURNAMENTS = filteredFor(CACHE, daysValue, minPlayers);
   DATA = MetaEngine.aggregate(FILTERED_TOURNAMENTS);
   render();
+  renderComparison();
 
   const generated = CACHE.generatedAt ? new Date(CACHE.generatedAt).toLocaleString() : 'not generated yet';
   const floorNote = requestedMinPlayers < cacheFloor ? ` • cache minimum ${cacheFloor}` : '';
-  setStatus(`${CACHE.format || $('format').value} • ${DATA.tournamentCount} tournaments • updated ${generated}${floorNote}`);
+  setStatus(`${CACHE.label || CACHE.format || $('format').value} • ${DATA.tournamentCount} tournaments • updated ${generated}${floorNote}`);
 }
 
 async function loadShared(force = false) {
   if (loading) return;
   setBusy(true);
   try {
-    setStatus(force ? 'Reloading shared data…' : 'Loading shared data…');
+    setStatus(force ? 'Reloading GitHub cache…' : 'Loading cached meta…');
+    if (force) FORMAT_CACHES.clear();
     await loadManifest(force);
+    await preloadActiveFormats(force);
     await loadSelectedFormat(force);
+
     if (!CACHE.generatedAt || !CACHE.tournaments.length) {
       FILTERED_TOURNAMENTS = [];
       DATA = MetaEngine.aggregate([]);
       render();
-      setStatus(`${CACHE.format || $('format').value} cache is being generated by GitHub Actions.`);
+      renderComparison();
+      setStatus(`${CACHE.label || CACHE.format || $('format').value} cache is being generated by GitHub Actions.`);
       return;
     }
     applyFilters();
