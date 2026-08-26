@@ -12,6 +12,7 @@
     if (!wrap) return;
     const input = wrap.querySelector('.deck-search-input');
     if (!input || document.activeElement === input) return;
+    if (!select.value) { input.value = ''; return; }
     const selected = [...select.options].find(o => o.value === select.value);
     input.value = selected ? selected.textContent.trim() : '';
   }
