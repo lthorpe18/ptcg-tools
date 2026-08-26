@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="searchable-decks.css?v=4" />
   <link rel="stylesheet" href="breakdown.css?v=2" />
   <link rel="stylesheet" href="play.css?v=1" />
-  <link rel="stylesheet" href="sprite-polish.css?v=2" />
+  <link rel="stylesheet" href="sprite-polish.css?v=3" />
 </head>
 <body data-active-tab="prep">
 <header class="topbar app-header">
@@ -64,7 +64,6 @@
         <div class="advanced-body">
           <div class="advanced-head"><div><div class="eyebrow">ANALYSIS MODEL</div><h3>Fine-tune the recommendation</h3><p>The defaults are designed to be useful without touching anything here.</p></div><span id="irlStatus" class="muted">Loading IRL source…</span></div>
           <div class="advanced-grid">
-            <label>Tournament date<input id="prepDate" type="date" /></label>
             <label>Recent-meta weighting<select id="prepRecency"><option value="high">High — react quickly</option><option value="balanced" selected>Balanced</option><option value="equal">Equal — whole legality</option></select></label>
             <label>Matchup evidence<select id="prepEvidence"><option value="min10" selected>Ignore under 10 games</option><option value="min5">Ignore under 5 games</option><option value="conservative">Conservative shrinkage</option><option value="raw">Use raw results</option></select></label>
             <label>Minimum matchup coverage<input id="prepMinCoverage" type="number" min="0" max="100" step="5" value="50" /></label>
