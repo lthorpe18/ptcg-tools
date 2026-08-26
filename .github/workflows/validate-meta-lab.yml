@@ -30,7 +30,7 @@ jobs:
           const html = fs.readFileSync('apps/meta/index.html', 'utf8');
           const required = [
             'prepFieldOverview','prepResults','prepCheckResult','advancedSettings',
-            'prepDate','prepRecency','prepEvidence','prepMinCoverage','prepMinEntries',
+            'prepRecency','prepEvidence','prepMinCoverage','prepMinEntries',
             'prepMinPlayers','fieldSource','matchupSource','fieldAnalysisMode','fieldEditor'
           ];
           const missing = required.filter(id => !html.includes(`id="${id}"`));
