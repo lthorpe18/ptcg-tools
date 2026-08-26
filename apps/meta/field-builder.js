@@ -123,6 +123,55 @@
     }));
   }
 
+  function snapshot() {
+    return selectedField().map(row => ({ name: row.name, share: row.share }));
+  }
+
+  function applyComposition(inputRows) {
+    const rows = (Array.isArray(inputRows) ? inputRows : [])
+      .map(row => ({ name: String(row?.name || '').trim(), share: Math.max(0, Number(row?.share || 0)) }))
+      .filter(row => !ignored(row.name) && row.share > 0);
+    const total = rows.reduce((sum, row) => sum + row.share, 0);
+    if (!total) return false;
+
+    const source = $f('fieldSource');
+    if (source) source.value = 'custom';
+    const mode = $f('fieldAnalysisMode');
+    if (mode) mode.value = 'shares';
+    $f('blendControl')?.classList.add('hidden');
+
+    state.touched = false;
+    state.showAll = false;
+    syncCustom(true);
+    for (const row of state.custom.values()) {
+      row.included = false;
+      row.pinned = false;
+    }
+
+    for (const saved of rows) {
+      let row = state.custom.get(saved.name);
+      if (!row) {
+        row = {
+          name: saved.name,
+          share: 0,
+          originalShare: 0,
+          included: false,
+          defaultIncluded: false,
+          pinned: true,
+        };
+        state.custom.set(saved.name, row);
+      }
+      row.share = saved.share / total;
+      row.included = true;
+      row.pinned = true;
+    }
+
+    state.touched = true;
+    render();
+    notify();
+    return true;
+  }
+
   function chipRows() {
     syncCustom(false);
     const selectedShares = new Map(selectedField().map(r => [r.name, r.share]));
@@ -344,6 +393,8 @@
     getAllRows: allRows,
     getOriginalCoverage: originalCoverage,
     getMatchup: matchup,
+    snapshot,
+    applyComposition,
     render,
     sourceLabel,
     toggle,
