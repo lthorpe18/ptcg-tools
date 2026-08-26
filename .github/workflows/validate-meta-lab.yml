@@ -1,0 +1,39 @@
+name: Validate Meta Lab
+
+on:
+  push:
+    paths:
+      - 'apps/meta/**'
+      - '.github/workflows/validate-meta-lab.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check Meta Lab JavaScript
+        run: |
+          set -e
+          for file in apps/meta/*.js; do
+            echo "Checking $file"
+            node --check "$file"
+          done
+      - name: Check required Play UI hooks
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('apps/meta/index.html', 'utf8');
+          const required = [
+            'prepFieldOverview','prepResults','prepCheckResult','advancedSettings',
+            'prepDate','prepRecency','prepEvidence','prepMinCoverage','prepMinEntries',
+            'prepMinPlayers','fieldSource','matchupSource','fieldAnalysisMode','fieldEditor'
+          ];
+          const missing = required.filter(id => !html.includes(`id="${id}"`));
+          if (missing.length) throw new Error(`Missing Meta Lab hooks: ${missing.join(', ')}`);
+          console.log(`Validated ${required.length} required UI hooks`);
+          NODE
