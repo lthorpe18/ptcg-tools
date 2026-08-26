@@ -4,10 +4,15 @@
   const pct = n => `${Number(n || 0).toFixed(1)}%`;
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
 
+  function analysisMinPlayers() {
+    return Math.max(50, Number($f('prepMinPlayers')?.value || $f('minPlayers')?.value || 50));
+  }
+
   function onlineFieldFromCache() {
     if (!CACHE?.tournaments?.length) return [];
     const mode = $f('prepRecency')?.value || 'balanced';
-    const tournaments = CACHE.tournaments.filter(t => (t.standings || []).length);
+    const minPlayers = analysisMinPlayers();
+    const tournaments = CACHE.tournaments.filter(t => Number(t.players || 0) >= minPlayers && (t.standings || []).length);
     if (!tournaments.length) return [];
     const newest = Math.max(...tournaments.map(t => new Date(t.date).getTime()).filter(Number.isFinite));
     const counts = new Map();
@@ -74,6 +79,7 @@
           originalShare: row.share,
           included: defaults.has(row.name),
           defaultIncluded: defaults.has(row.name),
+          pinned: false,
         });
       }
       state.touched = false;
@@ -89,6 +95,7 @@
           originalShare: row.share,
           included: false,
           defaultIncluded: defaults.has(row.name),
+          pinned: false,
         });
       } else {
         existing.originalShare = row.share;
@@ -120,7 +127,7 @@
     syncCustom(false);
     const selectedShares = new Map(selectedField().map(r => [r.name, r.share]));
     return [...state.custom.values()]
-      .filter(r => !ignored(r.name) && (r.defaultIncluded || r.included))
+      .filter(r => !ignored(r.name) && (r.defaultIncluded || r.included || r.pinned))
       .sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0))
       .map(r => ({
         name: r.name,
@@ -128,6 +135,14 @@
         share: r.included ? Number(selectedShares.get(r.name) || 0) : null,
         originalShare: Number(r.originalShare || 0),
       }));
+  }
+
+  function allRows() {
+    syncCustom(false);
+    return [...state.custom.values()]
+      .filter(r => !ignored(r.name))
+      .sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0))
+      .map(r => ({ ...r }));
   }
 
   function originalCoverage() {
@@ -150,7 +165,7 @@
     const editor = $f('fieldEditor');
     if (!editor) return;
     syncCustom(false);
-    const rows = [...state.custom.values()].filter(r => !ignored(r.name)).sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0));
+    const rows = allRows();
     if (!rows.length) {
       editor.innerHTML = '<div class="prep-empty">No data is available for this field source in the current legality.</div>';
       const coverage = $f('fieldCoverage');
@@ -163,24 +178,53 @@
     const coverage = $f('fieldCoverage');
     if (coverage) {
       coverage.textContent = state.showAll
-        ? `Showing all ${rows.length} archetypes • ${selected.length} selected • ${pct(selectedOriginalCoverage * 100)} original meta coverage.`
-        : `${selected.length} selected • ${pct(selectedOriginalCoverage * 100)} of the original filtered meta.`;
+        ? `Showing all ${rows.length} archetypes · ${selected.length} selected · ${pct(selectedOriginalCoverage * 100)} original meta coverage.`
+        : `${selected.length} selected · ${pct(selectedOriginalCoverage * 100)} of the original filtered meta.`;
     }
     const showAll = $f('fieldShowAll');
     if (showAll) showAll.textContent = state.showAll ? 'Top 90%' : 'Show all';
 
-    editor.innerHTML = `<div class="tablewrap"><table class="field-table"><thead><tr><th>Use</th><th>Archetype</th><th>Model share</th></tr></thead><tbody>${shown.map(r => `<tr class="field-row ${r.included ? 'included' : 'excluded'}" data-name="${escapeHtml(r.name)}"><td><input class="field-check" data-name="${escapeHtml(r.name)}" type="checkbox" ${r.included ? 'checked' : ''}></td><td><b>${escapeHtml(r.name)}</b></td><td><input class="field-share" data-name="${escapeHtml(r.name)}" type="number" min="0" max="100" step="0.1" value="${(Number(r.share || 0) * 100).toFixed(1)}">%</td></tr>`).join('')}</tbody></table></div>`;
+    editor.innerHTML = `<div class="tablewrap"><table class="field-table"><thead><tr><th>Use</th><th>Archetype</th><th>Model share</th></tr></thead><tbody>${shown.map(r => `<tr class="field-row ${r.included ? 'included' : 'excluded'}" data-name="${escapeHtml(r.name)}"><td><input class="field-check" data-name="${escapeHtml(r.name)}" type="checkbox" ${r.included ? 'checked' : ''}></td><td><span class="field-deck-name">${window.DeckSprites?.html?.(r.name, { size: 30 }) || ''}<b>${escapeHtml(r.name)}</b></span></td><td><input class="field-share" data-name="${escapeHtml(r.name)}" type="number" min="0" max="100" step="0.1" value="${(Number(r.share || 0) * 100).toFixed(1)}">%</td></tr>`).join('')}</tbody></table></div>`;
     editor.querySelectorAll('.field-row').forEach(row => row.addEventListener('click', e => {
       if (e.target.matches('input')) return;
       toggle(row.dataset.name);
     }));
     editor.querySelectorAll('.field-check').forEach(el => el.addEventListener('change', () => {
-      const r = state.custom.get(el.dataset.name); if (r) { r.included = el.checked; state.touched = true; render(); notify(); }
+      const r = state.custom.get(el.dataset.name);
+      if (r) {
+        r.included = el.checked;
+        if (el.checked) r.pinned = true;
+        state.touched = true;
+        render();
+        notify();
+      }
     }));
     editor.querySelectorAll('.field-share').forEach(el => el.addEventListener('change', () => {
-      const r = state.custom.get(el.dataset.name); if (r) { r.share = Math.max(0, Number(el.value || 0)) / 100; state.touched = true; render(); notify(); }
+      const r = state.custom.get(el.dataset.name);
+      if (r) {
+        r.share = Math.max(0, Number(el.value || 0)) / 100;
+        r.pinned = true;
+        state.touched = true;
+        render();
+        notify();
+      }
     }));
   }
+
+  function setIncluded(name, included = true) {
+    if (ignored(name)) return false;
+    syncCustom(false);
+    const row = state.custom.get(name);
+    if (!row) return false;
+    row.included = !!included;
+    row.pinned = true;
+    state.touched = true;
+    render();
+    notify();
+    return true;
+  }
+
+  function add(name) { return setIncluded(name, true); }
 
   function toggle(name) {
     if (ignored(name)) return;
@@ -188,6 +232,7 @@
     const row = state.custom.get(name);
     if (!row) return;
     row.included = !row.included;
+    row.pinned = true;
     state.touched = true;
     render();
     notify();
@@ -242,22 +287,52 @@
       irl: 'IRL matchups',
       combined: richOnline ? 'all-event Limitless + IRL matchups' : 'online + IRL matchups',
     };
-    return `${fieldLabels[field]} • ${matchLabels[matchup]}`;
+    return `${fieldLabels[field]} · ${matchLabels[matchup]}`;
   }
 
   function bind() {
     $f('fieldSource')?.addEventListener('change', () => {
       $f('blendControl')?.classList.toggle('hidden', $f('fieldSource').value !== 'blend');
-      state.touched = false; syncCustom(true); render(); notify();
+      state.touched = false;
+      syncCustom(true);
+      render();
+      notify();
     });
-    $f('fieldBlend')?.addEventListener('input', () => { $f('blendValue').textContent = `${$f('fieldBlend').value}%`; state.touched = false; syncCustom(true); render(); notify(); });
+    $f('fieldBlend')?.addEventListener('input', () => {
+      if ($f('blendValue')) $f('blendValue').textContent = `${$f('fieldBlend').value}%`;
+      state.touched = false;
+      syncCustom(true);
+      render();
+      notify();
+    });
     $f('fieldAnalysisMode')?.addEventListener('change', () => notify());
     $f('matchupSource')?.addEventListener('change', () => notify());
     $f('fieldReset')?.addEventListener('click', resetField);
-    $f('fieldAll')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) if (!ignored(r.name)) r.included = true; state.touched = true; render(); notify(); });
-    $f('fieldNone')?.addEventListener('click', () => { syncCustom(false); for (const r of state.custom.values()) r.included = false; state.touched = true; render(); notify(); });
+    $f('fieldAll')?.addEventListener('click', () => {
+      syncCustom(false);
+      for (const r of state.custom.values()) if (!ignored(r.name)) { r.included = true; r.pinned = true; }
+      state.touched = true;
+      render();
+      notify();
+    });
+    $f('fieldNone')?.addEventListener('click', () => {
+      syncCustom(false);
+      for (const r of state.custom.values()) r.included = false;
+      state.touched = true;
+      render();
+      notify();
+    });
     $f('fieldShowAll')?.addEventListener('click', () => { state.showAll = !state.showAll; render(); });
-    $f('prepRecency')?.addEventListener('change', () => { if (!state.touched) { syncCustom(true); render(); notify(); } });
+    $f('prepRecency')?.addEventListener('change', () => {
+      if (!state.touched) syncCustom(true);
+      render();
+      notify();
+    });
+    $f('prepMinPlayers')?.addEventListener('change', () => {
+      if (!state.touched) syncCustom(true);
+      render();
+      notify();
+    });
     window.addEventListener('meta:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
     window.addEventListener('irl:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
     window.addEventListener('deckagg:updated', () => notify());
@@ -266,11 +341,14 @@
   window.PrepField = {
     getField: selectedField,
     getChipRows: chipRows,
+    getAllRows: allRows,
     getOriginalCoverage: originalCoverage,
     getMatchup: matchup,
     render,
     sourceLabel,
     toggle,
+    add,
+    setIncluded,
     reset: resetField,
   };
   bind();
