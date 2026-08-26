@@ -1,6 +1,22 @@
 (() => {
   const originalRenderArchetype = window.renderArchetype || renderArchetype;
 
+  function loadMetaOverviewTable() {
+    if (!document.querySelector('link[data-meta-table-styles]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'meta-table.css?v=1';
+      link.dataset.metaTableStyles = '1';
+      document.head.appendChild(link);
+    }
+    if (!document.querySelector('script[data-meta-table-script]')) {
+      const script = document.createElement('script');
+      script.src = 'meta-table.js?v=1';
+      script.dataset.metaTableScript = '1';
+      document.body.appendChild(script);
+    }
+  }
+
   function decklistUrl(tournamentId, playerId) {
     return `https://play.limitlesstcg.com/tournament/${encodeURIComponent(tournamentId)}/player/${encodeURIComponent(playerId)}/decklist`;
   }
@@ -100,5 +116,6 @@
   window.addEventListener('deckagg:updated', () => addRecommendationRecordLinks());
   window.addEventListener('field:updated', () => requestAnimationFrame(() => addRecommendationRecordLinks()));
   window.addEventListener('meta:updated', () => requestAnimationFrame(() => addRecommendationRecordLinks()));
+  loadMetaOverviewTable();
   addRecommendationRecordLinks();
 })();
