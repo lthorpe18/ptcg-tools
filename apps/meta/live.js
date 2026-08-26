@@ -184,8 +184,12 @@
 
   window.MetaLive = { loadCurrentLive, loadMatchupPairings };
 
-  $('refresh').textContent = 'Refresh live data';
-  $('refresh').onclick = () => loadCurrentLive(true);
+  const refresh = $('refresh');
+  if (refresh) {
+    refresh.setAttribute('aria-label', 'Refresh live data');
+    if (!refresh.classList.contains('header-refresh')) refresh.textContent = 'Refresh live data';
+    refresh.onclick = () => loadCurrentLive(true);
+  }
   $('format').onchange = async () => {
     if ($('format').value === CURRENT.id) {
       CACHE = FORMAT_CACHES.get(CURRENT.id) || CACHE;
