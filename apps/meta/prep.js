@@ -7,6 +7,10 @@
   let quickDeckName = '';
   let fieldExpanded = false;
   let addDeckOpen = false;
+  let saveMetaOpen = false;
+  let selectedSavedMetaId = '';
+  let savedMetaMessage = '';
+  let savedMetaMessageType = '';
 
   function sprite(name, size = 42, className = '') {
     return window.DeckSprites?.html?.(name, { size, className }) || '';
@@ -43,8 +47,6 @@
       }
     }
 
-    // Keep the checker broad even when a deck has not yet appeared often enough in
-    // 50+ player events to qualify for the ranked recommendation list.
     for (const d of window.DeckAggregate?.getData?.()?.decks || []) {
       if (ignored(d.name) || map.has(d.name)) continue;
       map.set(d.name, { name: d.name, entries: 0, wins: 0, losses: 0, ties: 0 });
@@ -217,6 +219,33 @@
     </div>`;
   }
 
+  function compositionsEqual(a, b) {
+    const left = window.SavedMetas?.cleanField?.(a) || [];
+    const right = window.SavedMetas?.cleanField?.(b) || [];
+    if (left.length !== right.length) return false;
+    const map = new Map(left.map(row => [row.name, row.share]));
+    return right.every(row => map.has(row.name) && Math.abs(Number(map.get(row.name)) - Number(row.share)) < 0.0005);
+  }
+
+  function savedMetaUi(currentField) {
+    const saved = window.SavedMetas?.list?.() || [];
+    const matched = saved.find(meta => compositionsEqual(meta.field, currentField)) || null;
+    if (matched) selectedSavedMetaId = matched.id;
+    else if (selectedSavedMetaId && !saved.some(meta => meta.id === selectedSavedMetaId)) selectedSavedMetaId = '';
+    const selected = saved.find(meta => meta.id === selectedSavedMetaId) || null;
+
+    const savedBar = saved.length ? `<div class="saved-meta-bar">
+      <label class="saved-meta-select"><span>Saved meta · on this device</span><select id="savedMetaSelect"><option value="">Choose a saved meta…</option>${saved.map(meta => `<option value="${escapeHtml(meta.id)}" ${meta.id === selectedSavedMetaId ? 'selected' : ''}>${escapeHtml(meta.name)}</option>`).join('')}</select></label>
+      <button type="button" class="btn" data-load-saved-meta ${selected ? '' : 'disabled'}>Load</button>
+      <button type="button" class="btn saved-meta-delete" data-delete-saved-meta ${selected ? '' : 'disabled'} aria-label="Delete saved meta">Delete</button>
+    </div>` : '';
+
+    const defaultName = matched?.name || '';
+    const saveForm = saveMetaOpen ? `<form class="save-meta-form" id="saveMetaForm"><label><span>Meta name</span><input id="saveMetaName" type="text" maxlength="50" autocomplete="off" placeholder="e.g. Local League" value="${escapeHtml(defaultName)}" required></label><button type="submit" class="btn primary">${matched ? 'Update' : 'Save'}</button><button type="button" class="btn" data-cancel-save-meta>Cancel</button></form>` : '';
+    const message = savedMetaMessage ? `<p class="saved-meta-note ${savedMetaMessageType}">${escapeHtml(savedMetaMessage)}</p>` : '';
+    return `${savedBar}${saveForm}${message}`;
+  }
+
   function fieldOverviewHtml() {
     const rows = (window.PrepField?.getChipRows?.() || []).filter(x => !ignored(x.name));
     const originalCoverage = Math.max(0, Math.min(1, Number(window.PrepField?.getOriginalCoverage?.() || 0)));
@@ -224,30 +253,102 @@
     const allRows = (window.PrepField?.getAllRows?.() || []).filter(x => !ignored(x.name));
     const available = allRows.filter(x => !x.included);
     const selectedCount = allRows.filter(x => x.included).length;
+    const currentField = window.PrepField?.snapshot?.() || [];
+    const saved = window.SavedMetas?.list?.() || [];
+    const matched = saved.find(meta => compositionsEqual(meta.field, currentField)) || null;
 
-    return `<div class="field-overview-head"><div><h3>Your expected field</h3><p>${selectedCount} decks · active shares always total 100%</p></div><span class="field-mode-badge">${($p('fieldAnalysisMode')?.value || 'shares') === 'equal' ? 'Equal weighting' : 'Expected shares'}</span></div>
+    return `<div class="field-overview-head"><div><h3>Your expected field</h3><p>${selectedCount} decks · active shares always total 100%${matched ? ` · ${escapeHtml(matched.name)}` : ''}</p></div><span class="field-mode-badge">${($p('fieldAnalysisMode')?.value || 'shares') === 'equal' ? 'Equal weighting' : 'Expected shares'}</span></div>
       <div class="play-field-chips">${shown.map(x => `<button type="button" class="play-field-chip ${x.included ? '' : 'off'}" data-field-toggle="${escapeHtml(x.name)}" aria-pressed="${x.included ? 'true' : 'false'}">
         ${sprite(x.name, 30)}<span class="chip-name">${escapeHtml(x.name)}</span><span class="chip-share">${x.included ? pct(x.share * 100) : 'Off'}</span><span class="chip-action">${x.included ? '×' : '+'}</span>
       </button>`).join('')}</div>
       <div class="field-coverage-line"><span class="coverage-check">✓</span><b>${pct(originalCoverage * 100)}</b><span>of the current competitive meta represented</span></div>
       <div class="field-inline-actions">
         <button type="button" class="text-action" data-add-deck>＋ Add deck</button>
+        <button type="button" class="text-action" data-save-meta>♡ Save meta</button>
         ${rows.length > 8 ? `<button type="button" class="text-action" data-field-expand>${fieldExpanded ? 'Show less' : `Show all ${rows.length}`}</button>` : ''}
         <button type="button" class="text-action reset" data-field-reset>↻ Reset</button>
       </div>
+      ${savedMetaUi(currentField)}
       <div class="field-add-row ${addDeckOpen ? '' : 'hidden'}"><label>Add an archetype<select id="fieldAddSelect" class="deck-searchable"><option value="">Search decks…</option>${available.map(r => `<option value="${escapeHtml(r.name)}">${escapeHtml(r.name)}</option>`).join('')}</select></label></div>`;
   }
 
   function bindFieldOverview() {
     const root = $p('prepFieldOverview');
     if (!root) return;
-    root.querySelectorAll('[data-field-toggle]').forEach(el => el.addEventListener('click', () => window.PrepField?.toggle?.(el.dataset.fieldToggle)));
-    root.querySelector('[data-field-reset]')?.addEventListener('click', () => window.PrepField?.reset?.());
+    root.querySelectorAll('[data-field-toggle]').forEach(el => el.addEventListener('click', () => {
+      selectedSavedMetaId = '';
+      savedMetaMessage = '';
+      window.PrepField?.toggle?.(el.dataset.fieldToggle);
+    }));
+    root.querySelector('[data-field-reset]')?.addEventListener('click', () => {
+      selectedSavedMetaId = '';
+      savedMetaMessage = '';
+      window.PrepField?.reset?.();
+    });
     root.querySelector('[data-field-expand]')?.addEventListener('click', () => { fieldExpanded = !fieldExpanded; renderPrep(); });
-    root.querySelector('[data-add-deck]')?.addEventListener('click', () => { addDeckOpen = !addDeckOpen; renderPrep(); });
+    root.querySelector('[data-add-deck]')?.addEventListener('click', () => { addDeckOpen = !addDeckOpen; saveMetaOpen = false; renderPrep(); });
+    root.querySelector('[data-save-meta]')?.addEventListener('click', () => { saveMetaOpen = !saveMetaOpen; addDeckOpen = false; savedMetaMessage = ''; renderPrep(); });
+    root.querySelector('[data-cancel-save-meta]')?.addEventListener('click', () => { saveMetaOpen = false; renderPrep(); });
+
+    const savedSelect = $p('savedMetaSelect');
+    if (savedSelect) savedSelect.addEventListener('change', () => {
+      selectedSavedMetaId = savedSelect.value;
+      savedMetaMessage = '';
+      renderPrep();
+    });
+
+    root.querySelector('[data-load-saved-meta]')?.addEventListener('click', () => {
+      const preset = window.SavedMetas?.get?.(selectedSavedMetaId);
+      if (!preset) return;
+      saveMetaOpen = false;
+      addDeckOpen = false;
+      savedMetaMessage = `Loaded “${preset.name}”.`;
+      savedMetaMessageType = 'success';
+      window.PrepField?.applyComposition?.(preset.field);
+    });
+
+    root.querySelector('[data-delete-saved-meta]')?.addEventListener('click', () => {
+      const preset = window.SavedMetas?.get?.(selectedSavedMetaId);
+      if (!preset) return;
+      if (!window.confirm(`Delete saved meta “${preset.name}”?`)) return;
+      if (window.SavedMetas?.remove?.(preset.id)) {
+        selectedSavedMetaId = '';
+        savedMetaMessage = `Deleted “${preset.name}”.`;
+        savedMetaMessageType = '';
+        renderPrep();
+      }
+    });
+
+    const saveForm = $p('saveMetaForm');
+    if (saveForm) saveForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const name = String($p('saveMetaName')?.value || '').trim();
+      const field = window.PrepField?.snapshot?.() || [];
+      if (!name || !field.length) {
+        savedMetaMessage = 'Give the meta a name and select at least one deck.';
+        savedMetaMessageType = 'error';
+        renderPrep();
+        return;
+      }
+      const item = window.SavedMetas?.save?.(name, field, CACHE?.format || '');
+      if (!item) {
+        savedMetaMessage = 'This browser could not save the meta.';
+        savedMetaMessageType = 'error';
+        renderPrep();
+        return;
+      }
+      selectedSavedMetaId = item.id;
+      saveMetaOpen = false;
+      savedMetaMessage = `Saved “${item.name}” on this device.`;
+      savedMetaMessageType = 'success';
+      renderPrep();
+    });
+
     const add = $p('fieldAddSelect');
     if (add) add.addEventListener('change', () => {
       if (!add.value) return;
+      selectedSavedMetaId = '';
+      savedMetaMessage = '';
       window.PrepField?.add?.(add.value);
       addDeckOpen = false;
     });
@@ -349,4 +450,5 @@
   window.addEventListener('field:updated', renderPrep);
   window.addEventListener('irl:updated', renderPrep);
   window.addEventListener('deckagg:updated', renderPrep);
+  window.addEventListener('savedmetas:updated', renderPrep);
 })();
