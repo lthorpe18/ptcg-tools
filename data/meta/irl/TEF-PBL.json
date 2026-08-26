@@ -1,10 +1,12 @@
 {
   "schemaVersion": 1,
   "source": "Limitless Labs",
+  "sourceUrl": "https://labs.limitlesstcg.com",
   "format": "TEF-PBL",
-  "formatStart": "2026-07-17T00:00:00Z",
+  "formatStart": "2026-07-17T00:00:00.000Z",
+  "generatedAt": "2026-08-26T06:04:45.484Z",
   "events": [],
   "decks": [],
   "matchups": [],
-  "note": "No completed current-format IRL major is available yet."
+  "note": "No completed current-format IRL major is available on Limitless Labs yet."
 }
