@@ -4,9 +4,18 @@
   "sourceUrl": "https://labs.limitlesstcg.com",
   "format": "TEF-PBL",
   "formatStart": "2026-07-17T00:00:00.000Z",
-  "generatedAt": "2026-08-27T16:48:30.704Z",
-  "events": [],
+  "generatedAt": "2026-08-28T17:42:16.912Z",
+  "events": [
+    {
+      "id": "0071",
+      "name": "World Championship San Francisco",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "url": "https://labs.limitlesstcg.com/0071/decks",
+      "decks": []
+    }
+  ],
   "decks": [],
   "matchups": [],
-  "note": "No completed current-format IRL major is available on Limitless Labs yet."
+  "note": "1 current-format IRL major event(s) from Limitless Labs."
 }
