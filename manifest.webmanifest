@@ -1,0 +1,11 @@
+{
+  "name":"PTCG Tools",
+  "short_name":"PTCG Tools",
+  "description":"Competitive Pokémon TCG analysis, deck development, event prep and tournament tools.",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#f7f8fb",
+  "theme_color":"#f7f8fb",
+  "icons":[{"src":"./assets/apple-touch-icon.png","sizes":"180x180","type":"image/png","purpose":"any"}]
+}
