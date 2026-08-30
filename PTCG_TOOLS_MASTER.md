@@ -1,6 +1,6 @@
 # PTCG Tools — Master Product & Design Document
 
-**Status:** Current product source of truth / redesign specification  
+**Status:** Current product source of truth / PTCG Tools V2 implementation specification  
 **Date:** 30 August 2026  
 **Repository:** `lthorpe18/ptcg-tools`
 
@@ -19,6 +19,18 @@ The product should help answer five recurring competitive questions:
 5. **What are my odds?** — use small, trustworthy tournament and deck-math utilities without leaving the app.
 
 The app is not intended to replace Pokémon TCG Live as a fully rules-enforced game client. It should instead be a fast, flexible competitive practice and analysis toolkit.
+
+The core product loop is:
+
+```text
+Analyse → Build & Test → Prepare → Compete → Learn
+```
+
+- **Analyse:** understand the field and what is well positioned.
+- **Build & Test:** manage exact deck versions, deck maths and mobile playtesting.
+- **Prepare:** attach a chosen list, expected field, testing plan and matchup notes to a real event.
+- **Compete:** use tournament-day logging, matchup notes and Cut/ID decision support.
+- **Learn:** feed playtest and tournament history back into future deck and event decisions.
 
 ---
 
@@ -585,19 +597,147 @@ game
 
 ## 11. Compete
 
-### 11.1 Events
+Compete should connect **event discovery → intent to attend → preparation → tournament day → results**. It should not be a generic events list beside an unrelated Swiss utility.
 
-Current Cards/Map concept is sound but should be restyled into the common shell.
+### 11.1 Official event discovery source
+
+The existing Events implementation currently reads a manually maintained Google Sheet. This must be retired as the intended PTCG Tools 2.0 source because a stale sheet can appear live even when nobody is maintaining it.
+
+The canonical upstream source for sanctioned local Pokémon TCG events should be the **official Play! Pokémon Event Locator**. Pokémon directs players to the Event Locator for local sanctioned events, and sanctioned events are intended to be entered in advance so players can discover them there.
+
+Limitless should remain a source for online events, decklists, tournament results and metagame evidence, but should **not** be treated as the authoritative source for every local League Cup, League Challenge, Prerelease or other sanctioned Play! Pokémon event.
+
+### 11.2 Event ingestion architecture
+
+Do not make the mobile client scrape the Event Locator directly on every visit.
+
+Target flow:
+
+```text
+Official Play! Pokémon Event Locator
+        ↓
+Scheduled repository importer
+        ↓
+Normalise + validate
+        ↓
+data/events.json
+        ↓
+PTCG Tools client
+```
+
+The importer should run automatically through GitHub Actions on a sensible cadence, initially several times per day.
+
+The generated dataset should contain metadata such as:
+
+```text
+source
+lastAttemptedUpdate
+lastSuccessfulUpdate
+eventCount
+schemaVersion
+```
+
+The app should display a freshness indicator such as **Updated 2 hours ago**. If the importer fails, the last known-good file should remain available and the UI should clearly indicate that data may be stale.
+
+### 11.3 Event-ingestion safety checks
+
+A refresh must not blindly replace the current dataset. Before publication validate at least:
+
+- response is non-empty and structurally recognised;
+- event IDs are valid/unique enough to act as stable keys;
+- dates parse and are plausible;
+- event type/product can be identified;
+- location/venue information is present for a sensible proportion of events;
+- a sudden catastrophic drop in event count is treated as suspicious;
+- malformed data does not overwrite the previous known-good dataset.
+
+Validation failures should fail the workflow rather than publish damaged data.
+
+### 11.4 Events experience
+
+**Compete → Events** should prioritise useful sanctioned TCG events, especially local competitive events.
 
 Mobile page:
 
-- heading: Upcoming Events;
-- horizontal filter chips (e.g. 30 days, Cup, Challenge, BO3);
-- search/filter sheet for detailed filters;
+- Nearby / Favourites / All views;
+- filters for Cups, Challenges, Prereleases and other TCG events;
+- date-range filter;
+- distance/radius filter where coordinates are available;
 - List | Map segmented control;
-- compact event cards showing type, venue, date/time, distance where available and registration state.
+- compact event cards showing type, venue, date/time, distance and registration state;
+- link to the official event record;
+- organiser/store registration URL where supplied.
 
-### 11.2 My Tournaments / Swiss manager
+The app should be better than the upstream locator at prioritising the information a competitive player actually needs, without pretending to own the authoritative event record.
+
+### 11.5 Favourite venues
+
+Users should be able to favourite stores/venues.
+
+Favourites support:
+
+- an Events filter;
+- Home-screen upcoming-event summaries;
+- higher prominence when several nearby events exist.
+
+### 11.6 Event intent — Interested / Attending / Attended
+
+A discovered event can become a personal object without copying the entire upstream event permanently.
+
+Initial statuses:
+
+```text
+interested
+attending
+attended
+skipped
+```
+
+The key action on an event is **I'm attending**. This creates a local `PlannedEvent` linked back to the official event ID and automatically creates or links a Tournament Prep workspace.
+
+This action should be more prominent than simply opening an external website.
+
+### 11.7 Tournament Prep workspace
+
+Tournament Prep is a first-class connecting object rather than a loose collection of notes.
+
+For an event the prep workspace can contain:
+
+- chosen deck/version;
+- expected field saved from Meta → Play;
+- testing goals;
+- playtest-session summaries;
+- matchup notes / cheat sheets;
+- final list;
+- practical checklist;
+- registration/event links.
+
+Example Home module:
+
+```text
+NEXT EVENT · 12 DAYS
+Bristol League Cup
+Dragapult v8
+Prep 65% complete
+Continue prep →
+```
+
+### 11.8 Tournament-day transition
+
+On the event date, the same planned-event/prep object should be able to transition into Tournament Day rather than creating a disconnected record.
+
+Tournament Day can expose:
+
+- current W-L-T record and match points;
+- round-by-round result logging;
+- opponent archetype and notes;
+- first/second where the user wants to track it;
+- quick access to matchup notes;
+- standalone or contextual Cut / ID Calculator;
+- optional pairing/standings link;
+- final Swiss seed and cut result.
+
+### 11.9 My Tournaments / Swiss manager
 
 The Swiss manager is a task-focused workspace and should preserve its existing major capabilities:
 
@@ -611,12 +751,14 @@ The Swiss manager is a task-focused workspace and should preserve its existing m
 - top cut;
 - import/export.
 
-Active tournament screen should emphasise:
+An active managed tournament should emphasise:
 
 - tournament title and current round;
 - prominent timer;
 - tabs: Round · Standings · Players · Cut;
-- settings under a compact overflow action.
+- settings behind a compact overflow action.
+
+If the user is merely **playing in** an event rather than running it, Tournament Day should be much lighter than the full tournament-manager UI.
 
 ---
 
@@ -775,23 +917,164 @@ Specialised apps keep their domain logic separate.
 
 ---
 
-## 15. Data and persistence
+## 15. Data model and persistence
 
-Current functionality is primarily browser/local-data oriented plus external public data sources.
+The V2 app now contains connected concepts. These relationships should be designed deliberately before features persist significant new data.
 
-Longer term, important personal information should have a clearly defined local persistence model:
+### 15.1 Core entities
 
-- saved decks;
-- deck sprites/identity;
+#### Deck
+
+```text
+Deck
+- id
+- name
+- archetype
+- sprites[]
+- currentVersionId
+- createdAt
+- updatedAt
+```
+
+#### DeckVersion
+
+```text
+DeckVersion
+- id
+- deckId
+- versionLabel
+- decklist
+- cardSnapshot / parsedCards
+- notes
+- createdAt
+```
+
+Deck versions are important because playtesting and tournament results must be attributable to the exact list that was used, not only to a mutable deck name.
+
+#### Event
+
+Upstream/canonical event data, normally from the official Event Locator.
+
+```text
+Event
+- officialEventId
+- name
+- type
+- product
+- venue
+- address
+- city
+- coordinates
+- date / startTime
+- registrationUrl
+- officialUrl
+- source
+- sourceUpdatedAt
+```
+
+#### PlannedEvent
+
+Personal state linked to an official event.
+
+```text
+PlannedEvent
+- id
+- eventId
+- status: interested | attending | attended | skipped
+- prepId
+- createdAt
+- updatedAt
+```
+
+#### TournamentPrep
+
+```text
+TournamentPrep
+- id
+- plannedEventId
+- chosenDeckVersionId
+- expectedMetaSnapshot
+- testingGoals[]
+- matchupNotes[]
+- checklist[]
+- finalDeckVersionId
+- notes
+```
+
+#### PlaytestSession
+
+```text
+PlaytestSession
+- id
+- deckVersionId
+- opponentArchetype / opponentDeckVersionId
+- mode
+- wentFirst
+- result
+- objectives{}
+- mulligans
+- notes
+- createdAt
+```
+
+#### TournamentResult
+
+```text
+TournamentResult
+- id
+- plannedEventId / eventId
+- deckVersionId
+- rounds[]
+- finalRecord
+- swissSeed
+- cutResult
+- notes
+```
+
+### 15.2 Relationship model
+
+```text
+Official Event
+     ↓
+Planned Event
+     ↓
+Tournament Prep ─────→ Deck Version
+     │                      │
+     │                      └──→ Playtest Sessions
+     ↓
+Tournament Result ────→ Personal Matchup / performance analytics
+```
+
+Meta snapshots can be attached to Tournament Prep so future analysis can distinguish **what the field looked like when the decision was made** from whatever the live meta looks like later.
+
+### 15.3 Local persistence strategy
+
+V2 should remain local-first initially. Important personal information includes:
+
+- saved decks and versions;
+- deck identity/sprites;
 - pinned calculations;
+- planned events;
+- favourite venues;
+- tournament-prep workspaces;
 - playtest sessions;
-- saved tournaments;
-- user preferences;
-- recent items.
+- saved/managed tournaments;
+- tournament results;
+- user preferences and recent items.
 
-A migration/version strategy should be used for local data structures so future app changes do not destroy existing saved decks or tournaments.
+Use a schema/versioned storage wrapper rather than scattered direct `localStorage` reads. Existing data must be migrated rather than silently discarded.
 
-Import/export remains valuable as a backup mechanism even if storage is later centralised.
+Import/export remains valuable as a backup mechanism even if storage is later centralised or synchronised.
+
+### 15.4 Snapshot rule
+
+Anything that may change externally but matters historically should be snapshotted when attached to personal history. Examples:
+
+- chosen deck list/version;
+- expected meta used for an event;
+- event details at time of attendance.
+
+Do not rely on current live external data to reconstruct past decisions.
 
 ---
 
@@ -917,61 +1200,152 @@ Tools should remain curated and useful.
 
 ---
 
-## 18. Recommended implementation roadmap
+## 18. PTCG Tools V2 implementation roadmap
 
-### Phase 1 — PTCG Tools 2.0 shell
+Implementation should proceed as a controlled product rebuild. Do not accumulate isolated feature patches without shared foundations. Each milestone must leave the branch in a usable state and be validated before the next one begins.
 
-- shared light design system;
-- PWA manifest and safe-area handling;
-- bottom navigation;
-- new Home dashboard;
-- common components.
+### V2.0 — Foundation
 
-### Phase 2 — Meta integration
+Outcome: the project visibly becomes one app.
 
-- move Meta Lab into the shared shell;
-- preserve What Should I Play visual treatment;
-- simplify filters for mobile;
-- rename internal Meta tab to Field.
+- shared V2 design tokens and common components;
+- native-style bottom navigation: Home · Meta · Decks · Compete · Tools;
+- safe-area handling and mobile-first responsive shell;
+- PWA manifest and home-screen metadata;
+- service-worker/static-shell baseline where safe;
+- shared versioned storage wrapper;
+- completely redesigned Home dashboard;
+- existing areas remain reachable during migration.
 
-### Phase 3 — Decks refactor
+**Validation gate:**
 
-- new deck library;
-- remove duplicate/legacy edit/stat surfaces;
-- Overview · List · Odds structure;
-- shared design system.
+- no horizontal overflow at ~320/390 px;
+- all five navigation destinations work;
+- standalone/PWA metadata paths resolve;
+- old pages are still reachable;
+- existing saved local data is not intentionally overwritten.
 
-### Phase 4 — Mobile Playtest v1
+### V2.1 — Meta integration
 
-- deck-instance game state;
-- shuffle/draw/setup/prizes;
-- Active/Bench/Hand/Deck/Discard/Lost Zone/Stadium;
-- tap-to-action interaction;
+Outcome: the strongest existing area feels native to the new shell.
+
+- retain What Should I Play design and logic;
+- adopt shared header/navigation/safe-area system;
+- rename Meta Lab internal `Meta` tab to `Field`;
+- reduce prominent mobile filter clutter through progressive disclosure;
+- keep data-source separation intact.
+
+**Validation gate:** current Meta/Play/Matchups/Decks functions still load and existing DOM IDs used by logic remain valid.
+
+### V2.2 — Decks + version-ready data model
+
+Outcome: one coherent deck workflow.
+
+- restyle library into V2 system;
+- remove duplicate/legacy deck-text/stat surfaces;
+- Deck detail becomes Overview · List · Odds;
+- introduce backward-compatible Deck / DeckVersion representation;
+- add prominent Playtest entry point even before full Playtest ships;
+- preserve import/export and existing saved lists.
+
+**Validation gate:** existing deck data migrates/loads; create/edit/save/delete/duplicate/import/export still work; only one authoritative deck-list editor exists.
+
+### V2.3 — Official Events + personal event intent
+
+Outcome: reliable event discovery becomes part of the connected product.
+
+- retire Google Sheet as intended production source;
+- scheduled official Event Locator importer;
+- validation + last-known-good `data/events.json`;
+- source freshness metadata;
+- mobile Events redesign;
+- favourites;
+- Interested / I'm attending / Attended states;
+- planned event and Tournament Prep skeleton;
+- Home shows next attended/planned event.
+
+**Validation gate:** importer failure cannot destroy prior data; event JSON validates; UI handles empty/stale/offline cases; attendance state persists.
+
+### V2.4 — Mobile Playtest v1
+
+Outcome: a saved deck can be goldfished comfortably on an iPhone.
+
+- card-instance game state;
+- shuffle/draw/mulligan/setup/prizes;
+- Hand / Deck / Active / Bench / Discard / Lost Zone / Stadium;
+- tap → action sheet as primary interaction;
+- draw/search/look-at-top/shuffle actions;
 - damage/markers;
-- undo;
-- reset/new game;
-- portrait-first interface.
+- undo/history;
+- restart/new game;
+- quick opening-hand mode;
+- session can reference an exact DeckVersion.
 
-### Phase 5 — Compete integration
+**Validation gate:** state conservation test — every card instance exists in exactly one zone/attachment location; repeated restart/shuffle/draw operations never create or lose cards; primary flow is usable at 390 px without drag gestures.
 
-- Events redesign;
-- My Tournaments integration;
-- active tournament workspace.
+### V2.5 — Tournament Prep
 
-### Phase 6 — Tools
+Outcome: Events, Meta, Decks and Playtest connect around a real event.
 
-- Cut / ID Calculator;
+- attending event automatically creates prep workspace;
+- choose exact deck version;
+- save expected-field snapshot from What Should I Play;
+- testing goals and session summaries;
+- matchup cheat sheets;
+- practical checklist;
+- final list lock.
+
+**Validation gate:** deleting/changing a deck cannot orphan historical prep data without an explicit migration/snapshot; meta snapshots remain historical.
+
+### V2.6 — Tournament Day + Cut/ID
+
+Outcome: the same event object supports actual competition.
+
+- lightweight player tournament-day mode;
+- round results, opponent archetype, first/second and notes;
+- current W-L-T / match points;
+- Cut / ID Calculator contextual launch;
+- complete Cut/ID simulator added to Tools as standalone mode;
+- if using the full Swiss manager, feed complete standings directly into the calculator.
+
+**Validation gate:** tournament-point accounting is consistent; Cut calculator constraints preserve exact entered record counts; unknown standings are generated via valid simulated Swiss histories rather than independent W-L-T sampling.
+
+### V2.7 — Remaining Tools
+
 - Tournament Structure;
 - Draw / Outs;
-- Prize Calculator.
+- Prize Calculator;
+- context-aware versions inside Decks/Compete.
 
-### Phase 7 — Competitive workflow enhancements
+### V2.8 — Personal analytics
 
-- deck versions;
+- deck-version comparisons;
 - playtest analytics;
 - personal matchup log;
-- tournament prep workspace;
-- personal performance dashboard.
+- tournament history/results dashboard;
+- meta-aware tech/list comparison.
+
+### V2.9 — Polish / resilience
+
+- performance pass;
+- offline/static-shell behaviour;
+- accessible labels/focus states;
+- animation/haptic-like visual feedback kept restrained;
+- final icon/logo/splash assets;
+- migration/backup UX;
+- broad mobile regression pass.
+
+### Implementation discipline
+
+For every milestone:
+
+1. preserve the live `main` branch until the V2 branch is validated;
+2. make the smallest coherent set of changes that achieves the milestone;
+3. run structural/syntax checks on changed HTML/CSS/JS;
+4. check all links and referenced local assets;
+5. run targeted functional tests for the feature logic;
+6. manually reason through mobile edge cases and empty/error states;
+7. record any deliberate limitations in this master document rather than silently leaving ambiguous behaviour.
 
 ---
 
@@ -998,5 +1372,7 @@ Limitless was used as an important reference point for this product direction:
 - its Tabletop supports practising opening hands/turns and complete self-played games;
 - Limitless states that the older Tabletop is designed for mouse + keyboard, uses keyboard shortcuts/dragging, and does not support mobile;
 - Limitless also exposes useful adjacent tools including Swiss Calculator and Opening Hand Calculator.
+
+The official **Play! Pokémon Event Locator** is the canonical planned source for sanctioned local event discovery. PTCG Tools should ingest and cache that data safely rather than rely on a manually maintained Google Sheet.
 
 PTCG Tools should not clone Limitless visually or technically. The opportunity is to combine the strongest competitive-analysis ideas with a substantially better personal/mobile workflow.
