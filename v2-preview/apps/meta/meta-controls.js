@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
 
   function optionHtml(options) {
     const base = options.filter(x => !x.event).map(x => `<option value="${esc(x.value)}">${esc(x.label)}</option>`).join('');
@@ -43,7 +43,6 @@
     const select = $(`${prefix}Scope`);
     select.innerHTML = optionHtml(source === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes());
     select.value = source === 'irl' ? state.irlScope : state.onlineScope;
-    select.setAttribute('aria-label', source === 'irl' ? 'IRL scope' : 'Online scope');
   }
 
   function bindPair(visibleId, modelId) {
@@ -54,61 +53,77 @@
     visible.addEventListener('change', () => {
       model.value = visible.value;
       model.dispatchEvent(new Event('change', { bubbles: true }));
-      syncPrepScopes();
+      syncPrepSections();
     });
-    model.addEventListener('change', () => { visible.value = model.value; syncPrepScopes(); });
+    model.addEventListener('change', () => { visible.value = model.value; syncPrepSections(); });
   }
 
   function ensurePrepSourceDetails() {
-    const header = $('playFieldSource')?.closest('.meta-child-header');
     const sourceRow = $('playFieldSource')?.closest('.child-source-row');
-    if (!header || !sourceRow) return null;
+    if (!sourceRow) return null;
     let details = $('playSourceDetails');
     if (!details) {
       details = document.createElement('details');
       details.id = 'playSourceDetails';
       details.className = 'play-source-details';
-      details.innerHTML = '<summary><span><b>Data sources</b><small id="playSourceSummary"></small></span><span class="play-source-chevron">⌄</span></summary><div id="playSourceBody" class="play-source-body"></div>';
+      details.innerHTML = '<summary><span><b>Data sources</b><small id="playSourceSummary"></small></span><span class="play-source-chevron">⌄</span></summary><div id="playSourceBody" class="play-source-body"><section id="playFieldSection" class="play-source-section"><div class="play-source-section-title">Field</div><div id="playFieldControls" class="play-source-section-controls"></div><div id="playFieldContext" class="play-source-section-context"></div></section><section id="playMatchupSection" class="play-source-section"><div class="play-source-section-title">Matchups</div><div id="playMatchupControls" class="play-source-section-controls"></div><div id="playMatchupContext" class="play-source-section-context"></div></section></div>';
       sourceRow.parentNode.insertBefore(details, sourceRow);
-      $('playSourceBody').appendChild(sourceRow);
+      const labels = [...sourceRow.querySelectorAll(':scope > label')];
+      if (labels[0]) $('playFieldControls').appendChild(labels[0]);
+      if (labels[1]) $('playMatchupControls').appendChild(labels[1]);
+      sourceRow.remove();
     }
     return details;
+  }
+
+  function ensurePrepScope(section, source, kind) {
+    const id = `play${kind}${source === 'online' ? 'Online' : 'Irl'}Scope`;
+    let wrap = $(`${id}Wrap`);
+    if (!wrap) {
+      wrap = document.createElement('label');
+      wrap.id = `${id}Wrap`;
+      wrap.className = 'meta-scope-control';
+      wrap.innerHTML = `<span>${source === 'online' ? 'Online' : 'IRL'} scope</span><select id="${id}"></select>`;
+      section.appendChild(wrap);
+      $(id).addEventListener('change', e => source === 'online'
+        ? window.MetaState.setOnlineScope(e.currentTarget.value)
+        : window.MetaState.setIrlScope(e.currentTarget.value));
+    }
+    const state = window.MetaState.get();
+    const select = $(id);
+    select.innerHTML = optionHtml(source === 'online' ? window.MetaState.onlineScopes() : window.MetaState.irlScopes());
+    select.value = source === 'online' ? state.onlineScope : state.irlScope;
+    return wrap;
   }
 
   function syncPrepSummary() {
     const summary = $('playSourceSummary');
     if (!summary) return;
-    const field = selectedLabel($('playFieldSource')) || 'Online';
-    const matchups = selectedLabel($('playMatchupSource')) || 'Online';
-    summary.textContent = `Field: ${field} · Matchups: ${matchups}`;
+    summary.textContent = `Field: ${selectedLabel($('playFieldSource')) || 'Online'} · Matchups: ${selectedLabel($('playMatchupSource')) || 'Online'}`;
   }
 
-  function syncPrepScopes() {
-    const details = ensurePrepSourceDetails();
-    const header = $('playFieldSource')?.closest('.meta-child-header');
-    if (!header || !details) return;
-    let row = $('playScopeControls');
-    if (!row) {
-      row = document.createElement('div');
-      row.id = 'playScopeControls';
-      row.className = 'play-scope-controls';
-      row.innerHTML = '<label id="playOnlineScopeWrap"><span>Online scope</span><select id="playOnlineScope"></select></label><label id="playIrlScopeWrap"><span>IRL scope</span><select id="playIrlScope"></select></label>';
-      $('playSourceBody').appendChild(row);
-      $('playOnlineScope').addEventListener('change', e => window.MetaState.setOnlineScope(e.currentTarget.value));
-      $('playIrlScope').addEventListener('change', e => window.MetaState.setIrlScope(e.currentTarget.value));
-    }
+  function syncPrepSections() {
+    if (!ensurePrepSourceDetails()) return;
+    const fieldHost = $('playFieldControls');
+    const matchupHost = $('playMatchupControls');
+    if (!fieldHost || !matchupHost) return;
+
+    [...fieldHost.querySelectorAll('.meta-scope-control'), ...matchupHost.querySelectorAll('.meta-scope-control')].forEach(el => el.hidden = true);
+
     const field = $('playFieldSource')?.value || 'online';
-    const matchups = $('playMatchupSource')?.value || 'online';
-    const needsOnline = ['online','blend'].includes(field) || ['online','combined'].includes(matchups);
-    const needsIrl = ['irl','blend'].includes(field) || ['irl','combined'].includes(matchups);
-    const state = window.MetaState.get();
-    $('playOnlineScopeWrap').hidden = !needsOnline;
-    $('playIrlScopeWrap').hidden = !needsIrl;
-    $('playOnlineScope').innerHTML = optionHtml(window.MetaState.onlineScopes());
-    $('playOnlineScope').value = state.onlineScope;
-    $('playIrlScope').innerHTML = optionHtml(window.MetaState.irlScopes());
-    $('playIrlScope').value = state.irlScope;
+    const matchup = $('playMatchupSource')?.value || 'online';
+    const fieldNeedsOnline = ['online','blend','custom'].includes(field);
+    const fieldNeedsIrl = ['irl','blend'].includes(field);
+    const matchupNeedsOnline = ['online','combined'].includes(matchup);
+    const matchupNeedsIrl = ['irl','combined'].includes(matchup);
+
+    if (fieldNeedsOnline) ensurePrepScope(fieldHost, 'online', 'Field').hidden = false;
+    if (fieldNeedsIrl) ensurePrepScope(fieldHost, 'irl', 'Field').hidden = false;
+    if (matchupNeedsOnline) ensurePrepScope(matchupHost, 'online', 'Matchup').hidden = false;
+    if (matchupNeedsIrl) ensurePrepScope(matchupHost, 'irl', 'Matchup').hidden = false;
+
     syncPrepSummary();
+    window.MetaContext?.render?.();
   }
 
   function detailSource() {
@@ -133,11 +148,7 @@
     wrap.querySelector('span').textContent = active === 'irl' ? 'IRL scope' : 'Online scope';
     const state = window.MetaState.get();
     const select = $('deckDetailScope');
-    const html = optionHtml(active === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes());
-    if (select.dataset.options !== html) {
-      select.innerHTML = html;
-      select.dataset.options = html;
-    }
+    select.innerHTML = optionHtml(active === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes());
     select.value = active === 'irl' ? state.irlScope : state.onlineScope;
     window.MetaContext?.render?.();
   }
@@ -147,7 +158,7 @@
     syncLandingOptions(activeSource);
     ensureScopedControl('matchupPageSource', '.single-source-control', 'matchupPage');
     ensureScopedControl('deckPageSource', '.single-source-control', 'deckPage');
-    syncPrepScopes();
+    syncPrepSections();
     syncDetail();
   }
 
@@ -160,9 +171,7 @@
   });
   ['matchupPageSource','deckPageSource','playFieldSource','playMatchupSource'].forEach(id => $(id)?.addEventListener('change', syncAll));
   window.addEventListener('meta:data-changed', syncAll);
-  document.addEventListener('click', e => {
-    if (e.target.closest('[data-detail-source]')) setTimeout(syncDetail, 0);
-  });
+  document.addEventListener('click', e => { if (e.target.closest('[data-detail-source]')) setTimeout(syncDetail, 0); });
 
   const main = document.querySelector('main.wrap');
   if (main && !document.getElementById('deckDetail')) {
@@ -175,7 +184,7 @@
   }
 
   const style = document.createElement('style');
-  style.textContent = '.meta-scope-control,.play-scope-controls label{display:grid;gap:4px;min-width:0;color:#667085;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.meta-scope-control select,.play-scope-controls select{width:100%;min-height:42px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;padding:0 10px;color:#101828;font:inherit;font-size:13px;font-weight:700}.play-scope-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.detail-scope-control{margin-top:8px}.single-source-control{flex-wrap:wrap}.meta-scope-control{flex:1}.play-scope-controls label[hidden]{display:none!important}.play-source-details{margin-top:10px;border:1px solid #e1e5eb;border-radius:14px;background:#fff;overflow:hidden}.play-source-details summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;cursor:pointer}.play-source-details summary::-webkit-details-marker{display:none}.play-source-details summary>span:first-child{display:grid;gap:2px;min-width:0}.play-source-details summary b{font-size:13px;color:#101828}.play-source-details summary small{font-size:11px;color:#667085;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.play-source-chevron{font-size:18px;color:#667085;transition:transform .15s ease}.play-source-details[open] .play-source-chevron{transform:rotate(180deg)}.play-source-body{padding:0 12px 12px}.play-source-body .child-source-row{margin:0}.play-source-details:not([open]) .play-source-body{display:none}@media(max-width:600px){.single-source-control{display:grid!important;grid-template-columns:1fr}.play-scope-controls{grid-template-columns:1fr}}';
+  style.textContent = '.meta-scope-control{display:grid;gap:4px;min-width:0;color:#667085;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.meta-scope-control select{width:100%;min-height:42px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;padding:0 10px;color:#101828;font:inherit;font-size:13px;font-weight:700}.detail-scope-control{margin-top:8px}.single-source-control{flex-wrap:wrap}.meta-scope-control{flex:1}.meta-scope-control[hidden]{display:none!important}.play-source-details{margin-top:10px;border:1px solid #e1e5eb;border-radius:14px;background:#fff;overflow:hidden}.play-source-details summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;cursor:pointer}.play-source-details summary::-webkit-details-marker{display:none}.play-source-details summary>span:first-child{display:grid;gap:2px;min-width:0}.play-source-details summary b{font-size:13px;color:#101828}.play-source-details summary small{font-size:11px;color:#667085;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.play-source-chevron{font-size:18px;color:#667085;transition:transform .15s ease}.play-source-details[open] .play-source-chevron{transform:rotate(180deg)}.play-source-body{padding:0 12px 12px}.play-source-details:not([open]) .play-source-body{display:none}.play-source-section{padding:12px 0}.play-source-section+.play-source-section{border-top:1px solid #e4e7ec}.play-source-section-title{margin-bottom:8px;color:#344054;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}.play-source-section-controls{display:grid;gap:8px}.play-source-section-controls>label:not(.meta-scope-control){display:grid;gap:4px;color:#667085;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.play-source-section-controls select{width:100%;min-height:42px}.play-source-section-context{margin-top:10px}.play-source-section-context:empty{display:none}@media(max-width:600px){.single-source-control{display:grid!important;grid-template-columns:1fr}}';
   document.head.appendChild(style);
   window.MetaControls = { sync: syncAll, syncDetail };
   setTimeout(syncAll, 0);
