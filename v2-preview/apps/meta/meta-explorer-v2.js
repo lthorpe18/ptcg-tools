@@ -7,7 +7,6 @@
   let detailOrigin = 'currentMetaPage';
   let detailName = '';
   let detailSource = 'online';
-  let detailKind = 'variant';
   let matchupDeck = '';
 
   function familyFor(name) {
@@ -85,18 +84,13 @@
   function hideMainSections() {
     ['currentMetaPage','prep','matchups','decks'].forEach(id => $(id)?.classList.add('hidden'));
   }
-  function inferKind(name, explicit) {
-    if (explicit === 'family' || explicit === 'variant') return explicit;
-    return isNamedFamily(name) ? 'family' : 'variant';
-  }
-  function openDetail(name, source, kind='auto') {
+  function openDetail(name, source) {
     if (!name) return;
     ensureDetail();
     const visible = ['currentMetaPage','prep','matchups','decks'].find(id => !$(id)?.classList.contains('hidden'));
     if (visible) detailOrigin = visible;
     detailName = name;
     detailSource = source === 'irl' ? 'irl' : 'online';
-    detailKind = inferKind(name,kind);
     hideMainSections();
     $('deckDetail')?.classList.remove('hidden');
     document.body.dataset.metaView = 'detail';
@@ -117,21 +111,6 @@
     return `<div class="matchup-card-list">${rows.map(({opponent,m})=>`<button class="matchup-card" type="button" data-explore-deck="${esc(opponent.name)}" data-explore-kind="variant" data-explore-source="${source}"><span class="matchup-opponent">${sprite(opponent.name,32)}<span><b>${esc(opponent.name)}</b><small>${m.wins}-${m.losses}-${m.ties} · ${m.games} games</small></span></span><strong>${pct(m.winRate)}</strong></button>`).join('')}</div>`;
   }
 
-  function familyDetail() {
-    const all = variantRows(detailSource);
-    const family = familyFor(detailName);
-    const names = new Set(family?.variants || [detailName]);
-    const variants = all.filter(row=>names.has(row.name));
-    const entries = variants.reduce((sum,row)=>sum+row.entries,0);
-    const total = all.reduce((sum,row)=>sum+row.entries,0);
-    const share = total ? 100*entries/total : null;
-    const sourceLabel = detailSource === 'irl' ? 'IRL' : 'Online';
-    $('deckDetailHead').innerHTML = `<div class="detail-title">${sprite(detailName,52)}<div><div class="eyebrow">${sourceLabel} FAMILY</div><h1>${esc(detailName)}</h1><p>${variants.length} observed variant${variants.length===1?'':'s'}</p></div></div><div class="detail-source"><button type="button" data-detail-source="online" class="${detailSource==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detailSource==='irl'?'active':''}">IRL</button></div>`;
-    const summary = `<div class="detail-stats family-stats"><div><b>${entries.toLocaleString()}</b><span>Family entries</span></div><div><b>${pct(share)}</b><span>Share of field</span></div></div>`;
-    const variantHtml = variants.length ? `<section class="detail-section"><div class="section-row"><h2>Variants</h2><span>Open a variant for WR & matchups</span></div><div class="variant-detail-list">${variants.map(v=>`<button type="button" data-explore-deck="${esc(v.name)}" data-explore-kind="variant" data-explore-source="${detailSource}"><span>${sprite(v.name,30)}<span><b>${esc(v.name)}</b><small>${pct(v.share)} of source</small></span></span><span class="variant-performance"><b>${v.entries.toLocaleString()}</b><small>entries</small></span><span class="explore-arrow">›</span></button>`).join('')}</div></section>` : '<div class="meta-empty">No variants are available for this source.</div>';
-    $('deckDetailBody').innerHTML = `${summary}<div class="family-analysis-note">Family grouping is only used to summarise field share. Win rate, results and matchup evidence are shown only for individual variants.</div>${variantHtml}`;
-  }
-
   function variantDetail() {
     const variants = variantRows(detailSource);
     const row = variants.find(r=>r.name===detailName);
@@ -143,27 +122,21 @@
       return;
     }
     const summary = `<div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Entries</span></div><div><b>${pct(row.share)}</b><span>Share of source</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div>`;
-    const familyLink = family ? `<button class="family-back-link" type="button" data-explore-deck="${esc(family.name)}" data-explore-kind="family" data-explore-source="${detailSource}">View ${esc(family.name)} family share ›</button>` : '';
     const results = detailSource==='online' ? (window.DATA?.results || DATA?.results || []).filter(r=>r.archetype===detailName).sort((a,b)=>new Date(b.date)-new Date(a.date)||a.placing-b.placing).slice(0,8) : [];
     const resultsHtml = results.length ? `<section class="detail-section"><h2>Recent results</h2><div class="result-card-list">${results.map(r=>`<div class="result-card"><b>${r.placing}/${r.players}</b><span>${esc(r.player)}</span><small>${esc(r.tournament)} · ${r.record?.wins||0}-${r.record?.losses||0}-${r.record?.ties||0}</small></div>`).join('')}</div></section>` : '';
-    $('deckDetailBody').innerHTML = `${summary}${familyLink}<section class="detail-section"><div class="section-row"><h2>Matchups</h2><span>${sourceLabel} · exact variant</span></div>${matchupCards(detailName,detailSource,25)}</section>${resultsHtml}`;
+    $('deckDetailBody').innerHTML = `${summary}<section class="detail-section"><div class="section-row"><h2>Matchups</h2><span>${sourceLabel} · exact variant</span></div>${matchupCards(detailName,detailSource,25)}</section>${resultsHtml}`;
   }
 
   function renderDetail() {
-    if (detailKind === 'family') familyDetail(); else variantDetail();
+    variantDetail();
     document.querySelectorAll('[data-detail-source]').forEach(btn=>btn.addEventListener('click',()=>{detailSource=btn.dataset.detailSource;renderDetail();}));
   }
 
   function renderDeckExplorerV2() {
     const target=$('deckExplorerList'); if(!target)return;
     const source=$('deckPageSource')?.value||'online';
-    const rows=familyRows(source);
-    target.innerHTML=rows.length?rows.slice(0,50).map((r,i)=>{
-      const realFamily=r.isFamily&&r.variants.length>1;
-      const single=r.variants[0];
-      const kind=realFamily?'family':'variant';
-      return `<button class="deck-explorer-card" type="button" data-explore-deck="${esc(r.name)}" data-explore-kind="${kind}" data-explore-source="${source}"><span class="deck-explorer-rank">${i+1}</span>${sprite(r.name,38)}<span class="deck-explorer-copy"><b>${esc(r.name)}</b><small>${r.entries.toLocaleString()} entries${realFamily?` · ${r.variants.length} variants`:''}</small></span><span class="deck-explorer-score"><b>${pct(r.share)}</b><small>${realFamily?'family share':`${pct(single?.winRate)} WR`}</small></span><span class="explore-arrow">›</span></button>`;
-    }).join(''):'<div class="meta-empty">No deck data available.</div>';
+    const rows=variantRows(source);
+    target.innerHTML=rows.length?rows.slice(0,80).map((r,i)=>`<button class="deck-explorer-card" type="button" data-explore-deck="${esc(r.name)}" data-explore-source="${source}"><span class="deck-explorer-rank">${i+1}</span>${sprite(r.name,38)}<span class="deck-explorer-copy"><b>${esc(r.name)}</b><small>${r.entries.toLocaleString()} entries</small></span><span class="deck-explorer-score"><b>${pct(r.share)}</b><small>${pct(r.winRate)} WR</small></span><span class="explore-arrow">›</span></button>`).join(''):'<div class="meta-empty">No deck data available.</div>';
   }
 
   function renderMatchupsV2() {
@@ -188,12 +161,6 @@
     if(explicit)return{name:explicit.dataset.exploreDeck,kind:explicit.dataset.exploreKind||'variant',source:explicit.dataset.exploreSource};
     const variantRow=target.closest('.variant-row');
     if(variantRow)return{name:variantRow.querySelector('span')?.textContent?.trim()||'',kind:'variant'};
-    const current=target.closest('.current-meta-row');
-    if(current&&target.closest('.current-name,.current-share')){
-      const name=current.querySelector('.current-name b')?.textContent?.trim()||'';
-      const grouped=$('currentGroupingToggle')?.checked!==false;
-      return{name,kind:grouped&&isNamedFamily(name)?'family':'variant'};
-    }
     const node=target.closest('.rec-main h3,.deck-check-name b,.watch-card b,.why-matchup-name b');
     if(node)return{name:node.textContent?.trim()||'',kind:'variant'};
     return null;
@@ -202,7 +169,7 @@
   document.addEventListener('click',event=>{
     const info=targetInfo(event.target); if(!info?.name)return;
     event.preventDefault(); event.stopPropagation(); event.stopImmediatePropagation();
-    openDetail(info.name,info.source||sourceForContext(),info.kind);
+    openDetail(info.name,info.source||sourceForContext());
   },true);
 
   document.querySelector('[data-meta-view="matchups"]')?.addEventListener('click',()=>setTimeout(renderMatchupsV2,0));
@@ -213,5 +180,5 @@
   window.addEventListener('deckagg:updated',()=>{if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
   window.addEventListener('irl:updated',()=>{if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
   window.addEventListener('irlscope:changed',()=>{if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
-  window.MetaExplore={openDeck:(name,source,kind='variant')=>openDetail(name,source,kind)};
+  window.MetaExplore={openDeck:(name,source)=>openDetail(name,source)};
 })();

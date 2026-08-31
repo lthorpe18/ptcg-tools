@@ -40,7 +40,7 @@
 
   function rowHtml(row,index) {
     const expandable=grouped()&&row.variants.length>1, open=expanded.has(row.name);
-    const variants=expandable&&open?`<div class="current-variants">${row.variants.map(v=>`<div class="variant-row"><span>${esc(v.name)}</span><b>${pct(v.share*100)}</b><small>${v.entries} entries</small></div>`).join('')}</div>`:'';
+    const variants=expandable&&open?`<div class="current-variants">${row.variants.map(v=>`<button type="button" class="variant-row" data-explore-deck="${esc(v.name)}" data-explore-source="online"><span>${esc(v.name)}</span><b>${pct(v.share*100)}</b><small>${v.entries} entries</small><span class="explore-arrow">›</span></button>`).join('')}</div>`:'';
     return `<article class="current-meta-row ${expandable?'expandable':''}" data-history-family="${esc(row.name)}"><div class="current-rank">${index+1}</div><div class="current-name">${window.DeckSprites?.html?.(row.name,{size:34})||''}<span><b>${esc(row.name)}</b><small>${expandable?`${row.variants.length} variants · tap to ${open?'collapse':'expand'}`:`${row.entries} entries`}</small></span></div><div class="current-share"><b>${pct(row.share*100)}</b><small>${row.entries} entries</small></div><span class="row-chevron">${expandable?(open?'⌃':'⌄'):''}</span>${variants}</article>`;
   }
 
@@ -52,7 +52,7 @@
     $('currentMetaStats').innerHTML=`<div><b>${data.eventCount}</b><span>Events</span></div><div><b>${data.total.toLocaleString()}</b><span>Entries</span></div><div class="wide"><b>50+ online events</b><span>Updated ${updated}</span></div>`;
     $('currentMetaList').innerHTML=rows.length?rows.map(rowHtml).join(''):'<div class="meta-empty">No online tournaments fall inside this window.</div>';
     $('currentMetaMore').hidden=data.rows.length<=8; $('currentMetaMore').textContent=showAll?'Show top 8':`View full field (${data.rows.length})`;
-    document.querySelectorAll('[data-history-family]').forEach(row=>row.addEventListener('click',()=>{const n=row.dataset.historyFamily;expanded.has(n)?expanded.delete(n):expanded.add(n);render();}));
+    document.querySelectorAll('[data-history-family]').forEach(row=>row.addEventListener('click',event=>{ if(event.target.closest('[data-explore-deck]')) return;const n=row.dataset.historyFamily;expanded.has(n)?expanded.delete(n):expanded.add(n);render();}));
   }
 
   async function load() {
