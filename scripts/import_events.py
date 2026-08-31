@@ -215,7 +215,7 @@ class RK9TableParser(html.parser.HTMLParser):
         self.current_row: list[dict[str, Any]] | None = None
         self.current_cell: dict[str, Any] | None = None
         self.current_link: dict[str, str] | None = None
-        self.upcoming = False
+        self.upcoming = True
         self.in_heading = False
         self.heading_text: list[str] = []
 
@@ -317,8 +317,8 @@ def cell_links(cell: dict[str, Any]) -> list[dict[str, str]]:
 
 def fetch_major_events() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     body = request_text(RK9_EVENTS_URL)
-    if "Upcoming Pokémon Events" not in body and "Upcoming Pokemon Events" not in body:
-        raise RuntimeError("RK9 page no longer contains the upcoming Pokemon events heading")
+    if "Regional Championships" not in body and "World Championships" not in body:
+        raise RuntimeError("RK9 page no longer contains recognizable Championship event rows")
 
     parser = RK9TableParser()
     parser.feed(body)
