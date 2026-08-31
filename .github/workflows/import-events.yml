@@ -36,7 +36,7 @@ jobs:
 
       - name: Commit updated event dataset
         run: |
-          if git diff --quiet -- data/events.json; then
+          if [ -z "$(git status --porcelain -- data/events.json)" ]; then
             echo 'No event data changes to commit.'
             exit 0
           fi
