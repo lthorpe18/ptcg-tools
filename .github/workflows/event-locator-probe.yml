@@ -5,6 +5,7 @@ on:
     branches: [ptcg-tools-v2]
     paths:
       - 'scripts/event-locator-probe.mjs'
+      - 'scripts/event_locator_selenium_probe.py'
       - '.github/workflows/event-locator-probe.yml'
   workflow_dispatch:
 
@@ -12,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  probe:
+  playwright-probe:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -24,13 +25,34 @@ jobs:
         run: |
           npm install --no-save playwright@1.55.0
           npx playwright install --with-deps chromium
-      - name: Probe Bristol-area Event Locator
+      - name: Probe Bristol-area Event Locator with Playwright
         run: node scripts/event-locator-probe.mjs
-      - name: Upload probe diagnostics
+      - name: Upload Playwright diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: event-locator-probe
+          name: event-locator-playwright-probe
           path: artifacts/event-locator-probe
+          if-no-files-found: warn
+          retention-days: 3
+
+  seleniumbase-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install SeleniumBase
+        run: pip install seleniumbase
+      - name: Probe Bristol-area Event Locator with SeleniumBase CDP mode
+        run: python scripts/event_locator_selenium_probe.py
+      - name: Upload SeleniumBase diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: event-locator-seleniumbase-probe
+          path: artifacts/event-locator-selenium-probe
           if-no-files-found: warn
           retention-days: 3
