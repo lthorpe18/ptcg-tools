@@ -119,6 +119,11 @@
   document.addEventListener('click', e => {
     if (e.target.closest('[data-meta-view],[data-explore-deck],[data-detail-source]')) setTimeout(renderVisible, 0);
   });
+
+  const style = document.createElement('style');
+  style.textContent = '.deck-detail .detail-stats{grid-template-columns:repeat(4,minmax(0,1fr))}.deck-detail .detail-stats b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}@media(max-width:600px){.deck-detail .detail-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.deck-detail .detail-stats>div:nth-child(2){border-right:0}.deck-detail .detail-stats>div:nth-child(-n+2){border-bottom:1px solid #eaecf0}}';
+  document.head.appendChild(style);
+
   window.MetaContext = { render: renderVisible, renderPrep };
   setTimeout(renderVisible, 0);
 })();
