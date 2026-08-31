@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 """Build the normalized PTCG Tools event dataset.
 
-Local competitive events are sourced from pokedata.ovh. The generated file is
-safe for the static app to consume and is only replaced after validation.
-
-Major-event providers are intentionally represented separately in the output
-schema so Regionals/Internationals can be added without changing the client.
+Local competitive events are sourced from pokedata.ovh. Major Championship
+Series events are sourced from RK9's public Pokemon event index, which exposes
+stable event/detail and TCG registration links. The generated file is safe for
+the static app to consume and is only replaced after validation.
 """
 
 from __future__ import annotations
 
 import datetime as dt
+import hashlib
+import html.parser
 import json
 import math
 import os
+import re
 import sys
 import urllib.error
-import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any
@@ -25,6 +26,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "data" / "events.json"
 
 POKEDATA_BASE = "https://www.pokedata.ovh/events/api"
+RK9_EVENTS_URL = "https://rk9.gg/events/pokemon"
 SEARCH_LAT = float(os.getenv("PTCG_EVENTS_LAT", "51.4545"))
 SEARCH_LON = float(os.getenv("PTCG_EVENTS_LON", "-2.5879"))
 SEARCHES = (
@@ -32,7 +34,7 @@ SEARCHES = (
     ("challenges", 60),
     ("pre", 50),
 )
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 USER_AGENT = "PTCG-Tools/2 event importer (+https://github.com/lthorpe18/ptcg-tools)"
 
 
@@ -44,19 +46,22 @@ def today() -> str:
     return dt.date.today().isoformat()
 
 
-def get_json(url: str) -> Any:
+def request_text(url: str, accept: str = "text/html,application/xhtml+xml") -> str:
     request = urllib.request.Request(
         url,
-        headers={"User-Agent": USER_AGENT, "Accept": "application/json"},
+        headers={"User-Agent": USER_AGENT, "Accept": accept},
     )
     with urllib.request.urlopen(request, timeout=35) as response:
         if response.status != 200:
             raise RuntimeError(f"HTTP {response.status} for {url}")
-        content_type = response.headers.get("Content-Type", "")
-        body = response.read().decode("utf-8")
-        if "json" not in content_type.lower() and not body.lstrip().startswith(("[", "{")):
-            raise RuntimeError(f"Unexpected content type {content_type!r} for {url}")
-        return json.loads(body)
+        return response.read().decode("utf-8", errors="replace")
+
+
+def get_json(url: str) -> Any:
+    body = request_text(url, "application/json")
+    if not body.lstrip().startswith(("[", "{")):
+        raise RuntimeError(f"Unexpected non-JSON response for {url}")
+    return json.loads(body)
 
 
 def pokedata_url(kind: str, radius_miles: int) -> str:
@@ -166,6 +171,7 @@ def normalize_local(raw: dict[str, Any], requested_kind: str) -> dict[str, Any]:
         "status": raw.get("status") or None,
         "officialUrl": raw.get("pokemon_url") or None,
         "registrationUrl": raw.get("registration_url") or None,
+        "sourceUrl": "https://www.pokedata.ovh/events/",
         "details": details,
     }
 
@@ -197,7 +203,221 @@ def fetch_local_events() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
             "accepted": accepted,
         })
 
-    return sorted(merged.values(), key=lambda e: (e.get("startDate") or "9999", e.get("startTime") or "", e.get("venue") or "")), reports
+    return sorted(merged.values(), key=sort_key), reports
+
+
+class RK9TableParser(html.parser.HTMLParser):
+    """Extract table rows/cells/links from RK9 without depending on CSS classes."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.rows: list[list[dict[str, Any]]] = []
+        self.current_row: list[dict[str, Any]] | None = None
+        self.current_cell: dict[str, Any] | None = None
+        self.current_link: dict[str, str] | None = None
+        self.upcoming = False
+        self.in_heading = False
+        self.heading_text: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attrs_dict = dict(attrs)
+        if tag in {"h1", "h2", "h3", "h4", "h5"}:
+            self.in_heading = True
+            self.heading_text = []
+        elif tag == "tr" and self.upcoming:
+            self.current_row = []
+        elif tag in {"td", "th"} and self.current_row is not None:
+            self.current_cell = {"text": [], "links": []}
+        elif tag == "a" and self.current_cell is not None:
+            self.current_link = {"href": attrs_dict.get("href") or "", "text": ""}
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in {"h1", "h2", "h3", "h4", "h5"} and self.in_heading:
+            heading = " ".join("".join(self.heading_text).split()).lower()
+            if "upcoming" in heading and "pokémon" in heading and "event" in heading:
+                self.upcoming = True
+            elif "past" in heading and "pokémon" in heading and "event" in heading:
+                self.upcoming = False
+            self.in_heading = False
+        elif tag == "a" and self.current_link is not None and self.current_cell is not None:
+            self.current_link["text"] = " ".join(self.current_link["text"].split())
+            self.current_cell["links"].append(self.current_link)
+            self.current_link = None
+        elif tag in {"td", "th"} and self.current_cell is not None and self.current_row is not None:
+            self.current_cell["text"] = " ".join("".join(self.current_cell["text"]).split())
+            self.current_row.append(self.current_cell)
+            self.current_cell = None
+        elif tag == "tr" and self.current_row is not None:
+            if self.current_row:
+                self.rows.append(self.current_row)
+            self.current_row = None
+
+    def handle_data(self, data: str) -> None:
+        if self.in_heading:
+            self.heading_text.append(data)
+        if self.current_cell is not None:
+            self.current_cell["text"].append(data)
+        if self.current_link is not None:
+            self.current_link["text"] += data
+
+
+def absolute_rk9_url(href: str | None) -> str | None:
+    if not href:
+        return None
+    if href.startswith("http://") or href.startswith("https://"):
+        return href
+    if href.startswith("/"):
+        return "https://rk9.gg" + href
+    return "https://rk9.gg/" + href
+
+
+def parse_rk9_date_range(text: str) -> tuple[str | None, str | None]:
+    clean = " ".join(text.replace("–", "-").replace("—", "-").split())
+    # Examples: August 28-30, 2026 | September 26-27, 2026 | June 27, 2026
+    match = re.search(r"([A-Za-z]+)\s+(\d{1,2})(?:-(\d{1,2}))?,\s*(\d{4})", clean)
+    if match:
+        month, first_day, last_day, year = match.groups()
+        try:
+            start = dt.datetime.strptime(f"{month} {first_day} {year}", "%B %d %Y").date()
+            end = dt.datetime.strptime(f"{month} {last_day or first_day} {year}", "%B %d %Y").date()
+            return start.isoformat(), end.isoformat()
+        except ValueError:
+            return None, None
+
+    # Cross-month range, e.g. February 27-March 1, 2026
+    match = re.search(r"([A-Za-z]+)\s+(\d{1,2})-([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})", clean)
+    if match:
+        m1, d1, m2, d2, year = match.groups()
+        try:
+            start = dt.datetime.strptime(f"{m1} {d1} {year}", "%B %d %Y").date()
+            end = dt.datetime.strptime(f"{m2} {d2} {year}", "%B %d %Y").date()
+            return start.isoformat(), end.isoformat()
+        except ValueError:
+            return None, None
+    return None, None
+
+
+def major_type(name: str) -> str | None:
+    lower = name.lower()
+    if "world championships" in lower:
+        return "World Championships"
+    if "international championships" in lower:
+        return "International"
+    if "special championships" in lower:
+        return "Special Championship"
+    if "regional championships" in lower:
+        return "Regional"
+    return None
+
+
+def cell_links(cell: dict[str, Any]) -> list[dict[str, str]]:
+    value = cell.get("links")
+    return value if isinstance(value, list) else []
+
+
+def fetch_major_events() -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    body = request_text(RK9_EVENTS_URL)
+    if "Upcoming Pokémon Events" not in body and "Upcoming Pokemon Events" not in body:
+        raise RuntimeError("RK9 page no longer contains the upcoming Pokemon events heading")
+
+    parser = RK9TableParser()
+    parser.feed(body)
+    events: list[dict[str, Any]] = []
+    ignored = 0
+
+    for row in parser.rows:
+        if len(row) < 3:
+            continue
+        row_text = " | ".join(str(cell.get("text") or "") for cell in row)
+        kind = major_type(row_text)
+        if not kind:
+            ignored += 1
+            continue
+
+        date_cell = row[0]
+        event_cell = next((cell for cell in row if "championship" in str(cell.get("text") or "").lower()), None)
+        if event_cell is None:
+            continue
+        name = str(event_cell.get("text") or "").strip()
+        start_date, end_date = parse_rk9_date_range(str(date_cell.get("text") or ""))
+        if not start_date:
+            continue
+        if end_date and end_date < today():
+            continue
+
+        event_links = cell_links(event_cell)
+        detail_href = next((link.get("href") for link in event_links if link.get("href")), None)
+
+        location = ""
+        for cell in row:
+            text = str(cell.get("text") or "").strip()
+            if cell is date_cell or cell is event_cell:
+                continue
+            if text and not any(token in text.lower() for token in ("tcg", "vg", "go", "unite", "spectator")):
+                location = text
+                break
+        city, country = location, None
+        if "," in location:
+            city, country = [piece.strip() or None for piece in location.rsplit(",", 1)]
+
+        all_links = [link for cell in row for link in cell_links(cell)]
+        tcg_href = next((link.get("href") for link in all_links if str(link.get("text") or "").strip().upper() == "TCG"), None)
+        source_url = absolute_rk9_url(detail_href) or RK9_EVENTS_URL
+        registration_url = absolute_rk9_url(tcg_href)
+        source_id_seed = detail_href or f"{name}|{start_date}|{location}"
+        source_id = hashlib.sha1(source_id_seed.encode("utf-8")).hexdigest()[:20]
+
+        events.append({
+            "id": f"rk9:{source_id}",
+            "source": "rk9",
+            "sourceId": source_id,
+            "scope": "major",
+            "type": kind,
+            "name": name,
+            "venue": None,
+            "startDate": start_date,
+            "startTime": None,
+            "endDate": end_date,
+            "endTime": None,
+            "address": None,
+            "city": city or None,
+            "region": None,
+            "postcode": None,
+            "country": country,
+            "latitude": None,
+            "longitude": None,
+            "distanceFromSeedMiles": None,
+            "cost": None,
+            "status": None,
+            "officialUrl": None,
+            "registrationUrl": registration_url,
+            "sourceUrl": source_url,
+            "details": None,
+        })
+
+    # Deduplicate defensively by normalized id.
+    deduped = {event["id"]: event for event in events}
+    result = sorted(deduped.values(), key=sort_key)
+    if not result:
+        raise RuntimeError("RK9 major-event parser produced zero upcoming Championship events")
+
+    return result, {
+        "provider": "rk9",
+        "url": RK9_EVENTS_URL,
+        "status": "ok",
+        "returned": len(result),
+        "ignoredRows": ignored,
+        "types": sorted({event["type"] for event in result}),
+        "authority": "Pokemon Championship Series; RK9 used as operational event/registration index",
+    }
+
+
+def sort_key(event: dict[str, Any]) -> tuple[str, str, str]:
+    return (
+        event.get("startDate") or "9999-12-31",
+        event.get("startTime") or "",
+        event.get("name") or event.get("venue") or "",
+    )
 
 
 def validate(events: list[dict[str, Any]], previous: dict[str, Any] | None) -> list[str]:
@@ -209,7 +429,9 @@ def validate(events: list[dict[str, Any]], previous: dict[str, Any] | None) -> l
         errors.append("duplicate normalized event ids")
 
     invalid_dates = 0
-    missing_coords = 0
+    local_count = 0
+    local_missing_coords = 0
+    majors = 0
     for event in events:
         try:
             if not event.get("startDate"):
@@ -217,13 +439,19 @@ def validate(events: list[dict[str, Any]], previous: dict[str, Any] | None) -> l
             dt.date.fromisoformat(event["startDate"])
         except (TypeError, ValueError):
             invalid_dates += 1
-        if event.get("latitude") is None or event.get("longitude") is None:
-            missing_coords += 1
+        if event.get("scope") == "local":
+            local_count += 1
+            if event.get("latitude") is None or event.get("longitude") is None:
+                local_missing_coords += 1
+        elif event.get("scope") == "major":
+            majors += 1
 
     if events and invalid_dates / len(events) > 0.05:
         errors.append(f"too many unparseable dates: {invalid_dates}/{len(events)}")
-    if events and missing_coords / len(events) > 0.25:
-        errors.append(f"too many events without coordinates: {missing_coords}/{len(events)}")
+    if local_count and local_missing_coords / local_count > 0.25:
+        errors.append(f"too many local events without coordinates: {local_missing_coords}/{local_count}")
+    if majors == 0:
+        errors.append("major-event feed produced zero events")
 
     previous_count = 0
     if isinstance(previous, dict):
@@ -252,10 +480,8 @@ def main() -> int:
 
     try:
         local_events, reports = fetch_local_events()
-        # Major events will be supplied by a separate provider adapter. Keep the
-        # schema stable now rather than making the client infer source shape.
-        major_events: list[dict[str, Any]] = []
-        events = local_events + major_events
+        major_events, major_report = fetch_major_events()
+        events = sorted(local_events + major_events, key=sort_key)
         errors = validate(events, previous)
         if errors:
             raise RuntimeError("; ".join(errors))
@@ -273,11 +499,7 @@ def main() -> int:
                     "searchSeed": {"latitude": SEARCH_LAT, "longitude": SEARCH_LON},
                     "queries": reports,
                 },
-                "major": {
-                    "provider": None,
-                    "status": "adapter-pending",
-                    "types": ["Regional", "Special Championship", "International", "World Championships"],
-                },
+                "major": major_report,
             },
             "events": events,
         }
@@ -288,7 +510,16 @@ def main() -> int:
         temp.replace(OUTPUT)
 
         counts = {report["type"]: report["accepted"] for report in reports}
-        print(json.dumps({"status": "ok", "eventCount": len(events), "localCounts": counts}, indent=2))
+        major_counts: dict[str, int] = {}
+        for event in major_events:
+            major_counts[event["type"]] = major_counts.get(event["type"], 0) + 1
+        print(json.dumps({
+            "status": "ok",
+            "eventCount": len(events),
+            "localCounts": counts,
+            "majorCount": len(major_events),
+            "majorCounts": major_counts,
+        }, indent=2))
         return 0
 
     except (RuntimeError, urllib.error.URLError, urllib.error.HTTPError, json.JSONDecodeError) as exc:
