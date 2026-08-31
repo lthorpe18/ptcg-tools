@@ -108,7 +108,7 @@
     $('currentMetaList').innerHTML = rows.length ? rows.map((row,index) => rowHtml(row,index)).join('') : '<div class="meta-empty">No data is available for this source yet.</div>';
     $('currentMetaMore').hidden = data.rows.length <= 8;
     $('currentMetaMore').textContent = state.showAll ? 'Show top 8' : `View full field (${data.rows.length})`;
-    $('currentGroupingToggle').textContent = state.grouping === 'families' ? 'Families' : 'Variants';
+    if ($('currentGroupingToggle')) $('currentGroupingToggle').checked = state.grouping === 'families';
     document.querySelectorAll('.current-meta-row.expandable').forEach(row => row.addEventListener('click', () => {
       const name = row.dataset.family;
       if (state.expanded.has(name)) state.expanded.delete(name); else state.expanded.add(name);
@@ -188,7 +188,7 @@
   function bind() {
     document.querySelectorAll('[data-current-source]').forEach(btn => btn.addEventListener('click', () => { state.source = btn.dataset.currentSource; state.expanded.clear(); renderCurrent(); }));
     $('currentWindow')?.addEventListener('change', renderCurrent);
-    $('currentGroupingToggle')?.addEventListener('click', () => { state.grouping = state.grouping === 'families' ? 'variants' : 'families'; state.expanded.clear(); renderCurrent(); });
+    $('currentGroupingToggle')?.addEventListener('change', event => { state.grouping = event.currentTarget.checked ? 'families' : 'variants'; state.expanded.clear(); renderCurrent(); });
     $('currentMetaMore')?.addEventListener('click', () => { state.showAll = !state.showAll; renderCurrent(); });
     document.querySelectorAll('[data-meta-view]').forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.metaView)));
     document.querySelectorAll('[data-meta-back]').forEach(btn => btn.addEventListener('click', () => setView('current')));
