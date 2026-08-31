@@ -12,25 +12,11 @@
   function familyFor(name) {
     return (window.ArchetypeGroups?.FAMILIES || []).find(f => f.name === name || f.variants.includes(name)) || null;
   }
-  function familyName(name) {
-    return (window.ArchetypeGroups?.FAMILIES || []).find(f => f.variants.includes(name))?.name || name;
-  }
-  function familyVariants(name) {
-    return familyFor(name)?.variants || [name];
-  }
-  function isNamedFamily(name) {
-    return !!(window.ArchetypeGroups?.FAMILIES || []).find(f => f.name === name);
-  }
   function sprite(name,size=38){ return window.DeckSprites?.html?.(name,{size}) || ''; }
+  function sourceData(source) { return window.MetaData?.data?.(source) || { decks:[], matchups:[], events:[], overview:{} }; }
+  function sourceDecks(source) { return sourceData(source).decks || []; }
+  function sourceMatchups(source) { return sourceData(source).matchups || []; }
 
-  function sourceDecks(source) {
-    if (source === 'irl') return window.IRLScope?.selectedDecks?.() || window.IRLLabs?.getData?.()?.decks || [];
-    return window.DeckAggregate?.getData?.()?.decks || [];
-  }
-  function sourceMatchups(source) {
-    if (source === 'irl') return window.IRLScope?.selectedMatchups?.() || window.IRLLabs?.getData?.()?.matchups || [];
-    return window.DeckAggregate?.getData?.()?.matchups || [];
-  }
   function variantRows(source) {
     const raw = sourceDecks(source).filter(d => !ignored(d.name));
     const total = raw.reduce((sum,d) => sum + Number(d.entries ?? d.count ?? d.players ?? 0), 0);
@@ -43,26 +29,7 @@
       return { ...d, name:d.name, entries, wins, losses, ties, share, winRate };
     }).sort((a,b) => b.entries-a.entries || (b.share||0)-(a.share||0));
   }
-  function familyRows(source) {
-    const variants = variantRows(source);
-    const total = variants.reduce((sum,row) => sum + Number(row.entries || 0), 0);
-    const map = new Map();
-    for (const row of variants) {
-      const family = familyFor(row.name);
-      const name = family?.name || row.name;
-      const target = map.get(name) || { name, entries:0, variants:[], isFamily:!!family };
-      target.entries += row.entries;
-      target.variants.push(row);
-      target.isFamily = target.isFamily || !!family;
-      map.set(name,target);
-    }
-    const rows = [...map.values()];
-    for (const row of rows) {
-      row.share = total ? 100 * row.entries / total : null;
-      row.variants.sort((a,b)=>b.entries-a.entries);
-    }
-    return rows.sort((a,b)=>b.entries-a.entries);
-  }
+
   function exactMatchup(source,a,b) {
     if (!a || !b || a === b) return null;
     const m = sourceMatchups(source).find(x => x.a === a && x.b === b);
@@ -70,6 +37,12 @@
     const wins=Number(m.wins||0), losses=Number(m.losses||0), ties=Number(m.ties||0);
     const games=Number(m.games || wins+losses+ties), decisive=wins+losses;
     return { wins,losses,ties,games,winRate:decisive ? 100*wins/decisive : null };
+  }
+
+  function evidenceGames(source) {
+    const data = sourceData(source);
+    if (source === 'online') return Number(data?.overview?.matches || 0);
+    return Math.round((data.matchups || []).reduce((sum,row)=>sum+Number(row.games||0),0)/2);
   }
 
   function ensureDetail() {
@@ -101,49 +74,71 @@
     $('deckDetail')?.classList.add('hidden');
     $(detailOrigin)?.classList.remove('hidden');
     document.body.dataset.metaView = detailOrigin === 'currentMetaPage' ? 'current' : detailOrigin;
+    window.MetaControls?.sync?.();
+    window.MetaContext?.render?.();
     window.scrollTo({top:0,behavior:'instant'});
   }
 
   function matchupCards(name,source,limit=20) {
     const opponents = variantRows(source).filter(r=>r.name!==name);
     const rows = opponents.map(opponent=>({opponent,m:exactMatchup(source,name,opponent.name)})).filter(x=>x.m).sort((a,b)=>b.m.games-a.m.games).slice(0,limit);
-    if (!rows.length) return '<div class="meta-empty">No matchup evidence is available for this exact variant.</div>';
+    if (!rows.length) return '<div class="meta-empty">No matchup evidence is available for this exact variant in the selected source and scope.</div>';
     return `<div class="matchup-card-list">${rows.map(({opponent,m})=>`<button class="matchup-card" type="button" data-explore-deck="${esc(opponent.name)}" data-explore-kind="variant" data-explore-source="${source}"><span class="matchup-opponent">${sprite(opponent.name,32)}<span><b>${esc(opponent.name)}</b><small>${m.wins}-${m.losses}-${m.ties} · ${m.games} games</small></span></span><strong>${pct(m.winRate)}</strong></button>`).join('')}</div>`;
   }
 
+  function scopedRecentResults(name) {
+    const data = sourceData('online');
+    const selectedNames = new Set((data.events || []).map(e=>e.name).filter(Boolean));
+    return (data.results || [])
+      .filter(r => r.archetype === name)
+      .filter(r => !selectedNames.size || selectedNames.has(r.tournament))
+      .sort((a,b)=>new Date(b.date)-new Date(a.date)||Number(a.placing||999)-Number(b.placing||999))
+      .slice(0,8);
+  }
+
   function variantDetail() {
+    const data = sourceData(detailSource);
     const variants = variantRows(detailSource);
     const row = variants.find(r=>r.name===detailName);
     const sourceLabel = detailSource === 'irl' ? 'IRL' : 'Online';
     const family = familyFor(detailName);
-    $('deckDetailHead').innerHTML = `<div class="detail-title">${sprite(detailName,52)}<div><div class="eyebrow">${sourceLabel} DECK</div><h1>${esc(detailName)}</h1><p>${family ? `${esc(family.name)} family` : 'Archetype detail'}</p></div></div><div class="detail-source"><button type="button" data-detail-source="online" class="${detailSource==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detailSource==='irl'?'active':''}">IRL</button></div>`;
+    $('deckDetailHead').innerHTML = `<div class="detail-title">${sprite(detailName,52)}<div><div class="eyebrow">${sourceLabel} DECK</div><h1>${esc(detailName)}</h1><p>${family ? `${esc(family.name)} family · exact variant` : 'Exact variant detail'}</p></div></div><div class="detail-source"><button type="button" data-detail-source="online" class="${detailSource==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detailSource==='irl'?'active':''}">IRL</button></div>`;
     if (!row) {
-      $('deckDetailBody').innerHTML = `<div class="meta-empty">This exact variant is not present in the selected ${sourceLabel} source.</div>`;
+      $('deckDetailBody').innerHTML = `<div class="meta-empty">This exact variant is not present in the selected ${sourceLabel} source and scope.</div>`;
+      setTimeout(()=>{ window.MetaControls?.syncDetail?.(); window.MetaContext?.render?.(); },0);
       return;
     }
-    const summary = `<div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Entries</span></div><div><b>${pct(row.share)}</b><span>Share of source</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div>`;
-    const results = detailSource==='online' ? (window.DATA?.results || DATA?.results || []).filter(r=>r.archetype===detailName).sort((a,b)=>new Date(b.date)-new Date(a.date)||a.placing-b.placing).slice(0,8) : [];
-    const resultsHtml = results.length ? `<section class="detail-section"><h2>Recent results</h2><div class="result-card-list">${results.map(r=>`<div class="result-card"><b>${r.placing}/${r.players}</b><span>${esc(r.player)}</span><small>${esc(r.tournament)} · ${r.record?.wins||0}-${r.record?.losses||0}-${r.record?.ties||0}</small></div>`).join('')}</div></section>` : '';
-    $('deckDetailBody').innerHTML = `${summary}<section class="detail-section"><div class="section-row"><h2>Matchups</h2><span>${sourceLabel} · exact variant</span></div>${matchupCards(detailName,detailSource,25)}</section>${resultsHtml}`;
+
+    const record = `${row.wins.toLocaleString()}-${row.losses.toLocaleString()}-${row.ties.toLocaleString()}`;
+    const summary = `<div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Entries</span></div><div><b>${pct(row.share)}</b><span>Field share</span></div><div><b>${record}</b><span>Record</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div>`;
+    const games = evidenceGames(detailSource);
+    const scopeText = window.MetaData?.context?.(detailSource)?.label || sourceLabel;
+    const results = detailSource === 'online' ? scopedRecentResults(detailName) : [];
+    const resultsHtml = results.length ? `<section class="detail-section"><div class="section-row"><h2>Recent results</h2><span>Live result sample within selected field scope</span></div><div class="result-card-list">${results.map(r=>`<div class="result-card"><b>${r.placing}/${r.players}</b><span>${esc(r.player)}</span><small>${esc(r.tournament)} · ${r.record?.wins||0}-${r.record?.losses||0}-${r.record?.ties||0}</small></div>`).join('')}</div></section>` : '';
+    $('deckDetailBody').innerHTML = `${summary}<section class="detail-section"><div class="section-row"><h2>Matchups</h2><span>${esc(scopeText)} · ${games.toLocaleString()} evidence games</span></div>${matchupCards(detailName,detailSource,25)}</section>${resultsHtml}`;
+    setTimeout(()=>{ window.MetaControls?.syncDetail?.(); window.MetaContext?.render?.(); },0);
   }
 
   function renderDetail() {
     variantDetail();
-    document.querySelectorAll('[data-detail-source]').forEach(btn=>btn.addEventListener('click',()=>{detailSource=btn.dataset.detailSource;renderDetail();}));
+    document.querySelectorAll('[data-detail-source]').forEach(btn=>btn.addEventListener('click',()=>{
+      detailSource=btn.dataset.detailSource;
+      renderDetail();
+    }));
   }
 
   function renderDeckExplorerV2() {
     const target=$('deckExplorerList'); if(!target)return;
     const source=$('deckPageSource')?.value||'online';
     const rows=variantRows(source);
-    target.innerHTML=rows.length?rows.slice(0,80).map((r,i)=>`<button class="deck-explorer-card" type="button" data-explore-deck="${esc(r.name)}" data-explore-source="${source}"><span class="deck-explorer-rank">${i+1}</span>${sprite(r.name,38)}<span class="deck-explorer-copy"><b>${esc(r.name)}</b><small>${r.entries.toLocaleString()} entries</small></span><span class="deck-explorer-score"><b>${pct(r.share)}</b><small>${pct(r.winRate)} WR</small></span><span class="explore-arrow">›</span></button>`).join(''):'<div class="meta-empty">No deck data available.</div>';
+    target.innerHTML=rows.length?rows.slice(0,80).map((r,i)=>`<button class="deck-explorer-card" type="button" data-explore-deck="${esc(r.name)}" data-explore-source="${source}"><span class="deck-explorer-rank">${i+1}</span>${sprite(r.name,38)}<span class="deck-explorer-copy"><b>${esc(r.name)}</b><small>${r.entries.toLocaleString()} entries</small></span><span class="deck-explorer-score"><b>${pct(r.share)}</b><small>${pct(r.winRate)} WR</small></span><span class="explore-arrow">›</span></button>`).join(''):'<div class="meta-empty">No deck data available in the selected source and scope.</div>';
   }
 
   function renderMatchupsV2() {
     const target=$('metaMatchupMatrix'); if(!target)return;
     const source=$('matchupPageSource')?.value||'online';
     const decks=variantRows(source).filter(d=>sourceMatchups(source).some(m=>m.a===d.name));
-    if(!decks.length){target.innerHTML='<div class="meta-empty">No variant-level matchup data available.</div>';return;}
+    if(!decks.length){target.innerHTML='<div class="meta-empty">No variant-level matchup data available in the selected source and scope.</div>';return;}
     if(!matchupDeck||!decks.some(d=>d.name===matchupDeck))matchupDeck=decks[0].name;
     target.innerHTML=`<div class="matchup-picker"><label>Deck variant<select id="matchupDeckSelect">${decks.slice(0,80).map(d=>`<option value="${esc(d.name)}" ${d.name===matchupDeck?'selected':''}>${esc(d.name)}</option>`).join('')}</select></label><button type="button" class="open-deck-detail" data-explore-deck="${esc(matchupDeck)}" data-explore-kind="variant" data-explore-source="${source}">Explore variant ›</button></div><div class="variant-only-note">Matchup evidence is variant-to-variant. Family grouping is not used here.</div>${matchupCards(matchupDeck,source,40)}`;
     $('matchupDeckSelect')?.addEventListener('change',e=>{matchupDeck=e.currentTarget.value;renderMatchupsV2();});
@@ -158,20 +153,18 @@
   }
   function targetInfo(target) {
     const explicit=target.closest('[data-explore-deck]');
-    if(explicit)return{name:explicit.dataset.exploreDeck,kind:explicit.dataset.exploreKind||'variant',source:explicit.dataset.exploreSource};
+    if(explicit)return{name:explicit.dataset.exploreDeck,source:explicit.dataset.exploreSource};
     const variantRow=target.closest('.variant-row');
-    if(variantRow)return{name:variantRow.querySelector('span')?.textContent?.trim()||'',kind:'variant'};
+    if(variantRow)return{name:variantRow.querySelector('span')?.textContent?.trim()||''};
     const current=target.closest('.current-meta-row');
     if(current){
       const grouping=$('currentGroupingToggle')?.checked!==false;
       const expandable=current.classList.contains('expandable');
-      if(!grouping || !expandable){
-        return{name:current.querySelector('.current-name b')?.textContent?.trim()||'',kind:'variant'};
-      }
+      if(!grouping || !expandable)return{name:current.querySelector('.current-name b')?.textContent?.trim()||''};
       return null;
     }
     const node=target.closest('.rec-main h3,.deck-check-name b,.watch-card b,.why-matchup-name b');
-    if(node)return{name:node.textContent?.trim()||'',kind:'variant'};
+    if(node)return{name:node.textContent?.trim()||''};
     return null;
   }
 
@@ -188,6 +181,6 @@
   $('deckPageSource')?.addEventListener('change',()=>setTimeout(renderDeckExplorerV2,0));
   window.addEventListener('deckagg:updated',()=>{if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
   window.addEventListener('irl:updated',()=>{if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
-  window.addEventListener('irlscope:changed',()=>{if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
+  window.addEventListener('meta:data-changed',()=>{if(!$('deckDetail')?.classList.contains('hidden'))setTimeout(renderDetail,0);});
   window.MetaExplore={openDeck:(name,source)=>openDetail(name,source)};
 })();
