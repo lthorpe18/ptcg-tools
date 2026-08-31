@@ -197,13 +197,13 @@ const recentFloor = Math.min(
   Number.isFinite(majorWeekend?.cutoff) ? majorWeekend.cutoff : Infinity,
 );
 
-// Pairings are only required for rolling scopes. On first bootstrap backfill one recent month;
-// after that only fetch newly-seen qualifying tournaments.
+// Pairings are only required for rolling scopes. Bootstrap/backfill just the rolling
+// window; older all-format matchup evidence comes from the existing full aggregate.
 const needDetailed = index.filter(t => {
   const id = String(t.id);
   if (archiveMap.has(id)) return false;
   const ts = new Date(t.date).getTime();
-  return !previousArchive || ts >= recentFloor;
+  return Number.isFinite(ts) && ts >= recentFloor;
 });
 console.log(`Detailed matchup fetch: ${needDetailed.length} tournament(s); ${archiveMap.size} already archived.`);
 
