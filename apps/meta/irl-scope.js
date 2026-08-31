@@ -46,8 +46,7 @@
     const events = [...(window.IRLLabs?.getData?.()?.events || [])]
       .filter(event => Array.isArray(event.decks) && event.decks.length)
       .sort((a, b) => new Date(b.date) - new Date(a.date));
-    if (irlScope === 'latest') return events.slice(0, 1);
-    return events;
+    return irlScope === 'latest' ? events.slice(0, 1) : events;
   }
 
   function buildData() {
@@ -102,6 +101,7 @@
 
   function render() {
     if (!irlActive()) return;
+    setOptions('irl');
     const data = buildData();
     const rows = showAll ? data.rows : data.rows.slice(0, 8);
     const latest = data.events[0];
@@ -133,7 +133,7 @@
       irlScope = 'latest';
       showAll = false;
       expanded.clear();
-      setTimeout(() => { setOptions('irl'); render(); }, 0);
+      setTimeout(render, 0);
     } else {
       showAll = false;
       expanded.clear();
