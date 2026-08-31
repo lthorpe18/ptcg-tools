@@ -45,17 +45,38 @@ function parseEventMeta(html, id) {
   return { id, name: title || `Labs ${id}`, date: parseDate(html), players, url: `${BASE}/${id}/decks` };
 }
 
+function parseRecord(cells) {
+  for (const cell of cells) {
+    const m = String(cell).match(/(^|\s)(\d+)\s*-\s*(\d+)\s*-\s*(\d+)(\s|$)/);
+    if (m) return { wins: Number(m[2]), losses: Number(m[3]), ties: Number(m[4]) };
+  }
+  return { wins: 0, losses: 0, ties: 0 };
+}
+
+function percentages(cells) {
+  return cells.map(x => String(x).match(/(-?\d+(?:\.\d+)?)%/)).filter(Boolean).map(m => Number(m[1]));
+}
+
 function parseDeckRows(html, eventId) {
   const rows = [];
   for (const tr of html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)) {
     const body = tr[1];
-    const link = body.match(new RegExp(`href=["']\\/${eventId}\\/decks\\/([^"']+)["'][^>]*>([\\s\\S]*?)<\\/a>`, 'i'));
+    const link = body.match(new RegExp(`href=["']\\/${eventId}\\/decks\\/([^"'?]+)["'][^>]*>([\\s\\S]*?)<\\/a>`, 'i'));
     if (!link) continue;
     const cells = [...body.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map(x => clean(x[1]));
-    const nums = cells.map(x => Number(String(x).replace(/[% ,]/g,''))).filter(Number.isFinite);
-    const count = nums.find(n => Number.isInteger(n) && n >= 1) || 0;
-    const wrCell = cells.find(x => /%/.test(x) && Number.parseFloat(x) <= 100);
-    rows.push({ name: clean(link[2]), slug: link[1], entries: count, winRate: wrCell ? Number.parseFloat(wrCell) : null });
+    const entries = Number(String(cells[1] || '').replace(/[, ]/g, '')) || cells.map(x => Number(String(x).replace(/[% ,]/g,''))).find(n => Number.isInteger(n) && n >= 1) || 0;
+    const pcts = percentages(cells);
+    const winRate = pcts.length ? pcts[pcts.length - 1] : null;
+    const share = pcts.length > 1 ? pcts[0] : null;
+    const record = parseRecord(cells);
+    rows.push({
+      name: clean(link[2]),
+      slug: link[1],
+      entries,
+      share,
+      winRate,
+      ...record,
+    });
   }
   const dedup = new Map();
   for (const row of rows) if (row.name && row.name !== 'Other') dedup.set(row.name, row);
@@ -68,14 +89,12 @@ function parseMatchups(html, candidate) {
     const body = tr[1];
     const links = [...body.matchAll(/<a[^>]*>([\s\S]*?)<\/a>/gi)].map(x => clean(x[1])).filter(Boolean);
     const cells = [...body.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map(x => clean(x[1]));
-    const wr = cells.map(x => x.match(/(-?\d+(?:\.\d+)?)%/)).find(Boolean);
+    const wr = percentages(cells).at(-1);
     const games = cells.map(x => Number(String(x).replace(/[, ]/g,''))).find(n => Number.isInteger(n) && n > 0 && n < 100000);
     const opponent = links.find(x => x !== candidate && !/^Image:/i.test(x));
-    if (!opponent || !games || !wr) continue;
-    const winRate = Number(wr[1]);
-    const decisive = games;
-    const wins = Math.round(decisive * winRate / 100);
-    out.push({ a: candidate, b: opponent, games, wins, losses: Math.max(0, decisive - wins), ties: 0 });
+    if (!opponent || !games || !Number.isFinite(wr)) continue;
+    const wins = Math.round(games * wr / 100);
+    out.push({ a: candidate, b: opponent, games, wins, losses: Math.max(0, games - wins), ties: 0 });
   }
   return out;
 }
@@ -91,20 +110,31 @@ async function main() {
     const html = await get(`${BASE}/${id}/decks`);
     const meta = parseEventMeta(html, id);
     const ts = meta.date ? new Date(meta.date).getTime() : NaN;
-    if (!Number.isFinite(ts)) continue;
-    if (ts < FORMAT_START) continue;
+    if (!Number.isFinite(ts) || ts < FORMAT_START) continue;
+
     const decks = parseDeckRows(html, id);
-    meta.decks = decks.map(d => ({ name: d.name, entries: d.entries, winRate: d.winRate, url: `${BASE}/${id}/decks/${d.slug}` }));
+    if (meta.players >= 50 && /\/decks\//.test(html) && !decks.length) {
+      throw new Error(`Labs event ${id} has a populated metagame page but parsed zero decks`);
+    }
+
+    meta.decks = decks.map(d => ({
+      name: d.name,
+      entries: d.entries,
+      share: d.share,
+      wins: d.wins,
+      losses: d.losses,
+      ties: d.ties,
+      winRate: d.winRate,
+      url: `${BASE}/${id}/decks/${d.slug}`,
+    }));
     events.push(meta);
 
     for (const d of decks) {
       const row = deckAgg.get(d.name) || { name: d.name, entries: 0, wins: 0, losses: 0, ties: 0 };
       row.entries += d.entries;
-      if (Number.isFinite(d.winRate)) {
-        const approxGames = Math.max(d.entries, d.entries * 6);
-        const wins = Math.round(approxGames * d.winRate / 100);
-        row.wins += wins; row.losses += approxGames - wins;
-      }
+      row.wins += d.wins;
+      row.losses += d.losses;
+      row.ties += d.ties;
       deckAgg.set(d.name, row);
     }
 
@@ -114,14 +144,17 @@ async function main() {
       for (const m of parseMatchups(mh, d.name)) {
         const key = `${m.a}|||${m.b}`;
         const row = matchupAgg.get(key) || { a: m.a, b: m.b, games: 0, wins: 0, losses: 0, ties: 0 };
-        row.games += m.games; row.wins += m.wins; row.losses += m.losses; row.ties += m.ties;
+        row.games += m.games;
+        row.wins += m.wins;
+        row.losses += m.losses;
+        row.ties += m.ties;
         matchupAgg.set(key, row);
       }
     }
   }
 
   const payload = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     source: 'Limitless Labs',
     sourceUrl: BASE,
     format: FORMAT,
@@ -132,9 +165,13 @@ async function main() {
     matchups: [...matchupAgg.values()],
     note: events.length ? `${events.length} current-format IRL major event(s) from Limitless Labs.` : 'No completed current-format IRL major is available on Limitless Labs yet.'
   };
+
+  if (payload.events.length && !payload.decks.length) throw new Error('IRL events were found but no deck field data was parsed');
+
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
   await fs.writeFile(OUTPUT, JSON.stringify(payload, null, 2) + '\n');
   console.log(`Wrote ${OUTPUT}: ${events.length} events, ${payload.decks.length} decks, ${payload.matchups.length} matchups`);
+  if (payload.decks.length) console.log('Top decks:', payload.decks.slice(0, 8).map(d => `${d.name} ${d.entries}`).join(' | '));
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
