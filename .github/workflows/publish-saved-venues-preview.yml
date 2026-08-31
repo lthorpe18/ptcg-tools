@@ -1,0 +1,59 @@
+name: Publish Saved Venues Preview
+
+on:
+  push:
+    branches: [ptcg-tools-v2]
+    paths:
+      - '.github/workflows/publish-saved-venues-preview.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ptcg-tools-v2
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate Events files
+        run: |
+          node --check apps/events/app.js
+          node --check apps/_shared/storage.js
+          python - <<'PY'
+          from pathlib import Path
+          html=Path('apps/events/index.html').read_text()
+          js=Path('apps/events/app.js').read_text()
+          for required in ['savedVenuesFilter','yourVenuesSection','yourVenuesList','eventList','statusBackdrop']:
+              assert f'id="{required}"' in html, required
+              assert required in js, required
+          assert Path('apps/events/saved-venues.css').stat().st_size > 500
+          print('Saved venues validation passed')
+          PY
+      - name: Stage validated preview files
+        run: |
+          mkdir -p /tmp/events-preview/apps/events /tmp/events-preview/apps/_shared
+          cp apps/events/index.html /tmp/events-preview/apps/events/index.html
+          cp apps/events/app.js /tmp/events-preview/apps/events/app.js
+          cp apps/events/saved-venues.css /tmp/events-preview/apps/events/saved-venues.css
+          cp apps/_shared/storage.js /tmp/events-preview/apps/_shared/storage.js
+      - name: Publish to main preview
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git checkout -B main origin/main
+          mkdir -p v2-preview/apps/events v2-preview/apps/_shared
+          cp /tmp/events-preview/apps/events/index.html v2-preview/apps/events/index.html
+          cp /tmp/events-preview/apps/events/app.js v2-preview/apps/events/app.js
+          cp /tmp/events-preview/apps/events/saved-venues.css v2-preview/apps/events/saved-venues.css
+          cp /tmp/events-preview/apps/_shared/storage.js v2-preview/apps/_shared/storage.js
+          git add v2-preview/apps/events v2-preview/apps/_shared/storage.js
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Publish saved venues Events preview'
+          git push origin HEAD:main
