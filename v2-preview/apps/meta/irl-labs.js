@@ -38,4 +38,11 @@
 
   window.IRLLabs = { load, getData, isLoaded };
   load(false);
+
+  if (!document.querySelector('script[data-meta-consistency-v3]')) {
+    const script = document.createElement('script');
+    script.src = 'meta-consistency-v3.js?v=1';
+    script.dataset.metaConsistencyV3 = '1';
+    document.body.appendChild(script);
+  }
 })();
