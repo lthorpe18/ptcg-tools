@@ -14,56 +14,18 @@ jobs:
         with:
           ref: ptcg-tools-v2
           fetch-depth: 0
-      - name: Restore Current Meta variant navigation
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          p=Path('apps/meta/meta-explorer-v2.js')
-          s=p.read_text()
-          old="""    const variantRow=target.closest('.variant-row');
-    if(variantRow)return{name:variantRow.querySelector('span')?.textContent?.trim()||'',kind:'variant'};
-    const node=target.closest('.rec-main h3,.deck-check-name b,.watch-card b,.why-matchup-name b');
-"""
-          new="""    const variantRow=target.closest('.variant-row');
-    if(variantRow)return{name:variantRow.querySelector('span')?.textContent?.trim()||'',kind:'variant'};
-    const current=target.closest('.current-meta-row');
-    if(current){
-      const grouping=$('currentGroupingToggle')?.checked!==false;
-      const expandable=current.classList.contains('expandable');
-      if(!grouping || !expandable){
-        return{name:current.querySelector('.current-name b')?.textContent?.trim()||'',kind:'variant'};
-      }
-      return null;
-    }
-    const node=target.closest('.rec-main h3,.deck-check-name b,.watch-card b,.why-matchup-name b');
-"""
-          if old not in s:
-              raise SystemExit('targetInfo anchor not found')
-          p.write_text(s.replace(old,new))
-
-          p=Path('apps/meta/index.html')
-          s=p.read_text().replace('meta-explorer-v2.js?v=3','meta-explorer-v2.js?v=4')
-          p.write_text(s)
-          PY
-      - name: Validate source
-        run: |
-          node --check apps/meta/meta-explorer-v2.js
-          grep -q "const current=target.closest('.current-meta-row')" apps/meta/meta-explorer-v2.js
-          grep -q "!grouping || !expandable" apps/meta/meta-explorer-v2.js
-          grep -q 'meta-explorer-v2.js?v=4' apps/meta/index.html
-      - name: Commit source
-        run: |
+      - run: python scripts/fix_meta_row_links_once.py
+      - run: node --check apps/meta/meta-explorer-v2.js
+      - run: grep -q 'meta-explorer-v2.js?v=4' apps/meta/index.html
+      - run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add apps/meta/meta-explorer-v2.js apps/meta/index.html
           git commit -m 'Restore Current Meta deck links'
           git push origin HEAD:ptcg-tools-v2
-      - name: Stage preview
-        run: |
+      - run: |
           mkdir -p /tmp/meta-links
           cp apps/meta/meta-explorer-v2.js apps/meta/index.html /tmp/meta-links/
-      - name: Publish preview
-        run: |
           git fetch origin main
           git checkout -B main origin/main
           cp /tmp/meta-links/meta-explorer-v2.js v2-preview/apps/meta/meta-explorer-v2.js
