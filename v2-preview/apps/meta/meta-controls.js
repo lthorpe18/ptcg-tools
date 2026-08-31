@@ -15,6 +15,7 @@
     const state = window.MetaState.get();
     select.innerHTML = optionHtml(source === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes());
     select.value = source === 'irl' ? state.irlScope : state.onlineScope;
+    select.setAttribute('aria-label', source === 'irl' ? 'IRL scope' : 'Online scope');
   }
 
   function ensureScopedControl(sourceSelectId, hostSelector, prefix) {
@@ -26,7 +27,7 @@
       wrap = document.createElement('label');
       wrap.id = `${prefix}ScopeWrap`;
       wrap.className = 'meta-scope-control';
-      wrap.innerHTML = `<span>Scope</span><select id="${prefix}Scope"></select>`;
+      wrap.innerHTML = `<span></span><select id="${prefix}Scope"></select>`;
       host.appendChild(wrap);
       $(`${prefix}Scope`).addEventListener('change', e => {
         sourceSelect.value === 'irl' ? window.MetaState.setIrlScope(e.currentTarget.value) : window.MetaState.setOnlineScope(e.currentTarget.value);
@@ -34,9 +35,11 @@
     }
     const state = window.MetaState.get();
     const source = sourceSelect.value || 'online';
+    wrap.querySelector('span').textContent = source === 'irl' ? 'IRL scope' : 'Online scope';
     const select = $(`${prefix}Scope`);
     select.innerHTML = optionHtml(source === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes());
     select.value = source === 'irl' ? state.irlScope : state.onlineScope;
+    select.setAttribute('aria-label', source === 'irl' ? 'IRL scope' : 'Online scope');
   }
 
   function bindPair(visibleId, modelId) {
@@ -90,13 +93,14 @@
       wrap = document.createElement('label');
       wrap.id = 'deckDetailScopeWrap';
       wrap.className = 'meta-scope-control detail-scope-control';
-      wrap.innerHTML = '<span>Scope</span><select id="deckDetailScope"></select>';
+      wrap.innerHTML = '<span></span><select id="deckDetailScope"></select>';
       head.appendChild(wrap);
       $('deckDetailScope').addEventListener('change', e => {
         detailSource() === 'irl' ? window.MetaState.setIrlScope(e.currentTarget.value) : window.MetaState.setOnlineScope(e.currentTarget.value);
       });
     }
     const active = detailSource();
+    wrap.querySelector('span').textContent = active === 'irl' ? 'IRL scope' : 'Online scope';
     const state = window.MetaState.get();
     const select = $('deckDetailScope');
     select.innerHTML = optionHtml(active === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes());
