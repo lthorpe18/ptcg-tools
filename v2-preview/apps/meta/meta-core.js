@@ -4,6 +4,7 @@
   const ONLINE_SCOPES = [
     { value: '14', label: 'Last 14 days' },
     { value: '30', label: 'Last 30 days' },
+    { value: 'since-major', label: 'Since last major weekend' },
     { value: 'all', label: 'All in format' },
   ];
   const state = { onlineScope: '30', irlScope: 'latest-weekend' };
@@ -46,6 +47,14 @@
   function selectedOnlineEvents(scope = state.onlineScope, minPlayers = 50) {
     const rows = (onlineHistory?.tournaments || []).filter(t => Number(t.players || 0) >= Number(minPlayers || 0));
     if (scope === 'all') return rows;
+    if (scope === 'since-major') {
+      const cutoff = new Date(onlineHistory?.majorWeekend?.cutoff).getTime();
+      if (!Number.isFinite(cutoff)) return [];
+      return rows.filter(t => {
+        const ts = new Date(t.date).getTime();
+        return Number.isFinite(ts) && ts >= cutoff;
+      });
+    }
     const cutoff = newestOnlineDate() - Number(scope || 30) * 86400000;
     return rows.filter(t => {
       const ts = new Date(t.date).getTime();
@@ -282,7 +291,12 @@
       const scope=options.scope || state.onlineScope;
       const label=ONLINE_SCOPES.find(x=>x.value===scope)?.label || 'Last 30 days';
       const fallback=!d.matchupScoped && scope!=='all';
-      return { source,scope,events:Number(d.overview?.events||0),entries:Number(d.overview?.entries||0),label:`${label} online data`,detail:fallback?'Field scoped · matchups currently all-format':(d.generatedAt?`Updated ${new Date(d.generatedAt).toLocaleDateString([],{day:'numeric',month:'short'})}`:'50+ online tournaments') };
+      let detail = fallback ? 'Field scoped · matchups currently all-format' : (d.generatedAt?`Updated ${new Date(d.generatedAt).toLocaleDateString([],{day:'numeric',month:'short'})}`:'50+ online tournaments');
+      if (scope==='since-major' && onlineHistory?.majorWeekend?.events?.length) {
+        const names=onlineHistory.majorWeekend.events.map(e=>e.name).join(' + ');
+        detail = d.matchupScoped ? `After ${names}` : `After ${names} · matchups currently all-format`;
+      }
+      return { source,scope,events:Number(d.overview?.events||0),entries:Number(d.overview?.entries||0),label:`${label} online data`,detail };
     }
     const scope=options.scope || state.irlScope, events=d.events || [];
     let label='Latest IRL majors weekend';
