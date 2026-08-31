@@ -1,0 +1,55 @@
+name: Publish compact Meta restructure
+
+on:
+  push:
+    branches: [ptcg-tools-v2]
+    paths: ['.github/workflows/publish-meta-restructure.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ptcg-tools-v2
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate Meta restructure
+        run: |
+          node --check apps/meta/meta-home.js
+          node --check apps/meta/source-controls.js
+          node --check apps/meta/field-builder.js
+          node --check apps/meta/prep.js
+          python - <<'PY'
+          from pathlib import Path
+          html=Path('apps/meta/index.html').read_text()
+          required=['currentMetaPage','currentMetaList','currentMetaStats','prep','playFieldSource','playMatchupSource','matchups','metaMatchupMatrix','decks','deckExplorerList','fieldSource','matchupSource','format','days','minPlayers','minMatches','apply','status','summary','metaBody','matrix','archSelect','archSummary','trendSummary','trendChart','archMatchups','archResults']
+          missing=[x for x in required if f'id="{x}"' not in html]
+          if missing: raise SystemExit('Missing DOM ids: '+', '.join(missing))
+          if 'meta-source-bar' in html or 'class="tabs app-tabs"' in html: raise SystemExit('Old Meta navigation still present')
+          print('Meta restructure structural validation passed')
+          PY
+      - name: Stage preview
+        run: |
+          mkdir -p /tmp/meta-preview
+          cp -R apps/meta/. /tmp/meta-preview/
+      - name: Publish preview
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git checkout -B main origin/main
+          rm -rf v2-preview/apps/meta
+          mkdir -p v2-preview/apps/meta
+          cp -R /tmp/meta-preview/. v2-preview/apps/meta/
+          git add v2-preview/apps/meta
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Publish compact Meta landing restructure'
+          git push origin HEAD:main
