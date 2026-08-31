@@ -65,11 +65,8 @@
       }
     }
 
-    for (const row of map.values()) {
-      const decisive = row.wins + row.losses;
-      row.winRate = decisive ? 100 * row.wins / decisive : null;
-    }
-    return map;
+    const grouped = window.ArchetypeGroups?.aggregateRecords?.([...map.values()]) || [...map.values()];
+    return new Map(grouped.map(row => [row.name, row]));
   }
 
   function matchupEstimate(candidate, opponent) {
