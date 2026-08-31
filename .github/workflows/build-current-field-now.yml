@@ -1,0 +1,34 @@
+name: Build compact current field now
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/build-current-field-now.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build compact field
+        run: node scripts/build-current-field.mjs
+      - name: Validate windows have distinct horizons
+        run: |
+          node -e "const d=require('./data/meta/current-field.json'); const now=Date.now(); const c=n=>d.tournaments.filter(t=>new Date(t.date).getTime()>=now-n*86400000).length; console.log('14d',c(14),'30d',c(30),'all',d.tournaments.length); if(!(c(30)>c(14))) process.exit(2);"
+      - name: Publish compact field
+        run: |
+          mkdir -p v2-preview/data/meta
+          cp data/meta/current-field.json v2-preview/data/meta/current-field.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/meta/current-field.json v2-preview/data/meta/current-field.json
+          git commit -m "Build compact online field history"
+          git push
