@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "status": "ok",
-  "lastAttemptedUpdate": "2026-08-31T12:07:54Z",
-  "lastSuccessfulUpdate": "2026-08-31T12:07:54Z",
-  "eventCount": 84,
+  "lastAttemptedUpdate": "2026-08-31T12:21:37Z",
+  "lastSuccessfulUpdate": "2026-08-31T12:21:37Z",
+  "eventCount": 91,
   "sources": {
     "local": {
       "provider": "pokedata",
@@ -34,14 +34,15 @@
       ]
     },
     "major": {
-      "provider": null,
-      "status": "adapter-pending",
+      "provider": "rk9",
+      "url": "https://rk9.gg/events/pokemon",
+      "status": "ok",
+      "returned": 7,
+      "ignoredRows": 1,
       "types": [
-        "Regional",
-        "Special Championship",
-        "International",
-        "World Championships"
-      ]
+        "Regional"
+      ],
+      "authority": "Pokemon Championship Series; RK9 used as operational event/registration index"
     }
   },
   "events": [
@@ -69,6 +70,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-006362/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -95,6 +97,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-004435/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -121,6 +124,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-005203/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -147,6 +151,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-003554/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -173,6 +178,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-004846/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -199,6 +205,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-002171/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -225,6 +232,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-003668/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -251,6 +259,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-005841/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -277,6 +286,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-008148/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -303,6 +313,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-002130/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -329,6 +340,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-007714/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -355,6 +367,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-003521/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -381,6 +394,34 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-003749/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "details": null
+    },
+    {
+      "id": "rk9:168461a62f7c02569c26",
+      "source": "rk9",
+      "sourceId": "168461a62f7c02569c26",
+      "scope": "major",
+      "type": "Regional",
+      "name": "2027 Baltimore Pokémon Regional Championships",
+      "venue": null,
+      "startDate": "2026-09-18",
+      "startTime": null,
+      "endDate": "2026-09-20",
+      "endTime": null,
+      "address": null,
+      "city": "Baltimore",
+      "region": null,
+      "postcode": null,
+      "country": "US",
+      "latitude": null,
+      "longitude": null,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": null,
+      "registrationUrl": "https://rk9.gg/tournament/BA001-nEN1xl5ZJLGtFk",
+      "sourceUrl": "https://rk9.gg/event/pokemon-baltimore-2027",
       "details": null
     },
     {
@@ -407,32 +448,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-005389/",
       "registrationUrl": null,
-      "details": null
-    },
-    {
-      "id": "pokedata:6ef09ddf-d4cf-491a-a78b-6dde973d7863",
-      "source": "pokedata",
-      "sourceId": "6ef09ddf-d4cf-491a-a78b-6dde973d7863",
-      "scope": "local",
-      "type": "League Cup",
-      "name": "September League Cup",
-      "venue": "PARSONS POPCULTURE",
-      "startDate": "2026-09-18",
-      "startTime": "18:00:00",
-      "endDate": null,
-      "endTime": null,
-      "address": "15 HIGH ST, VENTNOR, ENGLAND PO38 1RZ, GB",
-      "city": "Ventnor",
-      "region": "England",
-      "postcode": null,
-      "country": null,
-      "latitude": 50.5954,
-      "longitude": -1.20536,
-      "distanceFromSeedMiles": 84.5,
-      "cost": "£10",
-      "status": null,
-      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-005216/",
-      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -459,6 +475,34 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-002151/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "details": null
+    },
+    {
+      "id": "pokedata:6ef09ddf-d4cf-491a-a78b-6dde973d7863",
+      "source": "pokedata",
+      "sourceId": "6ef09ddf-d4cf-491a-a78b-6dde973d7863",
+      "scope": "local",
+      "type": "League Cup",
+      "name": "September League Cup",
+      "venue": "PARSONS POPCULTURE",
+      "startDate": "2026-09-18",
+      "startTime": "18:00:00",
+      "endDate": null,
+      "endTime": null,
+      "address": "15 HIGH ST, VENTNOR, ENGLAND PO38 1RZ, GB",
+      "city": "Ventnor",
+      "region": "England",
+      "postcode": null,
+      "country": null,
+      "latitude": 50.5954,
+      "longitude": -1.20536,
+      "distanceFromSeedMiles": 84.5,
+      "cost": "£10",
+      "status": null,
+      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-005216/",
+      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -485,6 +529,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-004204/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -511,6 +556,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-004436/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -537,6 +583,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-007715/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -563,6 +610,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-005652/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -589,6 +637,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-007142/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -615,6 +664,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-002206/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -641,6 +691,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-005940/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -667,6 +718,61 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-003612/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "details": null
+    },
+    {
+      "id": "rk9:ef7734e5655258e4d0f7",
+      "source": "rk9",
+      "sourceId": "ef7734e5655258e4d0f7",
+      "scope": "major",
+      "type": "Regional",
+      "name": "2027 Brisbane Pokémon Regional Championships",
+      "venue": null,
+      "startDate": "2026-09-26",
+      "startTime": null,
+      "endDate": "2026-09-27",
+      "endTime": null,
+      "address": null,
+      "city": "South Brisbane",
+      "region": null,
+      "postcode": null,
+      "country": "AU",
+      "latitude": null,
+      "longitude": null,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": null,
+      "registrationUrl": "https://rk9.gg/tournament/BR001-5YdU57MmWxTxaY",
+      "sourceUrl": "https://rk9.gg/event/pokemon-brisbane-2027",
+      "details": null
+    },
+    {
+      "id": "rk9:cb393be26aace7847abc",
+      "source": "rk9",
+      "sourceId": "cb393be26aace7847abc",
+      "scope": "major",
+      "type": "Regional",
+      "name": "2027 Frankfurt Pokémon Regional Championships",
+      "venue": null,
+      "startDate": "2026-09-26",
+      "startTime": null,
+      "endDate": "2026-09-27",
+      "endTime": null,
+      "address": null,
+      "city": "Frankfurt am Main",
+      "region": null,
+      "postcode": null,
+      "country": "DE",
+      "latitude": null,
+      "longitude": null,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": null,
+      "registrationUrl": "https://rk9.gg/tournament/FR001-qWsas6LjddfVxo",
+      "sourceUrl": "https://rk9.gg/event/pokemon-frankfurt-2027",
       "details": null
     },
     {
@@ -693,6 +799,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-004181/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -719,6 +826,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-004085/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -745,6 +853,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-002102/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -771,6 +880,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-006112/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -797,6 +907,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-004307/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -823,6 +934,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-005855/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -849,6 +961,34 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-09-003570/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "details": null
+    },
+    {
+      "id": "rk9:686acadfe513b4c9c347",
+      "source": "rk9",
+      "sourceId": "686acadfe513b4c9c347",
+      "scope": "major",
+      "type": "Regional",
+      "name": "2027 Recife Pokémon Regional Championships",
+      "venue": null,
+      "startDate": "2026-10-03",
+      "startTime": null,
+      "endDate": "2026-10-04",
+      "endTime": null,
+      "address": null,
+      "city": "Olinda, Pernambuco",
+      "region": null,
+      "postcode": null,
+      "country": "BR",
+      "latitude": null,
+      "longitude": null,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": null,
+      "registrationUrl": "https://rk9.gg/tournament/RE001-a2hqIrDZOyenzQ",
+      "sourceUrl": "https://rk9.gg/event/pokemon-recife-2027",
       "details": null
     },
     {
@@ -875,6 +1015,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-001656/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -901,6 +1042,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-002175/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -927,6 +1069,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-000858/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -953,6 +1096,34 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-001654/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "details": null
+    },
+    {
+      "id": "rk9:c03abf89d8de17751169",
+      "source": "rk9",
+      "sourceId": "c03abf89d8de17751169",
+      "scope": "major",
+      "type": "Regional",
+      "name": "2027 Louisville Pokémon Regional Championships",
+      "venue": null,
+      "startDate": "2026-10-09",
+      "startTime": null,
+      "endDate": "2026-10-11",
+      "endTime": null,
+      "address": null,
+      "city": "Louisville",
+      "region": null,
+      "postcode": null,
+      "country": "US",
+      "latitude": null,
+      "longitude": null,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": null,
+      "registrationUrl": "https://rk9.gg/tournament/LO001-piALjQswPD3x0J",
+      "sourceUrl": "https://rk9.gg/event/pokemon-louisville-2027",
       "details": null
     },
     {
@@ -979,6 +1150,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-000812/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1005,6 +1177,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-001703/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1031,6 +1204,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-000811/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1057,6 +1231,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-002778/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1083,6 +1258,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-000436/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1109,6 +1285,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-002368/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1135,6 +1312,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-000834/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1161,6 +1339,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-001707/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1187,6 +1366,34 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-001755/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "details": null
+    },
+    {
+      "id": "rk9:42e207c4b9581ab4b83c",
+      "source": "rk9",
+      "sourceId": "42e207c4b9581ab4b83c",
+      "scope": "major",
+      "type": "Regional",
+      "name": "2027 Nice Pokémon Regional Championships Registration opens August 19 at 19:00 CEST",
+      "venue": null,
+      "startDate": "2026-10-17",
+      "startTime": null,
+      "endDate": "2026-10-18",
+      "endTime": null,
+      "address": null,
+      "city": "Nice",
+      "region": null,
+      "postcode": null,
+      "country": "FR",
+      "latitude": null,
+      "longitude": null,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": null,
+      "registrationUrl": "https://rk9.gg/tournament/NC001-2OXFgm7aAOcHKh",
+      "sourceUrl": "https://rk9.gg/event/pokemon-nice-2027",
       "details": null
     },
     {
@@ -1213,6 +1420,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-001758/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1239,6 +1447,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-003524/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1265,6 +1474,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-000372/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1291,6 +1501,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-001640/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1317,6 +1528,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-002938/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1343,6 +1555,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-002652/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1369,6 +1582,34 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-002877/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "details": null
+    },
+    {
+      "id": "rk9:68c9747c1a0203734a09",
+      "source": "rk9",
+      "sourceId": "68c9747c1a0203734a09",
+      "scope": "major",
+      "type": "Regional",
+      "name": "2027 Puebla Pokémon Regional Championships Registration opens August 19 at 7:00 pm CST",
+      "venue": null,
+      "startDate": "2026-10-24",
+      "startTime": null,
+      "endDate": "2026-10-25",
+      "endTime": null,
+      "address": null,
+      "city": null,
+      "region": null,
+      "postcode": null,
+      "country": null,
+      "latitude": null,
+      "longitude": null,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": null,
+      "registrationUrl": "https://rk9.gg/tournament/PB001-35rH2yUmy8TR3M",
+      "sourceUrl": "https://rk9.gg/event/pokemon-puebla-2027",
       "details": null
     },
     {
@@ -1395,6 +1636,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-002575/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1421,6 +1663,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-003781/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1447,6 +1690,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-003496/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1473,6 +1717,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-001970/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1499,6 +1744,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-000791/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1525,6 +1771,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-001686/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1551,6 +1798,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-10-002864/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1577,6 +1825,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-002802/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1603,6 +1852,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001298/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1629,32 +1879,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001896/",
       "registrationUrl": null,
-      "details": null
-    },
-    {
-      "id": "pokedata:828cf442-94d4-43b4-b196-b3ee34f50d69",
-      "source": "pokedata",
-      "sourceId": "828cf442-94d4-43b4-b196-b3ee34f50d69",
-      "scope": "local",
-      "type": "League Cup",
-      "name": "TCG League Cup Season 1",
-      "venue": "AFK GAMING",
-      "startDate": "2026-11-07",
-      "startTime": "10:30:00",
-      "endDate": null,
-      "endTime": null,
-      "address": "129 QUEEN ST, ENGLAND TQ12 2BN, GB",
-      "city": "Teignbridge",
-      "region": "England",
-      "postcode": null,
-      "country": null,
-      "latitude": 50.5311,
-      "longitude": -3.60229,
-      "distanceFromSeedMiles": 77.6,
-      "cost": "15",
-      "status": null,
-      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-002932/",
-      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1681,6 +1906,34 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-000564/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "details": null
+    },
+    {
+      "id": "pokedata:828cf442-94d4-43b4-b196-b3ee34f50d69",
+      "source": "pokedata",
+      "sourceId": "828cf442-94d4-43b4-b196-b3ee34f50d69",
+      "scope": "local",
+      "type": "League Cup",
+      "name": "TCG League Cup Season 1",
+      "venue": "AFK GAMING",
+      "startDate": "2026-11-07",
+      "startTime": "10:30:00",
+      "endDate": null,
+      "endTime": null,
+      "address": "129 QUEEN ST, ENGLAND TQ12 2BN, GB",
+      "city": "Teignbridge",
+      "region": "England",
+      "postcode": null,
+      "country": null,
+      "latitude": 50.5311,
+      "longitude": -3.60229,
+      "distanceFromSeedMiles": 77.6,
+      "cost": "15",
+      "status": null,
+      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-002932/",
+      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1707,6 +1960,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-002081/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1733,6 +1987,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-000993/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1759,6 +2014,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-000591/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1785,6 +2041,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-000989/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1811,6 +2068,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001339/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1837,6 +2095,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001376/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1863,6 +2122,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001391/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1889,6 +2149,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-000656/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1915,6 +2176,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001554/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1941,6 +2203,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-000543/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1967,6 +2230,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001282/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -1993,6 +2257,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-002972/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -2019,6 +2284,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-002496/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -2045,6 +2311,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-002302/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -2071,6 +2338,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001340/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -2097,6 +2365,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-002118/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -2123,6 +2392,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001322/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -2149,6 +2419,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001890/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -2175,6 +2446,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001552/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -2201,6 +2473,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-002248/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     },
     {
@@ -2227,6 +2500,7 @@
       "status": null,
       "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-000541/",
       "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
       "details": null
     }
   ]
