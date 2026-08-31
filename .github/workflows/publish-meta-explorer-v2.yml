@@ -1,0 +1,66 @@
+name: Publish Meta explorer v2
+on:
+  push:
+    branches: [ptcg-tools-v2]
+    paths: ['.github/workflows/publish-meta-explorer-v2.yml']
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ptcg-tools-v2
+          fetch-depth: 0
+      - name: Wire explorer and latest-weekend label
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('apps/meta/index.html')
+          s=p.read_text()
+          if 'meta-explorer-v2.css' not in s:
+              s=s.replace('<link rel="stylesheet" href="meta-home.css?v=4" />','<link rel="stylesheet" href="meta-home.css?v=4" />\n  <link rel="stylesheet" href="meta-explorer-v2.css?v=1" />')
+          if 'meta-explorer-v2.js' not in s:
+              s=s.replace('<script src="searchable-decks.js?v=4"></script>','<script src="searchable-decks.js?v=4"></script>\n<script src="meta-explorer-v2.js?v=1"></script>')
+          p.write_text(s)
+
+          p=Path('apps/meta/irl-scope.js')
+          s=p.read_text()
+          s=s.replace("label = 'Latest IRL majors weekend';", "label = data.events.length === 1 ? (data.events[0].name || 'IRL major') : 'Multiple major events';")
+          s=s.replace("'\"':'&quot'", "'\"':'&quot;'")
+          p.write_text(s)
+          PY
+      - name: Validate source
+        run: |
+          node --check apps/meta/meta-explorer-v2.js
+          node --check apps/meta/irl-scope.js
+          grep -q 'meta-explorer-v2.js?v=1' apps/meta/index.html
+          grep -q 'meta-explorer-v2.css?v=1' apps/meta/index.html
+          grep -q 'Multiple major events' apps/meta/irl-scope.js
+      - name: Commit source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add apps/meta
+          git commit -m 'Rebuild linked mobile Meta exploration'
+          git push origin HEAD:ptcg-tools-v2
+      - name: Stage files
+        run: |
+          mkdir -p /tmp/meta-explorer
+          cp apps/meta/index.html apps/meta/irl-scope.js apps/meta/meta-explorer-v2.js apps/meta/meta-explorer-v2.css /tmp/meta-explorer/
+      - name: Publish preview
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+          cp /tmp/meta-explorer/index.html v2-preview/apps/meta/index.html
+          cp /tmp/meta-explorer/irl-scope.js v2-preview/apps/meta/irl-scope.js
+          cp /tmp/meta-explorer/meta-explorer-v2.js v2-preview/apps/meta/meta-explorer-v2.js
+          cp /tmp/meta-explorer/meta-explorer-v2.css v2-preview/apps/meta/meta-explorer-v2.css
+          node --check v2-preview/apps/meta/meta-explorer-v2.js
+          node --check v2-preview/apps/meta/irl-scope.js
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add v2-preview/apps/meta
+          git commit -m 'Publish linked mobile Meta exploration'
+          git push origin HEAD:main
