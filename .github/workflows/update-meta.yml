@@ -22,15 +22,21 @@ jobs:
         with:
           node-version: '22'
       - name: Archive Limitless meta data
-        run: node scripts/update-meta.mjs
+        run: |
+          node scripts/update-meta.mjs
+          node scripts/build-current-field.mjs
+      - name: Mirror compact field into preview
+        run: |
+          mkdir -p v2-preview/data/meta
+          cp data/meta/current-field.json v2-preview/data/meta/current-field.json
       - name: Commit archive if changed
         run: |
-          if git diff --quiet -- data/meta; then
+          git add data/meta v2-preview/data/meta/current-field.json
+          if git diff --cached --quiet; then
             echo "No archive changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/meta
           git commit -m "Archive Limitless meta history"
           git push
