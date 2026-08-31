@@ -9,8 +9,9 @@
     if(!value||typeof value!=='object')return base;
     return {...base,...value,schemaVersion:SCHEMA_VERSION,plannedEvents:Array.isArray(value.plannedEvents)?value.plannedEvents:[],favouriteVenues:Array.isArray(value.favouriteVenues)?value.favouriteVenues:[],preps:Array.isArray(value.preps)?value.preps:[],recent:value.recent&&typeof value.recent==='object'?value.recent:{},preferences:value.preferences&&typeof value.preferences==='object'?value.preferences:{}};
   }
+  function notify(){window.dispatchEvent(new CustomEvent('ptcg:local-change',{detail:{source:'root-state'}}))}
   function load(){return normalise(safeParse(localStorage.getItem(ROOT_KEY)))}
-  function save(state){const out=normalise(state);localStorage.setItem(ROOT_KEY,JSON.stringify(out));return out}
+  function save(state){const out=normalise(state);localStorage.setItem(ROOT_KEY,JSON.stringify(out));notify();return out}
   function update(mutator){const state=load();const next=mutator(state)||state;return save(next)}
   function uid(prefix){return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`}
   function setPlannedEvent(event,status='attending'){
