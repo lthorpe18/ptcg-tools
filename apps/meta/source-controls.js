@@ -17,6 +17,8 @@
   bindPair('playFieldSource', 'fieldSource');
   bindPair('playMatchupSource', 'matchupSource');
 
+  // Variant grouping is a presentation choice for Current Meta only.
+  // Analytical field, recommendation and matchup models always use real variants.
   const grouping = $('archetypeGrouping');
-  if (grouping) grouping.value = 'families';
+  if (grouping) grouping.value = 'variants';
 })();
