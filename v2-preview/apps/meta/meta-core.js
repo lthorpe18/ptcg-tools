@@ -6,10 +6,7 @@
     { value: '30', label: 'Last 30 days' },
     { value: 'all', label: 'All in format' },
   ];
-  const state = {
-    onlineScope: '30',
-    irlScope: 'latest-weekend',
-  };
+  const state = { onlineScope: '30', irlScope: 'latest-weekend' };
 
   const rawDeckAggregate = window.DeckAggregate ? {
     getData: window.DeckAggregate.getData?.bind(window.DeckAggregate),
@@ -18,8 +15,43 @@
   } : null;
   const rawIrlGetData = window.IRLLabs?.getData?.bind(window.IRLLabs);
 
+  let rawOnlineTournaments = [];
+  let rawCacheIdentity = null;
+  let appliedOnlineRows = null;
+
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
   const copy = value => JSON.parse(JSON.stringify(value ?? null));
+
+  function captureOnlineBase(force = false) {
+    if (typeof CACHE === 'undefined' || !CACHE || !Array.isArray(CACHE.tournaments)) return;
+    const identity = `${CACHE.format || ''}|${CACHE.generatedAt || ''}`;
+    if (force || !rawOnlineTournaments.length || identity !== rawCacheIdentity || CACHE.tournaments !== appliedOnlineRows) {
+      if (CACHE.tournaments !== appliedOnlineRows || force) {
+        rawOnlineTournaments = [...CACHE.tournaments];
+        rawCacheIdentity = identity;
+      }
+    }
+  }
+
+  function scopedOnlineRows(scope = state.onlineScope, minPlayers = 50) {
+    captureOnlineBase(false);
+    const eligible = rawOnlineTournaments.filter(t => Number(t.players || 0) >= Number(minPlayers || 0) && Array.isArray(t.standings) && t.standings.length);
+    if (scope === 'all') return eligible;
+    const dates = eligible.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
+    if (!dates.length) return [];
+    const newest = Math.max(...dates);
+    const cutoff = newest - Number(scope || 30) * 86400000;
+    return eligible.filter(t => {
+      const ts = new Date(t.date).getTime();
+      return Number.isFinite(ts) && ts >= cutoff;
+    });
+  }
+
+  function applyOnlineScopeToLegacyCache() {
+    if (typeof CACHE === 'undefined' || !CACHE || !rawOnlineTournaments.length) return;
+    appliedOnlineRows = scopedOnlineRows(state.onlineScope, 0);
+    CACHE.tournaments = appliedOnlineRows;
+  }
 
   function emit(reason = 'state') {
     window.dispatchEvent(new CustomEvent('meta:data-changed', { detail: { ...state, reason } }));
@@ -27,7 +59,10 @@
 
   function setOnlineScope(value, reason = 'online-scope') {
     state.onlineScope = ONLINE_SCOPES.some(x => x.value === value) ? value : '30';
+    applyOnlineScopeToLegacyCache();
     emit(reason);
+    window.dispatchEvent(new CustomEvent('deckagg:updated'));
+    window.dispatchEvent(new CustomEvent('field:updated'));
   }
 
   function isoWeekKey(value) {
@@ -67,6 +102,8 @@
     const allowed = new Set(irlScopeOptions().map(x => x.value));
     state.irlScope = allowed.has(value) ? value : 'latest-weekend';
     emit(reason);
+    window.dispatchEvent(new CustomEvent('irl:updated'));
+    window.dispatchEvent(new CustomEvent('field:updated'));
   }
 
   function selectedIrlEvents(scope = state.irlScope, raw = rawIrl()) {
@@ -79,17 +116,7 @@
   }
 
   function onlineTournaments(scope = state.onlineScope, minPlayers = 50) {
-    const rows = (typeof CACHE !== 'undefined' && Array.isArray(CACHE?.tournaments)) ? CACHE.tournaments : [];
-    const eligible = rows.filter(t => Number(t.players || 0) >= Number(minPlayers || 0) && Array.isArray(t.standings) && t.standings.length);
-    if (scope === 'all') return eligible;
-    const dates = eligible.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
-    if (!dates.length) return [];
-    const newest = Math.max(...dates);
-    const cutoff = newest - Number(scope || 30) * 86400000;
-    return eligible.filter(t => {
-      const ts = new Date(t.date).getTime();
-      return Number.isFinite(ts) && ts >= cutoff;
-    });
+    return scopedOnlineRows(scope, minPlayers);
   }
 
   function aggregateOnline(scope = state.onlineScope, minPlayers = 50) {
@@ -115,17 +142,12 @@
     const agg = aggregateOnline(scope, minPlayers);
     if (!agg) return rawDeckAggregate?.getData?.() || { decks: [], matchups: [], results: [] };
     return {
-      source: 'online',
-      scope,
+      source: 'online', scope,
       events: onlineTournaments(scope, minPlayers),
       decks: decksFromAggregate(agg),
       matchups: [...(agg.matchups?.values?.() || [])],
       results: agg.results || [],
-      overview: {
-        events: Number(agg.tournamentCount || 0),
-        entries: Number(agg.totalPlayers || 0),
-        matches: Number(agg.matches || 0),
-      },
+      overview: { events: Number(agg.tournamentCount || 0), entries: Number(agg.totalPlayers || 0), matches: Number(agg.matches || 0) },
       generatedAt: (typeof CACHE !== 'undefined' ? CACHE?.generatedAt : null) || null,
     };
   }
@@ -141,10 +163,7 @@
       for (const d of event.decks || []) {
         if (ignored(d?.name)) continue;
         const row = deckMap.get(d.name) || { name: d.name, entries: 0, wins: 0, losses: 0, ties: 0, url: d.url || '' };
-        row.entries += Number(d.entries || 0);
-        row.wins += Number(d.wins || 0);
-        row.losses += Number(d.losses || 0);
-        row.ties += Number(d.ties || 0);
+        row.entries += Number(d.entries || 0); row.wins += Number(d.wins || 0); row.losses += Number(d.losses || 0); row.ties += Number(d.ties || 0);
         if (!row.url && d.url) row.url = d.url;
         deckMap.set(d.name, row);
       }
@@ -153,10 +172,7 @@
         foundEventMatchups = true;
         const key = `${m.a}|||${m.b}`;
         const row = matchupMap.get(key) || { a: m.a, b: m.b, games: 0, wins: 0, losses: 0, ties: 0 };
-        row.games += Number(m.games || 0);
-        row.wins += Number(m.wins || 0);
-        row.losses += Number(m.losses || 0);
-        row.ties += Number(m.ties || 0);
+        row.games += Number(m.games || 0); row.wins += Number(m.wins || 0); row.losses += Number(m.losses || 0); row.ties += Number(m.ties || 0);
         matchupMap.set(key, row);
       }
     }
@@ -168,25 +184,14 @@
       const decisive = d.wins + d.losses;
       d.winRate = decisive ? 100 * d.wins / decisive : null;
     }
-
     let matchups = [...matchupMap.values()];
     if (!foundEventMatchups && (scope === 'all-irl' || validIrlEvents(raw).length === 1)) matchups = raw?.matchups || [];
 
-    return {
-      ...copy(raw),
-      source: 'irl',
-      scope,
-      events,
-      decks,
-      matchups,
-      overview: { events: events.length, entries: totalEntries },
-    };
+    return { ...copy(raw), source: 'irl', scope, events, decks, matchups, overview: { events: events.length, entries: totalEntries } };
   }
 
   function data(source, options = {}) {
-    return source === 'irl'
-      ? irlData(options.scope || state.irlScope)
-      : onlineData(options.scope || state.onlineScope, options.minPlayers || 50);
+    return source === 'irl' ? irlData(options.scope || state.irlScope) : onlineData(options.scope || state.onlineScope, options.minPlayers || 50);
   }
 
   function fieldRows(source, options = {}) {
@@ -195,7 +200,6 @@
       const total = decks.reduce((sum, d) => sum + Number(d.entries || 0), 0);
       return decks.map(d => ({ name: d.name, share: total ? Number(d.entries || 0) / total : 0, source: 'irl' }));
     }
-
     const tournaments = onlineTournaments(options.scope || state.onlineScope, options.minPlayers || 50);
     if (!tournaments.length) return [];
     const mode = options.recency || 'balanced';
@@ -213,9 +217,7 @@
         total += weight;
       }
     }
-    return [...counts.entries()]
-      .map(([name, value]) => ({ name, share: total ? value / total : 0, source: 'online' }))
-      .sort((a, b) => b.share - a.share);
+    return [...counts.entries()].map(([name, value]) => ({ name, share: total ? value / total : 0, source: 'online' })).sort((a, b) => b.share - a.share);
   }
 
   function matchup(source, a, b, options = {}) {
@@ -227,30 +229,15 @@
     if (source === 'online') {
       const scope = options.scope || state.onlineScope;
       const label = ONLINE_SCOPES.find(x => x.value === scope)?.label || 'Last 30 days';
-      return {
-        source,
-        scope,
-        events: Number(d.overview?.events || 0),
-        entries: Number(d.overview?.entries || 0),
-        label: `${label} online data`,
-        detail: d.generatedAt ? `Updated ${new Date(d.generatedAt).toLocaleDateString([], { day: 'numeric', month: 'short' })}` : '50+ online tournaments',
-      };
+      return { source, scope, events: Number(d.overview?.events || 0), entries: Number(d.overview?.entries || 0), label: `${label} online data`, detail: d.generatedAt ? `Updated ${new Date(d.generatedAt).toLocaleDateString([], { day: 'numeric', month: 'short' })}` : '50+ online tournaments' };
     }
-
     const scope = options.scope || state.irlScope;
     const events = d.events || [];
     let label = 'Latest IRL majors weekend';
     if (scope === 'all-irl') label = 'All IRL majors this format';
     if (String(scope).startsWith('event:') && events[0]) label = events[0].name || 'IRL tournament';
     if (scope === 'latest-weekend' && events.length === 1) label = events[0].name || label;
-    return {
-      source,
-      scope,
-      events: Number(events.length || 0),
-      entries: Number(d.overview?.entries || 0),
-      label,
-      detail: events.length ? events.map(e => new Date(e.date).toLocaleDateString([], { day: 'numeric', month: 'short' })).join(' · ') : 'No IRL events in this scope',
-    };
+    return { source, scope, events: Number(events.length || 0), entries: Number(d.overview?.entries || 0), label, detail: events.length ? events.map(e => new Date(e.date).toLocaleDateString([], { day: 'numeric', month: 'short' })).join(' · ') : 'No IRL events in this scope' };
   }
 
   window.MetaState = {
@@ -260,19 +247,8 @@
     setOnlineScope,
     setIrlScope,
   };
+  window.MetaData = { data, onlineData, irlData, fieldRows, matchup, context, onlineTournaments, irlEvents: selectedIrlEvents };
 
-  window.MetaData = {
-    data,
-    onlineData,
-    irlData,
-    fieldRows,
-    matchup,
-    context,
-    onlineTournaments,
-    irlEvents: selectedIrlEvents,
-  };
-
-  // Compatibility at the existing data boundaries. Renderers receive one scoped source of truth.
   if (window.DeckAggregate && rawDeckAggregate?.getData) {
     window.DeckAggregate.getData = () => onlineData();
     window.DeckAggregate.getMatchup = (a, b) => matchup('online', a, b);
@@ -283,7 +259,6 @@
     window.IRLLabs.getRawData = rawIrlGetData;
     window.IRLLabs.getData = () => irlData();
   }
-
   window.MetaIRLScope = {
     get: () => state.irlScope,
     set: value => setIrlScope(value),
@@ -294,6 +269,12 @@
     raw: rawIrl,
   };
 
-  window.addEventListener('meta:updated', () => emit('online-data'));
+  window.addEventListener('meta:updated', () => {
+    captureOnlineBase(true);
+    applyOnlineScopeToLegacyCache();
+    emit('online-data');
+  });
   window.addEventListener('irl:updated', () => emit('irl-data'));
+  captureOnlineBase(false);
+  applyOnlineScopeToLegacyCache();
 })();
