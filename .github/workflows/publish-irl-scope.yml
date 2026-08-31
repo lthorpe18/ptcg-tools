@@ -1,0 +1,42 @@
+name: Publish IRL scope
+
+on:
+  push:
+    branches: [ptcg-tools-v2]
+    paths: ['.github/workflows/publish-irl-scope.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ptcg-tools-v2
+          fetch-depth: 0
+      - name: Validate source
+        run: |
+          node --check apps/meta/irl-labs.js
+          node --check apps/meta/irl-scope.js
+          sed -i 's/irl-labs.js?v=2/irl-labs.js?v=3/' apps/meta/index.html
+          grep -q 'irl-labs.js?v=3' apps/meta/index.html
+      - name: Commit source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add apps/meta/index.html
+          git commit -m 'Bust IRL scope loader cache'
+          git push origin HEAD:ptcg-tools-v2
+      - name: Update preview
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+          sed -i 's/irl-labs.js?v=2/irl-labs.js?v=3/' v2-preview/apps/meta/index.html
+          node --check v2-preview/apps/meta/irl-labs.js
+          node --check v2-preview/apps/meta/irl-scope.js
+          grep -q 'irl-labs.js?v=3' v2-preview/apps/meta/index.html
+          git add v2-preview/apps/meta/index.html
+          git commit -m 'Bust preview IRL scope loader cache'
+          git push origin HEAD:main
