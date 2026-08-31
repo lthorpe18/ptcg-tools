@@ -20,11 +20,23 @@
   }
   function readMeta(){try{const v=JSON.parse(localStorage.getItem(META_KEY)||'[]');return Array.isArray(v)?v:[]}catch{return []}}
   function writeMeta(rows){localStorage.setItem(META_KEY,JSON.stringify(Array.isArray(rows)?rows:[]));window.dispatchEvent(new CustomEvent('savedmetas:updated'))}
+  function toMs(v){if(!v)return 0;if(typeof v==='number')return v;const n=Date.parse(v);return Number.isFinite(n)?n:0}
+  function latestRootMs(root){
+    if(!root)return 0;
+    const rows=[...(root.plannedEvents||[]),...(root.preps||[])];
+    return rows.reduce((m,x)=>Math.max(m,toMs(x.updatedAt||x.createdAt)),0);
+  }
   async function localSnapshot(){
     const root=global.PTCGStorage?global.PTCGStorage.load():null;
     let decks=[];
     if(global.PTCGDeckStore){await global.PTCGDeckStore.open();decks=await global.PTCGDeckStore.all()}
-    return {schemaVersion:1,capturedAt:new Date().toISOString(),rootState:root,decks,savedMetas:readMeta()};
+    const savedMetas=readMeta();
+    const modifiedAt=Math.max(
+      latestRootMs(root),
+      decks.reduce((m,d)=>Math.max(m,toMs(d.updatedAt||d.createdAt)),0),
+      savedMetas.reduce((m,x)=>Math.max(m,toMs(x.updatedAt||x.createdAt)),0)
+    );
+    return {schemaVersion:1,capturedAt:new Date().toISOString(),modifiedAt:modifiedAt?new Date(modifiedAt).toISOString():null,rootState:root,decks,savedMetas};
   }
   async function restoreLocal(payload){
     if(!payload||typeof payload!=='object')throw new Error('Invalid cloud snapshot');
@@ -43,9 +55,9 @@
   async function signOut(){const c=await client();const {error}=await c.auth.signOut();if(error)throw error}
   async function push(){
     const c=await client(),user=await getUser();if(!user)throw new Error('Sign in first');
-    const payload=await localSnapshot();
-    const {error}=await c.from('user_snapshots').upsert({user_id:user.id,payload,updated_at:new Date().toISOString()},{onConflict:'user_id'});
-    if(error)throw error;return payload;
+    const payload=await localSnapshot(),now=new Date().toISOString();
+    const {error}=await c.from('user_snapshots').upsert({user_id:user.id,payload,updated_at:now},{onConflict:'user_id'});
+    if(error)throw error;return {payload,updatedAt:now};
   }
   async function pull(){
     const c=await client(),user=await getUser();if(!user)throw new Error('Sign in first');
@@ -57,11 +69,10 @@
     const local=await localSnapshot();
     const {data,error}=await c.from('user_snapshots').select('payload,updated_at').eq('user_id',user.id).maybeSingle();
     if(error)throw error;
-    if(!data){await push();return {direction:'up',updatedAt:new Date().toISOString()}}
-    const remoteTime=Date.parse(data.updated_at||data.payload?.capturedAt||0)||0;
-    const localTime=Date.parse(local.capturedAt)||0;
+    if(!data){const pushed=await push();return {direction:'up',updatedAt:pushed.updatedAt}}
+    const remoteTime=toMs(data.updated_at),localTime=toMs(local.modifiedAt);
     if(remoteTime>localTime){await restoreLocal(data.payload);return {direction:'down',updatedAt:data.updated_at}}
-    await push();return {direction:'up',updatedAt:new Date().toISOString()};
+    const pushed=await push();return {direction:'up',updatedAt:pushed.updatedAt};
   }
   global.PTCGCloud={client,getUser,signUp,signIn,signOut,push,pull,sync,localSnapshot,restoreLocal};
 })(window);
