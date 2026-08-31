@@ -25,15 +25,32 @@ jobs:
           node-version: '22'
       - name: Read Limitless Labs current-format majors
         run: node scripts/update-irl-labs.mjs
+      - name: Validate IRL dataset
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='data/meta/irl/TEF-PBL.json';
+          const d=JSON.parse(fs.readFileSync(p,'utf8'));
+          if(!Array.isArray(d.events)||!Array.isArray(d.decks)||!Array.isArray(d.matchups)) throw new Error('Invalid IRL dataset shape');
+          if(d.events.length && !d.decks.length) throw new Error('IRL events present but field data empty');
+          for(const e of d.events){
+            if(Number(e.players||0)>=50 && (!Array.isArray(e.decks)||!e.decks.length)) throw new Error(`IRL event ${e.id} has no deck field`);
+          }
+          console.log(`Validated ${d.events.length} events, ${d.decks.length} decks, ${d.matchups.length} matchups`);
+          NODE
+      - name: Mirror V2 preview IRL dataset
+        run: |
+          mkdir -p v2-preview/data/meta/irl
+          cp data/meta/irl/TEF-PBL.json v2-preview/data/meta/irl/TEF-PBL.json
       - name: Publish IRL dataset
         run: |
-          if git diff --quiet -- data/meta/irl; then
+          if git diff --quiet -- data/meta/irl v2-preview/data/meta/irl; then
             echo "IRL dataset unchanged"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/meta/irl
+          git add data/meta/irl v2-preview/data/meta/irl
           git commit -m "Update Limitless Labs IRL meta"
           git pull --rebase
           git push
