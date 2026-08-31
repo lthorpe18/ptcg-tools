@@ -12,6 +12,7 @@ const CONCURRENCY = 6;
 const PAGE_SIZE = 100;
 const MAX_PAGES = 20;
 const outputFile = path.join(process.cwd(), 'data', 'meta', 'current-field.json');
+const irlFile = path.join(process.cwd(), 'data', 'meta', 'irl', `${FORMAT_ID}.json`);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function get(pathname, attempt = 0) {
@@ -109,8 +110,59 @@ function compactTournament(tournament, standings, pairings) {
   };
 }
 
-function eventsForScope(tournaments, scope) {
+function isoWeekKey(value) {
+  const d = new Date(value);
+  const u = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+  const day = u.getUTCDay() || 7;
+  u.setUTCDate(u.getUTCDate() + 4 - day);
+  const year = u.getUTCFullYear();
+  const yearStart = new Date(Date.UTC(year, 0, 1));
+  const week = Math.ceil((((u - yearStart) / 86400000) + 1) / 7);
+  return `${year}-W${String(week).padStart(2, '0')}`;
+}
+
+function endOfIsoWeek(value) {
+  const d = new Date(value);
+  if (!Number.isFinite(d.getTime())) return null;
+  const day = d.getUTCDay() || 7;
+  const mondayAfter = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+  mondayAfter.setUTCDate(mondayAfter.getUTCDate() + (8 - day));
+  return mondayAfter.getTime();
+}
+
+async function latestMajorWeekend() {
+  try {
+    const raw = JSON.parse(await fs.readFile(irlFile, 'utf8'));
+    const events = (raw?.events || [])
+      .filter(e => Number.isFinite(new Date(e.date).getTime()))
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+    if (!events.length) return null;
+    const latestWeek = isoWeekKey(events[0].date);
+    const weekend = events.filter(e => isoWeekKey(e.date) === latestWeek);
+    const latestDate = Math.max(...weekend.map(e => new Date(e.date).getTime()));
+    const cutoff = endOfIsoWeek(latestDate);
+    if (!Number.isFinite(cutoff)) return null;
+    return {
+      week: latestWeek,
+      cutoff,
+      cutoffIso: new Date(cutoff).toISOString(),
+      events: weekend.map(e => ({ id:String(e.id), name:e.name || 'IRL major', date:e.date })),
+    };
+  } catch (error) {
+    console.warn(`IRL major cutoff unavailable: ${error.message}`);
+    return null;
+  }
+}
+
+function eventsForScope(tournaments, scope, majorWeekend = null) {
   if (scope === 'all') return tournaments;
+  if (scope === 'since-major') {
+    if (!Number.isFinite(majorWeekend?.cutoff)) return [];
+    return tournaments.filter(t => {
+      const ts = new Date(t.date).getTime();
+      return Number.isFinite(ts) && ts >= majorWeekend.cutoff;
+    });
+  }
   const dates = tournaments.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
   if (!dates.length) return [];
   const newest = Math.max(...dates);
@@ -142,8 +194,9 @@ function matchupBucket(events) {
   };
 }
 
-const index = await tournamentIndex();
+const [index, majorWeekend] = await Promise.all([tournamentIndex(), latestMajorWeekend()]);
 console.log(`Found ${index.length} qualifying ${FORMAT_ID} online tournaments.`);
+if (majorWeekend) console.log(`Post-major scope starts ${majorWeekend.cutoffIso} after ${majorWeekend.events.map(e => e.name).join(' + ')}`);
 const loaded = await mapConcurrent(index, CONCURRENCY, async (tournament, i) => {
   try {
     const [standings, pairings] = await Promise.all([
@@ -163,14 +216,15 @@ const internal = loaded.filter(Boolean).sort((a, b) => new Date(b.date) - new Da
 if (!internal.length) throw new Error('No compact online tournaments could be built');
 
 const matchupScopes = {
-  '14': matchupBucket(eventsForScope(internal, '14')),
-  '30': matchupBucket(eventsForScope(internal, '30')),
+  '14': matchupBucket(eventsForScope(internal, '14', majorWeekend)),
+  '30': matchupBucket(eventsForScope(internal, '30', majorWeekend)),
+  'since-major': matchupBucket(eventsForScope(internal, 'since-major', majorWeekend)),
   all: matchupBucket(internal),
 };
 const tournaments = internal.map(({ matchups, matchCount, ...event }) => event);
 
 const payload = {
-  schemaVersion: 3,
+  schemaVersion: 4,
   generatedAt: new Date().toISOString(),
   source: 'play.limitlesstcg.com',
   format: FORMAT_ID,
@@ -178,6 +232,7 @@ const payload = {
   formatStart: FORMAT_START,
   minTournamentSize: MIN_PLAYERS,
   tournamentCount: tournaments.length,
+  majorWeekend: majorWeekend ? { week:majorWeekend.week, cutoff:majorWeekend.cutoffIso, events:majorWeekend.events } : null,
   matchupScopes,
   tournaments,
 };
