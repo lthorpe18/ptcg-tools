@@ -1,0 +1,69 @@
+name: Publish corrected IRL meta
+
+on:
+  push:
+    branches: [ptcg-tools-v2]
+    paths: ['.github/workflows/publish-irl-meta-fix.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ptcg-tools-v2
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate and validate corrected IRL data
+        run: |
+          node scripts/update-irl-labs.mjs
+          node - <<'NODE'
+          const fs=require('fs');
+          const d=JSON.parse(fs.readFileSync('data/meta/irl/TEF-PBL.json','utf8'));
+          const worlds=d.events.find(e=>e.id==='0071');
+          const drag=worlds?.decks?.find(x=>x.name==='Dragapult');
+          if(!worlds||worlds.decks.length<20||d.decks.length<20||d.matchups.length<50) throw new Error('IRL Worlds dataset incomplete');
+          if(!drag||drag.entries!==172||Math.abs(drag.winRate-46.41)>.01) throw new Error('IRL Worlds deck columns parsed incorrectly');
+          console.log(`Validated Worlds: ${worlds.decks.length} archetypes, ${d.matchups.length} matchup rows`);
+          NODE
+      - name: Update V2 source cache/version
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('apps/meta/index.html')
+          s=p.read_text()
+          s=s.replace('src="irl-labs.js"','src="irl-labs.js?v=2"')
+          p.write_text(s)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/meta/irl/TEF-PBL.json apps/meta/index.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Refresh corrected IRL Worlds meta'
+            git push origin HEAD:ptcg-tools-v2
+          fi
+      - name: Stage preview files
+        run: |
+          mkdir -p /tmp/irl-publish/apps/meta /tmp/irl-publish/data/meta/irl
+          cp apps/meta/index.html /tmp/irl-publish/apps/meta/index.html
+          cp apps/meta/irl-labs.js /tmp/irl-publish/apps/meta/irl-labs.js
+          cp data/meta/irl/TEF-PBL.json /tmp/irl-publish/data/meta/irl/TEF-PBL.json
+      - name: Publish corrected cache to preview
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+          mkdir -p v2-preview/apps/meta v2-preview/data/meta/irl data/meta/irl
+          cp /tmp/irl-publish/apps/meta/index.html v2-preview/apps/meta/index.html
+          cp /tmp/irl-publish/apps/meta/irl-labs.js v2-preview/apps/meta/irl-labs.js
+          cp /tmp/irl-publish/data/meta/irl/TEF-PBL.json v2-preview/data/meta/irl/TEF-PBL.json
+          cp /tmp/irl-publish/data/meta/irl/TEF-PBL.json data/meta/irl/TEF-PBL.json
+          git add v2-preview/apps/meta/index.html v2-preview/apps/meta/irl-labs.js v2-preview/data/meta/irl/TEF-PBL.json data/meta/irl/TEF-PBL.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Publish corrected IRL Worlds meta'
+          git push origin HEAD:main
