@@ -7,7 +7,7 @@
 
 PTCG Tools will not depend on the old Google Sheet and will not reverse-engineer or scrape the Play! Pokémon Event Locator as its normal local-event source.
 
-The event system will combine two source classes behind one normalized schema:
+The event system combines two source classes behind one normalized schema:
 
 ```text
 LOCAL EVENTS
@@ -17,12 +17,13 @@ Pokédata
 → Prereleases
 
 MAJOR EVENTS
-Pokémon Championship Series calendar
-+ RK9 practical registration/event details where available
+Official Pokémon Championship Series JSON calendar
+        +
+RK9 enrichment where available
 → Regionals
 → Special Championships
 → Internationals
-→ Worlds
+→ Worlds when present in the official feed
 
              ↓
 normalized data/events.json
@@ -32,11 +33,9 @@ PTCG Tools Events
 
 The app consumes only `data/events.json`; it does not know how individual upstream providers work.
 
-## Why Pokédata for local events
+## Local events — Pokédata
 
-Pokédata exposes a simple JSON API that supports TCG event type, latitude, longitude, radius, unit and start date. It requires no login, browser automation or anti-bot workaround.
-
-Current endpoint pattern:
+Pokédata exposes a simple JSON API supporting TCG event type, latitude, longitude, radius, unit and start date.
 
 ```text
 https://www.pokedata.ovh/events/api/
@@ -48,7 +47,7 @@ _unit/mi/
 _start/{YYYY-MM-DD}
 ```
 
-Current TCG event values used by PTCG Tools:
+Current TCG values:
 
 ```text
 cups
@@ -56,24 +55,77 @@ challenges
 pre
 ```
 
-The upstream records provide stable `guid` values, event names/types, shop/venue, date/time, address, coordinates, cost and Pokémon event URLs. This is sufficient for local discovery and stable personal event identity.
+The upstream records provide stable `guid` values, event names/types, shop/venue, date/time, address, coordinates, cost and Pokémon event URLs. Pokédata remains a discovery/index source, so PTCG Tools preserves the official Pokémon event URL for verification.
 
-Pokédata explicitly warns users to verify exact event information with the league. Therefore PTCG Tools should present Pokédata as the discovery/index source and preserve the official Pokémon URL for verification.
+Initial Bristol-area importer configuration:
 
-## Why majors are separate
+```text
+League Cups        100 miles
+League Challenges  60 miles
+Prereleases         50 miles
+```
 
-Pokédata contains historical major-event standings, but no equally clear supported future-major-event API has been established.
+Bristol is only the initial importer search seed, not part of event identity or permanent product logic.
 
-Major events therefore use a separate provider adapter. Target source hierarchy:
+## Major events — official Pokémon calendar
 
-1. Pokémon Championship Series calendar — canonical event existence/date/type.
-2. RK9 — practical registration, venue and event-specific details where available.
+The canonical major-event source is Pokémon's own Championship Series JSON feed:
 
-Major events are not constrained by the normal local distance radius. The Events UI should eventually expose a distinct `Majors` view/filter.
+```text
+https://championships.pokemon.com/api/events.json?locale=en-us
+```
 
-## Current implemented pipeline
+The public Championship Series page itself declares this endpoint in its event-collection configuration.
 
-Production-shaped importer:
+The official feed currently supplies:
+
+```text
+eventName_s
+displayDateRange_s
+uRL_s
+type_s
+region_s
+year_s
+eventLocation_s
+isStreaming_b
+```
+
+`year_s` is the Championship **season year**, not always the calendar year. For example, September 2026 events belong to the 2027 season. PTCG Tools therefore resolves displayed dates using the season convention:
+
+```text
+July–December → season year - 1
+January–June   → season year
+```
+
+The official API categorizes Special Championships under `type_s = regional`, so PTCG Tools distinguishes them from ordinary Regionals using the official event name.
+
+Major normalized types are:
+
+```text
+Regional
+Special Championship
+International
+World Championships
+```
+
+Worlds is supported by the importer whenever it appears in the official future-event feed. As of 31 August 2026, the official future dataset contains the announced 2027 Regionals, Specials and Internationals but no future Worlds entry yet.
+
+## RK9 enrichment
+
+RK9 is not the canonical major calendar. It is a secondary operational source used to enrich an official Pokémon event when the same event/date exists on RK9.
+
+Where available PTCG Tools adds:
+
+```text
+registrationUrl       TCG-specific RK9 tournament/registration URL
+secondarySourceUrl    RK9 event detail URL
+```
+
+An event remains in PTCG Tools even if RK9 has not created its event page yet, because existence/date/type come from Pokémon.
+
+## Implemented pipeline
+
+Production importer:
 
 ```text
 scripts/import_events.py
@@ -91,25 +143,15 @@ Generated public dataset:
 data/events.json
 ```
 
-Initial local search seed is Bristol-area coordinates. This is importer configuration, not part of the event identity or permanent UI logic.
+The workflow runs four times per day and can also be dispatched manually. It validates before publishing and leaves the previous known-good dataset untouched if a refresh fails.
 
-Current configured local radii:
+## Current normalized schema
 
-```text
-League Cups        100 miles
-League Challenges  60 miles
-Prereleases         50 miles
-```
-
-The GitHub Action runs four times per day and can also be dispatched manually. It validates the generated JSON before committing it.
-
-## Normalized event schema
-
-Top-level dataset:
+Top-level dataset uses schema version 4:
 
 ```json
 {
-  "schemaVersion": 2,
+  "schemaVersion": 4,
   "status": "ok",
   "lastAttemptedUpdate": "...",
   "lastSuccessfulUpdate": "...",
@@ -119,7 +161,7 @@ Top-level dataset:
 }
 ```
 
-Normalized event fields currently include:
+Common event fields include:
 
 ```text
 id
@@ -145,37 +187,64 @@ cost
 status
 officialUrl
 registrationUrl
+sourceUrl
+secondarySourceUrl
 details
 ```
 
-The current local event identity is:
+Major records additionally retain useful Championship metadata such as `season` and `isStreaming`.
+
+Local identity:
 
 ```text
 id = "pokedata:" + sourceId
 sourceId = Pokédata guid
 ```
 
-The major provider adapter must produce the same event shape.
+Major identity is derived from the stable official Pokémon Championship event path.
 
 ## Validation and last-known-good behavior
 
-A bad refresh must not destroy the previous usable dataset.
-
-The importer rejects candidate data for conditions including:
+Candidate datasets are rejected for conditions including:
 
 - missing or duplicate IDs;
 - excessive unparseable dates;
 - excessive missing coordinates for local records;
-- catastrophic event-count collapse versus previous known-good coverage;
-- non-JSON or failed upstream responses.
+- an implausibly small major-event feed;
+- catastrophic total event-count collapse;
+- malformed/non-JSON upstream responses.
 
-If the importer exits unsuccessfully, it deliberately leaves the existing `data/events.json` untouched and the GitHub Action fails visibly.
+On failure `data/events.json` is left untouched and the GitHub Action fails visibly.
+
+## Verified production result — 31 August 2026
+
+The combined importer successfully retrieved and validated:
+
+```text
+LOCAL
+29 League Cups
+55 League Challenges
+0 Prereleases
+84 local events
+
+MAJORS
+24 Regionals
+5 Special Championships
+3 Internationals
+32 major events
+
+7 majors currently enriched from RK9
+
+116 events total
+```
+
+This dataset was published automatically by the production workflow.
 
 ## Personal attendance state
 
 The generated event dataset is public/reference data. `I'm attending` is personal shared-workspace state.
 
-When the user marks an event as attending, persist both its source identity and a normalized snapshot:
+When an event is marked attending, persist both its external identity and a normalized snapshot:
 
 ```text
 PlannedEvent
@@ -187,19 +256,11 @@ PlannedEvent
 - prepId
 ```
 
-`eventSnapshot` should contain the useful normalized event fields at that moment.
-
-This means:
-
-- future upstream changes can be reconciled using `sourceId`;
-- an event disappearing upstream does not erase the user's plan or tournament history;
-- attended events remain historically meaningful after Pokédata/RK9 stop listing them.
+The snapshot preserves the useful event fields at that moment. This allows later source updates to be reconciled without allowing an upstream removal/change to erase the user's plan or tournament history.
 
 ## UI contract
 
-The future V2 Events screen should consume only the normalized dataset and personal attendance state.
-
-Target top-level views:
+Target Events views:
 
 ```text
 Nearby
@@ -207,29 +268,14 @@ Majors
 Attending
 ```
 
-Nearby supports Cup / Challenge / Prerelease filters, date and distance. Majors shows relevant Championship Series events regardless of local radius. Attending combines any event type the user has marked as attending.
+Nearby supports Cup / Challenge / Prerelease, date and distance filters. Majors shows Championship Series events independent of local radius. Attending combines any event the user has marked as attending.
 
-Every event should expose the best authoritative/practical external link available.
-
-## Current proof
-
-The first successful GitHub Action import on 31 August 2026 retrieved and validated:
-
-```text
-29 League Cups
-55 League Challenges
-0 Prereleases
-84 local events total
-```
-
-The resulting normalized dataset was committed to `data/events.json`.
+Every event should expose the best authoritative/practical external links available.
 
 ## Next steps
 
-1. Inspect the generated local records for field-quality edge cases and improve normalization where useful.
-2. Implement the major-event provider adapter using Pokémon calendar data plus RK9 details.
-3. Validate a combined local + major `data/events.json`.
-4. Remove the obsolete Event Locator browser-probe tooling.
-5. Rebuild `apps/events` in the V2 shell against the normalized dataset.
-6. Add `Interested / Attending / Attended / Skipped` personal state with event snapshots in the shared Supabase workspace.
-7. Surface the next attending event on Home and hand it into Tournament Prep.
+1. Rebuild `apps/events` in the V2 shell against `data/events.json`.
+2. Add `Interested / Attending / Attended / Skipped` shared personal state and snapshot-on-attend behavior.
+3. Surface the next attending event on Home.
+4. Hand an attending event into Tournament Prep.
+5. Continue hardening field normalization as real source edge cases appear.
