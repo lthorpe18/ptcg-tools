@@ -2,7 +2,7 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const state = { source: 'online', grouping: 'variants', showAll: false, expanded: new Set(), view: 'current' };
-  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
   const pct = value => `${Number(value || 0).toFixed(1)}%`;
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
 
@@ -65,12 +65,11 @@
   }
 
   document.querySelectorAll('[data-current-source]').forEach(btn => btn.addEventListener('click', () => { state.source=btn.dataset.currentSource==='irl'?'irl':'online'; state.showAll=false; state.expanded.clear(); renderCurrent(); }));
-  $('currentWindow')?.addEventListener('change', () => { state.showAll=false; state.expanded.clear(); renderCurrent(); });
   $('currentGroupingToggle')?.addEventListener('change', e => { state.grouping=e.currentTarget.checked?'families':'variants'; state.expanded.clear(); renderCurrent(); });
   $('currentMetaMore')?.addEventListener('click', () => { state.showAll=!state.showAll; renderCurrent(); });
   document.querySelectorAll('[data-meta-view]').forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.metaView)));
   document.querySelectorAll('[data-meta-back]').forEach(btn => btn.addEventListener('click', () => setView('current')));
-  window.addEventListener('meta:data-changed', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
+  window.addEventListener('meta:data-changed', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) { state.showAll=false; state.expanded.clear(); renderCurrent(); } });
   window.addEventListener('meta:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
   window.addEventListener('irl:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
 
