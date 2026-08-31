@@ -19,6 +19,27 @@
     return `<div class="meta-source-context context-combined"><div><b>${esc(text)}</b><span>${esc(detail)}</span></div></div>`;
   }
 
+  function ensureSlots() {
+    const matchupControl=$('matchupPageSource')?.closest('.single-source-control');
+    if(matchupControl && !$('matchupSourceContext')) {
+      const el=document.createElement('div'); el.id='matchupSourceContext'; el.className='source-context-slot'; matchupControl.after(el);
+    }
+    const deckControl=$('deckPageSource')?.closest('.single-source-control');
+    if(deckControl && !$('deckSourceContext')) {
+      const el=document.createElement('div'); el.id='deckSourceContext'; el.className='source-context-slot'; deckControl.after(el);
+    }
+    const playControls=$('playFieldSource')?.closest('.child-source-row');
+    if(playControls && !$('playSourceContexts')) {
+      const grid=document.createElement('div'); grid.id='playSourceContexts'; grid.className='play-source-context-grid';
+      grid.innerHTML='<div class="play-context-card"><span class="play-context-label">Field data</span><div id="playFieldSourceContext"></div></div><div class="play-context-card"><span class="play-context-label">Matchup data</span><div id="playMatchupSourceContext"></div></div>';
+      playControls.after(grid);
+    }
+    const detailSource=document.querySelector('#deckDetailHead .detail-source');
+    if(detailSource && !$('deckDetailSourceContext')) {
+      const el=document.createElement('div'); el.id='deckDetailSourceContext'; el.className='detail-source-context'; detailSource.after(el);
+    }
+  }
+
   function irlContext() {
     const scopeApi = window.MetaIRLScope;
     const raw = scopeApi?.raw?.() || window.IRLLabs?.getRawData?.() || window.IRLLabs?.getData?.() || {};
@@ -45,12 +66,7 @@
     const data = window.DeckAggregate?.getData?.() || {};
     const overview = data.overview || {};
     const label = kind === 'matchups' ? 'All TEF–PBL online matchups' : 'All TEF–PBL online data';
-    return {
-      events: Number(overview.tournaments || 0),
-      entries: Number(overview.players || 0),
-      label,
-      detail: updated(data.generatedAt)
-    };
+    return { events:Number(overview.tournaments||0), entries:Number(overview.players||0), label, detail:updated(data.generatedAt) };
   }
 
   function liveFieldContext() {
@@ -68,7 +84,6 @@
     const el=$(id); if(!el) return;
     el.innerHTML=card(context.events,context.entries,context.label,context.detail);
   }
-
   function renderMatchups() {
     const source=$('matchupPageSource')?.value || 'online';
     renderInto('matchupSourceContext', source==='irl' ? irlContext() : onlineAggregateContext('matchups'));
@@ -82,7 +97,7 @@
     const matchups=$('playMatchupSource')?.value || 'online';
     const fieldEl=$('playFieldSourceContext');
     if(fieldEl) {
-      if(field==='online') fieldEl.innerHTML=card(...Object.values(liveFieldContext()).slice(0,4));
+      if(field==='online') { const c=liveFieldContext(); fieldEl.innerHTML=card(c.events,c.entries,c.label,c.detail); }
       else if(field==='irl') { const c=irlContext(); fieldEl.innerHTML=card(c.events,c.entries,c.label,c.detail); }
       else if(field==='blend') {
         const o=liveFieldContext(), i=irlContext();
@@ -101,18 +116,18 @@
   }
   function renderDetail() {
     const el=$('deckDetailSourceContext'); if(!el) return;
-    const active=document.querySelector('[data-detail-source].active')?.dataset.detailSource || 'online';
+    const active=document.querySelector('#deckDetail [data-detail-source].active')?.dataset.detailSource || 'online';
     const c=active==='irl' ? irlContext() : onlineAggregateContext('field');
     el.innerHTML=card(c.events,c.entries,c.label,c.detail);
   }
-  function renderAll() { renderMatchups(); renderDecks(); renderPlay(); renderDetail(); }
+  function renderAll() { ensureSlots(); renderMatchups(); renderDecks(); renderPlay(); renderDetail(); }
 
   ['matchupPageSource','deckPageSource','playFieldSource','playMatchupSource','prepRecency','prepMinPlayers'].forEach(id=>$(id)?.addEventListener('change',()=>setTimeout(renderAll,0)));
   window.addEventListener('deckagg:updated',()=>setTimeout(renderAll,0));
   window.addEventListener('irl:updated',()=>setTimeout(renderAll,0));
   window.addEventListener('meta-irl-scope:changed',()=>setTimeout(renderAll,0));
   window.addEventListener('field:updated',()=>setTimeout(renderPlay,0));
-  document.addEventListener('click',event=>{ if(event.target.closest('[data-detail-source],[data-meta-view]')) setTimeout(renderAll,0); },true);
+  document.addEventListener('click',event=>{ if(event.target.closest('[data-detail-source],[data-meta-view],[data-explore-deck]')) setTimeout(renderAll,0); },true);
   window.MetaSourceContext={renderAll,irlContext,onlineAggregateContext,liveFieldContext};
   setTimeout(renderAll,0);
 })();
