@@ -4,7 +4,32 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   function card(context) {
-    return `<div class="meta-source-context"><div><b>${Number(context.events || 0).toLocaleString()}</b><span>Events</span></div><div><b>${Number(context.entries || 0).toLocaleString()}</b><span>Entries</span></div><div class="context-wide"><b>${esc(context.label || '')}</b><span>${esc(context.detail || '')}</span></div></div>`;
+    return `<div class="meta-source-context"><div><b>${Number(context.events || 0).toLocaleString()}</b><span>${esc(context.eventsLabel || 'Events')}</span></div><div><b>${Number(context.entries || 0).toLocaleString()}</b><span>${esc(context.entriesLabel || 'Entries')}</span></div><div class="context-wide"><b>${esc(context.label || '')}</b><span>${esc(context.detail || '')}</span></div></div>`;
+  }
+
+  function detailCard(source) {
+    const context = window.MetaData.context(source);
+    const data = window.MetaData.data(source);
+    if (source === 'online') {
+      const games = Number(data?.overview?.matches || 0);
+      return card({
+        events: Number(data?.overview?.events || 0),
+        eventsLabel: 'Field events',
+        entries: games,
+        entriesLabel: 'Matchup games',
+        label: context.label,
+        detail: context.detail,
+      });
+    }
+    const matchupGames = Math.round((data?.matchups || []).reduce((sum, row) => sum + Number(row.games || 0), 0) / 2);
+    return card({
+      events: Number(data?.events?.length || 0),
+      eventsLabel: 'IRL events',
+      entries: matchupGames,
+      entriesLabel: 'Matchup games',
+      label: context.label,
+      detail: context.detail,
+    });
   }
 
   function ensureAfter(anchor, id) {
@@ -70,7 +95,7 @@
       head.after(slot);
     }
     const source = head.querySelector('[data-detail-source].active')?.dataset.detailSource || 'online';
-    slot.innerHTML = card(window.MetaData.context(source));
+    slot.innerHTML = detailCard(source);
   }
 
   function renderVisible() {
