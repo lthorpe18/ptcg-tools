@@ -9,6 +9,10 @@
     return base + (events ? `<optgroup label="Individual tournaments">${events}</optgroup>` : '');
   }
 
+  function selectedLabel(select) {
+    return select?.selectedOptions?.[0]?.textContent?.trim() || '';
+  }
+
   function syncLandingOptions(source) {
     const select = $('currentWindow');
     if (!select) return;
@@ -55,16 +59,41 @@
     model.addEventListener('change', () => { visible.value = model.value; syncPrepScopes(); });
   }
 
-  function syncPrepScopes() {
+  function ensurePrepSourceDetails() {
     const header = $('playFieldSource')?.closest('.meta-child-header');
-    if (!header) return;
+    const sourceRow = $('playFieldSource')?.closest('.child-source-row');
+    if (!header || !sourceRow) return null;
+    let details = $('playSourceDetails');
+    if (!details) {
+      details = document.createElement('details');
+      details.id = 'playSourceDetails';
+      details.className = 'play-source-details';
+      details.innerHTML = '<summary><span><b>Data sources</b><small id="playSourceSummary"></small></span><span class="play-source-chevron">⌄</span></summary><div id="playSourceBody" class="play-source-body"></div>';
+      sourceRow.parentNode.insertBefore(details, sourceRow);
+      $('playSourceBody').appendChild(sourceRow);
+    }
+    return details;
+  }
+
+  function syncPrepSummary() {
+    const summary = $('playSourceSummary');
+    if (!summary) return;
+    const field = selectedLabel($('playFieldSource')) || 'Online';
+    const matchups = selectedLabel($('playMatchupSource')) || 'Online';
+    summary.textContent = `Field: ${field} · Matchups: ${matchups}`;
+  }
+
+  function syncPrepScopes() {
+    const details = ensurePrepSourceDetails();
+    const header = $('playFieldSource')?.closest('.meta-child-header');
+    if (!header || !details) return;
     let row = $('playScopeControls');
     if (!row) {
       row = document.createElement('div');
       row.id = 'playScopeControls';
       row.className = 'play-scope-controls';
       row.innerHTML = '<label id="playOnlineScopeWrap"><span>Online scope</span><select id="playOnlineScope"></select></label><label id="playIrlScopeWrap"><span>IRL scope</span><select id="playIrlScope"></select></label>';
-      header.appendChild(row);
+      $('playSourceBody').appendChild(row);
       $('playOnlineScope').addEventListener('change', e => window.MetaState.setOnlineScope(e.currentTarget.value));
       $('playIrlScope').addEventListener('change', e => window.MetaState.setIrlScope(e.currentTarget.value));
     }
@@ -79,6 +108,7 @@
     $('playOnlineScope').value = state.onlineScope;
     $('playIrlScope').innerHTML = optionHtml(window.MetaState.irlScopes());
     $('playIrlScope').value = state.irlScope;
+    syncPrepSummary();
   }
 
   function detailSource() {
@@ -145,7 +175,7 @@
   }
 
   const style = document.createElement('style');
-  style.textContent = '.meta-scope-control,.play-scope-controls label{display:grid;gap:4px;min-width:0;color:#667085;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.meta-scope-control select,.play-scope-controls select{width:100%;min-height:42px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;padding:0 10px;color:#101828;font:inherit;font-size:13px;font-weight:700}.play-scope-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.detail-scope-control{margin-top:8px}.single-source-control{flex-wrap:wrap}.meta-scope-control{flex:1}.play-scope-controls label[hidden]{display:none!important}@media(max-width:600px){.single-source-control{display:grid!important;grid-template-columns:1fr}.play-scope-controls{grid-template-columns:1fr}}';
+  style.textContent = '.meta-scope-control,.play-scope-controls label{display:grid;gap:4px;min-width:0;color:#667085;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.meta-scope-control select,.play-scope-controls select{width:100%;min-height:42px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;padding:0 10px;color:#101828;font:inherit;font-size:13px;font-weight:700}.play-scope-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.detail-scope-control{margin-top:8px}.single-source-control{flex-wrap:wrap}.meta-scope-control{flex:1}.play-scope-controls label[hidden]{display:none!important}.play-source-details{margin-top:10px;border:1px solid #e1e5eb;border-radius:14px;background:#fff;overflow:hidden}.play-source-details summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;cursor:pointer}.play-source-details summary::-webkit-details-marker{display:none}.play-source-details summary>span:first-child{display:grid;gap:2px;min-width:0}.play-source-details summary b{font-size:13px;color:#101828}.play-source-details summary small{font-size:11px;color:#667085;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.play-source-chevron{font-size:18px;color:#667085;transition:transform .15s ease}.play-source-details[open] .play-source-chevron{transform:rotate(180deg)}.play-source-body{padding:0 12px 12px}.play-source-body .child-source-row{margin:0}.play-source-details:not([open]) .play-source-body{display:none}@media(max-width:600px){.single-source-control{display:grid!important;grid-template-columns:1fr}.play-scope-controls{grid-template-columns:1fr}}';
   document.head.appendChild(style);
   window.MetaControls = { sync: syncAll, syncDetail };
   setTimeout(syncAll, 0);
