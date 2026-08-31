@@ -1,173 +1,138 @@
-# PTCG Tools V2 — Official Event Locator Integration Approach
+# PTCG Tools V2 — Events Data Source Strategy
 
-**Status:** Technical direction for V2.3 Events  
-**Date:** 31 August 2026  
-**Canonical upstream:** Official Play! Pokémon Event Locator (`events.pokemon.com/EventLocator`)
+**Status:** Current V2 source-of-truth for event ingestion  
+**Date:** 31 August 2026
 
 ## Decision
 
-PTCG Tools should ingest official Play! Pokémon event data **server-side on a schedule** and publish a validated, normalised repository dataset for the mobile app.
+PTCG Tools will not depend on the old Google Sheet and will not reverse-engineer or scrape the Play! Pokémon Event Locator as its normal local-event source.
 
-The production client must **not** scrape the Pokémon Event Locator in the user's browser and must **not** rely on the old manually maintained Google Sheet.
-
-Target flow:
+The event system will combine two source classes behind one normalized schema:
 
 ```text
-Official Play! Pokémon Event Locator
-        ↓
-GitHub Actions importer
-        ↓
-normalise + validate + compare with last known good
-        ↓
+LOCAL EVENTS
+Pokédata
+→ League Cups
+→ League Challenges
+→ Prereleases
+
+MAJOR EVENTS
+Pokémon Championship Series calendar
++ RK9 practical registration/event details where available
+→ Regionals
+→ Special Championships
+→ Internationals
+→ Worlds
+
+             ↓
+normalized data/events.json
+             ↓
+PTCG Tools Events
+```
+
+The app consumes only `data/events.json`; it does not know how individual upstream providers work.
+
+## Why Pokédata for local events
+
+Pokédata exposes a simple JSON API that supports TCG event type, latitude, longitude, radius, unit and start date. It requires no login, browser automation or anti-bot workaround.
+
+Current endpoint pattern:
+
+```text
+https://www.pokedata.ovh/events/api/
+_tcg/{TYPE}/
+_latitude/{LAT}/
+_longitude/{LONG}/
+_radius/{RADIUS}/
+_unit/mi/
+_start/{YYYY-MM-DD}
+```
+
+Current TCG event values used by PTCG Tools:
+
+```text
+cups
+challenges
+pre
+```
+
+The upstream records provide stable `guid` values, event names/types, shop/venue, date/time, address, coordinates, cost and Pokémon event URLs. This is sufficient for local discovery and stable personal event identity.
+
+Pokédata explicitly warns users to verify exact event information with the league. Therefore PTCG Tools should present Pokédata as the discovery/index source and preserve the official Pokémon URL for verification.
+
+## Why majors are separate
+
+Pokédata contains historical major-event standings, but no equally clear supported future-major-event API has been established.
+
+Major events therefore use a separate provider adapter. Target source hierarchy:
+
+1. Pokémon Championship Series calendar — canonical event existence/date/type.
+2. RK9 — practical registration, venue and event-specific details where available.
+
+Major events are not constrained by the normal local distance radius. The Events UI should eventually expose a distinct `Majors` view/filter.
+
+## Current implemented pipeline
+
+Production-shaped importer:
+
+```text
+scripts/import_events.py
+```
+
+Scheduled workflow:
+
+```text
+.github/workflows/import-events.yml
+```
+
+Generated public dataset:
+
+```text
 data/events.json
-        ↓
-PTCG Tools Events UI
 ```
 
-## What the investigation established
+Initial local search seed is Bristol-area coordinates. This is importer configuration, not part of the event identity or permanent UI logic.
 
-The current Event Locator is an OutSystems Reactive Web application behind Imperva/Incapsula browser protection.
-
-A plain headless Playwright request can be challenged before the application renders, so browser-DOM scraping is not a dependable foundation.
-
-However, the application's public JavaScript bundles are accessible and expose the actual OutSystems screen-service routes used by the locator.
-
-Current Home screen data actions identified from the live bundle include:
+Current configured local radii:
 
 ```text
-screenservices/EventLocator/MainFlow/Home/DataActionGetEventList
-screenservices/EventLocator/MainFlow/Home/DataActionGetLocations
-screenservices/EventLocator/MainFlow/Home/DataActionGetFilters
-screenservices/EventLocator/MainFlow/Home/DataActionGetPremierEventsByStartDate
-screenservices/EventLocator/MainFlow/Home/DataActionGetRelatedEvents
-screenservices/EventLocator/MainFlow/Home/DataActionGetBatchConfig
-screenservices/EventLocator/MainFlow/Home/ScreenDataSetGetPremierEventTypes
+League Cups        100 miles
+League Challenges  60 miles
+Prereleases         50 miles
 ```
 
-The current `DataActionGetEventList` API/version token exposed by the frontend is:
+The GitHub Action runs four times per day and can also be dispatched manually. It validates the generated JSON before committing it.
 
-```text
-lbKy3fbhrLZ5eb1JFcZNZw
-```
+## Normalized event schema
 
-This token must be treated as implementation metadata discovered dynamically, **not** as a permanent constant. A Pokémon deployment may change it.
-
-The frontend also confirms the current input/query concepts:
-
-```text
-locale
-filters
-latitude
-longitude
-range
-iskm
-SortDistance
-```
-
-and relevant client variables include:
-
-```text
-StartDate
-EndDate
-Latitude
-Longitude
-Range
-IsKm
-IsShowEvents
-AreEventsBeingSearched
-FilterEventTypes
-UserLocale
-LocationName
-```
-
-The locator currently exposes useful event filters including Cup, Challenge, Prerelease, League and Friendly Tournament, plus product type including Pokémon Trading Card Game.
-
-## Preferred ingestion strategy
-
-### Strategy A — direct OutSystems screen-service call
-
-This is the preferred production architecture.
-
-The importer should:
-
-1. fetch the current Event Locator application/bootstrap metadata and/or public JS bundle;
-2. discover the current `DataActionGetEventList` endpoint metadata rather than assuming the action token never changes;
-3. construct the same OutSystems payload the official frontend sends, including current `versionInfo`, screen variables and client variables;
-4. POST to the official `DataActionGetEventList` screen service;
-5. parse its structured JSON response;
-6. normalise only the fields PTCG Tools needs.
-
-Advantages:
-
-- structured source data rather than DOM parsing;
-- materially less fragile than CSS selectors;
-- no browser engine in the production importer if Pokémon accepts the direct service request;
-- easier schema validation and deduplication;
-- event IDs, dates, coordinates and event metadata remain machine-readable.
-
-### Strategy B — browser bootstrap + direct service call
-
-If Imperva requires a valid browser session before accepting the screen-service request, use SeleniumBase/CDP only to establish the official site session and collect the required cookies/bootstrap values.
-
-Then perform the structured `DataActionGetEventList` request using that session.
-
-This keeps browser automation away from the actual data extraction and still avoids parsing rendered event cards.
-
-### Strategy C — rendered DOM extraction
-
-Use only as a last-known fallback if the underlying service becomes inaccessible independently.
-
-If ever required:
-
-- SeleniumBase/CDP is currently more successful against this locator than ordinary Playwright;
-- extract stable data attributes/links rather than relying only on visual CSS structure;
-- retain the same validation and last-known-good safety layer;
-- surface the importer as degraded/fallback mode in metadata.
-
-Do not make Strategy C the normal production path unless A and B have been proven unworkable.
-
-## Geographic ingestion scope
-
-PTCG Tools does not need to download every Pokémon event worldwide for the personal-first V2 implementation.
-
-Initial scope should cover a useful UK search region around the user's relevant geography, with enough radius to find realistic Cups/Challenges/Prereleases that might be travelled to.
-
-Recommended first implementation:
-
-- run several fixed UK geographic search centres with overlapping radii;
-- request TCG events only where the upstream filter permits;
-- union results by stable official event ID/GUID;
-- retain coordinates so the app can calculate actual user-to-event distance locally;
-- make expansion to all-UK or additional countries a configuration change rather than an Events UI rewrite.
-
-Do not make Bristol itself part of the event schema or product logic; it is only an importer search seed.
-
-## Normalised event schema
-
-Proposed generated `data/events.json`:
+Top-level dataset:
 
 ```json
 {
-  "schemaVersion": 1,
-  "source": "play-pokemon-event-locator",
-  "sourceMode": "screen-service",
+  "schemaVersion": 2,
+  "status": "ok",
   "lastAttemptedUpdate": "...",
   "lastSuccessfulUpdate": "...",
   "eventCount": 0,
+  "sources": {},
   "events": []
 }
 ```
 
-Each normalised event should aim to contain:
+Normalized event fields currently include:
 
 ```text
-officialEventId
-locationGuid
-displayId
+id
+source
+sourceId
+scope                 local | major
+type
 name
-eventType
-productType
 venue
+startDate
+startTime
+endDate
+endTime
 address
 city
 region
@@ -175,107 +140,96 @@ postcode
 country
 latitude
 longitude
-startTime
-endTime
-registrationUrl
+distanceFromSeedMiles
+cost
+status
 officialUrl
-organizerName
-sourceUpdatedAt (if supplied upstream)
+registrationUrl
+details
 ```
 
-Retain the raw upstream identifiers needed to construct an official Event Locator/detail link even if the official site changes its display URL format.
-
-## Validation / last-known-good gate
-
-A scheduled refresh must never blindly overwrite the previous dataset.
-
-Reject a new candidate dataset if any major validation fails, including:
-
-- response is empty when the previous dataset was materially populated, unless there is strong evidence this is legitimate;
-- response shape is no longer recognised;
-- event identifiers are absent or unusably duplicated;
-- dates do not parse or are implausible;
-- coordinates/location fields disappear for an abnormal proportion of records;
-- TCG/event classification can no longer be determined;
-- event count drops catastrophically (initial guard: >80% versus comparable previous coverage) without an explicit schema/source explanation;
-- the upstream returns an Imperva/hCaptcha/error page instead of event data.
-
-On failure:
+The current local event identity is:
 
 ```text
-lastAttemptedUpdate = now
-lastSuccessfulUpdate = unchanged
-published events = previous known-good dataset
-status = stale/import-failed
+id = "pokedata:" + sourceId
+sourceId = Pokédata guid
 ```
 
-The GitHub Action should fail visibly as well.
+The major provider adapter must produce the same event shape.
 
-## Update cadence
+## Validation and last-known-good behavior
 
-Initial production cadence:
+A bad refresh must not destroy the previous usable dataset.
+
+The importer rejects candidate data for conditions including:
+
+- missing or duplicate IDs;
+- excessive unparseable dates;
+- excessive missing coordinates for local records;
+- catastrophic event-count collapse versus previous known-good coverage;
+- non-JSON or failed upstream responses.
+
+If the importer exits unsuccessfully, it deliberately leaves the existing `data/events.json` untouched and the GitHub Action fails visibly.
+
+## Personal attendance state
+
+The generated event dataset is public/reference data. `I'm attending` is personal shared-workspace state.
+
+When the user marks an event as attending, persist both its source identity and a normalized snapshot:
 
 ```text
-4 times per day
+PlannedEvent
+- eventId
+- source
+- sourceId
+- status
+- eventSnapshot
+- prepId
 ```
 
-This is frequent enough for local event discovery while remaining conservative toward the upstream service.
+`eventSnapshot` should contain the useful normalized event fields at that moment.
 
-The mobile app should never make freshness dependent on the user pressing Refresh.
+This means:
 
-## Events UI contract
+- future upstream changes can be reconciled using `sourceId`;
+- an event disappearing upstream does not erase the user's plan or tournament history;
+- attended events remain historically meaningful after Pokédata/RK9 stop listing them.
 
-The V2 Events UI should consume only the normalised repository dataset, not know about OutSystems request details.
+## UI contract
 
-This keeps the UI stable if the importer changes implementation later.
+The future V2 Events screen should consume only the normalized dataset and personal attendance state.
 
-Initial UI should support:
-
-- nearby/all/favourite views;
-- Cup / Challenge / Prerelease / other relevant TCG filters;
-- date range;
-- distance;
-- list/map;
-- venue, date/time and official link;
-- visible data freshness/status;
-- prominent `I'm attending` action.
-
-`I'm attending` remains personal app state in the shared Supabase workspace and does not alter the generated public event dataset.
-
-## Personal event identity
-
-Persist personal intent using the upstream stable event identifier where possible:
+Target top-level views:
 
 ```text
-PlannedEvent.eventId = Event.officialEventId
+Nearby
+Majors
+Attending
 ```
 
-Also snapshot the useful event fields at the moment the user marks it attending so later upstream changes/removal do not erase tournament history.
+Nearby supports Cup / Challenge / Prerelease filters, date and distance. Majors shows relevant Championship Series events regardless of local radius. Attending combines any event type the user has marked as attending.
 
-## Current investigation tooling
+Every event should expose the best authoritative/practical external link available.
 
-The branch contains temporary diagnostic tooling:
+## Current proof
+
+The first successful GitHub Action import on 31 August 2026 retrieved and validated:
 
 ```text
-scripts/event-locator-probe.mjs
-scripts/event_locator_selenium_probe.py
-.github/workflows/event-locator-probe.yml
+29 League Cups
+55 League Challenges
+0 Prereleases
+84 local events total
 ```
 
-These are investigation tools, not the intended production importer.
+The resulting normalized dataset was committed to `data/events.json`.
 
-Once the direct-service contract is proven, replace them with a small deterministic importer and remove the unnecessary browser probe jobs.
+## Next steps
 
-## Next implementation steps
-
-1. Finish reconstructing the current OutSystems `DataActionGetEventList` request payload from the public runtime/bundle.
-2. Prove a direct GitHub Actions POST can return structured event JSON.
-3. If needed, prove Strategy B using browser bootstrap cookies + structured POST.
-4. Inspect real UK event records and lock the normalised schema.
-5. Implement the scheduled importer and validation/last-known-good publication.
-6. Commit a known-good `data/events.json` fixture.
-7. Rebuild `apps/events` into the V2 shell against that file.
-8. Add favourite and attendance state through the shared V2 storage/Supabase layer.
-9. Surface the next attending event on Home.
-
-The UI rebuild should not begin until steps 1–5 demonstrate a sufficiently reliable source pipeline.
+1. Inspect the generated local records for field-quality edge cases and improve normalization where useful.
+2. Implement the major-event provider adapter using Pokémon calendar data plus RK9 details.
+3. Validate a combined local + major `data/events.json`.
+4. Remove the obsolete Event Locator browser-probe tooling.
+5. Rebuild `apps/events` in the V2 shell against the normalized dataset.
+6. Add `Interested / Attending / Attended / Skipped` personal state with event snapshots in the shared Supabase workspace.
+7. Surface the next attending event on Home and hand it into Tournament Prep.
