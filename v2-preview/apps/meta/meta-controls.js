@@ -13,13 +13,8 @@
     const select = $('currentWindow');
     if (!select) return;
     const state = window.MetaState.get();
-    if (source === 'irl') {
-      select.innerHTML = optionHtml(window.MetaState.irlScopes());
-      select.value = state.irlScope;
-    } else {
-      select.innerHTML = optionHtml(window.MetaState.onlineScopes());
-      select.value = state.onlineScope;
-    }
+    select.innerHTML = optionHtml(source === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes());
+    select.value = source === 'irl' ? state.irlScope : state.onlineScope;
   }
 
   function ensureScopedControl(sourceSelectId, hostSelector, prefix) {
@@ -83,10 +78,13 @@
     $('playIrlScope').value = state.irlScope;
   }
 
+  function detailSource() {
+    return $('deckDetailHead')?.querySelector('[data-detail-source].active')?.dataset.detailSource || 'online';
+  }
+
   function syncDetail() {
     const head = $('deckDetailHead');
     if (!head || $('deckDetail')?.classList.contains('hidden')) return;
-    const active = head.querySelector('[data-detail-source].active')?.dataset.detailSource || 'online';
     let wrap = $('deckDetailScopeWrap');
     if (!wrap) {
       wrap = document.createElement('label');
@@ -95,9 +93,10 @@
       wrap.innerHTML = '<span>Scope</span><select id="deckDetailScope"></select>';
       head.appendChild(wrap);
       $('deckDetailScope').addEventListener('change', e => {
-        active === 'irl' ? window.MetaState.setIrlScope(e.currentTarget.value) : window.MetaState.setOnlineScope(e.currentTarget.value);
+        detailSource() === 'irl' ? window.MetaState.setIrlScope(e.currentTarget.value) : window.MetaState.setOnlineScope(e.currentTarget.value);
       });
     }
+    const active = detailSource();
     const state = window.MetaState.get();
     const select = $('deckDetailScope');
     select.innerHTML = optionHtml(active === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes());
@@ -115,7 +114,6 @@
 
   bindPair('playFieldSource', 'fieldSource');
   bindPair('playMatchupSource', 'matchupSource');
-
   document.querySelectorAll('[data-current-source]').forEach(btn => btn.addEventListener('click', () => syncLandingOptions(btn.dataset.currentSource)));
   $('currentWindow')?.addEventListener('change', e => {
     const source = document.querySelector('[data-current-source].active')?.dataset.currentSource || 'online';
