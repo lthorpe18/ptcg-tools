@@ -6,7 +6,7 @@
   async function load(force = false) {
     try {
       const target = force ? `${URL}?v=${Date.now()}` : URL;
-      const response = await fetch(target, { cache: force ? 'no-store' : 'default' });
+      const response = await fetch(target, { cache: 'no-store' });
       if (!response.ok) throw new Error(`IRL cache ${response.status}`);
       data = await response.json();
       loaded = true;
@@ -27,7 +27,9 @@
     const el = document.getElementById('irlStatus');
     if (!el) return;
     const events = data?.events?.length || 0;
-    if (events) el.textContent = `Limitless Labs • ${events} current-format IRL event${events === 1 ? '' : 's'}`;
+    const decks = data?.decks?.length || 0;
+    if (events && decks) el.textContent = `Limitless Labs • ${events} IRL event${events === 1 ? '' : 's'} • ${decks} archetypes`;
+    else if (events) el.textContent = `Limitless Labs • ${events} IRL event${events === 1 ? '' : 's'} • field data unavailable`;
     else el.textContent = 'Limitless Labs • no completed TEF–PBL IRL major yet';
   }
 
