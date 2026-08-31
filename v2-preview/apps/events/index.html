@@ -1,95 +1,109 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Events</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-    />
-  </head>
-  <body>
-    <header class="topbar">
-      <a class="back" href="../../">← PTCG Tools</a>
-      <div class="titlewrap">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8fb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Events · PTCG Tools</title>
+  <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
+  <link rel="stylesheet" href="./styles.css?v=2">
+</head>
+<body class="ptcg-v2" data-app-root="../.." data-app-section="compete">
+  <header class="app-shell-header">
+    <a class="app-shell-brand" href="../../" aria-label="PTCG Tools home">
+      <span class="app-shell-mark" aria-hidden="true">◆</span>
+      <span class="app-shell-brand-copy"><strong>PTCG Tools</strong><small>Events</small></span>
+    </a>
+    <div class="app-shell-header-actions">
+      <span id="sourcePill" class="app-context-pill"><span class="source-dot"></span><span>Loading events</span></span>
+    </div>
+  </header>
+
+  <main class="app-shell-page events-shell">
+    <div class="app-page-head events-page-head">
+      <div>
+        <div class="app-eyebrow">Compete</div>
         <h1>Events</h1>
-        <p class="sub">Upcoming tournaments from your Google Sheet</p>
       </div>
-      <div class="top-actions">
-        <button id="btnRefresh" class="ghost" type="button">Refresh</button>
+      <button id="refreshButton" class="refresh-button" type="button" aria-label="Refresh event data">↻</button>
+    </div>
+
+    <nav class="app-segmented event-view-tabs" aria-label="Event views">
+      <button type="button" data-view="nearby" aria-selected="true">Nearby</button>
+      <button type="button" data-view="majors" aria-selected="false">Majors</button>
+      <button type="button" data-view="attending" aria-selected="false">Attending</button>
+    </nav>
+
+    <section id="nearbyFilters" class="filter-panel app-card" aria-label="Nearby event filters">
+      <div class="type-chips" role="group" aria-label="Nearby event type">
+        <button type="button" data-local-type="all" class="active">All</button>
+        <button type="button" data-local-type="League Cup">Cups</button>
+        <button type="button" data-local-type="League Challenge">Challenges</button>
+        <button type="button" data-local-type="Prerelease">Prerelease</button>
       </div>
-    </header>
+      <div class="filter-row">
+        <label><span>Distance</span><select id="distanceFilter"><option value="25">25 mi</option><option value="50">50 mi</option><option value="75" selected>75 mi</option><option value="100">100 mi</option><option value="all">Any</option></select></label>
+        <label><span>Date</span><select id="nearbyDateFilter"><option value="30">30 days</option><option value="90" selected>90 days</option><option value="180">6 months</option><option value="all">All</option></select></label>
+      </div>
+    </section>
 
-    <main class="layout">
-      <section class="panel">
-        <div class="toolbar">
-          <label class="grow">
-            Search
-            <input id="search" type="search" placeholder="Location, event type, registration…" />
-          </label>
+    <section id="majorFilters" class="filter-panel app-card hidden" aria-label="Major event filters">
+      <div class="type-chips" role="group" aria-label="Major event type">
+        <button type="button" data-major-type="all" class="active">All</button>
+        <button type="button" data-major-type="Regional">Regionals</button>
+        <button type="button" data-major-type="Special Championship">Specials</button>
+        <button type="button" data-major-type="International">Internationals</button>
+        <button type="button" data-major-type="World Championships">Worlds</button>
+      </div>
+      <div class="filter-row major-filter-row">
+        <label><span>Region</span><select id="regionFilter"><option value="all">All regions</option><option value="europe" selected>Europe</option><option value="northamerica">North America</option><option value="latinamerica">Latin America</option><option value="oceania">Oceania</option><option value="virtual">Virtual</option></select></label>
+        <label class="search-label"><span>Search</span><input id="majorSearch" type="search" inputmode="search" placeholder="City or event"></label>
+      </div>
+    </section>
 
-          <label>
-            Date range
-            <select id="dateRange">
-              <option value="all">All upcoming</option>
-              <option value="7">Next 7 days</option>
-              <option value="30" selected>Next 30 days</option>
-              <option value="90">Next 90 days</option>
-            </select>
-          </label>
+    <section id="attendingFilters" class="filter-panel app-card hidden" aria-label="Saved event filters">
+      <div class="type-chips" role="group" aria-label="Saved event status">
+        <button type="button" data-plan-filter="upcoming" class="active">Upcoming</button>
+        <button type="button" data-plan-filter="attending">Going</button>
+        <button type="button" data-plan-filter="interested">Interested</button>
+        <button type="button" data-plan-filter="history">History</button>
+      </div>
+    </section>
 
-          <label>
-            Event Type
-            <select id="eventTypeFilter">
-              <option value="">All</option>
-            </select>
-          </label>
+    <div class="results-head">
+      <div><strong id="resultsTitle">Nearby events</strong><span id="resultsCount"></span></div>
+      <small id="freshnessText"></small>
+    </div>
 
-          <label>
-            Swiss Format
-            <select id="swissFilter">
-              <option value="">All</option>
-            </select>
-          </label>
-        </div>
+    <section id="eventList" class="event-list" aria-live="polite"></section>
+    <div id="loadingState" class="app-card app-empty">Loading events…</div>
+    <div id="emptyState" class="app-card app-empty hidden"></div>
+    <div id="errorState" class="app-card app-empty error-state hidden"></div>
+  </main>
 
-        <div class="viewtabs" role="tablist" aria-label="Events views">
-          <button id="tabCards" class="tab active" type="button" aria-selected="true">Cards</button>
-          <button id="tabMap" class="tab" type="button" aria-selected="false">Map</button>
-          <span id="meta" class="meta">—</span>
-        </div>
+  <div id="statusBackdrop" class="status-backdrop hidden" aria-hidden="true">
+    <section class="status-sheet" role="dialog" aria-modal="true" aria-labelledby="statusSheetTitle">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <div class="sheet-head">
+        <div><small>Event status</small><h2 id="statusSheetTitle">Event</h2></div>
+        <button id="closeStatusSheet" class="sheet-close" type="button" aria-label="Close">×</button>
+      </div>
+      <div class="status-options">
+        <button type="button" data-set-status="attending"><strong>I’m attending</strong><span>Show this as an upcoming tournament</span></button>
+        <button type="button" data-set-status="interested"><strong>Interested</strong><span>Keep it on the radar</span></button>
+        <button type="button" data-set-status="attended"><strong>Attended</strong><span>Keep the event in history</span></button>
+        <button type="button" data-set-status="skipped"><strong>Skipped</strong><span>Record that you did not attend</span></button>
+      </div>
+      <button id="clearStatusButton" class="clear-status hidden" type="button">Clear saved status</button>
+    </section>
+  </div>
 
-        <section id="cardsView">
-          <div id="cardsGrid" class="cards"></div>
-        </section>
+  <div id="toast" class="event-toast hidden" role="status" aria-live="polite"></div>
 
-        <section id="mapView" class="hidden">
-          <div class="map-wrap">
-            <div id="map" class="map"></div>
-          </div>
-          <p class="hint">
-            Tip: map pins require coordinates. Add <code>Latitude</code>/<code>Longitude</code> columns to your sheet for best results.
-          </p>
-        </section>
-
-        <div id="loading" class="empty">Loading events…</div>
-        <div id="empty" class="empty hidden">No events match your current filters.</div>
-        <div id="error" class="empty hidden"></div>
-      </section>
-    </main>
-
-    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
-
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
-    <script src="app.js"></script>
-  </body>
+  <script src="../_shared/storage.js?v=3"></script>
+  <script src="./app.js?v=2"></script>
+  <script src="../_shared/app-shell.js?v=2"></script>
+</body>
 </html>
-
