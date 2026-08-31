@@ -99,6 +99,16 @@ function parseMatchups(html, candidate) {
   return out;
 }
 
+function addMatchup(map, m) {
+  const key = `${m.a}|||${m.b}`;
+  const row = map.get(key) || { a: m.a, b: m.b, games: 0, wins: 0, losses: 0, ties: 0 };
+  row.games += Number(m.games || 0);
+  row.wins += Number(m.wins || 0);
+  row.losses += Number(m.losses || 0);
+  row.ties += Number(m.ties || 0);
+  map.set(key, row);
+}
+
 async function main() {
   const home = await get(`${BASE}/`);
   const ids = eventIds(home);
@@ -138,23 +148,20 @@ async function main() {
       deckAgg.set(d.name, row);
     }
 
+    const eventMatchups = new Map();
     for (const d of decks.slice(0, MAX_DECKS_FOR_MATCHUPS)) {
       await sleep(80);
       const mh = await get(`${BASE}/${id}/decks/${d.slug}/matchups`);
       for (const m of parseMatchups(mh, d.name)) {
-        const key = `${m.a}|||${m.b}`;
-        const row = matchupAgg.get(key) || { a: m.a, b: m.b, games: 0, wins: 0, losses: 0, ties: 0 };
-        row.games += m.games;
-        row.wins += m.wins;
-        row.losses += m.losses;
-        row.ties += m.ties;
-        matchupAgg.set(key, row);
+        addMatchup(eventMatchups, m);
+        addMatchup(matchupAgg, m);
       }
     }
+    meta.matchups = [...eventMatchups.values()];
   }
 
   const payload = {
-    schemaVersion: 2,
+    schemaVersion: 3,
     source: 'Limitless Labs',
     sourceUrl: BASE,
     format: FORMAT,
@@ -167,6 +174,7 @@ async function main() {
   };
 
   if (payload.events.length && !payload.decks.length) throw new Error('IRL events were found but no deck field data was parsed');
+  if (payload.events.some(e => !Array.isArray(e.matchups))) throw new Error('IRL event matchup evidence was not preserved');
 
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
   await fs.writeFile(OUTPUT, JSON.stringify(payload, null, 2) + '\n');
