@@ -3,12 +3,13 @@
   const DB_NAME='ptcg-tools-db',DB_VERSION=2,STORE='decks';
   let db=null;
   function uid(prefix='deck'){return (crypto&&crypto.randomUUID)?crypto.randomUUID():`${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,8)}`}
+  function notify(){window.dispatchEvent(new CustomEvent('ptcg:local-change',{detail:{source:'decks'}}))}
   function open(){if(db)return Promise.resolve(db);return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE)){const s=d.createObjectStore(STORE,{keyPath:'id'});s.createIndex('updatedAt','updatedAt',{unique:false});s.createIndex('name','name',{unique:false})}};req.onsuccess=()=>{db=req.result;resolve(db)};req.onerror=()=>reject(req.error)})}
   function store(mode='readonly'){return db.transaction([STORE],mode).objectStore(STORE)}
   function all(){return new Promise((resolve,reject)=>{const r=store().getAll();r.onsuccess=()=>resolve((r.result||[]).map(normalise));r.onerror=()=>reject(r.error)})}
   function get(id){return new Promise((resolve,reject)=>{const r=store().get(id);r.onsuccess=()=>resolve(r.result?normalise(r.result):null);r.onerror=()=>reject(r.error)})}
-  function put(deck){const d=normalise(deck);d.updatedAt=Date.now();return new Promise((resolve,reject)=>{const r=store('readwrite').put(d);r.onsuccess=()=>resolve(d);r.onerror=()=>reject(r.error)})}
-  function remove(id){return new Promise((resolve,reject)=>{const r=store('readwrite').delete(id);r.onsuccess=()=>resolve();r.onerror=()=>reject(r.error)})}
+  function put(deck){const d=normalise(deck);d.updatedAt=Date.now();return new Promise((resolve,reject)=>{const r=store('readwrite').put(d);r.onsuccess=()=>{notify();resolve(d)};r.onerror=()=>reject(r.error)})}
+  function remove(id){return new Promise((resolve,reject)=>{const r=store('readwrite').delete(id);r.onsuccess=()=>{notify();resolve()};r.onerror=()=>reject(r.error)})}
   function newDeck(){const now=Date.now(),id=uid();const version={id:uid('version'),label:'v1',rawText:'',createdAt:now};return {id,name:'New deck',rawText:'',createdAt:now,updatedAt:now,pinnedCards:[],sprites:[null,null],versions:[version],currentVersionId:version.id}}
   function normalise(input){
     const d={...(input||{})};const now=Date.now();
