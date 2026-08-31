@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="sprite-polish.css?v=3" />
   <link rel="stylesheet" href="saved-metas.css?v=1" />
   <link rel="stylesheet" href="v2.css?v=1" />
+  <link rel="stylesheet" href="source-controls.css?v=1" />
 </head>
 <body class="ptcg-v2" data-active-tab="prep" data-app-root="../.." data-app-section="meta">
 <header class="app-shell-header meta-v2-header">
@@ -26,6 +27,14 @@
 </header>
 
 <main class="wrap">
+  <section class="meta-source-bar" aria-label="Meta data sources">
+    <div class="meta-source-head"><div><span class="eyebrow">DATA MODEL</span><strong>What should this analysis use?</strong></div><small id="metaSourceSummary"></small></div>
+    <div class="meta-source-grid">
+      <label><span>Meta share</span><select id="metaFieldSource"><option value="online">Online</option><option value="irl">IRL</option><option value="blend">Online + IRL blend</option><option value="custom">Custom</option></select><small>What people are playing</small></label>
+      <label><span>Matchups</span><select id="metaMatchupSource"><option value="online">Online</option><option value="irl">IRL</option><option value="combined">Online + IRL</option></select><small>Head-to-head evidence</small></label>
+      <label><span>Archetypes</span><select id="archetypeGrouping"><option value="families" selected>Group variants</option><option value="variants">Show variants separately</option></select><small>Combine related builds</small></label>
+    </div>
+  </section>
   <button id="metaFiltersToggle" class="meta-filter-toggle" type="button" aria-expanded="false"><span>Analysis filters</span><small id="metaFilterSummary">PBL · All · 50+</small></button>
   <section class="controls panel global-controls meta-collapsed">
     <label>Format / set legality<select id="format"><option value="TEF-PBL">TEF–PBL (current · live)</option><option value="TEF-CRI">TEF–CRI (previous · archive)</option></select></label>
@@ -128,8 +137,10 @@
 <script src="live.js?v=2"></script>
 <script src="irl-labs.js?v=2"></script>
 <script src="saved-metas.js?v=1"></script>
-<script src="field-builder.js?v=4"></script>
-<script src="prep.js?v=4"></script>
+<script src="archetype-groups.js?v=1"></script>
+<script src="field-builder.js?v=5"></script>
+<script src="source-controls.js?v=1"></script>
+<script src="prep.js?v=5"></script>
 <script src="decklinks.js?v=2"></script>
 <script src="collapsible.js?v=2"></script>
 <script src="searchable-decks.js?v=4"></script>

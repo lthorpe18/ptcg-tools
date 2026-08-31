@@ -28,14 +28,16 @@
         total += weight;
       }
     }
-    return [...counts.entries()].map(([name, value]) => ({ name, share: total ? value / total : 0, source: 'online' }));
+    const rows=[...counts.entries()].map(([name, value]) => ({ name, share: total ? value / total : 0, source: 'online' }));
+    return window.ArchetypeGroups?.groupRows?.(rows, 'share') || rows;
   }
 
   function irlField() {
     const data = window.IRLLabs?.getData?.() || {};
     const decks = (Array.isArray(data.decks) ? data.decks : []).filter(d => !ignored(d.name));
     const total = decks.reduce((sum, d) => sum + Number(d.entries || 0), 0);
-    return decks.map(d => ({ name: d.name, share: total ? Number(d.entries || 0) / total : Number(d.share || 0), source: 'irl' }));
+    const rows=decks.map(d => ({ name: d.name, share: total ? Number(d.entries || 0) / total : Number(d.share || 0), source: 'irl' }));
+    return window.ArchetypeGroups?.groupRows?.(rows, 'share') || rows;
   }
 
   function mergeFields(a, b, bWeight) {
@@ -308,9 +310,16 @@
   function matchup(candidate, opponent, onlineFallback) {
     if (ignored(candidate) || ignored(opponent)) return null;
     const mode = $f('matchupSource')?.value || 'online';
-    const online = onlineMatchup(candidate, opponent);
+    const candidateVariants = window.ArchetypeGroups?.variants?.(candidate) || [candidate];
+    const opponentVariants = window.ArchetypeGroups?.variants?.(opponent) || [opponent];
+    const combine = rows => {
+      const valid=rows.filter(Boolean);
+      if(!valid.length)return null;
+      return valid.reduce((out,m)=>({a:candidate,b:opponent,wins:out.wins+Number(m.wins||0),losses:out.losses+Number(m.losses||0),ties:out.ties+Number(m.ties||0),games:out.games+Number(m.games||Number(m.wins||0)+Number(m.losses||0)+Number(m.ties||0))}),{wins:0,losses:0,ties:0,games:0});
+    };
+    const online = combine(candidateVariants.flatMap(a=>opponentVariants.map(b=>onlineMatchup(a,b))));
     const irlRows = window.IRLLabs?.getData?.()?.matchups || [];
-    const irl = irlRows.find(m => m.a === candidate && m.b === opponent && !ignored(m.a) && !ignored(m.b)) || null;
+    const irl = combine(candidateVariants.flatMap(a=>opponentVariants.map(b=>irlRows.find(m => m.a === a && m.b === b && !ignored(m.a) && !ignored(m.b)) || null)));
     if (mode === 'irl') return irl || null;
     if (mode === 'combined') {
       if (!online) return irl || null;
@@ -385,6 +394,7 @@
     window.addEventListener('meta:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
     window.addEventListener('irl:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
     window.addEventListener('deckagg:updated', () => notify());
+    window.addEventListener('archetype-grouping:changed', () => { state.touched=false; syncCustom(true); render(); notify(); });
   }
 
   window.PrepField = {
