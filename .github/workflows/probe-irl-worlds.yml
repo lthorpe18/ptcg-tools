@@ -1,0 +1,33 @@
+name: Probe IRL Worlds markup
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ptcg-tools-v2]
+    paths: ['.github/workflows/probe-irl-worlds.yml']
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect Worlds Labs HTML
+        run: |
+          node - <<'NODE'
+          const url='https://labs.limitlesstcg.com/0071/decks';
+          const r=await fetch(url,{headers:{'User-Agent':'ptcg-tools markup probe'}});
+          const html=await r.text();
+          console.log('status',r.status,'length',html.length,'final',r.url);
+          const hrefs=[...html.matchAll(/href=["']([^"']+)["']/g)].map(m=>m[1]);
+          const deckHrefs=[...new Set(hrefs.filter(h=>h.includes('/0071/decks')))].slice(0,120);
+          console.log('deck href count',deckHrefs.length);
+          console.log(JSON.stringify(deckHrefs,null,2));
+          for(const needle of ['Dragapult','Basic Box','Metagame','Deck','Players']){
+            const i=html.indexOf(needle);
+            console.log('\nNEEDLE',needle,'at',i);
+            if(i>=0) console.log(html.slice(Math.max(0,i-1200),i+2500));
+          }
+          NODE
