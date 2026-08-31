@@ -36,7 +36,7 @@
     </header>
 
     <div class="meta-home-tools">
-      <select id="currentWindow" class="compact-select" aria-label="Meta time window"><option value="14">Last 14 days</option><option value="30" selected>Last 30 days</option><option value="all">All in format</option></select>
+      <select id="currentWindow" class="compact-select" aria-label="Meta scope"><option value="14">Last 14 days</option><option value="30" selected>Last 30 days</option><option value="all">All in format</option></select>
       <label class="variant-grouping-control"><input id="currentGroupingToggle" type="checkbox"><span>Variant grouping</span></label>
     </div>
 
@@ -81,7 +81,7 @@
             <label>Meta event size<input id="prepMinPlayers" type="number" min="50" max="1000" step="10" value="50" /></label>
             <label>Field source<select id="fieldSource"><option value="online" selected>50+ online tournaments</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom / saved meta</option></select></label>
             <label id="blendControl" class="hidden">IRL share <span id="blendValue">50%</span><input id="fieldBlend" type="range" min="0" max="100" value="50" /></label>
-            <label>Matchup source<select id="matchupSource"><option value="online" selected>Limitless · all PBL events</option><option value="irl">IRL only</option><option value="combined">All PBL events + IRL</option></select></label>
+            <label>Matchup source<select id="matchupSource"><option value="online" selected>Online</option><option value="irl">IRL only</option><option value="combined">Online + IRL</option></select></label>
             <label>Field weighting<select id="fieldAnalysisMode"><option value="shares" selected>Expected shares</option><option value="equal">Equal selected decks</option></select></label>
           </div>
           <details class="fine-field-editor"><summary><span><b>Fine-tune field shares</b><small>Edit individual inclusions and percentages</small></span><span>⌄</span></summary><div class="fine-field-body"><div class="field-actions"><button id="fieldAll" class="btn">All</button><button id="fieldNone" class="btn">None</button><button id="fieldReset" class="btn">Reset</button><button id="fieldShowAll" class="btn">Show all</button><span id="fieldCoverage" class="muted"></span></div><div id="fieldEditor" class="field-editor"><div class="prep-empty">Waiting for meta data…</div></div></div></details>
@@ -120,27 +120,23 @@
 </main>
 
 <script src="sprites.js?v=1"></script>
-<script src="meta-engine.js"></script>
-<script src="limitless.js"></script>
-<script src="app.js"></script>
-<script src="deck-aggregate.js?v=1"></script>
-<script src="live.js?v=2"></script>
-<script src="irl-labs.js?v=4"></script>
-<script src="saved-metas.js?v=1"></script>
-<script src="archetype-groups.js?v=1"></script>
-<script src="field-builder.js?v=5"></script>
-<script src="source-controls.js?v=3"></script>
-<script src="prep.js?v=5"></script>
-<script src="meta-home.js?v=4"></script>
-<script src="meta-window-fix.js?v=3"></script>
-<script src="irl-scope.js?v=4"></script>
-<script src="decklinks.js?v=2"></script>
-<script src="searchable-decks.js?v=4"></script>
-<script src="meta-consistency-v3.js?v=2"></script>
-<script src="meta-explorer-v2.js?v=4"></script>
-<script src="meta-source-context.js?v=1"></script>
-<script src="meta-scope-controls.js?v=1"></script>
-<script src="meta-detail-scope.js?v=1"></script>
-<script src="../_shared/app-shell.js?v=2"></script>
+<script src="meta-engine.js?v=2"></script>
+<script src="limitless.js?v=1"></script>
+<script src="app.js?v=2"></script>
+<script src="deck-aggregate.js?v=2"></script>
+<script src="live.js?v=3"></script>
+<script src="irl-labs.js?v=5"></script>
+<script src="saved-metas.js?v=2"></script>
+<script src="archetype-groups.js?v=2"></script>
+<script src="meta-core.js?v=1"></script>
+<script src="field-builder.js?v=6"></script>
+<script src="meta-controls.js?v=1"></script>
+<script src="prep.js?v=6"></script>
+<script src="meta-home.js?v=5"></script>
+<script src="decklinks.js?v=3"></script>
+<script src="searchable-decks.js?v=5"></script>
+<script src="meta-explorer-v2.js?v=5"></script>
+<script src="meta-source-context.js?v=2"></script>
+<script src="../_shared/app-shell.js?v=3"></script>
 </body>
 </html>
