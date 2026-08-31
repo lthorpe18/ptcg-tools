@@ -27,6 +27,17 @@
     window.dispatchEvent(new CustomEvent('meta:data-changed', { detail: { ...state, reason } }));
   }
 
+  function prepVisible() {
+    return !!document.getElementById('prep') && !document.getElementById('prep').classList.contains('hidden');
+  }
+
+  function aggregateConsumerVisible() {
+    return ['decks', 'matchups', 'deckDetail'].some(id => {
+      const el = document.getElementById(id);
+      return el && !el.classList.contains('hidden');
+    });
+  }
+
   function newestOnlineDate() {
     const dates = (onlineHistory?.tournaments || []).map(t => new Date(t.date).getTime()).filter(Number.isFinite);
     return dates.length ? Math.max(...dates) : Date.now();
@@ -130,19 +141,26 @@
     if (!liveCacheMeta && CACHE) liveCacheMeta = { ...CACHE, tournaments:undefined };
     if (!CACHE) CACHE = {};
     const base = liveCacheMeta || {};
+    const events = legacyOnlineEvents(state.onlineScope);
     Object.assign(CACHE, base, {
       format:'TEF-PBL',
       label:'TEF–PBL',
       generatedAt:onlineHistory.generatedAt || base.generatedAt,
       minTournamentSize:50,
-      tournaments:legacyOnlineEvents(state.onlineScope),
-      tournamentCount:legacyOnlineEvents(state.onlineScope).length,
+      tournaments:events,
+      tournamentCount:events.length,
     });
   }
 
   function refreshPrepField() {
+    if (!prepVisible()) return;
     const source = document.getElementById('fieldSource')?.value || 'online';
     if (source !== 'custom') window.PrepField?.reset?.();
+  }
+
+  function notifyVisibleOnlineConsumer() {
+    refreshPrepField();
+    if (aggregateConsumerVisible()) window.dispatchEvent(new CustomEvent('deckagg:updated'));
   }
 
   function setOnlineScope(value, reason = 'online-scope') {
@@ -151,8 +169,7 @@
     state.onlineScope = next;
     applyLegacyScope();
     emit(reason);
-    refreshPrepField();
-    window.dispatchEvent(new CustomEvent('deckagg:updated'));
+    notifyVisibleOnlineConsumer();
   }
 
   function isoWeekKey(value) {
@@ -224,10 +241,12 @@
 
   function setIrlScope(value, reason='irl-scope') {
     const allowed=new Set(irlScopeOptions().map(x=>x.value));
-    state.irlScope=allowed.has(value)?value:'latest-weekend';
+    const next=allowed.has(value)?value:'latest-weekend';
+    if (state.irlScope===next && reason==='irl-scope') return;
+    state.irlScope=next;
     emit(reason);
     refreshPrepField();
-    window.dispatchEvent(new CustomEvent('irl:updated'));
+    if (aggregateConsumerVisible()) window.dispatchEvent(new CustomEvent('irl:updated'));
   }
 
   function data(source, options={}) {
@@ -298,8 +317,7 @@
       compactCache.clear(); legacyCache.clear();
       applyLegacyScope();
       emit('online-history');
-      refreshPrepField();
-      window.dispatchEvent(new CustomEvent('deckagg:updated'));
+      notifyVisibleOnlineConsumer();
     } catch(error) {
       console.warn('Full online history unavailable; using aggregate fallback.',error);
     }
