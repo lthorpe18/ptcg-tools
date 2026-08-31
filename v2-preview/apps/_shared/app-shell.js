@@ -15,4 +15,24 @@
     nav.innerHTML=Object.entries(labels).map(([key,[icon,label]])=>`<a class="app-nav-item" href="${hrefs[key]}" ${key===active?'aria-current="page"':''}><span class="app-nav-icon" aria-hidden="true">${icon}</span><span>${label}</span></a>`).join('');
     document.body.appendChild(nav);
   }
+
+  function loadSharedSync(){
+    if(window.PTCGSharedSync)return;
+    const sharedSrc=`${root}/apps/_shared/shared-sync.js?v=1`;
+    const startShared=()=>{
+      if(window.PTCGSharedSync||document.querySelector('script[data-ptcg-shared-sync]'))return;
+      const s=document.createElement('script');
+      s.src=sharedSrc;
+      s.dataset.ptcgSharedSync='1';
+      document.body.appendChild(s);
+    };
+    if(window.PTCGCloud){startShared();return;}
+    if(document.querySelector('script[data-ptcg-cloud-bootstrap]'))return;
+    const cloud=document.createElement('script');
+    cloud.src=`${root}/apps/_shared/cloud-sync.js?v=1`;
+    cloud.dataset.ptcgCloudBootstrap='1';
+    cloud.onload=startShared;
+    document.body.appendChild(cloud);
+  }
+  loadSharedSync();
 })();
