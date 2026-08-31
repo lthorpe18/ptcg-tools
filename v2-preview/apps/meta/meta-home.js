@@ -2,7 +2,7 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
-  const state = { source: 'online', grouping: 'families', showAll: false, expanded: new Set(), view: 'current' };
+  const state = { source: 'online', grouping: 'variants', showAll: false, expanded: new Set(), view: 'current' };
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pct = n => `${Number(n || 0).toFixed(1)}%`;
