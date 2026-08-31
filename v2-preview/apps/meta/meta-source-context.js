@@ -2,132 +2,91 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const fmt = n => Number.isFinite(Number(n)) ? Number(n).toLocaleString() : '—';
-  const formatDate = value => {
-    const d = new Date(value);
-    return Number.isFinite(d.getTime()) ? d.toLocaleDateString([], { day:'numeric', month:'short' }) : '';
-  };
-  const updated = value => {
-    const d = new Date(value);
-    return Number.isFinite(d.getTime()) ? `Updated ${d.toLocaleString([], { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })}` : '';
-  };
 
-  function card(events, entries, label, detail, extraClass='') {
-    return `<div class="meta-source-context ${extraClass}"><div><b>${esc(fmt(events))}</b><span>Events</span></div><div><b>${esc(fmt(entries))}</b><span>Entries</span></div><div class="context-wide"><b>${esc(label)}</b><span>${esc(detail || '')}</span></div></div>`;
-  }
-  function combinedCard(text, detail='') {
-    return `<div class="meta-source-context context-combined"><div><b>${esc(text)}</b><span>${esc(detail)}</span></div></div>`;
+  function card(context) {
+    return `<div class="meta-source-context"><div><b>${Number(context.events || 0).toLocaleString()}</b><span>Events</span></div><div><b>${Number(context.entries || 0).toLocaleString()}</b><span>Entries</span></div><div class="context-wide"><b>${esc(context.label || '')}</b><span>${esc(context.detail || '')}</span></div></div>`;
   }
 
-  function ensureSlots() {
-    const matchupControl=$('matchupPageSource')?.closest('.single-source-control');
-    if(matchupControl && !$('matchupSourceContext')) {
-      const el=document.createElement('div'); el.id='matchupSourceContext'; el.className='source-context-slot'; matchupControl.after(el);
+  function ensureAfter(anchor, id) {
+    if (!anchor) return null;
+    let node = $(id);
+    if (!node) {
+      node = document.createElement('div');
+      node.id = id;
+      node.className = 'meta-context-slot';
+      anchor.after(node);
     }
-    const deckControl=$('deckPageSource')?.closest('.single-source-control');
-    if(deckControl && !$('deckSourceContext')) {
-      const el=document.createElement('div'); el.id='deckSourceContext'; el.className='source-context-slot'; deckControl.after(el);
-    }
-    const playControls=$('playFieldSource')?.closest('.child-source-row');
-    if(playControls && !$('playSourceContexts')) {
-      const grid=document.createElement('div'); grid.id='playSourceContexts'; grid.className='play-source-context-grid';
-      grid.innerHTML='<div class="play-context-card"><span class="play-context-label">Field data</span><div id="playFieldSourceContext"></div></div><div class="play-context-card"><span class="play-context-label">Matchup data</span><div id="playMatchupSourceContext"></div></div>';
-      playControls.after(grid);
-    }
-    const detailSource=document.querySelector('#deckDetailHead .detail-source');
-    if(detailSource && !$('deckDetailSourceContext')) {
-      const el=document.createElement('div'); el.id='deckDetailSourceContext'; el.className='detail-source-context'; detailSource.after(el);
-    }
+    return node;
   }
 
-  function irlContext() {
-    const scopeApi = window.MetaIRLScope;
-    const raw = scopeApi?.raw?.() || window.IRLLabs?.getRawData?.() || window.IRLLabs?.getData?.() || {};
-    const events = scopeApi?.selectedEvents?.(raw) || [];
-    const decks = scopeApi?.selectedDecks?.(raw) || window.IRLLabs?.getData?.()?.decks || [];
-    const entries = decks.reduce((sum,d)=>sum+Number(d.entries||0),0);
-    const scope = scopeApi?.get?.() || 'latest-weekend';
-    let label = 'IRL majors';
-    if (scope === 'latest-weekend') label = events.length === 1 ? (events[0]?.name || 'Latest IRL major') : 'Multiple major events';
-    else if (scope === 'all-irl') label = 'All IRL majors this format';
-    else if (scope.startsWith('event:')) label = events[0]?.name || 'IRL tournament';
-    const dates = events.map(e=>new Date(e.date)).filter(d=>Number.isFinite(d.getTime()));
-    let dateText = '';
-    if (dates.length) {
-      const min = new Date(Math.min(...dates)), max = new Date(Math.max(...dates));
-      dateText = formatDate(min);
-      if (min.toDateString() !== max.toDateString()) dateText += `–${formatDate(max)}`;
+  function combinedContext(kind) {
+    const online = window.MetaData.context('online');
+    const irl = window.MetaData.context('irl');
+    return {
+      events: Number(online.events || 0) + Number(irl.events || 0),
+      entries: Number(online.entries || 0) + Number(irl.entries || 0),
+      label: kind === 'field' ? 'Online + IRL expected field' : 'Online + IRL matchup evidence',
+      detail: `${online.label} · ${irl.label}`,
+    };
+  }
+
+  function renderSingle(selectId, slotId) {
+    const select = $(selectId), slot = $(slotId);
+    if (!select || !slot) return;
+    slot.innerHTML = card(window.MetaData.context(select.value === 'irl' ? 'irl' : 'online'));
+  }
+
+  function renderPrep() {
+    const slot = $('playSourceContexts');
+    if (!slot) return;
+    const field = $('playFieldSource')?.value || 'online';
+    const matchup = $('playMatchupSource')?.value || 'online';
+    let fieldContext = field === 'irl' ? window.MetaData.context('irl') : field === 'blend' ? combinedContext('field') : field === 'custom' ? { events:0, entries:0, label:'Custom / saved meta', detail:'Your editable expected-field composition' } : window.MetaData.context('online');
+    let matchupContext = matchup === 'irl' ? window.MetaData.context('irl') : matchup === 'combined' ? combinedContext('matchup') : window.MetaData.context('online');
+    slot.innerHTML = `<section><div class="context-label">Field data</div>${card(fieldContext)}</section><section><div class="context-label">Matchup data</div>${card(matchupContext)}</section>`;
+  }
+
+  function renderDetail() {
+    if ($('deckDetail')?.classList.contains('hidden')) return;
+    const head = $('deckDetailHead');
+    if (!head) return;
+    let slot = $('deckDetailSourceContext');
+    if (!slot) {
+      slot = document.createElement('div');
+      slot.id = 'deckDetailSourceContext';
+      head.after(slot);
     }
-    const detail = [dateText, updated(raw.generatedAt || raw.updatedAt)].filter(Boolean).join(' · ');
-    return { events:events.length, entries, label, detail };
+    const source = head.querySelector('[data-detail-source].active')?.dataset.detailSource || 'online';
+    slot.innerHTML = card(window.MetaData.context(source));
   }
 
-  function onlineAggregateContext(kind='field') {
-    const data = window.DeckAggregate?.getData?.() || {};
-    const overview = data.overview || {};
-    const label = kind === 'matchups' ? 'All TEF–PBL online matchups' : 'All TEF–PBL online data';
-    return { events:Number(overview.tournaments||0), entries:Number(overview.players||0), label, detail:updated(data.generatedAt) };
-  }
-
-  function liveFieldContext() {
-    const minPlayers = Math.max(50, Number($('prepMinPlayers')?.value || 50));
-    const tournaments = (typeof CACHE !== 'undefined' && Array.isArray(CACHE?.tournaments))
-      ? CACHE.tournaments.filter(t=>Number(t.players||0)>=minPlayers && Array.isArray(t.standings) && t.standings.length)
-      : [];
-    const entries = tournaments.reduce((sum,t)=>sum+(t.standings?.length||0),0);
-    const mode = $('prepRecency')?.value || 'balanced';
-    const modeLabel = { high:'High recency weighting', balanced:'Balanced recency weighting', equal:'Whole-format equal weighting' }[mode] || 'Recency weighted';
-    return { events:tournaments.length, entries, label:`${minPlayers}+ online field`, detail:modeLabel };
-  }
-
-  function renderInto(id, context) {
-    const el=$(id); if(!el) return;
-    el.innerHTML=card(context.events,context.entries,context.label,context.detail);
-  }
-  function renderMatchups() {
-    const source=$('matchupPageSource')?.value || 'online';
-    renderInto('matchupSourceContext', source==='irl' ? irlContext() : onlineAggregateContext('matchups'));
-  }
-  function renderDecks() {
-    const source=$('deckPageSource')?.value || 'online';
-    renderInto('deckSourceContext', source==='irl' ? irlContext() : onlineAggregateContext('field'));
-  }
-  function renderPlay() {
-    const field=$('playFieldSource')?.value || 'online';
-    const matchups=$('playMatchupSource')?.value || 'online';
-    const fieldEl=$('playFieldSourceContext');
-    if(fieldEl) {
-      if(field==='online') { const c=liveFieldContext(); fieldEl.innerHTML=card(c.events,c.entries,c.label,c.detail); }
-      else if(field==='irl') { const c=irlContext(); fieldEl.innerHTML=card(c.events,c.entries,c.label,c.detail); }
-      else if(field==='blend') {
-        const o=liveFieldContext(), i=irlContext();
-        fieldEl.innerHTML=combinedCard(`Online ${fmt(o.events)} events / ${fmt(o.entries)} entries + IRL ${fmt(i.events)} events / ${fmt(i.entries)} entries`, 'Blended expected field');
-      } else fieldEl.innerHTML=combinedCard('Custom / saved meta', 'Your editable expected-field composition');
-    }
-    const matchupEl=$('playMatchupSourceContext');
-    if(matchupEl) {
-      if(matchups==='online') { const c=onlineAggregateContext('matchups'); matchupEl.innerHTML=card(c.events,c.entries,c.label,c.detail); }
-      else if(matchups==='irl') { const c=irlContext(); matchupEl.innerHTML=card(c.events,c.entries,c.label,c.detail); }
-      else {
-        const o=onlineAggregateContext('matchups'), i=irlContext();
-        matchupEl.innerHTML=combinedCard(`Online ${fmt(o.events)} events / ${fmt(o.entries)} entries + IRL ${fmt(i.events)} events / ${fmt(i.entries)} entries`, 'Combined matchup evidence');
+  function ensure() {
+    ensureAfter($('matchupPageSource')?.closest('.single-source-control'), 'matchupSourceContext');
+    ensureAfter($('deckPageSource')?.closest('.single-source-control'), 'deckSourceContext');
+    if (!$('playSourceContexts')) {
+      const anchor = $('playScopeControls') || $('playFieldSource')?.closest('.child-source-row');
+      if (anchor) {
+        const node = document.createElement('div');
+        node.id = 'playSourceContexts';
+        node.className = 'play-source-contexts';
+        anchor.after(node);
       }
     }
   }
-  function renderDetail() {
-    const el=$('deckDetailSourceContext'); if(!el) return;
-    const active=document.querySelector('#deckDetail [data-detail-source].active')?.dataset.detailSource || 'online';
-    const c=active==='irl' ? irlContext() : onlineAggregateContext('field');
-    el.innerHTML=card(c.events,c.entries,c.label,c.detail);
-  }
-  function renderAll() { ensureSlots(); renderMatchups(); renderDecks(); renderPlay(); renderDetail(); }
 
-  ['matchupPageSource','deckPageSource','playFieldSource','playMatchupSource','prepRecency','prepMinPlayers'].forEach(id=>$(id)?.addEventListener('change',()=>setTimeout(renderAll,0)));
-  window.addEventListener('deckagg:updated',()=>setTimeout(renderAll,0));
-  window.addEventListener('irl:updated',()=>setTimeout(renderAll,0));
-  window.addEventListener('meta-irl-scope:changed',()=>setTimeout(renderAll,0));
-  window.addEventListener('field:updated',()=>setTimeout(renderPlay,0));
-  document.addEventListener('click',event=>{ if(event.target.closest('[data-detail-source],[data-meta-view],[data-explore-deck]')) setTimeout(renderAll,0); },true);
-  window.MetaSourceContext={renderAll,irlContext,onlineAggregateContext,liveFieldContext};
-  setTimeout(renderAll,0);
+  function render() {
+    ensure();
+    renderSingle('matchupPageSource', 'matchupSourceContext');
+    renderSingle('deckPageSource', 'deckSourceContext');
+    renderPrep();
+    renderDetail();
+  }
+
+  ['matchupPageSource','deckPageSource','playFieldSource','playMatchupSource'].forEach(id => $(id)?.addEventListener('change', render));
+  window.addEventListener('meta:data-changed', render);
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-meta-view],[data-explore-deck],.current-meta-row,[data-detail-source]')) setTimeout(render, 0);
+  });
+  window.MetaContext = { render };
+  setTimeout(render, 0);
 })();
