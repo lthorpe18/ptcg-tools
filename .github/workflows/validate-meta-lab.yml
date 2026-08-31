@@ -4,36 +4,63 @@ on:
   push:
     paths:
       - 'apps/meta/**'
+      - 'v2-preview/apps/meta/**'
       - '.github/workflows/validate-meta-lab.yml'
   workflow_dispatch:
 
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Syntax check Meta Lab JavaScript
+      - name: Syntax check Meta JavaScript
         run: |
           set -e
-          for file in apps/meta/*.js; do
-            echo "Checking $file"
-            node --check "$file"
+          for dir in apps/meta v2-preview/apps/meta; do
+            for file in "$dir"/*.js; do
+              [ -e "$file" ] || continue
+              echo "Checking $file"
+              node --check "$file"
+            done
           done
-      - name: Check required Play UI hooks
+      - name: Check required V2 Meta hooks
         run: |
           node - <<'NODE'
           const fs = require('fs');
-          const html = fs.readFileSync('apps/meta/index.html', 'utf8');
-          const required = [
-            'prepFieldOverview','prepResults','prepCheckResult','advancedSettings',
-            'prepRecency','prepEvidence','prepMinCoverage','prepMinEntries',
-            'prepMinPlayers','fieldSource','matchupSource','fieldAnalysisMode','fieldEditor'
+          const html = fs.readFileSync('v2-preview/apps/meta/index.html', 'utf8');
+          const requiredIds = [
+            'currentMetaPage','currentWindow','currentGroupingToggle',
+            'prep','playFieldSource','playMatchupSource','fieldSource','matchupSource',
+            'matchups','matchupPageSource','decks','deckPageSource'
           ];
-          const missing = required.filter(id => !html.includes(`id="${id}"`));
-          if (missing.length) throw new Error(`Missing Meta Lab hooks: ${missing.join(', ')}`);
-          console.log(`Validated ${required.length} required UI hooks`);
+          const missing = requiredIds.filter(id => !html.includes(`id="${id}"`));
+          if (missing.length) throw new Error(`Missing V2 Meta hooks: ${missing.join(', ')}`);
+
+          const requiredScripts = ['meta-core.js','meta-controls.js','meta-home.js','meta-explorer-v2.js','meta-source-context.js'];
+          const absentScripts = requiredScripts.filter(name => !html.includes(name));
+          if (absentScripts.length) throw new Error(`Missing unified Meta scripts: ${absentScripts.join(', ')}`);
+
+          const retired = ['irl-scope.js','meta-consistency-v3.js','meta-window-fix.js','source-controls.js','meta-scope-controls.js','meta-detail-scope.js'];
+          const reintroduced = retired.filter(name => html.includes(name));
+          if (reintroduced.length) throw new Error(`Retired Meta runtime layers reintroduced: ${reintroduced.join(', ')}`);
+
+          console.log('Validated unified V2 Meta runtime contract');
+          NODE
+      - name: Check Meta architecture contract
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const core = fs.readFileSync('v2-preview/apps/meta/meta-core.js', 'utf8');
+          const controls = fs.readFileSync('v2-preview/apps/meta/meta-controls.js', 'utf8');
+          const architecture = fs.readFileSync('v2-preview/apps/meta/ARCHITECTURE.md', 'utf8');
+          for (const token of ['window.MetaState','window.MetaData']) {
+            if (!core.includes(token)) throw new Error(`Meta core missing ${token}`);
+          }
+          if (!controls.includes('window.MetaState')) throw new Error('Meta controls are not bound to shared MetaState');
+          if (!architecture.includes('Variant grouping is presentation-only')) throw new Error('Meta architecture document is missing grouping lock');
+          console.log('Validated Meta state/data/control ownership');
           NODE
