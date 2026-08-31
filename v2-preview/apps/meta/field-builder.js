@@ -1,0 +1,406 @@
+(() => {
+  const $f = id => document.getElementById(id);
+  const state = { custom: new Map(), touched: false, showAll: false };
+  const pct = n => `${Number(n || 0).toFixed(1)}%`;
+  const ignored = name => !name || name === 'Other' || name === 'Unknown';
+
+  function analysisMinPlayers() {
+    return Math.max(50, Number($f('prepMinPlayers')?.value || $f('minPlayers')?.value || 50));
+  }
+
+  function onlineFieldFromCache() {
+    if (!CACHE?.tournaments?.length) return [];
+    const mode = $f('prepRecency')?.value || 'balanced';
+    const minPlayers = analysisMinPlayers();
+    const tournaments = CACHE.tournaments.filter(t => Number(t.players || 0) >= minPlayers && (t.standings || []).length);
+    if (!tournaments.length) return [];
+    const newest = Math.max(...tournaments.map(t => new Date(t.date).getTime()).filter(Number.isFinite));
+    const counts = new Map();
+    let total = 0;
+    const halfLife = mode === 'high' ? 7 : mode === 'balanced' ? 18 : Infinity;
+    for (const t of tournaments) {
+      const age = Math.max(0, (newest - new Date(t.date).getTime()) / 86400000);
+      const weight = Number.isFinite(halfLife) ? Math.pow(0.5, age / halfLife) : 1;
+      for (const s of t.standings || []) {
+        const name = s?.deck?.name;
+        if (ignored(name)) continue;
+        counts.set(name, (counts.get(name) || 0) + weight);
+        total += weight;
+      }
+    }
+    return [...counts.entries()].map(([name, value]) => ({ name, share: total ? value / total : 0, source: 'online' }));
+  }
+
+  function irlField() {
+    const data = window.IRLLabs?.getData?.() || {};
+    const decks = (Array.isArray(data.decks) ? data.decks : []).filter(d => !ignored(d.name));
+    const total = decks.reduce((sum, d) => sum + Number(d.entries || 0), 0);
+    return decks.map(d => ({ name: d.name, share: total ? Number(d.entries || 0) / total : Number(d.share || 0), source: 'irl' }));
+  }
+
+  function mergeFields(a, b, bWeight) {
+    const map = new Map();
+    for (const row of a) map.set(row.name, (map.get(row.name) || 0) + row.share * (1 - bWeight));
+    for (const row of b) map.set(row.name, (map.get(row.name) || 0) + row.share * bWeight);
+    const total = [...map.values()].reduce((s, x) => s + x, 0);
+    return [...map.entries()].map(([name, value]) => ({ name, share: total ? value / total : 0, source: 'blend' }));
+  }
+
+  function baseField() {
+    const source = $f('fieldSource')?.value || 'online';
+    const online = onlineFieldFromCache();
+    const irl = irlField();
+    if (source === 'irl') return irl;
+    if (source === 'blend') return mergeFields(online, irl, Number($f('fieldBlend')?.value || 50) / 100);
+    if (source === 'custom') return online.length ? online : irl;
+    return online;
+  }
+
+  function top90Names(base) {
+    const names = new Set();
+    let cumulative = 0;
+    for (const row of base) {
+      if (cumulative >= 0.9 && names.size) break;
+      names.add(row.name);
+      cumulative += Math.max(0, Number(row.share || 0));
+    }
+    return names;
+  }
+
+  function syncCustom(reset = false) {
+    const base = baseField().sort((a, b) => b.share - a.share);
+    if (reset || !state.touched) {
+      const defaults = top90Names(base);
+      state.custom.clear();
+      for (const row of base) {
+        state.custom.set(row.name, {
+          name: row.name,
+          share: row.share,
+          originalShare: row.share,
+          included: defaults.has(row.name),
+          defaultIncluded: defaults.has(row.name),
+          pinned: false,
+        });
+      }
+      state.touched = false;
+      return;
+    }
+    const defaults = top90Names(base);
+    for (const row of base) {
+      const existing = state.custom.get(row.name);
+      if (!existing) {
+        state.custom.set(row.name, {
+          name: row.name,
+          share: row.share,
+          originalShare: row.share,
+          included: false,
+          defaultIncluded: defaults.has(row.name),
+          pinned: false,
+        });
+      } else {
+        existing.originalShare = row.share;
+        existing.defaultIncluded = defaults.has(row.name);
+      }
+    }
+  }
+
+  function selectedRows() {
+    syncCustom(false);
+    return [...state.custom.values()].filter(r => r.included && !ignored(r.name));
+  }
+
+  function selectedField() {
+    const rows = selectedRows();
+    if (!rows.length) return [];
+    if (($f('fieldAnalysisMode')?.value || 'shares') === 'equal') {
+      return rows.map(r => ({ name: r.name, share: 1 / rows.length, originalShare: Number(r.originalShare || 0) }));
+    }
+    const total = rows.reduce((sum, r) => sum + Math.max(0, Number(r.share || 0)), 0);
+    return rows.map(r => ({
+      name: r.name,
+      share: total ? Math.max(0, Number(r.share || 0)) / total : 1 / rows.length,
+      originalShare: Number(r.originalShare || 0),
+    }));
+  }
+
+  function snapshot() {
+    return selectedField().map(row => ({ name: row.name, share: row.share }));
+  }
+
+  function applyComposition(inputRows) {
+    const rows = (Array.isArray(inputRows) ? inputRows : [])
+      .map(row => ({ name: String(row?.name || '').trim(), share: Math.max(0, Number(row?.share || 0)) }))
+      .filter(row => !ignored(row.name) && row.share > 0);
+    const total = rows.reduce((sum, row) => sum + row.share, 0);
+    if (!total) return false;
+
+    const source = $f('fieldSource');
+    if (source) source.value = 'custom';
+    const mode = $f('fieldAnalysisMode');
+    if (mode) mode.value = 'shares';
+    $f('blendControl')?.classList.add('hidden');
+
+    state.touched = false;
+    state.showAll = false;
+    syncCustom(true);
+    for (const row of state.custom.values()) {
+      row.included = false;
+      row.pinned = false;
+    }
+
+    for (const saved of rows) {
+      let row = state.custom.get(saved.name);
+      if (!row) {
+        row = {
+          name: saved.name,
+          share: 0,
+          originalShare: 0,
+          included: false,
+          defaultIncluded: false,
+          pinned: true,
+        };
+        state.custom.set(saved.name, row);
+      }
+      row.share = saved.share / total;
+      row.included = true;
+      row.pinned = true;
+    }
+
+    state.touched = true;
+    render();
+    notify();
+    return true;
+  }
+
+  function chipRows() {
+    syncCustom(false);
+    const selectedShares = new Map(selectedField().map(r => [r.name, r.share]));
+    return [...state.custom.values()]
+      .filter(r => !ignored(r.name) && (r.defaultIncluded || r.included || r.pinned))
+      .sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0))
+      .map(r => ({
+        name: r.name,
+        included: r.included,
+        share: r.included ? Number(selectedShares.get(r.name) || 0) : null,
+        originalShare: Number(r.originalShare || 0),
+      }));
+  }
+
+  function allRows() {
+    syncCustom(false);
+    return [...state.custom.values()]
+      .filter(r => !ignored(r.name))
+      .sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0))
+      .map(r => ({ ...r }));
+  }
+
+  function originalCoverage() {
+    return selectedRows().reduce((sum, r) => sum + Math.max(0, Number(r.originalShare || 0)), 0);
+  }
+
+  function visibleRows(rows) {
+    if (state.showAll) return rows;
+    let cumulative = 0;
+    const visible = [];
+    for (const row of rows) {
+      if (cumulative >= 0.9 && visible.length) break;
+      visible.push(row);
+      cumulative += Math.max(0, Number(row.originalShare || row.share || 0));
+    }
+    return visible;
+  }
+
+  function render() {
+    const editor = $f('fieldEditor');
+    if (!editor) return;
+    syncCustom(false);
+    const rows = allRows();
+    if (!rows.length) {
+      editor.innerHTML = '<div class="prep-empty">No data is available for this field source in the current legality.</div>';
+      const coverage = $f('fieldCoverage');
+      if (coverage) coverage.textContent = '0.0% of the original filtered meta selected.';
+      return;
+    }
+    const shown = visibleRows(rows);
+    const selected = rows.filter(r => r.included);
+    const selectedOriginalCoverage = originalCoverage();
+    const coverage = $f('fieldCoverage');
+    if (coverage) {
+      coverage.textContent = state.showAll
+        ? `Showing all ${rows.length} archetypes · ${selected.length} selected · ${pct(selectedOriginalCoverage * 100)} original meta coverage.`
+        : `${selected.length} selected · ${pct(selectedOriginalCoverage * 100)} of the original filtered meta.`;
+    }
+    const showAll = $f('fieldShowAll');
+    if (showAll) showAll.textContent = state.showAll ? 'Top 90%' : 'Show all';
+
+    editor.innerHTML = `<div class="tablewrap"><table class="field-table"><thead><tr><th>Use</th><th>Archetype</th><th>Model share</th></tr></thead><tbody>${shown.map(r => `<tr class="field-row ${r.included ? 'included' : 'excluded'}" data-name="${escapeHtml(r.name)}"><td><input class="field-check" data-name="${escapeHtml(r.name)}" type="checkbox" ${r.included ? 'checked' : ''}></td><td><span class="field-deck-name">${window.DeckSprites?.html?.(r.name, { size: 30 }) || ''}<b>${escapeHtml(r.name)}</b></span></td><td><input class="field-share" data-name="${escapeHtml(r.name)}" type="number" min="0" max="100" step="0.1" value="${(Number(r.share || 0) * 100).toFixed(1)}">%</td></tr>`).join('')}</tbody></table></div>`;
+    editor.querySelectorAll('.field-row').forEach(row => row.addEventListener('click', e => {
+      if (e.target.matches('input')) return;
+      toggle(row.dataset.name);
+    }));
+    editor.querySelectorAll('.field-check').forEach(el => el.addEventListener('change', () => {
+      const r = state.custom.get(el.dataset.name);
+      if (r) {
+        r.included = el.checked;
+        if (el.checked) r.pinned = true;
+        state.touched = true;
+        render();
+        notify();
+      }
+    }));
+    editor.querySelectorAll('.field-share').forEach(el => el.addEventListener('change', () => {
+      const r = state.custom.get(el.dataset.name);
+      if (r) {
+        r.share = Math.max(0, Number(el.value || 0)) / 100;
+        r.pinned = true;
+        state.touched = true;
+        render();
+        notify();
+      }
+    }));
+  }
+
+  function setIncluded(name, included = true) {
+    if (ignored(name)) return false;
+    syncCustom(false);
+    const row = state.custom.get(name);
+    if (!row) return false;
+    row.included = !!included;
+    row.pinned = true;
+    state.touched = true;
+    render();
+    notify();
+    return true;
+  }
+
+  function add(name) { return setIncluded(name, true); }
+
+  function toggle(name) {
+    if (ignored(name)) return;
+    syncCustom(false);
+    const row = state.custom.get(name);
+    if (!row) return;
+    row.included = !row.included;
+    row.pinned = true;
+    state.touched = true;
+    render();
+    notify();
+  }
+
+  function resetField() {
+    state.touched = false;
+    state.showAll = false;
+    syncCustom(true);
+    render();
+    notify();
+  }
+
+  function notify(dispatch = true) {
+    if (dispatch) window.dispatchEvent(new CustomEvent('field:updated'));
+  }
+
+  function onlineMatchup(candidate, opponent) {
+    return window.DeckAggregate?.getMatchup?.(candidate, opponent)
+      || DATA?.matchups?.get(`${candidate}|||${opponent}`)
+      || null;
+  }
+
+  function matchup(candidate, opponent, onlineFallback) {
+    if (ignored(candidate) || ignored(opponent)) return null;
+    const mode = $f('matchupSource')?.value || 'online';
+    const online = onlineMatchup(candidate, opponent);
+    const irlRows = window.IRLLabs?.getData?.()?.matchups || [];
+    const irl = irlRows.find(m => m.a === candidate && m.b === opponent && !ignored(m.a) && !ignored(m.b)) || null;
+    if (mode === 'irl') return irl || null;
+    if (mode === 'combined') {
+      if (!online) return irl || null;
+      if (!irl) return online;
+      return {
+        a: candidate, b: opponent,
+        wins: Number(online.wins || 0) + Number(irl.wins || 0),
+        losses: Number(online.losses || 0) + Number(irl.losses || 0),
+        ties: Number(online.ties || 0) + Number(irl.ties || 0),
+        games: Number(online.games || 0) + Number(irl.games || 0),
+      };
+    }
+    return online || onlineFallback || null;
+  }
+
+  function sourceLabel() {
+    const field = $f('fieldSource')?.value || 'online';
+    const matchup = $f('matchupSource')?.value || 'online';
+    const fieldLabels = { online: '50+ online field', irl: 'IRL Labs field', blend: `${$f('fieldBlend')?.value || 50}% IRL blend`, custom: 'custom field' };
+    const richOnline = window.DeckAggregate?.hasData?.();
+    const matchLabels = {
+      online: richOnline ? 'all-event Limitless matchups' : 'online tournament matchups',
+      irl: 'IRL matchups',
+      combined: richOnline ? 'all-event Limitless + IRL matchups' : 'online + IRL matchups',
+    };
+    return `${fieldLabels[field]} · ${matchLabels[matchup]}`;
+  }
+
+  function bind() {
+    $f('fieldSource')?.addEventListener('change', () => {
+      $f('blendControl')?.classList.toggle('hidden', $f('fieldSource').value !== 'blend');
+      state.touched = false;
+      syncCustom(true);
+      render();
+      notify();
+    });
+    $f('fieldBlend')?.addEventListener('input', () => {
+      if ($f('blendValue')) $f('blendValue').textContent = `${$f('fieldBlend').value}%`;
+      state.touched = false;
+      syncCustom(true);
+      render();
+      notify();
+    });
+    $f('fieldAnalysisMode')?.addEventListener('change', () => notify());
+    $f('matchupSource')?.addEventListener('change', () => notify());
+    $f('fieldReset')?.addEventListener('click', resetField);
+    $f('fieldAll')?.addEventListener('click', () => {
+      syncCustom(false);
+      for (const r of state.custom.values()) if (!ignored(r.name)) { r.included = true; r.pinned = true; }
+      state.touched = true;
+      render();
+      notify();
+    });
+    $f('fieldNone')?.addEventListener('click', () => {
+      syncCustom(false);
+      for (const r of state.custom.values()) r.included = false;
+      state.touched = true;
+      render();
+      notify();
+    });
+    $f('fieldShowAll')?.addEventListener('click', () => { state.showAll = !state.showAll; render(); });
+    $f('prepRecency')?.addEventListener('change', () => {
+      if (!state.touched) syncCustom(true);
+      render();
+      notify();
+    });
+    $f('prepMinPlayers')?.addEventListener('change', () => {
+      if (!state.touched) syncCustom(true);
+      render();
+      notify();
+    });
+    window.addEventListener('meta:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
+    window.addEventListener('irl:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
+    window.addEventListener('deckagg:updated', () => notify());
+  }
+
+  window.PrepField = {
+    getField: selectedField,
+    getChipRows: chipRows,
+    getAllRows: allRows,
+    getOriginalCoverage: originalCoverage,
+    getMatchup: matchup,
+    snapshot,
+    applyComposition,
+    render,
+    sourceLabel,
+    toggle,
+    add,
+    setIncluded,
+    reset: resetField,
+  };
+  bind();
+})();

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "source": "Limitless Labs",
+  "sourceUrl": "https://labs.limitlesstcg.com",
+  "format": "TEF-PBL",
+  "formatStart": "2026-07-17T00:00:00.000Z",
+  "generatedAt": "2026-08-30T10:40:30.761Z",
+  "events": [
+    {
+      "id": "0071",
+      "name": "World Championship San Francisco",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "url": "https://labs.limitlesstcg.com/0071/decks",
+      "decks": []
+    }
+  ],
+  "decks": [],
+  "matchups": [],
+  "note": "1 current-format IRL major event(s) from Limitless Labs."
+}
