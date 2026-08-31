@@ -22,11 +22,11 @@
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
   const copy = value => JSON.parse(JSON.stringify(value ?? null));
 
-  function captureOnlineBase(force = false) {
+  function captureOnlineBase() {
     if (typeof CACHE === 'undefined' || !CACHE || !Array.isArray(CACHE.tournaments)) return;
     const identity = `${CACHE.format || ''}|${CACHE.generatedAt || ''}`;
-    if (force || !rawOnlineTournaments.length || identity !== rawCacheIdentity || CACHE.tournaments !== appliedOnlineRows) {
-      if (CACHE.tournaments !== appliedOnlineRows || force) {
+    if (!rawOnlineTournaments.length || identity !== rawCacheIdentity || CACHE.tournaments !== appliedOnlineRows) {
+      if (CACHE.tournaments !== appliedOnlineRows) {
         rawOnlineTournaments = [...CACHE.tournaments];
         rawCacheIdentity = identity;
       }
@@ -34,7 +34,7 @@
   }
 
   function scopedOnlineRows(scope = state.onlineScope, minPlayers = 50) {
-    captureOnlineBase(false);
+    captureOnlineBase();
     const eligible = rawOnlineTournaments.filter(t => Number(t.players || 0) >= Number(minPlayers || 0) && Array.isArray(t.standings) && t.standings.length);
     if (scope === 'all') return eligible;
     const dates = eligible.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
@@ -53,6 +53,13 @@
     CACHE.tournaments = appliedOnlineRows;
   }
 
+  function refreshLegacyAggregate() {
+    if (typeof MetaEngine === 'undefined' || !MetaEngine?.aggregate) return;
+    const rows = scopedOnlineRows(state.onlineScope, 50);
+    if (typeof FILTERED_TOURNAMENTS !== 'undefined') FILTERED_TOURNAMENTS = rows;
+    if (typeof DATA !== 'undefined') DATA = MetaEngine.aggregate(rows);
+  }
+
   function emit(reason = 'state') {
     window.dispatchEvent(new CustomEvent('meta:data-changed', { detail: { ...state, reason } }));
   }
@@ -60,6 +67,7 @@
   function setOnlineScope(value, reason = 'online-scope') {
     state.onlineScope = ONLINE_SCOPES.some(x => x.value === value) ? value : '30';
     applyOnlineScopeToLegacyCache();
+    refreshLegacyAggregate();
     emit(reason);
     window.dispatchEvent(new CustomEvent('deckagg:updated'));
     window.dispatchEvent(new CustomEvent('field:updated'));
@@ -163,7 +171,10 @@
       for (const d of event.decks || []) {
         if (ignored(d?.name)) continue;
         const row = deckMap.get(d.name) || { name: d.name, entries: 0, wins: 0, losses: 0, ties: 0, url: d.url || '' };
-        row.entries += Number(d.entries || 0); row.wins += Number(d.wins || 0); row.losses += Number(d.losses || 0); row.ties += Number(d.ties || 0);
+        row.entries += Number(d.entries || 0);
+        row.wins += Number(d.wins || 0);
+        row.losses += Number(d.losses || 0);
+        row.ties += Number(d.ties || 0);
         if (!row.url && d.url) row.url = d.url;
         deckMap.set(d.name, row);
       }
@@ -172,7 +183,10 @@
         foundEventMatchups = true;
         const key = `${m.a}|||${m.b}`;
         const row = matchupMap.get(key) || { a: m.a, b: m.b, games: 0, wins: 0, losses: 0, ties: 0 };
-        row.games += Number(m.games || 0); row.wins += Number(m.wins || 0); row.losses += Number(m.losses || 0); row.ties += Number(m.ties || 0);
+        row.games += Number(m.games || 0);
+        row.wins += Number(m.wins || 0);
+        row.losses += Number(m.losses || 0);
+        row.ties += Number(m.ties || 0);
         matchupMap.set(key, row);
       }
     }
@@ -191,7 +205,9 @@
   }
 
   function data(source, options = {}) {
-    return source === 'irl' ? irlData(options.scope || state.irlScope) : onlineData(options.scope || state.onlineScope, options.minPlayers || 50);
+    return source === 'irl'
+      ? irlData(options.scope || state.irlScope)
+      : onlineData(options.scope || state.onlineScope, options.minPlayers || 50);
   }
 
   function fieldRows(source, options = {}) {
@@ -200,6 +216,7 @@
       const total = decks.reduce((sum, d) => sum + Number(d.entries || 0), 0);
       return decks.map(d => ({ name: d.name, share: total ? Number(d.entries || 0) / total : 0, source: 'irl' }));
     }
+
     const tournaments = onlineTournaments(options.scope || state.onlineScope, options.minPlayers || 50);
     if (!tournaments.length) return [];
     const mode = options.recency || 'balanced';
@@ -217,7 +234,9 @@
         total += weight;
       }
     }
-    return [...counts.entries()].map(([name, value]) => ({ name, share: total ? value / total : 0, source: 'online' })).sort((a, b) => b.share - a.share);
+    return [...counts.entries()]
+      .map(([name, value]) => ({ name, share: total ? value / total : 0, source: 'online' }))
+      .sort((a, b) => b.share - a.share);
   }
 
   function matchup(source, a, b, options = {}) {
@@ -229,15 +248,28 @@
     if (source === 'online') {
       const scope = options.scope || state.onlineScope;
       const label = ONLINE_SCOPES.find(x => x.value === scope)?.label || 'Last 30 days';
-      return { source, scope, events: Number(d.overview?.events || 0), entries: Number(d.overview?.entries || 0), label: `${label} online data`, detail: d.generatedAt ? `Updated ${new Date(d.generatedAt).toLocaleDateString([], { day: 'numeric', month: 'short' })}` : '50+ online tournaments' };
+      return {
+        source, scope,
+        events: Number(d.overview?.events || 0),
+        entries: Number(d.overview?.entries || 0),
+        label: `${label} online data`,
+        detail: d.generatedAt ? `Updated ${new Date(d.generatedAt).toLocaleDateString([], { day: 'numeric', month: 'short' })}` : '50+ online tournaments',
+      };
     }
+
     const scope = options.scope || state.irlScope;
     const events = d.events || [];
     let label = 'Latest IRL majors weekend';
     if (scope === 'all-irl') label = 'All IRL majors this format';
     if (String(scope).startsWith('event:') && events[0]) label = events[0].name || 'IRL tournament';
     if (scope === 'latest-weekend' && events.length === 1) label = events[0].name || label;
-    return { source, scope, events: Number(events.length || 0), entries: Number(d.overview?.entries || 0), label, detail: events.length ? events.map(e => new Date(e.date).toLocaleDateString([], { day: 'numeric', month: 'short' })).join(' · ') : 'No IRL events in this scope' };
+    return {
+      source, scope,
+      events: Number(events.length || 0),
+      entries: Number(d.overview?.entries || 0),
+      label,
+      detail: events.length ? events.map(e => new Date(e.date).toLocaleDateString([], { day: 'numeric', month: 'short' })).join(' · ') : 'No IRL events in this scope',
+    };
   }
 
   window.MetaState = {
@@ -270,11 +302,13 @@
   };
 
   window.addEventListener('meta:updated', () => {
-    captureOnlineBase(true);
+    captureOnlineBase();
     applyOnlineScopeToLegacyCache();
+    refreshLegacyAggregate();
     emit('online-data');
   });
   window.addEventListener('irl:updated', () => emit('irl-data'));
-  captureOnlineBase(false);
+  captureOnlineBase();
   applyOnlineScopeToLegacyCache();
+  refreshLegacyAggregate();
 })();
