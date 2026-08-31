@@ -11,71 +11,51 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
   <link rel="stylesheet" href="./apps/_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="./styles.css?v=2">
+  <link rel="stylesheet" href="./styles.css?v=3">
 </head>
 <body class="ptcg-v2" data-app-root="." data-app-section="home">
-  <header class="app-shell-header">
+  <header class="app-shell-header home-header">
     <a class="app-shell-brand" href="./" aria-label="PTCG Tools home">
       <span class="app-shell-mark" aria-hidden="true">◆</span>
-      <span class="app-shell-brand-copy"><strong>PTCG Tools</strong><small>Competitive Pokémon TCG companion</small></span>
+      <span class="app-shell-brand-copy"><strong>PTCG Tools</strong></span>
     </a>
     <div class="app-shell-header-actions"><span id="formatPill" class="app-context-pill"><span class="app-live-dot"></span><span>Standard</span></span></div>
   </header>
 
   <main class="app-shell-page home-shell">
-    <section class="app-page-head">
-      <div class="app-eyebrow">YOUR COMPETITIVE HOME</div>
-      <h1>Prepare better. Play sharper.</h1>
-      <p>Analyse the field, develop your decks, prepare for real events and make better tournament decisions.</p>
+    <div class="home-title-row"><h1>Home</h1></div>
+
+    <section id="nextEventSection" class="home-event-section" hidden>
+      <div class="home-section-label">Next event</div>
+      <a id="nextEventCard" class="app-card home-next-event" href="./apps/events/"></a>
     </section>
 
-    <section id="nextEventSection" class="app-section" hidden>
-      <div class="app-section-head"><div><div class="app-eyebrow">NEXT EVENT</div><h2>You're playing</h2></div><a href="./apps/events/">Events →</a></div>
-      <a id="nextEventCard" class="app-card app-card-pad home-next-event" href="./apps/events/"></a>
+    <section class="home-tools" aria-label="PTCG Tools shortcuts">
+      <a class="home-tool-card" href="./apps/meta/">
+        <span class="home-tool-icon meta">✦</span>
+        <strong>What should I play?</strong>
+      </a>
+      <a class="home-tool-card" href="./apps/meta/#overview">
+        <span class="home-tool-icon field">▥</span>
+        <strong>Meta & matchups</strong>
+      </a>
+      <a class="home-tool-card" href="./apps/decklists/">
+        <span class="home-tool-icon decks">▤</span>
+        <strong>My decks</strong>
+      </a>
+      <a class="home-tool-card" href="./apps/events/">
+        <span class="home-tool-icon events">⌖</span>
+        <strong>Find events</strong>
+      </a>
+      <a class="home-tool-card" href="./apps/tools/#cut">
+        <span class="home-tool-icon cut">%</span>
+        <strong>Cut calculator</strong>
+      </a>
+      <a class="home-tool-card" href="./apps/swiss/">
+        <span class="home-tool-icon tournament">↻</span>
+        <strong>Run tournament</strong>
+      </a>
     </section>
-
-    <section class="app-section">
-      <div class="app-card home-hero">
-        <div class="app-eyebrow">TOURNAMENT PREP</div>
-        <h1>What should I play?</h1>
-        <p>Shape the field you expect and rank the decks best positioned into it using the strongest part of PTCG Tools.</p>
-        <div class="home-hero-actions">
-          <a class="app-button success" href="./apps/meta/">Open recommendations</a>
-          <a class="app-button" href="./apps/meta/#overview">View the field</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="app-section">
-      <div class="app-section-head"><h2>Quick actions</h2><p>Get straight to the job</p></div>
-      <div class="home-quick-grid">
-        <a class="home-quick" href="./apps/decklists/"><span class="home-quick-icon">▤</span><span class="home-quick-copy"><b>My Decks</b><small>Build, analyse and playtest</small></span></a>
-        <a class="home-quick" href="./apps/events/"><span class="home-quick-icon">⌖</span><span class="home-quick-copy"><b>Find Events</b><small>Official sanctioned events</small></span></a>
-        <a class="home-quick" href="./apps/tools/#cut"><span class="home-quick-icon">%</span><span class="home-quick-copy"><b>Cut Calculator</b><small>ID and Top Cut decisions</small></span></a>
-        <a class="home-quick" href="./apps/swiss/"><span class="home-quick-icon">↻</span><span class="home-quick-copy"><b>Run Tournament</b><small>Pairings, standings and timer</small></span></a>
-      </div>
-    </section>
-
-    <section class="app-section">
-      <div class="app-section-head"><h2>The competitive loop</h2><p>One connected workflow</p></div>
-      <div class="app-card app-card-pad home-flow">
-        <div class="home-flow-step"><b>Analyse</b><small>Meta</small></div>
-        <div class="home-flow-step"><b>Build & Test</b><small>Decks</small></div>
-        <div class="home-flow-step"><b>Prepare</b><small>Event plan</small></div>
-        <div class="home-flow-step"><b>Compete</b><small>Tournament</small></div>
-        <div class="home-flow-step"><b>Learn</b><small>Results</small></div>
-      </div>
-    </section>
-
-    <section class="app-section">
-      <div class="app-section-head"><h2>Explore</h2><p>Competitive context</p></div>
-      <div class="home-product-row">
-        <a class="home-product-card" href="./apps/meta/"><strong>Meta Lab</strong><span>Field shares, matchup evidence and deck positioning.</span></a>
-        <a class="home-product-card" href="./apps/decklists/"><strong>Deck workspace</strong><span>Your exact lists, deck maths and mobile practice.</span></a>
-        <a class="home-product-card" href="./apps/events/"><strong>Compete</strong><span>Find events, mark attendance and prepare for them.</span></a>
-      </div>
-    </section>
-    <p class="home-source">PTCG Tools V2 · local-first personal data</p>
   </main>
 
   <script src="./apps/_shared/storage.js?v=1"></script>
