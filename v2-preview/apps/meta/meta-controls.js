@@ -103,8 +103,13 @@
     wrap.querySelector('span').textContent = active === 'irl' ? 'IRL scope' : 'Online scope';
     const state = window.MetaState.get();
     const select = $('deckDetailScope');
-    select.innerHTML = optionHtml(active === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes());
+    const html = optionHtml(active === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes());
+    if (select.dataset.options !== html) {
+      select.innerHTML = html;
+      select.dataset.options = html;
+    }
     select.value = active === 'irl' ? state.irlScope : state.onlineScope;
+    window.MetaContext?.render?.();
   }
 
   function syncAll() {
@@ -126,8 +131,18 @@
   ['matchupPageSource','deckPageSource','playFieldSource','playMatchupSource'].forEach(id => $(id)?.addEventListener('change', syncAll));
   window.addEventListener('meta:data-changed', syncAll);
   document.addEventListener('click', e => {
-    if (e.target.closest('[data-explore-deck],.current-meta-row,[data-detail-source]')) setTimeout(syncDetail, 0);
+    if (e.target.closest('[data-detail-source]')) setTimeout(syncDetail, 0);
   });
+
+  const main = document.querySelector('main.wrap');
+  if (main && !document.getElementById('deckDetail')) {
+    const observer = new MutationObserver(() => {
+      if (!document.getElementById('deckDetail')) return;
+      observer.disconnect();
+      setTimeout(syncDetail, 0);
+    });
+    observer.observe(main, { childList: true });
+  }
 
   const style = document.createElement('style');
   style.textContent = '.meta-scope-control,.play-scope-controls label{display:grid;gap:4px;min-width:0;color:#667085;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.meta-scope-control select,.play-scope-controls select{width:100%;min-height:42px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;padding:0 10px;color:#101828;font:inherit;font-size:13px;font-weight:700}.play-scope-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.detail-scope-control{margin-top:8px}.single-source-control{flex-wrap:wrap}.meta-scope-control{flex:1}.play-scope-controls label[hidden]{display:none!important}@media(max-width:600px){.single-source-control{display:grid!important;grid-template-columns:1fr}.play-scope-controls{grid-template-columns:1fr}}';
