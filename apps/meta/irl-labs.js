@@ -41,7 +41,7 @@
 
   if (!document.querySelector('script[data-irl-scope]')) {
     const script = document.createElement('script');
-    script.src = 'irl-scope.js?v=1';
+    script.src = 'irl-scope.js?v=2';
     script.dataset.irlScope = '1';
     document.head.appendChild(script);
   }
