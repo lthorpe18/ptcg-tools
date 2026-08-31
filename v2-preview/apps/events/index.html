@@ -9,6 +9,7 @@
   <title>Events · PTCG Tools</title>
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
   <link rel="stylesheet" href="./styles.css?v=2">
+  <link rel="stylesheet" href="./saved-venues.css?v=1">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="compete">
   <header class="app-shell-header">
@@ -23,10 +24,7 @@
 
   <main class="app-shell-page events-shell">
     <div class="app-page-head events-page-head">
-      <div>
-        <div class="app-eyebrow">Compete</div>
-        <h1>Events</h1>
-      </div>
+      <div><div class="app-eyebrow">Compete</div><h1>Events</h1></div>
       <button id="refreshButton" class="refresh-button" type="button" aria-label="Refresh event data">↻</button>
     </div>
 
@@ -47,6 +45,12 @@
         <label><span>Distance</span><select id="distanceFilter"><option value="25">25 mi</option><option value="50">50 mi</option><option value="75" selected>75 mi</option><option value="100">100 mi</option><option value="all">Any</option></select></label>
         <label><span>Date</span><select id="nearbyDateFilter"><option value="30">30 days</option><option value="90" selected>90 days</option><option value="180">6 months</option><option value="all">All</option></select></label>
       </div>
+      <button id="savedVenuesFilter" class="saved-venues-filter" type="button" aria-pressed="false">☆ Saved venues only</button>
+    </section>
+
+    <section id="yourVenuesSection" class="your-venues hidden" aria-labelledby="yourVenuesTitle">
+      <div class="your-venues-head"><div><strong id="yourVenuesTitle">Your venues</strong><small>Next event at each saved shop</small></div></div>
+      <div id="yourVenuesList" class="your-venues-list"></div>
     </section>
 
     <section id="majorFilters" class="filter-panel app-card hidden" aria-label="Major event filters">
@@ -102,8 +106,8 @@
 
   <div id="toast" class="event-toast hidden" role="status" aria-live="polite"></div>
 
-  <script src="../_shared/storage.js?v=3"></script>
-  <script src="./app.js?v=2"></script>
+  <script src="../_shared/storage.js?v=4"></script>
+  <script src="./app.js?v=3"></script>
   <script src="../_shared/app-shell.js?v=2"></script>
 </body>
 </html>

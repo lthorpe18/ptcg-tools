@@ -96,6 +96,33 @@
     });
   }
   function removePlannedEvent(eventId){return update(state=>{const row=state.plannedEvents.find(x=>x.eventId===eventId);state.plannedEvents=state.plannedEvents.filter(x=>x.eventId!==eventId);if(row&&row.prepId)state.preps=state.preps.filter(x=>x.id!==row.prepId);return state})}
-  function toggleFavouriteVenue(venueKey){return update(state=>{const set=new Set(state.favouriteVenues);set.has(venueKey)?set.delete(venueKey):set.add(venueKey);state.favouriteVenues=[...set];return state})}
-  global.PTCGStorage={ROOT_KEY,SCHEMA_VERSION,load,save,update,setEventStatus,clearEventStatus,getEventStatus,setPlannedEvent,removePlannedEvent,toggleFavouriteVenue};
+  function venueKey(value){
+    if(typeof value==='string')return value;
+    if(!value||typeof value!=='object')return null;
+    if(value.venueKey)return String(value.venueKey);
+    const name=String(value.venue||value.name||'').trim().toLowerCase().replace(/\s+/g,' ');
+    if(!name)return null;
+    const lat=Number(value.latitude);const lon=Number(value.longitude);
+    const locator=Number.isFinite(lat)&&Number.isFinite(lon)?`${lat.toFixed(4)},${lon.toFixed(4)}`:String(value.address||value.city||'').trim().toLowerCase().replace(/\s+/g,' ');
+    return `venue:${name}|${locator}`;
+  }
+  function venueSnapshot(value){
+    const key=venueKey(value);if(!key)return null;
+    if(typeof value==='string')return {venueKey:key,name:value,venue:value,address:null,city:null,region:null,postcode:null,country:null,latitude:null,longitude:null,savedAt:new Date().toISOString()};
+    return {venueKey:key,name:value.venue||value.name||null,venue:value.venue||value.name||null,address:value.address||null,city:value.city||null,region:value.region||null,postcode:value.postcode||null,country:value.country||null,latitude:value.latitude??null,longitude:value.longitude??null,savedAt:new Date().toISOString()};
+  }
+  function favouriteVenueKeys(state=load()){
+    return new Set((state.favouriteVenues||[]).map(row=>venueKey(row)).filter(Boolean));
+  }
+  function isFavouriteVenue(value){const key=venueKey(value);return !!key&&favouriteVenueKeys().has(key)}
+  function toggleFavouriteVenue(value){
+    const key=venueKey(value);if(!key)throw new Error('venue identity required');
+    return update(state=>{
+      const existing=(state.favouriteVenues||[]).findIndex(row=>venueKey(row)===key);
+      if(existing>=0)state.favouriteVenues.splice(existing,1);
+      else{const snapshot=venueSnapshot(value);if(snapshot)state.favouriteVenues.push(snapshot)}
+      return state;
+    });
+  }
+  global.PTCGStorage={ROOT_KEY,SCHEMA_VERSION,load,save,update,setEventStatus,clearEventStatus,getEventStatus,setPlannedEvent,removePlannedEvent,venueKey,isFavouriteVenue,toggleFavouriteVenue};
 })(window);
