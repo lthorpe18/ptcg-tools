@@ -1,5 +1,6 @@
 name: Import PTCG Events
 
+# Imports local Pokédata events and Championship-series majors.
 on:
   workflow_dispatch:
   schedule:
