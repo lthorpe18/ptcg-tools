@@ -41,8 +41,18 @@
     if (!slot) return;
     const field = $('playFieldSource')?.value || 'online';
     const matchup = $('playMatchupSource')?.value || 'online';
-    let fieldContext = field === 'irl' ? window.MetaData.context('irl') : field === 'blend' ? combinedContext('field') : field === 'custom' ? { events:0, entries:0, label:'Custom / saved meta', detail:'Your editable expected-field composition' } : window.MetaData.context('online');
-    let matchupContext = matchup === 'irl' ? window.MetaData.context('irl') : matchup === 'combined' ? combinedContext('matchup') : window.MetaData.context('online');
+    const fieldContext = field === 'irl'
+      ? window.MetaData.context('irl')
+      : field === 'blend'
+        ? combinedContext('field')
+        : field === 'custom'
+          ? { events:0, entries:0, label:'Custom / saved meta', detail:'Your editable expected-field composition' }
+          : window.MetaData.context('online');
+    const matchupContext = matchup === 'irl'
+      ? window.MetaData.context('irl')
+      : matchup === 'combined'
+        ? combinedContext('matchup')
+        : window.MetaData.context('online');
     slot.innerHTML = `<section><div class="context-label">Field data</div>${card(fieldContext)}</section><section><div class="context-label">Matchup data</div>${card(matchupContext)}</section>`;
   }
 
@@ -84,6 +94,7 @@
 
   ['matchupPageSource','deckPageSource','playFieldSource','playMatchupSource'].forEach(id => $(id)?.addEventListener('change', render));
   window.addEventListener('meta:data-changed', render);
+  window.addEventListener('field:updated', render);
   document.addEventListener('click', e => {
     if (e.target.closest('[data-meta-view],[data-explore-deck],.current-meta-row,[data-detail-source]')) setTimeout(render, 0);
   });
