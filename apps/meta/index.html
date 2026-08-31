@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="saved-metas.css?v=1" />
   <link rel="stylesheet" href="v2.css?v=1" />
   <link rel="stylesheet" href="meta-home.css?v=4" />
-  <link rel="stylesheet" href="meta-explorer-v2.css?v=1" />
+  <link rel="stylesheet" href="meta-explorer-v2.css?v=2" />
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="meta" data-meta-view="current">
 <header class="app-shell-header meta-v2-header">
@@ -58,7 +58,7 @@
       <button class="meta-back" type="button" data-meta-back>← Current meta</button>
       <div class="meta-child-title"><div><div class="eyebrow">META EXPLORER</div><h1>What should I play?</h1><p>Use one field source and independent matchup evidence.</p></div></div>
       <div class="child-source-row">
-        <label>Field<select id="playFieldSource"><option value="online">Online</option><option value="irl">IRL</option><option value="blend">Online + IRL</option><option value="custom">Custom</option></select></label>
+        <label>Field<select id="playFieldSource"><option value="online">Online</option><option value="irl">IRL</option><option value="blend">Online + IRL</option><option value="custom">Custom / saved meta</option></select></label>
         <label>Matchups<select id="playMatchupSource"><option value="online">Online</option><option value="irl">IRL</option><option value="combined">Online + IRL</option></select></label>
       </div>
     </header>
@@ -78,7 +78,7 @@
             <label>Minimum matchup coverage<input id="prepMinCoverage" type="number" min="0" max="100" step="5" value="50" /></label>
             <label>Minimum deck entries<input id="prepMinEntries" type="number" min="1" max="100" value="5" /></label>
             <label>Meta event size<input id="prepMinPlayers" type="number" min="50" max="1000" step="10" value="50" /></label>
-            <label>Field source<select id="fieldSource"><option value="online" selected>50+ online tournaments</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom field</option></select></label>
+            <label>Field source<select id="fieldSource"><option value="online" selected>50+ online tournaments</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom / saved meta</option></select></label>
             <label id="blendControl" class="hidden">IRL share <span id="blendValue">50%</span><input id="fieldBlend" type="range" min="0" max="100" value="50" /></label>
             <label>Matchup source<select id="matchupSource"><option value="online" selected>Limitless · all PBL events</option><option value="irl">IRL only</option><option value="combined">All PBL events + IRL</option></select></label>
             <label>Field weighting<select id="fieldAnalysisMode"><option value="shares" selected>Expected shares</option><option value="equal">Equal selected decks</option></select></label>
@@ -93,7 +93,7 @@
   <section id="matchups" class="meta-child hidden">
     <header class="meta-child-header">
       <button class="meta-back" type="button" data-meta-back>← Current meta</button>
-      <div class="meta-child-title"><div><div class="eyebrow">HEAD-TO-HEAD</div><h1>Matchups</h1><p>Family-level results combine the underlying variant records.</p></div></div>
+      <div class="meta-child-title"><div><div class="eyebrow">HEAD-TO-HEAD</div><h1>Matchups</h1><p>Head-to-head evidence is shown for exact deck variants.</p></div></div>
       <div class="single-source-control"><label>Evidence source<select id="matchupPageSource"><option value="online">Online</option><option value="irl">IRL</option></select></label><label>Min games<input id="matchupPageMin" type="number" min="1" value="10"></label></div>
     </header>
     <div id="metaMatchupMatrix"><div class="meta-empty">Loading matchup evidence…</div></div>
@@ -102,14 +102,14 @@
   <section id="decks" class="meta-child hidden">
     <header class="meta-child-header">
       <button class="meta-back" type="button" data-meta-back>← Current meta</button>
-      <div class="meta-child-title"><div><div class="eyebrow">ARCHETYPES</div><h1>Deck explorer</h1><p>Browse the current field without changing the landing page.</p></div></div>
+      <div class="meta-child-title"><div><div class="eyebrow">ARCHETYPES</div><h1>Deck explorer</h1><p>Browse family share, then open exact variants for performance and matchups.</p></div></div>
       <div class="single-source-control"><label>Field source<select id="deckPageSource"><option value="online">Online</option><option value="irl">IRL</option></select></label></div>
     </header>
     <div id="deckExplorerList" class="deck-explorer-list"><div class="meta-empty">Loading deck data…</div></div>
   </section>
 
   <section class="legacy-meta-plumbing" aria-hidden="true">
-    <select id="archetypeGrouping"><option value="families" selected>Families</option><option value="variants">Variants</option></select>
+    <select id="archetypeGrouping"><option value="families">Families</option><option value="variants" selected>Variants</option></select>
     <select id="format"><option value="TEF-PBL" selected>TEF–PBL</option><option value="TEF-CRI">TEF–CRI</option></select>
     <select id="days"><option value="all" selected>All</option><option value="30">30</option></select>
     <input id="minPlayers" type="number" value="50"><input id="minMatches" type="number" value="5"><button id="apply"></button><span id="status"></span>
@@ -128,14 +128,15 @@
 <script src="saved-metas.js?v=1"></script>
 <script src="archetype-groups.js?v=1"></script>
 <script src="field-builder.js?v=5"></script>
-<script src="source-controls.js?v=2"></script>
+<script src="source-controls.js?v=3"></script>
 <script src="prep.js?v=5"></script>
 <script src="meta-home.js?v=3"></script>
 <script src="meta-window-fix.js?v=2"></script>
 <script src="irl-scope.js?v=3"></script>
 <script src="decklinks.js?v=2"></script>
 <script src="searchable-decks.js?v=4"></script>
-<script src="meta-explorer-v2.js?v=1"></script>
+<script src="meta-consistency-v3.js?v=2"></script>
+<script src="meta-explorer-v2.js?v=2"></script>
 <script src="../_shared/app-shell.js?v=2"></script>
 </body>
 </html>
