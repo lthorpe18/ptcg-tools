@@ -13,7 +13,7 @@
     return (window.ArchetypeGroups?.FAMILIES || []).find(f => f.name === name || f.variants.includes(name)) || null;
   }
   function sprite(name,size=38){ return window.DeckSprites?.html?.(name,{size}) || ''; }
-  function sourceData(source) { return window.MetaData?.data?.(source) || { decks:[], matchups:[], events:[], overview:{} }; }
+  function sourceData(source, options={}) { return window.MetaData?.data?.(source, options) || { decks:[], matchups:[], events:[], overview:{} }; }
   function sourceDecks(source) { return sourceData(source).decks || []; }
   function sourceMatchups(source) { return sourceData(source).matchups || []; }
 
@@ -43,6 +43,16 @@
     const data = sourceData(source);
     if (source === 'online') return Number(data?.overview?.matches || 0);
     return Math.round((data.matchups || []).reduce((sum,row)=>sum+Number(row.games||0),0)/2);
+  }
+
+  function referenceShare(source, name) {
+    const scope = source === 'irl' ? 'latest-weekend' : 'since-major';
+    const data = sourceData(source, { scope });
+    const row = (data.decks || []).find(d => d.name === name);
+    return {
+      share: row && Number.isFinite(Number(row.share)) ? Number(row.share) : null,
+      label: source === 'irl' ? 'Latest IRL weekend' : 'Since last major',
+    };
   }
 
   function ensureDetail() {
@@ -97,31 +107,41 @@
   }
 
   function variantDetail() {
+    const panelWasOpen = $('deckDetailEvidence')?.open || false;
     const data = sourceData(detailSource);
     const variants = variantRows(detailSource);
     const row = variants.find(r=>r.name===detailName);
     const sourceLabel = detailSource === 'irl' ? 'IRL' : 'Online';
     const family = familyFor(detailName);
-    $('deckDetailHead').innerHTML = `<div class="detail-title">${sprite(detailName,52)}<div><div class="eyebrow">${sourceLabel} DECK</div><h1>${esc(detailName)}</h1><p>${family ? `${esc(family.name)} family · exact variant` : 'Exact variant detail'}</p></div></div><div class="detail-source"><button type="button" data-detail-source="online" class="${detailSource==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detailSource==='irl'?'active':''}">IRL</button></div>`;
+    const current = referenceShare(detailSource, detailName);
+    const currentShare = current.share == null ? '—' : pct(current.share);
+
+    $('deckDetailHead').innerHTML = `<div class="detail-heading-row"><div class="detail-title">${sprite(detailName,52)}<div><div class="eyebrow">${sourceLabel} DECK</div><h1>${esc(detailName)}</h1><p>${family ? `${esc(family.name)} family · exact variant` : 'Exact variant detail'}</p></div></div><div class="detail-current-share"><span>Current share</span><b>${currentShare}</b><small>${esc(current.label)}</small></div></div>`;
+
     if (!row) {
-      $('deckDetailBody').innerHTML = `<div class="meta-empty">This exact variant is not present in the selected ${sourceLabel} source and scope.</div>`;
+      $('deckDetailBody').innerHTML = `<details id="deckDetailEvidence" class="detail-data-panel" ${panelWasOpen?'open':''}><summary><span><b>Data & performance</b><small>${sourceLabel} · selected scope</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls"><div class="detail-source"><button type="button" data-detail-source="online" class="${detailSource==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detailSource==='irl'?'active':''}">IRL</button></div></div><div class="meta-empty">This exact variant is not present in the selected ${sourceLabel} source and scope.</div></div></details>`;
       setTimeout(()=>{ window.MetaControls?.syncDetail?.(); window.MetaContext?.render?.(); },0);
       return;
     }
 
     const record = `${row.wins.toLocaleString()}-${row.losses.toLocaleString()}-${row.ties.toLocaleString()}`;
-    const summary = `<div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Entries</span></div><div><b>${pct(row.share)}</b><span>Field share</span></div><div><b>${record}</b><span>Record</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div>`;
     const games = evidenceGames(detailSource);
-    const scopeText = window.MetaData?.context?.(detailSource)?.label || sourceLabel;
+    const scopeContext = window.MetaData?.context?.(detailSource) || {};
+    const scopeText = scopeContext.label || sourceLabel;
+    const fieldEvents = Number(data?.overview?.events || data?.events?.length || 0);
+    const fieldEntries = Number(data?.overview?.entries || 0);
     const results = detailSource === 'online' ? scopedRecentResults(detailName) : [];
     const resultsHtml = results.length ? `<section class="detail-section"><div class="section-row"><h2>Recent results</h2><span>Live result sample within selected field scope</span></div><div class="result-card-list">${results.map(r=>`<div class="result-card"><b>${r.placing}/${r.players}</b><span>${esc(r.player)}</span><small>${esc(r.tournament)} · ${r.record?.wins||0}-${r.record?.losses||0}-${r.record?.ties||0}</small></div>`).join('')}</div></section>` : '';
-    $('deckDetailBody').innerHTML = `${summary}<section class="detail-section"><div class="section-row"><h2>Matchups</h2><span>${esc(scopeText)} · ${games.toLocaleString()} evidence games</span></div>${matchupCards(detailName,detailSource,25)}</section>${resultsHtml}`;
+
+    const evidencePanel = `<details id="deckDetailEvidence" class="detail-data-panel" ${panelWasOpen?'open':''}><summary><span><b>Data & performance</b><small>${esc(scopeText)} · ${row.entries.toLocaleString()} deck entries · ${pct(row.winRate)} WR</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls"><div class="detail-source"><button type="button" data-detail-source="online" class="${detailSource==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detailSource==='irl'?'active':''}">IRL</button></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Field performance</b><small>This exact variant within the selected field</small></div><div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Deck entries</span></div><div><b>${pct(row.share)}</b><span>Field share</span></div><div><b>${record}</b><span>Record</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div><div class="detail-sample-strip"><span>Field sample</span><b>${fieldEvents.toLocaleString()} events · ${fieldEntries.toLocaleString()} entries</b></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Matchup evidence</b><small>Head-to-head games available for the selected scope</small></div><div class="detail-sample-strip matchup-sample"><span>Matchup sample</span><b>${games.toLocaleString()} games</b></div></div></div></details>`;
+
+    $('deckDetailBody').innerHTML = `${evidencePanel}<section class="detail-section detail-matchups"><div class="section-row"><h2>Matchups</h2><span>${esc(scopeText)}</span></div>${matchupCards(detailName,detailSource,25)}</section>${resultsHtml}`;
     setTimeout(()=>{ window.MetaControls?.syncDetail?.(); window.MetaContext?.render?.(); },0);
   }
 
   function renderDetail() {
     variantDetail();
-    document.querySelectorAll('[data-detail-source]').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('#deckDetail [data-detail-source]').forEach(btn=>btn.addEventListener('click',()=>{
       detailSource=btn.dataset.detailSource;
       renderDetail();
     }));
