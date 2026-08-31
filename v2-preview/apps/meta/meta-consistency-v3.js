@@ -151,7 +151,7 @@
     customNote.hidden=fieldSource!=='custom';
     customNote.textContent='Custom is your editable field. Saved metas are named presets of this same field: load one below, or edit the field and save it as a preset.';
 
-    document.querySelectorAll('.saved-meta-select span').forEach(el=>el.textContent='Saved custom metas');
+    document.querySelectorAll('.saved-meta-select span').forEach(el=>{ if (el.textContent !== 'Saved custom metas') el.textContent='Saved custom metas'; });
     document.querySelectorAll('#matchupIrlScope,#deckIrlScope').forEach(el=>el.value=scope);
   }
 
@@ -168,8 +168,9 @@
   }, true);
 
   $('currentWindow')?.addEventListener('change', e => {
-    const value=String(e.currentTarget.value);
-    if (document.querySelector('[data-current-source="irl"]')?.classList.contains('active') && (value.startsWith('event:') || ['latest-weekend','all-irl'].includes(value))) setScope(value,false);
+    if (document.querySelector('[data-current-source="irl"]')?.classList.contains('active') && String(e.currentTarget.value).startsWith('event:') || ['latest-weekend','all-irl'].includes(e.currentTarget.value)) {
+      if (['latest-weekend','all-irl'].includes(e.currentTarget.value) || String(e.currentTarget.value).startsWith('event:')) setScope(e.currentTarget.value,false);
+    }
   });
   document.querySelector('[data-current-source="irl"]')?.addEventListener('click',()=>setScope('latest-weekend',false));
   ['matchupPageSource','deckPageSource','playFieldSource','playMatchupSource'].forEach(id=>$(id)?.addEventListener('change',()=>setTimeout(syncUi,0)));
@@ -180,7 +181,7 @@
   },0));
 
   const observer=new MutationObserver(()=>{
-    document.querySelectorAll('.saved-meta-select span').forEach(el=>el.textContent='Saved custom metas');
+    document.querySelectorAll('.saved-meta-select span').forEach(el=>{ if (el.textContent !== 'Saved custom metas') el.textContent='Saved custom metas'; });
   });
   if ($('prep')) observer.observe($('prep'),{subtree:true,childList:true});
   setTimeout(syncUi,0);
