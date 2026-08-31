@@ -38,7 +38,7 @@ jobs:
       - name: Commit updated event dataset
         run: |
           if [ -z "$(git status --porcelain -- data/events.json)" ]; then
-            echo 'No event data changes to commit.'
+            echo 'No V2 event data changes to commit.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
@@ -46,3 +46,20 @@ jobs:
           git add data/events.json
           git commit -m 'Refresh event dataset'
           git push origin HEAD:ptcg-tools-v2
+
+      - name: Mirror event dataset into V2 preview
+        run: |
+          cp data/events.json /tmp/ptcg-events.json
+          git fetch origin main
+          git checkout -B main origin/main
+          mkdir -p v2-preview/data
+          cp /tmp/ptcg-events.json v2-preview/data/events.json
+          if [ -z "$(git status --porcelain -- v2-preview/data/events.json)" ]; then
+            echo 'Preview event data already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add v2-preview/data/events.json
+          git commit -m 'Refresh V2 preview event dataset'
+          git push origin HEAD:main
