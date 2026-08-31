@@ -21,32 +21,50 @@
     </a>
     <div class="app-shell-header-actions">
       <span id="formatPill" class="app-context-pill"><span class="app-live-dot"></span><span>Standard</span></span>
-      <a class="app-context-pill" href="./apps/account/" aria-label="Account and sync">☁</a>
     </div>
   </header>
 
   <main class="app-shell-page home-shell">
     <div class="home-title-row"><h1>Home</h1></div>
+
     <div class="home-area-grid">
       <section class="home-area-card area-meta">
         <div class="home-area-head"><span class="home-area-icon">◈</span><h2>Meta</h2></div>
-        <div class="home-area-actions"><a href="./apps/meta/"><span>What should I play?</span><b>›</b></a><a href="./apps/meta/#overview"><span>Field &amp; matchups</span><b>›</b></a></div>
+        <div class="home-area-actions">
+          <a href="./apps/meta/"><span>What should I play?</span><b>›</b></a>
+          <a href="./apps/meta/#overview"><span>Field &amp; matchups</span><b>›</b></a>
+        </div>
       </section>
+
       <section class="home-area-card area-decks">
         <div class="home-area-head"><span class="home-area-icon">▤</span><h2>Decks</h2></div>
-        <div class="home-area-actions"><a href="./apps/decklists/"><span>My decks</span><b>›</b></a><a href="./apps/decklists/"><span>Versions &amp; odds</span><b>›</b></a></div>
+        <div class="home-area-actions">
+          <a href="./apps/decklists/"><span>My decks</span><b>›</b></a>
+          <a href="./apps/decklists/"><span>Versions &amp; odds</span><b>›</b></a>
+        </div>
       </section>
+
       <section class="home-area-card area-compete">
         <div class="home-area-head"><span class="home-area-icon">◇</span><div class="home-area-title"><h2>Compete</h2><small id="competeStatus" hidden></small></div></div>
-        <div class="home-area-actions"><a href="./apps/events/"><span>Events</span><b>›</b></a><a href="./apps/swiss/"><span>Tournament manager</span><b>›</b></a></div>
+        <div class="home-area-actions">
+          <a href="./apps/events/"><span>Events</span><b>›</b></a>
+          <a href="./apps/swiss/"><span>Tournament manager</span><b>›</b></a>
+        </div>
       </section>
+
       <section class="home-area-card area-tools">
         <div class="home-area-head"><span class="home-area-icon">⊕</span><h2>Tools</h2></div>
-        <div class="home-area-actions"><a href="./apps/tools/#cut"><span>Cut calculator</span><b>›</b></a><a href="./apps/tools/"><span>Deck maths</span><b>›</b></a></div>
+        <div class="home-area-actions">
+          <a href="./apps/tools/#cut"><span>Cut calculator</span><b>›</b></a>
+          <a href="./apps/tools/"><span>Deck maths</span><b>›</b></a>
+        </div>
       </section>
     </div>
   </main>
-  <script src="./apps/_shared/storage.js?v=1"></script>
+
+  <script src="./apps/_shared/storage.js?v=2"></script>
+  <script src="./apps/_shared/cloud-sync.js?v=1"></script>
+  <script src="./apps/_shared/shared-sync.js?v=1"></script>
   <script src="./scripts/home.js?v=3"></script>
   <script src="./apps/_shared/app-shell.js?v=2"></script>
 </body>
