@@ -1,0 +1,47 @@
+name: Fix Meta observer once
+on:
+  push:
+    branches: [ptcg-tools-v2]
+    paths:
+      - '.github/workflows/fix-meta-observer-once.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ptcg-tools-v2
+          fetch-depth: 0
+      - name: Guard observer
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('apps/meta/meta-consistency-v3.js')
+          s=p.read_text()
+          old="document.querySelectorAll('.saved-meta-select span').forEach(el=>el.textContent='Saved custom metas');"
+          new="document.querySelectorAll('.saved-meta-select span').forEach(el=>{ if (el.textContent !== 'Saved custom metas') el.textContent='Saved custom metas'; });"
+          if old not in s: raise SystemExit('observer label code not found')
+          p.write_text(s.replace(old,new))
+          PY
+          node --check apps/meta/meta-consistency-v3.js
+      - name: Commit source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add apps/meta/meta-consistency-v3.js
+          git commit -m 'Guard Meta saved-meta observer'
+          git push origin HEAD:ptcg-tools-v2
+      - name: Publish preview
+        run: |
+          cp apps/meta/meta-consistency-v3.js /tmp/meta-consistency-v3.js
+          git fetch origin main
+          git checkout -B main origin/main
+          cp /tmp/meta-consistency-v3.js v2-preview/apps/meta/meta-consistency-v3.js
+          node --check v2-preview/apps/meta/meta-consistency-v3.js
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add v2-preview/apps/meta/meta-consistency-v3.js
+          git commit -m 'Publish Meta observer guard'
+          git push origin HEAD:main
