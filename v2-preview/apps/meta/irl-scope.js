@@ -5,7 +5,7 @@
   let irlScope = 'latest-weekend';
   let showAll = false;
   const expanded = new Set();
-  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pct = n => `${Number(n || 0).toFixed(1)}%`;
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
 
@@ -86,7 +86,7 @@
     if (irlScope === 'latest-weekend' && data.events.length) {
       const dates = data.events.map(e=>new Date(e.date));
       const min = new Date(Math.min(...dates)), max = new Date(Math.max(...dates));
-      label = 'Latest IRL majors weekend';
+      label = data.events.length === 1 ? (data.events[0].name || 'IRL major') : 'Multiple major events';
       detail = `${min.toLocaleDateString([], {day:'numeric',month:'short'})}${min.toDateString()!==max.toDateString()?`–${max.toLocaleDateString([], {day:'numeric',month:'short'})}`:''} · ${data.events.length} event${data.events.length===1?'':'s'}`;
     } else if (irlScope.startsWith('event:') && data.events[0]) {
       label = data.events[0].name || 'IRL tournament';
