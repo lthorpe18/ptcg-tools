@@ -7,31 +7,6 @@
     return `<div class="meta-source-context"><div><b>${Number(context.events || 0).toLocaleString()}</b><span>${esc(context.eventsLabel || 'Events')}</span></div><div><b>${Number(context.entries || 0).toLocaleString()}</b><span>${esc(context.entriesLabel || 'Entries')}</span></div><div class="context-wide"><b>${esc(context.label || '')}</b><span>${esc(context.detail || '')}</span></div></div>`;
   }
 
-  function detailCard(source) {
-    const context = window.MetaData.context(source);
-    const data = window.MetaData.data(source);
-    if (source === 'online') {
-      const games = Number(data?.overview?.matches || 0);
-      return card({
-        events: Number(data?.overview?.events || 0),
-        eventsLabel: 'Field events',
-        entries: games,
-        entriesLabel: 'Matchup games',
-        label: context.label,
-        detail: context.detail,
-      });
-    }
-    const matchupGames = Math.round((data?.matchups || []).reduce((sum, row) => sum + Number(row.games || 0), 0) / 2);
-    return card({
-      events: Number(data?.events?.length || 0),
-      eventsLabel: 'IRL events',
-      entries: matchupGames,
-      entriesLabel: 'Matchup games',
-      label: context.label,
-      detail: context.detail,
-    });
-  }
-
   function ensureAfter(anchor, id) {
     if (!anchor) return null;
     let node = $(id);
@@ -84,18 +59,8 @@
     matchupSlot.innerHTML = card(matchupContext);
   }
 
-  function renderDetail() {
-    if ($('deckDetail')?.classList.contains('hidden')) return;
-    const head = $('deckDetailHead');
-    if (!head) return;
-    let slot = $('deckDetailSourceContext');
-    if (!slot) {
-      slot = document.createElement('div');
-      slot.id = 'deckDetailSourceContext';
-      head.after(slot);
-    }
-    const source = head.querySelector('[data-detail-source].active')?.dataset.detailSource || 'online';
-    slot.innerHTML = detailCard(source);
+  function clearDetailContext() {
+    $('deckDetailSourceContext')?.remove();
   }
 
   function renderVisible() {
@@ -108,7 +73,7 @@
       renderSingle('deckPageSource', 'deckSourceContext');
     }
     renderPrep();
-    renderDetail();
+    clearDetailContext();
   }
 
   $('matchupPageSource')?.addEventListener('change', renderVisible);
@@ -119,10 +84,6 @@
   document.addEventListener('click', e => {
     if (e.target.closest('[data-meta-view],[data-explore-deck],[data-detail-source]')) setTimeout(renderVisible, 0);
   });
-
-  const style = document.createElement('style');
-  style.textContent = '.deck-detail .detail-stats{grid-template-columns:repeat(4,minmax(0,1fr))}.deck-detail .detail-stats b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}@media(max-width:600px){.deck-detail .detail-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.deck-detail .detail-stats>div:nth-child(2){border-right:0}.deck-detail .detail-stats>div:nth-child(-n+2){border-bottom:1px solid #eaecf0}}';
-  document.head.appendChild(style);
 
   window.MetaContext = { render: renderVisible, renderPrep };
   setTimeout(renderVisible, 0);
