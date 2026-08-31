@@ -1,0 +1,84 @@
+name: Meta variant grouping control
+
+on:
+  push:
+    branches: [ptcg-tools-v2]
+    paths: ['.github/workflows/meta-variant-grouping-control.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ptcg-tools-v2
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Replace grouping control
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p=Path('apps/meta/index.html')
+          s=p.read_text()
+          old='''      <button id="currentGroupingToggle" class="text-button" type="button">Families</button>'''
+          new='''      <label class="variant-grouping-control"><input id="currentGroupingToggle" type="checkbox" checked><span>Variant grouping</span></label>'''
+          if old not in s:
+              raise SystemExit('Grouping button anchor not found')
+          s=s.replace(old,new,1)
+          s=s.replace('meta-home.css?v=2','meta-home.css?v=3')
+          s=s.replace('meta-home.js?v=2','meta-home.js?v=3')
+          p.write_text(s)
+
+          p=Path('apps/meta/meta-home.js')
+          s=p.read_text()
+          s=s.replace("    $('currentGroupingToggle').textContent = state.grouping === 'families' ? 'Families' : 'Variants';\n", "    if ($('currentGroupingToggle')) $('currentGroupingToggle').checked = state.grouping === 'families';\n")
+          old="""    $('currentGroupingToggle')?.addEventListener('click', () => { state.grouping = state.grouping === 'families' ? 'variants' : 'families'; state.expanded.clear(); renderCurrent(); });"""
+          new="""    $('currentGroupingToggle')?.addEventListener('change', event => { state.grouping = event.currentTarget.checked ? 'families' : 'variants'; state.expanded.clear(); renderCurrent(); });"""
+          if old not in s:
+              raise SystemExit('Grouping listener anchor not found')
+          s=s.replace(old,new,1)
+          p.write_text(s)
+
+          p=Path('apps/meta/meta-home.css')
+          s=p.read_text()
+          marker='.text-button{min-height:38px;border:0;background:transparent;color:#175cd3;font:inherit;font-size:13px;font-weight:800;padding:0 4px}'
+          addition=marker+'.variant-grouping-control{display:inline-flex;align-items:center;gap:7px;min-height:38px;color:#344054;font-size:12px;font-weight:750;white-space:nowrap;cursor:pointer}.variant-grouping-control input{appearance:none;-webkit-appearance:none;width:18px;height:18px;margin:0;border:2px solid #98a2b3;border-radius:50%;background:#fff;display:grid;place-content:center;flex:0 0 auto}.variant-grouping-control input:before{content:"";width:8px;height:8px;border-radius:50%;background:#175cd3;transform:scale(0);transition:transform .12s ease}.variant-grouping-control input:checked{border-color:#175cd3}.variant-grouping-control input:checked:before{transform:scale(1)}'
+          if marker not in s:
+              raise SystemExit('CSS anchor not found')
+          s=s.replace(marker,addition,1)
+          p.write_text(s)
+          PY
+      - name: Validate
+        run: |
+          node --check apps/meta/meta-home.js
+          grep -q 'id="currentGroupingToggle" type="checkbox" checked' apps/meta/index.html
+          grep -q 'Variant grouping' apps/meta/index.html
+          grep -q "event.currentTarget.checked ? 'families' : 'variants'" apps/meta/meta-home.js
+      - name: Commit V2 changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add apps/meta/index.html apps/meta/meta-home.js apps/meta/meta-home.css
+          git commit -m 'Use variant grouping radio control'
+          git push origin HEAD:ptcg-tools-v2
+      - name: Stage preview
+        run: |
+          mkdir -p /tmp/meta-control
+          cp apps/meta/index.html apps/meta/meta-home.js apps/meta/meta-home.css /tmp/meta-control/
+      - name: Publish preview
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+          cp /tmp/meta-control/index.html v2-preview/apps/meta/index.html
+          cp /tmp/meta-control/meta-home.js v2-preview/apps/meta/meta-home.js
+          cp /tmp/meta-control/meta-home.css v2-preview/apps/meta/meta-home.css
+          git add v2-preview/apps/meta/index.html v2-preview/apps/meta/meta-home.js v2-preview/apps/meta/meta-home.css
+          git commit -m 'Publish variant grouping control'
+          git push origin HEAD:main
