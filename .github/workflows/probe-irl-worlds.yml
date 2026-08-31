@@ -1,33 +1,36 @@
-name: Probe IRL Worlds markup
+name: Validate IRL Worlds importer
 
 on:
   workflow_dispatch:
   push:
     branches: [ptcg-tools-v2]
-    paths: ['.github/workflows/probe-irl-worlds.yml']
+    paths:
+      - 'scripts/update-irl-labs.mjs'
+      - '.github/workflows/probe-irl-worlds.yml'
 
 jobs:
-  probe:
+  validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Inspect Worlds Labs HTML
+      - name: Run IRL importer
+        run: node scripts/update-irl-labs.mjs
+      - name: Validate Worlds field
         run: |
           node - <<'NODE'
-          const url='https://labs.limitlesstcg.com/0071/decks';
-          const r=await fetch(url,{headers:{'User-Agent':'ptcg-tools markup probe'}});
-          const html=await r.text();
-          console.log('status',r.status,'length',html.length,'final',r.url);
-          const hrefs=[...html.matchAll(/href=["']([^"']+)["']/g)].map(m=>m[1]);
-          const deckHrefs=[...new Set(hrefs.filter(h=>h.includes('/0071/decks')))].slice(0,120);
-          console.log('deck href count',deckHrefs.length);
-          console.log(JSON.stringify(deckHrefs,null,2));
-          for(const needle of ['Dragapult','Basic Box','Metagame','Deck','Players']){
-            const i=html.indexOf(needle);
-            console.log('\nNEEDLE',needle,'at',i);
-            if(i>=0) console.log(html.slice(Math.max(0,i-1200),i+2500));
-          }
+          const fs=require('fs');
+          const d=JSON.parse(fs.readFileSync('data/meta/irl/TEF-PBL.json','utf8'));
+          const worlds=d.events.find(e=>e.id==='0071');
+          if(!worlds) throw new Error('Worlds 0071 missing');
+          if(worlds.decks.length<20) throw new Error(`Only ${worlds.decks.length} Worlds archetypes`);
+          if(d.decks.length<20) throw new Error(`Only ${d.decks.length} aggregate archetypes`);
+          const drag=worlds.decks.find(x=>x.name==='Dragapult');
+          if(!drag||drag.entries<150) throw new Error('Dragapult entries not parsed');
+          if(!(drag.winRate>40&&drag.winRate<60)) throw new Error(`Dragapult win rate looks wrong: ${drag?.winRate}`);
+          if(d.matchups.length<50) throw new Error(`Only ${d.matchups.length} matchup rows`);
+          console.log(JSON.stringify({events:d.events.length,decks:d.decks.length,matchups:d.matchups.length,dragapult:drag},null,2));
           NODE
