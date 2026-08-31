@@ -88,7 +88,7 @@
     const decks=await readDecks();
     const savedMetas=readMetas();
     const modified=deriveLocalModified(rootState,decks,savedMetas);
-    return {schemaVersion:2,capturedAt:nowIso(),modifiedAt:modified?new Date(modified).toISOString():null,rootState,decks,savedMetas};
+    return {workspaceInitialized:true,schemaVersion:2,capturedAt:nowIso(),modifiedAt:modified?new Date(modified).toISOString():null,rootState,decks,savedMetas};
   }
 
   function hasMeaningfulData(snapshot){
@@ -152,14 +152,13 @@
   async function doSync(){
     const local=await localSnapshot();
     const remote=await readRemote();
-    const remoteHasData=Boolean(remote&&hasMeaningfulData(remote.payload));
+    const remoteInitialized=Boolean(remote&&remote.payload&&remote.payload.workspaceInitialized===true);
     const localHasData=hasMeaningfulData(local);
 
-    if(!remoteHasData){
+    if(!remoteInitialized){
       if(localHasData)return push();
       return {direction:'none',updatedAt:remote&&remote.updated_at||null};
     }
-    if(!localHasData)return pull(remote);
 
     const remoteTime=toMs(remote.updated_at);
     const localTime=toMs(local.modifiedAt);
