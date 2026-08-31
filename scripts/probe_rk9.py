@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import html
 import re
 import urllib.request
 
@@ -10,13 +11,15 @@ req = urllib.request.Request(url, headers={
 })
 with urllib.request.urlopen(req, timeout=35) as response:
     body = response.read().decode('utf-8', errors='replace')
-    title = re.search(r'<title[^>]*>(.*?)</title>', body, re.I | re.S)
+    decoded = html.unescape(body)
+    title = re.search(r'<title[^>]*>(.*?)</title>', decoded, re.I | re.S)
     print('status=', response.status)
     print('final_url=', response.geturl())
     print('content_type=', response.headers.get('Content-Type'))
-    print('length=', len(body))
+    print('length=', len(decoded))
     print('title=', re.sub(r'\s+', ' ', title.group(1)).strip() if title else None)
-    print('has_upcoming=', 'Upcoming Pokémon Events' in body or 'Upcoming Pokemon Events' in body)
-    print('has_cloudflare=', 'cloudflare' in body.lower())
-    print('has_challenge=', 'challenge' in body.lower())
-    print('sample=', re.sub(r'\s+', ' ', body[:1500]))
+    for needle in ['Upcoming', 'Regional Championships', 'World Championships', 'Baltimore', 'pokemon-events', 'event-card']:
+        pos = decoded.lower().find(needle.lower())
+        print(f'{needle}_pos=', pos)
+        if pos >= 0:
+            print(f'{needle}_snippet=', re.sub(r'\s+', ' ', decoded[max(0,pos-500):pos+1500]))
