@@ -12,6 +12,7 @@ const CONCURRENCY = 8;
 const PAGE_SIZE = 100;
 const MAX_PAGES = 20;
 const DAY = 86400000;
+const BOOTSTRAP_DAYS = 7;
 
 const root = process.cwd();
 const outputFile = path.join(root, 'data', 'meta', 'current-field.json');
@@ -192,20 +193,27 @@ if (majorWeekend) console.log(`Post-major scope starts ${majorWeekend.cutoffIso}
 const archiveMap = new Map((previousArchive?.events || []).map(e => [String(e.id), e]));
 const previousFieldMap = new Map((previousField?.tournaments || []).map(e => [String(e.id), e]));
 const newestTs = Math.max(0, ...index.map(t=>new Date(t.date).getTime()).filter(Number.isFinite));
-const recentFloor = Math.min(
-  newestTs ? newestTs - 31*DAY : Date.now()-31*DAY,
-  Number.isFinite(majorWeekend?.cutoff) ? majorWeekend.cutoff : Infinity,
-);
 
-// Pairings are only required for rolling scopes. Bootstrap/backfill just the rolling
-// window; older all-format matchup evidence comes from the existing full aggregate.
+const previousCoverage = new Date(previousArchive?.coverageStart || '').getTime();
+const existingArchiveDates = [...archiveMap.values()].map(e => new Date(e.date).getTime()).filter(Number.isFinite);
+const inferredCoverage = existingArchiveDates.length ? Math.min(...existingArchiveDates) : NaN;
+const bootstrapCoverage = newestTs ? newestTs - BOOTSTRAP_DAYS * DAY : Date.now() - BOOTSTRAP_DAYS * DAY;
+const coverageStart = Number.isFinite(previousCoverage)
+  ? previousCoverage
+  : Number.isFinite(inferredCoverage)
+    ? inferredCoverage
+    : bootstrapCoverage;
+
+// Bootstrap only the most recent 7 days. Once the archive exists, ingest every unseen
+// qualifying tournament from the original archive coverage start onward. This makes the
+// process append-only while still catching up safely after missed scheduled runs.
 const needDetailed = index.filter(t => {
   const id = String(t.id);
   if (archiveMap.has(id)) return false;
   const ts = new Date(t.date).getTime();
-  return Number.isFinite(ts) && ts >= recentFloor;
+  return Number.isFinite(ts) && ts >= coverageStart;
 });
-console.log(`Detailed matchup fetch: ${needDetailed.length} tournament(s); ${archiveMap.size} already archived.`);
+console.log(`Detailed matchup fetch: ${needDetailed.length} tournament(s); ${archiveMap.size} already archived; coverage starts ${new Date(coverageStart).toISOString()}.`);
 
 const fetched = await mapConcurrent(needDetailed, CONCURRENCY, async (tournament, i) => {
   try {
@@ -223,8 +231,8 @@ const fetched = await mapConcurrent(needDetailed, CONCURRENCY, async (tournament
 });
 for (const event of fetched.filter(Boolean)) archiveMap.set(String(event.id), event);
 
-// Preserve existing compact field history; add field data for any truly new tournament.
-// Detailed fetches already include standings, so normally this costs no extra requests.
+// Preserve the existing compact field history. New detailed tournaments already contain
+// their standings, so only genuinely missing field-only tournaments need an extra request.
 const fieldMap = new Map(previousFieldMap);
 for (const event of archiveMap.values()) {
   if (!fieldMap.has(String(event.id))) {
@@ -250,7 +258,7 @@ for (const event of fieldFetched.filter(Boolean)) fieldMap.set(String(event.id),
 
 const indexIds = new Set(index.map(t=>String(t.id)));
 const fieldEvents = [...fieldMap.values()].filter(e=>indexIds.has(String(e.id))).sort((a,b)=>new Date(b.date)-new Date(a.date));
-const archivedEvents = [...archiveMap.values()].filter(e=>indexIds.has(String(e.id))).sort((a,b)=>new Date(b.date)-new Date(a.date));
+const archivedEvents = [...archiveMap.values()].filter(e=>indexIds.has(String(e.id)) && new Date(e.date).getTime() >= coverageStart).sort((a,b)=>new Date(b.date)-new Date(a.date));
 if (!fieldEvents.length) throw new Error('No compact Online field history available');
 
 const matchupScopes = {
@@ -262,14 +270,17 @@ const matchupScopes = {
 
 const generatedAt = new Date().toISOString();
 const payload = {
-  schemaVersion:5, generatedAt, source:'play.limitlesstcg.com', format:FORMAT_ID, label:FORMAT_LABEL,
+  schemaVersion:6, generatedAt, source:'play.limitlesstcg.com', format:FORMAT_ID, label:FORMAT_LABEL,
   formatStart:FORMAT_START, minTournamentSize:MIN_PLAYERS, tournamentCount:fieldEvents.length,
+  rollingMatchupCoverageStart:new Date(coverageStart).toISOString(),
   majorWeekend:majorWeekend ? {week:majorWeekend.week,cutoff:majorWeekend.cutoffIso,events:majorWeekend.events}:null,
   matchupScopes, tournaments:fieldEvents,
 };
 const archivePayload = {
-  schemaVersion:1, generatedAt, format:FORMAT_ID, formatStart:FORMAT_START,
-  note:'Incremental per-tournament matchup archive for rolling Online Meta scopes.',
+  schemaVersion:2, generatedAt, format:FORMAT_ID, formatStart:FORMAT_START,
+  minimumPlayers:MIN_PLAYERS, bootstrapDays:BOOTSTRAP_DAYS,
+  coverageStart:new Date(coverageStart).toISOString(),
+  note:'Append-only per-tournament matchup archive. Bootstrap begins with 7 days; daily refreshes add every unseen qualifying tournament from coverageStart onward.',
   events:archivedEvents,
 };
 
