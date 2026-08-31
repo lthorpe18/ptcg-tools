@@ -15,11 +15,11 @@
   <link rel="stylesheet" href="sprite-polish.css?v=3" />
   <link rel="stylesheet" href="saved-metas.css?v=1" />
   <link rel="stylesheet" href="v2.css?v=1" />
-  <link rel="stylesheet" href="source-controls.css?v=1" />
+  <link rel="stylesheet" href="meta-home.css?v=1" />
 </head>
-<body class="ptcg-v2" data-active-tab="prep" data-app-root="../.." data-app-section="meta">
+<body class="ptcg-v2" data-app-root="../.." data-app-section="meta" data-meta-view="current">
 <header class="app-shell-header meta-v2-header">
-  <a class="app-shell-brand" href="../../" aria-label="PTCG Tools home"><span class="app-shell-mark" aria-hidden="true">◈</span><span class="app-shell-brand-copy"><strong>Meta</strong><small>Competitive field & deck positioning</small></span></a>
+  <a class="app-shell-brand" href="../../" aria-label="PTCG Tools home"><span class="app-shell-mark" aria-hidden="true">◈</span><span class="app-shell-brand-copy"><strong>Meta</strong><small>Current field & competitive analysis</small></span></a>
   <div class="app-shell-header-actions">
     <span class="format-context">PBL · Standard</span>
     <button id="refresh" class="btn header-refresh" aria-label="Refresh live data"><span class="refresh-icon">↻</span><span class="refresh-label">Refresh</span></button>
@@ -27,56 +27,50 @@
 </header>
 
 <main class="wrap">
-  <section class="meta-source-bar" aria-label="Meta data sources">
-    <div class="meta-source-head"><div><span class="eyebrow">DATA MODEL</span><strong>What should this analysis use?</strong></div><small id="metaSourceSummary"></small></div>
-    <div class="meta-source-grid">
-      <label><span>Meta share</span><select id="metaFieldSource"><option value="online">Online</option><option value="irl">IRL</option><option value="blend">Online + IRL blend</option><option value="custom">Custom</option></select><small>What people are playing</small></label>
-      <label><span>Matchups</span><select id="metaMatchupSource"><option value="online">Online</option><option value="irl">IRL</option><option value="combined">Online + IRL</option></select><small>Head-to-head evidence</small></label>
-      <label><span>Archetypes</span><select id="archetypeGrouping"><option value="families" selected>Group variants</option><option value="variants">Show variants separately</option></select><small>Combine related builds</small></label>
+  <section id="currentMetaPage" class="meta-home">
+    <header class="meta-home-head">
+      <div><div class="eyebrow">CURRENT META</div><h1>What are people playing?</h1><p>Current TEF–PBL field.</p></div>
+      <div class="source-segment" aria-label="Current meta source"><button type="button" data-current-source="online" class="active">Online</button><button type="button" data-current-source="irl">IRL</button></div>
+    </header>
+
+    <div class="meta-home-tools">
+      <select id="currentWindow" class="compact-select" aria-label="Meta time window"><option value="14">Last 14 days</option><option value="30" selected>Last 30 days</option><option value="all">All in format</option></select>
+      <button id="currentGroupingToggle" class="text-button" type="button">Families</button>
     </div>
-  </section>
-  <button id="metaFiltersToggle" class="meta-filter-toggle" type="button" aria-expanded="false"><span>Analysis filters</span><small id="metaFilterSummary">PBL · All · 50+</small></button>
-  <section class="controls panel global-controls meta-collapsed">
-    <label>Format / set legality<select id="format"><option value="TEF-PBL">TEF–PBL (current · live)</option><option value="TEF-CRI">TEF–CRI (previous · archive)</option></select></label>
-    <label>Window<select id="days"><option value="all" selected>All in format</option><option value="7">7 days</option><option value="14">14 days</option><option value="30">30 days</option><option value="60">60 days</option><option value="90">90 days</option></select></label>
-    <label>Minimum tournament size<input id="minPlayers" type="number" min="50" max="1000" value="50" /></label>
-    <label>Minimum matchup games<input id="minMatches" type="number" min="1" max="1000" value="5" /></label>
-    <button id="apply" class="btn primary">Apply</button>
-    <span id="status" class="status">Ready</span>
+
+    <div id="currentMetaStats" class="current-stats"><div><b>—</b><span>Events</span></div><div><b>—</b><span>Entries</span></div><div class="wide"><b>Loading</b><span>Current field</span></div></div>
+    <div id="currentMetaList" class="current-meta-list"><div class="meta-empty">Loading the current meta…</div></div>
+    <button id="currentMetaMore" class="meta-more" type="button" hidden>View full field</button>
+
+    <section class="meta-explore">
+      <h2>Explore</h2>
+      <div class="meta-explore-grid">
+        <button class="meta-explore-card" type="button" data-meta-view="prep" data-tab="prep"><b>What should I play?</b><span>Model decks into the field you expect.</span></button>
+        <button class="meta-explore-card" type="button" data-meta-view="matchups"><b>Matchups</b><span>Explore head-to-head evidence.</span></button>
+        <button class="meta-explore-card" type="button" data-meta-view="decks"><b>Deck explorer</b><span>Browse archetypes and variants.</span></button>
+      </div>
+    </section>
   </section>
 
-  <nav class="tabs app-tabs" aria-label="Meta sections">
-    <button class="tab prep-tab active" data-tab="prep">Play</button>
-    <button class="tab" data-tab="overview">Field</button>
-    <button class="tab" data-tab="matchups">Matchups</button>
-    <button class="tab" data-tab="archetype">Decks</button>
-  </nav>
+  <section id="prep" class="meta-child play-page hidden">
+    <header class="meta-child-header">
+      <button class="meta-back" type="button" data-meta-back>← Current meta</button>
+      <div class="meta-child-title"><div><div class="eyebrow">META EXPLORER</div><h1>What should I play?</h1><p>Use one field source and independent matchup evidence.</p></div></div>
+      <div class="child-source-row">
+        <label>Field<select id="playFieldSource"><option value="online">Online</option><option value="irl">IRL</option><option value="blend">Online + IRL</option><option value="custom">Custom</option></select></label>
+        <label>Matchups<select id="playMatchupSource"><option value="online">Online</option><option value="irl">IRL</option><option value="combined">Online + IRL</option></select></label>
+      </div>
+    </header>
 
-  <section id="prep" class="tabpane play-page">
     <div class="play-shell">
-      <header class="play-intro">
-        <div><div class="eyebrow">TOURNAMENT PREP</div><h2>What should I play?</h2><p>Shape the field you expect. Meta ranks the decks best positioned into it.</p></div>
-        <div class="play-data-pill"><span class="live-dot"></span><span>50+ event field · all-event matchup data</span></div>
-      </header>
-
-      <section class="play-surface field-surface" aria-label="Expected field">
-        <div id="prepFieldOverview"><div class="play-empty">Loading the current competitive field…</div></div>
-      </section>
-
-      <section class="play-section recommendations-section">
-        <div class="play-section-title"><div><span class="section-icon">✦</span><h2>Best positioned</h2></div><p>Matchup-weighted into your field</p></div>
-        <div id="prepResults"><div class="play-empty">Loading recommendations…</div></div>
-      </section>
-
-      <section class="play-section checker-section">
-        <div class="play-section-title"><div><span class="section-icon search-icon">⌕</span><h2>Check a deck</h2></div><p>See how any archetype fits your field</p></div>
-        <div id="prepCheckResult"></div>
-      </section>
+      <section class="play-surface field-surface" aria-label="Expected field"><div id="prepFieldOverview"><div class="play-empty">Loading the current competitive field…</div></div></section>
+      <section class="play-section recommendations-section"><div class="play-section-title"><div><span class="section-icon">✦</span><h2>Best positioned</h2></div><p>Matchup-weighted into your field</p></div><div id="prepResults"><div class="play-empty">Loading recommendations…</div></div></section>
+      <section class="play-section checker-section"><div class="play-section-title"><div><span class="section-icon search-icon">⌕</span><h2>Check a deck</h2></div><p>See how any archetype fits your field</p></div><div id="prepCheckResult"></div></section>
 
       <details class="play-advanced" id="advancedSettings">
         <summary><span class="settings-summary-main"><span class="settings-gear">⚙</span><span><b>Advanced settings</b><small id="advancedSettingsSummary">Evidence and field assumptions</small></span></span><span class="settings-chevron">⌄</span></summary>
         <div class="advanced-body">
-          <div class="advanced-head"><div><div class="eyebrow">ANALYSIS MODEL</div><h3>Fine-tune the recommendation</h3><p>The defaults are designed to be useful without touching anything here.</p></div><span id="irlStatus" class="muted">Loading IRL source…</span></div>
+          <div class="advanced-head"><div><div class="eyebrow">ANALYSIS MODEL</div><h3>Fine-tune the recommendation</h3></div><span id="irlStatus" class="muted">Loading IRL source…</span></div>
           <div class="advanced-grid">
             <label>Recent-meta weighting<select id="prepRecency"><option value="high">High — react quickly</option><option value="balanced" selected>Balanced</option><option value="equal">Equal — whole legality</option></select></label>
             <label>Matchup evidence<select id="prepEvidence"><option value="min10" selected>Ignore under 10 games</option><option value="min5">Ignore under 5 games</option><option value="conservative">Conservative shrinkage</option><option value="raw">Use raw results</option></select></label>
@@ -88,45 +82,39 @@
             <label>Matchup source<select id="matchupSource"><option value="online" selected>Limitless · all PBL events</option><option value="irl">IRL only</option><option value="combined">All PBL events + IRL</option></select></label>
             <label>Field weighting<select id="fieldAnalysisMode"><option value="shares" selected>Expected shares</option><option value="equal">Equal selected decks</option></select></label>
           </div>
-
-          <details class="fine-field-editor">
-            <summary><span><b>Fine-tune field shares</b><small>Edit individual inclusions and percentages</small></span><span>⌄</span></summary>
-            <div class="fine-field-body">
-              <div class="field-actions">
-                <button id="fieldAll" class="btn">All</button><button id="fieldNone" class="btn">None</button><button id="fieldReset" class="btn">Reset</button><button id="fieldShowAll" class="btn">Show all</button>
-                <span id="fieldCoverage" class="muted">Showing decks covering ~90% of the modelled field.</span>
-              </div>
-              <div id="fieldEditor" class="field-editor"><div class="prep-empty">Waiting for meta data…</div></div>
-            </div>
-          </details>
-
-          <p class="advanced-method">Field composition comes from the selected competitive event pool. Matchup evidence is sourced independently. “Other” is always excluded, and missing matchups are never replaced with overall win rate.</p>
+          <details class="fine-field-editor"><summary><span><b>Fine-tune field shares</b><small>Edit individual inclusions and percentages</small></span><span>⌄</span></summary><div class="fine-field-body"><div class="field-actions"><button id="fieldAll" class="btn">All</button><button id="fieldNone" class="btn">None</button><button id="fieldReset" class="btn">Reset</button><button id="fieldShowAll" class="btn">Show all</button><span id="fieldCoverage" class="muted"></span></div><div id="fieldEditor" class="field-editor"><div class="prep-empty">Waiting for meta data…</div></div></div></details>
+          <p class="advanced-method">Field composition and matchup evidence are independent. Missing matchups are never replaced with overall win rate.</p>
         </div>
       </details>
     </div>
   </section>
 
-  <section id="overview" class="tabpane hidden">
-    <div id="summary" class="metrics"></div>
-    <section id="comparisonPanel" class="panel comparison-panel"><div class="sectionhead"><div><div class="eyebrow">FORMAT SHIFT</div><h2 id="comparisonTitle">Current vs previous legality</h2></div><span id="comparisonStatus" class="muted"></span></div><p class="comparison-copy">See which archetypes gained or lost meta share when the legal card pool changed. Formats are never blended.</p><div id="comparison" class="tablewrap"></div></section>
-    <div class="panel"><div class="sectionhead"><h2>Meta overview</h2><span class="muted">50+ player tournaments · click an archetype for detail</span></div><div class="tablewrap"><table><thead><tr><th>Archetype</th><th>Players</th><th>Share</th><th>W</th><th>L</th><th>T</th><th>Win %</th></tr></thead><tbody id="metaBody"></tbody></table></div></div>
+  <section id="matchups" class="meta-child hidden">
+    <header class="meta-child-header">
+      <button class="meta-back" type="button" data-meta-back>← Current meta</button>
+      <div class="meta-child-title"><div><div class="eyebrow">HEAD-TO-HEAD</div><h1>Matchups</h1><p>Family-level results combine the underlying variant records.</p></div></div>
+      <div class="single-source-control"><label>Evidence source<select id="matchupPageSource"><option value="online">Online</option><option value="irl">IRL</option></select></label><label>Min games<input id="matchupPageMin" type="number" min="1" value="10"></label></div>
+    </header>
+    <div id="metaMatchupMatrix"><div class="meta-empty">Loading matchup evidence…</div></div>
   </section>
 
-  <section id="matchups" class="tabpane hidden"><div class="panel"><div class="sectionhead"><h2>Matchup matrix</h2><span class="muted">All PBL Standard events when aggregate data is available</span></div><div id="matrix" class="matrixwrap"></div></div></section>
-
-  <section id="archetype" class="tabpane hidden">
-    <div class="panel">
-      <div class="sectionhead"><h2 id="archTitle">Choose an archetype</h2><select id="archSelect"></select></div>
-      <div id="archSummary" class="metrics"></div>
-      <section class="trendpanel"><div class="trendhead"><div><div class="eyebrow">META SHARE TREND</div><h3>Popularity within this set legality</h3></div><div id="trendSummary" class="trend-summary"></div></div><div id="trendChart" class="trend-chart"></div></section>
-      <div class="detailgrid">
-        <section class="detailpanel matchup-panel"><div class="detailhead"><div><div class="eyebrow">MATCHUP PERFORMANCE</div><h3>How this deck performs against the field</h3><p>Broad PBL head-to-head data is used independently from the 50+ event field model.</p></div></div><div id="archMatchups" class="tablewrap"></div></section>
-        <section class="detailpanel results-panel"><div class="detailhead"><div><div class="eyebrow">TOURNAMENT RESULTS</div><h3>Players, finishes and decklists</h3><p>50+ player event finishes using this archetype. Open submitted lists directly on Limitless where available.</p></div></div><div id="archResults" class="tablewrap"></div></section>
-      </div>
-    </div>
+  <section id="decks" class="meta-child hidden">
+    <header class="meta-child-header">
+      <button class="meta-back" type="button" data-meta-back>← Current meta</button>
+      <div class="meta-child-title"><div><div class="eyebrow">ARCHETYPES</div><h1>Deck explorer</h1><p>Browse the current field without changing the landing page.</p></div></div>
+      <div class="single-source-control"><label>Field source<select id="deckPageSource"><option value="online">Online</option><option value="irl">IRL</option></select></label></div>
+    </header>
+    <div id="deckExplorerList" class="deck-explorer-list"><div class="meta-empty">Loading deck data…</div></div>
   </section>
 
-  <section class="panel note source-note"><strong>Sources:</strong> 50+ player events from play.limitlesstcg.com define the online field, meta share and tournament results. Online matchup evidence comes from the full PBL Standard Decks aggregate when available. IRL major data comes from labs.limitlesstcg.com. “Other” is excluded throughout.</section>
+  <section class="legacy-meta-plumbing" aria-hidden="true">
+    <select id="archetypeGrouping"><option value="families" selected>Families</option><option value="variants">Variants</option></select>
+    <select id="format"><option value="TEF-PBL" selected>TEF–PBL</option><option value="TEF-CRI">TEF–CRI</option></select>
+    <select id="days"><option value="all" selected>All</option><option value="30">30</option></select>
+    <input id="minPlayers" type="number" value="50"><input id="minMatches" type="number" value="5"><button id="apply"></button><span id="status"></span>
+    <div id="summary"></div><div id="comparisonTitle"></div><div id="comparisonStatus"></div><div id="comparison"></div><table><tbody id="metaBody"></tbody></table><div id="matrix"></div>
+    <div id="archTitle"></div><select id="archSelect"></select><div id="archSummary"></div><div id="trendSummary"></div><div id="trendChart"></div><div id="archMatchups"></div><div id="archResults"></div>
+  </section>
 </main>
 
 <script src="sprites.js?v=1"></script>
@@ -139,13 +127,11 @@
 <script src="saved-metas.js?v=1"></script>
 <script src="archetype-groups.js?v=1"></script>
 <script src="field-builder.js?v=5"></script>
-<script src="source-controls.js?v=1"></script>
+<script src="source-controls.js?v=2"></script>
 <script src="prep.js?v=5"></script>
+<script src="meta-home.js?v=1"></script>
 <script src="decklinks.js?v=2"></script>
-<script src="collapsible.js?v=2"></script>
 <script src="searchable-decks.js?v=4"></script>
-<script src="ui-polish.js?v=1"></script>
-<script src="v2.js?v=1"></script>
 <script src="../_shared/app-shell.js?v=2"></script>
 </body>
 </html>
