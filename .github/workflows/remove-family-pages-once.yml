@@ -18,7 +18,6 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-
           p=Path('apps/meta/meta-explorer-v2.js')
           s=p.read_text()
           s=s.replace("  let detailKind = 'variant';\n", "")
@@ -28,60 +27,36 @@ jobs:
           s=s.replace("    const familyLink = family ? `<button class=\"family-back-link\" type=\"button\" data-explore-deck=\"${esc(family.name)}\" data-explore-kind=\"family\" data-explore-source=\"${detailSource}\">View ${esc(family.name)} family share ›</button>` : '';\n", "")
           s=s.replace("    $('deckDetailBody').innerHTML = `${summary}${familyLink}<section", "    $('deckDetailBody').innerHTML = `${summary}<section")
           s=s.replace("  function renderDetail() {\n    if (detailKind === 'family') familyDetail(); else variantDetail();\n", "  function renderDetail() {\n    variantDetail();\n")
-          # Replace deck explorer with exact variants only.
           a=s.index('  function renderDeckExplorerV2() {')
           b=s.index('  function renderMatchupsV2() {')
-          new="""  function renderDeckExplorerV2() {
-    const target=$('deckExplorerList'); if(!target)return;
-    const source=$('deckPageSource')?.value||'online';
-    const rows=variantRows(source);
-    target.innerHTML=rows.length?rows.slice(0,80).map((r,i)=>`<button class=\"deck-explorer-card\" type=\"button\" data-explore-deck=\"${esc(r.name)}\" data-explore-source=\"${source}\"><span class=\"deck-explorer-rank\">${i+1}</span>${sprite(r.name,38)}<span class=\"deck-explorer-copy\"><b>${esc(r.name)}</b><small>${r.entries.toLocaleString()} entries</small></span><span class=\"deck-explorer-score\"><b>${pct(r.share)}</b><small>${pct(r.winRate)} WR</small></span><span class=\"explore-arrow\">›</span></button>`).join(''):'<div class=\"meta-empty\">No deck data available.</div>';
-  }
-
-"""
+          new="  function renderDeckExplorerV2() {\n    const target=$('deckExplorerList'); if(!target)return;\n    const source=$('deckPageSource')?.value||'online';\n    const rows=variantRows(source);\n    target.innerHTML=rows.length?rows.slice(0,80).map((r,i)=>`<button class=\"deck-explorer-card\" type=\"button\" data-explore-deck=\"${esc(r.name)}\" data-explore-source=\"${source}\"><span class=\"deck-explorer-rank\">${i+1}</span>${sprite(r.name,38)}<span class=\"deck-explorer-copy\"><b>${esc(r.name)}</b><small>${r.entries.toLocaleString()} entries</small></span><span class=\"deck-explorer-score\"><b>${pct(r.share)}</b><small>${pct(r.winRate)} WR</small></span><span class=\"explore-arrow\">›</span></button>`).join(''):'<div class=\"meta-empty\">No deck data available.</div>';\n  }\n\n"
           s=s[:a]+new+s[b:]
-          # Current grouped rows must only expand. Only explicit variant controls navigate.
-          block="""    const current=target.closest('.current-meta-row');
-    if(current&&target.closest('.current-name,.current-share')){
-      const name=current.querySelector('.current-name b')?.textContent?.trim()||'';
-      const grouped=$('currentGroupingToggle')?.checked!==false;
-      return{name,kind:grouped&&isNamedFamily(name)?'family':'variant'};
-    }
-"""
+          block="    const current=target.closest('.current-meta-row');\n    if(current&&target.closest('.current-name,.current-share')){\n      const name=current.querySelector('.current-name b')?.textContent?.trim()||'';\n      const grouped=$('currentGroupingToggle')?.checked!==false;\n      return{name,kind:grouped&&isNamedFamily(name)?'family':'variant'};\n    }\n"
           s=s.replace(block,'')
           s=s.replace("    openDetail(info.name,info.source||sourceForContext(),info.kind);", "    openDetail(info.name,info.source||sourceForContext());")
           s=s.replace("  window.MetaExplore={openDeck:(name,source,kind='variant')=>openDetail(name,source,kind)};", "  window.MetaExplore={openDeck:(name,source)=>openDetail(name,source)};")
-          # Simplify openDetail to exact variant only.
           infer_start=s.find('  function inferKind(')
           if infer_start!=-1:
-            infer_end=s.index('  function openDetail(', infer_start)
-            s=s[:infer_start]+s[infer_end:]
+              infer_end=s.index('  function openDetail(', infer_start)
+              s=s[:infer_start]+s[infer_end:]
           s=s.replace("  function openDetail(name, source, kind='auto') {", "  function openDetail(name, source) {")
           s=s.replace("    detailKind = inferKind(name,kind);\n", "")
           p.write_text(s)
-
-          for path, attr in [('apps/meta/meta-window-fix.js','data-history-family'),('apps/meta/irl-scope.js','data-irl-family')]:
-            p=Path(path); s=p.read_text()
-            old='${row.variants.map(v=>`<div class="variant-row"><span>${esc(v.name)}</span><b>${pct(v.share*100)}</b><small>${v.entries} entries</small></div>`).join(\'\')}'
-            new='${row.variants.map(v=>`<button type="button" class="variant-row" data-explore-deck="${esc(v.name)}" data-explore-source="${' + ("'online'" if 'window' in path else "'irl'") + '}"><span>${esc(v.name)}</span><b>${pct(v.share*100)}</b><small>${v.entries} entries</small><span class="explore-arrow">›</span></button>`).join(\'\')}'
-            if old not in s:
-              raise SystemExit(f'variant row template not found in {path}')
-            s=s.replace(old,new)
-            old_listener=f"document.querySelectorAll('[{attr}]').forEach(row=>row.addEventListener('click',()=>{{"
-            new_listener=f"document.querySelectorAll('[{attr}]').forEach(row=>row.addEventListener('click',event=>{{ if(event.target.closest('[data-explore-deck]')) return;"
-            if old_listener not in s:
-              raise SystemExit(f'row listener not found in {path}')
-            s=s.replace(old_listener,new_listener)
-            p.write_text(s)
-
+          for path, attr, src in [('apps/meta/meta-window-fix.js','data-history-family','online'),('apps/meta/irl-scope.js','data-irl-family','irl')]:
+              p=Path(path); s=p.read_text()
+              old='${row.variants.map(v=>`<div class="variant-row"><span>${esc(v.name)}</span><b>${pct(v.share*100)}</b><small>${v.entries} entries</small></div>`).join(\'\')}'
+              new='${row.variants.map(v=>`<button type="button" class="variant-row" data-explore-deck="${esc(v.name)}" data-explore-source="'+src+'"><span>${esc(v.name)}</span><b>${pct(v.share*100)}</b><small>${v.entries} entries</small><span class="explore-arrow">›</span></button>`).join(\'\')}'
+              if old not in s: raise SystemExit(f'variant row template not found in {path}')
+              s=s.replace(old,new)
+              old_listener=f"document.querySelectorAll('[{attr}]').forEach(row=>row.addEventListener('click',()=>{{"
+              new_listener=f"document.querySelectorAll('[{attr}]').forEach(row=>row.addEventListener('click',event=>{{ if(event.target.closest('[data-explore-deck]')) return;"
+              if old_listener not in s: raise SystemExit(f'row listener not found in {path}')
+              s=s.replace(old_listener,new_listener)
+              p.write_text(s)
           p=Path('apps/meta/index.html'); s=p.read_text()
-          s=s.replace('meta-explorer-v2.css?v=2','meta-explorer-v2.css?v=3')
-          s=s.replace('meta-explorer-v2.js?v=2','meta-explorer-v2.js?v=3')
-          s=s.replace('meta-window-fix.js?v=2','meta-window-fix.js?v=3')
-          s=s.replace('irl-scope.js?v=3','irl-scope.js?v=4')
+          s=s.replace('meta-explorer-v2.css?v=2','meta-explorer-v2.css?v=3').replace('meta-explorer-v2.js?v=2','meta-explorer-v2.js?v=3').replace('meta-window-fix.js?v=2','meta-window-fix.js?v=3').replace('irl-scope.js?v=3','irl-scope.js?v=4')
           s=s.replace('<p>Browse family share, then open exact variants for performance and matchups.</p>','<p>Browse exact deck variants, performance and matchups.</p>')
           p.write_text(s)
-
           p=Path('apps/meta/meta-explorer-v2.css'); s=p.read_text()
           s += '\n.current-variants .variant-row{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto auto 12px;align-items:center;gap:8px;border:0;border-top:1px solid #eaecf0;background:#f9fafb;padding:8px 10px 8px 64px;color:#101828;text-align:left;font:inherit}.current-variants .variant-row>span:first-child{font-size:11px;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.current-variants .variant-row>b{font-size:11px}.current-variants .variant-row>small{font-size:9px;color:#98a2b3;white-space:nowrap}@media(max-width:600px){.current-variants .variant-row{padding-left:52px;grid-template-columns:minmax(0,1fr) auto 12px}.current-variants .variant-row>small{display:none}}\n'
           p.write_text(s)
