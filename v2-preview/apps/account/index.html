@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8fb">
+  <title>Account · PTCG Tools</title>
+  <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
+  <link rel="stylesheet" href="./styles.css?v=1">
+</head>
+<body class="ptcg-v2" data-app-root="../.." data-app-section="account">
+  <header class="app-shell-header">
+    <a class="app-shell-brand" href="../../"><span class="app-shell-mark">◆</span><span class="app-shell-brand-copy"><strong>PTCG Tools</strong></span></a>
+  </header>
+  <main class="app-shell-page account-page">
+    <div class="app-page-head"><h1>Account &amp; Sync</h1><p>Your app data remains local first and can be backed up to your private Supabase account.</p></div>
+    <section id="signedOut" class="app-card account-card">
+      <h2>Sign in</h2>
+      <label>Email<input id="email" type="email" autocomplete="email" inputmode="email"></label>
+      <label>Password<input id="password" type="password" autocomplete="current-password" minlength="8"></label>
+      <div class="account-actions"><button id="signIn" class="app-button primary">Sign in</button><button id="signUp" class="app-button">Create account</button></div>
+      <p class="account-note">New accounts use Supabase email confirmation. After confirming the email, return here and sign in.</p>
+    </section>
+    <section id="signedIn" class="app-card account-card" hidden>
+      <div class="account-user-row"><div><span>Signed in as</span><strong id="userEmail"></strong></div><button id="signOut" class="app-button">Sign out</button></div>
+      <div class="sync-status"><span>Cloud sync</span><strong id="syncStatus">Not synced yet</strong></div>
+      <button id="syncNow" class="app-button primary full">Sync now</button>
+      <div class="account-actions split"><button id="pushNow" class="app-button">Upload this device</button><button id="pullNow" class="app-button">Restore from cloud</button></div>
+      <p class="account-note">Sync currently covers V2 planned events/prep state, saved Meta Lab metas, decks and deck versions. Local data is kept on the device as well.</p>
+    </section>
+    <p id="message" class="account-message" role="status"></p>
+  </main>
+  <script src="../_shared/storage.js?v=1"></script>
+  <script src="../_shared/deck-store.js?v=1"></script>
+  <script src="../_shared/cloud-sync.js?v=1"></script>
+  <script src="./app.js?v=1"></script>
+  <script src="../_shared/app-shell.js?v=2"></script>
+</body>
+</html>
