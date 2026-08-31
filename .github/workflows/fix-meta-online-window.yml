@@ -1,0 +1,221 @@
+name: Fix Meta online windows
+
+on:
+  push:
+    branches: [ptcg-tools-v2]
+    paths: ['.github/workflows/fix-meta-online-window.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ptcg-tools-v2
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Patch source branch
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p=Path('scripts/update-meta.mjs')
+          s=p.read_text()
+          s=s.replace("const INDEX_FILE = path.join(DATA_DIR, 'index.json');", "const INDEX_FILE = path.join(DATA_DIR, 'index.json');\nconst CURRENT_FIELD_FILE = path.join(DATA_DIR, 'current-field.json');")
+          anchor="""async function updateManifest(format, payload) {"""
+          fn="""async function writeCurrentField(payload) {
+  if (!payload || payload.format !== CURRENT_FORMAT) return;
+  const tournaments = (payload.tournaments || []).map(t => {
+    const map = new Map();
+    for (const s of t.standings || []) {
+      const name = s?.deck?.name;
+      if (!name || name === 'Other' || name === 'Unknown') continue;
+      const row = map.get(name) || { name, entries: 0, wins: 0, losses: 0, ties: 0 };
+      row.entries += 1;
+      row.wins += Number(s.record?.wins || 0);
+      row.losses += Number(s.record?.losses || 0);
+      row.ties += Number(s.record?.ties || 0);
+      map.set(name, row);
+    }
+    return {
+      id: String(t.id),
+      name: t.name || '',
+      date: t.date,
+      players: Number(t.players || 0),
+      archetypes: [...map.values()].sort((a, b) => b.entries - a.entries),
+    };
+  }).filter(t => t.date && t.archetypes.length);
+  const compact = {
+    schemaVersion: 1,
+    generatedAt: payload.generatedAt,
+    format: payload.format,
+    label: payload.label,
+    formatStart: payload.formatStart,
+    minTournamentSize: payload.minTournamentSize,
+    tournamentCount: tournaments.length,
+    tournaments,
+  };
+  await fs.writeFile(CURRENT_FIELD_FILE, JSON.stringify(compact));
+  console.log(`Wrote ${CURRENT_FIELD_FILE} with ${tournaments.length} compact tournaments.`);
+}
+
+"""
+          if 'async function writeCurrentField' not in s:
+              if anchor not in s: raise SystemExit('update-meta manifest anchor not found')
+              s=s.replace(anchor,fn+anchor,1)
+          old="""  const payload = await buildFormat(target);
+  await updateManifest(target, payload);"""
+          new="""  const payload = await buildFormat(target);
+  await writeCurrentField(payload);
+  await updateManifest(target, payload);"""
+          if old not in s and 'await writeCurrentField(payload);' not in s:
+              raise SystemExit('update-meta main anchor not found')
+          s=s.replace(old,new,1)
+          p.write_text(s)
+
+          p=Path('apps/meta/meta-home.js')
+          s=p.read_text()
+          s=s.replace("const state = { source: 'online', grouping: 'families', showAll: false, expanded: new Set(), view: 'current' };", "const state = { source: 'online', grouping: 'families', showAll: false, expanded: new Set(), view: 'current', onlineHistory: null };")
+          start=s.index('  function onlineRows() {')
+          end=s.index('\n  function irlRows() {', start)
+          new_online="""  function onlineRows() {
+    const history = state.onlineHistory;
+    const tournaments = history?.tournaments?.length ? history.tournaments : (CACHE?.tournaments || []);
+    const windowValue = $('currentWindow')?.value || '30';
+    const cutoff = windowValue === 'all' ? -Infinity : Date.now() - Number(windowValue) * 86400000;
+    const map = new Map();
+    let eventCount = 0;
+    for (const t of tournaments) {
+      const ts = new Date(t.date).getTime();
+      if (!Number.isFinite(ts) || ts < cutoff || Number(t.players || 0) < 50) continue;
+      const compactRows = Array.isArray(t.archetypes) ? t.archetypes : null;
+      if (compactRows) {
+        if (!compactRows.length) continue;
+        eventCount++;
+        for (const d of compactRows) {
+          const raw = d.name;
+          if (ignored(raw)) continue;
+          const name = familyName(raw);
+          const row = map.get(name) || { name, entries: 0, wins: 0, losses: 0, ties: 0, variants: new Map() };
+          row.entries += Number(d.entries || 0);
+          row.wins += Number(d.wins || 0);
+          row.losses += Number(d.losses || 0);
+          row.ties += Number(d.ties || 0);
+          const variant = row.variants.get(raw) || { name: raw, entries: 0, wins: 0, losses: 0, ties: 0 };
+          variant.entries += Number(d.entries || 0);
+          variant.wins += Number(d.wins || 0);
+          variant.losses += Number(d.losses || 0);
+          variant.ties += Number(d.ties || 0);
+          row.variants.set(raw, variant);
+          map.set(name, row);
+        }
+        continue;
+      }
+      if (!(t.standings || []).length) continue;
+      eventCount++;
+      for (const standing of t.standings || []) {
+        const raw = standing?.deck?.name;
+        if (ignored(raw)) continue;
+        const name = familyName(raw);
+        const row = map.get(name) || { name, entries: 0, wins: 0, losses: 0, ties: 0, variants: new Map() };
+        row.entries++;
+        row.wins += Number(standing.record?.wins || 0);
+        row.losses += Number(standing.record?.losses || 0);
+        row.ties += Number(standing.record?.ties || 0);
+        const variant = row.variants.get(raw) || { name: raw, entries: 0, wins: 0, losses: 0, ties: 0 };
+        variant.entries++;
+        variant.wins += Number(standing.record?.wins || 0);
+        variant.losses += Number(standing.record?.losses || 0);
+        variant.ties += Number(standing.record?.ties || 0);
+        row.variants.set(raw, variant);
+        map.set(name, row);
+      }
+    }
+    return finishRows([...map.values()], eventCount, history?.generatedAt || CACHE?.generatedAt || new Date().toISOString());
+  }
+"""
+          s=s[:start]+new_online+s[end:]
+          old="""  function sourceButtons() {
+    document.querySelectorAll('[data-current-source]').forEach(btn => btn.classList.toggle('active', btn.dataset.currentSource === state.source));
+  }"""
+          new="""  function sourceButtons() {
+    document.querySelectorAll('[data-current-source]').forEach(btn => btn.classList.toggle('active', btn.dataset.currentSource === state.source));
+    const windowControl = $('currentWindow');
+    if (windowControl) {
+      windowControl.disabled = state.source === 'irl';
+      windowControl.title = state.source === 'irl' ? 'IRL Labs currently provides an aggregate across loaded major events.' : '';
+    }
+  }
+
+  async function loadOnlineHistory() {
+    try {
+      const response = await fetch(`../../data/meta/current-field.json?t=${Date.now()}`, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const payload = await response.json();
+      if (!Array.isArray(payload?.tournaments)) throw new Error('Invalid online field history');
+      state.onlineHistory = payload;
+      renderCurrent();
+    } catch (error) {
+      console.info('Compact online field history unavailable; using live tournament cache.', error);
+    }
+  }"""
+          if old not in s: raise SystemExit('sourceButtons anchor not found')
+          s=s.replace(old,new,1)
+          s=s.replace("  renderCurrent();\n})();", "  renderCurrent();\n  loadOnlineHistory();\n})();")
+          p.write_text(s)
+
+          p=Path('apps/meta/index.html')
+          s=p.read_text().replace('meta-home.js?v=3','meta-home.js?v=4')
+          p.write_text(s)
+
+          p=Path('.github/workflows/update-meta.yml')
+          s=p.read_text()
+          old='''      - name: Commit archive if changed\n        run: |\n          if git diff --quiet -- data/meta; then\n            echo "No archive changes"\n            exit 0\n          fi'''
+          new='''      - name: Mirror compact current field into preview\n        run: |\n          mkdir -p v2-preview/data/meta\n          cp data/meta/current-field.json v2-preview/data/meta/current-field.json\n      - name: Commit archive if changed\n        run: |\n          if git diff --quiet -- data/meta v2-preview/data/meta/current-field.json; then\n            echo "No archive changes"\n            exit 0\n          fi'''
+          if old not in s: raise SystemExit('workflow commit anchor not found')
+          s=s.replace(old,new,1).replace('git add data/meta','git add data/meta v2-preview/data/meta/current-field.json')
+          p.write_text(s)
+          PY
+      - name: Validate source changes
+        run: |
+          node --check apps/meta/meta-home.js
+          node --check scripts/update-meta.mjs
+          grep -q 'current-field.json' apps/meta/meta-home.js
+          grep -q 'writeCurrentField' scripts/update-meta.mjs
+      - name: Commit source branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add scripts/update-meta.mjs apps/meta/meta-home.js apps/meta/index.html .github/workflows/update-meta.yml
+          git commit -m 'Use full online history for Meta windows'
+          git push origin HEAD:ptcg-tools-v2
+      - name: Stage source files
+        run: |
+          mkdir -p /tmp/meta-window/apps/meta /tmp/meta-window/scripts /tmp/meta-window/.github/workflows
+          cp apps/meta/meta-home.js apps/meta/index.html /tmp/meta-window/apps/meta/
+          cp scripts/update-meta.mjs /tmp/meta-window/scripts/
+          cp .github/workflows/update-meta.yml /tmp/meta-window/.github/workflows/
+      - name: Update main and generate compact field history
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+          cp /tmp/meta-window/scripts/update-meta.mjs scripts/update-meta.mjs
+          cp /tmp/meta-window/.github/workflows/update-meta.yml .github/workflows/update-meta.yml
+          cp /tmp/meta-window/apps/meta/meta-home.js v2-preview/apps/meta/meta-home.js
+          cp /tmp/meta-window/apps/meta/index.html v2-preview/apps/meta/index.html
+          node scripts/update-meta.mjs
+          mkdir -p v2-preview/data/meta
+          cp data/meta/current-field.json v2-preview/data/meta/current-field.json
+          node --check v2-preview/apps/meta/meta-home.js
+          node -e "const d=require('./v2-preview/data/meta/current-field.json'); if(!d.tournaments?.length) process.exit(1); const ds=d.tournaments.map(t=>new Date(t.date)); console.log('compact tournaments',d.tournaments.length,'range',new Date(Math.min(...ds)).toISOString(),new Date(Math.max(...ds)).toISOString())"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add scripts/update-meta.mjs .github/workflows/update-meta.yml data/meta v2-preview/data/meta/current-field.json v2-preview/apps/meta/meta-home.js v2-preview/apps/meta/index.html
+          git commit -m 'Fix online Meta date windows'
+          git push origin HEAD:main
