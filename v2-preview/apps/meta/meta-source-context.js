@@ -37,10 +37,10 @@
   }
 
   function renderPrep() {
+    if ($('prep')?.classList.contains('hidden')) return;
     const fieldSlot = $('playFieldContext');
     const matchupSlot = $('playMatchupContext');
     if (!fieldSlot || !matchupSlot) return;
-
     const field = $('playFieldSource')?.value || 'online';
     const matchup = $('playMatchupSource')?.value || 'online';
     const fieldContext = field === 'irl'
@@ -55,7 +55,6 @@
       : matchup === 'combined'
         ? combinedContext('matchup')
         : window.MetaData.context('online');
-
     fieldSlot.innerHTML = card(fieldContext);
     matchupSlot.innerHTML = card(matchupContext);
   }
@@ -74,25 +73,27 @@
     slot.innerHTML = card(window.MetaData.context(source));
   }
 
-  function ensure() {
-    ensureAfter($('matchupPageSource')?.closest('.single-source-control'), 'matchupSourceContext');
-    ensureAfter($('deckPageSource')?.closest('.single-source-control'), 'deckSourceContext');
-  }
-
-  function render() {
-    ensure();
-    renderSingle('matchupPageSource', 'matchupSourceContext');
-    renderSingle('deckPageSource', 'deckSourceContext');
+  function renderVisible() {
+    if (!$('matchups')?.classList.contains('hidden')) {
+      ensureAfter($('matchupPageSource')?.closest('.single-source-control'), 'matchupSourceContext');
+      renderSingle('matchupPageSource', 'matchupSourceContext');
+    }
+    if (!$('decks')?.classList.contains('hidden')) {
+      ensureAfter($('deckPageSource')?.closest('.single-source-control'), 'deckSourceContext');
+      renderSingle('deckPageSource', 'deckSourceContext');
+    }
     renderPrep();
     renderDetail();
   }
 
-  ['matchupPageSource','deckPageSource','playFieldSource','playMatchupSource'].forEach(id => $(id)?.addEventListener('change', render));
-  window.addEventListener('meta:data-changed', render);
-  window.addEventListener('field:updated', render);
+  $('matchupPageSource')?.addEventListener('change', renderVisible);
+  $('deckPageSource')?.addEventListener('change', renderVisible);
+  $('playFieldSource')?.addEventListener('change', renderPrep);
+  $('playMatchupSource')?.addEventListener('change', renderPrep);
+  window.addEventListener('meta:data-changed', renderVisible);
   document.addEventListener('click', e => {
-    if (e.target.closest('[data-meta-view],[data-explore-deck],.current-meta-row,[data-detail-source]')) setTimeout(render, 0);
+    if (e.target.closest('[data-meta-view],[data-explore-deck],[data-detail-source]')) setTimeout(renderVisible, 0);
   });
-  window.MetaContext = { render };
-  setTimeout(render, 0);
+  window.MetaContext = { render: renderVisible, renderPrep };
+  setTimeout(renderVisible, 0);
 })();
