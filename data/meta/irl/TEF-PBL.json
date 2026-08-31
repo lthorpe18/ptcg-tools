@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "source": "Limitless Labs",
   "sourceUrl": "https://labs.limitlesstcg.com",
   "format": "TEF-PBL",
   "formatStart": "2026-07-17T00:00:00.000Z",
-  "generatedAt": "2026-08-31T11:50:25.955Z",
+  "generatedAt": "2026-08-31T13:54:52.565Z",
   "events": [
     {
       "id": "0071",
@@ -16,259 +16,431 @@
         {
           "name": "Dragapult",
           "entries": 172,
-          "winRate": 22.22,
+          "share": 22.22,
+          "wins": 541,
+          "losses": 581,
+          "ties": 155,
+          "winRate": 46.41,
           "url": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
         },
         {
           "name": "Dragapult Dusknoir",
           "entries": 81,
-          "winRate": 10.47,
+          "share": 10.47,
+          "wins": 229,
+          "losses": 289,
+          "ties": 54,
+          "winRate": 43.18,
           "url": "https://labs.limitlesstcg.com/0071/decks/dragapult-dusknoir"
         },
         {
           "name": "Dragapult Blaziken",
           "entries": 76,
-          "winRate": 9.82,
+          "share": 9.82,
+          "wins": 252,
+          "losses": 261,
+          "ties": 83,
+          "winRate": 46.92,
           "url": "https://labs.limitlesstcg.com/0071/decks/dragapult-blaziken"
         },
         {
           "name": "Basic Box",
           "entries": 73,
-          "winRate": 9.43,
+          "share": 9.43,
+          "wins": 280,
+          "losses": 266,
+          "ties": 47,
+          "winRate": 49.86,
           "url": "https://labs.limitlesstcg.com/0071/decks/basic-box-m"
         },
         {
           "name": "N's Zoroark",
           "entries": 58,
-          "winRate": 7.49,
+          "share": 7.49,
+          "wins": 214,
+          "losses": 215,
+          "ties": 42,
+          "winRate": 48.41,
           "url": "https://labs.limitlesstcg.com/0071/decks/n-zoroark"
         },
         {
           "name": "Alakazam Dudunsparce",
           "entries": 53,
-          "winRate": 6.85,
+          "share": 6.85,
+          "wins": 218,
+          "losses": 159,
+          "ties": 70,
+          "winRate": 53.99,
           "url": "https://labs.limitlesstcg.com/0071/decks/alakazam-dudunsparce"
         },
         {
           "name": "Slowking",
           "entries": 47,
-          "winRate": 6.07,
+          "share": 6.07,
+          "wins": 181,
+          "losses": 164,
+          "ties": 39,
+          "winRate": 50.52,
           "url": "https://labs.limitlesstcg.com/0071/decks/slowking-scr"
         },
         {
           "name": "Mega Excadrill",
           "entries": 32,
-          "winRate": 4.13,
+          "share": 4.13,
+          "wins": 112,
+          "losses": 122,
+          "ties": 20,
+          "winRate": 46.72,
           "url": "https://labs.limitlesstcg.com/0071/decks/mega-excadrill-ex"
         },
         {
           "name": "Raging Bolt Ogerpon",
           "entries": 24,
-          "winRate": 3.1,
+          "share": 3.1,
+          "wins": 81,
+          "losses": 88,
+          "ties": 15,
+          "winRate": 46.74,
           "url": "https://labs.limitlesstcg.com/0071/decks/raging-bolt-ogerpon"
         },
         {
           "name": "Festival Lead",
           "entries": 22,
-          "winRate": 2.84,
+          "share": 2.84,
+          "wins": 74,
+          "losses": 78,
+          "ties": 16,
+          "winRate": 47.22,
           "url": "https://labs.limitlesstcg.com/0071/decks/festival-lead"
         },
         {
           "name": "Crustle",
           "entries": 20,
-          "winRate": 2.58,
+          "share": 2.58,
+          "wins": 103,
+          "losses": 59,
+          "ties": 27,
+          "winRate": 59.26,
           "url": "https://labs.limitlesstcg.com/0071/decks/crustle-dri"
         },
         {
           "name": "Ogerpon Meganium Hydrapple",
           "entries": 12,
-          "winRate": 1.55,
+          "share": 1.55,
+          "wins": 49,
+          "losses": 41,
+          "ties": 10,
+          "winRate": 52.33,
           "url": "https://labs.limitlesstcg.com/0071/decks/ogerpon-meganium-hydrapple"
         },
         {
           "name": "Clefairy Ogerpon",
           "entries": 10,
-          "winRate": 1.29,
+          "share": 1.29,
+          "wins": 44,
+          "losses": 35,
+          "ties": 5,
+          "winRate": 54.37,
           "url": "https://labs.limitlesstcg.com/0071/decks/clefairy-ogerpon"
         },
         {
           "name": "Dhelmise",
           "entries": 8,
-          "winRate": 1.03,
+          "share": 1.03,
+          "wins": 27,
+          "losses": 26,
+          "ties": 9,
+          "winRate": 48.39,
           "url": "https://labs.limitlesstcg.com/0071/decks/dhelmise-pbl"
         },
         {
           "name": "Grimmsnarl Froslass",
           "entries": 7,
-          "winRate": 0.9,
+          "share": 0.9,
+          "wins": 11,
+          "losses": 29,
+          "ties": 5,
+          "winRate": 28.15,
           "url": "https://labs.limitlesstcg.com/0071/decks/grimmsnarl-froslass"
         },
         {
           "name": "Kangaskhan Bouffalant",
           "entries": 7,
-          "winRate": 0.9,
+          "share": 0.9,
+          "wins": 19,
+          "losses": 21,
+          "ties": 8,
+          "winRate": 45.14,
           "url": "https://labs.limitlesstcg.com/0071/decks/kangaskhan-bouffalant"
         },
         {
           "name": "Ogerpon Meganium Arboliva",
           "entries": 6,
-          "winRate": 0.78,
+          "share": 0.78,
+          "wins": 16,
+          "losses": 23,
+          "ties": 5,
+          "winRate": 40.15,
           "url": "https://labs.limitlesstcg.com/0071/decks/ogerpon-meganium-arboliva"
         },
         {
           "name": "Mega Lucario",
           "entries": 5,
-          "winRate": 0.65,
+          "share": 0.65,
+          "wins": 18,
+          "losses": 18,
+          "ties": 1,
+          "winRate": 49.55,
           "url": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
         },
         {
           "name": "Alakazam Dusknoir",
           "entries": 4,
-          "winRate": 0.52,
+          "share": 0.52,
+          "wins": 26,
+          "losses": 11,
+          "ties": 2,
+          "winRate": 68.38,
           "url": "https://labs.limitlesstcg.com/0071/decks/alakazam-dusknoir"
         },
         {
           "name": "Cynthia's Garchomp",
           "entries": 4,
-          "winRate": 0.52,
+          "share": 0.52,
+          "wins": 5,
+          "losses": 13,
+          "ties": 3,
+          "winRate": 28.57,
           "url": "https://labs.limitlesstcg.com/0071/decks/cynthia-garchomp-ex"
         },
         {
           "name": "Dragapult Dudunsparce",
           "entries": 4,
-          "winRate": 0.52,
+          "share": 0.52,
+          "wins": 16,
+          "losses": 13,
+          "ties": 3,
+          "winRate": 53.13,
           "url": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
         },
         {
           "name": "Lillie's Clefairy",
           "entries": 4,
-          "winRate": 0.52,
+          "share": 0.52,
+          "wins": 15,
+          "losses": 13,
+          "ties": 1,
+          "winRate": 52.87,
           "url": "https://labs.limitlesstcg.com/0071/decks/lillie-clefairy"
         },
         {
           "name": "Seaking Festival Lead",
           "entries": 4,
-          "winRate": 0.52,
+          "share": 0.52,
+          "wins": 16,
+          "losses": 12,
+          "ties": 3,
+          "winRate": 54.84,
           "url": "https://labs.limitlesstcg.com/0071/decks/seaking-pre"
         },
         {
           "name": "Lopunny Dudunsparce",
           "entries": 3,
-          "winRate": 0.39,
+          "share": 0.39,
+          "wins": 13,
+          "losses": 9,
+          "ties": 5,
+          "winRate": 54.32,
           "url": "https://labs.limitlesstcg.com/0071/decks/lopunny-dudunsparce"
         },
         {
           "name": "Lopunny Dusknoir",
           "entries": 3,
-          "winRate": 0.39,
+          "share": 0.39,
+          "wins": 9,
+          "losses": 13,
+          "ties": 2,
+          "winRate": 40.28,
           "url": "https://labs.limitlesstcg.com/0071/decks/lopunny-dusknoir"
         },
         {
           "name": "Lucario Hariyama",
           "entries": 3,
-          "winRate": 0.39,
+          "share": 0.39,
+          "wins": 14,
+          "losses": 15,
+          "ties": 2,
+          "winRate": 47.31,
           "url": "https://labs.limitlesstcg.com/0071/decks/lucario-hariyama"
         },
         {
           "name": "Mega Venusaur",
           "entries": 3,
-          "winRate": 0.39,
+          "share": 0.39,
+          "wins": 11,
+          "losses": 14,
+          "ties": 3,
+          "winRate": 42.86,
           "url": "https://labs.limitlesstcg.com/0071/decks/mega-venusaur-ex"
         },
         {
           "name": "Metagross",
           "entries": 3,
-          "winRate": 0.39,
+          "share": 0.39,
+          "wins": 7,
+          "losses": 8,
+          "ties": 5,
+          "winRate": 43.33,
           "url": "https://labs.limitlesstcg.com/0071/decks/metagross-cri"
         },
         {
           "name": "Ethan's Typhlosion",
           "entries": 2,
-          "winRate": 0.26,
+          "share": 0.26,
+          "wins": 7,
+          "losses": 6,
+          "ties": 1,
+          "winRate": 52.38,
           "url": "https://labs.limitlesstcg.com/0071/decks/ethan-typhlosion"
         },
         {
           "name": "Froslass Munkidori",
           "entries": 2,
-          "winRate": 0.26,
+          "share": 0.26,
+          "wins": 5,
+          "losses": 9,
+          "ties": 2,
+          "winRate": 35.42,
           "url": "https://labs.limitlesstcg.com/0071/decks/froslass-munkidori"
         },
         {
           "name": "Mega Chandelure",
           "entries": 2,
-          "winRate": 0.26,
+          "share": 0.26,
+          "wins": 8,
+          "losses": 8,
+          "ties": 4,
+          "winRate": 46.67,
           "url": "https://labs.limitlesstcg.com/0071/decks/mega-chandelure-ex"
         },
         {
           "name": "Rocket's Mewtwo",
           "entries": 2,
-          "winRate": 0.26,
+          "share": 0.26,
+          "wins": 8,
+          "losses": 8,
+          "ties": 2,
+          "winRate": 48.15,
           "url": "https://labs.limitlesstcg.com/0071/decks/rocket-mewtwo-ex"
         },
         {
           "name": "Starmie Froslass",
           "entries": 2,
-          "winRate": 0.26,
+          "share": 0.26,
+          "wins": 4,
+          "losses": 7,
+          "ties": 0,
+          "winRate": 36.36,
           "url": "https://labs.limitlesstcg.com/0071/decks/starmie-froslass"
         },
         {
           "name": "Toucannon",
           "entries": 2,
-          "winRate": 0.26,
+          "share": 0.26,
+          "wins": 6,
+          "losses": 9,
+          "ties": 1,
+          "winRate": 39.58,
           "url": "https://labs.limitlesstcg.com/0071/decks/toucannon-pbl"
         },
         {
           "name": "Toxtricity Box",
           "entries": 2,
-          "winRate": 0.26,
+          "share": 0.26,
+          "wins": 12,
+          "losses": 5,
+          "ties": 3,
+          "winRate": 65,
           "url": "https://labs.limitlesstcg.com/0071/decks/toxtricity-box"
         },
         {
           "name": "Dudunsparce Control",
           "entries": 1,
-          "winRate": 0.13,
+          "share": 0.13,
+          "wins": 5,
+          "losses": 3,
+          "ties": 0,
+          "winRate": 62.5,
           "url": "https://labs.limitlesstcg.com/0071/decks/dudunsparce-control"
         },
         {
           "name": "Greninja",
           "entries": 1,
-          "winRate": 0.13,
+          "share": 0.13,
+          "wins": 4,
+          "losses": 4,
+          "ties": 0,
+          "winRate": 50,
           "url": "https://labs.limitlesstcg.com/0071/decks/greninja-ex"
         },
         {
           "name": "Mega Absol Box",
           "entries": 1,
-          "winRate": 0.13,
+          "share": 0.13,
+          "wins": 4,
+          "losses": 3,
+          "ties": 1,
+          "winRate": 54.17,
           "url": "https://labs.limitlesstcg.com/0071/decks/mega-absol-box"
         },
         {
           "name": "Mega Greninja",
           "entries": 1,
-          "winRate": 0.13,
+          "share": 0.13,
+          "wins": 4,
+          "losses": 4,
+          "ties": 0,
+          "winRate": 50,
           "url": "https://labs.limitlesstcg.com/0071/decks/mega-greninja-ex"
         },
         {
           "name": "Rocket's Honchkrow",
           "entries": 1,
-          "winRate": 0.13,
+          "share": 0.13,
+          "wins": 4,
+          "losses": 3,
+          "ties": 1,
+          "winRate": 54.17,
           "url": "https://labs.limitlesstcg.com/0071/decks/rockets-honchkrow"
         },
         {
           "name": "Sharpedo Toxtricity",
           "entries": 1,
-          "winRate": 0.13,
+          "share": 0.13,
+          "wins": 8,
+          "losses": 3,
+          "ties": 1,
+          "winRate": 69.44,
           "url": "https://labs.limitlesstcg.com/0071/decks/sharpedo-toxtricity"
         },
         {
           "name": "Tera Box",
           "entries": 1,
-          "winRate": 0.13,
+          "share": 0.13,
+          "wins": 3,
+          "losses": 2,
+          "ties": 3,
+          "winRate": 50,
           "url": "https://labs.limitlesstcg.com/0071/decks/tera-box"
         },
         {
           "name": "Toxtricity Brute Bonnet",
           "entries": 1,
-          "winRate": 0.13,
+          "share": 0.13,
+          "wins": 1,
+          "losses": 3,
+          "ties": 4,
+          "winRate": 29.17,
           "url": "https://labs.limitlesstcg.com/0071/decks/toxtricity-brute-bonnet"
         }
       ]
@@ -278,303 +450,303 @@
     {
       "name": "Dragapult",
       "entries": 172,
-      "wins": 229,
-      "losses": 803,
-      "ties": 0
+      "wins": 541,
+      "losses": 581,
+      "ties": 155
     },
     {
       "name": "Dragapult Dusknoir",
       "entries": 81,
-      "wins": 51,
-      "losses": 435,
-      "ties": 0
+      "wins": 229,
+      "losses": 289,
+      "ties": 54
     },
     {
       "name": "Dragapult Blaziken",
       "entries": 76,
-      "wins": 45,
-      "losses": 411,
-      "ties": 0
+      "wins": 252,
+      "losses": 261,
+      "ties": 83
     },
     {
       "name": "Basic Box",
       "entries": 73,
-      "wins": 41,
-      "losses": 397,
-      "ties": 0
+      "wins": 280,
+      "losses": 266,
+      "ties": 47
     },
     {
       "name": "N's Zoroark",
       "entries": 58,
-      "wins": 26,
-      "losses": 322,
-      "ties": 0
+      "wins": 214,
+      "losses": 215,
+      "ties": 42
     },
     {
       "name": "Alakazam Dudunsparce",
       "entries": 53,
-      "wins": 22,
-      "losses": 296,
-      "ties": 0
+      "wins": 218,
+      "losses": 159,
+      "ties": 70
     },
     {
       "name": "Slowking",
       "entries": 47,
-      "wins": 17,
-      "losses": 265,
-      "ties": 0
+      "wins": 181,
+      "losses": 164,
+      "ties": 39
     },
     {
       "name": "Mega Excadrill",
       "entries": 32,
-      "wins": 8,
-      "losses": 184,
-      "ties": 0
+      "wins": 112,
+      "losses": 122,
+      "ties": 20
     },
     {
       "name": "Raging Bolt Ogerpon",
       "entries": 24,
-      "wins": 4,
-      "losses": 140,
-      "ties": 0
+      "wins": 81,
+      "losses": 88,
+      "ties": 15
     },
     {
       "name": "Festival Lead",
       "entries": 22,
-      "wins": 4,
-      "losses": 128,
-      "ties": 0
+      "wins": 74,
+      "losses": 78,
+      "ties": 16
     },
     {
       "name": "Crustle",
       "entries": 20,
-      "wins": 3,
-      "losses": 117,
-      "ties": 0
+      "wins": 103,
+      "losses": 59,
+      "ties": 27
     },
     {
       "name": "Ogerpon Meganium Hydrapple",
       "entries": 12,
-      "wins": 1,
-      "losses": 71,
-      "ties": 0
+      "wins": 49,
+      "losses": 41,
+      "ties": 10
     },
     {
       "name": "Clefairy Ogerpon",
       "entries": 10,
-      "wins": 1,
-      "losses": 59,
-      "ties": 0
+      "wins": 44,
+      "losses": 35,
+      "ties": 5
     },
     {
       "name": "Dhelmise",
       "entries": 8,
-      "wins": 0,
-      "losses": 48,
-      "ties": 0
+      "wins": 27,
+      "losses": 26,
+      "ties": 9
     },
     {
       "name": "Grimmsnarl Froslass",
       "entries": 7,
-      "wins": 0,
-      "losses": 42,
-      "ties": 0
+      "wins": 11,
+      "losses": 29,
+      "ties": 5
     },
     {
       "name": "Kangaskhan Bouffalant",
       "entries": 7,
-      "wins": 0,
-      "losses": 42,
-      "ties": 0
+      "wins": 19,
+      "losses": 21,
+      "ties": 8
     },
     {
       "name": "Ogerpon Meganium Arboliva",
       "entries": 6,
-      "wins": 0,
-      "losses": 36,
-      "ties": 0
+      "wins": 16,
+      "losses": 23,
+      "ties": 5
     },
     {
       "name": "Mega Lucario",
       "entries": 5,
-      "wins": 0,
-      "losses": 30,
-      "ties": 0
+      "wins": 18,
+      "losses": 18,
+      "ties": 1
     },
     {
       "name": "Alakazam Dusknoir",
       "entries": 4,
-      "wins": 0,
-      "losses": 24,
-      "ties": 0
+      "wins": 26,
+      "losses": 11,
+      "ties": 2
     },
     {
       "name": "Cynthia's Garchomp",
       "entries": 4,
-      "wins": 0,
-      "losses": 24,
-      "ties": 0
+      "wins": 5,
+      "losses": 13,
+      "ties": 3
     },
     {
       "name": "Dragapult Dudunsparce",
       "entries": 4,
-      "wins": 0,
-      "losses": 24,
-      "ties": 0
+      "wins": 16,
+      "losses": 13,
+      "ties": 3
     },
     {
       "name": "Lillie's Clefairy",
       "entries": 4,
-      "wins": 0,
-      "losses": 24,
-      "ties": 0
+      "wins": 15,
+      "losses": 13,
+      "ties": 1
     },
     {
       "name": "Seaking Festival Lead",
       "entries": 4,
-      "wins": 0,
-      "losses": 24,
-      "ties": 0
+      "wins": 16,
+      "losses": 12,
+      "ties": 3
     },
     {
       "name": "Lopunny Dudunsparce",
       "entries": 3,
-      "wins": 0,
-      "losses": 18,
-      "ties": 0
+      "wins": 13,
+      "losses": 9,
+      "ties": 5
     },
     {
       "name": "Lopunny Dusknoir",
       "entries": 3,
-      "wins": 0,
-      "losses": 18,
-      "ties": 0
+      "wins": 9,
+      "losses": 13,
+      "ties": 2
     },
     {
       "name": "Lucario Hariyama",
       "entries": 3,
-      "wins": 0,
-      "losses": 18,
-      "ties": 0
+      "wins": 14,
+      "losses": 15,
+      "ties": 2
     },
     {
       "name": "Mega Venusaur",
       "entries": 3,
-      "wins": 0,
-      "losses": 18,
-      "ties": 0
+      "wins": 11,
+      "losses": 14,
+      "ties": 3
     },
     {
       "name": "Metagross",
       "entries": 3,
-      "wins": 0,
-      "losses": 18,
-      "ties": 0
+      "wins": 7,
+      "losses": 8,
+      "ties": 5
     },
     {
       "name": "Ethan's Typhlosion",
       "entries": 2,
-      "wins": 0,
-      "losses": 12,
-      "ties": 0
+      "wins": 7,
+      "losses": 6,
+      "ties": 1
     },
     {
       "name": "Froslass Munkidori",
       "entries": 2,
-      "wins": 0,
-      "losses": 12,
-      "ties": 0
+      "wins": 5,
+      "losses": 9,
+      "ties": 2
     },
     {
       "name": "Mega Chandelure",
       "entries": 2,
-      "wins": 0,
-      "losses": 12,
-      "ties": 0
+      "wins": 8,
+      "losses": 8,
+      "ties": 4
     },
     {
       "name": "Rocket's Mewtwo",
       "entries": 2,
-      "wins": 0,
-      "losses": 12,
-      "ties": 0
+      "wins": 8,
+      "losses": 8,
+      "ties": 2
     },
     {
       "name": "Starmie Froslass",
       "entries": 2,
-      "wins": 0,
-      "losses": 12,
+      "wins": 4,
+      "losses": 7,
       "ties": 0
     },
     {
       "name": "Toucannon",
       "entries": 2,
-      "wins": 0,
-      "losses": 12,
-      "ties": 0
+      "wins": 6,
+      "losses": 9,
+      "ties": 1
     },
     {
       "name": "Toxtricity Box",
       "entries": 2,
-      "wins": 0,
-      "losses": 12,
-      "ties": 0
+      "wins": 12,
+      "losses": 5,
+      "ties": 3
     },
     {
       "name": "Dudunsparce Control",
       "entries": 1,
-      "wins": 0,
-      "losses": 6,
+      "wins": 5,
+      "losses": 3,
       "ties": 0
     },
     {
       "name": "Greninja",
       "entries": 1,
-      "wins": 0,
-      "losses": 6,
+      "wins": 4,
+      "losses": 4,
       "ties": 0
     },
     {
       "name": "Mega Absol Box",
       "entries": 1,
-      "wins": 0,
-      "losses": 6,
-      "ties": 0
+      "wins": 4,
+      "losses": 3,
+      "ties": 1
     },
     {
       "name": "Mega Greninja",
       "entries": 1,
-      "wins": 0,
-      "losses": 6,
+      "wins": 4,
+      "losses": 4,
       "ties": 0
     },
     {
       "name": "Rocket's Honchkrow",
       "entries": 1,
-      "wins": 0,
-      "losses": 6,
-      "ties": 0
+      "wins": 4,
+      "losses": 3,
+      "ties": 1
     },
     {
       "name": "Sharpedo Toxtricity",
       "entries": 1,
-      "wins": 0,
-      "losses": 6,
-      "ties": 0
+      "wins": 8,
+      "losses": 3,
+      "ties": 1
     },
     {
       "name": "Tera Box",
       "entries": 1,
-      "wins": 0,
-      "losses": 6,
-      "ties": 0
+      "wins": 3,
+      "losses": 2,
+      "ties": 3
     },
     {
       "name": "Toxtricity Brute Bonnet",
       "entries": 1,
-      "wins": 0,
-      "losses": 6,
-      "ties": 0
+      "wins": 1,
+      "losses": 3,
+      "ties": 4
     }
   ],
   "matchups": [
