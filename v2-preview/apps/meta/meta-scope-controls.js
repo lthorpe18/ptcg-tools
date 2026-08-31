@@ -2,6 +2,16 @@
   'use strict';
   const $ = id => document.getElementById(id);
   let onlineScope = '30';
+  const originalDeckAggregate = window.DeckAggregate ? {
+    getData: window.DeckAggregate.getData?.bind(window.DeckAggregate),
+    getMatchup: window.DeckAggregate.getMatchup?.bind(window.DeckAggregate),
+    hasData: window.DeckAggregate.hasData?.bind(window.DeckAggregate),
+  } : null;
+  const originalPrepField = window.PrepField ? {
+    getField: window.PrepField.getField?.bind(window.PrepField),
+    getChipRows: window.PrepField.getChipRows?.bind(window.PrepField),
+    getAllRows: window.PrepField.getAllRows?.bind(window.PrepField),
+  } : null;
 
   const onlineOptions = [
     { value:'14', label:'Last 14 days' },
@@ -11,13 +21,14 @@
 
   function onlineTournaments() {
     const rows = (typeof CACHE !== 'undefined' && Array.isArray(CACHE?.tournaments)) ? CACHE.tournaments : [];
-    if (onlineScope === 'all') return rows.filter(t => Number(t.players || 0) >= 50 && (t.standings || []).length);
-    const validDates = rows.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
+    const eligible = rows.filter(t => Number(t.players || 0) >= 50 && (t.standings || []).length);
+    if (onlineScope === 'all') return eligible;
+    const validDates = eligible.map(t => new Date(t.date).getTime()).filter(Number.isFinite);
     const newest = validDates.length ? Math.max(...validDates) : Date.now();
     const cutoff = newest - Number(onlineScope) * 86400000;
-    return rows.filter(t => {
+    return eligible.filter(t => {
       const ts = new Date(t.date).getTime();
-      return Number.isFinite(ts) && ts >= cutoff && Number(t.players || 0) >= 50 && (t.standings || []).length;
+      return Number.isFinite(ts) && ts >= cutoff;
     });
   }
 
@@ -28,7 +39,7 @@
 
   function onlineDecks() {
     const agg = onlineAggregate();
-    if (!agg) return window.DeckAggregate?.getData?.()?.decks || [];
+    if (!agg) return originalDeckAggregate?.getData?.()?.decks || [];
     return (agg.archetypes || []).map(row => ({
       name: row.name,
       entries: Number(row.players || 0),
@@ -44,12 +55,63 @@
 
   function onlineMatchups() {
     const agg = onlineAggregate();
-    if (!agg) return window.DeckAggregate?.getData?.()?.matchups || [];
+    if (!agg) return originalDeckAggregate?.getData?.()?.matchups || [];
     return [...(agg.matchups?.values?.() || [])];
   }
 
-  function onlineResults() {
-    return onlineAggregate()?.results || [];
+  function onlineResults() { return onlineAggregate()?.results || []; }
+
+  function onlineData() {
+    const base = originalDeckAggregate?.getData?.() || {};
+    const agg = onlineAggregate();
+    if (!agg) return base;
+    return {
+      ...base,
+      decks: onlineDecks(),
+      matchups: onlineMatchups(),
+      results: onlineResults(),
+      overview: { tournaments: agg.tournamentCount || 0, players: agg.totalPlayers || 0, matches: agg.matches || 0 },
+      onlineScope,
+    };
+  }
+
+  function scopedOnlineMatchup(a,b) {
+    return onlineMatchups().find(m => m.a === a && m.b === b) || null;
+  }
+
+  function scopedOnlineFieldRows() {
+    const decks = onlineDecks().filter(d => d?.name && d.name !== 'Other' && d.name !== 'Unknown');
+    const total = decks.reduce((sum,d) => sum + Number(d.entries || d.players || 0), 0);
+    return decks.map(d => ({ name:d.name, share: total ? Number(d.entries || d.players || 0) / total : 0 }));
+  }
+
+  function irlFieldRows() {
+    const decks = window.MetaIRLScope?.selectedDecks?.() || window.IRLLabs?.getData?.()?.decks || [];
+    const total = decks.reduce((sum,d)=>sum+Number(d.entries||0),0);
+    return decks.filter(d=>d?.name && d.name!=='Other' && d.name!=='Unknown').map(d=>({name:d.name,share:total?Number(d.entries||0)/total:0}));
+  }
+
+  function selectedPrepRows() {
+    const source = $('fieldSource')?.value || $('playFieldSource')?.value || 'online';
+    if (source === 'custom') return originalPrepField?.getField?.() || [];
+    if (source === 'irl') return irlFieldRows();
+    if (source === 'blend') {
+      const weight = Number($('fieldBlend')?.value || 50) / 100;
+      const map = new Map();
+      for (const row of scopedOnlineFieldRows()) map.set(row.name,(map.get(row.name)||0)+row.share*(1-weight));
+      for (const row of irlFieldRows()) map.set(row.name,(map.get(row.name)||0)+row.share*weight);
+      const total=[...map.values()].reduce((s,x)=>s+x,0);
+      return [...map.entries()].map(([name,value])=>({name,share:total?value/total:0})).sort((a,b)=>b.share-a.share);
+    }
+    return scopedOnlineFieldRows();
+  }
+
+  function chipRows() {
+    return selectedPrepRows().map(row => ({ name:row.name, included:true, share:row.share, originalShare:row.share }));
+  }
+
+  function allRows() {
+    return selectedPrepRows().map(row => ({ name:row.name, included:true, share:row.share, originalShare:row.share, defaultIncluded:true, pinned:false }));
   }
 
   function setOnline(value) {
@@ -57,6 +119,8 @@
     onlineScope = value;
     document.querySelectorAll('[data-online-scope]').forEach(el => { if (el.value !== onlineScope) el.value = onlineScope; });
     window.dispatchEvent(new CustomEvent('meta-scope:changed', { detail:{ source:'online', scope:onlineScope } }));
+    window.dispatchEvent(new CustomEvent('deckagg:updated'));
+    window.dispatchEvent(new CustomEvent('field:updated'));
   }
 
   function irlOptions() {
@@ -65,25 +129,13 @@
       { value:'all-irl', label:'All IRL majors this format' },
     ];
   }
-
   function irlOptionHtml() {
     const opts = irlOptions();
     const base = opts.filter(x => !x.event).map(x => `<option value="${x.value}">${x.label}</option>`).join('');
     const events = opts.filter(x => x.event).map(x => `<option value="${x.value}">${x.label}</option>`).join('');
     return base + (events ? `<optgroup label="Individual tournaments">${events}</optgroup>` : '');
   }
-
-  function onlineOptionHtml() {
-    return onlineOptions.map(x => `<option value="${x.value}">${x.label}</option>`).join('');
-  }
-
-  function addScopeAfter(select, id) {
-    if (!select || $(id+'Wrap')) return;
-    const wrap = document.createElement('label');
-    wrap.id = id+'Wrap';
-    wrap.className = 'meta-functional-scope';
-    select.closest('label, .single-source-control, .child-source-row')?.appendChild(wrap);
-  }
+  function onlineOptionHtml() { return onlineOptions.map(x => `<option value="${x.value}">${x.label}</option>`).join(''); }
 
   function syncSingle(sourceSelectId, onlineId, irlId) {
     const source = $(sourceSelectId)?.value || 'online';
@@ -144,11 +196,22 @@
     irlMatchups:()=>window.MetaIRLScope?.selectedMatchups?.() || window.IRLLabs?.getData?.()?.matchups || [],
   };
 
+  if (window.DeckAggregate && originalDeckAggregate?.getData) {
+    window.DeckAggregate.getData = onlineData;
+    window.DeckAggregate.getMatchup = scopedOnlineMatchup;
+    window.DeckAggregate.hasData = () => !!onlineDecks().length;
+  }
+  if (window.PrepField && originalPrepField?.getField) {
+    window.PrepField.getField = selectedPrepRows;
+    window.PrepField.getChipRows = chipRows;
+    window.PrepField.getAllRows = allRows;
+  }
+
   $('currentWindow')?.addEventListener('change', e => {
     if (document.querySelector('[data-current-source="online"]')?.classList.contains('active') && ['14','30','all'].includes(e.currentTarget.value)) setOnline(e.currentTarget.value);
   });
-  ['matchupPageSource','deckPageSource','playFieldSource','playMatchupSource'].forEach(id => $(id)?.addEventListener('change', syncUi));
-  window.addEventListener('meta-irl-scope:changed', syncUi);
+  ['matchupPageSource','deckPageSource','playFieldSource','playMatchupSource','fieldSource','fieldBlend'].forEach(id => $(id)?.addEventListener('change', () => { syncUi(); window.dispatchEvent(new CustomEvent('field:updated')); }));
+  window.addEventListener('meta-irl-scope:changed', () => { syncUi(); window.dispatchEvent(new CustomEvent('field:updated')); });
   window.addEventListener('irl:updated', syncUi);
   window.addEventListener('meta:updated', () => window.dispatchEvent(new CustomEvent('meta-scope:changed', { detail:{ source:'online', scope:onlineScope } })));
 
