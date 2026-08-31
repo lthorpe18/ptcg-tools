@@ -1,28 +1,25 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PTCG Tools</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="PTCG Tools">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  </head>
-  <body>
-    <main class="card">
-      <h1>PTCG Tools</h1>
-      <p class="sub">Tap a tool to open it.</p>
-
-      <div class="grid">
-        <a class="tile" href="./apps/decklists/">Decklists</a>
-        <a class="tile" href="./apps/swiss/">Swiss Tournament Manager</a>
-        <a class="tile" href="./apps/decklists/">Deck Stats (inside Decklist Manager)</a>
-        <a class="tile" href="./apps/meta/">Meta Analysis</a>
-        <a class="tile" href="./apps/events/">Events</a>
-      </div>
-      
-    </main>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f8fb" />
+  <title>PTCG Tools</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="./v2-preview/assets/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="PTCG Tools" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta http-equiv="refresh" content="0; url=./v2-preview/" />
+  <script>
+    (() => {
+      const target = new URL('./v2-preview/', window.location.href);
+      target.search = window.location.search;
+      target.hash = window.location.hash;
+      window.location.replace(target.href);
+    })();
+  </script>
+</head>
+<body>
+  <p><a href="./v2-preview/">Open PTCG Tools</a></p>
+</body>
 </html>
