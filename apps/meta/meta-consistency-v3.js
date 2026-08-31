@@ -151,7 +151,7 @@
     customNote.hidden=fieldSource!=='custom';
     customNote.textContent='Custom is your editable field. Saved metas are named presets of this same field: load one below, or edit the field and save it as a preset.';
 
-    document.querySelectorAll('.saved-meta-select span').forEach(el=>el.textContent='Saved custom metas');
+    document.querySelectorAll('.saved-meta-select span').forEach(el=>{ if (el.textContent !== 'Saved custom metas') el.textContent='Saved custom metas'; });
     document.querySelectorAll('#matchupIrlScope,#deckIrlScope').forEach(el=>el.value=scope);
   }
 
@@ -181,7 +181,7 @@
   },0));
 
   const observer=new MutationObserver(()=>{
-    document.querySelectorAll('.saved-meta-select span').forEach(el=>el.textContent='Saved custom metas');
+    document.querySelectorAll('.saved-meta-select span').forEach(el=>{ if (el.textContent !== 'Saved custom metas') el.textContent='Saved custom metas'; });
   });
   if ($('prep')) observer.observe($('prep'),{subtree:true,childList:true});
   setTimeout(syncUi,0);
