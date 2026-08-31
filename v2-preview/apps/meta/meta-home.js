@@ -85,15 +85,15 @@
     document.querySelectorAll('[data-current-source]').forEach(btn => btn.classList.toggle('active', btn.dataset.currentSource === state.source));
   }
 
-  function rowHtml(row) {
+  function rowHtml(row, index) {
     const expandable = state.grouping === 'families' && row.variants.length > 1;
     const open = state.expanded.has(row.name);
     const variants = expandable && open ? `<div class="current-variants">${row.variants.map(v => `<div class="variant-row"><span>${esc(v.name)}</span><b>${pct(v.share * 100)}</b><small>${v.entries} entries</small></div>`).join('')}</div>` : '';
     return `<article class="current-meta-row ${expandable ? 'expandable' : ''}" data-family="${esc(row.name)}">
-      <div class="current-rank"></div>
+      <div class="current-rank">${index + 1}</div>
       <div class="current-name">${window.DeckSprites?.html?.(row.name,{size:34}) || ''}<span><b>${esc(row.name)}</b><small>${expandable ? `${row.variants.length} variants · tap to ${open ? 'collapse' : 'expand'}` : `${row.entries} entries`}</small></span></div>
-      <div class="current-share"><b>${pct(row.share * 100)}</b><small>${row.entries}</small></div>
-      ${expandable ? `<span class="row-chevron">${open ? '⌃' : '⌄'}</span>` : ''}
+      <div class="current-share"><b>${pct(row.share * 100)}</b><small>${row.entries} entries</small></div>
+      <span class="row-chevron" aria-hidden="true">${expandable ? (open ? '⌃' : '⌄') : ''}</span>
       ${variants}
     </article>`;
   }
@@ -105,7 +105,7 @@
     const label = state.source === 'irl' ? 'IRL majors' : '50+ online events';
     const updated = data.generatedAt ? new Date(data.generatedAt).toLocaleString([], { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '—';
     $('currentMetaStats').innerHTML = `<div><b>${data.eventCount}</b><span>Events</span></div><div><b>${data.total.toLocaleString()}</b><span>Entries</span></div><div class="wide"><b>${label}</b><span>Updated ${updated}</span></div>`;
-    $('currentMetaList').innerHTML = rows.length ? rows.map(rowHtml).join('') : '<div class="meta-empty">No data is available for this source yet.</div>';
+    $('currentMetaList').innerHTML = rows.length ? rows.map((row,index) => rowHtml(row,index)).join('') : '<div class="meta-empty">No data is available for this source yet.</div>';
     $('currentMetaMore').hidden = data.rows.length <= 8;
     $('currentMetaMore').textContent = state.showAll ? 'Show top 8' : `View full field (${data.rows.length})`;
     $('currentGroupingToggle').textContent = state.grouping === 'families' ? 'Families' : 'Variants';
