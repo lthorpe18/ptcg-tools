@@ -37,8 +37,10 @@
   }
 
   function renderPrep() {
-    const slot = $('playSourceContexts');
-    if (!slot) return;
+    const fieldSlot = $('playFieldContext');
+    const matchupSlot = $('playMatchupContext');
+    if (!fieldSlot || !matchupSlot) return;
+
     const field = $('playFieldSource')?.value || 'online';
     const matchup = $('playMatchupSource')?.value || 'online';
     const fieldContext = field === 'irl'
@@ -53,7 +55,9 @@
       : matchup === 'combined'
         ? combinedContext('matchup')
         : window.MetaData.context('online');
-    slot.innerHTML = `<section><div class="context-label">Field data</div>${card(fieldContext)}</section><section><div class="context-label">Matchup data</div>${card(matchupContext)}</section>`;
+
+    fieldSlot.innerHTML = card(fieldContext);
+    matchupSlot.innerHTML = card(matchupContext);
   }
 
   function renderDetail() {
@@ -73,15 +77,6 @@
   function ensure() {
     ensureAfter($('matchupPageSource')?.closest('.single-source-control'), 'matchupSourceContext');
     ensureAfter($('deckPageSource')?.closest('.single-source-control'), 'deckSourceContext');
-    if (!$('playSourceContexts')) {
-      const anchor = $('playScopeControls') || $('playFieldSource')?.closest('.child-source-row');
-      if (anchor) {
-        const node = document.createElement('div');
-        node.id = 'playSourceContexts';
-        node.className = 'play-source-contexts';
-        anchor.after(node);
-      }
-    }
   }
 
   function render() {
