@@ -1,6 +1,9 @@
 import json
 import os
+import re
 from pathlib import Path
+
+import requests
 from seleniumbase import SB
 
 URL = os.environ.get(
@@ -13,8 +16,6 @@ OUT.mkdir(parents=True, exist_ok=True)
 with SB(uc=True, test=True, locale="en-GB", ad_block=True, xvfb=True) as sb:
     sb.activate_cdp_mode(URL)
     sb.sleep(5)
-
-    # Give the public locator time to complete its browser checks and render.
     sb.sleep(8)
 
     title = sb.get_title() if hasattr(sb, "get_title") else ""
@@ -62,14 +63,50 @@ with SB(uc=True, test=True, locale="en-GB", ad_block=True, xvfb=True) as sb:
     except Exception:
         pass
 
+    static_probe = []
+    service_refs = set()
+    action_refs = set()
+    js_resources = [u for u in resources if "/EventLocator/scripts/" in u and ".js" in u]
+    for idx, resource_url in enumerate(js_resources):
+        try:
+            response = requests.get(resource_url, timeout=25, headers={
+                "User-Agent": "Mozilla/5.0",
+                "Accept": "*/*",
+                "Referer": URL,
+            })
+            text = response.text
+            filename = f"script-{idx:02d}.js"
+            (OUT / filename).write_text(text, encoding="utf-8", errors="ignore")
+            refs = re.findall(r"(?:/EventLocator/)?screenservices/[A-Za-z0-9_./-]+", text, flags=re.I)
+            acts = re.findall(r"Action[A-Za-z0-9_]+", text)
+            service_refs.update(refs)
+            action_refs.update(acts)
+            static_probe.append({
+                "url": resource_url,
+                "status": response.status_code,
+                "contentType": response.headers.get("content-type", ""),
+                "length": len(text),
+                "serviceRefCount": len(refs),
+                "sample": text[:180] if response.status_code != 200 else "",
+            })
+        except Exception as exc:
+            static_probe.append({"url": resource_url, "error": str(exc)})
+
+    (OUT / "static-script-probe.json").write_text(json.dumps(static_probe, indent=2), encoding="utf-8")
+    (OUT / "service-refs.json").write_text(json.dumps(sorted(service_refs), indent=2), encoding="utf-8")
+    (OUT / "action-refs.json").write_text(json.dumps(sorted(action_refs), indent=2), encoding="utf-8")
+
     interesting = [u for u in resources if any(k in u.lower() for k in ("api", "event", "location", "locator", "json"))]
     print(json.dumps({
         "url": URL,
         "title": title,
-        "bodySample": (body_text or "")[:2000],
+        "bodySample": (body_text or "")[:1200],
         "eventTitleCount": len(event_titles),
         "eventTitles": event_titles[:40],
         "candidateNodeCount": len(candidate_html),
         "resourceCount": len(resources),
         "interestingResources": interesting[:80],
+        "staticScriptProbe": static_probe,
+        "serviceRefs": sorted(service_refs)[:150],
+        "actionRefsContainingEvent": [a for a in sorted(action_refs) if "event" in a.lower() or "location" in a.lower()][:150],
     }, indent=2))
