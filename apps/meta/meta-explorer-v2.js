@@ -161,6 +161,15 @@
     if(explicit)return{name:explicit.dataset.exploreDeck,kind:explicit.dataset.exploreKind||'variant',source:explicit.dataset.exploreSource};
     const variantRow=target.closest('.variant-row');
     if(variantRow)return{name:variantRow.querySelector('span')?.textContent?.trim()||'',kind:'variant'};
+    const current=target.closest('.current-meta-row');
+    if(current){
+      const grouping=$('currentGroupingToggle')?.checked!==false;
+      const expandable=current.classList.contains('expandable');
+      if(!grouping || !expandable){
+        return{name:current.querySelector('.current-name b')?.textContent?.trim()||'',kind:'variant'};
+      }
+      return null;
+    }
     const node=target.closest('.rec-main h3,.deck-check-name b,.watch-card b,.why-matchup-name b');
     if(node)return{name:node.textContent?.trim()||'',kind:'variant'};
     return null;
