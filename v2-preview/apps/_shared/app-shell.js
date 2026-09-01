@@ -1,25 +1,26 @@
 (function(){
   'use strict';
   const body=document.body;
-  if(!body||body.dataset.ptcgShellReady==='1')return;
+  if(!body)return;
+  const root=(body.dataset.appRoot||'.').replace(/\/$/,'');
+  const iconHref=new URL(`${root}/assets/apple-touch-icon.png`,window.location.href).href;
+  document.querySelectorAll('link[rel~="icon"]').forEach(link=>link.remove());
+  const icon=document.createElement('link');
+  icon.rel='icon';
+  icon.type='image/png';
+  icon.href=iconHref;
+  document.head.appendChild(icon);
+  if(body.dataset.ptcgShellReady==='1')return;
   body.dataset.ptcgShellReady='1';
   body.classList.add('ptcg-v2');
-  const root=(body.dataset.appRoot||'.').replace(/\/$/,'');
   const active=body.dataset.appSection||'home';
   const labels={home:['⌂','Home'],meta:['◈','Meta'],decks:['▤','Decks'],compete:['◇','Compete'],tools:['⊕','Tools']};
   const hrefs={home:`${root}/`,meta:`${root}/apps/meta/`,decks:`${root}/apps/decklists/`,compete:`${root}/apps/events/`,tools:`${root}/apps/tools/`};
-  if(!document.querySelector('link[rel~="icon"]')){
-    const icon=document.createElement('link');
-    icon.rel='icon';
-    icon.type='image/png';
-    icon.href=`${root}/assets/apple-touch-icon.png`;
-    document.head.appendChild(icon);
-  }
   if(!document.querySelector('.app-bottom-nav')){
     const nav=document.createElement('nav');
     nav.className='app-bottom-nav';
     nav.setAttribute('aria-label','PTCG Tools');
-    nav.innerHTML=Object.entries(labels).map(([key,[icon,label]])=>`<a class="app-nav-item" href="${hrefs[key]}" ${key===active?'aria-current="page"':''}><span class="app-nav-icon" aria-hidden="true">${icon}</span><span>${label}</span></a>`).join('');
+    nav.innerHTML=Object.entries(labels).map(([key,[navIcon,label]])=>`<a class="app-nav-item" href="${hrefs[key]}" ${key===active?'aria-current="page"':''}><span class="app-nav-icon" aria-hidden="true">${navIcon}</span><span>${label}</span></a>`).join('');
     document.body.appendChild(nav);
   }
 
