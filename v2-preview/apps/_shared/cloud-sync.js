@@ -34,8 +34,17 @@
   async function getUser(){const c=await client();const {data,error}=await c.auth.getUser();if(error)return null;return data.user||null}
   async function getSession(){const c=await client();const {data}=await c.auth.getSession();return data.session||null}
   async function providerStatus(){try{const r=await fetch(`${SUPABASE_URL}/auth/v1/settings`,{headers:{apikey:SUPABASE_KEY},cache:'no-store'});if(!r.ok)throw new Error('Auth settings unavailable');const data=await r.json();return {google:!!data?.external?.google}}catch{return {google:false}}}
-  function defaultRedirect(){return new URL('../settings/',document.baseURI).href}
-  async function signInWithProvider(provider,redirectTo){if(provider!=='google')throw new Error('Unsupported sign-in provider');const enabled=await providerStatus();if(!enabled.google)throw new Error('Google sign-in is not configured yet.');const c=await client();const {data,error}=await c.auth.signInWithOAuth({provider:'google',options:{redirectTo:redirectTo||defaultRedirect()}});if(error)throw error;return data}
+  function appRootRedirect(){const declared=global.document?.body?.dataset?.appRoot||'.';return new URL(declared.endsWith('/')?declared:`${declared}/`,document.baseURI).href}
+  async function signInWithProvider(provider,redirectTo){
+    if(provider!=='google')throw new Error('Unsupported sign-in provider');
+    const enabled=await providerStatus();if(!enabled.google)throw new Error('Google sign-in is not configured yet.');
+    const c=await client();
+    const {data,error}=await c.auth.signInWithOAuth({provider:'google',options:{redirectTo:redirectTo||appRootRedirect(),skipBrowserRedirect:true}});
+    if(error)throw error;if(!data?.url)throw new Error('Google sign-in could not be started.');
+    const target=(global.top&&global.top!==global)?global.top:global;
+    target.location.assign(data.url);
+    return data;
+  }
   async function signOut(){const c=await client();const {error}=await c.auth.signOut();if(error)throw error}
   async function onAuthStateChange(callback){const c=await client();return c.auth.onAuthStateChange((event,session)=>callback(event,session))}
   function userLabel(user){if(!user)return 'Guest';const meta=user.user_metadata||{};return meta.full_name||meta.name||user.email?.split('@')[0]||'Signed in'}
