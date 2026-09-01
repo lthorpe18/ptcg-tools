@@ -7,21 +7,48 @@
   <title>Settings · PTCG Tools</title>
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="./settings.css?v=2">
+  <link rel="stylesheet" href="./settings.css?v=3">
   <link rel="stylesheet" href="../meta/sprite-polish.css?v=3">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="settings">
   <header class="app-shell-header">
-    <a class="app-shell-brand" href="../../" aria-label="PTCG Tools home"><span class="app-shell-mark" aria-hidden="true">⚙</span><span class="app-shell-brand-copy"><strong>Settings</strong><small>App preferences</small></span></a>
+    <a class="app-shell-brand" href="../../" aria-label="PTCG Tools home"><span class="app-shell-mark" aria-hidden="true">⚙</span><span class="app-shell-brand-copy"><strong>Settings</strong><small>Account &amp; app preferences</small></span></a>
   </header>
   <main class="app-shell-page settings-page">
+    <section class="settings-account app-card" aria-labelledby="accountHeading">
+      <div class="settings-account-head">
+        <div class="settings-account-avatar" aria-hidden="true">●</div>
+        <div class="settings-account-copy">
+          <span class="settings-kicker">Account</span>
+          <h1 id="accountHeading" data-ptcg-auth-name>Guest</h1>
+          <p data-ptcg-auth-provider-label>Not signed in</p>
+        </div>
+      </div>
+      <div data-ptcg-auth-signed-out>
+        <p class="settings-account-note">Sign in so your PTCG Tools data can follow you between devices. PTCG Tools never receives or stores your Apple, Google or Discord password.</p>
+        <div class="settings-auth-buttons">
+          <button class="auth-provider apple" type="button" data-ptcg-auth-provider="apple"><span aria-hidden="true"></span>Continue with Apple</button>
+          <button class="auth-provider google" type="button" data-ptcg-auth-provider="google"><span aria-hidden="true">G</span>Continue with Google</button>
+          <button class="auth-provider discord" type="button" data-ptcg-auth-provider="discord"><span aria-hidden="true">D</span>Continue with Discord</button>
+        </div>
+      </div>
+      <div class="settings-signed-in" data-ptcg-auth-signed-in hidden>
+        <p class="settings-account-note">This account is the identity used for cloud-backed PTCG Tools data.</p>
+        <button class="settings-signout" type="button" data-ptcg-auth-signout>Sign out</button>
+      </div>
+      <p class="settings-auth-message" data-ptcg-auth-message aria-live="polite"></p>
+    </section>
+
     <section class="settings-intro">
-      <h1>Deck icons</h1>
+      <span class="settings-kicker">Appearance</span>
+      <h2>Deck icons</h2>
       <p>Choose the representative Pokémon used anywhere an archetype appears. These overrides only affect presentation.</p>
       <label class="settings-search"><span>⌕</span><input id="deckIconSearch" type="search" placeholder="Search decks" autocomplete="off"></label>
     </section>
     <div id="deckIconList" class="deck-icon-list"><div class="settings-empty">Loading deck names…</div></div>
   </main>
+  <script src="../_shared/cloud-sync.js?v=2"></script>
+  <script src="../_shared/auth-ui.js?v=1"></script>
   <script src="../meta/sprites.js?v=4"></script>
   <script src="./settings.js?v=1"></script>
   <script src="../_shared/app-shell.js?v=4"></script>
