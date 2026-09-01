@@ -2,7 +2,8 @@
   'use strict';
 
   const DAY=86400000;
-  const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+  const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[c]));
+  let metaIndexPromise=null;
 
   function safeDate(snapshot){
     if(!snapshot||typeof snapshot!=='object')return null;
@@ -67,16 +68,24 @@
     return `${first.toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'UTC'})}–${last.toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'UTC'})}`;
   }
 
+  async function loadMetaIndex(){
+    if(!metaIndexPromise){
+      metaIndexPromise=fetch('./data/meta/index.json',{cache:'default'}).then(r=>{
+        if(!r.ok)throw new Error('format index unavailable');
+        return r.json();
+      }).catch(error=>{metaIndexPromise=null;throw error});
+    }
+    return metaIndexPromise;
+  }
+
   async function renderMetaPreview(){
     const el=document.getElementById('metaPreview');
     if(!el)return;
     try{
-      const indexResponse=await fetch('./data/meta/index.json',{cache:'no-store'});
-      if(!indexResponse.ok)throw new Error('format index unavailable');
-      const index=await indexResponse.json();
+      const index=await loadMetaIndex();
       const format=(index.formats||[]).find(x=>x.id===index.current);
       const formatId=format?.id||index.current||'TEF-PBL';
-      const response=await fetch(`./data/meta/irl/${encodeURIComponent(formatId)}.json`,{cache:'no-store'});
+      const response=await fetch(`./data/meta/irl/${encodeURIComponent(formatId)}.json`,{cache:'default'});
       if(!response.ok)throw new Error('IRL data unavailable');
       const data=await response.json();
       const events=(data.events||[]).filter(e=>e&&e.date&&Array.isArray(e.decks));
@@ -160,7 +169,7 @@
   }
 
   async function loadFormat(){
-    try{const r=await fetch('./data/meta/index.json',{cache:'no-store'});if(!r.ok)return;const data=await r.json();const f=(data.formats||[]).find(x=>x.id===data.current);if(f){const pill=document.querySelector('#formatPill span:last-child');if(pill)pill.textContent=`${f.label} · Standard`}}catch{}
+    try{const data=await loadMetaIndex();const f=(data.formats||[]).find(x=>x.id===data.current);if(f){const pill=document.querySelector('#formatPill span:last-child');if(pill)pill.textContent=`${f.label} · Standard`}}catch{}
   }
 
   async function renderHome(){
