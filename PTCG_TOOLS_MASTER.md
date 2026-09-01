@@ -172,11 +172,19 @@ Application preferences such as deck icon overrides and future presentation / ap
 
 ### 5.1 Navigation
 
-Persistent mobile navigation should make the five competitive areas immediately reachable:
+Persistent mobile navigation makes the five competitive areas immediately reachable:
 
 **Home · Meta · Decks · Compete · Tools**
 
+This is now a production architectural requirement, not only a visual/navigation preference.
+
+The public root owns a persistent five-area shell. Home, Meta, Decks, Compete and Tools remain mounted after first load and section switching changes the active view rather than performing a fresh top-level document navigation. This architecture was promoted on 1 September 2026 after direct iPhone testing showed a substantial improvement in perceived navigation performance.
+
 Nested objects such as exact deck detail or tournament detail use compact contextual back navigation while preserving the shared shell.
+
+**Architecture lock:** future feature work must not casually restore full-page reloads as the default navigation mechanism between the five core areas. Any replacement shell/navigation implementation must retain the same key behaviour: already-loaded areas remain available immediately and routine cross-area navigation should not rebuild the application from scratch.
+
+Current implementation uses persistent child views as a pragmatic bridge over the existing plain-HTML feature pages. A future move to a true shared-DOM shell is allowed, but only if it preserves or improves measured/perceived performance and does not require a framework rewrite solely for architectural neatness.
 
 ### 5.2 Design tokens
 
@@ -229,6 +237,31 @@ The app should continue toward a genuine standalone home-screen experience with:
 - service worker/static shell caching where useful and safe.
 
 Cache-busting/versioning must be handled deliberately for changed static assets so an iPhone home-screen install does not appear stale after deployment.
+
+### 5.5 Performance architecture — current production baseline
+
+A dedicated performance pass on 1 September 2026 established the following production baseline:
+
+- a service worker caches the app shell, static assets and generated JSON with stale-while-revalidate behaviour where appropriate;
+- routine Home preview data no longer deliberately bypasses browser caching;
+- duplicate Home Meta-index requests were removed/shared;
+- the five core areas are progressively warmed after app launch;
+- once loaded, core areas stay alive inside the persistent shell and switching between them is effectively immediate in normal use;
+- feature state is preserved across routine section switching because the feature page is not destroyed and recreated;
+- explicit/manual refresh paths may still bypass caches where fresh source data is genuinely required.
+
+The original intermittent navigation hangs were primarily caused by full-document navigation repeatedly rebuilding pages, scripts and data state. Cache tuning alone did not remove the issue; promoting the persistent shell did.
+
+The user has accepted the remaining occasional first-initialisation pause as an acceptable trade-off for now. **Performance is therefore considered good enough and the navigation-performance milestone is complete.** Do not prioritise further optimisation ahead of product work unless a measurable/user-visible regression appears as the application grows.
+
+When future performance work is needed, first distinguish:
+
+1. **initialisation cost** — first load/warm-up of a feature;
+2. **navigation cost** — switching between already-loaded core areas;
+3. **data cost** — network/cache/large JSON processing;
+4. **rendering cost** — expensive synchronous DOM/analysis work.
+
+Do not assume a slow transition is a network problem without measuring which category is responsible.
 
 ---
 
@@ -688,7 +721,7 @@ Strengthen shared layers instead.
 
 Shared responsibilities should include:
 
-- app shell;
+- persistent app shell;
 - navigation;
 - design tokens;
 - forms/segmented controls;
@@ -696,7 +729,8 @@ Shared responsibilities should include:
 - searchable list patterns;
 - safe-area/mobile helpers;
 - persistence/preferences;
-- sprite resolution and overrides.
+- sprite resolution and overrides;
+- caching/service-worker behaviour where appropriate.
 
 Domain logic stays separated:
 
@@ -708,16 +742,21 @@ Domain logic stays separated:
 
 Performance-sensitive analysis should favour generated compact data and caching over recomputing large historical aggregates during routine UI interactions.
 
+The current production shell deliberately prioritises **perceived navigation responsiveness and state retention** over architectural purity. Do not replace it with a cleaner-looking routing abstraction if that would return the app to page-by-page cold starts.
+
 ---
 
 ## 15. Near-term roadmap
 
-The product shell/V2 promotion and the major Meta redesign are now substantially further ahead than the original roadmap implied.
+The product shell/V2 promotion, major Meta redesign and navigation-performance pass are now substantially further ahead than the original roadmap implied.
 
 ### Completed / substantially established
 
 - V2 shared visual direction and app shell;
 - public GitHub Pages root entering V2;
+- **persistent five-area production shell with state-retaining cross-area navigation**;
+- **service-worker/static/data caching baseline and progressive section warm-up**;
+- **navigation-performance milestone completed; remaining first-initialisation pause accepted for now**;
 - redesigned Home direction;
 - major Meta Current Meta / Deck Explorer / Deck Detail / Matchups / What Should I Play redesign;
 - shared Meta source/scope architecture;
@@ -740,6 +779,8 @@ The product shell/V2 promotion and the major Meta redesign are now substantially
 6. **Collection / readiness** — owned quantities, allocations, missing cards and shopping.
 7. **Learning loop** — personal results, matchup testing and playtest analytics.
 
+Performance should be reopened as a dedicated milestone only if future growth creates a material regression in first-load or navigation responsiveness.
+
 Roadmap decisions should preserve the overall loop:
 
 **Analyse → Build & Test → Prepare → Compete → Learn**
@@ -751,6 +792,7 @@ Roadmap decisions should preserve the overall loop:
 PTCG Tools is successful when:
 
 - launching the public URL/home-screen icon feels like opening one coherent app;
+- **routine switching between already-loaded Home, Meta, Decks, Compete and Tools feels immediate rather than like loading separate websites**;
 - Home surfaces useful competitive context rather than acting as a directory;
 - Meta clearly communicates what evidence is being used and never confuses field evidence with matchup evidence;
 - exact deck variants are consistently linked across field, matchups, results and recommendations;
