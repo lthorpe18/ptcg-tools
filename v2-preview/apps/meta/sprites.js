@@ -1,6 +1,8 @@
 (() => {
   const BASE = 'https://r2.limitlesstcg.net/pokemon/gen9';
-  const OVERRIDE_KEY = 'ptcg.deckSpriteOverrides.v1';
+  const LEGACY_OVERRIDE_KEY = 'ptcg.deckSpriteOverrides.v1';
+  const ROOT_KEY = 'ptcg-tools-v2';
+  const PREF_KEY = 'deckSpriteOverrides';
 
   // Representative Pokemon for the current archetype labels used by Limitless.
   // Presentation only: matchup/meta logic never depends on this mapping.
@@ -70,17 +72,34 @@
     ['miraidon', 'miraidon'], ['gardevoir', 'gardevoir'], ['charizard', 'charizard'],
   ];
 
+  function safeObject(raw) {
+    try { const parsed=JSON.parse(raw||'{}'); return parsed&&typeof parsed==='object'&&!Array.isArray(parsed)?parsed:{}; }
+    catch (_) { return {}; }
+  }
+
   function loadOverrides() {
-    try {
-      const parsed = JSON.parse(localStorage.getItem(OVERRIDE_KEY) || '{}');
-      return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
-    } catch (_) {
-      return {};
-    }
+    const root=safeObject(localStorage.getItem(ROOT_KEY));
+    const prefs=root.preferences&&typeof root.preferences==='object'?root.preferences:{};
+    const shared=prefs[PREF_KEY];
+    if(shared&&typeof shared==='object'&&!Array.isArray(shared))return shared;
+    return safeObject(localStorage.getItem(LEGACY_OVERRIDE_KEY));
   }
 
   function saveOverrides(overrides) {
-    try { localStorage.setItem(OVERRIDE_KEY, JSON.stringify(overrides || {})); } catch (_) {}
+    const clean=overrides&&typeof overrides==='object'&&!Array.isArray(overrides)?overrides:{};
+    try {
+      const root=safeObject(localStorage.getItem(ROOT_KEY));
+      root.schemaVersion=root.schemaVersion||1;
+      root.plannedEvents=Array.isArray(root.plannedEvents)?root.plannedEvents:[];
+      root.favouriteVenues=Array.isArray(root.favouriteVenues)?root.favouriteVenues:[];
+      root.preps=Array.isArray(root.preps)?root.preps:[];
+      root.recent=root.recent&&typeof root.recent==='object'?root.recent:{};
+      root.preferences=root.preferences&&typeof root.preferences==='object'?root.preferences:{};
+      root.preferences[PREF_KEY]=clean;
+      localStorage.setItem(ROOT_KEY,JSON.stringify(root));
+      localStorage.setItem(LEGACY_OVERRIDE_KEY,JSON.stringify(clean));
+      window.dispatchEvent(new CustomEvent('ptcg:local-change',{detail:{source:'deck-icons'}}));
+    } catch (_) {}
   }
 
   function slugs(name) {
@@ -107,10 +126,7 @@
     window.dispatchEvent(new CustomEvent('decksprites:updated', { detail: { name } }));
   }
 
-  function clearOverride(name) {
-    setOverride(name, []);
-  }
-
+  function clearOverride(name) { setOverride(name, []); }
   function url(slug) { return `${BASE}/${encodeURIComponent(slug)}.png`; }
 
   function html(name, options = {}) {
