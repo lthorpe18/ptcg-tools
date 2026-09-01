@@ -5,6 +5,14 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pct = value => `${Number(value || 0).toFixed(1)}%`;
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
+  const validViews = new Set(['current','prep','matchups','decks']);
+
+  function viewFromLocation() {
+    const hash = String(location.hash || '').replace(/^#/, '').toLowerCase();
+    if (hash === 'overview' || hash === 'meta') return 'current';
+    if (hash === 'what-should-i-play' || hash === 'play') return 'prep';
+    return validViews.has(hash) ? hash : 'current';
+  }
 
   function exactRows() {
     return (window.MetaData?.data?.(state.source)?.decks || [])
@@ -62,13 +70,18 @@
     }));
   }
 
-  function setView(view) {
-    state.view = view;
-    ['current','prep','matchups','decks'].forEach(name => $(name === 'current' ? 'currentMetaPage' : name)?.classList.toggle('hidden', name !== view));
-    document.body.dataset.metaView = view;
-    document.querySelectorAll('[data-tab="prep"]').forEach(el => el.classList.toggle('active', view === 'prep'));
+  function setView(view, syncUrl = true) {
+    const next = validViews.has(view) ? view : 'current';
+    state.view = next;
+    ['current','prep','matchups','decks'].forEach(name => $(name === 'current' ? 'currentMetaPage' : name)?.classList.toggle('hidden', name !== next));
+    document.body.dataset.metaView = next;
+    document.querySelectorAll('[data-tab="prep"]').forEach(el => el.classList.toggle('active', next === 'prep'));
+    if (syncUrl) {
+      const wanted = next === 'current' ? '' : `#${next}`;
+      if (location.hash !== wanted) history.replaceState(null, '', `${location.pathname}${location.search}${wanted}`);
+    }
     window.scrollTo({top:0,behavior:'instant'});
-    if (view === 'prep') window.dispatchEvent(new CustomEvent('field:updated'));
+    if (next === 'prep') window.dispatchEvent(new CustomEvent('field:updated'));
   }
 
   document.querySelectorAll('[data-current-source]').forEach(btn => btn.addEventListener('click', () => { state.source=btn.dataset.currentSource==='irl'?'irl':'online'; state.showAll=false; state.expanded.clear(); renderCurrent(); }));
@@ -77,12 +90,13 @@
   $('currentMetaMore')?.addEventListener('click', () => { state.showAll=!state.showAll; renderCurrent(); });
   document.querySelectorAll('[data-meta-view]').forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.metaView)));
   document.querySelectorAll('[data-meta-back]').forEach(btn => btn.addEventListener('click', () => setView('current')));
+  window.addEventListener('hashchange', () => setView(viewFromLocation(), false));
   window.addEventListener('meta:data-changed', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) { state.showAll=false; state.expanded.clear(); renderCurrent(); } });
   window.addEventListener('meta:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
   window.addEventListener('irl:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
   window.addEventListener('decksprites:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
 
   window.MetaHome = { render:renderCurrent, setView };
-  setView('current');
+  setView(viewFromLocation(), false);
   renderCurrent();
 })();
