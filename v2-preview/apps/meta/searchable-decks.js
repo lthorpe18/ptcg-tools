@@ -1,5 +1,5 @@
 (() => {
-  const TARGETS = '#archSelect, #quickDeckSelect, #fieldAddSelect, select.deck-searchable';
+  const TARGETS = '#archSelect, #quickDeckSelect, #fieldAddSelect, #matchupDeckSelect, select.deck-searchable';
 
   function optionRows(select) {
     return [...select.options]
