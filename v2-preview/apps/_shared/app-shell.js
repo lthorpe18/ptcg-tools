@@ -24,6 +24,12 @@
     document.body.appendChild(nav);
   }
 
+  function registerServiceWorker(){
+    if(!('serviceWorker' in navigator))return;
+    const swUrl=new URL(`${root}/sw.js`,window.location.href);
+    navigator.serviceWorker.register(swUrl.href,{scope:new URL(`${root}/`,window.location.href).pathname}).catch(error=>console.warn('PTCG app cache unavailable',error));
+  }
+
   function loadSharedSync(){
     if(window.PTCGSharedSync)return;
     const sharedSrc=`${root}/apps/_shared/shared-sync.js?v=1`;
@@ -42,5 +48,6 @@
     cloud.onload=startShared;
     document.body.appendChild(cloud);
   }
+  registerServiceWorker();
   loadSharedSync();
 })();
