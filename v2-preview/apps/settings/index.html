@@ -25,15 +25,13 @@
         </div>
       </div>
       <div data-ptcg-auth-signed-out>
-        <p class="settings-account-note">Sign in so your PTCG Tools data can follow you between devices. PTCG Tools never receives or stores your Apple, Google or Discord password.</p>
+        <p class="settings-account-note">Sign in with Google so your PTCG Tools data is saved to your account and follows you between devices. PTCG Tools never receives or stores your Google password.</p>
         <div class="settings-auth-buttons">
-          <button class="auth-provider apple" type="button" data-ptcg-auth-provider="apple"><span aria-hidden="true"></span>Continue with Apple</button>
           <button class="auth-provider google" type="button" data-ptcg-auth-provider="google"><span aria-hidden="true">G</span>Continue with Google</button>
-          <button class="auth-provider discord" type="button" data-ptcg-auth-provider="discord"><span aria-hidden="true">D</span>Continue with Discord</button>
         </div>
       </div>
       <div class="settings-signed-in" data-ptcg-auth-signed-in hidden>
-        <p class="settings-account-note">This account is the identity used for cloud-backed PTCG Tools data.</p>
+        <p class="settings-account-note">Your saved decks, deck versions, event/prep data, preferences and saved metas are automatically backed up to this account and restored on your other devices.</p>
         <button class="settings-signout" type="button" data-ptcg-auth-signout>Sign out</button>
       </div>
       <p class="settings-auth-message" data-ptcg-auth-message aria-live="polite"></p>
@@ -47,8 +45,10 @@
     </section>
     <div id="deckIconList" class="deck-icon-list"><div class="settings-empty">Loading deck names…</div></div>
   </main>
-  <script src="../_shared/cloud-sync.js?v=3"></script>
-  <script src="../_shared/auth-ui.js?v=2"></script>
+  <script src="../_shared/storage.js?v=3"></script>
+  <script src="../_shared/deck-store.js?v=2"></script>
+  <script src="../_shared/cloud-sync.js?v=4"></script>
+  <script src="../_shared/auth-ui.js?v=3"></script>
   <script src="../meta/sprites.js?v=4"></script>
   <script src="./settings.js?v=1"></script>
   <script src="../_shared/app-shell.js?v=4"></script>
