@@ -2,6 +2,7 @@
   'use strict';
   const DB_NAME='ptcg-tools-db',DB_VERSION=2,STORE='decks',MODEL_VERSION=2;
   let db=null,openPromise=null,migrated=false;
+  const INSTANCE_ID=`deck-store_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,10)}`;
 
   function uid(prefix='deck'){
     return global.crypto&&global.crypto.randomUUID
@@ -14,13 +15,13 @@
   }
   function notify(){
     global.dispatchEvent(new CustomEvent('ptcg:local-change',{detail:{source:'decks'}}));
-    try{const channel=new BroadcastChannel('ptcg-tools-local-change');channel.postMessage({source:'decks',at:Date.now()});channel.close()}catch{}
+    try{const channel=new BroadcastChannel('ptcg-tools-local-change');channel.postMessage({source:'decks',origin:INSTANCE_ID,at:Date.now()});channel.close()}catch{}
   }
   function subscribe(callback){
     if(typeof callback!=='function')return ()=>{};
     try{
       const channel=new BroadcastChannel('ptcg-tools-local-change');
-      channel.onmessage=event=>{if(event.data&&event.data.source==='decks')callback(event.data)};
+      channel.onmessage=event=>{if(event.data&&event.data.source==='decks'&&event.data.origin!==INSTANCE_ID)callback(event.data)};
       return ()=>channel.close();
     }catch{return ()=>{}}
   }
@@ -166,4 +167,3 @@
 
   global.PTCGDeckStore={DB_NAME,DB_VERSION,STORE,MODEL_VERSION,open,all,get,put,remove,replaceAll,newDeck,normalise,prepare,currentVersion,getVersion,workingMatchesVersion,checkpoint,cloneWithNewIds,subscribe};
 })(window);
-
