@@ -124,5 +124,55 @@
     return { cards, sections, byName, totals, totalCards, otherLines };
   }
 
-  window.PTCGDeckParser = { parseDeck };
+  function canonicalDecklist(rawText) {
+    const parsed = parseDeck(rawText);
+    const totals = new Map();
+
+    for (const card of parsed.cards) {
+      const name = normalizeLine(card.name).toLocaleLowerCase("en");
+      const set = normalizeLine(card.set).toUpperCase();
+      const number = normalizeLine(card.number).toUpperCase();
+      const key = `${name}|${set}|${number}`;
+      totals.set(key, (totals.get(key) || 0) + (Number(card.count) || 0));
+    }
+
+    const cards = [...totals.entries()]
+      .filter(([, count]) => count > 0)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([key, count]) => `${count}|${key}`);
+    const unknown = parsed.otherLines
+      .map(line => normalizeLine(line).toLocaleLowerCase("en"))
+      .filter(Boolean)
+      .sort()
+      .map(line => `?|${line}`);
+
+    return [...cards, ...unknown].join("\n");
+  }
+
+  function fallbackHash(value) {
+    let h1 = 0xdeadbeef ^ value.length;
+    let h2 = 0x41c6ce57 ^ value.length;
+    for (let i = 0; i < value.length; i++) {
+      const ch = value.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return `${(h2 >>> 0).toString(16).padStart(8, "0")}${(h1 >>> 0).toString(16).padStart(8, "0")}`;
+  }
+
+  async function hashDecklist(rawText) {
+    const canonical = canonicalDecklist(rawText);
+    try {
+      const bytes = new TextEncoder().encode(canonical);
+      const digest = await crypto.subtle.digest("SHA-256", bytes);
+      const hex = [...new Uint8Array(digest)].map(value => value.toString(16).padStart(2, "0")).join("");
+      return `sha256:${hex}`;
+    } catch {
+      return `fallback:${fallbackHash(canonical)}`;
+    }
+  }
+
+  window.PTCGDeckParser = { parseDeck, canonicalDecklist, hashDecklist };
 })();

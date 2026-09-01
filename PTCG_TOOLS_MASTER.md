@@ -590,7 +590,27 @@ with Playtest and physical readiness integrated contextually rather than hidden 
 
 ### 9.3 Deck versions
 
-Saved decks should support named revisions so testing conclusions, tournament lists and card-allocation state can refer to a specific version rather than a mutable single list.
+The durable Deck model is deliberately small:
+
+- a **Deck** is the long-lived project/identity, such as “Gholdengo”;
+- `Deck.rawText` is its mutable, account-synced **working list**;
+- a **checkpoint** (`DeckVersion` in the current code) is a named immutable exact list;
+- every working list and checkpoint carries a `listHash` derived from the canonical parsed card list.
+
+Canonicalization combines duplicate lines and ignores headings, whitespace and line order. Quantities, card names, set codes and card numbers remain significant. Therefore differently formatted exports of the same exact cards share a hash, while changing one card or printing changes the hash.
+
+The hash answers **“are these exact card lists the same?”**. Stable Deck/checkpoint IDs answer **“which saved project or named milestone did the user select?”**.
+
+Rules:
+
+- ordinary edits save the working list without rewriting historical checkpoints;
+- users create named checkpoints only at meaningful milestones;
+- saving an unchanged list reuses the matching checkpoint instead of creating duplicate list data;
+- future evidence may refer to `deckId + listHash`, with `deckVersionId` included when that exact list has a named checkpoint;
+- working lists remain immediately usable for Odds and testing without forcing checkpoint creation;
+- versions remain embedded inside Deck objects and inside the current account snapshot until normalized tables provide a concrete benefit.
+
+Existing/unversioned Deck records are migrated in place to stable model/version IDs and hashes. The legacy Decks page must not remain a second writer to the same IndexedDB store.
 
 ### 9.4 Mobile Playtest
 
@@ -620,6 +640,16 @@ Support attachments, damage/markers, turn state and undo/history where practical
 Primary actions should include Draw, Search Deck, Shuffle, Coin Flip, Undo and End Turn.
 
 Future phases may include two-deck local testing, scenario saving and lightweight practice analytics.
+
+### 9.5 Match history vs Playtest
+
+Actual competitive evidence and solo Playtest evidence are separate domains:
+
+- **Match History** contains real PTCGL and in-person games with an opponent, result and opponent archetype;
+- **Playtest Sessions** contain one-sided goldfish/setup evidence such as opening hands, mulligans and consistency observations;
+- both may refer to the same `deckId + listHash`, but Playtest must not create wins/losses or affect matchup statistics.
+
+The next Decks-adjacent foundation is a unified Match/Game contract for PTCGL log import and manual in-person recording. Tournament entry belongs contextually in Compete while Deck-specific history and analysis surface in Decks.
 
 ---
 
@@ -890,14 +920,15 @@ Any **Scraped** source that becomes essential to a future public application sho
 
 ### Next major product milestones
 
-1. **Decks consolidation** — simplify saved deck UX and establish deck-version foundations.
-2. **Mobile Playtest v1** — solo/goldfish touch-first tabletop.
-3. **Events / Compete maturity** — reliable local/major discovery plus attendance context.
-4. **Cut / ID Calculator** — deterministic tournament-day utility with optional uncertainty modelling.
-5. **Tournament Prep** — connect attending event, expected Meta, chosen deck/version and readiness.
-6. **Collection / readiness** — owned quantities, allocations, missing cards and shopping.
-7. **Learning loop** — personal results, matchup testing and playtest analytics.
-8. **Community hardening when useful** — privacy/export/delete controls, centralized source ingestion and operational observability before inviting a materially larger cohort.
+1. **Deck/list foundation** — working lists, canonical hashes, named checkpoints and stable relationships.
+2. **Match/Game foundation and Training Log v1** — PTCGL log import, real opponent/result attribution and manual in-person game recording.
+3. **Mobile Playtest v1** — separate solo/goldfish touch-first tabletop and consistency evidence.
+4. **Events / Compete maturity** — reliable local/major discovery plus attendance context.
+5. **Cut / ID Calculator** — deterministic tournament-day utility with optional uncertainty modelling.
+6. **Tournament Prep** — connect attending event, expected Meta, chosen exact list and readiness.
+7. **Collection / readiness** — owned quantities, allocations, missing cards and shopping.
+8. **Learning loop** — personal matchup, tournament and Playtest analytics kept semantically distinct.
+9. **Community hardening when useful** — privacy/export/delete controls, centralized source ingestion and operational observability before inviting a materially larger cohort.
 
 Performance should be reopened as a dedicated milestone only if future growth creates a material regression in first-load/navigation responsiveness or cloud reconciliation begins competing with active interaction.
 

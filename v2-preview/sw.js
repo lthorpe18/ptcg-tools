@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v6';
+const CACHE_NAME = 'ptcg-tools-v7';
 const CORE = [
   './',
   './home-content.html',
@@ -13,7 +13,8 @@ const CORE = [
   './apps/_shared/auth-ui.css?v=1',
   './apps/_shared/auth-ui.js?v=4',
   './apps/_shared/cloud-sync.js?v=5',
-  './apps/_shared/deck-store.js?v=2',
+  './apps/_shared/deckParser.js?v=2',
+  './apps/_shared/deck-store.js?v=3',
   './apps/_shared/storage.js?v=3',
   './assets/apple-touch-icon.png',
   './manifest.webmanifest'
