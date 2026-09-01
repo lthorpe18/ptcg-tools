@@ -1,14 +1,14 @@
 (function(global){
   'use strict';
   const ROOT_KEY='ptcg-tools-v2';
-  const SCHEMA_VERSION=1;
+  const SCHEMA_VERSION=2;
   const EVENT_STATUSES=new Set(['interested','attending','attended','skipped']);
-  function emptyState(){return {schemaVersion:SCHEMA_VERSION,plannedEvents:[],favouriteVenues:[],preps:[],recent:{},preferences:{}}}
+  function emptyState(){return {schemaVersion:SCHEMA_VERSION,plannedEvents:[],favouriteVenues:[],preps:[],matches:[],recent:{},preferences:{}}}
   function safeParse(raw){try{return raw?JSON.parse(raw):null}catch{return null}}
   function normalise(value){
     const base=emptyState();
     if(!value||typeof value!=='object')return base;
-    return {...base,...value,schemaVersion:SCHEMA_VERSION,plannedEvents:Array.isArray(value.plannedEvents)?value.plannedEvents:[],favouriteVenues:Array.isArray(value.favouriteVenues)?value.favouriteVenues:[],preps:Array.isArray(value.preps)?value.preps:[],recent:value.recent&&typeof value.recent==='object'?value.recent:{},preferences:value.preferences&&typeof value.preferences==='object'?value.preferences:{}};
+    return {...base,...value,schemaVersion:SCHEMA_VERSION,plannedEvents:Array.isArray(value.plannedEvents)?value.plannedEvents:[],favouriteVenues:Array.isArray(value.favouriteVenues)?value.favouriteVenues:[],preps:Array.isArray(value.preps)?value.preps:[],matches:Array.isArray(value.matches)?value.matches:[],recent:value.recent&&typeof value.recent==='object'?value.recent:{},preferences:value.preferences&&typeof value.preferences==='object'?value.preferences:{}};
   }
   function notify(){window.dispatchEvent(new CustomEvent('ptcg:local-change',{detail:{source:'root-state'}}))}
   function load(){return normalise(safeParse(localStorage.getItem(ROOT_KEY)))}

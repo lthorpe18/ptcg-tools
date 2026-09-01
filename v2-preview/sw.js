@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v9';
+const CACHE_NAME = 'ptcg-tools-v10';
 const CORE = [
   './',
   './home-content.html',
@@ -13,10 +13,13 @@ const CORE = [
   './apps/_shared/app-shell.js?v=6',
   './apps/_shared/auth-ui.css?v=1',
   './apps/_shared/auth-ui.js?v=4',
-  './apps/_shared/cloud-sync.js?v=5',
+  './apps/_shared/cloud-sync.js?v=6',
   './apps/_shared/deckParser.js?v=2',
   './apps/_shared/deck-store.js?v=4',
-  './apps/_shared/storage.js?v=3',
+  './apps/_shared/storage.js?v=5',
+  './apps/_shared/match-store.js?v=1',
+  './apps/decklists/ptcgl-log-parser.js?v=1',
+  './apps/decklists/training.js?v=2',
   './assets/apple-touch-icon.png',
   './manifest.webmanifest'
 ];

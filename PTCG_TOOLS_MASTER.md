@@ -649,7 +649,18 @@ Actual competitive evidence and solo Playtest evidence are separate domains:
 - **Playtest Sessions** contain one-sided goldfish/setup evidence such as opening hands, mulligans and consistency observations;
 - both may refer to the same `deckId + listHash`, but Playtest must not create wins/losses or affect matchup statistics.
 
-The next Decks-adjacent foundation is a unified Match/Game contract for PTCGL log import and manual in-person recording. Tournament entry belongs contextually in Compete while Deck-specific history and analysis surface in Decks.
+The durable real-game contract is:
+
+- a **Match** is one real encounter against an opponent and owns the context shared by its games: source, date, exact saved list, opponent archetype, format, event/round and notes;
+- a **Game** is a child result inside that Match, including per-game result and first/second state where known;
+- a PTCGL battle-log import creates one Game inside one Match; manual in-person entry uses the same contract and may record a multi-game score;
+- exact-list attribution stores `deckId + listHash`, plus `deckVersionId` when a named checkpoint was selected, and retains deck/version display snapshots so old evidence stays intelligible after later edits or deletion;
+- imported logs carry a canonical import hash for duplicate prevention, parser version and the original user-supplied log so future parser improvements can reprocess it;
+- parser suggestions for the user's saved list and the opponent archetype are conveniences, not immutable truth; the user confirms or corrects them before saving.
+
+Match records currently remain embedded in the account snapshot. This is intentional: normalize them into user tables only when concrete query, scale or collaboration needs exceed the snapshot model.
+
+The Decks **Training Log** is the primary personal surface for PTCGL import, manual in-person recording and Deck-specific history. Tournament entry belongs contextually in Compete but must write the same Match/Game contract rather than creating a second store. Raw PTCGL logs are private account-owned data and must not become community evidence by default.
 
 ---
 
@@ -764,11 +775,12 @@ The current model keeps one latest `user_snapshots` record per authenticated use
 Current snapshot-capable personal state includes:
 
 - saved decks and their versions;
+- real-game Match/Game history, including PTCGL imports and manual in-person records;
 - root V2 state including event attendance and current prep state;
 - preferences/deck icon overrides;
 - saved/custom expected Meta data.
 
-Future Collection, tournament history, playtest history and other account-owned data should join this model deliberately as those domains are implemented.
+Future Collection, structured tournament preparation, playtest history and other account-owned data should join this model deliberately as those domains are implemented.
 
 ### 13.2 Sync behaviour
 
@@ -920,9 +932,9 @@ Any **Scraped** source that becomes essential to a future public application sho
 
 ### Next major product milestones
 
-1. **Deck/list foundation** — working lists, canonical hashes, named checkpoints and stable relationships.
-2. **Match/Game foundation and Training Log v1** — PTCGL log import, real opponent/result attribution and manual in-person game recording.
-3. **Mobile Playtest v1** — separate solo/goldfish touch-first tabletop and consistency evidence.
+1. **Deck/list foundation — established** — working lists, canonical hashes, named checkpoints and stable relationships.
+2. **Match/Game foundation and Training Log v1 — established** — PTCGL log import, real opponent/result attribution and manual in-person game recording.
+3. **Mobile Playtest v1 — next** — separate solo/goldfish touch-first tabletop and consistency evidence.
 4. **Events / Compete maturity** — reliable local/major discovery plus attendance context.
 5. **Cut / ID Calculator** — deterministic tournament-day utility with optional uncertainty modelling.
 6. **Tournament Prep** — connect attending event, expected Meta, chosen exact list and readiness.

@@ -51,6 +51,10 @@ function renderLibrary(){
 function showLibrary(){
   active=null;
   dirty=false;
+  if($('trainingScreen'))$('trainingScreen').hidden=true;
+  if($('workspaceNav'))$('workspaceNav').hidden=false;
+  if($('newDeckTop'))$('newDeckTop').hidden=false;
+  document.querySelectorAll('[data-workspace]').forEach(button=>button.setAttribute('aria-selected',String(button.dataset.workspace==='decks')));
   $('libraryScreen').hidden=false;
   $('deckScreen').hidden=true;
   refresh();
@@ -66,6 +70,8 @@ async function openDeck(id){
   if(!deck)return;
   active=JSON.parse(JSON.stringify(deck));
   fillEditor(active);
+  if($('trainingScreen'))$('trainingScreen').hidden=true;
+  if($('workspaceNav'))$('workspaceNav').hidden=true;
   $('libraryScreen').hidden=true;
   $('deckScreen').hidden=false;
   dirty=false;
@@ -344,7 +350,7 @@ async function init(){
   if(query)openDeck(query);
 }
 window.addEventListener('pagehide',()=>{if(unsubscribeStore)unsubscribeStore()});
+window.PTCGDecksApp={showLibrary,openDeck,refresh};
 init().catch(error=>{console.error(error);toast('Decks failed to load')});
 
 })();
-

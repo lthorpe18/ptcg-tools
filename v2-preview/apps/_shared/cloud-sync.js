@@ -19,7 +19,7 @@
     const root=global.PTCGStorage?global.PTCGStorage.load():null;
     let decks=[];
     if(global.PTCGDeckStore){await global.PTCGDeckStore.open();decks=await global.PTCGDeckStore.all()}
-    return {schemaVersion:2,capturedAt:new Date().toISOString(),modifiedAt:dirtyAt()?new Date(dirtyAt()).toISOString():null,rootState:root,decks,savedMetas:readMeta()};
+    return {schemaVersion:3,capturedAt:new Date().toISOString(),modifiedAt:dirtyAt()?new Date(dirtyAt()).toISOString():null,rootState:root,decks,savedMetas:readMeta()};
   }
   async function restoreLocal(payload){
     if(!payload||typeof payload!=='object')throw new Error('Invalid cloud snapshot');
