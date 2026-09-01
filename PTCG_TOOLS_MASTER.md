@@ -3,17 +3,18 @@
 **Status:** Current product source of truth  
 **Date:** 1 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
-**Public app:** `https://lthorpe18.github.io/ptcg-tools/`
+**Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
+**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`
 
 ## 1. Product vision
 
-PTCG Tools is a personal-first competitive Pokémon TCG companion covering the full competitive loop:
+PTCG Tools is a **personal-first, public-ready** competitive Pokémon TCG companion covering the full competitive loop:
 
 **Analyse → Build & Test → Prepare → Compete → Learn**
 
 It should feel like one coherent native-style mobile application rather than a collection of unrelated utilities. The primary experience is an iPhone home-screen web app, with desktop treated as an adaptive expansion of that mobile experience.
 
-The product should help answer the recurring competitive questions:
+The app should help answer the recurring competitive questions:
 
 1. **What should I play?** — understand the current field and identify exact deck variants positioned well into it.
 2. **How should I build and test it?** — manage decklists, versions, consistency and mobile playtesting.
@@ -24,6 +25,12 @@ The product should help answer the recurring competitive questions:
 7. **What did I learn?** — retain results, testing and matchup evidence for future decisions.
 
 PTCG Tools is not intended to replace Pokémon TCG Live with a fully rules-enforced client. Its playtest experience should instead be a fast, flexible, touch-first competitive tabletop.
+
+The long-term product opportunity is not simply presenting Limitless, RK9, Pokémon or Pokédata information. It is the **connected layer for one player**:
+
+**Meta → deck choice → deck development/testing → physical readiness → event preparation → tournament-day decisions → review/learning.**
+
+Account-backed persistence makes that workflow longitudinal and device-independent.
 
 ---
 
@@ -83,17 +90,30 @@ Representative deck sprites have sensible built-in defaults, but users can overr
 
 The app should work immediately without configuration, but analytical pages must make their evidence scope understandable.
 
-Never hide a materially different evidence source behind a vague label. In particular, Online and IRL Meta evidence are distinct datasets and selected scope must actually change the underlying evidence, not only the text shown to the user.
+Never hide a materially different evidence source behind a vague label. Online and IRL Meta evidence are distinct datasets and selected scope must actually change the underlying evidence, not only the text shown to the user.
 
 ### 2.6 Correctness before polish
 
 Data semantics matter more than decorative UI. A number shown on a deck page must describe that deck unless clearly labelled otherwise. Global dataset counts must not be presented as though they are deck-specific samples.
 
+### 2.7 Personal-first, public-ready
+
+Build the best possible competitive app for the primary user, but avoid choices that unnecessarily make later community/public use impossible.
+
+This does **not** mean designing prematurely for millions of users. It means preserving a few durable foundations:
+
+- user-owned state is clearly account-scoped;
+- personal data can restore across devices;
+- shared public competitive data is conceptually distinct from private user data;
+- source provenance is retained;
+- upstream scraping is not silently treated as a permanent public integration contract;
+- the PTCG Tools brand remains independent rather than presenting as an official Pokémon product.
+
 ---
 
 ## 3. Current V2 application state
 
-V2 is now the active product direction and the public GitHub Pages root routes users into it. The old launcher should be treated as legacy rather than the product source of truth.
+V2 is the active product direction and the public GitHub Pages root routes users into it. The old launcher is legacy rather than product source of truth.
 
 Current V2 implementation lives under:
 
@@ -130,6 +150,14 @@ Before claiming a significant change is complete:
 5. confirm GitHub Pages deployment succeeds;
 6. do not claim visual verification unless the deployed UI has actually been viewed/tested.
 
+### 3.3 Current account foundation
+
+PTCG Tools now has an implemented account layer using **Google sign-in via Supabase Auth**.
+
+Google is the only supported provider for now. Apple and Discord were deliberately removed after Google proved sufficient for the current stage.
+
+The account milestone is not theoretical: authentication and cross-device persistence have been tested successfully on multiple devices.
+
 ---
 
 ## 4. Information architecture and feature ownership
@@ -156,7 +184,7 @@ Events, attendance, tournament preparation entry points and tournament-day workf
 Small standalone competitive utilities only.
 
 ### Settings
-Application preferences such as deck icon overrides and future presentation / app preferences.
+Account, application preferences, deck icon overrides and future storage/import/export controls.
 
 ### Ownership locks
 
@@ -176,7 +204,7 @@ Persistent mobile navigation makes the five competitive areas immediately reacha
 
 **Home · Meta · Decks · Compete · Tools**
 
-This is now a production architectural requirement, not only a visual/navigation preference.
+This is a production architectural requirement, not only a visual preference.
 
 The public root owns a persistent five-area shell. Home, Meta, Decks, Compete and Tools remain mounted after first load and section switching changes the active view rather than performing a fresh top-level document navigation. This architecture was promoted on 1 September 2026 after direct iPhone testing showed a substantial improvement in perceived navigation performance.
 
@@ -186,7 +214,17 @@ Nested objects such as exact deck detail or tournament detail use compact contex
 
 Current implementation uses persistent child views as a pragmatic bridge over the existing plain-HTML feature pages. A future move to a true shared-DOM shell is allowed, but only if it preserves or improves measured/perceived performance and does not require a framework rewrite solely for architectural neatness.
 
-### 5.2 Design tokens
+### 5.2 OAuth exception to persistent child navigation
+
+Third-party authentication pages such as Google must **not** be loaded inside the persistent child iframe that contains Settings.
+
+Google OAuth therefore deliberately escapes to a **top-level navigation**, then returns to the top-level PTCG Tools app after authentication.
+
+This behaviour was required to fix an iPhone failure where Google returned a 403 page while PTCG Tools' bottom navigation remained visible underneath it.
+
+Future auth/external flows that prohibit embedding must follow the same rule.
+
+### 5.3 Design tokens
 
 Core visual direction:
 
@@ -210,7 +248,7 @@ Shape direction:
 - full-radius pills/chips;
 - compact spacing with clear hierarchy.
 
-### 5.3 Search as a standard list capability
+### 5.4 Search as a standard list capability
 
 Lists containing many decks should be searchable/filterable by default where it materially improves navigation.
 
@@ -223,7 +261,7 @@ Already applied in V2 Meta to:
 
 The same principle should be reused elsewhere rather than implemented independently each time.
 
-### 5.4 PWA behaviour
+### 5.5 PWA behaviour
 
 The app should continue toward a genuine standalone home-screen experience with:
 
@@ -238,9 +276,9 @@ The app should continue toward a genuine standalone home-screen experience with:
 
 Cache-busting/versioning must be handled deliberately for changed static assets so an iPhone home-screen install does not appear stale after deployment.
 
-### 5.5 Performance architecture — current production baseline
+### 5.6 Performance architecture — current production baseline
 
-A dedicated performance pass on 1 September 2026 established the following production baseline:
+A dedicated performance pass on 1 September 2026 established the production baseline:
 
 - a service worker caches the app shell, static assets and generated JSON with stale-while-revalidate behaviour where appropriate;
 - routine Home preview data no longer deliberately bypasses browser caching;
@@ -252,16 +290,9 @@ A dedicated performance pass on 1 September 2026 established the following produ
 
 The original intermittent navigation hangs were primarily caused by full-document navigation repeatedly rebuilding pages, scripts and data state. Cache tuning alone did not remove the issue; promoting the persistent shell did.
 
-The user has accepted the remaining occasional first-initialisation pause as an acceptable trade-off for now. **Performance is therefore considered good enough and the navigation-performance milestone is complete.** Do not prioritise further optimisation ahead of product work unless a measurable/user-visible regression appears as the application grows.
+The remaining occasional first-initialisation pause is accepted for now. **Performance is considered good enough and the navigation-performance milestone is complete.** Do not prioritise further optimisation ahead of product work unless a measurable/user-visible regression appears.
 
-When future performance work is needed, first distinguish:
-
-1. **initialisation cost** — first load/warm-up of a feature;
-2. **navigation cost** — switching between already-loaded core areas;
-3. **data cost** — network/cache/large JSON processing;
-4. **rendering cost** — expensive synchronous DOM/analysis work.
-
-Do not assume a slow transition is a network problem without measuring which category is responsible.
+See `PERFORMANCE_ARCHITECTURE.md` before changing global navigation, caching, shell-owned sync or OAuth routing.
 
 ---
 
@@ -276,7 +307,8 @@ Priority content:
 - current Meta snapshot;
 - recently used / saved deck context;
 - next event or attendance context where available;
-- quick access to Decks, Events and Cut / ID.
+- quick access to Decks, Events and Cut / ID;
+- compact account state without allowing account chrome to dominate the competitive dashboard.
 
 Only show personal modules where meaningful data exists.
 
@@ -450,20 +482,9 @@ A whole-tournament match count must never be displayed as though the deck itself
 
 Recent results belong at the bottom of exact deck detail.
 
-**Online:**
+**Online:** only tournaments inside the currently selected Online scope, filtered to the exact variant, sorted by placement best first.
 
-- only tournaments inside the currently selected Online scope;
-- filtered to the exact variant;
-- sorted by placement, best first.
-
-**IRL:**
-
-- only events inside the selected IRL scope;
-- filtered to the exact variant;
-- sorted by placement, best first;
-- individual result rows should link directly to the player’s Limitless Labs decklist where available.
-
-The IRL data pipeline now retains individual results and decklist URLs so this is source data rather than a guessed link.
+**IRL:** only events inside the selected IRL scope, filtered to the exact variant, sorted by placement best first. Individual result rows should link directly to the player’s Limitless Labs decklist where available.
 
 ### 7.12 Meta data architecture
 
@@ -477,27 +498,45 @@ Avoid rebuilding overlapping page-specific scope systems.
 
 Online field scope changes should use compact precomputed/cached history rather than rerunning expensive aggregation on every interaction.
 
-Detailed matchup coverage may be narrower than field coverage. The UI must reflect this honestly. The rolling detailed online matchup archive should continue accumulating event pairings over time while full field standings remain independently comprehensive.
+Detailed matchup coverage may be narrower than field coverage. The UI must reflect this honestly.
 
 ### 7.13 Meta data sources
 
 Current direction:
 
-- `play.limitlesstcg.com` / Limitless API for online tournament data;
+- `play.limitlesstcg.com` / documented Limitless APIs for online tournament data where available;
 - compact generated online field history for fast scope switching;
 - rolling detailed pairing archive for scoped online matchup evidence;
 - broader aggregate matchup history for all-format evidence;
-- `labs.limitlesstcg.com` for IRL majors, deck field data, matchups and individual results/decklist links.
+- `labs.limitlesstcg.com` for current IRL evidence while the integration remains appropriate.
 
 Do not silently substitute one source for another when the UI claims otherwise.
 
+For any future community/public release, documented/authorized data access should replace essential scraping wherever possible. See Section 18 and `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`.
+
 ---
 
-## 8. Settings
+## 8. Settings and accounts
 
-Settings is now an implemented app-level area.
+Settings is an implemented app-level area.
 
-### 8.1 Deck icon overrides
+### 8.1 Account
+
+Google sign-in is now the supported account mechanism.
+
+Requirements/principles:
+
+- Google only for now;
+- request only basic identity information needed for the account;
+- no Gmail/Drive/Contacts access;
+- never receive/store Google passwords;
+- OAuth provider secrets remain server-side and never enter the public repo;
+- name/email are personal data and must be treated accordingly;
+- account state should be compact and understandable.
+
+The current Supabase account backend is **PTCG Tools V2 Auth**, project reference `naylqcyrnhjvqodjpjsg`, hosted in `eu-west-2` on the free tier at the current stage.
+
+### 8.2 Deck icon overrides
 
 Users can configure representative Pokémon for deck/archetype presentation.
 
@@ -510,9 +549,9 @@ Requirements:
 - reset to built-in default;
 - presentation only — no effect on deck identity, family grouping, field shares or matchup data.
 
-Overrides should live in the app’s shared `preferences` state, with compatibility handling for older locally stored values where required.
+Overrides live in shared preferences state, with compatibility handling for older locally stored values where required.
 
-### 8.2 Future Settings direction
+### 8.3 Future Settings direction
 
 Settings should own genuine app preferences, not analytical assumptions that belong contextually inside Meta/Tools/Decks.
 
@@ -521,7 +560,8 @@ Potential future settings:
 - appearance/preferences shared across the app;
 - default competitive format where useful;
 - presentation preferences;
-- data/storage/import/export controls.
+- data/storage/import/export controls;
+- account export/delete controls before broad public release.
 
 ---
 
@@ -538,14 +578,7 @@ Decks is the home for:
 
 ### 9.1 Deck library
 
-Mobile-first library with:
-
-- search;
-- compact add action;
-- deck name;
-- one or two representative sprites;
-- current/version context;
-- concise useful metadata.
+Mobile-first library with search, compact add action, deck name, one or two representative sprites, current/version context and concise useful metadata.
 
 ### 9.2 Deck detail
 
@@ -690,26 +723,73 @@ Answer-first mobile UX should show the actionable conclusion before detailed mod
 
 ---
 
-## 13. Persistence and shared state
+## 13. Persistence, accounts and shared state
 
-V2 should continue toward a coherent shared persistence model.
+### 13.1 Current cloud persistence
 
-Personal/shared state includes or will include:
+V2 now has working per-account cloud persistence through Supabase.
 
-- user preferences;
-- deck icon overrides;
-- saved decks and versions;
-- attendance intent;
-- saved/custom expected meta;
-- collection/allocation state;
-- tournament prep state;
-- playtest history where implemented.
+The current model keeps one latest `user_snapshots` record per authenticated user, protected by Row Level Security using the authenticated user ID.
 
-Accountless shared persistence through the existing V2 approach is preferred where appropriate.
+Current snapshot-capable personal state includes:
 
-Use explicit schema/version migration rather than silently breaking older local/shared state.
+- saved decks and their versions;
+- root V2 state including event attendance and current prep state;
+- preferences/deck icon overrides;
+- saved/custom expected Meta data.
 
-Import/export remains valuable as a backup and interoperability mechanism.
+Future Collection, tournament history, playtest history and other account-owned data should join this model deliberately as those domains are implemented.
+
+### 13.2 Sync behaviour
+
+The intended behaviour is:
+
+> Sign in with Google once; PTCG Tools data follows the account.
+
+Current behaviour includes:
+
+- if an authenticated user has no cloud snapshot, existing local data is uploaded rather than replaced by an empty account;
+- newer cloud data can restore on another device;
+- personal local changes mark account state dirty and auto-upload;
+- reconnect/focus/foreground events can trigger reconciliation;
+- deck deletions restore correctly because the deck library can be replaced rather than only appended;
+- offline local use remains possible and sync resumes later.
+
+The sync controller lives at the **top-level persistent shell** so it is not tied to whichever feature page happens to be open.
+
+### 13.3 Proven cross-device behaviour
+
+On 1 September 2026, Google sign-in and cloud sync were tested across devices. Setting an event to **Attending** on one device persisted to the other device using the same Google account.
+
+Therefore **Google account + per-account cloud persistence + cross-device restore/sync is a completed foundation milestone for the current stage**.
+
+### 13.4 Snapshot vs normalized future tables
+
+The current whole-account snapshot is intentionally pragmatic while the product model is still evolving.
+
+Move domains into normalized user tables when there is a concrete reason, such as:
+
+- queryability;
+- conflict resolution;
+- history/audit needs;
+- collaboration;
+- large collection datasets;
+- tournament/match analytics;
+- performance/scale.
+
+Do not normalize solely for architectural purity.
+
+Import/export remains valuable as backup/interoperability even with accounts.
+
+### 13.5 Shared vs per-user data
+
+Maintain a strong conceptual split.
+
+**Shared competitive data:** cards, formats, events, results, public decklists, Meta aggregates, public matchup evidence.
+
+**Per-user data:** saved decks/versions, Collection, attendance, preparation, personal matches/testing, notes and preferences.
+
+Do not duplicate heavyweight shared public datasets inside every user's account snapshot.
 
 ---
 
@@ -723,6 +803,8 @@ Shared responsibilities should include:
 
 - persistent app shell;
 - navigation;
+- application-level auth/session lifecycle;
+- cloud reconciliation;
 - design tokens;
 - forms/segmented controls;
 - disclosure behaviour;
@@ -744,11 +826,44 @@ Performance-sensitive analysis should favour generated compact data and caching 
 
 The current production shell deliberately prioritises **perceived navigation responsiveness and state retention** over architectural purity. Do not replace it with a cleaner-looking routing abstraction if that would return the app to page-by-page cold starts.
 
+### 14.1 Shared upstream ingestion direction
+
+As usage expands beyond one person, shared source requests should increasingly be centralized:
+
+`Limitless / Pokémon / Pokédata / authorized sources → PTCG Tools ingestion/cache → normalized shared dataset → all users`
+
+rather than every user's browser independently requesting the same upstream data.
+
+This reduces source rate-limit pressure, duplicated traffic and inconsistent user experiences.
+
+### 14.2 Source Adapter direction
+
+Future data architecture should converge toward normalized entities such as:
+
+- Tournament;
+- TournamentResult;
+- Decklist;
+- Match;
+- Event;
+- Card.
+
+Adapters may include `LimitlessAdapter`, `PokemonAdapter`, `RK9Adapter`, `PokedataAdapter` or successors.
+
+Imported records should preserve provenance where practical: source, source ID, retrieval timestamp, field authority and access classification.
+
+Useful access classifications:
+
+- Official API;
+- Explicit permission;
+- Public data;
+- Scraped;
+- User supplied.
+
+Any **Scraped** source that becomes essential to a future public application should be reviewed/replaced/authorized before broad launch.
+
 ---
 
 ## 15. Near-term roadmap
-
-The product shell/V2 promotion, major Meta redesign and navigation-performance pass are now substantially further ahead than the original roadmap implied.
 
 ### Completed / substantially established
 
@@ -767,7 +882,11 @@ The product shell/V2 promotion, major Meta redesign and navigation-performance p
 - recent IRL results with Limitless decklist links;
 - searchable deck-list surfaces in Meta;
 - app Settings area with deck icon overrides;
-- iPhone input sizing rule to prevent search-field focus zoom.
+- iPhone input sizing rule to prevent search-field focus zoom;
+- **Google account sign-in via Supabase Auth**;
+- **top-level OAuth flow compatible with the persistent iPhone shell**;
+- **per-account cloud snapshots and automatic reconciliation**;
+- **cross-device persistence tested successfully using event Attending state**.
 
 ### Next major product milestones
 
@@ -778,10 +897,11 @@ The product shell/V2 promotion, major Meta redesign and navigation-performance p
 5. **Tournament Prep** — connect attending event, expected Meta, chosen deck/version and readiness.
 6. **Collection / readiness** — owned quantities, allocations, missing cards and shopping.
 7. **Learning loop** — personal results, matchup testing and playtest analytics.
+8. **Community hardening when useful** — privacy/export/delete controls, centralized source ingestion and operational observability before inviting a materially larger cohort.
 
-Performance should be reopened as a dedicated milestone only if future growth creates a material regression in first-load or navigation responsiveness.
+Performance should be reopened as a dedicated milestone only if future growth creates a material regression in first-load/navigation responsiveness or cloud reconciliation begins competing with active interaction.
 
-Roadmap decisions should preserve the overall loop:
+Roadmap decisions should preserve the loop:
 
 **Analyse → Build & Test → Prepare → Compete → Learn**
 
@@ -792,7 +912,8 @@ Roadmap decisions should preserve the overall loop:
 PTCG Tools is successful when:
 
 - launching the public URL/home-screen icon feels like opening one coherent app;
-- **routine switching between already-loaded Home, Meta, Decks, Compete and Tools feels immediate rather than like loading separate websites**;
+- routine switching between already-loaded Home, Meta, Decks, Compete and Tools feels immediate rather than like loading separate websites;
+- a user can sign in once and their meaningful PTCG Tools state follows them across devices;
 - Home surfaces useful competitive context rather than acting as a directory;
 - Meta clearly communicates what evidence is being used and never confuses field evidence with matchup evidence;
 - exact deck variants are consistently linked across field, matchups, results and recommendations;
@@ -803,7 +924,8 @@ PTCG Tools is successful when:
 - physical collection state can answer “can I build this?” without double-counting cards;
 - Cut / ID answers deterministic questions before resorting to probabilistic simulation;
 - advanced analysis remains available without overwhelming routine use;
-- every major feature supports a real competitive decision or workflow.
+- every major feature supports a real competitive decision or workflow;
+- the architecture can support a local community without every user independently hammering upstream sources.
 
 ---
 
@@ -816,7 +938,7 @@ High complexity and unnecessary for the core mobile tabletop goal.
 Potential future research, but must not delay a highly useful manual solo tabletop.
 
 ### Social-network/community layer
-Not core to the personal competitive-companion vision.
+Not core. “Community release” means multiple independent users can use the same product, not that PTCG Tools needs feeds, followers, chat or social-network mechanics.
 
 ### Large quantities of novelty calculators
 Tools should remain curated.
@@ -824,10 +946,109 @@ Tools should remain curated.
 ### Meta family pages
 Explicitly avoid them. Families are Current Meta presentation groupings only; exact variants own gameplay evidence.
 
+### Premature hyperscale architecture
+Do not design for millions of users before real demand exists.
+
 ---
 
-## 18. External reference position
+## 18. External data, permissions and public-release position
 
-Limitless remains an important data source and product reference, particularly for competitive results, decklists, matchups and its existing Tabletop concept.
+### 18.1 Limitless
 
-PTCG Tools should not clone Limitless visually or technically. Its opportunity is to connect high-quality public competitive evidence with personal deck development, mobile playtesting, preparation, tournament-day decisions and physical-card readiness in one coherent mobile workflow.
+Limitless is an important data source and product reference, particularly for competitive results, decklists, matchups and its Tabletop concept.
+
+For community/public use, documented Limitless developer APIs should be preferred over undocumented/scraped endpoints wherever possible. Legitimate public projects can seek API access/higher limits where required.
+
+PTCG Tools should not clone Limitless visually or technically.
+
+### 18.2 RK9
+
+RK9's published Terms prohibit automated extraction/screen scraping for commercial **or non-commercial** purposes.
+
+Therefore a free app does not make RK9 scraping acceptable.
+
+Public-ready direction:
+
+- official Pokémon remains major-event existence/date authority;
+- RK9 can be linked to for registration/practical details;
+- automated RK9 dependence should require permission or an authorized mechanism;
+- do not make unauthorized RK9 scraping a core public dependency.
+
+### 18.3 Pokémon IP
+
+A free fan app is not automatically exempt from intellectual-property obligations.
+
+Before broad public/App Store release, review at minimum:
+
+- card artwork/images;
+- Pokémon artwork/logos;
+- trademarks/naming and official-looking branding;
+- energy/game symbols and other protected assets;
+- third-party service terms;
+- privacy/GDPR obligations;
+- app-store IP rules.
+
+PTCG Tools should maintain an independent brand and clearly identify itself as unofficial/community software if released widely.
+
+Facts, calculations and statistics are different from copying protected artwork, but source/database terms still matter.
+
+### 18.4 Privacy
+
+Google identity can provide name, email, stable IDs and profile image where available. Name/email are personal data.
+
+Principles:
+
+- collect the minimum necessary;
+- request no unrelated Google scopes;
+- protect personal rows with RLS;
+- do not expose one user's state to another;
+- provide export/delete controls before broad public release;
+- create a formal privacy policy before broad distribution.
+
+---
+
+## 19. Community and future native-app direction
+
+### 19.1 Local-community middle ground
+
+A local-community PWA release is a legitimate next step if/when useful:
+
+> no monetisation required, no App Store required, no broad marketing required — simply allow a small competitive community to use the installable web app with their own Google accounts and cloud-backed personal state.
+
+Approximate engineering thresholds:
+
+| Scale | Expected concern |
+|---|---|
+| One user / a few friends | Essentially none |
+| 20–100 regular users | Technically trivial |
+| Hundreds active | Watch bandwidth and upstream-source traffic |
+| Low thousands | Production hosting/CDN/backend observability sensible |
+| Tens of thousands | Genuine scale engineering |
+
+User count does not multiply browser RAM; persistent-shell memory is primarily a per-device concern.
+
+GitHub Pages is acceptable for the current personal/community phase. Reassess hosting before sustained low-thousands usage rather than treating GitHub Pages as the permanent high-scale production platform.
+
+### 19.2 Native iOS/Android feasibility
+
+PTCG Tools is technically convertible into a native-distributed product without rewriting every domain model from scratch.
+
+Potential evolution:
+
+1. mature the responsive PWA and shared backend;
+2. keep domain/data logic platform-independent;
+3. consider Capacitor/native wrapping if the mature web UI remains the preferred client;
+4. consider React Native/Expo or another native client only if native interaction requirements justify it.
+
+The eventual app should provide genuine app functionality rather than being a simple web clipping. Saved decks, Playtest, Collection, preparation, tournament-day tools and cloud accounts naturally support that direction.
+
+### 19.3 Recommended release progression
+
+1. **Personal product** — continue building for the primary user's real competitive workflow.
+2. **Public-ready foundations** — maintain accounts, provenance, normalized shared data and durable persistence.
+3. **Local community** — validate the app with a small number of real competitive players.
+4. **Private beta** — expand to tens of users if useful and observe support/data-source impact.
+5. **Provider/IP/privacy review** — resolve source permissions, Pokémon asset use, privacy and store requirements.
+6. **Public release** — only if there is real demand and the operational/legal foundations are adequate.
+
+For detailed account/community/source guidance, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md` is the companion source of truth.
