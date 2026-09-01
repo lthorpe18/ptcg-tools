@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v8';
+const CACHE_NAME = 'ptcg-tools-v9';
 const CORE = [
   './',
   './home-content.html',
@@ -10,6 +10,7 @@ const CORE = [
   './perf-shell/shell.css?v=2',
   './scripts/persistent-shell.js?v=1',
   './apps/_shared/app-shell.css',
+  './apps/_shared/app-shell.js?v=6',
   './apps/_shared/auth-ui.css?v=1',
   './apps/_shared/auth-ui.js?v=4',
   './apps/_shared/cloud-sync.js?v=5',
