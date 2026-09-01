@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v2';
+const CACHE_NAME = 'ptcg-tools-v3';
 const CORE = [
   './',
   './home-content.html',
@@ -6,9 +6,13 @@ const CORE = [
   './apps/decklists/',
   './apps/events/',
   './apps/tools/',
+  './apps/settings/',
   './perf-shell/shell.css?v=2',
   './scripts/persistent-shell.js?v=1',
   './apps/_shared/app-shell.css',
+  './apps/_shared/auth-ui.css?v=1',
+  './apps/_shared/auth-ui.js?v=1',
+  './apps/_shared/cloud-sync.js?v=2',
   './assets/apple-touch-icon.png',
   './manifest.webmanifest'
 ];
