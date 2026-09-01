@@ -291,10 +291,10 @@
       const scope=options.scope || state.onlineScope;
       const label=ONLINE_SCOPES.find(x=>x.value===scope)?.label || 'Last 30 days';
       const fallback=!d.matchupScoped && scope!=='all';
-      let detail = fallback ? 'Field scoped · matchups currently all-format' : (d.generatedAt?`Updated ${new Date(d.generatedAt).toLocaleDateString([],{day:'numeric',month:'short'})}`:'50+ online tournaments');
+      let detail = fallback ? '50+ player tournaments · field scoped · matchups currently all-format' : (d.generatedAt?`50+ player tournaments · Updated ${new Date(d.generatedAt).toLocaleDateString([],{day:'numeric',month:'short'})}`:'50+ player tournaments');
       if (scope==='since-major' && onlineHistory?.majorWeekend?.events?.length) {
         const names=onlineHistory.majorWeekend.events.map(e=>e.name).join(' + ');
-        detail = d.matchupScoped ? `After ${names}` : `After ${names} · matchups currently all-format`;
+        detail = d.matchupScoped ? `50+ player tournaments · After ${names}` : `50+ player tournaments · After ${names} · matchups currently all-format`;
       }
       return { source,scope,events:Number(d.overview?.events||0),entries:Number(d.overview?.entries||0),label:`${label} online data`,detail };
     }
