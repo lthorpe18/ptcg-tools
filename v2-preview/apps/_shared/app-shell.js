@@ -8,6 +8,13 @@
   const active=body.dataset.appSection||'home';
   const labels={home:['⌂','Home'],meta:['◈','Meta'],decks:['▤','Decks'],compete:['◇','Compete'],tools:['⊕','Tools']};
   const hrefs={home:`${root}/`,meta:`${root}/apps/meta/`,decks:`${root}/apps/decklists/`,compete:`${root}/apps/events/`,tools:`${root}/apps/tools/`};
+  if(!document.querySelector('link[rel~="icon"]')){
+    const icon=document.createElement('link');
+    icon.rel='icon';
+    icon.type='image/png';
+    icon.href=`${root}/assets/apple-touch-icon.png`;
+    document.head.appendChild(icon);
+  }
   if(!document.querySelector('.app-bottom-nav')){
     const nav=document.createElement('nav');
     nav.className='app-bottom-nav';
