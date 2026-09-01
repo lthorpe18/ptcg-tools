@@ -58,10 +58,19 @@
   }
 
   function removeLegacyResults(detail) {
+    let changed = false;
     detail.querySelectorAll('.detail-section').forEach(section => {
       if (section.id === 'deckRecentResults') return;
-      if (section.querySelector('h2')?.textContent?.trim() === 'Recent results') section.remove();
+      if (section.querySelector('h2')?.textContent?.trim() === 'Recent results') {
+        section.remove();
+        changed = true;
+      }
     });
+    return changed;
+  }
+
+  function signatureFor(source, name, contextLabel, rows) {
+    return JSON.stringify([source, name, contextLabel, rows.map(r => [r.eventId || r.tournamentId || '', r.placing, r.player, r.decklistUrl || r.sourceUrl || ''])]);
   }
 
   function render() {
@@ -72,16 +81,24 @@
     if (!body) return;
 
     removeLegacyResults(detail);
-    body.querySelector('#deckRecentResults')?.remove();
-
     const rows = rowsFor(source, name);
-    if (!rows.length) return;
-
     const context = window.MetaData?.context?.(source) || {};
+    const label = context.label || (source === 'irl' ? 'Selected IRL scope' : 'Selected online scope');
+    const signature = signatureFor(source, name, label, rows);
+    const existing = body.querySelector('#deckRecentResults');
+
+    if (!rows.length) {
+      existing?.remove();
+      return;
+    }
+    if (existing?.dataset.signature === signature) return;
+    existing?.remove();
+
     const section = document.createElement('section');
     section.id = 'deckRecentResults';
     section.className = 'detail-section deck-recent-results';
-    section.innerHTML = `<div class="section-row"><h2>Recent results</h2><span>${esc(context.label || (source === 'irl' ? 'Selected IRL scope' : 'Selected online scope'))} · sorted by placement</span></div><div class="result-card-list">${rows.map(r => resultRow(r, source)).join('')}</div>`;
+    section.dataset.signature = signature;
+    section.innerHTML = `<div class="section-row"><h2>Recent results</h2><span>${esc(label)} · sorted by placement</span></div><div class="result-card-list">${rows.map(r => resultRow(r, source)).join('')}</div>`;
     body.appendChild(section);
   }
 
@@ -93,7 +110,12 @@
   }
 
   const observer = new MutationObserver(mutations => {
-    if (mutations.some(m => m.target?.closest?.('#deckDetail') || m.addedNodes?.length)) schedule();
+    const relevant = mutations.some(m => {
+      const target = m.target?.nodeType === 1 ? m.target : m.target?.parentElement;
+      if (target?.closest?.('#deckRecentResults')) return false;
+      return !!target?.closest?.('#deckDetail') || [...(m.addedNodes || [])].some(node => node.nodeType === 1 && node.matches?.('#deckDetail, #deckDetail *'));
+    });
+    if (relevant) schedule();
   });
   observer.observe(document.documentElement, { childList:true, subtree:true });
 
