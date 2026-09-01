@@ -55,6 +55,23 @@
     };
   }
 
+  function searchBox(id, placeholder='Search decks') {
+    return `<label class="deck-list-search"><span class="search-glyph">⌕</span><input id="${id}" type="search" autocomplete="off" placeholder="${esc(placeholder)}" aria-label="${esc(placeholder)}"></label>`;
+  }
+
+  function wireListFilter(inputId, container, itemSelector, nameSelector) {
+    const input=$(inputId); if(!input||!container)return;
+    const apply=()=>{
+      const q=(input.value||'').trim().toLowerCase();
+      container.querySelectorAll(itemSelector).forEach(item=>{
+        const name=(item.querySelector(nameSelector)?.textContent||item.dataset.exploreDeck||'').toLowerCase();
+        item.hidden=!!q&&!name.includes(q);
+      });
+    };
+    input.addEventListener('input',apply);
+    apply();
+  }
+
   function ensureDetail() {
     if ($('deckDetail')) return;
     const section = document.createElement('section');
@@ -133,8 +150,12 @@
 
     const evidencePanel = `<details id="deckDetailEvidence" class="detail-data-panel" ${panelWasOpen?'open':''}><summary><span><b>Data & performance</b><small>${esc(scopeText)} · ${row.entries.toLocaleString()} deck entries · ${pct(row.winRate)} WR</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls"><div class="detail-source"><button type="button" data-detail-source="online" class="${detailSource==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detailSource==='irl'?'active':''}">IRL</button></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Field performance</b><small>This exact variant within the selected field</small></div><div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Deck entries</span></div><div><b>${pct(row.share)}</b><span>Field share</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div><div class="detail-sample-strip"><span>Field sample</span><b>${row.entries.toLocaleString()} deck entries across ${fieldEvents.toLocaleString()} ${fieldEvents===1?'event':'events'}</b></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Matchup evidence</b><small>Head-to-head games involving this exact variant</small></div><div class="detail-sample-strip matchup-sample"><span>Matchup sample</span><b>${games.toLocaleString()} games involving ${esc(detailName)}</b></div></div></div></details>`;
 
-    $('deckDetailBody').innerHTML = `${evidencePanel}<section class="detail-section detail-matchups"><div class="section-row"><h2>Matchups</h2><span>${esc(scopeText)}</span></div>${matchupCards(detailName,detailSource,25)}</section>${resultsHtml}`;
-    setTimeout(()=>{ window.MetaControls?.syncDetail?.(); window.MetaContext?.render?.(); },0);
+    $('deckDetailBody').innerHTML = `${evidencePanel}<section class="detail-section detail-matchups"><div class="section-row"><h2>Matchups</h2><span>${esc(scopeText)}</span></div>${searchBox('detailMatchupSearch','Filter matchups')}${matchupCards(detailName,detailSource,60)}</section>${resultsHtml}`;
+    setTimeout(()=>{
+      window.MetaControls?.syncDetail?.(); window.MetaContext?.render?.();
+      const list=$('detailMatchupSearch')?.closest('.detail-section')?.querySelector('.matchup-card-list');
+      wireListFilter('detailMatchupSearch',list,'.matchup-card','.matchup-opponent b');
+    },0);
   }
 
   function renderDetail() {
@@ -149,7 +170,9 @@
     const target=$('deckExplorerList'); if(!target)return;
     const source=$('deckPageSource')?.value||'online';
     const rows=variantRows(source);
-    target.innerHTML=rows.length?rows.slice(0,80).map((r,i)=>`<button class="deck-explorer-card" type="button" data-explore-deck="${esc(r.name)}" data-explore-source="${source}"><span class="deck-explorer-rank">${i+1}</span>${sprite(r.name,38)}<span class="deck-explorer-copy"><b>${esc(r.name)}</b><small>${r.entries.toLocaleString()} entries</small></span><span class="deck-explorer-score"><b>${pct(r.share)}</b><small>${pct(r.winRate)} WR</small></span><span class="explore-arrow">›</span></button>`).join(''):'<div class="meta-empty">No deck data available in the selected source and scope.</div>';
+    const cards=rows.length?rows.slice(0,100).map((r,i)=>`<button class="deck-explorer-card" type="button" data-explore-deck="${esc(r.name)}" data-explore-source="${source}"><span class="deck-explorer-rank">${i+1}</span>${sprite(r.name,38)}<span class="deck-explorer-copy"><b>${esc(r.name)}</b><small>${r.entries.toLocaleString()} entries</small></span><span class="deck-explorer-score"><b>${pct(r.share)}</b><small>${pct(r.winRate)} WR</small></span><span class="explore-arrow">›</span></button>`).join(''):'<div class="meta-empty">No deck data available in the selected source and scope.</div>';
+    target.innerHTML=`${searchBox('deckExplorerSearch','Search deck variants')}<div class="deck-explorer-card-list">${cards}</div>`;
+    wireListFilter('deckExplorerSearch',target.querySelector('.deck-explorer-card-list'),'.deck-explorer-card','.deck-explorer-copy b');
   }
 
   function renderMatchupsV2() {
@@ -158,8 +181,9 @@
     const decks=variantRows(source).filter(d=>sourceMatchups(source).some(m=>m.a===d.name));
     if(!decks.length){target.innerHTML='<div class="meta-empty">No variant-level matchup data available in the selected source and scope.</div>';return;}
     if(!matchupDeck||!decks.some(d=>d.name===matchupDeck))matchupDeck=decks[0].name;
-    target.innerHTML=`<div class="matchup-picker"><label>Deck variant<select id="matchupDeckSelect">${decks.slice(0,80).map(d=>`<option value="${esc(d.name)}" ${d.name===matchupDeck?'selected':''}>${esc(d.name)}</option>`).join('')}</select></label><button type="button" class="open-deck-detail" data-explore-deck="${esc(matchupDeck)}" data-explore-kind="variant" data-explore-source="${source}">Explore variant ›</button></div><div class="variant-only-note">Matchup evidence is variant-to-variant. Family grouping is not used here.</div>${matchupCards(matchupDeck,source,40)}`;
+    target.innerHTML=`<div class="matchup-picker"><label>Deck variant<select id="matchupDeckSelect">${decks.slice(0,100).map(d=>`<option value="${esc(d.name)}" ${d.name===matchupDeck?'selected':''}>${esc(d.name)}</option>`).join('')}</select></label><button type="button" class="open-deck-detail" data-explore-deck="${esc(matchupDeck)}" data-explore-kind="variant" data-explore-source="${source}">Explore variant ›</button></div><div class="variant-only-note">Matchup evidence is variant-to-variant. Family grouping is not used here.</div>${searchBox('matchupOpponentSearch','Filter opponent decks')}${matchupCards(matchupDeck,source,80)}`;
     $('matchupDeckSelect')?.addEventListener('change',e=>{matchupDeck=e.currentTarget.value;renderMatchupsV2();});
+    wireListFilter('matchupOpponentSearch',target.querySelector('.matchup-card-list'),'.matchup-card','.matchup-opponent b');
   }
 
   function sourceForContext() {
@@ -200,5 +224,6 @@
   window.addEventListener('deckagg:updated',()=>{if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
   window.addEventListener('irl:updated',()=>{if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
   window.addEventListener('meta:data-changed',()=>{if(!$('deckDetail')?.classList.contains('hidden'))setTimeout(renderDetail,0);});
+  window.addEventListener('decksprites:updated',()=>{if(!$('matchups')?.classList.contains('hidden'))renderMatchupsV2();if(!$('decks')?.classList.contains('hidden'))renderDeckExplorerV2();if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
   window.MetaExplore={openDeck:(name,source)=>openDetail(name,source)};
 })();
