@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scripts/update-irl-labs.mjs'
+      - '.github/workflows/update-irl-labs.yml'
   schedule:
     - cron: '41 5 * * *'
   workflow_dispatch:
