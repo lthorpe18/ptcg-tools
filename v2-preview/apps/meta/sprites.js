@@ -1,8 +1,9 @@
 (() => {
   const BASE = 'https://r2.limitlesstcg.net/pokemon/gen9';
+  const OVERRIDE_KEY = 'ptcg.deckSpriteOverrides.v1';
 
   // Representative Pokemon for the current archetype labels used by Limitless.
-  // Keep this deliberately presentation-only: matchup/meta logic never depends on it.
+  // Presentation only: matchup/meta logic never depends on this mapping.
   const EXACT = {
     'Mega Excadrill': ['excadrill-mega'],
     'Dragapult': ['dragapult'],
@@ -19,7 +20,7 @@
     'Mega Lucario': ['lucario-mega'],
     'Lucario Hariyama': ['lucario', 'hariyama'],
     'Mega Greninja': ['greninja-mega'],
-    'Basic Box': ['mewtwo'],
+    'Basic Box': ['ogerpon'],
     'Ogerpon Meganium Hydrapple': ['meganium', 'hydrapple'],
     "Rocket's Honchkrow": ['honchkrow'],
     "Cynthia's Garchomp": ['garchomp'],
@@ -58,7 +59,7 @@
     ['dudunsparce', 'dudunsparce'], ['alakazam', 'alakazam'], ['zoroark', 'zoroark'],
     ['grimmsnarl', 'grimmsnarl'], ['froslass', 'froslass'], ['dhelmise', 'dhelmise'],
     ['toucannon', 'toucannon'], ['raging bolt', 'raging-bolt'], ['lucario', 'lucario'],
-    ['greninja', 'greninja'], ['meganium', 'meganium'], ['hydrapple', 'hydrapple'],
+    ['greninja', 'greninja'], ['ogerpon', 'ogerpon'], ['meganium', 'meganium'], ['hydrapple', 'hydrapple'],
     ['honchkrow', 'honchkrow'], ['chandelure', 'chandelure'], ['beedrill', 'beedrill'],
     ['absol', 'absol'], ['kangaskhan', 'kangaskhan'], ['bouffalant', 'bouffalant'],
     ['manectric', 'manectric'], ['eelektrik', 'eelektrik'], ['crustle', 'crustle'],
@@ -69,8 +70,23 @@
     ['miraidon', 'miraidon'], ['gardevoir', 'gardevoir'], ['charizard', 'charizard'],
   ];
 
+  function loadOverrides() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(OVERRIDE_KEY) || '{}');
+      return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function saveOverrides(overrides) {
+    try { localStorage.setItem(OVERRIDE_KEY, JSON.stringify(overrides || {})); } catch (_) {}
+  }
+
   function slugs(name) {
     if (!name) return [];
+    const override = loadOverrides()[name];
+    if (Array.isArray(override) && override.length) return override.filter(Boolean).slice(0, 2);
     if (EXACT[name]) return EXACT[name].slice(0, 2);
     const lower = String(name).toLowerCase();
     const found = [];
@@ -79,6 +95,20 @@
       if (found.length === 2) break;
     }
     return found;
+  }
+
+  function setOverride(name, spriteSlugs) {
+    if (!name) return;
+    const overrides = loadOverrides();
+    const next = Array.isArray(spriteSlugs) ? spriteSlugs.filter(Boolean).slice(0, 2) : [];
+    if (next.length) overrides[name] = next;
+    else delete overrides[name];
+    saveOverrides(overrides);
+    window.dispatchEvent(new CustomEvent('decksprites:updated', { detail: { name } }));
+  }
+
+  function clearOverride(name) {
+    setOverride(name, []);
   }
 
   function url(slug) { return `${BASE}/${encodeURIComponent(slug)}.png`; }
@@ -94,5 +124,5 @@
     return `<span class="deck-sprite-stack${className}" style="--sprite-size:${size}px" aria-hidden="true">${found.map((slug, i) => `<img class="deck-sprite-img sprite-${i + 1}" src="${url(slug)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`).join('')}</span>`;
   }
 
-  window.DeckSprites = { slugs, url, html };
+  window.DeckSprites = { slugs, url, html, setOverride, clearOverride, overrides: loadOverrides, defaults: EXACT };
 })();
