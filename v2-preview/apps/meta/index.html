@@ -15,8 +15,8 @@
   <link rel="stylesheet" href="sprite-polish.css?v=3" />
   <link rel="stylesheet" href="saved-metas.css?v=1" />
   <link rel="stylesheet" href="v2.css?v=3" />
-  <link rel="stylesheet" href="meta-home.css?v=4" />
-  <link rel="stylesheet" href="meta-explorer-v2.css?v=4" />
+  <link rel="stylesheet" href="meta-home.css?v=5" />
+  <link rel="stylesheet" href="meta-explorer-v2.css?v=5" />
   <link rel="stylesheet" href="meta-source-context.css?v=1" />
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="meta" data-meta-view="current">
@@ -38,6 +38,7 @@
       <select id="currentWindow" class="compact-select" aria-label="Meta scope"><option value="14">Last 14 days</option><option value="30" selected>Last 30 days</option><option value="all">All in format</option></select>
       <label class="variant-grouping-control"><input id="currentGroupingToggle" type="checkbox"><span>Variant grouping</span></label>
     </div>
+    <label class="deck-list-search current-meta-search"><span class="search-glyph">⌕</span><input id="currentMetaSearch" type="search" autocomplete="off" placeholder="Search decks" aria-label="Search decks"></label>
 
     <div id="currentMetaStats" class="current-stats"><div><b>—</b><span>Events</span></div><div><b>—</b><span>Entries</span></div><div class="wide"><b>Loading</b><span>Current field</span></div></div>
     <div id="currentMetaList" class="current-meta-list"><div class="meta-empty">Loading the current meta…</div></div>
@@ -77,7 +78,7 @@
             <label>Matchup evidence<select id="prepEvidence"><option value="min10" selected>Ignore under 10 games</option><option value="min5">Ignore under 5 games</option><option value="conservative">Conservative shrinkage</option><option value="raw">Use raw results</option></select></label>
             <label>Minimum matchup coverage<input id="prepMinCoverage" type="number" min="0" max="100" step="5" value="50" /></label>
             <label>Minimum deck entries<input id="prepMinEntries" type="number" min="1" max="100" value="5" /></label>
-            <label>Meta event size<input id="prepMinPlayers" type="number" value="50" /></label>
+            <label>Meta event size<input id="prepMinPlayers" type="number" min="50" max="1000" step="10" value="50" /></label>
             <label>Field source<select id="fieldSource"><option value="online" selected>50+ online tournaments</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom / saved meta</option></select></label>
             <label id="blendControl" class="hidden">IRL share <span id="blendValue">50%</span><input id="fieldBlend" type="range" min="0" max="100" value="50" /></label>
             <label>Matchup source<select id="matchupSource"><option value="online" selected>Online</option><option value="irl">IRL only</option><option value="combined">Online + IRL</option></select></label>
@@ -118,7 +119,7 @@
   </section>
 </main>
 
-<script src="sprites.js?v=2"></script>
+<script src="sprites.js?v=3"></script>
 <script src="meta-engine.js?v=2"></script>
 <script src="limitless.js?v=1"></script>
 <script src="app.js?v=2"></script>
@@ -131,10 +132,10 @@
 <script src="field-builder.js?v=6"></script>
 <script src="meta-controls.js?v=7"></script>
 <script src="prep.js?v=6"></script>
-<script src="meta-home.js?v=7"></script>
+<script src="meta-home.js?v=8"></script>
 <script src="decklinks.js?v=3"></script>
 <script src="searchable-decks.js?v=5"></script>
-<script src="meta-explorer-v2.js?v=8"></script>
+<script src="meta-explorer-v2.js?v=9"></script>
 <script src="meta-source-context.js?v=7"></script>
 <script src="../_shared/app-shell.js?v=3"></script>
 </body>
