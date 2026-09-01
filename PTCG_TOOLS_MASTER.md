@@ -1,24 +1,29 @@
 # PTCG Tools — Master Product & Design Document
 
-**Status:** Current product source of truth / redesign specification  
-**Date:** 30 August 2026  
-**Repository:** `lthorpe18/ptcg-tools`
+**Status:** Current product source of truth  
+**Date:** 1 September 2026  
+**Repository:** `lthorpe18/ptcg-tools`  
+**Public app:** `https://lthorpe18.github.io/ptcg-tools/`
 
 ## 1. Product vision
 
-PTCG Tools is a personal-first competitive Pokémon TCG companion for tournament preparation, deck development, playtesting and tournament-day decision support.
+PTCG Tools is a personal-first competitive Pokémon TCG companion covering the full competitive loop:
 
-It should feel like one native mobile application rather than a collection of unrelated web utilities. The primary target experience is an iPhone home-screen web app, while retaining good desktop usability.
+**Analyse → Build & Test → Prepare → Compete → Learn**
 
-The product should help answer five recurring competitive questions:
+It should feel like one coherent native-style mobile application rather than a collection of unrelated utilities. The primary experience is an iPhone home-screen web app, with desktop treated as an adaptive expansion of that mobile experience.
 
-1. **What should I play?** — understand the current field and identify decks well positioned into it.
-2. **How should I build/test it?** — manage decklists, inspect deck consistency and rapidly playtest opening turns or full solitaire games.
-3. **Where and when can I play?** — discover relevant upcoming events.
-4. **What should I do during a tournament?** — run or track Swiss, understand standings, and make informed ID / cut decisions.
-5. **What are my odds?** — use small, trustworthy tournament and deck-math utilities without leaving the app.
+The product should help answer the recurring competitive questions:
 
-The app is not intended to replace Pokémon TCG Live as a fully rules-enforced game client. It should instead be a fast, flexible competitive practice and analysis toolkit.
+1. **What should I play?** — understand the current field and identify exact deck variants positioned well into it.
+2. **How should I build and test it?** — manage decklists, versions, consistency and mobile playtesting.
+3. **What do I need physically?** — understand owned cards, allocations, missing cards and deck readiness.
+4. **Where and when can I play?** — discover relevant local and major events and track attendance intent.
+5. **How should I prepare?** — connect event, expected meta, deck choice, testing and final list.
+6. **What should I do during a tournament?** — track tournament state and make informed cut / ID decisions.
+7. **What did I learn?** — retain results, testing and matchup evidence for future decisions.
+
+PTCG Tools is not intended to replace Pokémon TCG Live with a fully rules-enforced client. Its playtest experience should instead be a fast, flexible, touch-first competitive tabletop.
 
 ---
 
@@ -26,167 +31,156 @@ The app is not intended to replace Pokémon TCG Live as a fully rules-enforced g
 
 ### 2.1 Decision first, methodology second
 
-The strongest existing page is **Meta Lab → What Should I Play?**. It should become the design and UX benchmark for the entire product.
-
-Pages should surface the useful decision first, for example:
-
-- “Gardevoir is best positioned into your expected field.”
-- “ID gives an estimated 91% Top 4 chance.”
-- “You have a 73% chance to open one of these outs.”
-
-Detailed assumptions, evidence, calculations and advanced settings should remain available underneath through progressive disclosure.
-
-### 2.2 Mobile first
-
-The primary design width is approximately 390 CSS pixels. Desktop is an adaptive expansion of the mobile experience, not the other way around.
-
-Important controls should be thumb-friendly, at least approximately 44 px high, and text inputs must remain at 16 px or above to avoid iOS Safari focus zoom.
-
-### 2.3 One product, one design system
-
-All major areas should share:
-
-- global navigation;
-- typography;
-- surface styles;
-- form controls;
-- cards;
-- segmented controls;
-- loading / empty / error states;
-- modals or bottom sheets;
-- toast styling;
-- icons and Pokémon sprite treatment.
-
-Individual areas may have specialised components, but they should not each define a separate visual identity.
-
-### 2.4 Pokémon character, without visual clutter
-
-Pokémon sprites are highly effective identifiers for archetypes and saved decks. They should provide most of the app’s personality.
-
-Avoid excessive gradients, glassmorphism, neon treatments or decorative Pokémon branding. The app should feel like a polished analytical companion rather than a fan site.
-
-### 2.5 Fast defaults, powerful advanced controls
-
-The app should work well without configuration. Advanced users can reveal additional settings when needed.
+The app should surface the useful competitive answer before exposing detailed methodology.
 
 Examples:
 
-- What Should I Play defaults to useful field and matchup assumptions.
-- Cut Calculator defaults to an empirically sensible BO3 tie rate.
-- Playtest should start a shuffled game in one or two taps.
+- “This exact variant is best positioned into your expected field.”
+- “These are the matchups driving that recommendation.”
+- “ID is safe / unsafe because this many players can still finish above you.”
+- “You are missing these four physical cards to build this deck.”
+
+Evidence, assumptions and advanced controls remain available through progressive disclosure.
+
+### 2.2 Mobile first
+
+The primary design width is approximately 390 CSS pixels.
+
+Rules:
+
+- no desktop-first tables that overflow horizontally on iPhone;
+- compact information density rather than oversized marketing cards;
+- controls must remain comfortably tappable;
+- form and search inputs should render at **16 px or larger on iPhone** so Safari does not focus-zoom the page;
+- safe-area handling is mandatory for home-screen use;
+- important workflows should not depend on hover, keyboard shortcuts or precise drag-and-drop.
+
+### 2.3 One product, one design system
+
+All areas should share:
+
+- app shell and navigation;
+- typography and colour tokens;
+- cards and surfaces;
+- form controls and segmented controls;
+- search/filter treatment;
+- loading, empty and error states;
+- disclosure panels;
+- Pokémon sprite treatment;
+- persistence conventions.
+
+Domain-specific components are encouraged, but each feature must not reinvent the visual system.
+
+### 2.4 Pokémon character without clutter
+
+Pokémon sprites are primarily **identity**, not decoration.
+
+They should identify deck archetypes, exact variants and saved decks. Sprite selection is a presentation concern only and must never alter analytical grouping or data identity.
+
+Representative deck sprites have sensible built-in defaults, but users can override them in **Settings → Deck icons**. Overrides may use one or two Pokémon and should be resettable to the default. Basic Box currently defaults to **Teal Mask Ogerpon** rather than Mewtwo.
+
+### 2.5 Fast defaults, explicit evidence
+
+The app should work immediately without configuration, but analytical pages must make their evidence scope understandable.
+
+Never hide a materially different evidence source behind a vague label. In particular, Online and IRL Meta evidence are distinct datasets and selected scope must actually change the underlying evidence, not only the text shown to the user.
+
+### 2.6 Correctness before polish
+
+Data semantics matter more than decorative UI. A number shown on a deck page must describe that deck unless clearly labelled otherwise. Global dataset counts must not be presented as though they are deck-specific samples.
 
 ---
 
-## 3. Current application state
+## 3. Current V2 application state
 
-The repository currently contains the following principal applications:
+V2 is now the active product direction and the public GitHub Pages root routes users into it. The old launcher should be treated as legacy rather than the product source of truth.
 
-- `apps/meta` — Meta Lab, including What Should I Play, meta overview, matchup analysis and deck/archetype analysis.
-- `apps/decklists` — saved deck management, text lists, sprites, statistics and opening-hand probability functionality.
-- `apps/events` — upcoming tournament listing and map.
-- `apps/swiss` — Swiss Tournament Manager with tournament library, participants, rounds, pairings, standings, timer and top cut.
-- root `index.html` — current launcher page.
+Current V2 implementation lives under:
 
-There is also an `apps/_shared` area that should become the foundation for shared application infrastructure.
+`v2-preview/`
 
-### 3.1 Current strongest area
+Current application areas include:
 
-Meta Lab has evolved furthest. In particular, What Should I Play already demonstrates the desired PTCG Tools 2.0 visual language:
+- `v2-preview/apps/meta`
+- `v2-preview/apps/decklists`
+- `v2-preview/apps/events`
+- `v2-preview/apps/swiss`
+- `v2-preview/apps/tools`
+- `v2-preview/apps/settings`
+- `v2-preview/apps/_shared`
 
-- light `#f7f8fb` page background;
-- white surfaces;
-- subtle borders and shadows;
-- 15–18 px card radii;
-- compact pills and chips;
-- restrained blue and green status colour;
-- strong typographic hierarchy;
-- Pokémon sprites as identity markers;
-- progressive disclosure through expandable “Why?” and Advanced Settings sections.
+The public root URL remains:
 
-### 3.2 Current inconsistencies to remove
+`https://lthorpe18.github.io/ptcg-tools/`
 
-The root launcher and Decklists still use an older dark/glass design. Events and Swiss have separate header/navigation patterns. The result feels like several individual tools rather than one application.
+The root should remain the canonical user-facing entry point even while internal implementation paths still contain the `v2-preview` name.
 
-Decklists also contains overlapping/legacy UI structures and duplicate concepts, including multiple deck/stat views and repeated deck-text editing surfaces. This should be rationalised as part of the redesign rather than merely restyled.
+### 3.1 Source-of-truth rule
 
----
+For redesign work, inspect and modify the V2 implementation first. Legacy `apps/*` code should not silently drive new architectural decisions.
 
-## 4. Target information architecture
+### 3.2 Validation rule
 
-The application should have five persistent top-level areas on iPhone, presented through a native-style bottom tab bar.
+Before claiming a significant change is complete:
 
-### Home
-Personal competitive dashboard and high-value shortcuts.
-
-### Meta
-Competitive field analysis and deck-positioning tools.
-
-Subsections:
-- Play — What Should I Play?
-- Field — current meta composition and shifts
-- Matchups — head-to-head evidence
-- Decks — archetype detail, trends, results and decklists
-
-### Decks
-Personal saved deck library, deck editing, consistency analysis and playtesting entry points.
-
-### Compete
-Tournament discovery and tournament-day workflows.
-
-Subsections:
-- Events
-- My Tournaments / Swiss manager
-
-### Tools
-Focused small utilities that deserve quick access but do not justify their own primary navigation item.
-
-Initial tools:
-- Cut / ID Calculator
-- Tournament Structure Calculator
-- Draw / Outs Calculator
-- Prize Calculator
+1. inspect current GitHub state;
+2. explain the implementation approach where the change is substantial;
+3. implement against V2;
+4. run / inspect **Validate Meta Lab** for Meta changes where relevant;
+5. confirm GitHub Pages deployment succeeds;
+6. do not claim visual verification unless the deployed UI has actually been viewed/tested.
 
 ---
 
-## 5. Global app shell
+## 4. Information architecture and feature ownership
 
-### 5.1 Bottom navigation
-
-Persistent tabs:
+Top-level product areas:
 
 **Home · Meta · Decks · Compete · Tools**
 
-Use simple line icons plus short labels. The selected tab uses the app action accent; unselected tabs are muted.
+Settings is an app-level destination rather than a sixth competitive domain.
 
-The bar must account for `env(safe-area-inset-bottom)` when launched from an iPhone home screen.
+### Home
+Personal competitive dashboard and contextual shortcuts.
 
-### 5.2 Contextual navigation
+### Meta
+Public competitive evidence and expected-field analysis.
 
-Nested objects such as a deck or active tournament may use a compact contextual back affordance such as `‹ Decks` or `‹ Tournaments`, but the global product shell should remain visually consistent.
+### Decks
+Saved decks, versions, decklists, consistency maths, physical readiness integration and Mobile Playtest.
 
-Avoid repeated browser-style `← PTCG Tools` links across separate mini-sites.
+### Compete
+Events, attendance, tournament preparation entry points and tournament-day workflows.
 
-### 5.3 PWA / home-screen behaviour
+### Tools
+Small standalone competitive utilities only.
 
-The app should be configured as a genuine standalone web app:
+### Settings
+Application preferences such as deck icon overrides and future presentation / app preferences.
 
-- `manifest.webmanifest`;
-- `display: standalone`;
-- proper app icon sizes including Apple touch icon;
-- `theme-color`;
-- `viewport-fit=cover`;
-- safe-area CSS;
-- consistent status-bar background;
-- start URL and app name;
-- service worker for static application shell/assets where practical.
+### Ownership locks
 
-The intention is that launching from the iPhone home screen feels much closer to opening a native app than opening a bookmarked website.
+- **Mobile Playtest belongs to Decks**, not Tools.
+- **Event finder belongs to Compete**.
+- **Meta modelling belongs to Meta**.
+- **Cut / ID Calculator belongs to Tools**, but should also be contextually accessible from Tournament Day.
+- **Collection** is a cross-cutting long-term capability connected to Decks, Prep and Home, not a simple “owned” checkbox feature.
 
 ---
 
-## 6. Global design language
+## 5. Global app shell and visual language
 
-### Core palette
+### 5.1 Navigation
+
+Persistent mobile navigation should make the five competitive areas immediately reachable:
+
+**Home · Meta · Decks · Compete · Tools**
+
+Nested objects such as exact deck detail or tournament detail use compact contextual back navigation while preserving the shared shell.
+
+### 5.2 Design tokens
+
+Core visual direction:
 
 - Background: `#F7F8FB`
 - Surface: `#FFFFFF`
@@ -195,289 +189,356 @@ The intention is that launching from the iPhone home screen feels much closer to
 - Light muted text: `#98A2B3`
 - Border: `#E4E7EC`
 - Interaction blue: approximately `#175CD3`
-- Positive / recommended green: approximately `#079455`
+- Positive green: approximately `#079455`
 - Warning amber: approximately `#B54708`
 - Negative red: approximately `#D92D20`
 
-### Shape
+Use the native/system font stack.
 
-- Main cards: 15–18 px radius
-- Form controls: 9–12 px radius
-- Pills/chips: full rounded radius
-- Touch target: approximately 44 px minimum
+Shape direction:
 
-### Typography
+- main cards around 15–18 px radius;
+- controls around 9–12 px radius;
+- full-radius pills/chips;
+- compact spacing with clear hierarchy.
 
-Use the native/system font stack for maximum iOS-native feel and performance.
+### 5.3 Search as a standard list capability
 
-Hierarchy should follow the Meta Lab pattern:
+Lists containing many decks should be searchable/filterable by default where it materially improves navigation.
 
-- occasional small uppercase eyebrow labels;
-- strong compact page titles;
-- muted short explanations;
-- bold numeric decision outputs;
-- detailed methodology kept visually subordinate.
+Already applied in V2 Meta to:
 
-### Pokémon sprites
+- Current Meta;
+- Deck Explorer;
+- standalone Matchups deck/opponent selection;
+- exact deck Matchups list.
 
-Use sprites consistently for:
+The same principle should be reused elsewhere rather than implemented independently each time.
 
-- deck/archetype identity;
-- saved deck cards;
-- recommendation cards;
-- meta summaries;
-- recent items.
+### 5.4 PWA behaviour
 
-Sprites should not be used as unnecessary decorative background imagery.
+The app should continue toward a genuine standalone home-screen experience with:
 
----
+- manifest;
+- `display: standalone`;
+- app/touch icons;
+- `theme-color`;
+- `viewport-fit=cover`;
+- safe-area CSS;
+- stable canonical start URL;
+- service worker/static shell caching where useful and safe.
 
-## 7. Home
-
-The existing launcher should be replaced completely.
-
-Home should feel like a competitive dashboard, not a menu.
-
-### 7.1 Header
-
-Compact brand mark + **PTCG Tools**.
-
-Right-side contextual indicator such as the current legality/format (`PBL · Standard`) and eventually settings/profile.
-
-### 7.2 Main hero
-
-Default hero should promote the app’s strongest decision feature:
-
-**TOURNAMENT PREP**  
-**What should I play?**
-
-Show a concise current recommendation/field summary and 2–3 relevant Pokémon sprites, with a clear route into full analysis.
-
-### 7.3 Quick actions
-
-Compact native-style cards/rows for:
-
-- My Decks
-- Find Events
-- Cut Calculator
-- Run Tournament
-
-These should not be oversized app-launcher tiles.
-
-### 7.4 Competitive snapshot
-
-Show a compact current meta summary with leading archetypes and shares, linked to Meta → Field.
-
-### 7.5 Personal/recent context
-
-Potential modules:
-
-- recently edited deck;
-- next event;
-- active tournament;
-- last playtested deck;
-- recent recommendation.
-
-Only show modules where useful data exists.
+Cache-busting/versioning must be handled deliberately for changed static assets so an iPhone home-screen install does not appear stale after deployment.
 
 ---
 
-## 8. Meta
+## 6. Home
 
-Meta Lab remains the benchmark and requires evolution rather than a major rewrite.
+Home should behave like a competitive dashboard, not a directory of apps.
 
-### 8.1 Subnavigation
+Priority content:
 
-Use:
+- current format/context;
+- high-value route into **What should I play?**;
+- current Meta snapshot;
+- recently used / saved deck context;
+- next event or attendance context where available;
+- quick access to Decks, Events and Cut / ID.
 
-**Play · Field · Matchups · Decks**
+Only show personal modules where meaningful data exists.
 
-“Field” is clearer than nesting a “Meta” tab inside a Meta area.
+Settings should remain easy to reach from Home without competing with primary competitive navigation.
 
-### 8.2 What Should I Play
+---
+
+## 7. Meta — locked architecture
+
+Meta is currently the most developed V2 product area and should remain the UX benchmark.
+
+### 7.1 Core principle: sources are evidence, not themes
+
+**Online** and **IRL** are distinct evidence sources.
+
+A source selector must change the underlying dataset. Scope selectors must also be functional everywhere they appear.
+
+### 7.2 Online scopes
+
+Required Online scopes:
+
+- **Last 14 days**
+- **Last 30 days**
+- **Since last major weekend**
+- **All in format**
+
+“Since last major weekend” answers:
+
+> Since the latest major established the IRL meta, what has the online playerbase done with that information?
+
+Its cutoff is derived from the same authoritative latest-major-weekend model used by IRL. Same-weekend majors are merged; the online period begins after that merged competitive weekend.
+
+### 7.3 IRL scopes
+
+Required IRL scopes:
+
+- **Latest IRL majors weekend**
+- **All IRL majors this format**
+- **Individual event**
+
+When multiple majors occur in the same competitive weekend they merge into the default latest-weekend view.
+
+The IRL scope model must behave consistently across Current Meta, Matchups, Deck Explorer, deck detail and What Should I Play.
+
+### 7.4 Source/scope functionality everywhere
+
+Wherever Meta lets the user choose Online vs IRL, it should expose the corresponding detailed scope and the choice must actually drive data.
+
+This applies to:
+
+- Current Meta;
+- Matchups;
+- Deck Explorer;
+- exact deck detail where source switching exists;
+- What Should I Play field source;
+- What Should I Play matchup source.
+
+For blended What Should I Play modes, Online and IRL scopes must be independently configurable.
+
+### 7.5 Evidence context
+
+A selected source/scope should expose enough context to understand what is being analysed, including as appropriate:
+
+- event count;
+- entry count;
+- source description;
+- date/update context;
+- matchup game sample;
+- matchup event sample when available.
+
+Field evidence and matchup evidence must be described separately because they may have different coverage.
+
+### 7.6 Variant and family model
+
+Variant grouping is only a **Current Meta field-share presentation layer**.
+
+Rules:
+
+- no separate family pages;
+- grouped families expand inline to exact variants;
+- grouped family share has one source of truth;
+- matchup data belongs to exact variants;
+- win rate and result analysis belongs to exact variants;
+- exact Deck Detail belongs to exact variants;
+- What Should I Play analyses exact variants;
+- exact variants should interlink between Current Meta, Deck Explorer, Deck Detail and Matchups.
+
+Short form:
+
+**Families describe the meta; variants play games.**
+
+### 7.7 Current Meta
+
+Current Meta should remain compact and answer “what is being played?” quickly.
+
+It should support:
+
+- Online / IRL source switching;
+- full corresponding scope control;
+- optional family grouping for field-share presentation only;
+- inline expansion to exact variants;
+- deck search/filter;
+- event/entry/update context;
+- navigation to exact deck detail.
+
+### 7.8 What Should I Play
+
+This is the reference interaction model for analytical UX.
 
 Preserve:
 
-- expected-field chips;
-- ranked recommendation cards;
-- Pokémon sprites;
-- matchup-weighted score;
+- expected field;
+- exact-variant recommendations;
+- matchup-weighted positioning;
 - confidence/evidence indication;
-- expandable reasoning;
-- check-a-deck flow;
-- advanced assumptions.
+- “check a deck” flow;
+- expandable methodology;
+- custom/saved meta modelling.
 
-### 8.3 Filter simplification
+Field source and matchup source are independent.
 
-Current format/window/minimum-player/minimum-match controls should not dominate the mobile screen.
+**Custom / saved meta** is one editable expected-field model with presets, not a separate incompatible data model.
 
-Default view should show a compact context pill such as:
+Data-source controls should live in a compact collapsible **Data sources** panel and only show scope controls relevant to the source currently selected.
 
-`PBL Standard · all format · 50+ events  ⚙`
+### 7.9 Matchups
 
-Tapping opens a bottom-sheet/settings panel.
+Matchups are exact-variant to exact-variant evidence.
 
-### 8.4 Data sources
+Requirements:
 
-Current architecture uses:
+- Online and IRL must genuinely use different evidence;
+- selected scope must drive the matchup dataset;
+- opponent lists should be searchable/filterable;
+- game counts are deck-specific on an exact deck page;
+- insufficient evidence should be shown explicitly rather than filled with overall WR or inferred data.
 
-- `play.limitlesstcg.com` for online events, field shares and tournament results;
-- broader Limitless aggregate data for matchup evidence where available;
-- `labs.limitlesstcg.com` for IRL major-event data.
+### 7.10 Exact deck detail
 
-Field composition and matchup evidence should remain conceptually separate so missing matchup evidence is never silently replaced by unrelated overall win rate.
+The deck detail page should answer “where is this deck now?” first, then expose evidence.
+
+Header:
+
+- exact variant name and sprite;
+- family context where relevant;
+- one stable **Current share** callout.
+
+Reference scope for the header share:
+
+- Online → **Since last major weekend**;
+- IRL → **Latest IRL majors weekend**.
+
+Everything between the header and matchup list is grouped into a collapsible **Data & performance** panel.
+
+Field performance should use one three-metric row:
+
+- Deck entries
+- Field share
+- Win rate
+
+Do not show the old Record metric in that summary row.
+
+Evidence semantics must be deck-specific:
+
+- **Field sample** = this exact variant’s entries across selected field events;
+- **Matchup sample** = head-to-head games involving this exact variant.
+
+A whole-tournament match count must never be displayed as though the deck itself played that many games.
+
+### 7.11 Recent results on deck detail
+
+Recent results belong at the bottom of exact deck detail.
+
+**Online:**
+
+- only tournaments inside the currently selected Online scope;
+- filtered to the exact variant;
+- sorted by placement, best first.
+
+**IRL:**
+
+- only events inside the selected IRL scope;
+- filtered to the exact variant;
+- sorted by placement, best first;
+- individual result rows should link directly to the player’s Limitless Labs decklist where available.
+
+The IRL data pipeline now retains individual results and decklist URLs so this is source data rather than a guessed link.
+
+### 7.12 Meta data architecture
+
+Shared runtime direction:
+
+- **MetaState** — single source of truth for Online/IRL scopes;
+- **MetaData** — shared evidence/data access layer;
+- **MetaControls** — shared UI scope/source behaviour.
+
+Avoid rebuilding overlapping page-specific scope systems.
+
+Online field scope changes should use compact precomputed/cached history rather than rerunning expensive aggregation on every interaction.
+
+Detailed matchup coverage may be narrower than field coverage. The UI must reflect this honestly. The rolling detailed online matchup archive should continue accumulating event pairings over time while full field standings remain independently comprehensive.
+
+### 7.13 Meta data sources
+
+Current direction:
+
+- `play.limitlesstcg.com` / Limitless API for online tournament data;
+- compact generated online field history for fast scope switching;
+- rolling detailed pairing archive for scoped online matchup evidence;
+- broader aggregate matchup history for all-format evidence;
+- `labs.limitlesstcg.com` for IRL majors, deck field data, matchups and individual results/decklist links.
+
+Do not silently substitute one source for another when the UI claims otherwise.
+
+---
+
+## 8. Settings
+
+Settings is now an implemented app-level area.
+
+### 8.1 Deck icon overrides
+
+Users can configure representative Pokémon for deck/archetype presentation.
+
+Requirements:
+
+- searchable archetype/deck list;
+- choose one or two representative Pokémon;
+- preview current sprite treatment;
+- save override;
+- reset to built-in default;
+- presentation only — no effect on deck identity, family grouping, field shares or matchup data.
+
+Overrides should live in the app’s shared `preferences` state, with compatibility handling for older locally stored values where required.
+
+### 8.2 Future Settings direction
+
+Settings should own genuine app preferences, not analytical assumptions that belong contextually inside Meta/Tools/Decks.
+
+Potential future settings:
+
+- appearance/preferences shared across the app;
+- default competitive format where useful;
+- presentation preferences;
+- data/storage/import/export controls.
 
 ---
 
 ## 9. Decks
 
-Decklists needs the largest UX simplification.
+Decks is the home for:
+
+- My Decks;
+- saved deck versions;
+- decklists;
+- deck-aware probability/consistency maths;
+- Mobile Playtest;
+- eventual physical-card readiness.
 
 ### 9.1 Deck library
 
-Top-level screen:
+Mobile-first library with:
 
-**Decks** with a compact `+` action and search.
-
-Each saved deck should display:
-
+- search;
+- compact add action;
 - deck name;
-- one or two Pokémon sprites;
-- format;
-- last updated;
-- concise useful metadata such as 60 cards or pinned odds.
+- one or two representative sprites;
+- current/version context;
+- concise useful metadata.
 
-### 9.2 Deck detail navigation
+### 9.2 Deck detail
 
-Use three clear sections:
+Target structure remains approximately:
 
 **Overview · List · Odds**
 
-#### Overview
-- deck identity and sprites;
-- quick deck statistics;
-- pinned cards/odds;
-- duplicate/delete/export actions placed behind sensible menus;
-- prominent **Playtest** action.
+with Playtest and physical readiness integrated contextually rather than hidden in unrelated Tools pages.
 
-#### List
-One authoritative list editor only.
+### 9.3 Deck versions
 
-Support PTCGL and Limitless-style text imports and exports.
+Saved decks should support named revisions so testing conclusions, tournament lists and card-allocation state can refer to a specific version rather than a mutable single list.
 
-Optional later toggle between Text and Visual display, but do not maintain multiple simultaneous deck-text editors.
+### 9.4 Mobile Playtest
 
-#### Odds
-Deck-aware probability calculations that automatically know deck size and card counts.
+Playtest is a Decks feature.
 
-This can surface pinned checks such as:
+Direction:
 
-- at least one Buddy-Buddy Poffin in opening seven;
-- at least one of several outs by a specified number of cards seen;
-- prize probabilities.
+- tap-driven tabletop rather than full rules engine;
+- solo/goldfish first;
+- iPhone portrait must be fully usable;
+- no keyboard dependence;
+- no requirement for precise drag-and-drop.
 
-The standalone Tools calculators remain useful for ad-hoc calculations without opening a saved deck.
-
----
-
-## 10. Mobile Playtest — major new feature
-
-### 10.1 Product opportunity
-
-Limitless currently exposes a **Playtest** action from its Deck Builder. Its Tabletop tool is designed for practising opening hands/turns or even complete self-played games. Limitless explicitly states that its older tabletop workflow is built around mouse + keyboard, keyboard shortcuts and drag-and-drop, and does not support mobile well.
-
-PTCG Tools should target this gap directly: **a fast mobile-first Pokémon TCG tabletop for goldfishing decks**.
-
-### 10.2 Intended use
-
-Primary use cases:
-
-1. repeatedly test opening hands;
-2. practise the first 1–3 turns of a deck;
-3. test sequencing lines;
-4. inspect prize/deck-state implications;
-5. play out a complete solitaire game;
-6. optionally control two decks manually for matchup testing.
-
-It is not initially intended to validate card text or enforce every Pokémon TCG rule.
-
-### 10.3 Entry points
-
-From a saved deck:
-
-**Playtest**
-
-Options in a lightweight setup sheet:
-
-- Quick opening hand
-- New solo game
-- Two-deck test (later phase)
-
-The default should be one-tap **New solo game**.
-
-### 10.4 Mobile table layout
-
-Portrait iPhone layout should prioritise current information rather than attempting to reproduce a physical table at full scale.
-
-Suggested vertical composition:
-
-1. compact turn/status strip;
-2. Active Pokémon zone;
-3. horizontally scrollable Bench;
-4. Stadium/shared zone;
-5. Hand as the dominant bottom area;
-6. persistent bottom action bar;
-7. Deck / Discard / Lost Zone / Prizes as tappable stack buttons with counts.
-
-Landscape can optionally provide a wider tabletop layout but must not be required.
-
-### 10.5 Interaction model
-
-Avoid drag-and-drop as the primary interaction.
-
-**Tap a card → action sheet.**
-
-Example actions based on zone:
-
-- Move to Active
-- Move to Bench
-- Attach to…
-- Discard
-- Lost Zone
-- Return to hand
-- Put on top/bottom of deck
-- Shuffle into deck
-- Add damage counters
-- Mark status
-
-Bulk actions should exist for common deck mechanics:
-
-- Search deck
-- Look at top N
-- Draw N
-- Shuffle hand into deck
-- Shuffle deck
-- Discard selected cards
-- Reveal prizes
-
-Cards can optionally support drag gestures later, but every important action must remain tap-operable.
-
-### 10.6 Game setup automation
-
-**New Game** should:
-
-1. shuffle deck;
-2. draw seven;
-3. identify whether at least one Basic Pokémon is available where card metadata supports it;
-4. allow fast mulligan/redraw;
-5. let user choose Active and Bench from hand;
-6. set six face-down prizes automatically;
-7. select going first/second;
-8. begin Turn 1.
-
-Where exact card metadata is incomplete, setup must remain usable manually rather than blocking.
-
-### 10.7 Essential zones/state
+Core zones:
 
 - Deck
 - Hand
@@ -487,516 +548,244 @@ Where exact card metadata is incomplete, setup must remain usable manually rathe
 - Lost Zone
 - Prizes
 - Stadium
-- attached cards/energy
-- damage counters
-- simple status/markers
-- turn number
-- going first/second
 
-### 10.8 Critical utility actions
+Support attachments, damage/markers, turn state and undo/history where practical.
 
-Persistent actions:
+Primary actions should include Draw, Search Deck, Shuffle, Coin Flip, Undo and End Turn.
 
-- Draw
-- Search Deck
-- Shuffle
-- Coin Flip
-- Undo
-- End Turn
-
-Secondary menu:
-
-- restart game;
-- reveal prizes;
-- draw N;
-- view full deck state;
-- reset damage/markers;
-- concede/end test.
-
-### 10.9 Undo / history
-
-Undo is essential on a touch-first tabletop because users will occasionally tap the wrong action.
-
-Maintain a bounded action history sufficient to reverse recent moves, draws, searches, shuffles and counter changes where practical.
-
-### 10.10 Practice analytics
-
-A major advantage over Limitless would be optional test-session tracking.
-
-For each reset/game, record simple user-driven observations:
-
-- mulligan?
-- setup succeeded?
-- Turn 1 objective achieved?
-- Turn 2 objective achieved?
-- dead hand?
-- notes/tags.
-
-A deck could then show:
-
-**Playtest history**
-
-- 40 opening hands
-- 12.5% mulligan rate
-- 72% Turn 2 setup success
-- common missing pieces
-
-This should remain optional and lightweight; it can become extremely useful for comparing decklist revisions.
-
-### 10.11 Future playtest phases
-
-**Phase A — Solo/goldfish tabletop**  
-Core mobile interaction and state management.
-
-**Phase B — Two-deck local testing**  
-Load Deck A and Deck B, switch sides manually, hide/show opposing hand as required.
-
-**Phase C — Test scenarios**  
-Save/reload a board state such as “going second into Dragapult after Turn 1”.
-
-**Phase D — Assisted practice**  
-Potentially provide setup prompts/statistical logging, but avoid pretending to be a full legal-move engine.
-
-### 10.12 Technical principle
-
-Use the existing deck parser and card metadata where possible. A playtest game should store card instances separately from the original saved decklist so shuffling/moving cards cannot mutate the underlying deck.
-
-Recommended conceptual state:
-
-```text
-game
-  deck[]
-  hand[]
-  active
-  bench[]
-  discard[]
-  lostZone[]
-  prizes[]
-  stadium
-  attachments{}
-  damage{}
-  markers{}
-  turn
-  goingFirst
-  history[]
-```
+Future phases may include two-deck local testing, scenario saving and lightweight practice analytics.
 
 ---
 
-## 11. Compete
+## 10. Collection / physical readiness
 
-### 11.1 Events
+Long-term locked requirement:
 
-Current Cards/Map concept is sound but should be restyled into the common shell.
+> Maintain a live record of every physical Pokémon TCG card owned and which decks those cards are currently allocated to, so the user can immediately see what must be bought, moved or freed up.
 
-Mobile page:
+Do **not** model this as a simple “I own this card” checkbox.
 
-- heading: Upcoming Events;
-- horizontal filter chips (e.g. 30 days, Cup, Challenge, BO3);
-- search/filter sheet for detailed filters;
-- List | Map segmented control;
-- compact event cards showing type, venue, date/time, distance where available and registration state.
+The collection model must support:
 
-### 11.2 My Tournaments / Swiss manager
+- exact owned quantities;
+- exact printing/card identity where relevant;
+- gameplay interchangeability where appropriate;
+- loose/unallocated inventory;
+- allocation to saved decks / deck versions;
+- multiple decks kept built simultaneously;
+- prevention of accidental double-allocation;
+- required vs owned vs allocated;
+- deck readiness;
+- “move these cards from deck A to deck B”;
+- missing-card lists;
+- shopping/acquisition lists.
 
-The Swiss manager is a task-focused workspace and should preserve its existing major capabilities:
+Distinguish exact physical printing from gameplay-equivalent cards that can satisfy the same deck requirement.
 
-- saved tournament library;
-- participants;
-- Swiss/round-robin mode;
-- pairings;
-- results;
+Collection should eventually connect to Decks, Tournament Prep and Home.
+
+---
+
+## 11. Compete / Events
+
+### 11.1 Event-source authority
+
+Local events primarily come from **Pokédata**:
+
+- Cups;
+- Challenges;
+- Prereleases.
+
+Pokédata is a discovery/index source, not automatically exact authority for every event detail.
+
+Majors use **official Pokémon Championship Series data** as the existence/date authority, enriched by **RK9** where useful for practical registration, venue and detail information.
+
+Normalised imported event data should preserve source provenance.
+
+### 11.2 Event UX
+
+Compete should support:
+
+- Nearby/local discovery;
+- Majors;
+- attendance intent / Attending state;
+- compact mobile cards;
+- useful filters;
+- list/map views where location is valuable.
+
+Attendance is not automatically equivalent to Tournament Prep until the Prep milestone explicitly connects them.
+
+### 11.3 Tournament-day workspace
+
+Tournament Day should eventually connect:
+
+- current event;
+- current record;
+- pairings/opponent notes;
 - standings;
-- timer;
-- top cut;
-- import/export.
-
-Active tournament screen should emphasise:
-
-- tournament title and current round;
-- prominent timer;
-- tabs: Round · Standings · Players · Cut;
-- settings under a compact overflow action.
+- Cut / ID access;
+- result logging.
 
 ---
 
-## 12. Cut / ID Calculator
+## 12. Tools
 
-### 12.1 Purpose
+Tools is for **small standalone competitive utilities that do not belong in Meta, Decks or Compete**.
 
-Help a player answer, during Swiss:
+Known/planned tools include:
 
-- Can I intentionally draw and make cut?
-- How safe is an ID compared with playing?
-- What scores can still overtake me?
-- How much does resistance matter?
+- Cut / ID Calculator;
+- deck maths / probability utilities;
+- odds-style calculations;
+- other compact helpers where genuinely useful.
 
-### 12.2 Simple inputs
+Avoid turning Tools into a dumping ground.
 
-- players in division;
-- total Swiss rounds;
-- rounds completed;
-- cut size;
-- player W-L-T record;
-- opponent record if known;
-- optional counts of other players on each W-L-T record;
-- optional resistance strength.
+### 12.1 Cut / ID Calculator
 
-A blank record count means unknown. `0` means known to be exactly zero.
+Requirements:
 
-### 12.3 BO3 tie-rate assumptions
+- support real Pokémon Swiss records including draws;
+- deterministic possible-cutoff calculations first;
+- clearly show how many players can finish above/equal to a point total;
+- support Top 4 / Top 8 etc.;
+- account for known pairings and IDs where supplied;
+- use probabilistic simulation only when deterministic information is insufficient;
+- empirical tie-rate assumptions are optional uncertainty inputs, never hidden defaults driving deterministic answers.
 
-Suggested presets based on recent major-event BO3 data:
-
-- Low ties — 12%
-- Typical BO3 — 16% (default)
-- High ties — 20%
-- Very high ties — 25%
-- Custom
-
-Observed recent major-event examples examined during development clustered around approximately 15–18%, supporting ~16% as a sensible default baseline.
-
-### 12.4 Unknown standings model
-
-Do not independently assign random W-L-T records to unknown players.
-
-Instead:
-
-1. start all simulated players at 0-0-0;
-2. simulate actual matches round by round;
-3. Round 1 random pairings;
-4. later rounds pair primarily by equal/similar match points;
-5. float/down-pair between nearby score groups when needed;
-6. avoid rematches where possible;
-7. track previous opponents and byes;
-8. resolve matches using the selected tie rate and otherwise one winner/one loser;
-9. retain simulated current standings only when they match the user’s record and every exact record-count constraint;
-10. simulate ID/play and the remaining Swiss rounds from those valid states.
-
-This reproduces the documented behaviour of Pokémon/TOM-like Swiss pairings rather than claiming to reproduce TOM’s undisclosed implementation exactly.
-
-### 12.5 Output hierarchy
-
-Headline:
-
-**91% Top 4 if you ID**  
-**84% Top 4 if you play**
-
-Recommendation:
-
-**ID favoured**
-
-Then expandable explanation:
-
-- hard cutoff structure;
-- players already above the target score;
-- bubble players;
-- unknown-standings uncertainty band;
-- simulation assumptions;
-- resistance sensitivity.
-
-### 12.6 Integration with Swiss manager
-
-If the tournament is being run in PTCG Tools, Cut Calculator should eventually receive the complete current standings/pairings automatically. This removes the need to reconstruct the tournament and can produce materially stronger answers.
+Answer-first mobile UX should show the actionable conclusion before detailed modelling.
 
 ---
 
-## 13. Tools area
+## 13. Persistence and shared state
 
-Tools should contain genuinely useful quick utilities, not filler.
+V2 should continue toward a coherent shared persistence model.
 
-### 13.1 Tournament Structure
+Personal/shared state includes or will include:
 
-Input attendance/event parameters and return:
+- user preferences;
+- deck icon overrides;
+- saved decks and versions;
+- attendance intent;
+- saved/custom expected meta;
+- collection/allocation state;
+- tournament prep state;
+- playtest history where implemented.
 
-- Swiss rounds;
-- cut size/structure;
-- common score benchmarks;
-- record equivalents.
+Accountless shared persistence through the existing V2 approach is preferred where appropriate.
 
-It should be able to launch Cut Calculator with tournament settings already populated.
+Use explicit schema/version migration rather than silently breaking older local/shared state.
 
-### 13.2 Draw / Outs Calculator
-
-Support both single-card and grouped outs.
-
-Examples:
-
-- probability of at least one of 4 copies in opening seven;
-- probability of Buddy-Buddy Poffin OR Nest Ball by Turn 1;
-- probability of finding two required categories by N cards seen.
-
-Saved-deck mode should populate counts automatically.
-
-### 13.3 Prize Calculator
-
-Examples:
-
-- probability at least one of N copies is prized;
-- probability all copies are prized;
-- probability a combination of important pieces is prized;
-- optional six-prize visualisation.
+Import/export remains valuable as a backup and interoperability mechanism.
 
 ---
 
 ## 14. Technical architecture direction
 
-Do not introduce a heavy framework solely for the redesign. Plain HTML/CSS/JavaScript remains suitable.
+Plain HTML/CSS/JavaScript remains acceptable; do not introduce a heavy framework solely to modernise the appearance.
 
-Strengthen the shared layer instead.
+Strengthen shared layers instead.
 
-Suggested structure:
+Shared responsibilities should include:
 
-```text
-apps/_shared/
-  app-shell.css
-  app-shell.js
-  components.css
-  icons.js
-  deckParser.js
-  probability.js
-  sprites.js
-  storage.js
-```
+- app shell;
+- navigation;
+- design tokens;
+- forms/segmented controls;
+- disclosure behaviour;
+- searchable list patterns;
+- safe-area/mobile helpers;
+- persistence/preferences;
+- sprite resolution and overrides.
 
-The global shell should own:
+Domain logic stays separated:
 
-- theme tokens;
-- bottom navigation;
-- page headers;
-- common buttons/forms;
-- segmented controls;
-- modal/bottom-sheet behaviour;
-- toast messages;
-- safe-area handling;
-- common responsive breakpoints.
+- Meta evidence/state/controls;
+- Deck parsing/playtest state;
+- Events normalisation;
+- Tournament logic;
+- Collection allocation model.
 
-Specialised apps keep their domain logic separate.
+Performance-sensitive analysis should favour generated compact data and caching over recomputing large historical aggregates during routine UI interactions.
 
 ---
 
-## 15. Data and persistence
+## 15. Near-term roadmap
 
-Current functionality is primarily browser/local-data oriented plus external public data sources.
+The product shell/V2 promotion and the major Meta redesign are now substantially further ahead than the original roadmap implied.
 
-Longer term, important personal information should have a clearly defined local persistence model:
+### Completed / substantially established
 
-- saved decks;
-- deck sprites/identity;
-- pinned calculations;
-- playtest sessions;
-- saved tournaments;
-- user preferences;
-- recent items.
+- V2 shared visual direction and app shell;
+- public GitHub Pages root entering V2;
+- redesigned Home direction;
+- major Meta Current Meta / Deck Explorer / Deck Detail / Matchups / What Should I Play redesign;
+- shared Meta source/scope architecture;
+- Online + IRL evidence separation;
+- scoped online field history and rolling matchup archive;
+- IRL major data pipeline;
+- exact-variant deck detail and deck-specific evidence;
+- recent IRL results with Limitless decklist links;
+- searchable deck-list surfaces in Meta;
+- app Settings area with deck icon overrides;
+- iPhone input sizing rule to prevent search-field focus zoom.
 
-A migration/version strategy should be used for local data structures so future app changes do not destroy existing saved decks or tournaments.
+### Next major product milestones
 
-Import/export remains valuable as a backup mechanism even if storage is later centralised.
+1. **Decks consolidation** — simplify saved deck UX and establish deck-version foundations.
+2. **Mobile Playtest v1** — solo/goldfish touch-first tabletop.
+3. **Events / Compete maturity** — reliable local/major discovery plus attendance context.
+4. **Cut / ID Calculator** — deterministic tournament-day utility with optional uncertainty modelling.
+5. **Tournament Prep** — connect attending event, expected Meta, chosen deck/version and readiness.
+6. **Collection / readiness** — owned quantities, allocations, missing cards and shopping.
+7. **Learning loop** — personal results, matchup testing and playtest analytics.
+
+Roadmap decisions should preserve the overall loop:
+
+**Analyse → Build & Test → Prepare → Compete → Learn**
 
 ---
 
-## 16. Additional feature candidates
+## 16. Product success criteria
 
-### High-value candidates
+PTCG Tools is successful when:
 
-#### A. Playtest session analytics
-Track opening hands and setup objectives across deck revisions. This is a natural extension of the mobile tabletop and directly supports competitive preparation.
-
-#### B. Deck versioning
-Save named snapshots of a deck:
-
-- “Cup list”
-- “-1 Pokégear +1 Catcher”
-- “post-testing v3”
-
-Compare card changes and optionally compare playtest outcomes between versions.
-
-#### C. Matchup testing log
-From a saved deck, record games such as:
-
-`Dragapult vs Gardevoir — W — went second — notes`
-
-Aggregate personal testing records separately from public meta matchup data.
-
-#### D. Tournament prep workspace
-Select an upcoming event and attach:
-
-- chosen deck/version;
-- expected meta;
-- matchup notes;
-- testing goals;
-- travel/event link;
-- final submitted list.
-
-This could connect Events, Meta and Decks into one workflow.
-
-#### E. Matchup notes / cheat sheets
-Per deck-versus-deck notes:
-
-- preferred first/second;
-- key prizes to check;
-- important targets;
-- sequencing reminders;
-- tech cards.
-
-Useful on tournament morning and during testing.
-
-#### F. Personal results dashboard
-Track real tournament results by deck, archetype faced, event type and season.
-
-Potential outputs:
-
-- overall W-L-T;
-- record by deck;
-- record by opposing archetype;
-- Cup/Challenge performance;
-- conversion to cut;
-- ties by deck.
-
-#### G. Decklist comparer
-Compare two lists of the same archetype and show only differences, with sprite/card visuals where useful.
-
-This is particularly valuable when looking at successful Limitless lists.
-
-#### H. Meta-to-deck tech analysis
-For a selected saved deck, combine current expected field with card usage across successful versions of that archetype to surface common tech choices relevant to the current meta.
-
-### Medium-value candidates
-
-#### I. Tournament day mode
-A single simplified screen containing:
-
-- current record;
-- next pairing/opponent notes;
-- round timer link;
-- Cut Calculator;
-- quick match result logging.
-
-#### J. Deck registration/export centre
-One place to produce:
-
-- PTCGL text;
-- Limitless-compatible text;
-- deck image;
-- printable list if required.
-
-#### K. Scenario library
-Save playtest board states or opening scenarios for repeated practice.
-
-Examples:
-
-- “Going second, bad opener”
-- “Need comeback after Iono”
-- “Turn 2 prize mapping practice”
-
-#### L. Card package / consistency groups
-Define logical deck packages such as:
-
-- Basics
-- Ball search
-- Draw supporters
-- Energy outs
-
-Then calculate package consistency instead of only individual card probabilities.
+- launching the public URL/home-screen icon feels like opening one coherent app;
+- Home surfaces useful competitive context rather than acting as a directory;
+- Meta clearly communicates what evidence is being used and never confuses field evidence with matchup evidence;
+- exact deck variants are consistently linked across field, matchups, results and recommendations;
+- major deck lists are quickly searchable on iPhone;
+- saved decks are easy to edit, version, analyse and playtest;
+- a player can goldfish a deck comfortably on an iPhone;
+- event, preparation and tournament-day workflows become connected rather than duplicated;
+- physical collection state can answer “can I build this?” without double-counting cards;
+- Cut / ID answers deterministic questions before resorting to probabilistic simulation;
+- advanced analysis remains available without overwhelming routine use;
+- every major feature supports a real competitive decision or workflow.
 
 ---
 
 ## 17. Features to avoid or defer
 
 ### Full automated Pokémon rules engine
-Very high complexity and not necessary to achieve the main playtesting goal. The mobile tabletop should prioritise flexible manual state manipulation.
+High complexity and unnecessary for the core mobile tabletop goal.
 
-### AI opponent in initial playtest version
-Potential future research area, but it should not block a highly useful solitaire/tabletop implementation.
+### AI opponent as an early Playtest dependency
+Potential future research, but must not delay a highly useful manual solo tabletop.
 
-### Social network/community layer
-Not currently core to the personal competitive-companion vision.
+### Social-network/community layer
+Not core to the personal competitive-companion vision.
 
-### Large number of novelty calculators
-Tools should remain curated and useful.
+### Large quantities of novelty calculators
+Tools should remain curated.
 
----
-
-## 18. Recommended implementation roadmap
-
-### Phase 1 — PTCG Tools 2.0 shell
-
-- shared light design system;
-- PWA manifest and safe-area handling;
-- bottom navigation;
-- new Home dashboard;
-- common components.
-
-### Phase 2 — Meta integration
-
-- move Meta Lab into the shared shell;
-- preserve What Should I Play visual treatment;
-- simplify filters for mobile;
-- rename internal Meta tab to Field.
-
-### Phase 3 — Decks refactor
-
-- new deck library;
-- remove duplicate/legacy edit/stat surfaces;
-- Overview · List · Odds structure;
-- shared design system.
-
-### Phase 4 — Mobile Playtest v1
-
-- deck-instance game state;
-- shuffle/draw/setup/prizes;
-- Active/Bench/Hand/Deck/Discard/Lost Zone/Stadium;
-- tap-to-action interaction;
-- damage/markers;
-- undo;
-- reset/new game;
-- portrait-first interface.
-
-### Phase 5 — Compete integration
-
-- Events redesign;
-- My Tournaments integration;
-- active tournament workspace.
-
-### Phase 6 — Tools
-
-- Cut / ID Calculator;
-- Tournament Structure;
-- Draw / Outs;
-- Prize Calculator.
-
-### Phase 7 — Competitive workflow enhancements
-
-- deck versions;
-- playtest analytics;
-- personal matchup log;
-- tournament prep workspace;
-- personal performance dashboard.
+### Meta family pages
+Explicitly avoid them. Families are Current Meta presentation groupings only; exact variants own gameplay evidence.
 
 ---
 
-## 19. Product success criteria
+## 18. External reference position
 
-PTCG Tools 2.0 is successful when:
+Limitless remains an important data source and product reference, particularly for competitive results, decklists, matchups and its existing Tabletop concept.
 
-- launching it from an iPhone home screen feels like opening one coherent application;
-- the Home screen immediately surfaces useful competitive context rather than a directory of links;
-- the Meta area retains the quality of What Should I Play;
-- saved decks are easy to find, edit, analyse and playtest on mobile;
-- a player can goldfish a deck on an iPhone without requiring keyboard shortcuts or precise dragging;
-- event, tournament and Cut Calculator workflows feel connected;
-- advanced analysis remains available without overwhelming routine use;
-- every major feature answers a real competitive decision or workflow rather than existing merely because it is technically possible.
-
----
-
-## 20. External reference notes
-
-Limitless was used as an important reference point for this product direction:
-
-- its Deck Builder exposes a Playtest action;
-- its Tabletop supports practising opening hands/turns and complete self-played games;
-- Limitless states that the older Tabletop is designed for mouse + keyboard, uses keyboard shortcuts/dragging, and does not support mobile;
-- Limitless also exposes useful adjacent tools including Swiss Calculator and Opening Hand Calculator.
-
-PTCG Tools should not clone Limitless visually or technically. The opportunity is to combine the strongest competitive-analysis ideas with a substantially better personal/mobile workflow.
+PTCG Tools should not clone Limitless visually or technically. Its opportunity is to connect high-quality public competitive evidence with personal deck development, mobile playtesting, preparation, tournament-day decisions and physical-card readiness in one coherent mobile workflow.
