@@ -77,7 +77,7 @@
             <label>Matchup evidence<select id="prepEvidence"><option value="min10" selected>Ignore under 10 games</option><option value="min5">Ignore under 5 games</option><option value="conservative">Conservative shrinkage</option><option value="raw">Use raw results</option></select></label>
             <label>Minimum matchup coverage<input id="prepMinCoverage" type="number" min="0" max="100" step="5" value="50" /></label>
             <label>Minimum deck entries<input id="prepMinEntries" type="number" min="1" max="100" value="5" /></label>
-            <label>Meta event size<input id="prepMinPlayers" type="number" min="50" max="1000" step="10" value="50" /></label>
+            <label>Meta event size<input id="prepMinPlayers" type="number" value="50" /></label>
             <label>Field source<select id="fieldSource"><option value="online" selected>50+ online tournaments</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom / saved meta</option></select></label>
             <label id="blendControl" class="hidden">IRL share <span id="blendValue">50%</span><input id="fieldBlend" type="range" min="0" max="100" value="50" /></label>
             <label>Matchup source<select id="matchupSource"><option value="online" selected>Online</option><option value="irl">IRL only</option><option value="combined">Online + IRL</option></select></label>
@@ -118,7 +118,7 @@
   </section>
 </main>
 
-<script src="sprites.js?v=1"></script>
+<script src="sprites.js?v=2"></script>
 <script src="meta-engine.js?v=2"></script>
 <script src="limitless.js?v=1"></script>
 <script src="app.js?v=2"></script>
