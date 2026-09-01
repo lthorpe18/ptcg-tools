@@ -7,6 +7,7 @@ const FORMAT_START = new Date('2026-07-17T00:00:00Z').getTime();
 const OUTPUT = path.join('data', 'meta', 'irl', `${FORMAT}.json`);
 const MAX_EVENTS_TO_PROBE = 16;
 const MAX_DECKS_FOR_MATCHUPS = 35;
+const MAX_DECKS_FOR_RESULTS = 60;
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const clean = s => String(s || '').replace(/<[^>]*>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
@@ -83,6 +84,61 @@ function parseDeckRows(html, eventId) {
   return [...dedup.values()].sort((a,b) => b.entries - a.entries);
 }
 
+function absoluteUrl(href) {
+  try { return new URL(href, BASE).href; } catch { return null; }
+}
+
+function parseResultRows(html, event, deck) {
+  const out = [];
+  for (const tr of html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)) {
+    const body = tr[1];
+    const cells = [...body.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map(x => clean(x[1]));
+    if (!cells.length) continue;
+
+    let placing = null;
+    for (const cell of cells.slice(0, 3)) {
+      const m = String(cell).trim().match(/^#?\s*(\d{1,4})(?:st|nd|rd|th)?$/i);
+      if (m) { placing = Number(m[1]); break; }
+    }
+    if (!placing || placing > Number(event.players || 9999)) continue;
+
+    const links = [...body.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)]
+      .map(m => ({ href:m[1], label:clean(m[2]) }))
+      .filter(x => x.label || x.href);
+
+    const decklistLink = links.find(x => /(?:limitlesstcg\.com\/decks\/list\/|\/decklist(?:\/|\?|$)|\/list\/)/i.test(x.href));
+    const playerLink = links.find(x => {
+      const label = x.label.toLowerCase();
+      if (!label) return false;
+      if (label === String(deck.name).toLowerCase()) return false;
+      if (/^(decklist|list|matchups?|details?|view)$/i.test(x.label)) return false;
+      return /player|profile|standing/i.test(x.href) || !/decks?\//i.test(x.href);
+    });
+
+    const record = parseRecord(cells);
+    const player = playerLink?.label || cells.find((cell, index) => index > 0 && cell && !/^\d+$/.test(cell) && !/^\d+\s*-\s*\d+\s*-\s*\d+$/.test(cell)) || 'Unknown player';
+    out.push({
+      archetype: deck.name,
+      placing,
+      player,
+      tournament: event.name,
+      eventId: event.id,
+      date: event.date,
+      players: event.players,
+      record,
+      decklistUrl: decklistLink ? absoluteUrl(decklistLink.href) : null,
+      sourceUrl: `${BASE}/${event.id}/decks/${deck.slug}`,
+    });
+  }
+
+  const dedup = new Map();
+  for (const row of out) {
+    const key = `${row.placing}|${row.player}`;
+    if (!dedup.has(key) || (!dedup.get(key).decklistUrl && row.decklistUrl)) dedup.set(key, row);
+  }
+  return [...dedup.values()].sort((a,b) => a.placing - b.placing || a.player.localeCompare(b.player));
+}
+
 function parseMatchups(html, candidate) {
   const out = [];
   for (const tr of html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)) {
@@ -105,6 +161,7 @@ async function main() {
   const events = [];
   const deckAgg = new Map();
   const matchupAgg = new Map();
+  const allResults = [];
 
   for (const id of ids) {
     const html = await get(`${BASE}/${id}/decks`);
@@ -127,6 +184,7 @@ async function main() {
       winRate: d.winRate,
       url: `${BASE}/${id}/decks/${d.slug}`,
     }));
+    meta.results = [];
     events.push(meta);
 
     for (const d of decks) {
@@ -136,6 +194,18 @@ async function main() {
       row.losses += d.losses;
       row.ties += d.ties;
       deckAgg.set(d.name, row);
+    }
+
+    for (const d of decks.slice(0, MAX_DECKS_FOR_RESULTS)) {
+      await sleep(70);
+      try {
+        const dh = await get(`${BASE}/${id}/decks/${d.slug}`);
+        const results = parseResultRows(dh, meta, d);
+        meta.results.push(...results);
+        allResults.push(...results);
+      } catch (error) {
+        console.warn(`Could not load IRL results for ${id} ${d.name}: ${error.message}`);
+      }
     }
 
     for (const d of decks.slice(0, MAX_DECKS_FOR_MATCHUPS)) {
@@ -154,7 +224,7 @@ async function main() {
   }
 
   const payload = {
-    schemaVersion: 2,
+    schemaVersion: 4,
     source: 'Limitless Labs',
     sourceUrl: BASE,
     format: FORMAT,
@@ -163,6 +233,7 @@ async function main() {
     events: events.sort((a,b)=>new Date(b.date)-new Date(a.date)),
     decks: [...deckAgg.values()].sort((a,b)=>b.entries-a.entries),
     matchups: [...matchupAgg.values()],
+    results: allResults.sort((a,b)=>new Date(b.date)-new Date(a.date)||a.placing-b.placing),
     note: events.length ? `${events.length} current-format IRL major event(s) from Limitless Labs.` : 'No completed current-format IRL major is available on Limitless Labs yet.'
   };
 
@@ -170,7 +241,7 @@ async function main() {
 
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
   await fs.writeFile(OUTPUT, JSON.stringify(payload, null, 2) + '\n');
-  console.log(`Wrote ${OUTPUT}: ${events.length} events, ${payload.decks.length} decks, ${payload.matchups.length} matchups`);
+  console.log(`Wrote ${OUTPUT}: ${events.length} events, ${payload.decks.length} decks, ${payload.matchups.length} matchups, ${payload.results.length} results`);
   if (payload.decks.length) console.log('Top decks:', payload.decks.slice(0, 8).map(d => `${d.name} ${d.entries}`).join(' | '));
 }
 
