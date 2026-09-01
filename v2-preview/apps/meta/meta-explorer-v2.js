@@ -39,10 +39,10 @@
     return { wins,losses,ties,games,winRate:decisive ? 100*wins/decisive : null };
   }
 
-  function evidenceGames(source) {
-    const data = sourceData(source);
-    if (source === 'online') return Number(data?.overview?.matches || 0);
-    return Math.round((data.matchups || []).reduce((sum,row)=>sum+Number(row.games||0),0)/2);
+  function deckEvidenceGames(source, name) {
+    return sourceMatchups(source)
+      .filter(row => row.a === name)
+      .reduce((sum,row) => sum + Number(row.games || Number(row.wins||0) + Number(row.losses||0) + Number(row.ties||0)), 0);
   }
 
   function referenceShare(source, name) {
@@ -124,16 +124,14 @@
       return;
     }
 
-    const record = `${row.wins.toLocaleString()}-${row.losses.toLocaleString()}-${row.ties.toLocaleString()}`;
-    const games = evidenceGames(detailSource);
+    const games = deckEvidenceGames(detailSource, detailName);
     const scopeContext = window.MetaData?.context?.(detailSource) || {};
     const scopeText = scopeContext.label || sourceLabel;
     const fieldEvents = Number(data?.overview?.events || data?.events?.length || 0);
-    const fieldEntries = Number(data?.overview?.entries || 0);
     const results = detailSource === 'online' ? scopedRecentResults(detailName) : [];
     const resultsHtml = results.length ? `<section class="detail-section"><div class="section-row"><h2>Recent results</h2><span>Live result sample within selected field scope</span></div><div class="result-card-list">${results.map(r=>`<div class="result-card"><b>${r.placing}/${r.players}</b><span>${esc(r.player)}</span><small>${esc(r.tournament)} · ${r.record?.wins||0}-${r.record?.losses||0}-${r.record?.ties||0}</small></div>`).join('')}</div></section>` : '';
 
-    const evidencePanel = `<details id="deckDetailEvidence" class="detail-data-panel" ${panelWasOpen?'open':''}><summary><span><b>Data & performance</b><small>${esc(scopeText)} · ${row.entries.toLocaleString()} deck entries · ${pct(row.winRate)} WR</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls"><div class="detail-source"><button type="button" data-detail-source="online" class="${detailSource==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detailSource==='irl'?'active':''}">IRL</button></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Field performance</b><small>This exact variant within the selected field</small></div><div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Deck entries</span></div><div><b>${pct(row.share)}</b><span>Field share</span></div><div><b>${record}</b><span>Record</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div><div class="detail-sample-strip"><span>Field sample</span><b>${fieldEvents.toLocaleString()} events · ${fieldEntries.toLocaleString()} entries</b></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Matchup evidence</b><small>Head-to-head games available for the selected scope</small></div><div class="detail-sample-strip matchup-sample"><span>Matchup sample</span><b>${games.toLocaleString()} games</b></div></div></div></details>`;
+    const evidencePanel = `<details id="deckDetailEvidence" class="detail-data-panel" ${panelWasOpen?'open':''}><summary><span><b>Data & performance</b><small>${esc(scopeText)} · ${row.entries.toLocaleString()} deck entries · ${pct(row.winRate)} WR</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls"><div class="detail-source"><button type="button" data-detail-source="online" class="${detailSource==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detailSource==='irl'?'active':''}">IRL</button></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Field performance</b><small>This exact variant within the selected field</small></div><div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Deck entries</span></div><div><b>${pct(row.share)}</b><span>Field share</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div><div class="detail-sample-strip"><span>Field sample</span><b>${row.entries.toLocaleString()} deck entries across ${fieldEvents.toLocaleString()} ${fieldEvents===1?'event':'events'}</b></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Matchup evidence</b><small>Head-to-head games involving this exact variant</small></div><div class="detail-sample-strip matchup-sample"><span>Matchup sample</span><b>${games.toLocaleString()} games involving ${esc(detailName)}</b></div></div></div></details>`;
 
     $('deckDetailBody').innerHTML = `${evidencePanel}<section class="detail-section detail-matchups"><div class="section-row"><h2>Matchups</h2><span>${esc(scopeText)}</span></div>${matchupCards(detailName,detailSource,25)}</section>${resultsHtml}`;
     setTimeout(()=>{ window.MetaControls?.syncDetail?.(); window.MetaContext?.render?.(); },0);
