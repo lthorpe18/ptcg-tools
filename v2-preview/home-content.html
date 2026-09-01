@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" href="./assets/apple-touch-icon.png">
   <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
   <link rel="stylesheet" href="./apps/_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="./styles.css?v=8">
+  <link rel="stylesheet" href="./styles.css?v=9">
 </head>
 <body class="ptcg-v2" data-app-root="." data-app-section="home">
   <header class="app-shell-header home-header">
@@ -22,6 +22,7 @@
     </a>
     <div class="app-shell-header-actions">
       <span id="formatPill" class="app-context-pill"><span class="app-live-dot"></span><span>Standard</span></span>
+      <a class="home-account-link" href="./apps/settings/" aria-label="Account settings"><span class="home-account-dot" aria-hidden="true"></span><span data-ptcg-auth-status>Not signed in</span></a>
       <a class="home-settings-link" href="./apps/settings/" aria-label="Settings">⚙</a>
     </div>
   </header>
@@ -71,7 +72,8 @@
   <script src="./apps/_shared/storage.js?v=3"></script>
   <script src="./apps/_shared/deck-store.js?v=1"></script>
   <script src="./apps/meta/sprites.js?v=1"></script>
-  <script src="./apps/_shared/cloud-sync.js?v=1"></script>
+  <script src="./apps/_shared/cloud-sync.js?v=2"></script>
+  <script src="./apps/_shared/auth-ui.js?v=1"></script>
   <script src="./apps/_shared/shared-sync.js?v=1"></script>
   <script src="./scripts/home.js?v=6"></script>
   <script src="./apps/_shared/app-shell.js?v=5"></script>
