@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v3';
+const CACHE_NAME = 'ptcg-tools-v4';
 const CORE = [
   './',
   './home-content.html',
@@ -11,8 +11,8 @@ const CORE = [
   './scripts/persistent-shell.js?v=1',
   './apps/_shared/app-shell.css',
   './apps/_shared/auth-ui.css?v=1',
-  './apps/_shared/auth-ui.js?v=1',
-  './apps/_shared/cloud-sync.js?v=2',
+  './apps/_shared/auth-ui.js?v=2',
+  './apps/_shared/cloud-sync.js?v=3',
   './assets/apple-touch-icon.png',
   './manifest.webmanifest'
 ];
@@ -55,14 +55,11 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
-
   if (request.cache === 'no-store' || url.searchParams.has('v') && request.destination === '') return;
-
   if (request.mode === 'navigate') {
     event.respondWith(staleWhileRevalidate(request, canonicalNavigationRequest(request)));
     return;
   }
-
   const isStatic = ['script', 'style', 'image', 'font', 'manifest'].includes(request.destination);
   const isGeneratedData = url.pathname.includes('/data/') && url.pathname.endsWith('.json');
   if (isStatic || isGeneratedData) event.respondWith(staleWhileRevalidate(request));
