@@ -1,39 +1,62 @@
 @media (max-width:699px){
-  .playtest-body{padding-bottom:calc(222px + env(safe-area-inset-bottom))}
-  .tabletop{min-height:430px;padding:8px 8px 10px}
+  .playtest-body{padding-bottom:calc(252px + env(safe-area-inset-bottom))}
+  .playtest-app{padding:6px 7px 14px}
+  .tabletop{min-height:438px;padding:8px 8px 10px;border-radius:18px}
 
-  .stadium-row{min-height:64px}
-  .stadium-slot{width:82px;height:62px}
-  .stadium-slot .card-frame{width:68px}
+  .playtest-header{padding-left:8px;padding-right:8px}
+  .playtest-title strong{font-size:16px}
+  .playtest-title span{font-size:10px;color:rgba(255,255,255,.74)}
 
-  .active-row{display:grid;grid-template-columns:minmax(78px,1fr) 108px minmax(78px,1fr);gap:8px;align-items:center;min-height:142px;margin:0 0 4px}
-  .active-slot{grid-column:2;width:108px;height:142px;justify-self:center}
-  .active-slot .card-frame{width:94px}
+  .table-toolbar{grid-template-columns:minmax(72px,.8fr) minmax(76px,.9fr) 48px minmax(92px,1.15fr);gap:6px;margin-bottom:8px}
+  .table-toolbar button{min-height:43px;padding:0 8px;font-size:12px;font-weight:850;background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.24)}
+  .table-toolbar button:disabled{opacity:.46;color:rgba(255,255,255,.72)}
+  .table-toolbar button span{font-size:17px;margin-right:2px}
+  .table-toolbar .end-turn{background:#fff;color:#153824;border-color:#fff;font-size:12px}
+  .turn-state{height:43px;background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.2)}
+  .turn-state small{font-size:8px;color:rgba(255,255,255,.72)}
+  .turn-state strong{font-size:17px;line-height:17px}
 
-  .side-piles-left,.side-piles-right{display:grid;gap:6px;align-content:center}
+  .stadium-row{min-height:61px}
+  .stadium-slot{width:80px;height:59px}
+  .stadium-slot .card-frame{width:65px}
+
+  .active-row{display:grid;grid-template-columns:minmax(82px,1fr) 98px minmax(82px,1fr);gap:8px;align-items:center;min-height:130px;margin:0 0 5px}
+  .active-slot{grid-column:2;width:98px;height:130px;justify-self:center}
+  .active-slot .card-frame{width:84px}
+
+  .side-piles-left,.side-piles-right{display:grid;gap:5px;align-content:center}
   .side-piles-left{grid-column:1;grid-row:1}
   .side-piles-right{grid-column:3;grid-row:1}
-  .side-pile{position:relative;min-width:0;height:64px;border:1px solid rgba(255,255,255,.14);border-radius:11px;background:rgba(0,0,0,.11);color:#fff;padding:4px}
-  .side-pile>span:not(.card-back):not(.prize-stack):not(.pile-preview){position:absolute;left:5px;bottom:4px;font-size:8px;font-weight:800;color:rgba(255,255,255,.74)}
-  .side-pile>b{position:absolute;right:5px;bottom:4px;font-size:13px}
+  .side-pile{position:relative;min-width:0;height:58px;border:1px solid rgba(255,255,255,.18);border-radius:11px;background:rgba(0,0,0,.16);color:#fff;padding:4px}
+  .side-pile>span:not(.card-back):not(.prize-stack):not(.pile-preview){position:absolute;left:5px;bottom:4px;font-size:9px;font-weight:850;color:rgba(255,255,255,.8)}
+  .side-pile>b{position:absolute;right:5px;bottom:4px;font-size:14px}
   .side-pile .card-back,.side-pile .pile-preview{top:4px}
   .side-pile .prize-stack{top:4px}
-  .view-prizes{width:100%;min-height:28px;margin-top:4px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:rgba(255,255,255,.1);color:#fff;font-size:9px;font-weight:800}
+  .view-prizes{width:100%;min-height:29px;margin-top:1px;border:1px solid rgba(255,255,255,.2);border-radius:9px;background:rgba(255,255,255,.13);color:#fff;font-size:9px;font-weight:850}
 
-  .bench-area{padding-top:4px}
-  .bench-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;overflow:visible;min-height:0;padding:0 0 4px}
-  .bench-row .play-card,.bench-target-slot{width:100%;min-width:0}
-  .bench-row .card-frame{width:min(100%,64px);margin:0 auto}
-  .bench-target-slot{aspect-ratio:2.5/3.5;max-height:90px}
+  .bench-area{padding-top:3px}
+  .bench-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;overflow-y:auto;overflow-x:hidden;max-height:154px;min-height:91px;padding:0 1px 5px;scroll-snap-type:y proximity}
+  .bench-row .play-card,.bench-target-slot{width:100%;min-width:0;scroll-snap-align:start}
+  .bench-row .card-frame{width:min(100%,58px);margin:0 auto}
+  .bench-target-slot{aspect-ratio:2.5/3.5;max-height:82px;border-radius:9px}
+  .zone-heading{height:19px;font-size:9px}
 
   .table-piles{display:none}
 
-  .hand-tray{height:154px;bottom:calc(64px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(0,0,0,.2)}
+  .hand-tray{height:184px;bottom:calc(64px + env(safe-area-inset-bottom));background:linear-gradient(to bottom,rgba(13,44,29,.98),#0b271a);box-shadow:0 -10px 28px rgba(0,0,0,.24)}
   .hand-head{height:34px;padding:4px 9px}
-  .hand-head button{min-height:29px;padding:0 11px}
-  .hand-row{height:120px;padding:0 8px 8px;gap:4px;align-items:flex-start}
-  .hand-row .play-card{width:78px}
-  .hand-row .card-frame{width:76px}
-  .hand-empty{height:108px}
-  .playtest-toast{bottom:calc(221px + env(safe-area-inset-bottom))}
+  .hand-head button{min-height:29px;padding:0 12px}
+  .hand-actions{height:36px;display:grid;grid-template-columns:1.15fr 1.35fr .9fr;gap:5px;padding:2px 8px 5px}
+  .hand-actions button{min-width:0;border:1px solid rgba(255,255,255,.17);border-radius:9px;background:rgba(255,255,255,.1);color:#fff;font-size:9px;font-weight:800;padding:0 5px}
+  .hand-actions button:last-child{background:rgba(180,35,24,.18);border-color:rgba(253,162,155,.3)}
+  .hand-row{height:114px;padding:0 8px 8px;gap:4px;align-items:flex-start}
+  .hand-row .play-card{width:82px}
+  .hand-row .card-frame{width:80px}
+  .hand-empty{height:102px}
+  .playtest-toast{bottom:calc(251px + env(safe-area-inset-bottom))}
+
+  .zone-dock button{font-size:10px;font-weight:800}
+  .zone-dock button span{font-size:18px}
+
+  .selection-bar{margin-bottom:7px}
 }
