@@ -1,0 +1,40 @@
+name: Update events
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/update-events.mjs'
+      - 'scripts/apply-event-retention.mjs'
+      - '.github/workflows/update-events.yml'
+  schedule:
+    - cron: '17 6 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  update-events:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Apply Events retention and lifecycle contract
+        run: node scripts/apply-event-retention.mjs
+      - name: Refresh UK event feed
+        run: node scripts/update-events.mjs
+      - name: Validate Events JavaScript
+        run: node --check v2-preview/apps/events/app.js
+      - name: Commit updated Events state
+        run: |
+          if git diff --quiet -- v2-preview/data/events.json v2-preview/apps/events/app.js v2-preview/apps/events/index.html v2-preview/apps/events/styles.css PTCG_TOOLS_MASTER.md; then
+            echo "No Events changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v2-preview/data/events.json v2-preview/apps/events/app.js v2-preview/apps/events/index.html v2-preview/apps/events/styles.css PTCG_TOOLS_MASTER.md
+          git commit -m "Refresh UK event feed and lifecycle"
+          git push
