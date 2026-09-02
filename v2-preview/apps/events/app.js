@@ -37,42 +37,61 @@
   function participationMap(){const map=new Map();for(const participation of currentState().eventParticipations||[]){const key=participationIdentity(participation);if(key)map.set(key,participation)}return map}
   function findParticipation(event){const key=eventIdentity(event);return key?participationMap().get(key)||window.PTCGStorage?.getParticipation?.(event)||null:null}
 
-  function cleanOrganiserCandidate(value){
+  function canonicalOrganiserLabel(value){
     let text=String(value||'').trim();if(!text)return '';
+    text=text.replace(/\s*[-–—]\s*season\s*\d+\b.*$/i,'').trim();
     text=text.replace(new RegExp(`\\s*[-–—]?\\s*(?:${MONTHS})(?:\\s+20\\d{2})?\\s*$`,'i'),'').trim();
+    text=text.replace(/\s*[-–—]\s*$/,'').trim();
+    return text;
+  }
+  function cleanOrganiserCandidate(value){
+    let text=canonicalOrganiserLabel(value);if(!text)return '';
     text=text.replace(/\s*[-–—]?\s*(?:TCG\s*)?(?:League\s*)?(?:Cup|Challenge)\b.*$/i,'').trim();
     text=text.replace(/\s*[-–—]\s*$/,'').trim();
     if(!text||/^pok[eé]mon\b/i.test(text)||/^q\d+\b/i.test(text))return '';
     return text;
   }
+  function organiserWords(value){
+    const stop=new Set(['tcg','league','cup','challenge','season','shop','store','games','cards','pokemon','pokémon']);
+    return String(value||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().split(/\s+/).filter(word=>word&&!stop.has(word)&&!/^\d+$/.test(word));
+  }
+  function titleClearlyMatchesVenue(event){
+    const venue=String(event&&event.venue||'').trim();if(!venue)return false;
+    const venueWords=organiserWords(venue),titleWords=new Set(organiserWords(event.name));
+    return venueWords.length>0&&venueWords.every(word=>titleWords.has(word));
+  }
   function organiserName(event){
     if(!event||event.scope!=='local')return null;
     const explicit=event.organiser||event.organizer||event.leagueName||event.league||event.shopName||event.shop;
-    if(String(explicit||'').trim())return String(explicit).trim();
+    if(String(explicit||'').trim())return canonicalOrganiserLabel(explicit);
+    const venue=String(event.venue||'').trim();
+    if(venue&&titleClearlyMatchesVenue(event))return canonicalOrganiserLabel(venue);
     const inferred=cleanOrganiserCandidate(event.name);
-    return inferred||String(event.venue||'').trim()||null;
+    return canonicalOrganiserLabel(inferred||venue)||null;
   }
   function organiserIdentity(value){
-    if(typeof value==='string'){const name=value.trim();return name?`organiser:${name.toLowerCase().replace(/\s+/g,' ')}`:null}
+    if(typeof value==='string'){const name=canonicalOrganiserLabel(value);return name?`organiser:${name.toLowerCase().replace(/\s+/g,' ')}`:null}
     if(!value||typeof value!=='object')return null;
-    if(value.organiserKey)return String(value.organiserKey);
     const id=value.organiserId||value.organizerId||value.leagueId||value.shopId;
     if(id)return `organiser:${value.source||'local'}:${id}`;
-    const name=organiserName(value)||value.name;
+    const name=value.scope==='local'?organiserName(value):canonicalOrganiserLabel(value.name||value.organiser);
     return name?`organiser:${String(name).trim().toLowerCase().replace(/\s+/g,' ')}`:null;
   }
-  function savedOrganiserRows(){return currentState().favouriteOrganisers||[]}
+  function savedOrganiserRows(){
+    const seen=new Set();return (currentState().favouriteOrganisers||[]).filter(row=>{const key=organiserIdentity(row);if(!key||seen.has(key))return false;seen.add(key);return true});
+  }
   function savedOrganiserKeys(){return new Set(savedOrganiserRows().map(organiserIdentity).filter(Boolean))}
   function isSavedOrganiser(event){const key=organiserIdentity(event);return !!key&&savedOrganiserKeys().has(key)}
-  function organiserRowName(row){return typeof row==='string'?row:(row&&row.name)||(row&&row.organiser)||'Saved organiser'}
+  function organiserRowName(row){return canonicalOrganiserLabel(typeof row==='string'?row:(row&&row.name)||(row&&row.organiser)||'Saved organiser')}
   function organiserSnapshot(event){const key=organiserIdentity(event),name=organiserName(event);return key&&name?{organiserKey:key,name,source:event.source||null,savedAt:new Date().toISOString()}:null}
   function toggleOrganiser(event){
     if(!window.PTCGStorage||event.scope!=='local'||!organiserIdentity(event))return;
     const wasSaved=isSavedOrganiser(event),key=organiserIdentity(event);
     window.PTCGStorage.update(state=>{
       state.favouriteOrganisers=Array.isArray(state.favouriteOrganisers)?state.favouriteOrganisers:[];
-      const existing=state.favouriteOrganisers.findIndex(row=>organiserIdentity(row)===key);
-      if(existing>=0)state.favouriteOrganisers.splice(existing,1);else{const snapshot=organiserSnapshot(event);if(snapshot)state.favouriteOrganisers.push(snapshot)}
+      const matching=[];state.favouriteOrganisers.forEach((row,index)=>{if(organiserIdentity(row)===key)matching.push(index)});
+      if(matching.length){for(let i=matching.length-1;i>=0;i--)state.favouriteOrganisers.splice(matching[i],1)}
+      else{const snapshot=organiserSnapshot(event);if(snapshot)state.favouriteOrganisers.push(snapshot)}
       return state;
     });
     toast(wasSaved?'Organiser removed':'Organiser saved');render();
