@@ -8,7 +8,7 @@
   <title>Event Prep · PTCG Tools</title>
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="./prep.css?v=1">
+  <link rel="stylesheet" href="./prep.css?v=2">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="compete">
   <header class="app-shell-header">
@@ -19,7 +19,7 @@
   <main class="app-shell-page prep-shell">
     <header class="prep-head">
       <a class="prep-back" href="./">← Events</a>
-      <div class="app-eyebrow">Compete · Attending · Prep</div>
+      <div class="app-eyebrow">Compete · Next event</div>
       <h1 id="eventTitle">Event Prep</h1>
       <p id="eventMeta">Loading event…</p>
     </header>
@@ -27,33 +27,41 @@
     <div id="fatal" class="app-card prep-empty hidden"></div>
     <div id="workspace" class="prep-stack hidden">
       <section class="prep-card app-card" aria-labelledby="fieldTitle">
-        <div class="prep-card-head"><div><span class="step-label">1 · Expected Field</span><h2 id="fieldTitle">What do you expect to face?</h2></div><span id="fieldStatus" class="status-chip">Suggested</span></div>
+        <div class="prep-card-head"><div><span class="step-label">1 · Expected Field</span><h2 id="fieldTitle">What field are you preparing for?</h2></div><span id="fieldStatus" class="status-chip">Suggested</span></div>
         <p id="fieldEvidence" class="evidence-line">Loading Meta evidence…</p>
-        <div class="field-toolbar">
-          <select id="savedFieldSelect" aria-label="Expected field"></select>
-          <button id="useSavedField" type="button" class="secondary-button">Use</button>
+
+        <div class="baseline-row">
+          <div><small>Baseline</small><strong id="baselineLabel">Local</strong></div>
+          <select id="savedFieldSelect" aria-label="Expected field baseline"></select>
         </div>
-        <div id="fieldRows" class="field-rows"></div>
-        <div class="field-actions"><button id="looksRight" type="button" class="primary-button">Looks right</button><button id="toggleReview" type="button" class="secondary-button">Review field</button></div>
-        <div id="reviewPanel" class="review-panel hidden">
-          <p>Edit the shares for this event. Saving updates the reusable Meta-owned Expected Field; the participation keeps its own event snapshot.</p>
-          <button id="saveField" type="button" class="secondary-button">Save Expected Field</button>
+
+        <div id="fieldSummary" class="field-summary"></div>
+        <div class="field-actions"><button id="looksRight" type="button" class="primary-button">Looks right</button><button id="toggleAdjust" type="button" class="secondary-button">Adjust</button></div>
+
+        <div id="adjustPanel" class="adjust-panel hidden">
+          <div class="adjust-head"><strong>Event adjustment</strong><span>Only changes this event</span></div>
+          <div id="fieldAdjustRows" class="field-adjust-rows"></div>
+          <label class="note-label"><span>Local knowledge / notes</span><textarea id="fieldNote" rows="2" placeholder="e.g. Alex usually plays Slowking; expect extra Dragapult"></textarea></label>
+          <div class="adjust-actions"><button id="resetAdjust" type="button" class="secondary-button">Reset</button><button id="saveEventField" type="button" class="primary-button">Save for this event</button></div>
         </div>
       </section>
 
       <section class="prep-card app-card" aria-labelledby="optionsTitle">
-        <div class="prep-card-head"><div><span class="step-label">2 · Deck options</span><h2 id="optionsTitle">Best positioned into this field</h2></div></div>
+        <div class="prep-card-head"><div><span class="step-label">2 · Deck options</span><h2 id="optionsTitle">What looks good here?</h2></div></div>
         <p id="candidateEvidence" class="evidence-line">Loading matchup evidence…</p>
         <div id="candidateRows" class="candidate-list"></div>
       </section>
 
       <section class="prep-card app-card" aria-labelledby="planTitle">
-        <div class="prep-card-head"><div><span class="step-label">3 · Your plan</span><h2 id="planTitle">Choose the exact list</h2></div><span id="planStatus" class="status-chip muted">Not chosen</span></div>
-        <label class="plan-label"><span>Personal deck</span><select id="deckSelect"></select></label>
-        <label class="plan-label"><span>Deck version</span><select id="versionSelect"></select></label>
-        <div id="versionMeta" class="version-meta"></div>
-        <button id="savePlan" type="button" class="primary-button">Set planned DeckVersion</button>
-        <p class="plan-note">Prep stores only <code>deckId + deckVersionId + listHash</code>. Deck identity and list editing remain in Decks.</p>
+        <div class="prep-card-head"><div><span class="step-label">3 · Your plan</span><h2 id="planTitle">What are you taking?</h2></div><span id="planStatus" class="status-chip muted">Not chosen</span></div>
+        <div id="planHint" class="plan-hint"></div>
+        <div id="plannedSummary" class="planned-summary hidden"></div>
+        <div id="planEditor">
+          <label class="plan-label"><span>Personal deck</span><select id="deckSelect"></select></label>
+          <label class="plan-label"><span>Exact version</span><select id="versionSelect"></select></label>
+          <div id="versionMeta" class="version-meta"></div>
+          <button id="savePlan" type="button" class="primary-button full-button">Plan this version</button>
+        </div>
       </section>
     </div>
   </main>
@@ -64,7 +72,7 @@
   <script src="../_shared/deckParser.js?v=3"></script>
   <script src="../_shared/deck-store.js?v=5"></script>
   <script src="../meta/saved-metas.js?v=3"></script>
-  <script src="./prep.js?v=2"></script>
+  <script src="./prep.js?v=3"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
 </body>
 </html>
