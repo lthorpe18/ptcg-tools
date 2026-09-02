@@ -77,6 +77,11 @@
 
   <section id="handTray" class="hand-tray" hidden aria-labelledby="handLabel">
     <div class="hand-head"><div><span id="handLabel">Hand</span><b id="handCount">0</b></div><button id="drawButton" type="button">＋ Draw</button></div>
+    <div class="hand-actions" aria-label="Hand actions">
+      <button type="button" data-hand-action="shuffle-in">Shuffle into deck</button>
+      <button type="button" data-hand-action="bottom">Shuffle + bottom</button>
+      <button type="button" data-hand-action="discard-all">Discard all</button>
+    </div>
     <div id="handZone" class="hand-row"></div>
   </section>
 
@@ -102,7 +107,7 @@
   <script>
     (function(){
       const token=window.__PT_CACHE_TOKEN||Date.now().toString();
-      ['../_shared/deckParser.js','../_shared/deck-store.js','../_shared/playtest-launch.js','playtest-metadata-adapter.js','playtest-v4.js'].forEach(src=>{
+      ['../_shared/deckParser.js','../_shared/deck-store.js','../_shared/playtest-launch.js','playtest-metadata-adapter.js','playtest-v4.js','playtest-hand-actions.js'].forEach(src=>{
         document.write('<script src="'+src+'?_pt='+encodeURIComponent(token)+'"><\\/script>');
       });
     })();
