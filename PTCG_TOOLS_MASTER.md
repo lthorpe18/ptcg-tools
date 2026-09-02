@@ -995,8 +995,8 @@ Any **Scraped** source that becomes essential to a future public application sho
 
 1. **Deck/list foundation — established** — working lists, canonical hashes, named checkpoints and stable relationships.
 2. **Match/Game ingestion contract and native fallback — established** — PTCGL parsing, real opponent/result attribution and manual in-person recording remain available while a supported Training Court export/integration is explored.
-3. **Limitless-backed Deck intake — next** — import as New Deck or Update Existing, separate personal name from archetype, create V1/V2/V3 only for changed hashes, and add source/copy/PNGGen handoffs.
-4. **Event Prep + Expected Field v1** — Interested/Attending flow, evidence-derived editable forecast, candidate archetype comparison and exact planned/used version relationships.
+3. **Limitless-backed Deck intake — established** — import as New Deck or Update Existing, separate personal name from archetype, create V1/V2/V3 only for changed hashes, and add source/copy/PNGGen handoffs.
+4. **Event Prep + Expected Field v1 — next** — Interested/Attending flow, evidence-derived editable forecast, candidate archetype comparison and exact planned/used version relationships.
 5. **Mobile Playtest v1** — launch the separate solo/goldfish touch-first tabletop from a DeckVersion or the current Prep candidate/final list.
 6. **Events / Compete maturity** — reliable local/major discovery and stronger tournament-day context.
 7. **Cut / ID Calculator** — deterministic tournament-day utility with optional uncertainty modelling.
