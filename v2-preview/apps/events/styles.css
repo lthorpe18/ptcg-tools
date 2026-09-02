@@ -3,3 +3,5 @@
 @media(max-width:420px){.events-shell{padding-left:12px;padding-right:12px}.filter-panel{padding:10px}.event-card-main{padding:13px}.event-card h2{font-size:16px}.event-actions>*{padding:0 7px;font-size:11px}.event-actions.has-prep{grid-template-columns:minmax(0,1.08fr) minmax(66px,.78fr) minmax(52px,.62fr) 40px}.results-head small{max-width:120px;text-align:right}.major-filter-row{grid-template-columns:1fr 1.2fr}}
 
 .plan-pill.needs-completion{background:#fffaeb;color:#b54708}
+
+.manage-organisers-button{border:0;background:transparent;color:#175cd3;font:inherit;font-size:11px;font-weight:800;padding:4px 2px}.saved-organiser-remove{border:1px solid #fecdca;border-radius:8px;background:#fff;color:#d92d20;font:inherit;font-size:10px;font-weight:800;padding:5px 8px}.saved-organiser-remove:active{background:#fef3f2}

@@ -825,7 +825,7 @@ Local discovery uses a **UK-wide upcoming-event feed** rather than a user-specif
 
 Personal event history is separate from the shared discovery feed. Once a user saves an attendance relationship, the retained `UserEventParticipation.eventSnapshot` is authoritative for preserving that event after it drops out of the source feed. Historic global event rows are therefore not required to preserve the user's competitive record.
 
-When the event date passes, a participation still marked **Attending** rolls forward to **Attended**. If completion/result data has not yet been recorded, its lifecycle phase becomes **Needs completion** and it remains surfaced in Compete until completed or explicitly corrected/skipped. Passing the event date must never silently imply that tournament results were entered.
+When the event date passes, a participation still marked **Attending** rolls forward to **Attended**. If completion/result data has not yet been recorded, its lifecycle phase becomes **Needs completion** and it remains surfaced in Compete until completed or explicitly corrected/skipped. Passing the event date must never silently imply that tournament results were entered. Saved organiser identity should prefer a stable source organiser/league ID where available. Legacy name-based favourites are reconciled to a stable ID only when the canonical organiser name maps unambiguously to one live source identity; matching retains a canonical-name fallback so feed normalization cannot silently orphan a favourite. Compete exposes a small organiser-management control for explicitly removing saved organisers.
 
 ### 11.3 Event Prep
 

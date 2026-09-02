@@ -24,7 +24,7 @@
     distance:$('distanceFilter'),nearbyDate:$('nearbyDateFilter'),region:$('regionFilter'),majorSearch:$('majorSearch'),savedVenuesFilter:$('savedVenuesFilter'),
     locationSummary:$('locationSummary'),changeLocation:$('changeLocationButton'),locationEditor:$('locationEditor'),postcode:$('postcodeInput'),
     setPostcode:$('setPostcodeButton'),useDeviceLocation:$('useDeviceLocationButton'),locationError:$('locationError'),
-    yourVenuesSection:$('yourVenuesSection'),yourVenuesList:$('yourVenuesList'),resultsTitle:$('resultsTitle'),resultsCount:$('resultsCount'),freshness:$('freshnessText'),
+    yourVenuesSection:$('yourVenuesSection'),yourVenuesList:$('yourVenuesList'),manageOrganisers:$('manageOrganisersButton'),resultsTitle:$('resultsTitle'),resultsCount:$('resultsCount'),freshness:$('freshnessText'),
     list:$('eventList'),loading:$('loadingState'),empty:$('emptyState'),error:$('errorState'),backdrop:$('statusBackdrop'),sheetTitle:$('statusSheetTitle'),
     closeSheet:$('closeStatusSheet'),clearStatus:$('clearStatusButton'),toast:$('toast')
   };
@@ -36,6 +36,7 @@
   let majorType='all';
   let planFilter='upcoming';
   let savedOnly=false;
+  let organiserManage=false;
   let selectedEvent=null;
   let selectedLocation=loadLocation();
 
@@ -132,14 +133,25 @@
     if(!value||typeof value!=='object')return null;const id=value.organiserId||value.organizerId||value.leagueId||value.shopId;if(id)return `organiser:${value.source||'local'}:${id}`;
     const name=value.scope==='local'?organiserName(value):aliasOrganiserLabel(value.name||value.organiser),canonical=aliasOrganiserLabel(name);return canonical?`organiser:${canonical.toLowerCase().replace(/\s+/g,' ')}`:null;
   }
-  function savedOrganiserRows(){const seen=new Set();return (currentState().favouriteOrganisers||[]).filter(row=>{const key=organiserIdentity(row);if(!key||seen.has(key))return false;seen.add(key);return true})}
-  function savedOrganiserKeys(){return new Set(savedOrganiserRows().map(organiserIdentity).filter(Boolean))}
-  function isSavedOrganiser(event){const key=organiserIdentity(event);return !!key&&savedOrganiserKeys().has(key)}
   function organiserRowName(row){return displayOrganiserLabel(typeof row==='string'?row:(row&&row.name)||(row&&row.organiser)||'Saved organiser')}
-  function organiserSnapshot(event){const key=organiserIdentity(event),name=organiserName(event);return key&&name?{organiserKey:key,name,source:event.source||null,savedAt:new Date().toISOString()}:null}
+  function organiserNameKey(value){const name=typeof value==='string'?value:(value&&value.scope==='local'?organiserName(value):(value&&value.name)||(value&&value.organiser)||'');const canonical=aliasOrganiserLabel(name);return canonical?canonical.toLowerCase().replace(/\s+/g,' '):null}
+  function organiserRowToken(row){return organiserIdentity(row)||((organiserNameKey(row))?`name:${organiserNameKey(row)}`:null)}
+  function organiserMatches(row,event){const rowId=organiserIdentity(row),eventId=organiserIdentity(event);if(rowId&&eventId&&rowId===eventId)return true;const a=organiserNameKey(row),b=organiserNameKey(event);return !!a&&a===b}
+  function savedOrganiserRows(){const seen=new Set();return (currentState().favouriteOrganisers||[]).filter(row=>{const key=organiserRowToken(row);if(!key||seen.has(key))return false;seen.add(key);return true})}
+  function savedOrganiserKeys(){return new Set(savedOrganiserRows().map(organiserRowToken).filter(Boolean))}
+  function isSavedOrganiser(event){return savedOrganiserRows().some(row=>organiserMatches(row,event))}
+  function organiserSnapshot(event){const key=organiserIdentity(event),name=organiserName(event),id=event&& (event.organiserId||event.organizerId||event.leagueId||event.shopId);return key&&name?{organiserKey:key,organiserId:id||null,name,source:event.source||null,savedAt:new Date().toISOString()}:null}
+  function reconcileSavedOrganisers(){
+    if(!window.PTCGStorage?.update)return;const saved=currentState().favouriteOrganisers||[];if(!saved.length)return;
+    const liveByName=new Map();for(const event of events.filter(e=>e.scope==='local')){const nameKey=organiserNameKey(event),id=organiserIdentity(event);if(!nameKey||!id)continue;const bucket=liveByName.get(nameKey)||new Map();bucket.set(id,event);liveByName.set(nameKey,bucket)}
+    let changed=false;const reconciled=[],seen=new Set();
+    for(const row of saved){let next=row;const nameKey=organiserNameKey(row),matches=nameKey?liveByName.get(nameKey):null;if(matches&&matches.size===1){const event=[...matches.values()][0],stable=organiserIdentity(event);if(stable&&organiserIdentity(row)!==stable){next={...row,organiserKey:stable,organiserId:event.organiserId||event.organizerId||event.leagueId||event.shopId||null,name:organiserName(event)||organiserRowName(row),source:event.source||row.source||null};changed=true}}const token=organiserRowToken(next);if(!token||seen.has(token)){changed=true;continue}seen.add(token);reconciled.push(next)}
+    if(changed)window.PTCGStorage.update(state=>{state.favouriteOrganisers=reconciled;return state});
+  }
+  function removeSavedOrganiser(token){if(!window.PTCGStorage?.update||!token)return;let removed=false;window.PTCGStorage.update(state=>{state.favouriteOrganisers=(state.favouriteOrganisers||[]).filter(row=>{const match=organiserRowToken(row)===token;if(match)removed=true;return !match});return state});if(removed)toast('Organiser removed');render()}
   function toggleOrganiser(event){
-    if(!window.PTCGStorage||event.scope!=='local'||!organiserIdentity(event))return;const wasSaved=isSavedOrganiser(event),key=organiserIdentity(event);
-    window.PTCGStorage.update(state=>{state.favouriteOrganisers=Array.isArray(state.favouriteOrganisers)?state.favouriteOrganisers:[];const matching=[];state.favouriteOrganisers.forEach((row,index)=>{if(organiserIdentity(row)===key)matching.push(index)});if(matching.length){for(let i=matching.length-1;i>=0;i--)state.favouriteOrganisers.splice(matching[i],1)}else{const snapshot=organiserSnapshot(event);if(snapshot)state.favouriteOrganisers.push(snapshot)}return state});
+    if(!window.PTCGStorage||event.scope!=='local'||!organiserIdentity(event))return;const wasSaved=isSavedOrganiser(event);
+    window.PTCGStorage.update(state=>{state.favouriteOrganisers=Array.isArray(state.favouriteOrganisers)?state.favouriteOrganisers:[];if(wasSaved)state.favouriteOrganisers=state.favouriteOrganisers.filter(row=>!organiserMatches(row,event));else{const snapshot=organiserSnapshot(event);if(snapshot)state.favouriteOrganisers.push(snapshot)}return state});
     toast(wasSaved?'Organiser removed':'Organiser saved');render();
   }
 
@@ -172,9 +184,10 @@
   function sortDescending(a,b){return (eventStart(b)?.getTime()||0)-(eventStart(a)?.getTime()||0)}
 
   function renderYourOrganisers(){
-    const rows=savedOrganiserRows(),show=activeView==='nearby'&&rows.length>0;els.yourVenuesSection.classList.toggle('hidden',!show);if(!show){els.yourVenuesList.innerHTML='';return}
+    const rows=savedOrganiserRows(),show=activeView==='nearby'&&rows.length>0;els.yourVenuesSection.classList.toggle('hidden',!show);if(!show){els.yourVenuesList.innerHTML='';organiserManage=false;if(els.manageOrganisers){els.manageOrganisers.textContent='Manage';els.manageOrganisers.setAttribute('aria-pressed','false')}return}
     const upcoming=events.filter(e=>e.scope==='local'&&!isPast(e)).sort(sortAscending);
-    els.yourVenuesList.innerHTML=rows.map(row=>{const key=organiserIdentity(row),next=upcoming.find(e=>organiserIdentity(e)===key),name=organiserRowName(row),nextLine=next?`${typeLabel(next)} · ${compactDate(next)}`:'No upcoming event in current feed',distance=next?eventDistanceMiles(next):null,meta=next?[placeLine(next),next.city&&next.city!==next.venue?next.city:null,Number.isFinite(distance)?`${distance.toFixed(1)} mi`:null].filter(Boolean).join(' · '):'Saved organiser';return `<article class="saved-venue-card"><div class="saved-venue-card-top"><strong>${escapeHtml(name)}</strong><span class="saved-venue-star">★</span></div><div class="saved-venue-next">${escapeHtml(nextLine)}</div><div class="saved-venue-meta">${escapeHtml(meta)}</div></article>`}).join('');
+    if(els.manageOrganisers){els.manageOrganisers.textContent=organiserManage?'Done':'Manage';els.manageOrganisers.setAttribute('aria-pressed',String(organiserManage))}
+    els.yourVenuesList.innerHTML=rows.map(row=>{const next=upcoming.find(e=>organiserMatches(row,e)),name=organiserRowName(row),nextLine=next?`${typeLabel(next)} · ${compactDate(next)}`:'No upcoming event in current feed',distance=next?eventDistanceMiles(next):null,meta=next?[placeLine(next),next.city&&next.city!==next.venue?next.city:null,Number.isFinite(distance)?`${distance.toFixed(1)} mi`:null].filter(Boolean).join(' · '):'Saved organiser',token=organiserRowToken(row);return `<article class="saved-venue-card"><div class="saved-venue-card-top"><strong>${escapeHtml(name)}</strong>${organiserManage?`<button class="saved-organiser-remove" type="button" data-remove-organiser="${escapeHtml(token||'')}" aria-label="Remove ${escapeHtml(name)}">Remove</button>`:'<span class="saved-venue-star">★</span>'}</div><div class="saved-venue-next">${escapeHtml(nextLine)}</div><div class="saved-venue-meta">${escapeHtml(meta)}</div></article>`}).join('');
   }
 
   function externalLink(event){const registration=safeUrl(event.registrationUrl);if(registration)return {url:registration,label:'Register'};const official=safeUrl(event.officialUrl);if(official)return {url:official,label:'Details'};const secondary=safeUrl(event.secondarySourceUrl);if(secondary)return {url:secondary,label:'Details'};return null}
@@ -194,7 +207,7 @@
   function closeStatusSheet(){selectedEvent=null;els.backdrop.classList.add('hidden');els.backdrop.setAttribute('aria-hidden','true');document.body.style.overflow=''}
   function eventFromCard(card){const id=card&&card.dataset.eventId;if(!id)return null;return visibleEvents().find(e=>eventIdentity(e)===id)||events.find(e=>eventIdentity(e)===id)||savedEvents().find(e=>eventIdentity(e)===id)||null}
 
-  async function loadEvents(){setLoading(true);showError('');els.empty.classList.add('hidden');els.list.classList.add('hidden');try{const response=await fetch(`${DATA_URL}?v=${Date.now()}`,{cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);const data=await response.json();if(!data||data.status!=='ok'||!Array.isArray(data.events))throw new Error('Invalid event dataset');dataset=data;events=data.events.filter(e=>e&&e.id&&e.startDate).map(e=>e.scope==='local'?{...e,organiser:organiserName(e),organiserKey:organiserIdentity(e)}:e);rollPastAttendingToAttended();setLoading(false);render()}catch(error){setLoading(false);showError(`Could not load event data. ${error&&error.message?error.message:''}`.trim())}}
+  async function loadEvents(){setLoading(true);showError('');els.empty.classList.add('hidden');els.list.classList.add('hidden');try{const response=await fetch(`${DATA_URL}?v=${Date.now()}`,{cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);const data=await response.json();if(!data||data.status!=='ok'||!Array.isArray(data.events))throw new Error('Invalid event dataset');dataset=data;events=data.events.filter(e=>e&&e.id&&e.startDate).map(e=>e.scope==='local'?{...e,organiser:organiserName(e),organiserKey:organiserIdentity(e)}:e);reconcileSavedOrganisers();rollPastAttendingToAttended();setLoading(false);render()}catch(error){setLoading(false);showError(`Could not load event data. ${error&&error.message?error.message:''}`.trim())}}
 
   document.querySelectorAll('[data-view]').forEach(btn=>btn.addEventListener('click',()=>setView(btn.dataset.view)));
   document.querySelectorAll('[data-local-type]').forEach(btn=>btn.addEventListener('click',()=>{localType=btn.dataset.localType;setChip('[data-local-type]',localType);render()}));
@@ -203,6 +216,8 @@
   [els.distance,els.nearbyDate,els.region].forEach(el=>el&&el.addEventListener('change',render));els.majorSearch?.addEventListener('input',render);els.refresh?.addEventListener('click',loadEvents);
   els.changeLocation?.addEventListener('click',()=>toggleLocationEditor());els.setPostcode?.addEventListener('click',usePostcode);els.postcode?.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();usePostcode()}});els.useDeviceLocation?.addEventListener('click',useDeviceLocation);
   els.savedVenuesFilter?.addEventListener('click',()=>{savedOnly=!savedOnly;els.savedVenuesFilter.classList.toggle('active',savedOnly);els.savedVenuesFilter.setAttribute('aria-pressed',String(savedOnly));els.savedVenuesFilter.textContent=savedOnly?'★ Saved organisers only':'☆ Saved organisers only';render()});
+  els.manageOrganisers?.addEventListener('click',()=>{organiserManage=!organiserManage;renderYourOrganisers()});
+  els.yourVenuesList?.addEventListener('click',event=>{const button=event.target.closest('[data-remove-organiser]');if(!button)return;removeSavedOrganiser(button.dataset.removeOrganiser)});
   els.list?.addEventListener('click',event=>{const target=event.target.closest('[data-action]');if(!target)return;const card=target.closest('.event-card'),item=eventFromCard(card);if(!item)return;if(target.dataset.action==='attend'){const status=statusFor(item);if(status==='attending'||status==='attended')openStatusSheet(item);else setStatus(item,'attending')}else if(target.dataset.action==='status')openStatusSheet(item);else if(target.dataset.action==='organiser')toggleOrganiser(item)});
   document.querySelectorAll('[data-set-status]').forEach(btn=>btn.addEventListener('click',()=>{if(!selectedEvent)return;setStatus(selectedEvent,btn.dataset.setStatus);closeStatusSheet()}));
   els.clearStatus?.addEventListener('click',()=>{if(!selectedEvent)return;clearStatus(selectedEvent);closeStatusSheet()});els.closeSheet?.addEventListener('click',closeStatusSheet);els.backdrop?.addEventListener('click',event=>{if(event.target===els.backdrop)closeStatusSheet()});document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!els.backdrop?.classList.contains('hidden'))closeStatusSheet()});
