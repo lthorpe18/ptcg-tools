@@ -3,6 +3,7 @@
 
   const KEY='ptcg-tools.playtest.launch.v1';
   const CONTRACT_VERSION=1;
+  const DEFAULT_TARGET='../decklists/playtest-v2.html?interaction=2';
 
   function clean(value){return String(value==null?'':value).trim()}
   function read(){
@@ -52,10 +53,10 @@
   async function open(options={}){
     const payload=await build(options);
     try{sessionStorage.setItem(KEY,JSON.stringify(payload))}catch{}
-    const target=clean(options.targetUrl)||'../decklists/playtest-v2.html';
+    const target=clean(options.targetUrl)||DEFAULT_TARGET;
     global.location.href=target;
     return payload;
   }
 
-  global.PTCGPlaytestLaunch={KEY,CONTRACT_VERSION,read,clear,build,open};
+  global.PTCGPlaytestLaunch={KEY,CONTRACT_VERSION,DEFAULT_TARGET,read,clear,build,open};
 })(window);
