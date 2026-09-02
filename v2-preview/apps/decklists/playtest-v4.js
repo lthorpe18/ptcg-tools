@@ -3,8 +3,8 @@
 
 const $=id=>document.getElementById(id);
 const ACTIVE_KEY='ptcg-tools.playtest.active.v2';
-const CARD_META_KEY='ptcg-tools.card-meta.v1';
-const STATE_VERSION=3;
+const CARD_META_KEY='ptcg-tools.card-meta.v2';
+const STATE_VERSION=4;
 const MAX_UNDO=40;
 const BENCH_SIZE=5;
 let launch=null,state=null,undoStack=[],selection=null;
@@ -27,6 +27,7 @@ function isPokemon(card){return card?.section==='pokemon'}
 function isEnergy(card){return card?.section==='energy'}
 function isTrainer(card){return card?.section==='trainers'}
 function isBasic(card){return isPokemon(card)&&String(card?.stage||'').toLowerCase()==='basic'}
+function isOpeningEligible(card){return isPokemon(card)&&card?.openingEligible===true}
 function fieldIds(){return [...zone('active'),...zone('bench')]}
 function attachmentsFor(cardId){return zone('attached').map(cardById).filter(card=>card?.attachedTo===cardId)}
 function underCards(cardId){return zone('under').map(cardById).filter(card=>card?.stackedUnder===cardId)}
@@ -34,9 +35,14 @@ function underCards(cardId){return zone('under').map(cardById).filter(card=>card
 function readMetaCache(){try{return JSON.parse(localStorage.getItem(CARD_META_KEY)||'{}')||{}}catch{return {}}}
 function writeMetaCache(cache){try{localStorage.setItem(CARD_META_KEY,JSON.stringify(cache))}catch{}}
 function metadataKey(card){return [setCode(card),String(card?.number||'').trim(),String(card?.name||'').trim().toLowerCase()].join('|')}
+function hasSetupOpeningText(text){
+  const value=String(text||'').replace(/\s+/g,' ').trim();if(!value)return false;
+  return /(?:when|while) (?:this pok[eé]mon is in your hand )?(?:you are )?setting up to play.{0,180}(?:put|place).{0,80}face[- ]?down.{0,100}(?:active spot|active pok[eé]mon)/i.test(value)
+    || /during (?:your )?(?:game )?setup.{0,180}(?:put|place).{0,80}face[- ]?down.{0,100}(?:active spot|active pok[eé]mon)/i.test(value);
+}
 async function fetchPokemonMetadata(card){
   const set=setCode(card),number=String(card?.number||'').trim(),name=String(card?.name||'').trim();
-  const select='name,number,supertype,subtypes,set';
+  const select='name,number,supertype,subtypes,set,abilities,rules';
   const queries=[];
   if(set&&number)queries.push(`set.ptcgoCode:${set} number:${number}`);
   if(name)queries.push(`name:\"${name.replace(/\"/g,'')}\"`);
@@ -45,7 +51,11 @@ async function fetchPokemonMetadata(card){
     const response=await fetch(url,{cache:'force-cache'});if(!response.ok)continue;
     const body=await response.json(),rows=Array.isArray(body?.data)?body.data:[];
     const exact=rows.find(row=>String(row?.name||'').toLowerCase()===name.toLowerCase()&&(!number||String(row?.number||'')===number))||rows.find(row=>String(row?.name||'').toLowerCase()===name.toLowerCase())||rows[0];
-    if(exact?.supertype==='Pokémon')return {stage:(exact.subtypes||[]).find(value=>['Basic','Stage 1','Stage 2','VMAX','VSTAR','V-UNION','Mega Evolution','BREAK Evolution','Restored','LEGEND'].includes(value))||null};
+    if(exact?.supertype==='Pokémon'){
+      const stage=(exact.subtypes||[]).find(value=>['Basic','Stage 1','Stage 2','VMAX','VSTAR','V-UNION','Mega Evolution','BREAK Evolution','Restored','LEGEND'].includes(value))||null;
+      const text=[...(exact.abilities||[]).map(ability=>ability?.text||''),...(exact.rules||[])].join(' ');
+      return {stage,openingEligible:stage==='Basic'||hasSetupOpeningText(text)};
+    }
   }
   return null;
 }
@@ -54,24 +64,27 @@ async function hydratePokemonStages(cards){
   cards.filter(isPokemon).forEach(card=>{const key=metadataKey(card);if(!unique.has(key))unique.set(key,card)});
   await Promise.all([...unique.entries()].map(async([key,card])=>{
     let meta=cache[key];
-    if(!meta?.stage){try{meta=await fetchPokemonMetadata(card)}catch{meta=null}if(meta?.stage){cache[key]={...meta,updatedAt:Date.now()}}}
-    if(meta?.stage)cards.filter(row=>metadataKey(row)===key).forEach(row=>row.stage=meta.stage);
+    if(!meta?.stage||typeof meta.openingEligible!=='boolean'){
+      try{meta=await fetchPokemonMetadata(card)}catch{meta=null}
+      if(meta?.stage&&typeof meta.openingEligible==='boolean')cache[key]={...meta,updatedAt:Date.now()};
+    }
+    if(meta?.stage){cards.filter(row=>metadataKey(row)===key).forEach(row=>{row.stage=meta.stage;row.openingEligible=meta.openingEligible===true})}
   }));
   writeMetaCache(cache);
   const unresolved=cards.filter(isPokemon).filter(card=>!card.stage);
-  if(unresolved.length){const names=[...new Set(unresolved.map(card=>card.name))].slice(0,4).join(', ');throw new Error(`Could not identify Pokémon stages for ${names}${unresolved.length>4?'…':''}. Try again while online.`)}
-  if(!cards.some(isBasic))throw new Error('This deck has no Basic Pokémon, so Playtest cannot generate an opening hand.');
+  if(unresolved.length){const names=[...new Set(unresolved.map(card=>card.name))].slice(0,4).join(', ');throw new Error(`Could not identify Pokémon setup metadata for ${names}${unresolved.length>4?'…':''}. Try again while online.`)}
+  if(!cards.some(isOpeningEligible))throw new Error('Playtest could not find a Pokémon that can start in play, so it cannot generate an opening hand.');
 }
 
 function expandDeck(rawText){
   const parsed=window.PTCGDeckParser.parseDeck(rawText||''),cards=[];
-  parsed.cards.forEach((row,rowIndex)=>{for(let copy=0;copy<Number(row.count||0);copy++)cards.push({id:`c_${rowIndex}_${copy}_${Math.random().toString(36).slice(2,6)}`,name:row.name||'Unknown card',set:row.set||null,number:row.number||null,section:row.section||'unknown',stage:null,damage:0,markers:[],rotated:false,attachedTo:null,stackedUnder:null})});
+  parsed.cards.forEach((row,rowIndex)=>{for(let copy=0;copy<Number(row.count||0);copy++)cards.push({id:`c_${rowIndex}_${copy}_${Math.random().toString(36).slice(2,6)}`,name:row.name||'Unknown card',set:row.set||null,number:row.number||null,section:row.section||'unknown',stage:null,openingEligible:false,damage:0,markers:[],rotated:false,attachedTo:null,stackedUnder:null})});
   return cards;
 }
 function shuffled(ids){const copy=[...ids];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
 function dealOpeningHand(cards){
   const allIds=cards.map(card=>card.id);let mulligans=0,deckIds,hand;
-  do{deckIds=shuffled(allIds);hand=deckIds.splice(0,Math.min(7,deckIds.length));if(hand.some(id=>isBasic(cards.find(card=>card.id===id))))break;mulligans+=1;if(mulligans>500)throw new Error('Could not generate a valid opening hand.')}while(true);
+  do{deckIds=shuffled(allIds);hand=deckIds.splice(0,Math.min(7,deckIds.length));if(hand.some(id=>isOpeningEligible(cards.find(card=>card.id===id))))break;mulligans+=1;if(mulligans>500)throw new Error('Could not generate a valid opening hand.')}while(true);
   const prizes=deckIds.splice(0,Math.min(6,deckIds.length));return {deckIds,hand,prizes,mulligans};
 }
 async function newState(payload){
