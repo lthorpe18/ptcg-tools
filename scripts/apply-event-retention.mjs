@@ -45,6 +45,10 @@ if(!app.includes("els.manageOrganisers?.addEventListener")){
 }
 
 app=app.replace(/\.sort\(\(a,b\)=>\{const da=eventDistanceMiles\(a\),db=eventDistanceMiles\(b\);if\(Number\.isFinite\(da\)&&Number\.isFinite\(db\)&&Math\.abs\(da-db\)>\.05\)return da-db;return sortAscending\(a,b\)\}\)/g,'.sort(sortAscending)');
+app=app.replace(
+  /  function externalLink\(event\)\{[^\n]*\}/,
+  "  function externalLink(event){const registration=safeUrl(event.registrationUrl);if(registration){let host='';try{host=new URL(registration).hostname.toLowerCase()}catch{}const pokemonDetails=host==='pokemon.com'||host.endsWith('.pokemon.com');return {url:registration,label:pokemonDetails?'Details':'Register'}}const official=safeUrl(event.officialUrl);if(official)return {url:official,label:'Details'};const secondary=safeUrl(event.secondarySourceUrl);if(secondary)return {url:secondary,label:'Details'};return null}"
+);
 await fs.writeFile(APP,app);
 
 let html=await fs.readFile(HTML,'utf8');
@@ -53,7 +57,7 @@ if(!html.includes('id="manageOrganisersButton"')){
     '<div class="your-venues-head"><div><strong id="yourVenuesTitle">Your organisers</strong><small>Next event from each saved organiser</small></div></div>',
     '<div class="your-venues-head"><div><strong id="yourVenuesTitle">Your organisers</strong><small>Next event from each saved organiser</small></div><button id="manageOrganisersButton" class="manage-organisers-button" type="button" aria-pressed="false">Manage</button></div>');
 }
-html=html.replace('./app.js?v=10','./app.js?v=12').replace('./app.js?v=11','./app.js?v=12').replace('./styles.css?v=5','./styles.css?v=6');
+html=html.replace('./app.js?v=10','./app.js?v=13').replace('./app.js?v=11','./app.js?v=13').replace('./app.js?v=12','./app.js?v=13').replace('./styles.css?v=5','./styles.css?v=6');
 await fs.writeFile(HTML,html);
 
 let css=await fs.readFile(CSS,'utf8');
@@ -70,4 +74,4 @@ if(master.includes(lifecycle)&&!master.includes('Legacy name-based favourites ar
   await fs.writeFile(MASTER,master);
 }
 
-console.log('Applied event retention, organiser reconciliation, management and date-sort contract.');
+console.log('Applied event retention, organiser reconciliation, management, date-sort and action-label contract.');
