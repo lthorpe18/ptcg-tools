@@ -3,67 +3,82 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#f7f8fb">
+  <meta name="theme-color" content="#163d2a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Playtest · PTCG Tools</title>
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="playtest.css?v=1">
+  <link rel="stylesheet" href="playtest.css?v=2">
 </head>
 <body class="ptcg-v2 playtest-body" data-app-root="../.." data-app-section="decks">
   <header class="playtest-header">
-    <button id="backButton" class="icon-button" type="button" aria-label="Back">‹</button>
-    <div class="playtest-title"><strong id="deckTitle">Playtest</strong><span id="deckIdentity">Loading exact list…</span></div>
-    <button id="resetButton" class="icon-button" type="button" aria-label="New setup">↻</button>
+    <button id="backButton" class="header-button" type="button" aria-label="Back">‹</button>
+    <div class="playtest-title">
+      <strong id="deckTitle">Playtest</strong>
+      <span id="deckIdentity">Loading exact list…</span>
+    </div>
+    <button id="menuButton" class="header-button" type="button" aria-label="Tabletop menu">•••</button>
   </header>
 
   <main id="playtestApp" class="playtest-app" hidden>
-    <section class="turn-strip" aria-label="Turn state">
-      <div><small>TURN</small><strong id="turnNumber">1</strong></div>
-      <div><small>COIN</small><strong id="coinResult">—</strong></div>
-      <button id="endTurn" type="button">End turn</button>
+    <section class="table-toolbar" aria-label="Playtest controls">
+      <button id="undoButton" type="button" disabled><span>↶</span> Undo</button>
+      <button id="coinButton" type="button"><span>◐</span> <b id="coinResult">Coin</b></button>
+      <div class="turn-state"><small>TURN</small><strong id="turnNumber">1</strong></div>
+      <button id="endTurn" class="end-turn" type="button">End turn</button>
     </section>
 
-    <section class="field-grid">
-      <article class="zone-card major-zone" data-open-zone="active">
-        <header><span>Active</span><b id="activeCount">0</b></header>
-        <div id="activeZone" class="zone-content empty-zone">Tap a card in hand to set Active.</div>
-      </article>
-      <article class="zone-card stadium-zone" data-open-zone="stadium">
-        <header><span>Stadium</span><b id="stadiumCount">0</b></header>
-        <div id="stadiumZone" class="zone-content empty-zone">Empty</div>
-      </article>
+    <section class="tabletop" aria-label="Play area">
+      <div class="stadium-row">
+        <button id="stadiumZone" class="field-slot stadium-slot" type="button" data-zone-button="stadium" aria-label="Stadium">
+          <span class="slot-label">Stadium</span>
+          <span id="stadiumContent" class="slot-content"></span>
+        </button>
+      </div>
+
+      <div class="active-row">
+        <button id="activeZone" class="field-slot active-slot" type="button" data-zone-button="active" aria-label="Active Pokémon">
+          <span class="slot-label">Active</span>
+          <span id="activeContent" class="slot-content"></span>
+        </button>
+      </div>
+
+      <section class="bench-area" aria-labelledby="benchLabel">
+        <div class="zone-heading"><span id="benchLabel">Bench</span><b id="benchCount">0</b></div>
+        <div id="benchZone" class="bench-row"></div>
+      </section>
+
+      <section class="table-piles" aria-label="Deck and side zones">
+        <button class="pile-button" type="button" data-zone-button="deck">
+          <span class="card-back mini"></span><span>Deck</span><b id="deckCount">0</b>
+        </button>
+        <button class="pile-button prizes" type="button" data-zone-button="prizes">
+          <span class="prize-stack"><i></i><i></i><i></i></span><span>Prizes</span><b id="prizesCount">0</b>
+        </button>
+        <button class="pile-button" type="button" data-zone-button="discard">
+          <span id="discardPreview" class="pile-preview empty"></span><span>Discard</span><b id="discardCount">0</b>
+        </button>
+        <button class="pile-button" type="button" data-zone-button="lost">
+          <span id="lostPreview" class="pile-preview empty"></span><span>Lost</span><b id="lostCount">0</b>
+        </button>
+      </section>
     </section>
-
-    <article class="zone-card bench-zone">
-      <header><span>Bench</span><b id="benchCount">0</b></header>
-      <div id="benchZone" class="bench-list empty-zone">Tap a card in hand to Bench it.</div>
-    </article>
-
-    <article class="zone-card hand-zone">
-      <header><span>Hand</span><b id="handCount">0</b></header>
-      <div id="handZone" class="hand-list"></div>
-    </article>
-
-    <section class="zone-strip" aria-label="Other zones">
-      <button type="button" data-zone-button="deck"><span>Deck</span><b id="deckCount">0</b></button>
-      <button type="button" data-zone-button="prizes"><span>Prizes</span><b id="prizesCount">0</b></button>
-      <button type="button" data-zone-button="discard"><span>Discard</span><b id="discardCount">0</b></button>
-      <button type="button" data-zone-button="lost"><span>Lost Zone</span><b id="lostCount">0</b></button>
-    </section>
-
-    <details class="history-card">
-      <summary><span>History</span><small id="historySummary">Setup ready</small></summary>
-      <div id="historyList" class="history-list"></div>
-    </details>
   </main>
 
-  <nav id="quickActions" class="quick-actions" hidden aria-label="Playtest actions">
-    <button id="drawButton" type="button"><span>＋</span>Draw</button>
+  <section id="handTray" class="hand-tray" hidden aria-labelledby="handLabel">
+    <div class="hand-head">
+      <div><span id="handLabel">Hand</span><b id="handCount">0</b></div>
+      <button id="drawButton" type="button">＋ Draw</button>
+    </div>
+    <div id="handZone" class="hand-row"></div>
+  </section>
+
+  <nav id="zoneDock" class="zone-dock" hidden aria-label="Tabletop shortcuts">
     <button id="searchButton" type="button"><span>⌕</span>Search</button>
     <button id="shuffleButton" type="button"><span>⤨</span>Shuffle</button>
-    <button id="coinButton" type="button"><span>◐</span>Coin</button>
-    <button id="undoButton" type="button" disabled><span>↶</span>Undo</button>
+    <button type="button" data-zone-button="discard"><span>▱</span>Discard</button>
+    <button type="button" data-zone-button="prizes"><span>◫</span>Prizes</button>
+    <button id="resetButton" type="button"><span>↻</span>Reset</button>
   </nav>
 
   <div id="fatal" class="fatal-card" hidden></div>
@@ -73,7 +88,10 @@
     <div class="sheet-backdrop" data-close-sheet></div>
     <section class="sheet-card playtest-sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
       <div class="sheet-handle"></div>
-      <div class="sheet-head"><div><small id="sheetEyebrow">CARD</small><h2 id="sheetTitle">Card</h2><p id="sheetMeta"></p></div><button class="sheet-close" data-close-sheet type="button" aria-label="Close">×</button></div>
+      <div class="sheet-head">
+        <div><small id="sheetEyebrow">CARD</small><h2 id="sheetTitle">Card</h2><p id="sheetMeta"></p></div>
+        <button class="sheet-close" data-close-sheet type="button" aria-label="Close">×</button>
+      </div>
       <div id="sheetBody" class="sheet-body"></div>
     </section>
   </div>
@@ -81,6 +99,6 @@
   <script src="../_shared/deckParser.js?v=3"></script>
   <script src="../_shared/deck-store.js?v=5"></script>
   <script src="../_shared/playtest-launch.js?v=1"></script>
-  <script src="playtest.js?v=1"></script>
+  <script src="playtest.js?v=2"></script>
 </body>
 </html>
