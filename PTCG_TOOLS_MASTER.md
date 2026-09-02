@@ -1,7 +1,7 @@
 # PTCG Tools — Master Product & Design Document
 
 **Status:** Current product source of truth  
-**Date:** 1 September 2026  
+**Date:** 2 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`
@@ -178,7 +178,7 @@ Public competitive evidence and expected-field analysis.
 Saved decks, versions, decklists, consistency maths, physical readiness integration and Mobile Playtest.
 
 ### Compete
-Events, attendance, tournament preparation entry points and tournament-day workflows.
+Events, attendance, tournament preparation, tournament-day workflows and competitive-season / Championship Point tracking.
 
 ### Tools
 Small standalone competitive utilities only.
@@ -193,6 +193,7 @@ Account, application preferences, deck icon overrides and future storage/import/
 - **Meta modelling belongs to Meta**.
 - **Cut / ID Calculator belongs to Tools**, but should also be contextually accessible from Tournament Day.
 - **Collection** is a cross-cutting long-term capability connected to Decks, Prep and Home, not a simple “owned” checkbox feature.
+- **Competitive seasons, Championship Point tracking and completed Championship Series participation belong to Compete**; they are not a separate top-level area or an Analytics-only concern.
 
 ---
 
@@ -307,6 +308,7 @@ Priority content:
 - current Meta snapshot;
 - recently used / saved deck context;
 - next event or attendance context where available;
+- current competitive season, counting Championship Points and progress toward user-defined season goals where meaningful;
 - quick access to Decks, Events and Cut / ID;
 - compact account state without allowing account chrome to dominate the competitive dashboard.
 
@@ -732,6 +734,12 @@ Collection should eventually connect to Decks, Tournament Prep and Home.
 
 ## 11. Compete / Events
 
+Compete owns the player's complete relationship with organised play:
+
+**Discover → Interested/Attending → Prepare → Play → Complete → Season record**
+
+The same event/participation identity should progress through that lifecycle rather than creating separate, disconnected Prep, Tournament Day, result-history and CP records.
+
 ### 11.1 Event-source authority
 
 Local events primarily come from **Pokédata**:
@@ -753,6 +761,7 @@ Compete should support:
 - Nearby/local discovery;
 - Majors;
 - attendance intent / Attending state;
+- **Season / Competitive Record**;
 - compact mobile cards;
 - useful filters;
 - list/map views where location is valuable.
@@ -762,7 +771,7 @@ Event intent has two distinct states:
 - **Interested** bookmarks an event without creating preparation work;
 - **Attending** creates or opens that event's Prep workspace inside Compete.
 
-Prep is not a sixth top-level area. It is durable event-specific state owned by Compete and connected to Decks, Meta, matches and Collection.
+Prep is not a sixth top-level area. It is durable event-specific state owned by Compete and connected to Decks, Meta, matches, Collection and the competitive-season record.
 
 ### 11.3 Event Prep
 
@@ -789,16 +798,68 @@ Prep should be information-before-configuration on iPhone: the current recommend
 
 The event-to-list relationship is not a free-text `usedFor` field on Deck. It is an event-owned reference to `deckId + deckVersionId + listHash`, with a lifecycle such as **planned** then **used**. The same version may be used at multiple events, and Deck detail may render those reverse relationships. Historical events retain display snapshots so they remain intelligible after later renaming or deletion.
 
-### 11.4 Tournament-day workspace
+### 11.4 Competitive seasons and Championship Points
+
+Competitive Pokémon seasons are a first-class product and data dimension. A calendar year is not an adequate substitute for a season. The current product context is the **2027 competitive season**, while historical participation must retain the season and rules under which it occurred.
+
+The core entities are:
+
+- **CompetitiveSeason** — stable season ID/label plus official start/end boundaries and applicable format context;
+- **ChampionshipEvent** — Challenge, Cup, Regional, Special Championship/Event, International or another officially CP-awarding event type;
+- **UserEventParticipation** — the account-owned durable record linking the user to an event and carrying Prep, deck/version, match and completion state;
+- **ChampionshipPointRuleset** — a season-versioned, source-cited representation of official placement bands, attendance/kicker thresholds, divisions, rating zones and Best Finish Limits;
+- **SeasonSummary** — derived raw CP, counting CP, excluded results and goal progress.
+
+A completed Championship Series participation should capture or resolve:
+
+- event and competitive season;
+- event type;
+- age division and rating zone where rules require them;
+- final record and placement;
+- final player count / attendance relevant to the applicable division;
+- exact DeckVersion/list used;
+- calculated CP award;
+- whether the finish currently counts under its Best Finish Limit;
+- source/provenance for imported facts and any user-supplied corrections;
+- optional notes and match history.
+
+Placement and player count may be entered or corrected manually when reliable source data is unavailable. Manual correction must be explicit and provenance-aware; it must not silently overwrite shared event facts for every user.
+
+CP is **derived**, not normally typed as an unexplained total. The calculation engine must use the official ruleset for the participation's season and must never retroactively recalculate historical seasons using a newer ruleset. Official rule documents/tables must be verified before implementation; event types, thresholds, point bands or BFL values must not be inferred from prior seasons.
+
+Best Finish Limits are dynamic derived state across all eligible results in a season/category. The Season view should distinguish:
+
+- CP earned at the event;
+- total raw CP earned;
+- CP currently counting;
+- results currently outside the BFL;
+- which result would be displaced by a better finish.
+
+Season goals are allowed but must not imply that one universal CP threshold guarantees Worlds qualification. The model should support official qualification/ranking context where available and user-defined targets without conflating CP, rating-zone rank and direct-invite paths.
+
+This one participation record supplies multiple consumers:
+
+- **Compete / Season** — CP and BFL tracking;
+- **Decks** — tournament history for the exact version used;
+- **Analytics** — personal event, deck and matchup performance;
+- **Prep** — evidence for future event decisions;
+- **Home** — current season and next-event context.
+
+Do not create duplicate tournament-history records inside Decks or Analytics.
+
+### 11.5 Tournament-day workspace
 
 Tournament Day should eventually connect:
 
-- current event;
+- current event and participation;
 - current record;
 - pairings/opponent notes;
 - standings;
 - Cut / ID access;
-- result logging.
+- result logging;
+- completion into the durable season record.
+
+Tournament Day and manual post-event entry must write the same UserEventParticipation and Match/Game contracts.
 
 ---
 
@@ -1002,12 +1063,12 @@ Any **Scraped** source that becomes essential to a future public application sho
 1. **Deck/list foundation — established** — working lists, canonical hashes, named checkpoints and stable relationships.
 2. **Match/Game ingestion contract and native fallback — established** — PTCGL parsing, real opponent/result attribution and manual in-person recording remain available while a supported Training Court export/integration is explored.
 3. **Limitless-backed Deck intake — established** — import as New Deck or Update Existing, separate personal name from the shared searchable Meta archetype catalogue, create V1/V2/V3 only for changed hashes, provide grouped −/+ list editing, and add source/copy/ImgGen handoffs.
-4. **Event Prep + Expected Field v1 — next** — Interested/Attending flow, evidence-derived editable forecast, candidate archetype comparison and exact planned/used version relationships.
-5. **Mobile Playtest v1** — launch the separate solo/goldfish touch-first tabletop from a DeckVersion or the current Prep candidate/final list.
-6. **Events / Compete maturity** — reliable local/major discovery and stronger tournament-day context.
-7. **Cut / ID Calculator** — deterministic tournament-day utility with optional uncertainty modelling.
+4. **Compete workflow foundation + Event Prep v1 — next** — make the event/participation lifecycle durable, then implement Interested/Attending, evidence-derived editable Expected Field, candidate comparison and exact planned/used DeckVersion relationships.
+5. **Competitive Record / Season v1** — complete attended Championship events with placement and player count, calculate season-specific CP from verified official rules, apply Best Finish Limits and show raw versus counting CP.
+6. **Mobile Playtest v1** — launch the separate solo/goldfish touch-first tabletop from a DeckVersion or the current Prep candidate/final list.
+7. **Tournament Day + Cut / ID** — current record, pairing/result capture and deterministic cut/ID support writing into the same participation record.
 8. **Collection / readiness** — owned quantities, allocations, missing cards and shopping connected to the event's exact planned list.
-9. **Learning loop** — personal matchup, tournament and Playtest analytics kept semantically distinct.
+9. **Learning loop** — personal matchup, tournament and Playtest analytics kept semantically distinct while reusing the same underlying completed-event and Match/Game contracts.
 10. **Community hardening when useful** — privacy/export/delete controls, centralized source ingestion and operational observability before inviting a materially larger cohort.
 
 Performance should be reopened as a dedicated milestone only if future growth creates a material regression in first-load/navigation responsiveness or cloud reconciliation begins competing with active interaction.
