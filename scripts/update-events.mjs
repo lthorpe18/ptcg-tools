@@ -36,8 +36,8 @@ function normalise(raw,fallbackType){
   const sourceId=nullable(raw.guid)||nullable(raw.id);if(!sourceId)return null;
   const {date,time}=startParts(raw);if(!date)return null;
   const contact=raw.contact_data&&typeof raw.contact_data==='object'?raw.contact_data:{};
-  const organiserId=nullable(raw.organiser_id)||nullable(raw.organizer_id)||nullable(raw.league_id)||nullable(raw.league_guid)||nullable(raw.shop_id)||nullable(raw.shop_guid);
-  const organiser=nullable(raw.organiser)||nullable(raw.organizer)||nullable(raw.league_name)||nullable(raw.league);
+  const organiserId=nullable(raw.organiser_id)||nullable(raw.organizer_id)||nullable(raw.league_id)||nullable(raw.league_guid)||nullable(raw.league)||nullable(raw.shop_id)||nullable(raw.shop_guid);
+  const organiser=nullable(raw.organiser)||nullable(raw.organizer)||nullable(raw.league_name);
   return {
     id:`pokedata:${sourceId}`,source:'pokedata',sourceId,scope:'local',type:typeName(raw,fallbackType),
     name:nullable(raw.name)||nullable(raw.shop)||'Pokémon TCG event',venue:nullable(raw.shop),organiser,organiserId,
