@@ -10,6 +10,11 @@
     return rows.map(row => ({ name: row.name, share: row.share / total }));
   }
 
+  function cleanProvenance(value) {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+    return JSON.parse(JSON.stringify(value));
+  }
+
   function read() {
     try {
       const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
@@ -39,7 +44,7 @@
     return read().find(row => row.id === id) || null;
   }
 
-  function save(name, field, format = '') {
+  function save(name, field, format = '', provenance = undefined) {
     const cleanName = String(name || '').trim();
     const clean = cleanField(field);
     if (!cleanName || !clean.length) return null;
@@ -54,6 +59,8 @@
     item.name = cleanName;
     item.field = clean;
     item.format = String(format || '');
+    if (provenance !== undefined) item.provenance = cleanProvenance(provenance);
+    else if (!Object.prototype.hasOwnProperty.call(item, 'provenance')) item.provenance = null;
     item.updatedAt = now;
 
     if (!existing) rows.push(item);
