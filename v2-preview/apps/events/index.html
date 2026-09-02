@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
   <link rel="stylesheet" href="./styles.css?v=3">
-  <link rel="stylesheet" href="./saved-venues.css?v=1">
+  <link rel="stylesheet" href="./saved-venues.css?v=2">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="compete">
   <header class="app-shell-header">
@@ -46,11 +46,11 @@
         <label><span>Distance</span><select id="distanceFilter"><option value="25">25 mi</option><option value="50">50 mi</option><option value="75" selected>75 mi</option><option value="100">100 mi</option><option value="all">Any</option></select></label>
         <label><span>Date</span><select id="nearbyDateFilter"><option value="30">30 days</option><option value="90" selected>90 days</option><option value="180">6 months</option><option value="all">All</option></select></label>
       </div>
-      <button id="savedVenuesFilter" class="saved-venues-filter" type="button" aria-pressed="false">☆ Saved venues only</button>
+      <button id="savedVenuesFilter" class="saved-venues-filter" type="button" aria-pressed="false">☆ Saved organisers only</button>
     </section>
 
     <section id="yourVenuesSection" class="your-venues hidden" aria-labelledby="yourVenuesTitle">
-      <div class="your-venues-head"><div><strong id="yourVenuesTitle">Your venues</strong><small>Next event at each saved shop</small></div></div>
+      <div class="your-venues-head"><div><strong id="yourVenuesTitle">Your organisers</strong><small>Next event from each saved organiser</small></div></div>
       <div id="yourVenuesList" class="your-venues-list"></div>
     </section>
 
@@ -108,7 +108,7 @@
   <div id="toast" class="event-toast hidden" role="status" aria-live="polite"></div>
 
   <script src="../_shared/storage.js?v=6"></script>
-  <script src="./app.js?v=4"></script>
+  <script src="./app.js?v=5"></script>
   <script src="./prep-link.js?v=2"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
 </body>
