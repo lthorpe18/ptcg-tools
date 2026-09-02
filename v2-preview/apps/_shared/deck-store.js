@@ -1,6 +1,6 @@
 (function(global){
   'use strict';
-  const DB_NAME='ptcg-tools-db',DB_VERSION=2,STORE='decks',MODEL_VERSION=2;
+  const DB_NAME='ptcg-tools-db',DB_VERSION=2,STORE='decks',MODEL_VERSION=3;
   let db=null,openPromise=null,migrated=false;
   const INSTANCE_ID=`deck-store_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,10)}`;
 
@@ -61,21 +61,35 @@
     const isLegacy=!Number.isFinite(Number(d.modelVersion))||Number(d.modelVersion)<MODEL_VERSION;
     if(!d.id)d.id=uid();
     if(!d.name)d.name='Untitled deck';
+    if(typeof d.archetype!=='string')d.archetype='';
+    if(typeof d.sourceType!=='string')d.sourceType='';
+    if(typeof d.sourceUrl!=='string')d.sourceUrl='';
     if(typeof d.rawText!=='string')d.rawText='';
     if(!d.createdAt)d.createdAt=d.updatedAt||now;
     if(!d.updatedAt)d.updatedAt=d.createdAt||now;
     if(!Array.isArray(d.pinnedCards))d.pinnedCards=[];
     if(!Array.isArray(d.sprites))d.sprites=[null,null];
     d.sprites=[d.sprites[0]||null,d.sprites[1]||null];
-    d.versions=Array.isArray(d.versions)?d.versions.map((version,index)=>({
-      id:version&&version.id||uid('version'),
-      label:version&&version.label||`v${index+1}`,
-      rawText:version&&typeof version.rawText==='string'?version.rawText:'',
-      listHash:version&&typeof version.listHash==='string'?version.listHash:null,
-      createdAt:version&&version.createdAt||d.updatedAt||now
-    })):[];
+    d.versions=Array.isArray(d.versions)?d.versions.map((version,index)=>{
+      const source=version&&typeof version==='object'?version:{};
+      const ordinal=Number.isFinite(Number(source.ordinal))&&Number(source.ordinal)>0?Number(source.ordinal):index+1;
+      const oldLabel=String(source.label||'').trim();
+      const sequenceOnly=/^v\d+$/i.test(oldLabel);
+      return {
+        ...source,
+        id:source.id||uid('version'),
+        ordinal,
+        label:`V${ordinal}`,
+        name:typeof source.name==='string'?source.name.trim():(oldLabel&&!sequenceOnly?oldLabel:''),
+        rawText:typeof source.rawText==='string'?source.rawText:'',
+        listHash:typeof source.listHash==='string'?source.listHash:null,
+        sourceType:typeof source.sourceType==='string'?source.sourceType:'',
+        sourceUrl:typeof source.sourceUrl==='string'?source.sourceUrl:'',
+        createdAt:source.createdAt||d.updatedAt||now
+      };
+    }):[];
     if(isLegacy&&!d.versions.length&&d.rawText.trim()){
-      d.versions=[{id:uid('version'),label:'Imported list',rawText:d.rawText,listHash:null,createdAt:d.updatedAt||now}];
+      d.versions=[{id:uid('version'),ordinal:1,label:'V1',name:'Imported list',rawText:d.rawText,listHash:null,sourceType:d.sourceType,sourceUrl:d.sourceUrl,createdAt:d.updatedAt||now}];
     }
     if(!d.versions.some(version=>version.id===d.currentVersionId))d.currentVersionId=d.versions[d.versions.length-1]?.id||null;
     d.listHash=typeof d.listHash==='string'?d.listHash:null;
@@ -130,7 +144,7 @@
   }
   function newDeck(){
     const now=Date.now();
-    return {modelVersion:MODEL_VERSION,id:uid(),name:'New deck',rawText:'',listHash:null,createdAt:now,updatedAt:now,pinnedCards:[],sprites:[null,null],versions:[],currentVersionId:null};
+    return {modelVersion:MODEL_VERSION,id:uid(),name:'New deck',archetype:'',sourceType:'',sourceUrl:'',rawText:'',listHash:null,createdAt:now,updatedAt:now,pinnedCards:[],sprites:[null,null],versions:[],currentVersionId:null};
   }
   function currentVersion(deck){return (deck&&Array.isArray(deck.versions)?deck.versions:[]).find(version=>version.id===deck.currentVersionId)||null}
   function getVersion(deck,versionId){return (deck&&Array.isArray(deck.versions)?deck.versions:[]).find(version=>version.id===versionId)||null}
@@ -140,15 +154,21 @@
     if(deck.listHash&&version.listHash)return deck.listHash===version.listHash;
     return parser().canonicalDecklist(deck.rawText)===parser().canonicalDecklist(version.rawText);
   }
-  async function checkpoint(deck,label){
+  async function checkpoint(deck,options={}){
     const d=await prepare(deck);
     const existing=d.versions.find(version=>version.listHash===d.listHash);
     if(existing){d.currentVersionId=existing.id;return {deck:d,version:existing,created:false}}
+    const config=typeof options==='string'?{name:options}:options||{};
+    const ordinal=d.versions.reduce((max,version)=>Math.max(max,Number(version.ordinal)||0),0)+1;
     const version={
       id:uid('version'),
-      label:String(label||`v${d.versions.length+1}`).trim()||`v${d.versions.length+1}`,
+      ordinal,
+      label:`V${ordinal}`,
+      name:String(config.name||'').trim(),
       rawText:d.rawText,
       listHash:d.listHash,
+      sourceType:String(config.sourceType??d.sourceType??'').trim(),
+      sourceUrl:String(config.sourceUrl??d.sourceUrl??'').trim(),
       createdAt:Date.now()
     };
     d.versions.push(version);

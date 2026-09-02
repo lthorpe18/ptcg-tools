@@ -7,7 +7,7 @@
   <title>Decks · PTCG Tools</title>
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="decks">
   <header class="app-shell-header">
@@ -15,7 +15,7 @@
       <span class="app-shell-mark">▤</span>
       <span class="app-shell-brand-copy"><strong>Decks</strong><small>Build, train and playtest</small></span>
     </a>
-    <div class="app-shell-header-actions"><button id="newDeckTop" class="app-button primary" type="button">+ New</button></div>
+    <div class="app-shell-header-actions"><button id="newDeckTop" class="app-button primary" type="button">+ Add deck</button></div>
   </header>
 
   <main class="app-shell-page decks-page">
@@ -28,7 +28,7 @@
       <section class="app-page-head">
         <div class="app-eyebrow">YOUR DECKS</div>
         <h1>Deck workspace</h1>
-        <p>Keep exact lists, compare checkpoints and check consistency.</p>
+        <p>Bring in a list, keep exact versions and check consistency.</p>
       </section>
       <section class="deck-library-controls">
         <input id="search" type="search" placeholder="Search decks…" autocomplete="off">
@@ -37,8 +37,8 @@
       </section>
       <div id="deckGrid" class="deck-grid" aria-live="polite"></div>
       <div id="emptyState" class="app-card app-empty" hidden>
-        <strong>No decks yet</strong><p>Create a deck or import your existing PTCG Tools backup.</p>
-        <button id="emptyNew" class="app-button primary" type="button">Create first deck</button>
+        <strong>No decks yet</strong><p>Import a Limitless/PTCGL list or start with a blank deck.</p>
+        <button id="emptyNew" class="app-button primary" type="button">Add first deck</button>
       </div>
     </section>
 
@@ -87,6 +87,10 @@
           <section class="app-card app-card-pad">
             <div class="app-section-head"><h2>Deck identity</h2><p id="deckSummary">—</p></div>
             <div id="workingListStatus" class="working-list-status"><b>Working list</b><span>Loading…</span></div>
+            <div class="identity-fields">
+              <label>Archetype<input id="deckArchetype" type="text" placeholder="e.g. Mega Lucario / Hariyama"></label>
+              <label>Limitless source<input id="deckSourceUrl" type="url" inputmode="url" placeholder="https://my.limitlesstcg.com/…"></label>
+            </div>
             <div class="sprite-grid">
               <label>Sprite 1<input id="sprite1" type="search" placeholder="Pokémon name" autocomplete="off"><div id="sprite1Suggestions" class="sprite-suggestions"></div></label>
               <label>Sprite 2<input id="sprite2" type="search" placeholder="Pokémon name" autocomplete="off"><div id="sprite2Suggestions" class="sprite-suggestions"></div></label>
@@ -95,11 +99,15 @@
               <button id="playtestButton" class="app-button success" type="button" disabled>▶ Playtest · later</button>
               <button id="saveDeck" class="app-button primary" type="button">Save working list</button>
             </div>
+            <div class="deck-handoffs">
+              <button id="openLimitless" class="app-button" type="button">Open in Limitless</button>
+              <button id="createDeckImage" class="app-button" type="button">Create deck image</button>
+            </div>
           </section>
           <section class="app-card app-card-pad">
-            <div class="app-section-head"><h2>Checkpoints</h2><p>Named exact lists</p></div>
+            <div class="app-section-head"><h2>Versions</h2><p>Immutable exact lists</p></div>
             <div id="versionList" class="version-list"></div>
-            <div class="version-create"><input id="versionLabel" type="text" placeholder="e.g. Bristol Cup"><button id="saveVersion" class="app-button" type="button">Save checkpoint</button></div>
+            <div class="version-create"><input id="versionLabel" type="text" placeholder="Optional name, e.g. Cup submission"><button id="saveVersion" class="app-button" type="button">Save version</button></div>
           </section>
         </div>
         <section class="app-card app-card-pad deck-insights">
@@ -112,7 +120,7 @@
         <section class="app-card app-card-pad">
           <div class="app-section-head"><div><h2>Deck list</h2><p>One authoritative editor</p></div><span id="cardCountPill" class="deck-pill">0 cards</span></div>
           <textarea id="deckText" spellcheck="false" placeholder="Paste a PTCGL or Limitless decklist…"></textarea>
-          <div class="list-actions"><button id="saveList" class="app-button primary" type="button">Save</button><button id="copyList" class="app-button" type="button">Copy</button><button id="copyLimitless" class="app-button" type="button">Copy Limitless</button></div>
+          <div class="list-actions"><button id="saveList" class="app-button primary" type="button">Save working list</button><button id="copyList" class="app-button" type="button">Copy for PTCGL</button><button id="copyLimitless" class="app-button" type="button">Copy Limitless format</button></div>
           <div id="parsedPreview" class="parsed-preview"></div>
         </section>
       </section>
@@ -131,6 +139,25 @@
   <div id="ioSheet" class="sheet" hidden>
     <div class="sheet-backdrop" data-close-sheet></div>
     <div class="sheet-card"><div class="sheet-handle"></div><h2>Deck library</h2><button id="exportDecks" class="sheet-action" type="button">Export all decks</button><label class="sheet-action">Import backup<input id="importDecks" type="file" accept="application/json" hidden></label><button class="sheet-action" data-close-sheet type="button">Cancel</button></div>
+  </div>
+  <div id="addDeckSheet" class="sheet" hidden>
+    <div class="sheet-backdrop" data-close-sheet></div>
+    <section class="sheet-card add-deck-sheet" role="dialog" aria-modal="true" aria-labelledby="addDeckTitle">
+      <div class="sheet-handle"></div>
+      <div class="add-deck-head"><div><span>LIMITLESS / PTCGL</span><h2 id="addDeckTitle">Add a deck list</h2></div><button class="sheet-close" data-close-sheet type="button" aria-label="Close">×</button></div>
+      <form id="addDeckForm">
+        <fieldset class="import-mode"><legend>Save as</legend><label><input id="importDeckModeNew" type="radio" name="deckImportMode" value="new" checked><span>New deck</span></label><label><input id="importExistingMode" type="radio" name="deckImportMode" value="existing"><span>Update existing</span></label></fieldset>
+        <label id="importExistingWrap" class="import-field" hidden>Deck to update<select id="importExistingDeck"></select></label>
+        <label class="import-field">Deck list<textarea id="importDeckText" spellcheck="false" placeholder="Paste the list exported from Limitless or PTCGL…"></textarea><small id="importDeckSummary">Paste a deck list to begin</small></label>
+        <div class="import-grid">
+          <label class="import-field">Name<input id="importDeckName" type="text" placeholder="Mega Lucario Hariyama"></label>
+          <label class="import-field">Archetype<input id="importDeckArchetype" type="text" placeholder="Mega Lucario / Hariyama"></label>
+        </div>
+        <label class="import-field">Limitless source link <span>optional</span><input id="importDeckSource" type="url" inputmode="url" placeholder="https://my.limitlesstcg.com/…"></label>
+        <label class="import-field">Version name <span>optional</span><input id="importVersionName" type="text" placeholder="e.g. Card Catcher testing"></label>
+        <div class="add-deck-actions"><button id="startBlankDeck" class="app-button" type="button">Start blank</button><button class="app-button" data-close-sheet type="button">Cancel</button><button id="importDeckSubmit" class="app-button primary" type="submit">Create deck</button></div>
+      </form>
+    </section>
   </div>
   <div id="deckSheet" class="sheet" hidden>
     <div class="sheet-backdrop" data-close-sheet></div>
@@ -174,10 +201,10 @@
   <script src="../_shared/storage.js?v=5"></script>
   <script src="../_shared/deckParser.js?v=2"></script>
   <script src="../_shared/sprites.js"></script>
-  <script src="../_shared/deck-store.js?v=4"></script>
+  <script src="../_shared/deck-store.js?v=5"></script>
   <script src="../_shared/match-store.js?v=1"></script>
   <script src="ptcgl-log-parser.js?v=1"></script>
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
   <script src="training.js?v=2"></script>
   <script src="../_shared/app-shell.js?v=6"></script>
 </body>
