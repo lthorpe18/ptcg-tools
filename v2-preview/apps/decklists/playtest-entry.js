@@ -2,7 +2,7 @@
 'use strict';
 const ACTIVE_KEY='ptcg-tools.decklists.active-deck.v1';
 const $=id=>document.getElementById(id);
-const PLAYTEST_TARGET='playtest-v2.html?interaction=5';
+const PLAYTEST_TARGET='playtest-v2.html?interaction=6';
 
 function remember(id){if(id)try{sessionStorage.setItem(ACTIVE_KEY,id)}catch{}}
 function remembered(){try{return sessionStorage.getItem(ACTIVE_KEY)||''}catch{return ''}}
