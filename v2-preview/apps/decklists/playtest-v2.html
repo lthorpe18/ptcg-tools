@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
   <link rel="stylesheet" href="playtest.css?v=3">
   <link rel="stylesheet" href="playtest-interaction.css?v=1">
-  <link rel="stylesheet" href="playtest-hand-compact.css?v=1">
+  <link rel="stylesheet" href="playtest-layout-v3.css?v=1">
 </head>
 <body class="ptcg-v2 playtest-body" data-app-root="../.." data-app-section="decks">
   <header class="playtest-header">
@@ -37,22 +37,36 @@
           <span id="stadiumContent" class="slot-content"></span>
         </button>
       </div>
+
       <div class="active-row">
+        <div class="side-piles-left">
+          <button class="side-pile prizes" type="button" data-zone-button="prizes" aria-label="Prizes">
+            <span class="prize-stack"><i></i><i></i><i></i></span><span>Prizes</span><b id="prizesCount">0</b>
+          </button>
+          <button class="view-prizes" type="button" data-zone-button="prizes">View prizes</button>
+        </div>
+
         <button id="activeZone" class="field-slot active-slot" type="button" data-zone-button="active" aria-label="Active Pokémon">
           <span class="slot-label">Active</span>
           <span id="activeContent" class="slot-content"></span>
         </button>
+
+        <div class="side-piles-right">
+          <button class="side-pile" type="button" data-zone-button="deck" aria-label="Deck">
+            <span class="card-back mini"></span><span>Deck</span><b id="deckCount">0</b>
+          </button>
+          <button class="side-pile" type="button" data-zone-button="discard" aria-label="Discard">
+            <span id="discardPreview" class="pile-preview empty"></span><span>Discard</span><b id="discardCount">0</b>
+          </button>
+        </div>
       </div>
+
       <section class="bench-area" aria-labelledby="benchLabel">
         <div class="zone-heading"><span id="benchLabel">Bench</span><b id="benchCount">0</b></div>
         <div id="benchZone" class="bench-row"></div>
       </section>
-      <section class="table-piles" aria-label="Deck and side zones">
-        <button class="pile-button" type="button" data-zone-button="deck"><span class="card-back mini"></span><span>Deck</span><b id="deckCount">0</b></button>
-        <button class="pile-button prizes" type="button" data-zone-button="prizes"><span class="prize-stack"><i></i><i></i><i></i></span><span>Prizes</span><b id="prizesCount">0</b></button>
-        <button class="pile-button" type="button" data-zone-button="discard"><span id="discardPreview" class="pile-preview empty"></span><span>Discard</span><b id="discardCount">0</b></button>
-        <button class="pile-button" type="button" data-zone-button="lost"><span id="lostPreview" class="pile-preview empty"></span><span>Lost</span><b id="lostCount">0</b></button>
-      </section>
+
+      <div hidden aria-hidden="true"><span id="lostPreview" class="pile-preview empty"></span><b id="lostCount">0</b></div>
     </section>
   </main>
 
@@ -84,6 +98,6 @@
   <script src="../_shared/deck-store.js?v=5"></script>
   <script src="../_shared/playtest-launch.js?v=2"></script>
   <script src="playtest-metadata-adapter.js?v=1"></script>
-  <script src="playtest-v4.js?v=4"></script>
+  <script src="playtest-v4.js?v=5"></script>
 </body>
 </html>
