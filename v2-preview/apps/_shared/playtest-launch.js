@@ -52,7 +52,7 @@
   async function open(options={}){
     const payload=await build(options);
     try{sessionStorage.setItem(KEY,JSON.stringify(payload))}catch{}
-    const target=clean(options.targetUrl)||'../decklists/playtest.html';
+    const target=clean(options.targetUrl)||'../decklists/playtest-v2.html';
     global.location.href=target;
     return payload;
   }
