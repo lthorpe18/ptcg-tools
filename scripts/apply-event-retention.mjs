@@ -5,61 +5,65 @@ const HTML='v2-preview/apps/events/index.html';
 const CSS='v2-preview/apps/events/styles.css';
 const MASTER='PTCG_TOOLS_MASTER.md';
 
-function replaceOnce(text, regex, replacement, label){
-  if(!regex.test(text)) throw new Error(`Could not find ${label}`);
+function replaceOnce(text,regex,replacement,label){
+  if(!regex.test(text))throw new Error(`Could not find ${label}`);
   return text.replace(regex,replacement);
 }
 
 let app=await fs.readFile(APP,'utf8');
-if(!app.includes('function needsCompletion(')){
+
+if(!app.includes("manageOrganisers:$('manageOrganisersButton')")){
   app=replaceOnce(app,
-    /  function statusFor\(event\)\{[^\n]*\}\n/,
-`  function statusFor(event){const participation=findParticipation(event);if(!participation||!VALID_STATUSES.has(participation.attendanceStatus))return null;return participation.attendanceStatus==='attending'&&isPast(event)?'attended':participation.attendanceStatus}\n  function needsCompletion(participation,event){return !!participation&&isPast(event)&&(participation.attendanceStatus==='attending'||participation.attendanceStatus==='attended')&&!participation.completion}\n  function rollPastAttendingToAttended(){if(!window.PTCGStorage?.update)return;const state=currentState(),ids=(state.eventParticipations||[]).filter(p=>p.attendanceStatus==='attending'&&isPast(snapshotToEvent(p))).map(p=>p.id);if(!ids.length)return;window.PTCGStorage.update(state=>{const now=new Date().toISOString();for(const p of state.eventParticipations||[]){if(!ids.includes(p.id))continue;p.attendanceStatus='attended';p.phase=p.completion?'completed':'needs-completion';p.updatedAt=now}return state})}\n`,
-    'statusFor');
+    /yourVenuesSection:\$\('yourVenuesSection'\),yourVenuesList:\$\('yourVenuesList'\),resultsTitle:/,
+    "yourVenuesSection:$('yourVenuesSection'),yourVenuesList:$('yourVenuesList'),manageOrganisers:$('manageOrganisersButton'),resultsTitle:",
+    'organiser management element');
+}
+if(!app.includes('let organiserManage=false;')){
+  app=replaceOnce(app,/  let savedOnly=false;\n/,"  let savedOnly=false;\n  let organiserManage=false;\n",'organiser management state');
 }
 
 app=replaceOnce(app,
-  /  function savedEvents\(\)\{.*?\}\n  function sortAscending/s,
-`  function savedEvents(){const rows=(currentState().eventParticipations||[]).filter(p=>VALID_STATUSES.has(p.attendanceStatus)).map(participation=>({participation,event:snapshotToEvent(participation)}));const filtered=rows.filter(({participation,event})=>{const past=isPast(event),status=participation.attendanceStatus,needs=needsCompletion(participation,event);if(planFilter==='attending')return status==='attending'&&!past;if(planFilter==='interested')return status==='interested'&&!past;if(planFilter==='needs-completion')return needs;if(planFilter==='history')return !needs&&(status==='attended'||status==='skipped'||!!participation.completion);return (status==='attending'||status==='interested')&&!past});filtered.sort((a,b)=>planFilter==='history'?sortDescending(a.event,b.event):sortAscending(a.event,b.event));return filtered.map(x=>x.event)}\n  function sortAscending`,
-  'savedEvents');
+  /  function savedOrganiserRows\(\)\{[^\n]*\}\n  function savedOrganiserKeys\(\)\{[^\n]*\}\n  function isSavedOrganiser\(event\)\{[^\n]*\}\n  function organiserRowName\(row\)\{[^\n]*\}\n  function organiserSnapshot\(event\)\{[^\n]*\}\n  function toggleOrganiser\(event\)\{.*?\n  \}\n/s,
+`  function organiserRowName(row){return displayOrganiserLabel(typeof row==='string'?row:(row&&row.name)||(row&&row.organiser)||'Saved organiser')}\n  function organiserNameKey(value){const name=typeof value==='string'?value:(value&&value.scope==='local'?organiserName(value):(value&&value.name)||(value&&value.organiser)||'');const canonical=aliasOrganiserLabel(name);return canonical?canonical.toLowerCase().replace(/\\s+/g,' '):null}\n  function organiserRowToken(row){return organiserIdentity(row)||((organiserNameKey(row))?\`name:\${organiserNameKey(row)}\`:null)}\n  function organiserMatches(row,event){const rowId=organiserIdentity(row),eventId=organiserIdentity(event);if(rowId&&eventId&&rowId===eventId)return true;const a=organiserNameKey(row),b=organiserNameKey(event);return !!a&&a===b}\n  function savedOrganiserRows(){const seen=new Set();return (currentState().favouriteOrganisers||[]).filter(row=>{const key=organiserRowToken(row);if(!key||seen.has(key))return false;seen.add(key);return true})}\n  function savedOrganiserKeys(){return new Set(savedOrganiserRows().map(organiserRowToken).filter(Boolean))}\n  function isSavedOrganiser(event){return savedOrganiserRows().some(row=>organiserMatches(row,event))}\n  function organiserSnapshot(event){const key=organiserIdentity(event),name=organiserName(event),id=event&& (event.organiserId||event.organizerId||event.leagueId||event.shopId);return key&&name?{organiserKey:key,organiserId:id||null,name,source:event.source||null,savedAt:new Date().toISOString()}:null}\n  function reconcileSavedOrganisers(){\n    if(!window.PTCGStorage?.update)return;const saved=currentState().favouriteOrganisers||[];if(!saved.length)return;\n    const liveByName=new Map();for(const event of events.filter(e=>e.scope==='local')){const nameKey=organiserNameKey(event),id=organiserIdentity(event);if(!nameKey||!id)continue;const bucket=liveByName.get(nameKey)||new Map();bucket.set(id,event);liveByName.set(nameKey,bucket)}\n    let changed=false;const reconciled=[],seen=new Set();\n    for(const row of saved){let next=row;const nameKey=organiserNameKey(row),matches=nameKey?liveByName.get(nameKey):null;if(matches&&matches.size===1){const event=[...matches.values()][0],stable=organiserIdentity(event);if(stable&&organiserIdentity(row)!==stable){next={...row,organiserKey:stable,organiserId:event.organiserId||event.organizerId||event.leagueId||event.shopId||null,name:organiserName(event)||organiserRowName(row),source:event.source||row.source||null};changed=true}}const token=organiserRowToken(next);if(!token||seen.has(token)){changed=true;continue}seen.add(token);reconciled.push(next)}\n    if(changed)window.PTCGStorage.update(state=>{state.favouriteOrganisers=reconciled;return state});\n  }\n  function removeSavedOrganiser(token){if(!window.PTCGStorage?.update||!token)return;let removed=false;window.PTCGStorage.update(state=>{state.favouriteOrganisers=(state.favouriteOrganisers||[]).filter(row=>{const match=organiserRowToken(row)===token;if(match)removed=true;return !match});return state});if(removed)toast('Organiser removed');render()}\n  function toggleOrganiser(event){\n    if(!window.PTCGStorage||event.scope!=='local'||!organiserIdentity(event))return;const wasSaved=isSavedOrganiser(event);\n    window.PTCGStorage.update(state=>{state.favouriteOrganisers=Array.isArray(state.favouriteOrganisers)?state.favouriteOrganisers:[];if(wasSaved)state.favouriteOrganisers=state.favouriteOrganisers.filter(row=>!organiserMatches(row,event));else{const snapshot=organiserSnapshot(event);if(snapshot)state.favouriteOrganisers.push(snapshot)}return state});\n    toast(wasSaved?'Organiser removed':'Organiser saved');render();\n  }\n`,
+  'saved organiser identity block');
 
 app=replaceOnce(app,
-  /  function cardHtml\(event\)\{.*?\n  \}\n\n  function visibleEvents/s,
-`  function cardHtml(event){\n    const status=statusFor(event),participation=findParticipation(event),needs=participation?needsCompletion(participation,event):false,link=externalLink(event),meta=detailLine(event),savedOrganiser=event.scope==='local'&&isSavedOrganiser(event),organiser=organiserName(event);\n    const statusHtml=status?\`<span class="plan-pill \${status}\${needs?' needs-completion':''}">\${escapeHtml(needs?'Needs completion':STATUS_LABELS[status])}</span>\`:'',organiserHtml=savedOrganiser?'<span class="saved-venue-pill">★ Saved organiser</span>':'';\n    const attendLabel=status==='attending'?'Attending ✓':status==='attended'?'Attended ✓':status?STATUS_LABELS[status]:\`I'm attending\`,attendClass=(status==='attending'||status==='attended')?' saved':'';\n    const saveButton=event.scope==='local'&&organiser?\`<button class="venue-save-button\${savedOrganiser?' saved':''}" type="button" data-action="organiser" aria-label="\${savedOrganiser?'Remove saved organiser':'Save organiser'}">\${savedOrganiser?'★':'☆'}</button>\`:'',organiserRow=event.scope==='local'&&organiser?\`<div class="event-venue-row event-organiser-row"><div class="event-organiser">\${escapeHtml(organiser)}</div>\${saveButton}</div>\`:'',locationRow=event.scope==='local'?\`<div class="event-location">\${escapeHtml(placeLine(event))}</div>\`:'';\n    return \`<article class="event-card \${event.scope==='major'?'major-card':''}\${savedOrganiser?' saved-venue-event':''}" data-event-id="\${escapeHtml(eventIdentity(event)||'')}"><div class="event-card-main"><div class="event-topline"><span class="event-type \${typeClass(event)}">\${escapeHtml(typeLabel(event))}</span><div class="event-date">\${escapeHtml(humanDate(event))}</div></div><h2>\${escapeHtml(event.name||placeLine(event))}</h2>\${organiserRow}\${locationRow}<div class="event-meta">\${meta?\`<span>\${escapeHtml(meta)}</span>\`:''}\${organiserHtml}\${statusHtml}</div></div><div class="event-actions"><button class="attend-button\${attendClass}" type="button" data-action="attend">\${escapeHtml(attendLabel)}</button>\${link?\`<a class="primary-link" href="\${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">\${escapeHtml(link.label)}</a>\`:\`<span>Details TBC</span>\`}<button class="more-button" type="button" data-action="status" aria-label="Change event status">•••</button></div></article>\`;\n  }\n\n  function visibleEvents`,
-  'cardHtml');
+  /  function renderYourOrganisers\(\)\{.*?\n  \}\n\n  function externalLink/s,
+`  function renderYourOrganisers(){\n    const rows=savedOrganiserRows(),show=activeView==='nearby'&&rows.length>0;els.yourVenuesSection.classList.toggle('hidden',!show);if(!show){els.yourVenuesList.innerHTML='';organiserManage=false;if(els.manageOrganisers){els.manageOrganisers.textContent='Manage';els.manageOrganisers.setAttribute('aria-pressed','false')}return}\n    const upcoming=events.filter(e=>e.scope==='local'&&!isPast(e)).sort(sortAscending);\n    if(els.manageOrganisers){els.manageOrganisers.textContent=organiserManage?'Done':'Manage';els.manageOrganisers.setAttribute('aria-pressed',String(organiserManage))}\n    els.yourVenuesList.innerHTML=rows.map(row=>{const next=upcoming.find(e=>organiserMatches(row,e)),name=organiserRowName(row),nextLine=next?\`\${typeLabel(next)} · \${compactDate(next)}\`:'No upcoming event in current feed',distance=next?eventDistanceMiles(next):null,meta=next?[placeLine(next),next.city&&next.city!==next.venue?next.city:null,Number.isFinite(distance)?\`\${distance.toFixed(1)} mi\`:null].filter(Boolean).join(' · '):'Saved organiser',token=organiserRowToken(row);return \`<article class="saved-venue-card"><div class="saved-venue-card-top"><strong>\${escapeHtml(name)}</strong>\${organiserManage?\`<button class="saved-organiser-remove" type="button" data-remove-organiser="\${escapeHtml(token||'')}" aria-label="Remove \${escapeHtml(name)}">Remove</button>\`:'<span class="saved-venue-star">★</span>'}</div><div class="saved-venue-next">\${escapeHtml(nextLine)}</div><div class="saved-venue-meta">\${escapeHtml(meta)}</div></article>\`}).join('');\n  }\n\n  function externalLink`,
+  'renderYourOrganisers');
 
-app=replaceOnce(app,
-  /  function render\(\)\{.*?\}\n  function setView/s,
-`  function render(){if(!dataset)return;renderLocation();renderYourOrganisers();const visible=visibleEvents();els.list.innerHTML=visible.map(cardHtml).join('');els.list.classList.toggle('hidden',visible.length===0);els.empty.classList.toggle('hidden',visible.length!==0);if(!visible.length)els.empty.textContent=activeView==='attending'?(planFilter==='needs-completion'?'No events need completion.':'No saved events match this view.'):(savedOnly?'No upcoming events from your saved organisers match these filters.':'No events match these filters.');els.resultsTitle.textContent=activeView==='majors'?'Major events':activeView==='attending'?(planFilter==='needs-completion'?'Needs completion':'Your events'):(savedOnly?'Saved organiser events':'Nearby events');els.resultsCount.textContent=\`\${visible.length}\`;renderSourceStatus()}\n  function setView`,
-  'render');
-
-if(!app.includes('rollPastAttendingToAttended();setLoading(false)')){
-  app=replaceOnce(app,/events=data\.events\.filter\(e=>e&&e\.id&&e\.startDate\)\.map\(e=>e\.scope==='local'\?\{\.\.\.e,organiser:organiserName\(e\),organiserKey:organiserIdentity\(e\)\}:e\);setLoading\(false\)/,
-    "events=data.events.filter(e=>e&&e.id&&e.startDate).map(e=>e.scope==='local'?{...e,organiser:organiserName(e),organiserKey:organiserIdentity(e)}:e);rollPastAttendingToAttended();setLoading(false)",
-    'loadEvents transition');
+if(!app.includes('reconcileSavedOrganisers();rollPastAttendingToAttended();')){
+  app=app.replace('rollPastAttendingToAttended();setLoading(false)','reconcileSavedOrganisers();rollPastAttendingToAttended();setLoading(false)');
 }
-app=app.replace("if(status==='attending')openStatusSheet(item)","if(status==='attending'||status==='attended')openStatusSheet(item)");
+if(!app.includes("els.manageOrganisers?.addEventListener")){
+  app=replaceOnce(app,
+    /  els\.savedVenuesFilter\?\.addEventListener\('click',.*?\n/,
+    match=>match+"  els.manageOrganisers?.addEventListener('click',()=>{organiserManage=!organiserManage;renderYourOrganisers()});\n  els.yourVenuesList?.addEventListener('click',event=>{const button=event.target.closest('[data-remove-organiser]');if(!button)return;removeSavedOrganiser(button.dataset.removeOrganiser)});\n",
+    'organiser management listeners');
+}
 await fs.writeFile(APP,app);
 
 let html=await fs.readFile(HTML,'utf8');
-if(!html.includes('data-plan-filter="needs-completion"')){
-  html=html.replace('<button type="button" data-plan-filter="attending">Going</button>','<button type="button" data-plan-filter="attending">Going</button>\n        <button type="button" data-plan-filter="needs-completion">Needs completion</button>');
+if(!html.includes('id="manageOrganisersButton"')){
+  html=html.replace(
+    '<div class="your-venues-head"><div><strong id="yourVenuesTitle">Your organisers</strong><small>Next event from each saved organiser</small></div></div>',
+    '<div class="your-venues-head"><div><strong id="yourVenuesTitle">Your organisers</strong><small>Next event from each saved organiser</small></div><button id="manageOrganisersButton" class="manage-organisers-button" type="button" aria-pressed="false">Manage</button></div>');
 }
-html=html.replace('Distances update from this point. The current event feed still only contains the events collected around the Bristol search area.','UK-wide local feed · upcoming 6 months. Distances filter from your selected location.');
-html=html.replace('./app.js?v=9','./app.js?v=10').replace('./styles.css?v=4','./styles.css?v=5');
+html=html.replace('./app.js?v=10','./app.js?v=11').replace('./styles.css?v=5','./styles.css?v=6');
 await fs.writeFile(HTML,html);
 
 let css=await fs.readFile(CSS,'utf8');
-if(!css.includes('.plan-pill.needs-completion'))css+='\n.plan-pill.needs-completion{background:#fffaeb;color:#b54708}\n';
+if(!css.includes('.manage-organisers-button')){
+  css+='\n.manage-organisers-button{border:0;background:transparent;color:#175cd3;font:inherit;font-size:11px;font-weight:800;padding:4px 2px}.saved-organiser-remove{border:1px solid #fecdca;border-radius:8px;background:#fff;color:#d92d20;font:inherit;font-size:10px;font-weight:800;padding:5px 8px}.saved-organiser-remove:active{background:#fef3f2}\n';
+}
 await fs.writeFile(CSS,css);
 
 let master=await fs.readFile(MASTER,'utf8');
-const marker='### 11.3 Event Prep';
-const section=`### 11.2.1 Local-event feed retention and post-event lifecycle\n\nLocal discovery uses a **UK-wide upcoming-event feed** rather than a user-specific Bristol subset. The shared feed retains no historic local events and is capped at **six months into the future**. A user's selected/device location and radius filter that shared UK feed client-side. This keeps shared data bounded while making location changes genuinely change the events shown.\n\nPersonal event history is separate from the shared discovery feed. Once a user saves an attendance relationship, the retained \`UserEventParticipation.eventSnapshot\` is authoritative for preserving that event after it drops out of the source feed. Historic global event rows are therefore not required to preserve the user's competitive record.\n\nWhen the event date passes, a participation still marked **Attending** rolls forward to **Attended**. If completion/result data has not yet been recorded, its lifecycle phase becomes **Needs completion** and it remains surfaced in Compete until completed or explicitly corrected/skipped. Passing the event date must never silently imply that tournament results were entered.\n\n`;
-if(!master.includes('### 11.2.1 Local-event feed retention')){
-  if(!master.includes(marker))throw new Error('Could not find Event Prep section in master doc');
-  master=master.replace(marker,section+marker);
+const lifecycle='Passing the event date must never silently imply that tournament results were entered.';
+const organiserContract=' Saved organiser identity should prefer a stable source organiser/league ID where available. Legacy name-based favourites are reconciled to a stable ID only when the canonical organiser name maps unambiguously to one live source identity; matching retains a canonical-name fallback so feed normalization cannot silently orphan a favourite. Compete exposes a small organiser-management control for explicitly removing saved organisers.';
+if(master.includes(lifecycle)&&!master.includes('Legacy name-based favourites are reconciled')){
+  master=master.replace(lifecycle,lifecycle+organiserContract);
   await fs.writeFile(MASTER,master);
 }
 
-console.log('Applied event retention/UI contract.');
+console.log('Applied event retention, organiser reconciliation and management contract.');
