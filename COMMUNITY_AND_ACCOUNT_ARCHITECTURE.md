@@ -1,7 +1,7 @@
 # PTCG Tools — Accounts, Community & Public-Ready Architecture
 
 **Status:** Current companion architecture source of truth  
-**Date:** 1 September 2026  
+**Date:** 2 September 2026  
 **Companion to:** `PTCG_TOOLS_MASTER.md` and `PERFORMANCE_ARCHITECTURE.md`
 
 ## Purpose
@@ -108,7 +108,8 @@ As the app matures, high-value domains may move from one large snapshot into nor
 - playtest sessions;
 - matchup notes/testing evidence;
 - deck/version relationships;
-- preparation workspaces.
+- preparation workspaces;
+- completed Championship Series participation, season goals and manual event-result corrections.
 
 Do not normalize prematurely solely for database purity. Move a domain when querying, conflict resolution, collaboration, history or scale genuinely benefits from it.
 
@@ -130,7 +131,8 @@ Fetched/derived once and reused by all users:
 - public decklists;
 - normalized Meta data;
 - public matchup evidence;
-- generated aggregate analysis.
+- generated aggregate analysis;
+- official competitive-season boundaries and season-versioned Championship Point / Best Finish Limit rulesets.
 
 ### Per-user data
 
@@ -140,11 +142,14 @@ Owned by one authenticated account and protected accordingly:
 - Collection quantities and allocations;
 - event attendance intent;
 - preparation workspaces;
+- completed Championship Series participation, placement/player-count corrections and season goals;
 - personal match/tournament history;
 - testing notes/results;
 - preferences and presentation overrides.
 
 The app must not duplicate heavyweight public datasets inside every user's account data.
+
+Competitive-season summaries are derived from both sides of this boundary: shared, source-cited season/CP rules and event facts are applied to private UserEventParticipation records. A user's manual correction may affect their own participation calculation without silently changing the shared event record for other users. Historical participation must retain the ruleset version used so later season updates cannot rewrite prior CP totals.
 
 ---
 
