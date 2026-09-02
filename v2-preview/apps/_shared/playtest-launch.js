@@ -3,7 +3,7 @@
 
   const KEY='ptcg-tools.playtest.launch.v1';
   const CONTRACT_VERSION=1;
-  const DEFAULT_TARGET='../decklists/playtest-v2.html?interaction=3';
+  const DEFAULT_TARGET='../decklists/playtest-v2.html';
 
   function clean(value){return String(value==null?'':value).trim()}
   function read(){
@@ -50,13 +50,18 @@
     };
   }
 
+  function freshTarget(target){
+    const url=new URL(clean(target)||DEFAULT_TARGET,global.location.href);
+    url.searchParams.set('_pt',Date.now().toString());
+    return url.href;
+  }
+
   async function open(options={}){
     const payload=await build(options);
     try{sessionStorage.setItem(KEY,JSON.stringify(payload))}catch{}
-    const target=clean(options.targetUrl)||DEFAULT_TARGET;
-    global.location.href=target;
+    global.location.href=freshTarget(clean(options.targetUrl)||DEFAULT_TARGET);
     return payload;
   }
 
-  global.PTCGPlaytestLaunch={KEY,CONTRACT_VERSION,DEFAULT_TARGET,read,clear,build,open};
+  global.PTCGPlaytestLaunch={KEY,CONTRACT_VERSION,DEFAULT_TARGET,read,clear,build,open,freshTarget};
 })(window);
