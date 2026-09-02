@@ -1,0 +1,13 @@
+@media (max-width:699px){
+  .playtest-body{padding-bottom:calc(172px + env(safe-area-inset-bottom))}
+  .hand-tray{height:104px;bottom:calc(64px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(0,0,0,.18)}
+  .hand-head{height:31px;padding:3px 9px}
+  .hand-head button{min-height:27px;padding:0 10px}
+  .hand-row{height:73px;padding:0 8px 6px;gap:3px;align-items:flex-start}
+  .hand-row .play-card{width:58px}
+  .hand-row .card-frame{width:56px;border-radius:5px}
+  .hand-empty{height:64px}
+  .playtest-toast{bottom:calc(171px + env(safe-area-inset-bottom))}
+  .tabletop{min-height:438px}
+  .table-piles{margin-bottom:2px}
+}
