@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v15';
+const CACHE_NAME = 'ptcg-tools-v16';
 const CORE = [
   './',
   './home-content.html',
@@ -63,7 +63,12 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
-  if (request.cache === 'no-store' || url.searchParams.has('v') && request.destination === '') return;
+
+  // A version query is an explicit cache-busting request. Let the browser/network
+  // handle it directly for documents as well as assets so diagnostic/latest links
+  // cannot be satisfied by an older cached navigation response.
+  if (request.cache === 'no-store' || url.searchParams.has('v')) return;
+
   if (request.mode === 'navigate') {
     event.respondWith(staleWhileRevalidate(request, canonicalNavigationRequest(request)));
     return;
