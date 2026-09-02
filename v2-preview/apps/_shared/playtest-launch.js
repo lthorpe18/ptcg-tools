@@ -3,7 +3,7 @@
 
   const KEY='ptcg-tools.playtest.launch.v1';
   const CONTRACT_VERSION=1;
-  const DEFAULT_TARGET='../decklists/playtest-v2.html?interaction=2';
+  const DEFAULT_TARGET='../decklists/playtest-v2.html?interaction=3';
 
   function clean(value){return String(value==null?'':value).trim()}
   function read(){
