@@ -64,11 +64,13 @@ The snapshot currently includes the personal state that the V2 app knows how to 
 
 - saved decks;
 - deck versions contained within saved deck objects;
-- root V2 personal state such as attendance/event state and preparation state;
+- root V2 personal state including canonical UserEventParticipation relationships, attendance intent and retained event snapshots;
 - preferences;
 - saved/custom expected Meta data.
 
 The architecture is deliberately schema-versioned so it can evolve as Collection, Tournament Prep, testing history and other personal domains are added.
+
+The V2 participation schema now migrates the previous `plannedEvents` plus linked Prep state into one `eventParticipations` collection. The relationship ID and event snapshot survive migration. A status-only relationship may be removed when intent is cleared; once dependent Prep, deck/version, match, Tournament Day or completion state exists, clearing intent archives rather than deletes the relationship. This preserves one account-owned record for later Season, Deck history, Home and Analytics consumers while retaining the pragmatic whole-account snapshot model.
 
 ### 2.2 Sync behaviour
 

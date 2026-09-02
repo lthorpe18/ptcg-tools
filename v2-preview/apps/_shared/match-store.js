@@ -1,7 +1,7 @@
 (function(global){
   'use strict';
 
-  const MODEL_VERSION=1;
+  const MODEL_VERSION=2;
   const RESULTS=new Set(['win','loss','draw','unknown']);
   const SOURCES=new Set(['ptcgl','irl']);
 
@@ -58,6 +58,7 @@
       opponentArchetype:nullable(source.opponentArchetype),
       format:nullable(source.format),
       wentFirst:typeof source.wentFirst==='boolean'?source.wentFirst:null,
+      participationId:nullable(source.participationId),
       eventId:nullable(source.eventId),
       eventName:nullable(source.eventName),
       roundLabel:nullable(source.roundLabel),

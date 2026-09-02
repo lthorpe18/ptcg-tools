@@ -89,10 +89,10 @@
     const clean=overrides&&typeof overrides==='object'&&!Array.isArray(overrides)?overrides:{};
     try {
       const root=safeObject(localStorage.getItem(ROOT_KEY));
-      root.schemaVersion=root.schemaVersion||1;
-      root.plannedEvents=Array.isArray(root.plannedEvents)?root.plannedEvents:[];
+      root.schemaVersion=Math.max(Number(root.schemaVersion)||0,3);
+      root.eventParticipations=Array.isArray(root.eventParticipations)?root.eventParticipations:[];
       root.favouriteVenues=Array.isArray(root.favouriteVenues)?root.favouriteVenues:[];
-      root.preps=Array.isArray(root.preps)?root.preps:[];
+      root.matches=Array.isArray(root.matches)?root.matches:[];
       root.recent=root.recent&&typeof root.recent==='object'?root.recent:{};
       root.preferences=root.preferences&&typeof root.preferences==='object'?root.preferences:{};
       root.preferences[PREF_KEY]=clean;

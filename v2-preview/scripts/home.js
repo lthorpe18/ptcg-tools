@@ -18,8 +18,8 @@
     if(!window.PTCGStorage)return null;
     const state=window.PTCGStorage.load();
     const now=Date.now();
-    return (state.plannedEvents||[])
-      .filter(p=>p.status==='attending')
+    return (state.eventParticipations||[])
+      .filter(p=>p.attendanceStatus==='attending')
       .map(p=>({p,d:safeDate(p.eventSnapshot)}))
       .filter(x=>x.d&&x.d.getTime()>=now-DAY)
       .sort((a,b)=>a.d-b.d)[0]||null;

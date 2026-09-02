@@ -31,10 +31,10 @@
   function isPast(event){const end=eventEnd(event);return end?end.getTime()<Date.now():false}
   function daysAway(event){const d=eventStart(event);return d?(d.getTime()-Date.now())/86400000:null}
   function eventIdentity(event){return event&&event.id?event.id:(event&&event.source&&event.sourceId?`${event.source}:${event.sourceId}`:null)}
-  function planIdentity(plan){return plan.eventId||(plan.source&&plan.sourceId?`${plan.source}:${plan.sourceId}`:null)}
-  function currentState(){return window.PTCGStorage?window.PTCGStorage.load():{plannedEvents:[],favouriteVenues:[]}}
-  function planMap(){const map=new Map();for(const plan of currentState().plannedEvents||[]){const key=planIdentity(plan);if(key)map.set(key,plan)}return map}
-  function findPlan(event){const key=eventIdentity(event);return key?planMap().get(key)||null:null}
+  function participationIdentity(participation){return participation.eventId||(participation.source&&participation.sourceId?`${participation.source}:${participation.sourceId}`:null)}
+  function currentState(){return window.PTCGStorage?window.PTCGStorage.load():{eventParticipations:[],favouriteVenues:[]}}
+  function participationMap(){const map=new Map();for(const participation of currentState().eventParticipations||[]){const key=participationIdentity(participation);if(key)map.set(key,participation)}return map}
+  function findParticipation(event){const key=eventIdentity(event);return key?participationMap().get(key)||window.PTCGStorage?.getParticipation?.(event)||null:null}
 
   function venueIdentity(value){
     if(window.PTCGStorage&&window.PTCGStorage.venueKey)return window.PTCGStorage.venueKey(value);
@@ -66,15 +66,15 @@
   }
   function typeClass(event){if(event.scope==='major')return 'major';if(event.type==='League Cup')return 'cup';if(event.type==='League Challenge')return 'challenge';if(event.type==='Prerelease')return 'prerelease';return ''}
   function typeLabel(event){if(event.type==='League Cup')return 'Cup';if(event.type==='League Challenge')return 'Challenge';if(event.type==='Special Championship')return 'Special';if(event.type==='International')return 'International';return event.type||'Event'}
-  function statusFor(event){const plan=findPlan(event);return plan&&VALID_STATUSES.has(plan.status)?plan.status:null}
-  function snapshotToEvent(plan){
-    const snap=plan.eventSnapshot&&typeof plan.eventSnapshot==='object'?plan.eventSnapshot:{};
-    const live=events.find(e=>eventIdentity(e)===planIdentity(plan)||(plan.source&&plan.sourceId&&e.source===plan.source&&e.sourceId===plan.sourceId));
-    const merged={...snap,...(live||{})};if(!merged.id)merged.id=plan.eventId||`${plan.source||'saved'}:${plan.sourceId||plan.id}`;if(!merged.source)merged.source=plan.source||null;if(!merged.sourceId)merged.sourceId=plan.sourceId||null;return merged;
+  function statusFor(event){const participation=findParticipation(event);return participation&&VALID_STATUSES.has(participation.attendanceStatus)?participation.attendanceStatus:null}
+  function snapshotToEvent(participation){
+    const snap=participation.eventSnapshot&&typeof participation.eventSnapshot==='object'?participation.eventSnapshot:{};
+    const live=events.find(e=>eventIdentity(e)===participationIdentity(participation)||(participation.source&&participation.sourceId&&e.source===participation.source&&e.sourceId===participation.sourceId));
+    const merged={...snap,...(live||{})};if(!merged.id)merged.id=participation.eventId||`${participation.source||'saved'}:${participation.sourceId||participation.id}`;if(!merged.source)merged.source=participation.source||null;if(!merged.sourceId)merged.sourceId=participation.sourceId||null;return merged;
   }
 
   function setStatus(event,status){if(!window.PTCGStorage||!window.PTCGStorage.setEventStatus)return;window.PTCGStorage.setEventStatus(event,status);toast(status==='attending'?`Added to Attending · ${compactDate(event)}`:`Saved as ${STATUS_LABELS[status]}`);render()}
-  function clearStatus(event){if(!window.PTCGStorage||!window.PTCGStorage.clearEventStatus)return;window.PTCGStorage.clearEventStatus(event);toast('Event status cleared');render()}
+  function clearStatus(event){if(!window.PTCGStorage||!window.PTCGStorage.clearEventStatus)return;const result=window.PTCGStorage.clearEventStatus(event);toast(result?.archived?'Attendance cleared · event history kept':'Event status cleared');render()}
   function toggleVenue(event){
     if(!window.PTCGStorage||!window.PTCGStorage.toggleFavouriteVenue||event.scope!=='local'||!event.venue)return;
     const wasSaved=isSavedVenue(event);window.PTCGStorage.toggleFavouriteVenue(event);toast(wasSaved?'Venue removed':'Venue saved');render();
@@ -95,8 +95,8 @@
   }
   function majorEvents(){const region=els.region.value,q=els.majorSearch.value.trim().toLowerCase();return events.filter(event=>event.scope==='major'&&!isPast(event)&&(majorType==='all'||event.type===majorType)&&(region==='all'||event.region===region)&&(!q||`${event.name||''} ${event.city||''} ${event.country||''}`.toLowerCase().includes(q))).sort(sortAscending)}
   function savedEvents(){
-    const rows=(currentState().plannedEvents||[]).filter(p=>VALID_STATUSES.has(p.status)).map(plan=>({plan,event:snapshotToEvent(plan)}));
-    const filtered=rows.filter(({plan,event})=>{const past=isPast(event);if(planFilter==='attending')return plan.status==='attending'&&!past;if(planFilter==='interested')return plan.status==='interested'&&!past;if(planFilter==='history')return plan.status==='attended'||plan.status==='skipped'||past;return (plan.status==='attending'||plan.status==='interested')&&!past});
+    const rows=(currentState().eventParticipations||[]).filter(p=>VALID_STATUSES.has(p.attendanceStatus)).map(participation=>({participation,event:snapshotToEvent(participation)}));
+    const filtered=rows.filter(({participation,event})=>{const past=isPast(event),status=participation.attendanceStatus;if(planFilter==='attending')return status==='attending'&&!past;if(planFilter==='interested')return status==='interested'&&!past;if(planFilter==='history')return status==='attended'||status==='skipped'||past;return (status==='attending'||status==='interested')&&!past});
     filtered.sort((a,b)=>planFilter==='history'?sortDescending(a.event,b.event):sortAscending(a.event,b.event));return filtered.map(x=>x.event);
   }
   function sortAscending(a,b){return (eventStart(a)?.getTime()||Number.MAX_SAFE_INTEGER)-(eventStart(b)?.getTime()||Number.MAX_SAFE_INTEGER)}

@@ -773,6 +773,8 @@ Event intent has two distinct states:
 
 Prep is not a sixth top-level area. It is durable event-specific state owned by Compete and connected to Decks, Meta, matches, Collection and the competitive-season record.
 
+The participation foundation is established in V2. Root account state now stores one schema-versioned `eventParticipations` relationship per user/event identity. Existing `plannedEvents` and Prep records migrate into that relationship without changing their stable relationship IDs or losing retained event snapshots. Attendance intent is `attendanceStatus`; lifecycle `phase`, embedded Prep, planned/used DeckVersion references, Tournament Day state, completion state and season identity are reserved on the same record. Changing Interested/Attending updates the existing relationship and does not create Prep by itself yet. Clearing intent removes an otherwise empty relationship, but archives it when dependent Prep, deck, match, Tournament Day or completion data exists.
+
 ### 11.3 Event Prep
 
 Prep should support the real decision funnel rather than assuming the user already has one finished list:
@@ -904,7 +906,7 @@ Current snapshot-capable personal state includes:
 
 - saved decks and their versions;
 - real-game Match/Game history, including PTCGL imports and manual in-person records;
-- root V2 state including event attendance and current prep state;
+- root V2 state including canonical event participation, attendance intent and retained event snapshots;
 - preferences/deck icon overrides;
 - saved/custom expected Meta data.
 
@@ -1063,13 +1065,14 @@ Any **Scraped** source that becomes essential to a future public application sho
 1. **Deck/list foundation — established** — working lists, canonical hashes, named checkpoints and stable relationships.
 2. **Match/Game ingestion contract and native fallback — established** — PTCGL parsing, real opponent/result attribution and manual in-person recording remain available while a supported Training Court export/integration is explored.
 3. **Limitless-backed Deck intake — established** — import as New Deck or Update Existing, separate personal name from the shared searchable Meta archetype catalogue, create V1/V2/V3 only for changed hashes, provide grouped −/+ list editing, and add source/copy/ImgGen handoffs.
-4. **Compete workflow foundation + Event Prep v1 — next** — make the event/participation lifecycle durable, then implement Interested/Attending, evidence-derived editable Expected Field, candidate comparison and exact planned/used DeckVersion relationships.
-5. **Competitive Record / Season v1** — complete attended Championship events with placement and player count, calculate season-specific CP from verified official rules, apply Best Finish Limits and show raw versus counting CP.
-6. **Mobile Playtest v1** — launch the separate solo/goldfish touch-first tabletop from a DeckVersion or the current Prep candidate/final list.
-7. **Tournament Day + Cut / ID** — current record, pairing/result capture and deterministic cut/ID support writing into the same participation record.
-8. **Collection / readiness** — owned quantities, allocations, missing cards and shopping connected to the event's exact planned list.
-9. **Learning loop** — personal matchup, tournament and Playtest analytics kept semantically distinct while reusing the same underlying completed-event and Match/Game contracts.
-10. **Community hardening when useful** — privacy/export/delete controls, centralized source ingestion and operational observability before inviting a materially larger cohort.
+4. **Compete participation foundation — established** — one durable UserEventParticipation now owns attendance intent and the reserved Prep, planned/used DeckVersion, Tournament Day, completion and season links; legacy attendance/Prep state migrates without duplicate records.
+5. **Event Prep v1 — next** — open the event-specific workflow from an Attending participation, then implement evidence-derived editable Expected Field, candidate comparison and the exact planned DeckVersion relationship.
+6. **Competitive Record / Season v1** — complete attended Championship events with placement and player count, calculate season-specific CP from verified official rules, apply Best Finish Limits and show raw versus counting CP.
+7. **Mobile Playtest v1** — launch the separate solo/goldfish touch-first tabletop from a DeckVersion or the current Prep candidate/final list.
+8. **Tournament Day + Cut / ID** — current record, pairing/result capture and deterministic cut/ID support writing into the same participation record.
+9. **Collection / readiness** — owned quantities, allocations, missing cards and shopping connected to the event's exact planned list.
+10. **Learning loop** — personal matchup, tournament and Playtest analytics kept semantically distinct while reusing the same underlying completed-event and Match/Game contracts.
+11. **Community hardening when useful** — privacy/export/delete controls, centralized source ingestion and operational observability before inviting a materially larger cohort.
 
 Performance should be reopened as a dedicated milestone only if future growth creates a material regression in first-load/navigation responsiveness or cloud reconciliation begins competing with active interaction.
 

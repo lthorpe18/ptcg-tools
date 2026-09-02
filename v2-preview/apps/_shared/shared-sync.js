@@ -76,6 +76,7 @@
       if(!value||typeof value!=='object')return;
       latest=Math.max(latest,toMs(value.updatedAt),toMs(value.createdAt));
     };
+    for(const row of (root&&Array.isArray(root.eventParticipations)?root.eventParticipations:[]))visit(row);
     for(const row of (root&&Array.isArray(root.plannedEvents)?root.plannedEvents:[]))visit(row);
     for(const row of (root&&Array.isArray(root.preps)?root.preps:[]))visit(row);
     for(const row of decks)visit(row);
@@ -88,7 +89,7 @@
     const decks=await readDecks();
     const savedMetas=readMetas();
     const modified=deriveLocalModified(rootState,decks,savedMetas);
-    return {workspaceInitialized:true,schemaVersion:2,capturedAt:nowIso(),modifiedAt:modified?new Date(modified).toISOString():null,rootState,decks,savedMetas};
+    return {workspaceInitialized:true,schemaVersion:3,capturedAt:nowIso(),modifiedAt:modified?new Date(modified).toISOString():null,rootState,decks,savedMetas};
   }
 
   function hasMeaningfulData(snapshot){
@@ -98,6 +99,7 @@
     const root=snapshot.rootState;
     if(!root||typeof root!=='object')return false;
     return Boolean(
+      (Array.isArray(root.eventParticipations)&&root.eventParticipations.length)||
       (Array.isArray(root.plannedEvents)&&root.plannedEvents.length)||
       (Array.isArray(root.preps)&&root.preps.length)||
       (Array.isArray(root.favouriteVenues)&&root.favouriteVenues.length)||
