@@ -580,6 +580,25 @@ Decks is the home for:
 
 Mobile-first library with search, compact add action, deck name, one or two representative sprites, current/version context and concise useful metadata.
 
+Limitless is the preferred deck-building source for now. PTCG Tools should make bringing a list across quick, then own the personal identity and downstream relationships that a generic builder does not know about.
+
+The import flow is:
+
+1. paste a Limitless/PTCGL-format list or supply a supported Limitless shared-list link;
+2. choose **New Deck** or **Update Existing**;
+3. confirm a user-facing deck name and the separately stored archetype/variant;
+4. create a new immutable version only when the canonical list hash has changed.
+
+A Deck's name is personal context, for example **“Mega Lucario Hariyama — Card Catcher build”**. Its archetype is analytical classification, for example **Mega Lucario / Hariyama**. Multiple Decks may share an archetype when the user wants independent projects or meaningful forks.
+
+Decks should retain useful source provenance and provide low-friction handoffs:
+
+- open the source list in Limitless when a source URL exists;
+- copy the exact list in PTCGL/Limitless-compatible text;
+- **Create deck image** by copying that text and opening Limitless PNGGen.
+
+Do not depend on an undocumented PNGGen prefill URL. Copy-and-open is the durable initial integration unless Limitless publishes a supported mechanism.
+
 ### 9.2 Deck detail
 
 Target structure remains approximately:
@@ -592,9 +611,9 @@ with Playtest and physical readiness integrated contextually rather than hidden 
 
 The durable Deck model is deliberately small:
 
-- a **Deck** is the long-lived project/identity, such as “Gholdengo”;
+- a **Deck** is the long-lived personal project/identity, with its own stable ID, user-facing name and separately stored archetype/variant;
 - `Deck.rawText` is its mutable, account-synced **working list**;
-- a **checkpoint** (`DeckVersion` in the current code) is a named immutable exact list;
+- a **checkpoint** (`DeckVersion` in the current code) is an immutable exact list with a stable ID, automatic visible sequence such as V1/V2/V3, and optional meaningful name/notes;
 - every working list and checkpoint carries a `listHash` derived from the canonical parsed card list.
 
 Canonicalization combines duplicate lines and ignores headings, whitespace and line order. Quantities, card names, set codes and card numbers remain significant. Therefore differently formatted exports of the same exact cards share a hash, while changing one card or printing changes the hash.
@@ -604,10 +623,12 @@ The hash answers **“are these exact card lists the same?”**. Stable Deck/che
 Rules:
 
 - ordinary edits save the working list without rewriting historical checkpoints;
-- users create named checkpoints only at meaningful milestones;
+- imports and meaningful saves create sequential versions; optional names can record milestones such as “Cup submission” without replacing V1/V2/V3;
 - saving an unchanged list reuses the matching checkpoint instead of creating duplicate list data;
-- future evidence may refer to `deckId + listHash`, with `deckVersionId` included when that exact list has a named checkpoint;
+- future evidence may refer to `deckId + listHash`, with `deckVersionId` included whenever a saved version was selected;
 - working lists remain immediately usable for Odds and testing without forcing checkpoint creation;
+- source URL/type and imported-at provenance may be retained on the Deck and exact version where useful, but do not turn source metadata into a second identity system;
+- updating an existing Deck means “this is the next revision of the same project”; a strategically independent fork is a new Deck even when it has the same archetype;
 - versions remain embedded inside Deck objects and inside the current account snapshot until normalized tables provide a concrete benefit.
 
 Existing/unversioned Deck records are migrated in place to stable model/version IDs and hashes. The legacy Decks page must not remain a second writer to the same IndexedDB store.
@@ -660,7 +681,17 @@ The durable real-game contract is:
 
 Match records currently remain embedded in the account snapshot. This is intentional: normalize them into user tables only when concrete query, scale or collaboration needs exceed the snapshot model.
 
-The Decks **Training Log** is the primary personal surface for PTCGL import, manual in-person recording and Deck-specific history. Tournament entry belongs contextually in Compete but must write the same Match/Game contract rather than creating a second store. Raw PTCGL logs are private account-owned data and must not become community evidence by default.
+Training Court is the preferred capture experience for real PTCGL and in-person results if a supported personal export or read-only integration can be obtained. PTCG Tools should then ingest the user's records into the Match/Game contract and use them for Deck history, event preparation and personal analytics.
+
+While that route is unresolved:
+
+- retain the current Decks Training Log, PTCGL parser and manual entry as a working native fallback and ingestion-contract proof;
+- do not materially expand a duplicate Training Court-style capture/analytics product;
+- do not scrape authenticated pages or seek access to another product's private database;
+- prefer export/API history with stable external IDs and update timestamps; a webhook is helpful but not required if incremental pull is supported;
+- preserve source and external-record identifiers so repeat imports are idempotent and user corrections can be reconciled.
+
+Tournament entry belongs contextually in Compete but must write the same Match/Game contract rather than creating a second store. Raw PTCGL logs and imported Training Court records are private account-owned data and must not become community evidence by default.
 
 ---
 
@@ -720,9 +751,39 @@ Compete should support:
 - useful filters;
 - list/map views where location is valuable.
 
-Attendance is not automatically equivalent to Tournament Prep until the Prep milestone explicitly connects them.
+Event intent has two distinct states:
 
-### 11.3 Tournament-day workspace
+- **Interested** bookmarks an event without creating preparation work;
+- **Attending** creates or opens that event's Prep workspace inside Compete.
+
+Prep is not a sixth top-level area. It is durable event-specific state owned by Compete and connected to Decks, Meta, matches and Collection.
+
+### 11.3 Event Prep
+
+Prep should support the real decision funnel rather than assuming the user already has one finished list:
+
+1. establish an **Expected Field**;
+2. compare roughly 2–4 candidate archetypes;
+3. choose an archetype, then link or create a personal Deck and iterate its exact versions;
+4. mark an exact version **Planned for event**;
+5. lock the version actually **Used at event**;
+6. retain results and review against that immutable event/list context.
+
+Candidate archetypes may initially point to shared Meta variants before a personal Deck exists. Their statuses are **Considering**, **Leading choice**, **Chosen** and **Dropped**. Comparison should show weighted expected matchup performance, favourable/unfavourable field coverage, weakest important matchups, evidence gaps/confidence and personal notes. Imported real-match evidence may enrich this later without being confused with Playtest evidence.
+
+The Expected Field starts from an evidence-derived baseline, with visible source window, provenance, confidence and short reasoning. Each archetype row supports compact `−` / percentage / `+` controls:
+
+- plus/minus makes a qualitative adjustment and rebalances the other unlocked rows to keep the total at 100%;
+- tapping the percentage allows an exact manual override and locks that row;
+- unlocked rows absorb subsequent rebalancing;
+- **Reset baseline** removes the user's adjustments;
+- saving creates an immutable event-specific forecast snapshot including baseline inputs, user adjustments/overrides, source window and model/version metadata.
+
+Prep should be information-before-configuration on iPhone: the current recommendation, leading candidates, major risks and readiness appear before detailed controls.
+
+The event-to-list relationship is not a free-text `usedFor` field on Deck. It is an event-owned reference to `deckId + deckVersionId + listHash`, with a lifecycle such as **planned** then **used**. The same version may be used at multiple events, and Deck detail may render those reverse relationships. Historical events retain display snapshots so they remain intelligible after later renaming or deletion.
+
+### 11.4 Tournament-day workspace
 
 Tournament Day should eventually connect:
 
@@ -933,14 +994,15 @@ Any **Scraped** source that becomes essential to a future public application sho
 ### Next major product milestones
 
 1. **Deck/list foundation — established** — working lists, canonical hashes, named checkpoints and stable relationships.
-2. **Match/Game foundation and Training Log v1 — established** — PTCGL log import, real opponent/result attribution and manual in-person game recording.
-3. **Mobile Playtest v1 — next** — separate solo/goldfish touch-first tabletop and consistency evidence.
-4. **Events / Compete maturity** — reliable local/major discovery plus attendance context.
-5. **Cut / ID Calculator** — deterministic tournament-day utility with optional uncertainty modelling.
-6. **Tournament Prep** — connect attending event, expected Meta, chosen exact list and readiness.
-7. **Collection / readiness** — owned quantities, allocations, missing cards and shopping.
-8. **Learning loop** — personal matchup, tournament and Playtest analytics kept semantically distinct.
-9. **Community hardening when useful** — privacy/export/delete controls, centralized source ingestion and operational observability before inviting a materially larger cohort.
+2. **Match/Game ingestion contract and native fallback — established** — PTCGL parsing, real opponent/result attribution and manual in-person recording remain available while a supported Training Court export/integration is explored.
+3. **Limitless-backed Deck intake — next** — import as New Deck or Update Existing, separate personal name from archetype, create V1/V2/V3 only for changed hashes, and add source/copy/PNGGen handoffs.
+4. **Event Prep + Expected Field v1** — Interested/Attending flow, evidence-derived editable forecast, candidate archetype comparison and exact planned/used version relationships.
+5. **Mobile Playtest v1** — launch the separate solo/goldfish touch-first tabletop from a DeckVersion or the current Prep candidate/final list.
+6. **Events / Compete maturity** — reliable local/major discovery and stronger tournament-day context.
+7. **Cut / ID Calculator** — deterministic tournament-day utility with optional uncertainty modelling.
+8. **Collection / readiness** — owned quantities, allocations, missing cards and shopping connected to the event's exact planned list.
+9. **Learning loop** — personal matchup, tournament and Playtest analytics kept semantically distinct.
+10. **Community hardening when useful** — privacy/export/delete controls, centralized source ingestion and operational observability before inviting a materially larger cohort.
 
 Performance should be reopened as a dedicated milestone only if future growth creates a material regression in first-load/navigation responsiveness or cloud reconciliation begins competing with active interaction.
 
@@ -962,6 +1024,8 @@ PTCG Tools is successful when:
 - exact deck variants are consistently linked across field, matchups, results and recommendations;
 - major deck lists are quickly searchable on iPhone;
 - saved decks are easy to edit, version, analyse and playtest;
+- a Limitless-built list can become a clearly named personal Deck or a new exact version without duplicate checkpoints;
+- an attending event can progress from evidence-based field forecast through candidate archetypes to the exact list planned and used;
 - a player can goldfish a deck comfortably on an iPhone;
 - event, preparation and tournament-day workflows become connected rather than duplicated;
 - physical collection state can answer “can I build this?” without double-counting cards;
@@ -999,6 +1063,8 @@ Do not design for millions of users before real demand exists.
 ### 18.1 Limitless
 
 Limitless is an important data source and product reference, particularly for competitive results, decklists, matchups and its Tabletop concept.
+
+For personal Deck workflow, prefer lightweight interoperability over rebuilding its mature deck editor: accept compatible list text or supported shared links, retain provenance, and provide open/copy/PNGGen handoffs. PTCG Tools owns personal Deck identity, immutable revisions and relationships to Prep, Playtest, readiness and evidence.
 
 For community/public use, documented Limitless developer APIs should be preferred over undocumented/scraped endpoints wherever possible. Legitimate public projects can seek API access/higher limits where required.
 
