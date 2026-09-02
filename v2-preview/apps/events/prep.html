@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8fb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Event Prep · PTCG Tools</title>
+  <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
+  <link rel="stylesheet" href="./prep.css?v=1">
+</head>
+<body class="ptcg-v2" data-app-root="../.." data-app-section="compete">
+  <header class="app-shell-header">
+    <a class="app-shell-brand" href="./" aria-label="Back to Events"><span class="app-shell-mark">←</span><span class="app-shell-brand-copy"><strong>Event Prep</strong><small id="headerEvent">Compete</small></span></a>
+    <div class="app-shell-header-actions"><span id="saveState" class="app-context-pill">Loading…</span></div>
+  </header>
+
+  <main class="app-shell-page prep-shell">
+    <header class="prep-head">
+      <a class="prep-back" href="./">← Events</a>
+      <div class="app-eyebrow">Compete · Attending · Prep</div>
+      <h1 id="eventTitle">Event Prep</h1>
+      <p id="eventMeta">Loading event…</p>
+    </header>
+
+    <div id="fatal" class="app-card prep-empty hidden"></div>
+    <div id="workspace" class="prep-stack hidden">
+      <section class="prep-card app-card" aria-labelledby="fieldTitle">
+        <div class="prep-card-head"><div><span class="step-label">1 · Expected Field</span><h2 id="fieldTitle">What do you expect to face?</h2></div><span id="fieldStatus" class="status-chip">Suggested</span></div>
+        <p id="fieldEvidence" class="evidence-line">Loading Meta evidence…</p>
+        <div class="field-toolbar">
+          <select id="savedFieldSelect" aria-label="Expected field"></select>
+          <button id="useSavedField" type="button" class="secondary-button">Use</button>
+        </div>
+        <div id="fieldRows" class="field-rows"></div>
+        <div class="field-actions"><button id="looksRight" type="button" class="primary-button">Looks right</button><button id="toggleReview" type="button" class="secondary-button">Review field</button></div>
+        <div id="reviewPanel" class="review-panel hidden">
+          <p>Edit the shares for this event. Saving updates the reusable Meta-owned Expected Field; the participation keeps its own event snapshot.</p>
+          <button id="saveField" type="button" class="secondary-button">Save Expected Field</button>
+        </div>
+      </section>
+
+      <section class="prep-card app-card" aria-labelledby="optionsTitle">
+        <div class="prep-card-head"><div><span class="step-label">2 · Deck options</span><h2 id="optionsTitle">Best positioned into this field</h2></div></div>
+        <p id="candidateEvidence" class="evidence-line">Loading matchup evidence…</p>
+        <div id="candidateRows" class="candidate-list"></div>
+      </section>
+
+      <section class="prep-card app-card" aria-labelledby="planTitle">
+        <div class="prep-card-head"><div><span class="step-label">3 · Your plan</span><h2 id="planTitle">Choose the exact list</h2></div><span id="planStatus" class="status-chip muted">Not chosen</span></div>
+        <label class="plan-label"><span>Personal deck</span><select id="deckSelect"></select></label>
+        <label class="plan-label"><span>Deck version</span><select id="versionSelect"></select></label>
+        <div id="versionMeta" class="version-meta"></div>
+        <button id="savePlan" type="button" class="primary-button">Set planned DeckVersion</button>
+        <p class="plan-note">Prep stores only <code>deckId + deckVersionId + listHash</code>. Deck identity and list editing remain in Decks.</p>
+      </section>
+    </div>
+  </main>
+
+  <div id="toast" class="prep-toast hidden" role="status"></div>
+
+  <script src="../_shared/storage.js?v=6"></script>
+  <script src="../_shared/deckParser.js?v=3"></script>
+  <script src="../_shared/deck-store.js?v=5"></script>
+  <script src="../meta/saved-metas.js?v=3"></script>
+  <script src="./prep.js?v=1"></script>
+  <script src="../_shared/app-shell.js?v=7"></script>
+</body>
+</html>
