@@ -6,6 +6,11 @@
   const STATUS_LABELS={interested:'Interested',attending:'Attending',attended:'Attended',skipped:'Skipped'};
   const REGION_LABELS={europe:'Europe',northamerica:'North America',latinamerica:'Latin America',oceania:'Oceania',virtual:'Virtual'};
   const MONTHS='january|february|march|april|may|june|july|august|september|october|november|december';
+  const ORGANISER_ALIASES=new Map([
+    ['ccs','Card Catcher Shop'],
+    ['card catcher shop','Card Catcher Shop']
+  ]);
+  const DISPLAY_ACRONYMS=new Set(['TCG','CCG','LGS','UK','US','USA','EU','GB']);
   const $=id=>document.getElementById(id);
   const els={
     sourcePill:$('sourcePill'),refresh:$('refreshButton'),nearbyFilters:$('nearbyFilters'),majorFilters:$('majorFilters'),attendingFilters:$('attendingFilters'),
@@ -44,6 +49,21 @@
     text=text.replace(/\s*[-–—]\s*$/,'').trim();
     return text;
   }
+  function aliasOrganiserLabel(value){
+    const label=canonicalOrganiserLabel(value);if(!label)return '';
+    const key=label.toLowerCase().replace(/\s+/g,' ');
+    return ORGANISER_ALIASES.get(key)||label;
+  }
+  function displayOrganiserLabel(value){
+    const label=aliasOrganiserLabel(value);if(!label)return '';
+    return label.split(/(\s+)/).map(part=>{
+      if(/^\s+$/.test(part))return part;
+      const match=part.match(/^([^A-Za-z0-9]*)([A-Za-z0-9]+)([^A-Za-z0-9]*)$/);if(!match)return part;
+      const [,lead,core,trail]=match,upper=core.toUpperCase();
+      if(DISPLAY_ACRONYMS.has(upper)||/^Q[1-4]$/.test(upper))return `${lead}${upper}${trail}`;
+      return `${lead}${core.charAt(0).toUpperCase()}${core.slice(1).toLowerCase()}${trail}`;
+    }).join('');
+  }
   function cleanOrganiserCandidate(value){
     let text=canonicalOrganiserLabel(value);if(!text)return '';
     text=text.replace(/\s*[-–—]?\s*(?:TCG\s*)?(?:League\s*)?(?:Cup|Challenge)\b.*$/i,'').trim();
@@ -63,26 +83,27 @@
   function organiserName(event){
     if(!event||event.scope!=='local')return null;
     const explicit=event.organiser||event.organizer||event.leagueName||event.league||event.shopName||event.shop;
-    if(String(explicit||'').trim())return canonicalOrganiserLabel(explicit);
+    if(String(explicit||'').trim())return displayOrganiserLabel(explicit);
     const venue=String(event.venue||'').trim();
-    if(venue&&titleClearlyMatchesVenue(event))return canonicalOrganiserLabel(venue);
+    if(venue&&titleClearlyMatchesVenue(event))return displayOrganiserLabel(venue);
     const inferred=cleanOrganiserCandidate(event.name);
-    return canonicalOrganiserLabel(inferred||venue)||null;
+    return displayOrganiserLabel(inferred||venue)||null;
   }
   function organiserIdentity(value){
-    if(typeof value==='string'){const name=canonicalOrganiserLabel(value);return name?`organiser:${name.toLowerCase().replace(/\s+/g,' ')}`:null}
+    if(typeof value==='string'){const name=aliasOrganiserLabel(value);return name?`organiser:${name.toLowerCase().replace(/\s+/g,' ')}`:null}
     if(!value||typeof value!=='object')return null;
     const id=value.organiserId||value.organizerId||value.leagueId||value.shopId;
     if(id)return `organiser:${value.source||'local'}:${id}`;
-    const name=value.scope==='local'?organiserName(value):canonicalOrganiserLabel(value.name||value.organiser);
-    return name?`organiser:${String(name).trim().toLowerCase().replace(/\s+/g,' ')}`:null;
+    const name=value.scope==='local'?organiserName(value):aliasOrganiserLabel(value.name||value.organiser);
+    const canonical=aliasOrganiserLabel(name);
+    return canonical?`organiser:${canonical.toLowerCase().replace(/\s+/g,' ')}`:null;
   }
   function savedOrganiserRows(){
     const seen=new Set();return (currentState().favouriteOrganisers||[]).filter(row=>{const key=organiserIdentity(row);if(!key||seen.has(key))return false;seen.add(key);return true});
   }
   function savedOrganiserKeys(){return new Set(savedOrganiserRows().map(organiserIdentity).filter(Boolean))}
   function isSavedOrganiser(event){const key=organiserIdentity(event);return !!key&&savedOrganiserKeys().has(key)}
-  function organiserRowName(row){return canonicalOrganiserLabel(typeof row==='string'?row:(row&&row.name)||(row&&row.organiser)||'Saved organiser')}
+  function organiserRowName(row){return displayOrganiserLabel(typeof row==='string'?row:(row&&row.name)||(row&&row.organiser)||'Saved organiser')}
   function organiserSnapshot(event){const key=organiserIdentity(event),name=organiserName(event);return key&&name?{organiserKey:key,name,source:event.source||null,savedAt:new Date().toISOString()}:null}
   function toggleOrganiser(event){
     if(!window.PTCGStorage||event.scope!=='local'||!organiserIdentity(event))return;
