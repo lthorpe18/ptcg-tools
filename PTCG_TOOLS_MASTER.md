@@ -609,7 +609,9 @@ Target structure remains approximately:
 
 with Playtest and physical readiness integrated contextually rather than hidden in unrelated Tools pages.
 
-The List view is the primary compact editor: group cards by Pokémon, Trainer and Energy, show section totals, and provide touch-sized −/+ quantity controls. Raw PTCGL/Limitless text remains available for paste, advanced correction and export, but is not the default reading experience. Prices are not part of this view.
+The List view is the default Deck detail tab and primary compact editor: group cards by Pokémon, Trainer and Energy, show section totals, keep set code/number inline with the card name, and provide touch-sized −/+ quantity controls. Raw PTCGL/Limitless text remains available for paste, advanced correction and export, but is not the default reading experience. Prices are not part of this view.
+
+Selecting an archetype automatically proposes up to two representative Pokémon sprites from that classification. These are defaults for fast visual identification; the Deck identity fields remain available as a manual override.
 
 ### 9.3 Deck versions
 

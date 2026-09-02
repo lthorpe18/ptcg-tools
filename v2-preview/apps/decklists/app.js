@@ -79,7 +79,7 @@ async function openDeck(id){
   $('libraryScreen').hidden=true;
   $('deckScreen').hidden=false;
   dirty=false;
-  setTab('overview');
+  setTab('list');
   renderDeck();
 }
 function workingContext(){
@@ -137,7 +137,7 @@ function renderPreview(parsedDeck){
     <section class="parsed-section ${key}"><h3><span>${label}</span><span>${parsedDeck.totals[key]||0}</span></h3>
       ${parsedDeck.sections[key].map(card=>{
         const index=parsedDeck.cards.indexOf(card),print=[card.set,card.number].filter(Boolean).join(' ');
-        return `<div class="parsed-card"><div class="parsed-card-copy"><b>${esc(card.name)}</b>${print?`<small>${esc(print)}</small>`:''}</div><div class="quantity-editor"><button type="button" data-card-change="-1" data-card-index="${index}" aria-label="Remove one ${esc(card.name)}">−</button><output>${card.count}</output><button type="button" data-card-change="1" data-card-index="${index}" aria-label="Add one ${esc(card.name)}">+</button></div></div>`;
+        return `<div class="parsed-card"><div class="parsed-card-copy"><b>${esc(card.name)}${print?` <small class="card-print">${esc(print)}</small>`:''}</b></div><div class="quantity-editor"><button type="button" data-card-change="-1" data-card-index="${index}" aria-label="Remove one ${esc(card.name)}">−</button><output>${card.count}</output><button type="button" data-card-change="1" data-card-index="${index}" aria-label="Add one ${esc(card.name)}">+</button></div></div>`;
       }).join('')}
     </section>`).join('');
 }
@@ -232,6 +232,36 @@ function renderImportMode(){
   $('importExistingWrap').hidden=!updating;
   $('importDeckSubmit').textContent=updating?'Add as next version':'Create deck';
 }
+function spriteNamesFromArchetype(value){
+  const words=String(value||'').toLocaleLowerCase('en').replace(/[^a-z0-9]+/g,' ').trim().split(/\s+/).filter(Boolean);
+  const ignored=new Set(['mega','ex','v','vstar','vmax','gx','tag','team','box','toolbox','control','lost','zone']);
+  const matches=[],used=new Set();
+  for(let size=Math.min(3,words.length);size>=1&&matches.length<2;size--){
+    for(let start=0;start+size<=words.length&&matches.length<2;start++){
+      const indexes=Array.from({length:size},(_,offset)=>start+offset);
+      if(indexes.some(index=>used.has(index)))continue;
+      const terms=indexes.map(index=>words[index]);
+      if(terms.every(term=>ignored.has(term)))continue;
+      const candidate=terms.join('-');
+      const exact=window.PTCGSprites.searchNamesSync(candidate,20).find(row=>row.name===candidate);
+      if(!exact)continue;
+      matches.push(exact.name);
+      indexes.forEach(index=>used.add(index));
+    }
+  }
+  return matches;
+}
+async function spritesForArchetype(value){
+  const sprites=await Promise.all(spriteNamesFromArchetype(value).map(name=>window.PTCGSprites.fetchSprite(name)));
+  return [sprites[0]||null,sprites[1]||null];
+}
+async function applyArchetypeSprites(value){
+  if(!active)return;
+  active.sprites=await spritesForArchetype(value);
+  $('sprite1').value=active.sprites[0]?.name||'';
+  $('sprite2').value=active.sprites[1]?.name||'';
+  markDirty();
+}
 function importPreview(){
   const result=window.PTCGDeckParser.parseDeck($('importDeckText').value||'');
   $('importDeckSummary').textContent=result.totalCards?`${result.totalCards} cards found`:'Paste a deck list to begin';
@@ -269,6 +299,7 @@ async function importDecklist(event){
   const url=sourceUrl($('importDeckSource').value);
   if(!updating||suppliedName)deck.name=suppliedName||suppliedArchetype||'Untitled deck';
   if(!updating||suppliedArchetype)deck.archetype=suppliedArchetype;
+  if(suppliedArchetype)deck.sprites=await spritesForArchetype(suppliedArchetype);
   if(url){deck.sourceType='limitless';deck.sourceUrl=url}
   deck.rawText=rawText;
   const result=await window.PTCGDeckStore.checkpoint(deck,{name:$('importVersionName').value,sourceType:url?'limitless':deck.sourceType,sourceUrl:url||deck.sourceUrl});
@@ -380,7 +411,7 @@ function wireSprite(inputId,listId,slot){
     list.innerHTML=rows.map(row=>`<button type="button" data-sprite="${esc(row.name)}">${esc(row.name)}</button>`).join('');
     if(!q){active.sprites[slot]=null;markDirty()}
   });
-  list.addEventListener('click',event=>{
+  list.addEventListener('click',async event=>{
     const button=event.target.closest('[data-sprite]');
     if(!button)return;
     selectSprite(slot,button.dataset.sprite);
@@ -395,12 +426,12 @@ function wireArchetype(inputId,listId){
   }
   input.addEventListener('focus',render);
   input.addEventListener('input',render);
-  list.addEventListener('click',event=>{
+  list.addEventListener('click',async event=>{
     const button=event.target.closest('[data-archetype]');
     if(!button)return;
     input.value=button.dataset.archetype;
     list.innerHTML='';
-    if(inputId==='deckArchetype')markDirty();
+    if(inputId==='deckArchetype')await applyArchetypeSprites(input.value);
   });
 }
 async function loadArchetypes(){
