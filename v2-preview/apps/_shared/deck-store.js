@@ -156,9 +156,15 @@
   }
   async function checkpoint(deck,options={}){
     const d=await prepare(deck);
-    const existing=d.versions.find(version=>version.listHash===d.listHash);
-    if(existing){d.currentVersionId=existing.id;return {deck:d,version:existing,created:false}}
     const config=typeof options==='string'?{name:options}:options||{};
+    const existing=d.versions.find(version=>version.listHash===d.listHash);
+    if(existing){
+      const nextName=String(config.name||'').trim();
+      const renamed=Boolean(nextName&&nextName!==existing.name);
+      if(renamed)existing.name=nextName;
+      d.currentVersionId=existing.id;
+      return {deck:d,version:existing,created:false,renamed};
+    }
     const ordinal=d.versions.reduce((max,version)=>Math.max(max,Number(version.ordinal)||0),0)+1;
     const version={
       id:uid('version'),
@@ -173,7 +179,7 @@
     };
     d.versions.push(version);
     d.currentVersionId=version.id;
-    return {deck:d,version,created:true};
+    return {deck:d,version,created:true,renamed:false};
   }
   async function cloneWithNewIds(deck,name){
     const source=await prepare(deck),now=Date.now(),versionIds=new Map();

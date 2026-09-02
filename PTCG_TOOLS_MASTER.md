@@ -586,18 +586,20 @@ The import flow is:
 
 1. paste a Limitless/PTCGL-format list or supply a supported Limitless shared-list link;
 2. choose **New Deck** or **Update Existing**;
-3. confirm a user-facing deck name and the separately stored archetype/variant;
+3. confirm a user-facing deck name and select the separately stored archetype/variant from the shared searchable Meta catalogue;
 4. create a new immutable version only when the canonical list hash has changed.
 
 A Deck's name is personal context, for example **“Mega Lucario Hariyama — Card Catcher build”**. Its archetype is analytical classification, for example **Mega Lucario / Hariyama**. Multiple Decks may share an archetype when the user wants independent projects or meaningful forks.
+
+The archetype picker must reuse the exact-variant catalogue derived from current Online and selected-format IRL Meta evidence, augmented by classifications already present in My Decks. Decks must not introduce a second hand-maintained archetype taxonomy.
 
 Decks should retain useful source provenance and provide low-friction handoffs:
 
 - open the source list in Limitless when a source URL exists;
 - copy the exact list in PTCGL/Limitless-compatible text;
-- **Create deck image** by copying that text and opening Limitless PNGGen.
+- **Create deck image** by copying that text and opening Limitless ImgGen at `https://limitlesstcg.com/tools/imggen`.
 
-Do not depend on an undocumented PNGGen prefill URL. Copy-and-open is the durable initial integration unless Limitless publishes a supported mechanism.
+Do not depend on an undocumented ImgGen prefill URL. Copy-and-open is the durable initial integration unless Limitless publishes a supported mechanism.
 
 ### 9.2 Deck detail
 
@@ -606,6 +608,8 @@ Target structure remains approximately:
 **Overview · List · Odds**
 
 with Playtest and physical readiness integrated contextually rather than hidden in unrelated Tools pages.
+
+The List view is the primary compact editor: group cards by Pokémon, Trainer and Energy, show section totals, and provide touch-sized −/+ quantity controls. Raw PTCGL/Limitless text remains available for paste, advanced correction and export, but is not the default reading experience. Prices are not part of this view.
 
 ### 9.3 Deck versions
 
@@ -624,7 +628,7 @@ Rules:
 
 - ordinary edits save the working list without rewriting historical checkpoints;
 - imports and meaningful saves create sequential versions; optional names can record milestones such as “Cup submission” without replacing V1/V2/V3;
-- saving an unchanged list reuses the matching checkpoint instead of creating duplicate list data;
+- saving an unchanged list reuses the matching checkpoint instead of creating duplicate list data; when a new non-empty version name is supplied, it renames that matching checkpoint;
 - future evidence may refer to `deckId + listHash`, with `deckVersionId` included whenever a saved version was selected;
 - working lists remain immediately usable for Odds and testing without forcing checkpoint creation;
 - source URL/type and imported-at provenance may be retained on the Deck and exact version where useful, but do not turn source metadata into a second identity system;
@@ -995,7 +999,7 @@ Any **Scraped** source that becomes essential to a future public application sho
 
 1. **Deck/list foundation — established** — working lists, canonical hashes, named checkpoints and stable relationships.
 2. **Match/Game ingestion contract and native fallback — established** — PTCGL parsing, real opponent/result attribution and manual in-person recording remain available while a supported Training Court export/integration is explored.
-3. **Limitless-backed Deck intake — established** — import as New Deck or Update Existing, separate personal name from archetype, create V1/V2/V3 only for changed hashes, and add source/copy/PNGGen handoffs.
+3. **Limitless-backed Deck intake — established** — import as New Deck or Update Existing, separate personal name from the shared searchable Meta archetype catalogue, create V1/V2/V3 only for changed hashes, provide grouped −/+ list editing, and add source/copy/ImgGen handoffs.
 4. **Event Prep + Expected Field v1 — next** — Interested/Attending flow, evidence-derived editable forecast, candidate archetype comparison and exact planned/used version relationships.
 5. **Mobile Playtest v1** — launch the separate solo/goldfish touch-first tabletop from a DeckVersion or the current Prep candidate/final list.
 6. **Events / Compete maturity** — reliable local/major discovery and stronger tournament-day context.
@@ -1064,7 +1068,7 @@ Do not design for millions of users before real demand exists.
 
 Limitless is an important data source and product reference, particularly for competitive results, decklists, matchups and its Tabletop concept.
 
-For personal Deck workflow, prefer lightweight interoperability over rebuilding its mature deck editor: accept compatible list text or supported shared links, retain provenance, and provide open/copy/PNGGen handoffs. PTCG Tools owns personal Deck identity, immutable revisions and relationships to Prep, Playtest, readiness and evidence.
+For personal Deck workflow, prefer lightweight interoperability over rebuilding its mature deck editor: accept compatible list text or supported shared links, retain provenance, and provide open/copy/ImgGen handoffs. PTCG Tools owns personal Deck identity, immutable revisions and relationships to Prep, Playtest, readiness and evidence.
 
 For community/public use, documented Limitless developer APIs should be preferred over undocumented/scraped endpoints wherever possible. Legitimate public projects can seek API access/higher limits where required.
 

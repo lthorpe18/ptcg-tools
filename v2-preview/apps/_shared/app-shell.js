@@ -13,10 +13,15 @@
   if(body.dataset.ptcgShellReady==='1')return;
   body.dataset.ptcgShellReady='1';
   body.classList.add('ptcg-v2');
+  const embedded=window.top!==window;
+  if(embedded){
+    body.classList.add('ptcg-embedded');
+    body.style.setProperty('padding-bottom','0','important');
+  }
   const active=body.dataset.appSection||'home';
   const labels={home:['⌂','Home'],meta:['◈','Meta'],decks:['▤','Decks'],compete:['◇','Compete'],tools:['⊕','Tools']};
   const hrefs={home:`${root}/`,meta:`${root}/apps/meta/`,decks:`${root}/apps/decklists/`,compete:`${root}/apps/events/`,tools:`${root}/apps/tools/`};
-  if(!document.querySelector('.app-bottom-nav')){
+  if(!embedded&&!document.querySelector('.app-bottom-nav')){
     const nav=document.createElement('nav');
     nav.className='app-bottom-nav';
     nav.setAttribute('aria-label','PTCG Tools');

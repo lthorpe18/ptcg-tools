@@ -7,7 +7,7 @@
   <title>Decks · PTCG Tools</title>
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="decks">
   <header class="app-shell-header">
@@ -88,7 +88,7 @@
             <div class="app-section-head"><h2>Deck identity</h2><p id="deckSummary">—</p></div>
             <div id="workingListStatus" class="working-list-status"><b>Working list</b><span>Loading…</span></div>
             <div class="identity-fields">
-              <label>Archetype<input id="deckArchetype" type="text" placeholder="e.g. Mega Lucario / Hariyama"></label>
+              <label>Archetype<input id="deckArchetype" type="search" placeholder="Search current archetypes…" autocomplete="off"><div id="deckArchetypeSuggestions" class="archetype-suggestions"></div></label>
               <label>Limitless source<input id="deckSourceUrl" type="url" inputmode="url" placeholder="https://my.limitlesstcg.com/…"></label>
             </div>
             <div class="sprite-grid">
@@ -119,9 +119,9 @@
       <section id="tab-list" class="deck-tab" hidden>
         <section class="app-card app-card-pad">
           <div class="app-section-head"><div><h2>Deck list</h2><p>One authoritative editor</p></div><span id="cardCountPill" class="deck-pill">0 cards</span></div>
-          <textarea id="deckText" spellcheck="false" placeholder="Paste a PTCGL or Limitless decklist…"></textarea>
+          <div id="parsedPreview" class="parsed-preview grouped-editor"></div>
           <div class="list-actions"><button id="saveList" class="app-button primary" type="button">Save working list</button><button id="copyList" class="app-button" type="button">Copy for PTCGL</button><button id="copyLimitless" class="app-button" type="button">Copy Limitless format</button></div>
-          <div id="parsedPreview" class="parsed-preview"></div>
+          <details class="raw-list-editor"><summary>Paste or edit raw deck list</summary><textarea id="deckText" spellcheck="false" placeholder="Paste a PTCGL or Limitless decklist…"></textarea></details>
         </section>
       </section>
 
@@ -151,7 +151,7 @@
         <label class="import-field">Deck list<textarea id="importDeckText" spellcheck="false" placeholder="Paste the list exported from Limitless or PTCGL…"></textarea><small id="importDeckSummary">Paste a deck list to begin</small></label>
         <div class="import-grid">
           <label class="import-field">Name<input id="importDeckName" type="text" placeholder="Mega Lucario Hariyama"></label>
-          <label class="import-field">Archetype<input id="importDeckArchetype" type="text" placeholder="Mega Lucario / Hariyama"></label>
+          <label class="import-field archetype-field">Archetype<input id="importDeckArchetype" type="search" placeholder="Search current archetypes…" autocomplete="off"><div id="importArchetypeSuggestions" class="archetype-suggestions"></div><small id="archetypeCatalogStatus">Loading Online + IRL archetypes…</small></label>
         </div>
         <label class="import-field">Limitless source link <span>optional</span><input id="importDeckSource" type="url" inputmode="url" placeholder="https://my.limitlesstcg.com/…"></label>
         <label class="import-field">Version name <span>optional</span><input id="importVersionName" type="text" placeholder="e.g. Card Catcher testing"></label>
@@ -202,10 +202,11 @@
   <script src="../_shared/deckParser.js?v=2"></script>
   <script src="../_shared/sprites.js"></script>
   <script src="../_shared/deck-store.js?v=5"></script>
+  <script src="../_shared/archetype-catalog.js?v=1"></script>
   <script src="../_shared/match-store.js?v=1"></script>
   <script src="ptcgl-log-parser.js?v=1"></script>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
   <script src="training.js?v=2"></script>
-  <script src="../_shared/app-shell.js?v=6"></script>
+  <script src="../_shared/app-shell.js?v=7"></script>
 </body>
 </html>

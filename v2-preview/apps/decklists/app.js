@@ -128,10 +128,34 @@ function renderVersions(){
 }
 function renderPreview(parsedDeck){
   const sections=[['pokemon','Pokémon'],['trainers','Trainers'],['energy','Energy'],['unknown','Other']];
-  $('parsedPreview').innerHTML=sections.filter(([key])=>parsedDeck.sections[key]?.length).map(([key,label])=>`
-    <div class="parsed-section"><h3>${label}</h3>
-      ${parsedDeck.sections[key].map(card=>`<div class="parsed-card"><span>${esc(card.name)}</span><b>${card.count}</b></div>`).join('')}
-    </div>`).join('');
+  const visible=sections.filter(([key])=>parsedDeck.sections[key]?.length);
+  if(!visible.length){
+    $('parsedPreview').innerHTML='<div class="app-empty"><strong>No cards yet</strong><p>Paste a PTCGL or Limitless list below to start editing.</p></div>';
+    return;
+  }
+  $('parsedPreview').innerHTML=visible.map(([key,label])=>`
+    <section class="parsed-section ${key}"><h3><span>${label}</span><span>${parsedDeck.totals[key]||0}</span></h3>
+      ${parsedDeck.sections[key].map(card=>{
+        const index=parsedDeck.cards.indexOf(card),print=[card.set,card.number].filter(Boolean).join(' ');
+        return `<div class="parsed-card"><div class="parsed-card-copy"><b>${esc(card.name)}</b>${print?`<small>${esc(print)}</small>`:''}</div><div class="quantity-editor"><button type="button" data-card-change="-1" data-card-index="${index}" aria-label="Remove one ${esc(card.name)}">−</button><output>${card.count}</output><button type="button" data-card-change="1" data-card-index="${index}" aria-label="Add one ${esc(card.name)}">+</button></div></div>`;
+      }).join('')}
+    </section>`).join('');
+}
+function serialiseCards(parsedDeck){
+  const groups=[['pokemon','Pokémon'],['trainers','Trainer'],['energy','Energy'],['unknown','Other']];
+  return groups.map(([key,label])=>{
+    const cards=parsedDeck.cards.filter(card=>card.section===key&&card.count>0);
+    if(!cards.length)return '';
+    const total=cards.reduce((sum,card)=>sum+card.count,0);
+    return `${label}: ${total}\n${cards.map(card=>`${card.count} ${card.name}${card.set?` ${card.set}`:''}${card.number?` ${card.number}`:''}`).join('\n')}`;
+  }).filter(Boolean).join('\n\n');
+}
+function changeCardCount(index,delta){
+  const parsedDeck=parsed(),card=parsedDeck.cards[Number(index)];
+  if(!card)return;
+  card.count=Math.max(0,Math.min(60,Number(card.count||0)+Number(delta||0)));
+  $('deckText').value=serialiseCards(parsedDeck);
+  markDirty();
 }
 function cardOptions(parsedDeck){
   const cards=new Map();
@@ -252,7 +276,7 @@ async function importDecklist(event){
   closeSheets();
   await refresh();
   await openDeck(saved.id);
-  toast(result.created?`${versionTitle(result.version)} saved`:`Already saved as ${versionTitle(result.version)}`);
+  toast(result.created?`${versionTitle(result.version)} saved`:result.renamed?`${versionTitle(result.version)} renamed`:`Already saved as ${versionTitle(result.version)}`);
 }
 async function saveCheckpoint(){
   if(!active)return;
@@ -266,7 +290,7 @@ async function saveCheckpoint(){
   $('versionLabel').value='';
   dirty=false;
   renderDeck();
-  toast(result.created?`Version saved: ${versionTitle(result.version)}`:`Already saved as ${versionTitle(result.version)}`);
+  toast(result.created?`Version saved: ${versionTitle(result.version)}`:result.renamed?`${versionTitle(result.version)} renamed`:`Already saved as ${versionTitle(result.version)}`);
   await refresh();
 }
 async function duplicate(){
@@ -333,8 +357,8 @@ async function copyLimitless(){
   try{await navigator.clipboard.writeText(toLimitless());toast('Limitless list copied')}catch{toast('Clipboard unavailable')}
 }
 async function createDeckImage(){
-  const target=window.open('https://limitlesstcg.com/tools/pnggen','_blank','noopener');
-  try{await navigator.clipboard.writeText(toLimitless());toast('List copied — paste it into PNGGen')}catch{toast(target?'PNGGen opened; copy the list manually':'Clipboard unavailable')}
+  const target=window.open('https://limitlesstcg.com/tools/imggen','_blank','noopener');
+  try{await navigator.clipboard.writeText(toLimitless());toast('List copied — paste it into ImgGen')}catch{toast(target?'ImgGen opened; copy the list manually':'Clipboard unavailable')}
 }
 function openLimitless(){
   let url;
@@ -362,6 +386,33 @@ function wireSprite(inputId,listId,slot){
     selectSprite(slot,button.dataset.sprite);
     list.innerHTML='';
   });
+}
+function wireArchetype(inputId,listId){
+  const input=$(inputId),list=$(listId);
+  function render(){
+    const rows=window.PTCGArchetypes?.search(input.value,12)||[];
+    list.innerHTML=rows.map(row=>`<button type="button" data-archetype="${esc(row.name)}">${esc(row.name)}<small>${esc(row.sources.join(' + '))}</small></button>`).join('');
+  }
+  input.addEventListener('focus',render);
+  input.addEventListener('input',render);
+  list.addEventListener('click',event=>{
+    const button=event.target.closest('[data-archetype]');
+    if(!button)return;
+    input.value=button.dataset.archetype;
+    list.innerHTML='';
+    if(inputId==='deckArchetype')markDirty();
+  });
+}
+async function loadArchetypes(){
+  const status=$('archetypeCatalogStatus');
+  try{
+    const rows=await window.PTCGArchetypes.load();
+    window.PTCGArchetypes.mergeSaved(decks.map(deck=>deck.archetype));
+    status.textContent=rows.length?`${rows.length} current Online + IRL archetypes`:'Use an archetype already saved in My Decks';
+  }catch{
+    window.PTCGArchetypes?.mergeSaved(decks.map(deck=>deck.archetype));
+    status.textContent='Using archetypes from My Decks';
+  }
 }
 async function useVersion(versionId){
   const version=active?.versions.find(item=>item.id===versionId);
@@ -397,6 +448,7 @@ function events(){
   $('deckArchetype').addEventListener('input',markDirty);
   $('deckSourceUrl').addEventListener('input',markDirty);
   $('deckText').addEventListener('input',markDirty);
+  $('parsedPreview').addEventListener('click',event=>{const button=event.target.closest('[data-card-change]');if(button)changeCardCount(button.dataset.cardIndex,button.dataset.cardChange)});
   $('saveDeck').addEventListener('click',saveActive);
   $('saveList').addEventListener('click',saveActive);
   $('saveVersion').addEventListener('click',saveCheckpoint);
@@ -421,6 +473,8 @@ function events(){
   $('startBlankDeck').addEventListener('click',async()=>{closeSheets();await createDeck()});
   wireSprite('sprite1','sprite1Suggestions',0);
   wireSprite('sprite2','sprite2Suggestions',1);
+  wireArchetype('deckArchetype','deckArchetypeSuggestions');
+  wireArchetype('importDeckArchetype','importArchetypeSuggestions');
 }
 async function init(){
   await window.PTCGDeckStore.open();
@@ -428,6 +482,7 @@ async function init(){
   events();
   unsubscribeStore=window.PTCGDeckStore.subscribe(()=>handleExternalDeckChange().catch(console.error));
   await refresh();
+  await loadArchetypes();
   const query=new URLSearchParams(location.search).get('deck');
   if(query)openDeck(query);
 }
