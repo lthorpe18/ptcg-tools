@@ -60,7 +60,7 @@ async function hydratePokemonStages(cards){
   writeMetaCache(cache);
   const unresolved=cards.filter(isPokemon).filter(card=>!card.stage);
   if(unresolved.length){const names=[...new Set(unresolved.map(card=>card.name))].slice(0,4).join(', ');throw new Error(`Could not identify Pokémon stages for ${names}${unresolved.length>4?'…':''}. Try again while online.`)}
-  if(!cards.some(isBasic))throw new Error('This deck has no Basic Pokémon, so it cannot produce a legal opening hand.');
+  if(!cards.some(isBasic))throw new Error('This deck has no Basic Pokémon, so Playtest cannot generate an opening hand.');
 }
 
 function expandDeck(rawText){
@@ -113,7 +113,7 @@ function selectionTargets(){
   const card=selection&&cardById(selection.cardId);if(!card)return {cards:new Set(),zones:new Set()};
   const from=sourceZone(card.id),cards=new Set(),zones=new Set();
   if(from==='hand'){
-    if(isPokemon(card)){if(isBasic(card)){if(!zone('active').length)zones.add('active');if(zone('bench').length<BENCH_SIZE)zones.add('bench')}else fieldIds().forEach(id=>cards.add(id))}
+    if(isPokemon(card)){if(!zone('active').length)zones.add('active');if(zone('bench').length<BENCH_SIZE)zones.add('bench');fieldIds().forEach(id=>cards.add(id))}
     else if(isEnergy(card)){fieldIds().forEach(id=>cards.add(id))}
     else if(isTrainer(card)){zones.add('discard');zones.add('stadium')}
     else {zones.add('discard')}
@@ -137,7 +137,7 @@ function resolveCardTarget(targetId){
   if(!selection)return false;const selected=cardById(selection.cardId),target=cardById(targetId);if(!selected||!target)return false;
   const targets=selectionTargets();if(!targets.cards.has(targetId))return false;
   const from=sourceZone(selected.id);
-  if(from==='hand'&&isPokemon(selected)&&!isBasic(selected)){evolveCard(selected.id,targetId);return true}
+  if(from==='hand'&&isPokemon(selected)){evolveCard(selected.id,targetId);return true}
   if(from==='hand'&&isEnergy(selected)){attachCard(selected.id,targetId);return true}
   if(from==='attached'){attachCard(selected.id,targetId);return true}
   if(['active','bench'].includes(from)){return swapField(selected.id,targetId)}
@@ -163,7 +163,7 @@ function renderSelection(){
   if(!selection){bar.hidden=true;return}
   const card=cardById(selection.cardId),from=sourceZone(selection.cardId),targets=selectionTargets();if(!card){selection=null;bar.hidden=true;return}
   bar.hidden=false;$('selectionName').textContent=card.name;
-  $('selectionHint').textContent=from==='hand'&&isPokemon(card)?(isBasic(card)?'Tap Active or an empty Bench slot':'Tap a Pokémon in play to evolve'):from==='hand'&&isEnergy(card)?'Tap a Pokémon to attach':from==='hand'&&isTrainer(card)?'Tap Stadium or Discard to play':'Tap a highlighted destination';
+  $('selectionHint').textContent=from==='hand'&&isPokemon(card)?'Tap an empty slot to play, or a Pokémon to evolve':from==='hand'&&isEnergy(card)?'Tap a Pokémon to attach':from==='hand'&&isTrainer(card)?'Tap Stadium or Discard to play':'Tap a highlighted destination';
   document.querySelector(`[data-card-id="${CSS.escape(card.id)}"]`)?.classList.add('is-selected');
   targets.cards.forEach(id=>document.querySelectorAll(`[data-card-id="${CSS.escape(id)}"]`).forEach(el=>el.classList.add('is-target')));
   targets.zones.forEach(key=>document.querySelectorAll(`[data-zone-button="${key}"],[data-zone-target="${key}"]`).forEach(el=>el.classList.add('is-target')));
@@ -175,7 +175,7 @@ function render(){
   $('deckIdentity').textContent=`${versionText} · ${Number(state.mulligans||0)} mulligan${Number(state.mulligans||0)===1?'':'s'}`;
   $('turnNumber').textContent=state.turn;$('coinResult').textContent=state.coin||'Coin';
   const active=zone('active').map(cardById).filter(Boolean),stadium=zone('stadium').map(cardById).filter(Boolean);
-  $('activeContent').innerHTML=active.length?active.map(card=>fieldCard(card,'active')).join(''):'<span class="empty-slot">Tap a Basic Pokémon from your hand</span>';
+  $('activeContent').innerHTML=active.length?active.map(card=>fieldCard(card,'active')).join(''):'<span class="empty-slot">Tap a card from your hand</span>';
   $('stadiumContent').innerHTML=stadium.length?stadium.map(card=>fieldCard(card,'stadium')).join(''):'<span class="empty-slot">Empty</span>';
   const bench=zone('bench').map(cardById).filter(Boolean),emptyCount=Math.max(0,BENCH_SIZE-bench.length);$('benchCount').textContent=bench.length;$('benchZone').innerHTML=bench.map(card=>fieldCard(card,'bench')).join('')+Array.from({length:emptyCount},(_,i)=>emptyBenchSlot(i)).join('');
   const hand=zone('hand').map(cardById).filter(Boolean);$('handCount').textContent=hand.length;$('handZone').innerHTML=hand.length?hand.map(handCard).join(''):'<div class="hand-empty">Hand empty</div>';
@@ -201,8 +201,7 @@ function openCardSheet(cardId){
   const field=['active','bench'].includes(from),attached=attachmentsFor(cardId),under=underCards(cardId);
   const fieldActions=field?`<div class="sheet-section-title">On the field</div><div class="action-grid"><button type="button" data-damage="-10" data-card-id="${esc(cardId)}">−10 damage</button><button type="button" data-damage="10" data-card-id="${esc(cardId)}">+10 damage</button><button type="button" class="wide" data-rotate-card="${esc(cardId)}">${card.rotated?'Untap / straighten':'Tap / rotate'}</button></div>`:'';
   const extras=[...under,...attached];const extraInfo=extras.length?`<div class="sheet-section-title">Under / attached</div><div class="zone-list">${extras.map(zoneRow).join('')}</div>`:'';
-  const stage=isPokemon(card)&&card.stage?` · ${card.stage}`:'';
-  openSheet(card.name,'CARD',`${zoneName(from)}${cardMeta(card)?` · ${cardMeta(card)}`:''}${stage}`,`<div class="card-sheet-layout"><div class="sheet-card-preview">${cardFrame(card)}</div><div class="action-grid">${buttons.join('')}</div></div>${fieldActions}${extraInfo}`)
+  openSheet(card.name,'CARD',`${zoneName(from)}${cardMeta(card)?` · ${cardMeta(card)}`:''}`,`<div class="card-sheet-layout"><div class="sheet-card-preview">${cardFrame(card)}</div><div class="action-grid">${buttons.join('')}</div></div>${fieldActions}${extraInfo}`)
 }
 function zoneRow(card){return `<button type="button" class="zone-row" data-card-id="${esc(card.id)}"><img class="zone-thumb" src="${esc(imageUrl(card))}" alt="" loading="lazy"><span class="zone-copy"><strong>${esc(card.name)}</strong><small>${esc(cardMeta(card))}</small></span><span class="row-count">›</span></button>`}
 function openZoneSheet(key){
