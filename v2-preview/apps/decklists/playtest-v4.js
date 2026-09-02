@@ -3,7 +3,8 @@
 
 const $=id=>document.getElementById(id);
 const ACTIVE_KEY='ptcg-tools.playtest.active.v2';
-const STATE_VERSION=2;
+const CARD_META_KEY='ptcg-tools.card-meta.v1';
+const STATE_VERSION=3;
 const MAX_UNDO=40;
 const BENCH_SIZE=5;
 let launch=null,state=null,undoStack=[],selection=null;
@@ -25,20 +26,59 @@ function cardMeta(card){return [card?.set,card?.number].filter(Boolean).join(' '
 function isPokemon(card){return card?.section==='pokemon'}
 function isEnergy(card){return card?.section==='energy'}
 function isTrainer(card){return card?.section==='trainers'}
+function isBasic(card){return isPokemon(card)&&String(card?.stage||'').toLowerCase()==='basic'}
 function fieldIds(){return [...zone('active'),...zone('bench')]}
 function attachmentsFor(cardId){return zone('attached').map(cardById).filter(card=>card?.attachedTo===cardId)}
 function underCards(cardId){return zone('under').map(cardById).filter(card=>card?.stackedUnder===cardId)}
 
+function readMetaCache(){try{return JSON.parse(localStorage.getItem(CARD_META_KEY)||'{}')||{}}catch{return {}}}
+function writeMetaCache(cache){try{localStorage.setItem(CARD_META_KEY,JSON.stringify(cache))}catch{}}
+function metadataKey(card){return [setCode(card),String(card?.number||'').trim(),String(card?.name||'').trim().toLowerCase()].join('|')}
+async function fetchPokemonMetadata(card){
+  const set=setCode(card),number=String(card?.number||'').trim(),name=String(card?.name||'').trim();
+  const select='name,number,supertype,subtypes,set';
+  const queries=[];
+  if(set&&number)queries.push(`set.ptcgoCode:${set} number:${number}`);
+  if(name)queries.push(`name:\"${name.replace(/\"/g,'')}\"`);
+  for(const q of queries){
+    const url=`https://api.pokemontcg.io/v2/cards?q=${encodeURIComponent(q)}&pageSize=20&select=${encodeURIComponent(select)}`;
+    const response=await fetch(url,{cache:'force-cache'});if(!response.ok)continue;
+    const body=await response.json(),rows=Array.isArray(body?.data)?body.data:[];
+    const exact=rows.find(row=>String(row?.name||'').toLowerCase()===name.toLowerCase()&&(!number||String(row?.number||'')===number))||rows.find(row=>String(row?.name||'').toLowerCase()===name.toLowerCase())||rows[0];
+    if(exact?.supertype==='Pokémon')return {stage:(exact.subtypes||[]).find(value=>['Basic','Stage 1','Stage 2','VMAX','VSTAR','V-UNION','Mega Evolution','BREAK Evolution','Restored','LEGEND'].includes(value))||null};
+  }
+  return null;
+}
+async function hydratePokemonStages(cards){
+  const cache=readMetaCache(),unique=new Map();
+  cards.filter(isPokemon).forEach(card=>{const key=metadataKey(card);if(!unique.has(key))unique.set(key,card)});
+  await Promise.all([...unique.entries()].map(async([key,card])=>{
+    let meta=cache[key];
+    if(!meta?.stage){try{meta=await fetchPokemonMetadata(card)}catch{meta=null}if(meta?.stage){cache[key]={...meta,updatedAt:Date.now()}}}
+    if(meta?.stage)cards.filter(row=>metadataKey(row)===key).forEach(row=>row.stage=meta.stage);
+  }));
+  writeMetaCache(cache);
+  const unresolved=cards.filter(isPokemon).filter(card=>!card.stage);
+  if(unresolved.length){const names=[...new Set(unresolved.map(card=>card.name))].slice(0,4).join(', ');throw new Error(`Could not identify Pokémon stages for ${names}${unresolved.length>4?'…':''}. Try again while online.`)}
+  if(!cards.some(isBasic))throw new Error('This deck has no Basic Pokémon, so it cannot produce a legal opening hand.');
+}
+
 function expandDeck(rawText){
   const parsed=window.PTCGDeckParser.parseDeck(rawText||''),cards=[];
-  parsed.cards.forEach((row,rowIndex)=>{for(let copy=0;copy<Number(row.count||0);copy++)cards.push({id:`c_${rowIndex}_${copy}_${Math.random().toString(36).slice(2,6)}`,name:row.name||'Unknown card',set:row.set||null,number:row.number||null,section:row.section||'unknown',damage:0,markers:[],rotated:false,attachedTo:null,stackedUnder:null})});
+  parsed.cards.forEach((row,rowIndex)=>{for(let copy=0;copy<Number(row.count||0);copy++)cards.push({id:`c_${rowIndex}_${copy}_${Math.random().toString(36).slice(2,6)}`,name:row.name||'Unknown card',set:row.set||null,number:row.number||null,section:row.section||'unknown',stage:null,damage:0,markers:[],rotated:false,attachedTo:null,stackedUnder:null})});
   return cards;
 }
 function shuffled(ids){const copy=[...ids];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
-function newState(payload){
+function dealOpeningHand(cards){
+  const allIds=cards.map(card=>card.id);let mulligans=0,deckIds,hand;
+  do{deckIds=shuffled(allIds);hand=deckIds.splice(0,Math.min(7,deckIds.length));if(hand.some(id=>isBasic(cards.find(card=>card.id===id))))break;mulligans+=1;if(mulligans>500)throw new Error('Could not generate a valid opening hand.')}while(true);
+  const prizes=deckIds.splice(0,Math.min(6,deckIds.length));return {deckIds,hand,prizes,mulligans};
+}
+async function newState(payload){
   const cards=expandDeck(payload.rawText);if(!cards.length)throw new Error('This list has no cards to playtest.');
-  const deckIds=shuffled(cards.map(card=>card.id)),hand=deckIds.splice(0,Math.min(7,deckIds.length)),prizes=deckIds.splice(0,Math.min(6,deckIds.length));
-  return {stateVersion:STATE_VERSION,sessionId:uid('playtest'),startedAt:new Date().toISOString(),updatedAt:new Date().toISOString(),source:payload.source||'working-list',identity:clone(payload.identity),turn:1,coin:null,cards,zones:{deck:deckIds,hand,active:[],bench:[],discard:[],lost:[],prizes,stadium:[],attached:[],under:[]},history:[{at:Date.now(),text:`Set up 7-card hand and ${prizes.length} prizes`}]};
+  await hydratePokemonStages(cards);
+  const {deckIds,hand,prizes,mulligans}=dealOpeningHand(cards);
+  return {stateVersion:STATE_VERSION,sessionId:uid('playtest'),startedAt:new Date().toISOString(),updatedAt:new Date().toISOString(),source:payload.source||'working-list',identity:clone(payload.identity),turn:1,coin:null,mulligans,cards,zones:{deck:deckIds,hand,active:[],bench:[],discard:[],lost:[],prizes,stadium:[],attached:[],under:[]},history:[{at:Date.now(),text:`Opening hand ready after ${mulligans} mulligan${mulligans===1?'':'s'}`},{at:Date.now(),text:`Set up 7-card hand and ${prizes.length} prizes`}]};
 }
 function loadPersisted(payload){
   try{const saved=JSON.parse(localStorage.getItem(ACTIVE_KEY)||'null');if(saved&&saved.stateVersion===STATE_VERSION&&identityKey(saved.identity)===identityKey(payload.identity)&&Array.isArray(saved.cards)&&saved.zones){if(!Array.isArray(saved.zones.attached))saved.zones.attached=[];if(!Array.isArray(saved.zones.under))saved.zones.under=[];saved.cards.forEach(card=>{if(!('stackedUnder' in card))card.stackedUnder=null});return saved}}catch{}return null;
@@ -73,7 +113,7 @@ function selectionTargets(){
   const card=selection&&cardById(selection.cardId);if(!card)return {cards:new Set(),zones:new Set()};
   const from=sourceZone(card.id),cards=new Set(),zones=new Set();
   if(from==='hand'){
-    if(isPokemon(card)){if(!zone('active').length)zones.add('active');if(zone('bench').length<BENCH_SIZE)zones.add('bench');fieldIds().forEach(id=>cards.add(id))}
+    if(isPokemon(card)){if(isBasic(card)){if(!zone('active').length)zones.add('active');if(zone('bench').length<BENCH_SIZE)zones.add('bench')}else fieldIds().forEach(id=>cards.add(id))}
     else if(isEnergy(card)){fieldIds().forEach(id=>cards.add(id))}
     else if(isTrainer(card)){zones.add('discard');zones.add('stadium')}
     else {zones.add('discard')}
@@ -97,7 +137,7 @@ function resolveCardTarget(targetId){
   if(!selection)return false;const selected=cardById(selection.cardId),target=cardById(targetId);if(!selected||!target)return false;
   const targets=selectionTargets();if(!targets.cards.has(targetId))return false;
   const from=sourceZone(selected.id);
-  if(from==='hand'&&isPokemon(selected)){evolveCard(selected.id,targetId);return true}
+  if(from==='hand'&&isPokemon(selected)&&!isBasic(selected)){evolveCard(selected.id,targetId);return true}
   if(from==='hand'&&isEnergy(selected)){attachCard(selected.id,targetId);return true}
   if(from==='attached'){attachCard(selected.id,targetId);return true}
   if(['active','bench'].includes(from)){return swapField(selected.id,targetId)}
@@ -123,16 +163,19 @@ function renderSelection(){
   if(!selection){bar.hidden=true;return}
   const card=cardById(selection.cardId),from=sourceZone(selection.cardId),targets=selectionTargets();if(!card){selection=null;bar.hidden=true;return}
   bar.hidden=false;$('selectionName').textContent=card.name;
-  $('selectionHint').textContent=from==='hand'&&isPokemon(card)?'Tap an empty slot to play, or a Pokémon to evolve':from==='hand'&&isEnergy(card)?'Tap a Pokémon to attach':from==='hand'&&isTrainer(card)?'Tap Stadium or Discard to play':'Tap a highlighted destination';
+  $('selectionHint').textContent=from==='hand'&&isPokemon(card)?(isBasic(card)?'Tap Active or an empty Bench slot':'Tap a Pokémon in play to evolve'):from==='hand'&&isEnergy(card)?'Tap a Pokémon to attach':from==='hand'&&isTrainer(card)?'Tap Stadium or Discard to play':'Tap a highlighted destination';
   document.querySelector(`[data-card-id="${CSS.escape(card.id)}"]`)?.classList.add('is-selected');
   targets.cards.forEach(id=>document.querySelectorAll(`[data-card-id="${CSS.escape(id)}"]`).forEach(el=>el.classList.add('is-target')));
   targets.zones.forEach(key=>document.querySelectorAll(`[data-zone-button="${key}"],[data-zone-target="${key}"]`).forEach(el=>el.classList.add('is-target')));
 }
 function render(){
   if(!state)return;
-  $('deckTitle').textContent=state.identity.deckName||'Playtest';$('deckIdentity').textContent=state.identity.deckVersionId?(state.identity.versionLabel||'Saved version'):'Working list';$('turnNumber').textContent=state.turn;$('coinResult').textContent=state.coin||'Coin';
+  $('deckTitle').textContent=state.identity.deckName||'Playtest';
+  const versionText=state.identity.deckVersionId?(state.identity.versionLabel||'Saved version'):'Working list';
+  $('deckIdentity').textContent=`${versionText} · ${Number(state.mulligans||0)} mulligan${Number(state.mulligans||0)===1?'':'s'}`;
+  $('turnNumber').textContent=state.turn;$('coinResult').textContent=state.coin||'Coin';
   const active=zone('active').map(cardById).filter(Boolean),stadium=zone('stadium').map(cardById).filter(Boolean);
-  $('activeContent').innerHTML=active.length?active.map(card=>fieldCard(card,'active')).join(''):'<span class="empty-slot">Tap a card from your hand</span>';
+  $('activeContent').innerHTML=active.length?active.map(card=>fieldCard(card,'active')).join(''):'<span class="empty-slot">Tap a Basic Pokémon from your hand</span>';
   $('stadiumContent').innerHTML=stadium.length?stadium.map(card=>fieldCard(card,'stadium')).join(''):'<span class="empty-slot">Empty</span>';
   const bench=zone('bench').map(cardById).filter(Boolean),emptyCount=Math.max(0,BENCH_SIZE-bench.length);$('benchCount').textContent=bench.length;$('benchZone').innerHTML=bench.map(card=>fieldCard(card,'bench')).join('')+Array.from({length:emptyCount},(_,i)=>emptyBenchSlot(i)).join('');
   const hand=zone('hand').map(cardById).filter(Boolean);$('handCount').textContent=hand.length;$('handZone').innerHTML=hand.length?hand.map(handCard).join(''):'<div class="hand-empty">Hand empty</div>';
@@ -158,7 +201,8 @@ function openCardSheet(cardId){
   const field=['active','bench'].includes(from),attached=attachmentsFor(cardId),under=underCards(cardId);
   const fieldActions=field?`<div class="sheet-section-title">On the field</div><div class="action-grid"><button type="button" data-damage="-10" data-card-id="${esc(cardId)}">−10 damage</button><button type="button" data-damage="10" data-card-id="${esc(cardId)}">+10 damage</button><button type="button" class="wide" data-rotate-card="${esc(cardId)}">${card.rotated?'Untap / straighten':'Tap / rotate'}</button></div>`:'';
   const extras=[...under,...attached];const extraInfo=extras.length?`<div class="sheet-section-title">Under / attached</div><div class="zone-list">${extras.map(zoneRow).join('')}</div>`:'';
-  openSheet(card.name,'CARD',`${zoneName(from)}${cardMeta(card)?` · ${cardMeta(card)}`:''}`,`<div class="card-sheet-layout"><div class="sheet-card-preview">${cardFrame(card)}</div><div class="action-grid">${buttons.join('')}</div></div>${fieldActions}${extraInfo}`)
+  const stage=isPokemon(card)&&card.stage?` · ${card.stage}`:'';
+  openSheet(card.name,'CARD',`${zoneName(from)}${cardMeta(card)?` · ${cardMeta(card)}`:''}${stage}`,`<div class="card-sheet-layout"><div class="sheet-card-preview">${cardFrame(card)}</div><div class="action-grid">${buttons.join('')}</div></div>${fieldActions}${extraInfo}`)
 }
 function zoneRow(card){return `<button type="button" class="zone-row" data-card-id="${esc(card.id)}"><img class="zone-thumb" src="${esc(imageUrl(card))}" alt="" loading="lazy"><span class="zone-copy"><strong>${esc(card.name)}</strong><small>${esc(cardMeta(card))}</small></span><span class="row-count">›</span></button>`}
 function openZoneSheet(key){
@@ -168,11 +212,11 @@ function openZoneSheet(key){
 }
 function openSearchDeck(){const grouped=new Map();zone('deck').forEach(id=>{const card=cardById(id),key=[card.name,card.set||'',card.number||''].join('|');if(!grouped.has(key))grouped.set(key,{card,ids:[]});grouped.get(key).ids.push(id)});const rows=[...grouped.values()].sort((a,b)=>a.card.name.localeCompare(b.card.name));openSheet('Search Deck','DECK',`${zone('deck').length} cards remaining`,rows.length?`<p class="sheet-note">Tap a card to move one copy to hand. Shuffle separately when finished.</p><div class="search-list">${rows.map(row=>`<button type="button" class="search-row" data-search-card="${esc(row.ids[0])}"><img class="search-thumb" src="${esc(imageUrl(row.card))}" alt="" loading="lazy"><span class="search-copy"><strong>${esc(row.card.name)}</strong><small>${esc(cardMeta(row.card))}</small></span><span class="row-count">×${row.ids.length}</span></button>`).join('')}</div>`:'<p class="sheet-note">Deck is empty.</p>')}
 function takePrize(index){const id=zone('prizes')[Number(index)];if(!id)return;mutate(`Took prize ${Number(index)+1}`,()=>{state.zones.prizes.splice(Number(index),1);state.zones.hand.push(id)});closeSheet();toast('Prize taken')}
-function openMenu(){const history=(state.history||[]).slice(0,12).map(entry=>`<div class="history-row">${esc(entry.text)}</div>`).join('')||'<div class="history-row">No actions yet.</div>';openSheet('Tabletop','PLAYTEST',`${state.identity.deckName||'Deck'} · turn ${state.turn}`,`<div class="menu-grid"><button type="button" data-menu-action="coin">Flip coin</button><button type="button" data-menu-action="shuffle">Shuffle deck</button><button type="button" data-menu-action="undo">Undo</button><button type="button" data-menu-action="reset">Fresh setup</button></div><div class="sheet-section-title">Recent actions</div><div class="history-list">${history}</div>`)}
-function resetGame(){if(!launch||!confirm('Start a fresh setup with this exact list?'))return;undoStack=[];selection=null;state=newState(launch);persist();render();closeSheet();toast('Fresh setup')}
+function openMenu(){const history=(state.history||[]).slice(0,12).map(entry=>`<div class="history-row">${esc(entry.text)}</div>`).join('')||'<div class="history-row">No actions yet.</div>';openSheet('Tabletop','PLAYTEST',`${state.identity.deckName||'Deck'} · ${Number(state.mulligans||0)} mulligan${Number(state.mulligans||0)===1?'':'s'} · turn ${state.turn}`,`<div class="menu-grid"><button type="button" data-menu-action="coin">Flip coin</button><button type="button" data-menu-action="shuffle">Shuffle deck</button><button type="button" data-menu-action="undo">Undo</button><button type="button" data-menu-action="reset">Fresh setup</button></div><div class="sheet-section-title">Recent actions</div><div class="history-list">${history}</div>`)}
+async function resetGame(){if(!launch||!confirm('Start a fresh setup with this exact list?'))return;undoStack=[];selection=null;state=await newState(launch);persist();render();closeSheet();toast(`${state.mulligans} mulligan${state.mulligans===1?'':'s'}`)}
 
 function bind(){
-  ensureSelectionBar();$('drawButton').addEventListener('click',()=>draw(1));$('searchButton').addEventListener('click',openSearchDeck);$('shuffleButton').addEventListener('click',shuffleDeck);$('coinButton').addEventListener('click',coinFlip);$('undoButton').addEventListener('click',undo);$('endTurn').addEventListener('click',endTurn);$('resetButton').addEventListener('click',resetGame);$('menuButton').addEventListener('click',openMenu);
+  ensureSelectionBar();$('drawButton').addEventListener('click',()=>draw(1));$('searchButton').addEventListener('click',openSearchDeck);$('shuffleButton').addEventListener('click',shuffleDeck);$('coinButton').addEventListener('click',coinFlip);$('undoButton').addEventListener('click',undo);$('endTurn').addEventListener('click',endTurn);$('resetButton').addEventListener('click',()=>resetGame());$('menuButton').addEventListener('click',openMenu);
   $('backButton').addEventListener('click',()=>{if(launch?.returnUrl){location.href=launch.returnUrl;return}if(history.length>1)history.back();else location.href='./'});
   document.addEventListener('error',event=>{const img=event.target;if(img?.classList?.contains('card-art'))img.closest('.card-frame')?.classList.add('image-error');if(img?.classList?.contains('search-thumb')||img?.classList?.contains('zone-thumb'))img.style.visibility='hidden'},true);
   document.addEventListener('click',event=>{
@@ -189,6 +233,6 @@ function bind(){
   })
 }
 async function fallbackLaunch(){const params=new URLSearchParams(location.search),deckId=params.get('deck'),deckVersionId=params.get('version');if(!deckId)return null;return window.PTCGPlaytestLaunch.build({deckId,deckVersionId,source:deckVersionId?'deck-version':'working-list'})}
-async function init(){try{await window.PTCGDeckStore.open();launch=window.PTCGPlaytestLaunch.read()||await fallbackLaunch();if(!launch)throw new Error('Open Playtest from a Deck or Event Prep so the exact list is known.');state=loadPersisted(launch)||newState(launch);persist();bind();render();$('playtestApp').hidden=false;$('handTray').hidden=false;$('zoneDock').hidden=false}catch(error){console.error(error);$('fatal').textContent=error.message||'Playtest could not start.';$('fatal').hidden=false}}
+async function init(){try{await window.PTCGDeckStore.open();launch=window.PTCGPlaytestLaunch.read()||await fallbackLaunch();if(!launch)throw new Error('Open Playtest from a Deck or Event Prep so the exact list is known.');state=loadPersisted(launch)||await newState(launch);persist();bind();render();$('playtestApp').hidden=false;$('handTray').hidden=false;$('zoneDock').hidden=false;if(state.mulligans)toast(`${state.mulligans} mulligan${state.mulligans===1?'':'s'}`)}catch(error){console.error(error);$('fatal').textContent=error.message||'Playtest could not start.';$('fatal').hidden=false}}
 init();
 })();
