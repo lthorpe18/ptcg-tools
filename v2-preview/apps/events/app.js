@@ -8,7 +8,9 @@
   const MONTHS='january|february|march|april|may|june|july|august|september|october|november|december';
   const ORGANISER_ALIASES=new Map([
     ['ccs','Card Catcher Shop'],
-    ['card catcher shop','Card Catcher Shop']
+    ['card catcher shop','Card Catcher Shop'],
+    ['bath','Bath TCG'],
+    ['bath tcg','Bath TCG']
   ]);
   const DISPLAY_ACRONYMS=new Set(['TCG','CCG','LGS','UK','US','USA','EU','GB']);
   const $=id=>document.getElementById(id);
