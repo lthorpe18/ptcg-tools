@@ -819,6 +819,14 @@ Prep is not a sixth top-level area. It is durable event-specific state owned by 
 
 The participation foundation is established in V2. Root account state now stores one schema-versioned `eventParticipations` relationship per user/event identity. Existing `plannedEvents` and Prep records migrate into that relationship without changing their stable relationship IDs or losing retained event snapshots. Attendance intent is `attendanceStatus`; lifecycle `phase`, embedded Prep, planned/used DeckVersion references, Tournament Day state, completion state and season identity are reserved on the same record. Changing Interested/Attending updates the existing relationship and does not create Prep by itself yet. Clearing intent removes an otherwise empty relationship, but archives it when dependent Prep, deck, match, Tournament Day or completion data exists.
 
+### 11.2.1 Local-event feed retention and post-event lifecycle
+
+Local discovery uses a **UK-wide upcoming-event feed** rather than a user-specific Bristol subset. The shared feed retains no historic local events and is capped at **six months into the future**. A user's selected/device location and radius filter that shared UK feed client-side. This keeps shared data bounded while making location changes genuinely change the events shown.
+
+Personal event history is separate from the shared discovery feed. Once a user saves an attendance relationship, the retained `UserEventParticipation.eventSnapshot` is authoritative for preserving that event after it drops out of the source feed. Historic global event rows are therefore not required to preserve the user's competitive record.
+
+When the event date passes, a participation still marked **Attending** rolls forward to **Attended**. If completion/result data has not yet been recorded, its lifecycle phase becomes **Needs completion** and it remains surfaced in Compete until completed or explicitly corrected/skipped. Passing the event date must never silently imply that tournament results were entered.
+
 ### 11.3 Event Prep
 
 Prep is not a sixth top-level area. It lives at:
