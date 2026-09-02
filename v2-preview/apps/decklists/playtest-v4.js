@@ -6,10 +6,10 @@ const ACTIVE_KEY='ptcg-tools.playtest.active.v2';
 const CARD_META_KEY='ptcg-tools.card-meta.v2';
 const STATE_VERSION=4;
 const MAX_UNDO=40;
-const BENCH_SIZE=5;
+const BENCH_SIZE=8;
 let launch=null,state=null,undoStack=[],selection=null;
 
-const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[c]));
 const clone=value=>JSON.parse(JSON.stringify(value));
 const uid=(prefix='card')=>`${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,9)}`;
 const zone=name=>state?.zones?.[name]||[];
