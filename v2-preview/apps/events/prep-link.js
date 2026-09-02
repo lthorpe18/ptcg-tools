@@ -1,6 +1,5 @@
 (function(){
 'use strict';
-function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
 function enhance(){
   document.querySelectorAll('.event-card').forEach(card=>{
     if(card.querySelector('[data-prep-link]'))return;
@@ -13,8 +12,9 @@ function enhance(){
     link.dataset.prepLink='true';
     link.className='primary-link prep-entry-link';
     link.href=`./prep.html?participation=${encodeURIComponent(participation.id)}`;
-    link.textContent=participation.prep?'Continue Prep':'Prep';
+    link.textContent='Prep';
     const more=actions.querySelector('.more-button');actions.insertBefore(link,more||null);
+    actions.classList.add('has-prep');
   });
 }
 const target=document.getElementById('eventList');
