@@ -139,6 +139,8 @@ The root should remain the canonical user-facing entry point even while internal
 
 For redesign work, inspect and modify the V2 implementation first. Legacy `apps/*` code should not silently drive new architectural decisions.
 
+Feature chats are focused working spaces, not independent architectural authorities. Any durable decision that changes ownership, identity, persistence or relationships across Meta, Decks, Compete, Tools, Collection or Analytics must be promoted into this document. Future work should inspect the repository and this document rather than assuming that another chat's full transcript is available.
+
 ### 3.2 Validation rule
 
 Before claiming a significant change is complete:
@@ -178,7 +180,7 @@ Public competitive evidence and expected-field analysis.
 Saved decks, versions, decklists, consistency maths, physical readiness integration and Mobile Playtest.
 
 ### Compete
-Events, attendance, tournament preparation, tournament-day workflows and competitive-season / Championship Point tracking.
+Events, attendance, the event-specific Tournament Prep experience, real tournament results, tournament-day workflows and competitive-season / Championship Point tracking.
 
 ### Tools
 Small standalone competitive utilities only.
@@ -191,6 +193,9 @@ Account, application preferences, deck icon overrides and future storage/import/
 - **Mobile Playtest belongs to Decks**, not Tools.
 - **Event finder belongs to Compete**.
 - **Meta modelling belongs to Meta**.
+- **Expected Fields belong to Meta as one reusable account-owned model**; Compete selects, lightly adjusts and snapshots them for event Prep rather than creating a second incompatible model.
+- **Deck and DeckVersion identity belongs to Decks**; Compete refers to an exact DeckVersion when planning or recording what was used at an event.
+- **Real event/tournament result entry belongs contextually to Compete** and writes the shared Match/Game contract. Solo/goldfish Playtest observations remain separate and Decks-owned.
 - **Cut / ID Calculator belongs to Tools**, but should also be contextually accessible from Tournament Day.
 - **Collection** is a cross-cutting long-term capability connected to Decks, Prep and Home, not a simple “owned” checkbox feature.
 - **Competitive seasons, Championship Point tracking and completed Championship Series participation belong to Compete**; they are not a separate top-level area or an Analytics-only concern.
@@ -428,15 +433,54 @@ Preserve:
 - confidence/evidence indication;
 - “check a deck” flow;
 - expandable methodology;
-- custom/saved meta modelling.
+- Expected Field modelling.
 
 Field source and matchup source are independent.
 
-**Custom / saved meta** is one editable expected-field model with presets, not a separate incompatible data model.
+**Expected Field** is the product term for the existing custom/saved-meta concept. It is one editable model with presets, not a separate incompatible data model.
 
 Data-source controls should live in a compact collapsible **Data sources** panel and only show scope controls relevant to the source currently selected.
 
-### 7.9 Matchups
+Prep reuses the analytical functions defined here, including expected-field weighting, matchup evidence, confidence, coverage and candidate comparison. It does not embed the whole What Should I Play interface. Prep shows a concise event-scoped result and can deep-link into the full analysis with the same context preloaded.
+
+### 7.9 Expected Fields
+
+An **Expected Field** is a named, reusable, account-owned prediction of what will be played. Meta and Compete/Prep operate on the same underlying records through different interfaces.
+
+Terminology:
+
+- **Observed Meta** — actual Online or IRL evidence for a selected source, scope and time period;
+- **Observed Meta snapshot** — a point-in-time copy of that evidence used as provenance for a prediction;
+- **Expected Field** — the editable prediction the user can name, save, duplicate, reuse and delete;
+- **Event Expected Field snapshot** — the immutable copy retained by an event once its preparation/list is locked.
+
+An Expected Field can be created at any time from:
+
+- the current Online scope;
+- the current IRL scope;
+- an individual IRL event or major weekend;
+- a transparent Online/IRL blend preset;
+- another Expected Field duplicated as a new scenario;
+- a blank/custom starting point where genuinely useful.
+
+Creation copies the selected shares into a new editable record and retains source provenance such as source type, scope, contributing events/date range, capture time and calculation/model version where available. It is not a silent live link: later changes to shared Meta evidence must not rewrite the saved prediction. A deliberate refresh/rebase may be offered later, but must show what will change.
+
+When an event becomes **Attending**, Compete should suggest an initial Expected Field rather than present a blank form. The baseline should use the relevant Meta evidence available at that time: recent comparable IRL evidence, short-term Online movement and a broader Online baseline. Any blend must be deterministic, visible and editable. A fixed weighting such as `50/30/20` may exist as a preset, but must not be presented as universally correct. Event type, geography, evidence staleness, set/rotation timing and reliable local knowledge can justify different weighting or lower confidence.
+
+Useful editing behaviour:
+
+- visible archetype percentages totalling 100%;
+- `− / +` quick adjustment;
+- direct percentage override;
+- optional locking of known rows while remaining rows rebalance;
+- an explicit `Other` allowance;
+- confidence and concise reasons/source context;
+- reset to the captured baseline;
+- duplicate/save-as for alternative scenarios.
+
+Meta provides the full CRUD, evidence and scenario-management interface. Prep provides a compact event-specific view: select or create a field, accept it with **Looks right**, make quick adjustments, or open the full Meta editor. Deleting an Expected Field must never delete immutable snapshots already attached to historical events.
+
+### 7.10 Matchups
 
 Matchups are exact-variant to exact-variant evidence.
 
@@ -448,7 +492,7 @@ Requirements:
 - game counts are deck-specific on an exact deck page;
 - insufficient evidence should be shown explicitly rather than filled with overall WR or inferred data.
 
-### 7.10 Exact deck detail
+### 7.11 Exact deck detail
 
 The deck detail page should answer “where is this deck now?” first, then expose evidence.
 
@@ -480,7 +524,7 @@ Evidence semantics must be deck-specific:
 
 A whole-tournament match count must never be displayed as though the deck itself played that many games.
 
-### 7.11 Recent results on deck detail
+### 7.12 Recent results on deck detail
 
 Recent results belong at the bottom of exact deck detail.
 
@@ -488,7 +532,7 @@ Recent results belong at the bottom of exact deck detail.
 
 **IRL:** only events inside the selected IRL scope, filtered to the exact variant, sorted by placement best first. Individual result rows should link directly to the player’s Limitless Labs decklist where available.
 
-### 7.12 Meta data architecture
+### 7.13 Meta data architecture
 
 Shared runtime direction:
 
@@ -502,7 +546,7 @@ Online field scope changes should use compact precomputed/cached history rather 
 
 Detailed matchup coverage may be narrower than field coverage. The UI must reflect this honestly.
 
-### 7.13 Meta data sources
+### 7.14 Meta data sources
 
 Current direction:
 
@@ -777,28 +821,44 @@ The participation foundation is established in V2. Root account state now stores
 
 ### 11.3 Event Prep
 
-Prep should support the real decision funnel rather than assuming the user already has one finished list:
+Prep is not a sixth top-level area. It lives at:
 
-1. establish an **Expected Field**;
-2. compare roughly 2–4 candidate archetypes;
-3. choose an archetype, then link or create a personal Deck and iterate its exact versions;
-4. mark an exact version **Planned for event**;
-5. lock the version actually **Used at event**;
-6. retain results and review against that immutable event/list context.
+**Compete → Attending → Event → Prep**
 
-Candidate archetypes may initially point to shared Meta variants before a personal Deck exists. Their statuses are **Considering**, **Leading choice**, **Chosen** and **Dropped**. Comparison should show weighted expected matchup performance, favourable/unfavourable field coverage, weakest important matchups, evidence gaps/confidence and personal notes. Imported real-match evidence may enrich this later without being confused with Playtest evidence.
+Prep is the event-scoped orchestration layer across Meta, Decks, Collection/readiness, matches and the competitive-season record. It must not duplicate ownership of those domains.
 
-The Expected Field starts from an evidence-derived baseline, with visible source window, provenance, confidence and short reasoning. Each archetype row supports compact `−` / percentage / `+` controls:
+The normal weekly journey should remain light:
 
-- plus/minus makes a qualitative adjustment and rebalances the other unlocked rows to keep the total at 100%;
-- tapping the percentage allows an exact manual override and locks that row;
-- unlocked rows absorb subsequent rebalancing;
-- **Reset baseline** removes the user's adjustments;
-- saving creates an immutable event-specific forecast snapshot including baseline inputs, user adjustments/overrides, source window and model/version metadata.
+1. tap an event and mark **I'm going**;
+2. review the suggested Expected Field and choose **Looks right** or **Review field**;
+3. consider roughly two to four relevant deck/archetype candidates;
+4. record personal reactions such as **Interested**, **Comfortable**, **Practise more** or **Not for me**;
+5. choose/import an exact list when ready;
+6. record or import tournament results;
+7. retain the completed event, exact list and field snapshot for later learning.
 
-Prep should be information-before-configuration on iPhone: the current recommendation, leading candidates, major risks and readiness appear before detailed controls.
+The default iPhone Prep view should contain three compact, answer-first areas:
 
-The event-to-list relationship is not a free-text `usedFor` field on Deck. It is an event-owned reference to `deckId + deckVersionId + listHash`, with a lifecycle such as **planned** then **used**. The same version may be used at multiple events, and Deck detail may render those reverse relationships. Historical events retain display snapshots so they remain intelligible after later renaming or deletion.
+1. **Expected Field** — leading archetypes and visible predicted percentages, plus **Looks right** and **Review field**;
+2. **Deck options** — two to four candidates with clearly labelled estimated performance into that field, evidence/confidence context and the user's reaction;
+3. **Your plan** — leading/chosen deck, current exact list/version, a small number of practice priorities, readiness and later results.
+
+The important percentages remain visible in the default view. Field percentages describe predicted archetype share. Candidate percentages describe estimated performance into this Expected Field. Do not replace them with an unexplained synthetic score or imply false precision when evidence is weak or incomplete.
+
+Progressive disclosure:
+
+- **Review field** opens the percentage editor, source evidence and assumptions;
+- tapping a candidate opens its event-scoped matchup breakdown, evidence quality and testing notes;
+- **Open full analysis** deep-links into What Should I Play with the event, field and candidates preloaded;
+- advanced source weighting, scenario management, row locks and immutable IDs remain available without dominating the routine path.
+
+Candidate archetypes may initially point to shared exact Meta variants before a personal Deck exists. Their funnel statuses may use **Considering**, **Leading choice**, **Chosen** and **Dropped**, while the user's lightweight reactions use **Interested**, **Comfortable**, **Practise more** and **Not for me**. Once selected for development, a candidate may link to or create a stable personal Deck.
+
+The Expected Field contract and creation sources are defined in Section 7.9. Prep uses the same named reusable Expected Field records as Meta; it must not create a separate saved-meta store. Prep may accept the suggested field unchanged or make event-specific adjustments. Finalising Prep preserves an immutable Event Expected Field snapshot containing the baseline provenance, user adjustments/overrides and calculation/model version.
+
+The event-to-list relationship is not a free-text `usedFor` field on Deck. It is an event-owned reference to `deckId + deckVersionId + listHash`, with a lifecycle such as **Planned for event** then **Used at event**. The same version may be used at multiple events. Historical events retain display snapshots so they remain intelligible after later renaming or deletion, and future Deck edits/new versions never rewrite the historical list.
+
+Results may be entered directly in Compete or imported through an authorized Training Court integration if available. Both routes must write/reconcile with the shared Match/Game and UserEventParticipation contracts rather than producing separate competing histories. Playtest sessions never create tournament wins/losses.
 
 ### 11.4 Competitive seasons and Championship Points
 
@@ -908,7 +968,7 @@ Current snapshot-capable personal state includes:
 - real-game Match/Game history, including PTCGL imports and manual in-person records;
 - root V2 state including canonical event participation, attendance intent and retained event snapshots;
 - preferences/deck icon overrides;
-- saved/custom expected Meta data.
+- saved Expected Fields and their source provenance.
 
 Future Collection, structured tournament preparation, playtest history and other account-owned data should join this model deliberately as those domains are implemented.
 
@@ -1066,7 +1126,7 @@ Any **Scraped** source that becomes essential to a future public application sho
 2. **Match/Game ingestion contract and native fallback — established** — PTCGL parsing, real opponent/result attribution and manual in-person recording remain available while a supported Training Court export/integration is explored.
 3. **Limitless-backed Deck intake — established** — import as New Deck or Update Existing, separate personal name from the shared searchable Meta archetype catalogue, create V1/V2/V3 only for changed hashes, provide grouped −/+ list editing, and add source/copy/ImgGen handoffs.
 4. **Compete participation foundation — established** — one durable UserEventParticipation now owns attendance intent and the reserved Prep, planned/used DeckVersion, Tournament Day, completion and season links; legacy attendance/Prep state migrates without duplicate records.
-5. **Event Prep v1 — next** — open the event-specific workflow from an Attending participation, then implement evidence-derived editable Expected Field, candidate comparison and the exact planned DeckVersion relationship.
+5. **Event Prep v1 — next** — open the lightweight event-specific workflow from an Attending participation, reuse one named Expected Field model with visible percentages and drill-down detail, compare candidates, and link the exact planned DeckVersion.
 6. **Competitive Record / Season v1** — complete attended Championship events with placement and player count, calculate season-specific CP from verified official rules, apply Best Finish Limits and show raw versus counting CP.
 7. **Mobile Playtest v1** — launch the separate solo/goldfish touch-first tabletop from a DeckVersion or the current Prep candidate/final list.
 8. **Tournament Day + Cut / ID** — current record, pairing/result capture and deterministic cut/ID support writing into the same participation record.
@@ -1098,6 +1158,9 @@ PTCG Tools is successful when:
 - an attending event can progress from evidence-based field forecast through candidate archetypes to the exact list planned and used;
 - a player can goldfish a deck comfortably on an iPhone;
 - event, preparation and tournament-day workflows become connected rather than duplicated;
+- marking an event as Attending leads to a useful Prep check-in without requiring configuration-heavy setup;
+- Expected Fields can be created from observed Online/IRL Meta, named, saved, reused and safely snapshotted for historical events;
+- Prep keeps predicted field shares and candidate performance visible while deeper evidence remains one tap away;
 - physical collection state can answer “can I build this?” without double-counting cards;
 - Cut / ID answers deterministic questions before resorting to probabilistic simulation;
 - advanced analysis remains available without overwhelming routine use;
