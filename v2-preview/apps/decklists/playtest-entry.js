@@ -2,6 +2,7 @@
 'use strict';
 const ACTIVE_KEY='ptcg-tools.decklists.active-deck.v1';
 const $=id=>document.getElementById(id);
+const PLAYTEST_TARGET='playtest-v2.html?interaction=2';
 
 function remember(id){if(id)try{sessionStorage.setItem(ACTIVE_KEY,id)}catch{}}
 function remembered(){try{return sessionStorage.getItem(ACTIVE_KEY)||''}catch{return ''}}
@@ -23,7 +24,7 @@ async function launchWorking(){
   try{
     const deckId=await workingDeckId();if(!deckId){toast('Could not identify this Deck. Return to My Decks and reopen it.');return}
     const rawText=$('deckText')?.value||'',listHash=await window.PTCGDeckParser.hashDecklist(rawText);
-    await window.PTCGPlaytestLaunch.open({deckId,rawText,listHash,source:'working-list',targetUrl:'playtest.html'});
+    await window.PTCGPlaytestLaunch.open({deckId,rawText,listHash,source:'working-list',targetUrl:PLAYTEST_TARGET});
   }catch(error){toast(error.message||'Playtest could not start')}
 }
 async function launchVersion(versionId){
@@ -33,7 +34,7 @@ async function launchVersion(versionId){
       deck=(await window.PTCGDeckStore.all()).find(row=>window.PTCGDeckStore.getVersion(row,versionId))||null;deckId=deck?.id||'';if(deckId)remember(deckId);
     }
     if(!deckId){toast('Could not identify this saved version');return}
-    await window.PTCGPlaytestLaunch.open({deckId,deckVersionId:versionId,source:'deck-version',targetUrl:'playtest.html'});
+    await window.PTCGPlaytestLaunch.open({deckId,deckVersionId:versionId,source:'deck-version',targetUrl:PLAYTEST_TARGET});
   }catch(error){toast(error.message||'Playtest could not start')}
 }
 function enhanceVersions(){
