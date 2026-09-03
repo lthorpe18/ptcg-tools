@@ -21,7 +21,7 @@ function reload(){location.reload()}
 function mutate(label,fn){const state=readState();if(!state?.zones)return;saveUndo(state);fn(state);log(state,label);writeState(state);reload()}
 function selectedCardElement(){return $('.play-card.is-selected[data-card-id]')}
 function selectedHandCard(){return $('#handZone .play-card.is-selected[data-card-id]')}
-function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function esc(value){return String(value==null?'':value).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#039;'}[c]))}
 function setCode(card){return String(card?.set||'').trim().toUpperCase()}
 function cardNumber(card){const raw=String(card?.number||'').trim(),match=raw.match(/\d+/);return match?String(Number(match[0])).padStart(3,'0'):raw.padStart(3,'0')}
 function imageUrl(card){const set=setCode(card),num=cardNumber(card);return set&&num?`https://limitlesstcg.nyc3.digitaloceanspaces.com/tpci/${encodeURIComponent(set)}/${encodeURIComponent(set)}_${encodeURIComponent(num)}_R_EN.png`:''}
@@ -58,11 +58,14 @@ function installStyles(){
 }
 
 function ensureTurnZeroSetup(){
-  const state=readState();if(!state?.zones||state.turnFlowV2)return false;
+  const state=readState();if(!state?.zones)return false;
   const history=(state.history||[]).map(entry=>String(entry?.text||''));
   const hasStartedTurn=history.some(text=>/^Started turn /i.test(text)||/^Ended turn /i.test(text));
-  if(Number(state.turn)===1&&!hasStartedTurn)state.turn=0;
-  state.turnFlowV2=true;writeState(state);return true;
+  let changed=false;
+  if(Number(state.turn)===1&&!hasStartedTurn){state.turn=0;changed=true}
+  if(!state.turnFlowV2){state.turnFlowV2=true;changed=true}
+  if(changed)writeState(state);
+  return changed;
 }
 
 function handAction(action){
@@ -119,7 +122,7 @@ function renderCardMarkers(){
     if(!tray){tray=document.createElement('span');tray.className='playtest-marker-tray';el.appendChild(tray)}
     if(tray.dataset.signature===signature)return;
     tray.dataset.signature=signature;
-    tray.innerHTML=markers.map(marker=>`<span class="playtest-marker marker-${marker}" title="${markerLabel(marker)}">${marker==='ability'?'A':marker==='poisoned'?'P':marker==='burned'?'B':marker==='asleep'?'Z':marker==='confused'?'?':'!'}</span>`).join('');
+    tray.innerHTML=markers.map(marker=>`<span class=\"playtest-marker marker-${marker}\" title=\"${markerLabel(marker)}\">${marker==='ability'?'A':marker==='poisoned'?'P':marker==='burned'?'B':marker==='asleep'?'Z':marker==='confused'?'?':'!'}</span>`).join('');
   });
 }
 
@@ -140,7 +143,7 @@ function renderEnergyAttachments(){
     const signature=[...groups.entries()].map(([name,count])=>`${name}:${count}`).join('|');
     if(!tray){tray=document.createElement('span');tray.className='playtest-energy-tray';el.appendChild(tray)}
     if(tray.dataset.signature===signature)return;tray.dataset.signature=signature;
-    tray.innerHTML=[...groups.entries()].map(([name,count])=>{const [type,label]=energyType(name);return `<span class="playtest-energy-pill energy-${type}" title="${esc(name)}">${esc(label)}${count>1?` ×${count}`:''}</span>`}).join('');
+    tray.innerHTML=[...groups.entries()].map(([name,count])=>{const [type,label]=energyType(name);return `<span class=\"playtest-energy-pill energy-${type}\" title=\"${esc(name)}\">${esc(label)}${count>1?` ×${count}`:''}</span>`}).join('');
   });
 }
 
@@ -149,7 +152,7 @@ function openPrizeViewer(){
   const ids=[...(state.zones.prizes||[])],cards=ids.map(id=>cardById(state,id)).filter(Boolean);
   const sheet=$('#sheet'),body=$('#sheetBody');if(!sheet||!body)return;
   $('#sheetTitle').textContent='Prizes';$('#sheetEyebrow').textContent='ZONE';$('#sheetMeta').textContent=`${cards.length} remaining`;
-  body.innerHTML=cards.length?`<p class="sheet-note">Your prize cards are shown below. Tap one to take it.</p><div class="prize-reveal-grid">${cards.map((card,index)=>`<button type="button" class="prize-reveal-card" data-enh-take-prize="${index}"><img src="${esc(imageUrl(card))}" alt="${esc(card.name)}"><span><strong>${esc(card.name)}</strong><small>${esc([card.set,card.number].filter(Boolean).join(' '))}</small><em>Take prize</em></span></button>`).join('')}</div>`:'<p class="sheet-note">No prizes remaining.</p>';
+  body.innerHTML=cards.length?`<p class=\"sheet-note\">Your prize cards are shown below. Tap one to take it.</p><div class=\"prize-reveal-grid\">${cards.map((card,index)=>`<button type=\"button\" class=\"prize-reveal-card\" data-enh-take-prize=\"${index}\"><img src=\"${esc(imageUrl(card))}\" alt=\"${esc(card.name)}\"><span><strong>${esc(card.name)}</strong><small>${esc([card.set,card.number].filter(Boolean).join(' '))}</small><em>Take prize</em></span></button>`).join('')}</div>`:'<p class=\"sheet-note\">No prizes remaining.</p>';
   sheet.hidden=false;
 }
 function takePrize(index){
@@ -168,11 +171,11 @@ function injectMarkerControls(){
   const zone=Object.keys(state.zones||{}).find(key=>(state.zones[key]||[]).includes(cardId));
   if(!['active','bench'].includes(zone))return;
   const wrap=document.createElement('div');wrap.className='marker-controls';
-  wrap.innerHTML=`<div class="sheet-section-title">Markers</div><div class="marker-grid">${MARKERS.map(([key,label])=>`<button type="button" data-marker="${key}" data-marker-card="${cardId}" class="${card.markers?.includes(key)?'active':''}">${label}</button>`).join('')}</div>`;
+  wrap.innerHTML=`<div class=\"sheet-section-title\">Markers</div><div class=\"marker-grid\">${MARKERS.map(([key,label])=>`<button type=\"button\" data-marker=\"${key}\" data-marker-card=\"${cardId}\" class=\"${card.markers?.includes(key)?'active':''}\">${label}</button>`).join('')}</div>`;
   body.appendChild(wrap);
 }
-function updateDeckTarget(){const deck=$('.side-pile[data-zone-button="deck"]');if(deck)deck.classList.toggle('is-target',!!selectedHandCard())}
-function updateDiscardTarget(){const discard=$('.side-pile[data-zone-button="discard"]');if(discard)discard.classList.toggle('is-target',!!selectedCardElement())}
+function updateDeckTarget(){const deck=$('.side-pile[data-zone-button=\"deck\"]');if(deck)deck.classList.toggle('is-target',!!selectedHandCard())}
+function updateDiscardTarget(){const discard=$('.side-pile[data-zone-button=\"discard\"]');if(discard)discard.classList.toggle('is-target',!!selectedCardElement())}
 function refreshUndo(){const button=$('#undoButton');if(button&&hasUndo()&&button.disabled)button.disabled=false}
 function refreshTurnUI(){
   const state=readState();if(!state)return;
@@ -185,11 +188,11 @@ document.addEventListener('click',event=>{
   const handButton=event.target.closest('[data-hand-action]');if(handButton){event.preventDefault();event.stopImmediatePropagation();handAction(handButton.dataset.handAction);return}
   const marker=event.target.closest('[data-marker][data-marker-card]');if(marker){event.preventDefault();event.stopImmediatePropagation();toggleMarker(marker.dataset.markerCard,marker.dataset.marker);return}
   const prizeTake=event.target.closest('[data-enh-take-prize]');if(prizeTake){event.preventDefault();event.stopImmediatePropagation();takePrize(prizeTake.dataset.enhTakePrize);return}
-  const prizeZone=event.target.closest('[data-zone-button="prizes"]');if(prizeZone){event.preventDefault();event.stopImmediatePropagation();openPrizeViewer();return}
-  const discardZone=event.target.closest('[data-zone-button="discard"]');if(discardZone&&selectedCardElement()){event.preventDefault();event.stopImmediatePropagation();discardSelectedCard();return}
+  const prizeZone=event.target.closest('[data-zone-button=\"prizes\"]');if(prizeZone){event.preventDefault();event.stopImmediatePropagation();openPrizeViewer();return}
+  const discardZone=event.target.closest('[data-zone-button=\"discard\"]');if(discardZone&&selectedCardElement()){event.preventDefault();event.stopImmediatePropagation();discardSelectedCard();return}
   const end=event.target.closest('#endTurn');if(end){event.preventDefault();event.stopImmediatePropagation();startNextTurn();return}
   const undo=event.target.closest('#undoButton');if(undo&&hasUndo()){event.preventDefault();event.stopImmediatePropagation();undoEnhancement();return}
-  const deck=event.target.closest('.side-pile[data-zone-button="deck"]');if(deck&&selectedHandCard()){event.preventDefault();event.stopImmediatePropagation();moveSelectedToTop();return}
+  const deck=event.target.closest('.side-pile[data-zone-button=\"deck\"]');if(deck&&selectedHandCard()){event.preventDefault();event.stopImmediatePropagation();moveSelectedToTop();return}
   if(hasUndo()&&event.target.closest('button,.play-card'))clearUndo();
 },true);
 
