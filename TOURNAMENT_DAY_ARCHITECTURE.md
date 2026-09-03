@@ -6,11 +6,7 @@
 
 ## Purpose
 
-This document records the durable architecture established by the Tournament Day + event-linked results v1 implementation.
-
-The lifecycle is:
-
-**Attending / Prep → Tournament Day → Completion → future Season**
+This document records the durable architecture established by the Tournament Day + event-linked results implementation.
 
 The canonical account-owned record throughout is one `UserEventParticipation` in the V2 root state.
 
@@ -23,9 +19,31 @@ The canonical account-owned record throughout is one `UserEventParticipation` in
 - Tournament Day does not create a second match-history/result store.
 - Solo/goldfish Mobile Playtest remains outside competitive W/L evidence.
 
+## Tournament recording entry model
+
+**Record tournament** is the primary entry point for Tournament Day. Recording a tournament must not require the tournament to exist in the Events catalogue first.
+
+When Record tournament is opened:
+
+- the user may optionally select one of their existing `attending` event participations;
+- if selected, Tournament Day continues that same participation and retains its catalogue/event identity and Prep relationship;
+- if no event is selected, the user may create an ad-hoc tournament participation with a name, date, in-person/online context and optional type;
+- an ad-hoc participation has its own stable participation ID and event snapshot but does not need a catalogue `eventId`;
+- online tournaments, recurring local league nights and other unlisted competitive events therefore use exactly the same Tournament Day → Match/Game → Completion → future Season path as catalogue events.
+
+This is not a second tournament-history model. Catalogue-linked and ad-hoc tournaments are two entry paths into the same participation lifecycle.
+
+The normal lifecycle is therefore:
+
+**Optional catalogue attendance / Prep → Record tournament → Tournament Day → Completion → future Season**
+
+or, for an unlisted event:
+
+**Record tournament → Tournament Day → Completion → future Season**
+
 ## Event lifecycle contract
 
-`UserEventParticipation` already contains the durable relationship fields:
+`UserEventParticipation` contains the durable relationship fields:
 
 - `plannedDeckRef`
 - `usedDeckRef`
@@ -53,6 +71,8 @@ Starting Tournament Day confirms/inherits an exact saved DeckVersion and writes 
 
 The planned reference is not replaced. Where live Deck/DeckVersion records are available, Tournament Day adds display snapshots to retained references so later rename/deletion does not make the historical event unintelligible.
 
+For ad-hoc tournaments there may be no `plannedDeckRef`; the exact saved list is simply selected when Tournament Day starts and becomes `usedDeckRef`.
+
 `usedDeckRef` includes the exact Deck/DeckVersion/list identity plus display snapshots such as deck name, version label and archetype where available.
 
 Tournament Day must never rewrite an immutable historical DeckVersion.
@@ -74,12 +94,12 @@ The current record and round history are derived from shared Matches linked by `
 
 ## Match / Game contract
 
-Every real tournament round is stored through `PTCGMatchStore` with:
+Every competitive tournament round is stored through `PTCGMatchStore` with:
 
-- `source: irl`
 - stable Match `id`
+- source/evidence context
 - `participationId`
-- event ID/name snapshots
+- optional catalogue event ID plus event-name snapshot
 - exact `deckId + deckVersionId + listHash`
 - deck/version display snapshots
 - opponent archetype
@@ -173,6 +193,9 @@ Future Cut / ID expansion should extend the reusable Tools engine rather than em
 
 Tournament Day is mobile-first around ~390 CSS px and answer-first:
 
+- `Record tournament` is visible directly from Compete / Events;
+- linking to an attending catalogue event is optional rather than a prerequisite;
+- ad-hoc online/local recording should require only a small amount of setup;
 - current W-L-D is primary;
 - next-round action remains prominent;
 - `ID Calc` is a lightweight contextual action beside completion rather than a separate data-entry workflow;
