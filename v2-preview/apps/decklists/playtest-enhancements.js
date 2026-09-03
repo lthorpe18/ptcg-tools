@@ -30,9 +30,25 @@ function installStyles(){
   if(document.getElementById('playtestEnhancementStyles'))return;
   const style=document.createElement('style');style.id='playtestEnhancementStyles';style.textContent=`
     .play-card .attachment-stack,.play-card .attachment-count{display:none!important}
+
+    /* Selection and valid-target feedback: obvious, but does not alter geometry. */
+    .play-card{transition:filter .12s ease,transform .12s ease}
+    .play-card.is-selected .card-frame{outline:3px solid #7ff0b8;outline-offset:2px;box-shadow:0 0 0 2px rgba(11,85,53,.75),0 5px 14px rgba(0,0,0,.32)!important}
+    .play-card.is-selected{z-index:14;filter:saturate(1.08) brightness(1.04)}
+    .play-card.is-target:not(.is-selected) .card-frame{outline:2px solid rgba(184,255,219,.92);outline-offset:2px;box-shadow:0 0 0 3px rgba(47,172,111,.22),0 3px 10px rgba(0,0,0,.25)!important}
+    .bench-target-slot.is-target,.field-slot.is-target,.side-pile.is-target,.stadium-slot.is-target{border-color:rgba(174,255,215,.78)!important;background:rgba(98,220,158,.12)!important;box-shadow:inset 0 0 0 1px rgba(174,255,215,.22),0 0 0 2px rgba(36,153,94,.10)!important}
+    .bench-target-slot.is-target{color:rgba(225,255,240,.96)!important}
+    .side-pile.is-target>span:not(.card-back):not(.prize-stack):not(.pile-preview),.side-pile.is-target>b{color:#fff!important}
+
+    /* Statuses occupy the top edge; Energy stays on the bottom edge. */
+    .playtest-marker-tray{top:-7px!important;bottom:auto!important;gap:2px!important;z-index:12!important}
+    .playtest-marker{height:17px!important;min-width:17px!important;padding:0 4px!important;border-width:1.5px!important;font-size:7px!important;box-shadow:0 2px 5px rgba(0,0,0,.28)!important}
+    .damage-badge{right:-5px!important;top:-5px!important;min-width:29px!important;padding:4px 5px!important;border:2px solid #fff!important;border-radius:999px!important;background:#c62828!important;font-size:9px!important;line-height:1!important;box-shadow:0 2px 6px rgba(0,0,0,.32)!important}
+
     .playtest-energy-tray{position:absolute;z-index:10;left:50%;bottom:0;transform:translateX(-50%);display:flex;gap:3px;max-width:98%;justify-content:center;pointer-events:none;white-space:nowrap}
     .playtest-energy-pill{display:inline-flex;align-items:center;justify-content:center;min-width:23px;height:18px;padding:0 5px;border:2px solid rgba(255,255,255,.98);border-radius:999px;color:#fff;font-size:8px;font-weight:950;line-height:1;letter-spacing:.01em;box-shadow:0 2px 5px rgba(0,0,0,.34)}
     .energy-fire{background:#d94832}.energy-water{background:#2878c8}.energy-lightning{background:#f0c62e;color:#342b00}.energy-grass{background:#429451}.energy-psychic{background:#8b55a5}.energy-fighting{background:#b7663d}.energy-darkness{background:#3f4650}.energy-metal{background:#788995}.energy-fairy{background:#d86e9d}.energy-colorless{background:#8a918e}.energy-special{background:#344054}
+
     .prize-reveal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
     .prize-reveal-card{display:grid;grid-template-columns:52px minmax(0,1fr);align-items:center;gap:8px;min-height:82px;padding:6px;border:1px solid #e4e7ec;border-radius:11px;background:#fff;color:#101828;text-align:left}
     .prize-reveal-card img{display:block;width:52px;aspect-ratio:2.5/3.5;object-fit:cover;border-radius:5px;background:#e4e7ec}
