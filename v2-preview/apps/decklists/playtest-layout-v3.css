@@ -9,7 +9,7 @@
 
 @media (max-width:699px){
   html,body{background:#eef2ef}
-  .playtest-body{min-height:100dvh;height:auto;overflow-x:hidden;overflow-y:auto;padding-bottom:148px!important;color:#101828;background:#eef2ef}
+  .playtest-body{min-height:100dvh;height:auto;overflow-x:hidden;overflow-y:auto;padding-bottom:210px!important;color:#101828;background:#eef2ef}
 
   .playtest-header{position:sticky;top:0;z-index:50;grid-template-columns:36px minmax(0,1fr) 36px;padding:calc(4px + env(safe-area-inset-top)) 8px 4px;background:rgba(255,255,255,.97);border-bottom:1px solid #e3e8e5;box-shadow:none;backdrop-filter:blur(18px)}
   .playtest-title strong{font-size:15px;color:#101828}.playtest-title span{font-size:9px;color:#667085}
@@ -59,16 +59,16 @@
   .bench-target-slot.is-valid-target{border-color:rgba(151,246,202,.55);background:rgba(151,246,202,.055);color:rgba(200,255,229,.78)}
   .bench-row>:nth-child(6){grid-column:2}.bench-row>:nth-child(7){grid-column:3}.bench-row>:nth-child(8){grid-column:4}
 
-  /* Playtest has no in-document app nav. The persistent shell owns navigation. */
-  .hand-tray{position:fixed!important;left:0;right:0;bottom:0!important;z-index:40;height:148px!important;min-height:148px!important;background:rgba(255,255,255,.985);border-top:1px solid #d0d5dd;box-shadow:0 -2px 8px rgba(16,24,40,.06);backdrop-filter:blur(18px)}
-  .hand-head{height:34px;padding:3px 8px;color:#101828}.hand-head>div{font-size:10px;color:#344054}.hand-head b{background:#e9efeb;color:#176b45}
-  .hand-head button{min-height:30px;padding:0 13px;border:1px solid #176b45;background:#176b45;color:#fff;border-radius:9px;font-size:12px;font-weight:900;box-shadow:0 1px 2px rgba(16,24,40,.12)}
-  .hand-actions{position:absolute;right:76px;top:3px;height:30px;display:flex;gap:5px;padding:0;background:transparent}
-  .hand-actions button{min-width:0;width:34px;height:30px;overflow:hidden;text-indent:-999px;border:1px solid #cbd5d0;border-radius:9px;background:#fff;color:#344054;font-size:0;padding:0;box-shadow:0 1px 2px rgba(16,24,40,.07)}
-  .hand-actions button:before{display:block;text-indent:0;font-size:15px;line-height:28px;font-weight:800}.hand-actions button:nth-child(1):before{content:'↻'}.hand-actions button:nth-child(2):before{content:'⇩'}.hand-actions button:nth-child(3):before{content:'⌫'}.hand-actions button:last-child{border-color:#fda29b;background:#fff6f5;color:#b42318}
-  .hand-row{height:114px;padding:0 6px 5px;gap:0;align-items:flex-start;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}.hand-row::-webkit-scrollbar{display:none}.hand-row .play-card{width:94px;margin-right:-15px;transition:transform .12s ease,margin .12s ease}.hand-row .play-card:last-child{margin-right:0}.hand-row .play-card.is-selected{z-index:7;transform:translateY(-4px);margin-left:4px;margin-right:-4px}.hand-row .card-frame{width:90px;border-radius:5px;box-shadow:0 3px 9px rgba(16,24,40,.19)}.hand-empty{height:102px;color:#98a2b3}
-  .hand-tray.deck-search-target{box-shadow:0 -3px 0 #175cd3,0 -5px 14px rgba(23,92,211,.18)!important}
+  /* Hand is intentionally larger and action-first. */
+  .hand-tray{position:fixed!important;left:0;right:0;bottom:0!important;z-index:40;height:210px!important;min-height:210px!important;background:rgba(255,255,255,.99);border-top:1px solid #cfd8d3;box-shadow:0 -3px 12px rgba(16,24,40,.08);backdrop-filter:blur(18px);display:grid!important;grid-template-rows:42px 38px 130px}
+  .hand-head{height:42px!important;min-height:42px!important;padding:4px 8px;display:flex!important;align-items:center;justify-content:space-between;color:#101828;border-bottom:1px solid #eef1ef}.hand-head>div{font-size:11px;color:#344054}.hand-head b{background:#e7f1eb;color:#176b45;font-size:11px;padding:2px 7px}
+  .hand-head #drawButton{height:34px!important;min-height:34px!important;padding:0 17px!important;border:1px solid #176b45!important;background:#176b45!important;color:#fff!important;border-radius:10px!important;font-size:14px!important;font-weight:900!important;box-shadow:0 2px 4px rgba(16,24,40,.14)!important}
+  .hand-actions{position:static!important;right:auto!important;top:auto!important;height:38px!important;min-height:38px!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:3px 8px 4px!important;background:#f8faf9;border-bottom:1px solid #edf1ef}
+  .hand-actions button{width:auto!important;min-width:0!important;height:31px!important;min-height:31px!important;overflow:visible!important;text-indent:0!important;border:1px solid #cbd5d0!important;border-radius:9px!important;background:#fff!important;color:#344054!important;font-size:10px!important;font-weight:850!important;padding:0 7px!important;box-shadow:0 1px 2px rgba(16,24,40,.06)!important;white-space:nowrap}
+  .hand-actions button:before{display:none!important;content:none!important}.hand-actions button:last-child{border-color:#fda29b!important;background:#fff6f5!important;color:#b42318!important}
+  .hand-row{height:130px!important;min-height:130px!important;padding:3px 7px 6px;gap:0;align-items:flex-start;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}.hand-row::-webkit-scrollbar{display:none}.hand-row .play-card{width:108px!important;min-width:108px!important;margin-right:-16px;transition:transform .12s ease,margin .12s ease}.hand-row .play-card:last-child{margin-right:0}.hand-row .play-card.is-selected{z-index:7;transform:translateY(-5px);margin-left:4px;margin-right:-5px}.hand-row .card-frame{width:104px!important;border-radius:6px;box-shadow:0 3px 10px rgba(16,24,40,.20)}.hand-empty{height:118px;color:#98a2b3}
+  .hand-tray.deck-search-target{box-shadow:0 -4px 0 #175cd3,0 -7px 18px rgba(23,92,211,.18)!important}
 
   .zone-dock{display:none!important}
-  .playtest-toast{bottom:152px!important;background:#101828}.playtest-sheet{border-radius:22px 22px 0 0}
+  .playtest-toast{bottom:214px!important;background:#101828}.playtest-sheet{border-radius:22px 22px 0 0}
 }
