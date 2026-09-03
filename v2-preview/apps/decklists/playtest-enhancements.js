@@ -39,7 +39,6 @@ function endTurnAndDraw(){
   mutate(canDraw?`Started turn ${nextTurn} — drew 1 card`:`Started turn ${nextTurn} — deck empty`,s=>{
     s.turn=nextTurn;s.coin=null;
     if(canDraw)s.zones.hand.push(s.zones.deck.shift());
-    (s.cards||[]).forEach(card=>{if(Array.isArray(card.markers))card.markers=card.markers.filter(marker=>marker!=='ability')});
   });
 }
 function toggleMarker(cardId,marker){
