@@ -1,8 +1,8 @@
 # PTCG Tools — Accounts, Community & Public-Ready Architecture
 
 **Status:** Current companion architecture source of truth  
-**Date:** 2 September 2026  
-**Companion to:** `PTCG_TOOLS_MASTER.md` and `PERFORMANCE_ARCHITECTURE.md`
+**Date:** 3 September 2026  
+**Companion to:** `PTCG_TOOLS_MASTER.md`, `PERFORMANCE_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`
 
 ## Purpose
 
@@ -99,7 +99,48 @@ On 1 September 2026 the account flow was tested across devices:
 
 Therefore the **Google account + cloud persistence + cross-device restore/sync milestone is considered complete for the current product stage**.
 
-### 2.4 Future persistence evolution
+### 2.4 Mobile Playtest persistence boundary
+
+Mobile Playtest deliberately has two different persistence layers because they represent different kinds of state.
+
+**Durable/account-owned:**
+
+- Deck identity;
+- mutable working list;
+- immutable DeckVersions/checkpoints;
+- exact canonical `listHash`;
+- Event Prep's exact planned/candidate deck reference.
+
+These continue to use the established Deck/account snapshot architecture and can therefore follow the account across devices.
+
+**Transient/local tabletop state:**
+
+- current shuffled Deck order;
+- current Hand;
+- Active/Bench placement;
+- current Prizes;
+- attachments/evolution stack;
+- damage/markers;
+- current turn/coin state;
+- active Undo history.
+
+The current active Playtest state is local browser work-in-progress state (`ptcg-tools.playtest.active.v2`). It is **not** silently uploaded as part of the user's durable account snapshot.
+
+This is intentional for v1. A transient goldfish board position is not the same thing as a durable saved DeckVersion or competitive Match record.
+
+Future cross-device Playtest persistence should therefore be an explicit product feature such as **Save Playtest session** or **Practice evidence**, not an accidental side-effect of syncing every tabletop mutation.
+
+### 2.5 Playtest evidence boundary
+
+Solo/goldfish Playtest does **not** write wins/losses and does not alter competitive matchup statistics.
+
+Real PTCGL/in-person results remain in the Match/Game contract.
+
+If Playtest later records durable practice evidence such as mulligan rate, opening-hand observations or scenario notes, that should be a separate account-owned Decks domain with explicit provenance and semantics.
+
+Do not merge goldfish observations into competitive match evidence merely because both reference the same `deckId + listHash`.
+
+### 2.6 Future persistence evolution
 
 The current whole-account snapshot is appropriate while the product and data model are still changing rapidly.
 
@@ -107,7 +148,7 @@ As the app matures, high-value domains may move from one large snapshot into nor
 
 - Collection quantities and allocations;
 - tournament history and matches;
-- playtest sessions;
+- deliberately saved Playtest sessions/practice evidence;
 - matchup notes/testing evidence;
 - deck/version relationships;
 - preparation workspaces;
@@ -146,8 +187,10 @@ Owned by one authenticated account and protected accordingly:
 - preparation workspaces;
 - completed Championship Series participation, placement/player-count corrections and season goals;
 - personal match/tournament history;
-- testing notes/results;
+- deliberately saved testing notes/results/practice evidence;
 - preferences and presentation overrides.
+
+Transient unsaved Playtest tabletop state is local work-in-progress, not shared competitive data and not automatically durable per-user cloud data.
 
 The app must not duplicate heavyweight public datasets inside every user's account data.
 
@@ -200,7 +243,9 @@ Browser-local storage capacity is not the main scaling constraint for PTCG Tools
 
 The more important issue is **durability**: browser storage can be cleared, evicted or lost with device replacement.
 
-Therefore meaningful user-owned data should be cloud-backed once users begin relying on it. The implemented Google-account sync addresses this for current V2 personal state.
+Therefore meaningful user-owned data should be cloud-backed once users begin relying on it. The implemented Google-account sync addresses this for current V2 durable personal state.
+
+This does not imply that every transient UI/session state must be synced. Mobile Playtest is the current example of a deliberate boundary: saved Deck identity is durable/cloud-backed, while an unsaved live tabletop remains local until an explicit saved-session feature exists.
 
 ---
 
@@ -225,6 +270,8 @@ This reduces:
 - source-permission risk caused by uncontrolled distributed scraping.
 
 Shared public competitive data should increasingly be generated/ingested centrally, while personal state remains account-specific.
+
+Card-art delivery used by Mobile Playtest is a presentation dependency and must not be confused with card/deck identity. A future public-scale review should consider the authority/licensing/cache strategy for card images separately from the user's exact Deck state.
 
 ---
 
@@ -302,7 +349,7 @@ A free fan application is not automatically exempt from trademark, copyright, da
 
 Before a broad public/App Store release, review at minimum:
 
-- card artwork/images;
+- card artwork/images, including the card-image strategy used by Mobile Playtest;
 - Pokémon artwork and logos;
 - Pokémon/name trademark presentation;
 - energy/game symbols and other protected assets;
@@ -352,6 +399,8 @@ Principles:
 
 A formal privacy policy becomes necessary before broad public distribution and is sensible before inviting a larger community cohort.
 
+If Playtest later gains cloud-backed saved sessions/practice notes, those become private account-owned data and must follow the same privacy/export/delete principles. The current unsaved transient tabletop is local and should not be represented to users as cloud-restorable.
+
 ---
 
 ## 10. Public-release progression
@@ -367,8 +416,10 @@ The recommended progression is deliberately incremental:
 
 Do not design for millions of users prematurely. The two decisions that matter now are:
 
-1. user-owned state must remain cleanly account-scoped and cloud-restorable;
+1. user-owned durable state must remain cleanly account-scoped and cloud-restorable;
 2. shared third-party competitive data should increasingly be ingested once and served to many users rather than fetched independently by every client.
+
+A third implementation discipline follows from Mobile Playtest: **do not automatically cloud-sync high-frequency transient UI state merely because an account exists.** Persist it only when it has a clear durable user value and conflict model.
 
 ---
 
@@ -380,6 +431,8 @@ Its value is the connected player workflow:
 
 **Meta → Deck choice → Deck development/testing → physical readiness → event preparation → tournament-day decisions → review/learning**
 
-The account/cloud layer is what allows that workflow to become longitudinal and device-independent.
+The account/cloud layer is what allows the durable parts of that workflow to become longitudinal and device-independent.
+
+Mobile Playtest now completes a substantial part of the **Build & Test** stage without confusing transient tabletop state with durable competitive history.
 
 That connected personal competitive history is a more important product asset than any one external data source.
