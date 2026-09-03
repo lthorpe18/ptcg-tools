@@ -2,6 +2,7 @@
 'use strict';
 
 let deckSelection=null;
+let randomView=false;
 const $=selector=>document.querySelector(selector);
 const $$=selector=>[...document.querySelectorAll(selector)];
 const core=()=>window.PTCGPlaytestCore;
@@ -11,11 +12,17 @@ const zoneOf=id=>Object.keys(state()?.zones||{}).find(key=>(state().zones[key]||
 const isPokemon=card=>card?.section==='pokemon';
 const isEnergy=card=>card?.section==='energy';
 const isTrainer=card=>card?.section==='trainers';
+const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const setCode=card=>String(card?.set||'').trim().toUpperCase();
+const cardNumber=card=>{const raw=String(card?.number||'').trim(),match=raw.match(/\d+/);return match?String(Number(match[0])).padStart(3,'0'):raw.padStart(3,'0')};
+const imageUrl=card=>{const set=setCode(card),num=cardNumber(card);return set&&num?`https://limitlesstcg.nyc3.digitaloceanspaces.com/tpci/${encodeURIComponent(set)}/${encodeURIComponent(set)}_${encodeURIComponent(num)}_R_EN.png`:''};
 
 function removeFromZones(s,id){Object.keys(s.zones||{}).forEach(key=>{s.zones[key]=(s.zones[key]||[]).filter(cardId=>cardId!==id)})}
 function clearLinks(card){if(!card)return;card.attachedTo=null;card.stackedUnder=null;card.rotated=false}
+function shuffled(ids){const copy=[...ids];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
 
 function selectionBar(){return $('#selectionBar')}
+function ensureDestinationButton(bar,key,label,before){let button=bar.querySelector(`[data-deck-destination="${key}"]`);if(!button){button=document.createElement('button');button.type='button';button.dataset.deckDestination=key;button.textContent=label;bar.insertBefore(button,before||null)}return button}
 function renderSelection(){
   $$('.deck-search-target').forEach(el=>el.classList.remove('deck-search-target','is-target'));
   const bar=selectionBar();
@@ -23,12 +30,12 @@ function renderSelection(){
   const card=cardById(deckSelection);if(!card){deckSelection=null;renderSelection();return}
   if(bar){
     bar.hidden=false;bar.dataset.deckSearchSelection='1';
-    const name=$('#selectionName'),hint=$('#selectionHint');if(name)name.textContent=card.name;if(hint)hint.textContent='Tap where this card should go';
+    const name=$('#selectionName'),hint=$('#selectionHint');if(name)name.textContent=card.name;if(hint)hint.textContent='Tap a destination';
     const more=$('#selectionMore');if(more)more.hidden=true;
-    let lost=bar.querySelector('[data-deck-destination="lost"]');
-    if(!lost){lost=document.createElement('button');lost.type='button';lost.dataset.deckDestination='lost';lost.textContent='Lost Zone';bar.insertBefore(lost,$('#selectionCancel')||null)}
-    let prizes=bar.querySelector('[data-deck-destination="prizes"]');
-    if(!prizes){prizes=document.createElement('button');prizes.type='button';prizes.dataset.deckDestination='prizes';prizes.textContent='Prizes';bar.insertBefore(prizes,lost)}
+    const cancel=$('#selectionCancel');
+    ensureDestinationButton(bar,'hand','Hand',cancel);
+    ensureDestinationButton(bar,'prizes','Prizes',cancel);
+    ensureDestinationButton(bar,'lost','Lost Zone',cancel);
   }
   const targets=['#handTray','[data-zone-button="discard"]','[data-zone-button="prizes"]'];
   if(isTrainer(card))targets.push('[data-zone-button="stadium"]');
@@ -37,11 +44,11 @@ function renderSelection(){
   targets.forEach(selector=>$$(selector).forEach(el=>el.classList.add('deck-search-target','is-target')));
 }
 
-function cancel(){deckSelection=null;const bar=selectionBar();if(bar){bar.querySelector('[data-deck-destination="lost"]')?.remove();bar.querySelector('[data-deck-destination="prizes"]')?.remove();const more=$('#selectionMore');if(more)more.hidden=false}renderSelection()}
+function cancel(){deckSelection=null;const bar=selectionBar();if(bar){bar.querySelectorAll('[data-deck-destination]').forEach(el=>el.remove());const more=$('#selectionMore');if(more)more.hidden=false}renderSelection()}
 
 function mutateTo(destination,targetId=null){
   const c=core(),id=deckSelection,card=cardById(id);if(!c?.mutate||!id||!card)return false;
-  const label=targetId?`${card.name} from Deck → ${destination}`:`${card.name} from Deck → ${destination}`;
+  const label=`${card.name} from Deck → ${destination}`;
   deckSelection=null;
   c.mutate(label,s=>{
     const selected=s.cards.find(row=>row.id===id);if(!selected)return;
@@ -75,7 +82,35 @@ function chooseSearchCard(id){
   deckSelection=id;core()?.closeSheet?.();renderSelection();core()?.toast?.('Choose destination');
 }
 
+function renderRandomDeckView(){
+  const sheet=$('#sheet'),body=$('#sheetBody');if(!sheet||sheet.hidden||$('#sheetTitle')?.textContent!=='Search Deck'||!body)return;
+  const list=body.querySelector('.search-list');if(!list)return;
+  let controls=body.querySelector('.deck-view-toggle');
+  if(!controls){
+    controls=document.createElement('div');controls.className='pt-sheet-actions deck-view-toggle';
+    controls.innerHTML='<button type="button" data-deck-view="list">List</button><button type="button" data-deck-view="random">Random</button>';
+    body.insertBefore(controls,list);
+  }
+  controls.querySelectorAll('[data-deck-view]').forEach(button=>button.classList.toggle('primary',(button.dataset.deckView==='random')===randomView));
+  if(!randomView){
+    list.querySelectorAll('[data-random-copy="1"]').forEach(el=>el.remove());
+    list.querySelectorAll('.search-row[data-search-card]').forEach(el=>el.hidden=false);
+    return;
+  }
+  list.querySelectorAll('.search-row[data-search-card]').forEach(el=>el.hidden=true);
+  list.querySelectorAll('[data-random-copy="1"]').forEach(el=>el.remove());
+  const ids=shuffled([...(state()?.zones?.deck||[])]);
+  ids.forEach(id=>{
+    const card=cardById(id);if(!card)return;
+    const row=document.createElement('button');row.type='button';row.className='search-row';row.dataset.searchCard=id;row.dataset.randomCopy='1';
+    const url=imageUrl(card);
+    row.innerHTML=`${url?`<img class="search-thumb" src="${esc(url)}" alt="" loading="lazy" decoding="async">`:''}<span class="search-copy"><strong>${esc(card.name)}</strong><small>${esc([card.set,card.number].filter(Boolean).join(' '))}</small></span><span class="row-count">1</span>`;
+    list.appendChild(row);
+  });
+}
+
 function onClick(event){
+  const view=event.target.closest('[data-deck-view]');if(view){event.preventDefault();event.stopImmediatePropagation();randomView=view.dataset.deckView==='random';renderRandomDeckView();return}
   const search=event.target.closest('[data-search-card]');
   if(search){event.preventDefault();event.stopImmediatePropagation();chooseSearchCard(search.dataset.searchCard);return}
   if(!deckSelection)return;
@@ -97,5 +132,6 @@ function onClick(event){
 }
 
 document.addEventListener('click',onClick,true);
-window.addEventListener('ptcg-playtest-render',()=>{if(deckSelection)renderSelection()});
+window.addEventListener('ptcg-playtest-render',()=>{if(deckSelection)renderSelection();renderRandomDeckView()});
+setInterval(renderRandomDeckView,500);
 })();
