@@ -23,7 +23,7 @@
 
   <main class="app-shell-page events-shell">
     <div class="app-page-head events-page-head"><div><div class="app-eyebrow">Compete</div><h1>Events</h1></div><div class="events-page-actions"><button id="recordTournamentButton" class="record-tournament-button" type="button">Record tournament</button><button id="refreshButton" class="refresh-button" type="button" aria-label="Refresh event data">↻</button></div></div>
-    <nav class="app-segmented event-view-tabs" aria-label="Event views"><button type="button" data-view="nearby" aria-selected="true">Nearby</button><button type="button" data-view="majors" aria-selected="false">Majors</button><button type="button" data-view="attending" aria-selected="false">Attending</button></nav>
+    <nav class="app-segmented event-view-tabs" aria-label="Compete views"><button type="button" data-view="nearby" aria-selected="true">Nearby</button><button type="button" data-view="majors" aria-selected="false">Majors</button><button id="myTournamentsTab" type="button" aria-selected="false">My Tournaments</button></nav>
 
     <details id="eventControls" class="event-controls">
       <summary><span>Filters &amp; organisers</span><small>Adjust event view</small></summary>
@@ -44,6 +44,6 @@
   <div id="recordBackdrop" class="record-backdrop hidden" aria-hidden="true"><section class="record-sheet" role="dialog" aria-modal="true" aria-labelledby="recordSheetTitle"><div class="sheet-head"><div><small>Compete</small><h2 id="recordSheetTitle">Record tournament</h2></div><button id="closeRecordSheet" class="sheet-close" type="button" aria-label="Close">×</button></div><form id="recordTournamentForm"></form></section></div>
   <div id="toast" class="event-toast hidden" role="status" aria-live="polite"></div>
   <script>window.addEventListener('pageshow',()=>document.getElementById('eventControls')?.removeAttribute('open'));</script>
-  <script src="../_shared/storage.js?v=6"></script><script src="./app.js?v=13"></script><script src="./prep-link.js?v=3"></script><script src="./tournament-link.js?v=6"></script><script src="./record-tournament.js?v=7"></script><script src="../_shared/app-shell.js?v=7"></script>
+  <script src="../_shared/storage.js?v=6"></script><script src="./app.js?v=13"></script><script>document.getElementById('myTournamentsTab')?.addEventListener('click',()=>location.href='./tournaments.html');const requested=new URLSearchParams(location.search).get('view');if(['nearby','majors'].includes(requested))document.querySelector(`[data-view="${requested}"]`)?.click();</script><script src="./prep-link.js?v=3"></script><script src="./tournament-link.js?v=6"></script><script src="./record-tournament.js?v=7"></script><script src="../_shared/app-shell.js?v=7"></script>
 </body>
 </html>
