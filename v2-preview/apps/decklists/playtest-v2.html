@@ -12,7 +12,10 @@
       const token=new URLSearchParams(location.search).get('_pt')||Date.now().toString();
       window.__PT_CACHE_TOKEN=token;
       ['../_shared/app-shell.css','playtest.css','playtest-interaction.css','playtest-layout-v3.css'].forEach(href=>{
-        document.write('<link rel="stylesheet" href="'+href+'?_pt='+encodeURIComponent(token)+'">');
+        const link=document.createElement('link');
+        link.rel='stylesheet';
+        link.href=href+'?_pt='+encodeURIComponent(token);
+        document.head.appendChild(link);
       });
     })();
   </script>
@@ -107,9 +110,28 @@
   <script>
     (function(){
       const token=window.__PT_CACHE_TOKEN||Date.now().toString();
-      ['../_shared/deckParser.js','../_shared/deck-store.js','../_shared/playtest-launch.js','playtest-metadata-adapter.js','playtest-v4.js','playtest-enhancements.js'].forEach(src=>{
-        document.write('<script src="'+src+'?_pt='+encodeURIComponent(token)+'"><\\/script>');
-      });
+      const sources=['../_shared/deckParser.js','../_shared/deck-store.js','../_shared/playtest-launch.js','playtest-metadata-adapter.js','playtest-v4.js','playtest-enhancements.js'];
+      const identity=document.getElementById('deckIdentity');
+      const fatal=document.getElementById('fatal');
+      function loadOne(src){
+        return new Promise((resolve,reject)=>{
+          const script=document.createElement('script');
+          script.src=src+'?_pt='+encodeURIComponent(token);
+          script.async=false;
+          script.onload=resolve;
+          script.onerror=()=>reject(new Error('Could not load '+src));
+          document.body.appendChild(script);
+        });
+      }
+      (async()=>{
+        try{
+          for(const src of sources)await loadOne(src);
+        }catch(error){
+          console.error(error);
+          if(identity)identity.textContent='Playtest failed to load';
+          if(fatal){fatal.textContent=error.message||'Playtest scripts could not load.';fatal.hidden=false;}
+        }
+      })();
     })();
   </script>
 </body>
