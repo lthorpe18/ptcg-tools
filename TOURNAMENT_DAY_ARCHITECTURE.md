@@ -18,7 +18,7 @@ The canonical account-owned record throughout is one `UserEventParticipation` in
 
 - Compete owns Events, Event Prep, Tournament Day, real tournament results and eventual Competitive Record / Season.
 - Deck and DeckVersion identity remain Decks-owned.
-- Cut / ID remains Tools-owned and is launched contextually from Tournament Day.
+- Cut / ID remains Tools-owned at engine/standalone-tool level, but Tournament Day owns the lightweight contextual decision workflow.
 - Real tournament rounds use the shared Match/Game contract in `v2-preview/apps/_shared/match-store.js`.
 - Tournament Day does not create a second match-history/result store.
 - Solo/goldfish Mobile Playtest remains outside competitive W/L evidence.
@@ -65,6 +65,8 @@ Tournament Day must never rewrite an immutable historical DeckVersion.
 - `lastOpenedAt`
 - `lastRoundAt`
 - `finishedAt`
+
+It may also contain mutable decision-support workspace state under `tournamentDay.idCalc`, including event setup, current opponent standings snapshots and the user's current matchup-confidence input. These are explicitly current-event state, not historical Match facts.
 
 Round results are deliberately not duplicated inside `tournamentDay`.
 
@@ -119,25 +121,53 @@ Past events in `needs-completion` use the same Tournament Day/completion workspa
 
 ## Cut / ID boundary
 
-The previous V2 Tools surface only contained a Cut / ID migration placeholder. The old `v2-preview/apps/swiss` application is a full standalone tournament manager backed by its own IndexedDB tournament store and is not an appropriate Tournament Day result store.
-
-A reusable deterministic engine now lives at:
+A reusable deterministic/recommendation engine lives at:
 
 `v2-preview/apps/_shared/cut-id-engine.js`
 
-The Tools Cut / ID surface owns its UI. Tournament Day only launches it with current W-L-D context.
+The standalone Tools Cut / ID surface remains available for advanced/manual calculations. Tournament Day exposes the normal in-event workflow through an `ID Calc` action using the same shared engine.
 
-Current bounded v1 rule:
+The old `v2-preview/apps/swiss` application is a full standalone tournament manager backed by its own IndexedDB tournament store and is not an appropriate Tournament Day result store.
 
-- one-round ID decision support;
+### Contextual Tournament Day ID workflow
+
+Tournament Day automatically supplies the user's current W-L-D from canonical Match history. Opening ID Calc asks only for decision-relevant current information:
+
+- tournament player count, cut size and total Swiss rounds, remembered for the event;
+- the **current** W-L-D records of previous opponents, shown from already-recorded rounds and only updated when the user wants an ID check;
+- the next opponent's current record;
+- a lightweight five-level confidence rating for the next matchup;
+- current W-L-D records for players around the cut who could still affect the user's ID outcome.
+
+Previous opponents' current records must **not** be written into the historical Match record. They change as the event progresses, so they belong in mutable `tournamentDay.idCalc` state keyed by Match ID.
+
+The user may explicitly confirm that the entered near-cut standings include everyone who can still reach the user's ID score. Only then may the tool treat omitted lower-table players as mathematically irrelevant. Without that confirmation, the output is labelled as a recommendation/lean rather than a mathematical lock.
+
+### Resistance and recommendation separation
+
+Opponent Win Percentage is estimated from the current records of all previous opponents. The shared engine follows the Play! Pokémon Win Percentage concept: wins divided by rounds played, subject to the 25% floor. Resistance is not used unless all previous-opponent current records have been supplied.
+
+The result must keep three concepts visibly separate:
+
+1. deterministic points/cut bound;
+2. current resistance estimate;
+3. subjective next-match confidence.
+
+Matchup confidence may influence the **ID vs Play recommendation**, but must never change the deterministic cut bound or be presented as measured match-win probability.
+
+Current bounded rule:
+
+- one-round/final-Swiss-round ID decision support;
 - Pokémon points including draws;
 - Top N cut size;
-- deterministic maximum-above / maximum-at-or-above conclusions;
-- pairing-aware bound when complete final-round pairing point totals are supplied;
-- conservative bound when pairings are unavailable;
-- no probabilistic simulation or empirical tie-rate default.
+- deterministic maximum-above / maximum-at-or-above conclusions when the relevant standings set is asserted complete;
+- current Op Win % estimate from previous opponents' current records;
+- lightweight qualitative ID-vs-Play recommendation using cut position, resistance and user-entered matchup confidence;
+- standalone pairing-aware conservative calculator remains available under Tools;
+- no hidden empirical tie-rate default;
+- no probabilistic simulation.
 
-Future Cut / ID expansion should extend this reusable Tools engine rather than embedding competing logic in Tournament Day.
+Future Cut / ID expansion should extend the reusable Tools engine rather than embedding competing calculation logic in Tournament Day.
 
 ## UX / performance locks
 
@@ -145,6 +175,7 @@ Tournament Day is mobile-first around ~390 CSS px and answer-first:
 
 - current W-L-D is primary;
 - next-round action remains prominent;
+- `ID Calc` is a lightweight contextual action beside completion rather than a separate data-entry workflow;
 - exact used list remains visible;
 - round history is compact and editable;
 - routine entry uses taps and mobile-safe 16 px form inputs;
