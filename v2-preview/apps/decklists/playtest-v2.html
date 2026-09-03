@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#163d2a">
+  <meta name="theme-color" content="#176b45">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Playtest · PTCG Tools</title>
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
@@ -24,7 +24,7 @@
       <strong id="deckTitle">Playtest</strong>
       <span id="deckIdentity">Loading exact list…</span>
     </div>
-    <button id="menuButton" class="header-button" type="button" aria-label="Tabletop menu">•••</button>
+    <button id="menuButton" class="header-button" type="button" aria-label="Playtest menu">•••</button>
   </header>
 
   <main id="playtestApp" class="playtest-app" hidden>
@@ -107,7 +107,7 @@
   <script>
     (function(){
       const token=window.__PT_CACHE_TOKEN||Date.now().toString();
-      ['../_shared/deckParser.js','../_shared/deck-store.js','../_shared/playtest-launch.js','playtest-metadata-adapter.js','playtest-v4.js','playtest-hand-actions.js'].forEach(src=>{
+      ['../_shared/deckParser.js','../_shared/deck-store.js','../_shared/playtest-launch.js','playtest-metadata-adapter.js','playtest-v4.js','playtest-enhancements.js'].forEach(src=>{
         document.write('<script src="'+src+'?_pt='+encodeURIComponent(token)+'"><\\/script>');
       });
     })();
