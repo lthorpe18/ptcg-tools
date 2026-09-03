@@ -54,7 +54,10 @@ function renderCardMarkers(){
     const card=cardById(state,el.dataset.cardId);const markers=Array.isArray(card?.markers)?card.markers:[];
     let tray=el.querySelector('.playtest-marker-tray');
     if(!markers.length){tray?.remove();return}
+    const signature=markers.join('|');
     if(!tray){tray=document.createElement('span');tray.className='playtest-marker-tray';el.appendChild(tray)}
+    if(tray.dataset.signature===signature)return;
+    tray.dataset.signature=signature;
     tray.innerHTML=markers.map(marker=>`<span class="playtest-marker marker-${marker}" title="${markerLabel(marker)}">${marker==='ability'?'A':marker==='poisoned'?'P':marker==='burned'?'B':marker==='asleep'?'Z':marker==='confused'?'?':'!'}</span>`).join('');
   });
 }
@@ -73,7 +76,7 @@ function injectMarkerControls(){
   body.appendChild(wrap);
 }
 function updateDeckTarget(){const deck=$('.side-pile[data-zone-button="deck"]');if(deck)deck.classList.toggle('is-target',!!selectedHandCard())}
-function refreshUndo(){const button=$('#undoButton');if(button&&hasUndo())button.disabled=false}
+function refreshUndo(){const button=$('#undoButton');if(button&&hasUndo()&&button.disabled)button.disabled=false}
 function refresh(){renderCardMarkers();injectMarkerControls();updateDeckTarget();refreshUndo()}
 
 document.addEventListener('click',event=>{
@@ -85,6 +88,6 @@ document.addEventListener('click',event=>{
   if(hasUndo()&&event.target.closest('button,.play-card'))clearUndo();
 },true);
 
-new MutationObserver(refresh).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','disabled','hidden']});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh);else refresh();
+function startRefreshLoop(){refresh();window.setInterval(refresh,400)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',startRefreshLoop,{once:true});else startRefreshLoop();
 })();
