@@ -8,7 +8,7 @@
   <title>Tournament Day · PTCG Tools</title>
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="./tournament-day.css?v=4">
+  <link rel="stylesheet" href="./tournament-day.css?v=5">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="compete">
   <header class="app-shell-header">
@@ -54,14 +54,14 @@
       <form id="roundForm">
         <input id="matchId" type="hidden">
         <input id="roundLabel" type="hidden" value="Round 1">
-        <label class="field-block"><span>Opponent</span><input id="opponentArchetype" type="text" inputmode="text" autocomplete="off" list="archetypeOptions" placeholder="Select or type their deck"></label>
+        <label class="field-block"><span>Opponent</span><input id="opponentArchetype" type="text" inputmode="text" autocomplete="off" list="archetypeOptions" placeholder="Opponent deck"></label>
         <datalist id="archetypeOptions"></datalist>
-        <fieldset class="round-choice"><legend>Match result</legend><div class="segmented-input"><input type="radio" name="result" id="resultWin" value="win"><label for="resultWin">W</label><input type="radio" name="result" id="resultLoss" value="loss"><label for="resultLoss">L</label><input type="radio" name="result" id="resultDraw" value="draw"><label for="resultDraw">D</label></div></fieldset>
+        <fieldset class="round-choice"><legend>Result</legend><div class="segmented-input"><input type="radio" name="result" id="resultWin" value="win"><label for="resultWin">W</label><input type="radio" name="result" id="resultLoss" value="loss"><label for="resultLoss">L</label><input type="radio" name="result" id="resultDraw" value="draw"><label for="resultDraw">D</label></div></fieldset>
         <div class="round-two-col">
-          <fieldset class="round-choice"><legend>Game score</legend><div class="score-row"><label><span>W</span><input id="gameWins" type="number" min="0" max="9" inputmode="numeric" value="0"></label><label><span>L</span><input id="gameLosses" type="number" min="0" max="9" inputmode="numeric" value="0"></label><label><span>D</span><input id="gameDraws" type="number" min="0" max="9" inputmode="numeric" value="0"></label></div></fieldset>
+          <fieldset class="round-choice"><legend>Games</legend><div class="score-row"><label><span>W</span><input id="gameWins" type="number" min="0" max="9" inputmode="numeric" value="0"></label><label><span>L</span><input id="gameLosses" type="number" min="0" max="9" inputmode="numeric" value="0"></label><label><span>D</span><input id="gameDraws" type="number" min="0" max="9" inputmode="numeric" value="0"></label></div></fieldset>
           <fieldset class="round-choice"><legend>Game 1</legend><div class="segmented-input two"><input type="radio" name="wentFirst" id="firstYes" value="first"><label for="firstYes">1st</label><input type="radio" name="wentFirst" id="firstNo" value="second"><label for="firstNo">2nd</label><input type="radio" name="wentFirst" id="firstUnknown" value="" checked><label for="firstUnknown" class="visually-hidden-choice">?</label></div></fieldset>
         </div>
-        <details class="round-more"><summary>Notes / pairing details</summary><textarea id="roundNotes" rows="3" placeholder="Opponent name, table, anything worth remembering…"></textarea></details>
+        <details class="round-more"><summary>More</summary><textarea id="roundNotes" rows="3" placeholder="Opponent name, table, notes…"></textarea></details>
         <div class="sheet-actions"><button id="deleteRound" class="danger-button hidden" type="button">Delete</button><button class="primary-button" type="submit">Save round</button></div>
       </form>
     </section>
