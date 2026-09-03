@@ -2,7 +2,7 @@
 'use strict';
 const $=id=>document.getElementById(id);
 function nums(text){return String(text||'').split(/[\s,;]+/).map(Number).filter(Number.isFinite)}
-function pairings(text){return String(text||'').split(/\n+/).map(line=>nums(line)).filter(row=>row.length).map(row=>row.slice(0,2))}
+function pairings(text){return String(text||'').split(/\n+/).map(line=>{const parts=String(line||'').split(',').map(part=>part.trim()).filter(Boolean);const values=parts.slice(0,2).map(Number).filter(Number.isFinite);if(!values.length)return null;if(parts.slice(2).some(part=>/^id$/i.test(part)))values.push('id');return values}).filter(Boolean)}
 function showError(message){const el=$('cutResult');el.className='calc-result unsafe';el.innerHTML=`<strong>More standings detail needed</strong><span>${message}</span>`}
 function calculate(){
   const wins=Number($('cutWins').value)||0,draws=Number($('cutDraws').value)||0,cutSize=Number($('cutSize').value)||8,playerCount=Number($('cutPlayers').value),otherPoints=nums($('cutPoints').value),known=pairings($('cutPairings').value),opponentRaw=$('cutOpponent').value.trim(),opponentPoints=opponentRaw===''?null:Number(opponentRaw);
@@ -10,7 +10,7 @@ function calculate(){
   const hasOpponent=Number.isFinite(opponentPoints),expectedOthers=playerCount-1-(hasOpponent?1:0);
   if(known.length){
     if(!hasOpponent){showError('Enter your paired opponent’s current points before using pairing-aware mode. Your own pairing is handled as the ID; the remaining pairings should exclude both of you.');return}
-    const represented=known.reduce((total,row)=>total+row.length,0);
+    const represented=known.reduce((total,row)=>total+Math.min(2,row.filter(value=>Number.isFinite(Number(value))).length),0);
     if(represented!==expectedOthers){showError(`Complete pairing data is required for a pairing-aware guarantee. Expected ${expectedOthers} other players across the remaining pairings, but ${represented} are represented.`);return}
   }else if(otherPoints.length!==expectedOthers){
     showError(`Enter all ${expectedOthers} other players’ current point totals${hasOpponent?' (excluding your paired opponent)':''}. ${otherPoints.length} are currently supplied.`);return
