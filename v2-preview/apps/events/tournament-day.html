@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8fb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Tournament Day · PTCG Tools</title>
+  <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
+  <link rel="stylesheet" href="./tournament-day.css?v=1">
+</head>
+<body class="ptcg-v2" data-app-root="../.." data-app-section="compete">
+  <header class="app-shell-header">
+    <a class="app-shell-brand" href="./" aria-label="Back to Events"><span class="app-shell-mark">←</span><span class="app-shell-brand-copy"><strong>Tournament Day</strong><small id="headerEvent">Compete</small></span></a>
+    <div class="app-shell-header-actions"><span id="saveState" class="app-context-pill">Loading…</span></div>
+  </header>
+
+  <main class="app-shell-page td-shell">
+    <header class="td-head">
+      <a class="td-back" href="./">← Events</a>
+      <div class="app-eyebrow">Compete · Tournament Day</div>
+      <h1 id="eventTitle">Tournament</h1>
+      <p id="eventMeta">Loading event…</p>
+    </header>
+
+    <div id="fatal" class="app-card td-empty hidden"></div>
+    <div id="workspace" class="td-stack hidden">
+      <section class="record-card app-card">
+        <div class="record-top"><div><small>Current record</small><strong id="recordValue">0-0-0</strong></div><div class="round-count"><small>Rounds</small><strong id="roundsValue">0</strong></div></div>
+        <div id="deckSummary" class="deck-summary"></div>
+        <button id="addRound" type="button" class="primary-button full-button">Add Round 1</button>
+        <div class="quick-actions"><a id="cutIdLink" class="secondary-button" href="../tools/#cut">Cut / ID</a><button id="completeEvent" type="button" class="secondary-button">Complete event</button></div>
+      </section>
+
+      <section id="startCard" class="app-card td-card hidden">
+        <div class="td-card-head"><div><small>Start tournament</small><h2>Confirm the list you are using</h2></div></div>
+        <p class="muted">Your planned list is kept historically. Tournament Day records the actual list separately.</p>
+        <div id="plannedHint" class="planned-hint"></div>
+        <label><span>Deck</span><select id="deckSelect"></select></label>
+        <label><span>Exact version</span><select id="versionSelect"></select></label>
+        <button id="startTournament" class="primary-button full-button" type="button">Start Tournament</button>
+      </section>
+
+      <section class="app-card td-card">
+        <div class="td-card-head"><div><small>Round history</small><h2>Your matches</h2></div></div>
+        <div id="roundHistory" class="round-history"></div>
+      </section>
+    </div>
+  </main>
+
+  <div id="roundBackdrop" class="sheet-backdrop hidden" aria-hidden="true">
+    <section class="td-sheet" role="dialog" aria-modal="true" aria-labelledby="roundSheetTitle">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head"><div><small id="roundSheetEyebrow">Round</small><h2 id="roundSheetTitle">Add round</h2></div><button id="closeRoundSheet" type="button" class="sheet-close" aria-label="Close">×</button></div>
+      <form id="roundForm">
+        <input id="matchId" type="hidden">
+        <label><span>Round label</span><input id="roundLabel" type="text" inputmode="text" autocomplete="off" placeholder="Round 1"></label>
+        <label><span>Opponent archetype</span><input id="opponentArchetype" type="text" inputmode="text" autocomplete="off" list="archetypeOptions" placeholder="e.g. Dragapult ex"></label>
+        <datalist id="archetypeOptions"></datalist>
+        <fieldset><legend>Match result</legend><div class="segmented-input"><input type="radio" name="result" id="resultWin" value="win"><label for="resultWin">Win</label><input type="radio" name="result" id="resultLoss" value="loss"><label for="resultLoss">Loss</label><input type="radio" name="result" id="resultDraw" value="draw"><label for="resultDraw">Draw</label></div></fieldset>
+        <div class="score-row"><label><span>Game wins</span><input id="gameWins" type="number" min="0" max="9" inputmode="numeric" value="0"></label><label><span>Game losses</span><input id="gameLosses" type="number" min="0" max="9" inputmode="numeric" value="0"></label><label><span>Game draws</span><input id="gameDraws" type="number" min="0" max="9" inputmode="numeric" value="0"></label></div>
+        <fieldset><legend>Game 1 turn order</legend><div class="segmented-input three"><input type="radio" name="wentFirst" id="firstUnknown" value="" checked><label for="firstUnknown">Unknown</label><input type="radio" name="wentFirst" id="firstYes" value="first"><label for="firstYes">First</label><input type="radio" name="wentFirst" id="firstNo" value="second"><label for="firstNo">Second</label></div></fieldset>
+        <label><span>Pairing / opponent notes <small>optional</small></span><textarea id="roundNotes" rows="3" placeholder="Opponent name, table, key notes…"></textarea></label>
+        <div class="sheet-actions"><button id="deleteRound" class="danger-button hidden" type="button">Delete</button><button class="primary-button" type="submit">Save round</button></div>
+      </form>
+    </section>
+  </div>
+
+  <div id="completionBackdrop" class="sheet-backdrop hidden" aria-hidden="true">
+    <section class="td-sheet" role="dialog" aria-modal="true" aria-labelledby="completionTitle">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head"><div><small>Finish event</small><h2 id="completionTitle">Complete tournament</h2></div><button id="closeCompletion" type="button" class="sheet-close" aria-label="Close">×</button></div>
+      <form id="completionForm">
+        <div id="completionRecord" class="completion-record"></div>
+        <div class="completion-grid"><label><span>Final placement</span><input id="placement" type="number" min="1" inputmode="numeric" placeholder="3"></label><label><span>Player count</span><input id="playerCount" type="number" min="1" inputmode="numeric" placeholder="20"></label></div>
+        <label><span>Event notes <small>optional</small></span><textarea id="completionNotes" rows="4" placeholder="What happened, what to remember…"></textarea></label>
+        <button class="primary-button full-button" type="submit">Complete event</button>
+      </form>
+    </section>
+  </div>
+
+  <div id="toast" class="td-toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="../_shared/storage.js?v=6"></script>
+  <script src="../_shared/deckParser.js?v=3"></script>
+  <script src="../_shared/deck-store.js?v=5"></script>
+  <script src="../_shared/match-store.js?v=2"></script>
+  <script src="../_shared/archetype-catalog.js?v=1"></script>
+  <script src="./tournament-day.js?v=1"></script>
+  <script src="../_shared/app-shell.js?v=7"></script>
+</body>
+</html>
