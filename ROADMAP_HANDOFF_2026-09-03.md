@@ -8,18 +8,19 @@ Read alongside:
 - `PLAYTEST_ARCHITECTURE.md`
 - `PERFORMANCE_ARCHITECTURE.md`
 - `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`
+- `TOURNAMENT_DAY_ARCHITECTURE.md`
 
 ## Supersession note
 
 The existing `PTCG_TOOLS_MASTER.md` section 9.4 / near-term roadmap text still describes **Mobile Playtest v1 as the current programme milestone**.
 
-That status is now superseded by this handoff and `PLAYTEST_ARCHITECTURE.md`.
+That status is now superseded by this handoff, `PLAYTEST_ARCHITECTURE.md` and `TOURNAMENT_DAY_ARCHITECTURE.md`.
 
 As of 3 September 2026:
 
-> **Mobile Playtest v1 is feature-complete pending a short acceptance/cleanup pass. It should not remain the current programme milestone.**
+> **Mobile Playtest v1 is feature-complete pending a short acceptance/cleanup pass. Tournament Day + event-linked results completion v1 is the active programme milestone.**
 
-The accepted remaining work is only:
+The accepted remaining Playtest work is only:
 
 - play several complete iPhone goldfish games;
 - fix genuine bugs/regressions found in use;
@@ -69,20 +70,41 @@ Do not keep expanding Playtest before central Roadmap review unless testing unco
 9. The outer persistent shell owns the five-item global navigation; Playtest does not reserve/duplicate it.
 10. The current measured iPhone layout is considered good enough; future visual changes require a concrete usability reason.
 
+## Active milestone — Tournament Day + event-linked results completion v1
+
+The downstream Compete implementation is now active.
+
+Current architecture is recorded in `TOURNAMENT_DAY_ARCHITECTURE.md`.
+
+The milestone reuses the established canonical contracts rather than creating a parallel tournament store:
+
+- one `UserEventParticipation` continues from attendance / Prep through Tournament Day and completion;
+- `plannedDeckRef` remains historical planning intent;
+- `usedDeckRef` records the exact Deck/DeckVersion/list actually used;
+- real rounds write the shared Match/Game store and link by `participationId`;
+- editing/deleting a round reconciles the same stable Match ID rather than duplicating evidence;
+- completion updates `UserEventParticipation.completion`;
+- past `needs-completion` events use the same completion workflow;
+- Cut / ID remains Tools-owned and is contextually launched from Tournament Day.
+
+The old V2 Swiss application remains a separate standalone tournament manager and is not the canonical personal Tournament Day result store.
+
+A bounded deterministic Cut / ID engine has been added under shared Tools infrastructure. It supports one-round ID decisions, draws, Top N cuts, conservative no-pairing bounds and tighter complete-pairing bounds without hidden probabilistic/tie-rate assumptions.
+
 ## Roadmap implication
 
-The central Roadmap should now choose the next milestone from the downstream product loop rather than continuing Mobile Playtest implementation.
+After Tournament Day / event-linked results completion has passed acceptance/cleanup testing, the next major milestone should be:
 
-The older master ordering already identifies likely candidates:
+**Competitive Record / Season v1**
 
-- Tournament Day + event-linked results completion;
-- Competitive Record / Season v1;
+Later candidates remain:
+
 - Collection / physical readiness;
 - Learning loop / personal analytics;
-- Cut / ID work in step with Tournament Day.
+- broader Cut / ID sophistication only as real tournament use demonstrates a need.
 
-The exact next milestone should be decided centrally against current repo state, dependencies and the broader loop:
+The broader loop remains:
 
 **Analyse → Build & Test → Prepare → Compete → Learn**
 
-Mobile Playtest now makes the **Build & Test** stage materially usable and should be treated as an established foundation.
+Mobile Playtest establishes Build & Test; Event Prep establishes Prepare; Tournament Day is now closing the primary structural gap in Compete.
