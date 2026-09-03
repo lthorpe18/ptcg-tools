@@ -91,7 +91,7 @@ async function newState(payload){
   const cards=expandDeck(payload.rawText);if(!cards.length)throw new Error('This list has no cards to playtest.');
   await hydratePokemonStages(cards);
   const {deckIds,hand,prizes,mulligans}=dealOpeningHand(cards);
-  return {stateVersion:STATE_VERSION,sessionId:uid('playtest'),startedAt:new Date().toISOString(),updatedAt:new Date().toISOString(),source:payload.source||'working-list',identity:clone(payload.identity),turn:1,coin:null,mulligans,cards,zones:{deck:deckIds,hand,active:[],bench:[],discard:[],lost:[],prizes,stadium:[],attached:[],under:[]},history:[{at:Date.now(),text:`Opening hand ready after ${mulligans} mulligan${mulligans===1?'':'s'}`},{at:Date.now(),text:`Set up 7-card hand and ${prizes.length} prizes`}]};
+  return {stateVersion:STATE_VERSION,sessionId:uid('playtest'),startedAt:new Date().toISOString(),updatedAt:new Date().toISOString(),source:payload.source||'working-list',identity:clone(payload.identity),turn:0,coin:null,mulligans,cards,zones:{deck:deckIds,hand,active:[],bench:[],discard:[],lost:[],prizes,stadium:[],attached:[],under:[]},history:[{at:Date.now(),text:`Opening hand ready after ${mulligans} mulligan${mulligans===1?'':'s'}`},{at:Date.now(),text:`Set up 7-card hand and ${prizes.length} prizes`}]};
 }
 function loadPersisted(payload){
   try{const saved=JSON.parse(localStorage.getItem(ACTIVE_KEY)||'null');if(saved&&saved.stateVersion===STATE_VERSION&&identityKey(saved.identity)===identityKey(payload.identity)&&Array.isArray(saved.cards)&&saved.zones){if(!Array.isArray(saved.zones.attached))saved.zones.attached=[];if(!Array.isArray(saved.zones.under))saved.zones.under=[];saved.cards.forEach(card=>{if(!('stackedUnder' in card))card.stackedUnder=null});return saved}}catch{}return null;
@@ -162,12 +162,12 @@ function resolveZoneTarget(targetZone){
   moveCard(card.id,targetZone,targetZone==='discard'&&isTrainer(card)?`Played ${card.name}`:undefined);return true;
 }
 
-function cardFrame(card){if(!card)return '<span class="empty-slot">Empty</span>';const url=imageUrl(card);return `<span class="card-frame">${url?`<img class="card-art" src="${esc(url)}" alt="${esc(card.name)}" loading="lazy">`:''}<span class="card-fallback">${esc(card.name)}</span></span>`}
+function cardFrame(card,lazy=false){if(!card)return '<span class="empty-slot">Empty</span>';const url=imageUrl(card);return `<span class="card-frame">${url?`<img class="card-art" src="${esc(url)}" alt="${esc(card.name)}" loading="${lazy?'lazy':'eager'}" decoding="async">`:''}<span class="card-fallback">${esc(card.name)}</span></span>`}
 function attachmentDecor(card){const count=attachmentsFor(card.id).length,under=underCards(card.id).length;if(!count&&!under)return '';return `<span class="attachment-stack" aria-hidden="true">${under?'<i></i>':''}${count?'<i></i>':''}</span>${count?`<span class="attachment-count">+${count}</span>`:''}`}
 function fieldCard(card,zoneKey){const damage=Number(card.damage||0)>0?`<span class="damage-badge">${Number(card.damage)}</span>`:'';return `<button type="button" class="play-card ${card.rotated?'rotated':''}" data-card-id="${esc(card.id)}" data-zone="${zoneKey}" aria-label="${esc(card.name)}">${attachmentDecor(card)}${cardFrame(card)}${damage}</button>`}
 function handCard(card){return `<button type="button" class="play-card" data-card-id="${esc(card.id)}" data-zone="hand" aria-label="${esc(card.name)}">${cardFrame(card)}</button>`}
 function emptyBenchSlot(index){return `<button type="button" class="bench-target-slot" data-zone-target="bench" aria-label="Empty Bench slot ${index+1}"><span>＋</span></button>`}
-function pileImage(card){const url=imageUrl(card);return url?`<img src="${esc(url)}" alt="">`:''}
+function pileImage(card){const url=imageUrl(card);return url?`<img src="${esc(url)}" alt="" loading="eager" decoding="async">`:''}
 
 function ensureSelectionBar(){if($('selectionBar'))return;const bar=document.createElement('div');bar.id='selectionBar';bar.className='selection-bar';bar.hidden=true;bar.innerHTML='<div><strong id="selectionName"></strong><span id="selectionHint"></span></div><button id="selectionMore" type="button">More</button><button id="selectionCancel" type="button">Cancel</button>';document.querySelector('.table-toolbar')?.after(bar);$('selectionMore').addEventListener('click',()=>{if(selection)openCardSheet(selection.cardId)});$('selectionCancel').addEventListener('click',()=>clearSelection())}
 function renderSelection(){
@@ -195,6 +195,7 @@ function render(){
   ['deck','prizes','discard','lost'].forEach(key=>{$(`${key}Count`).textContent=zone(key).length});
   const discardTop=cardById(zone('discard').at(-1)),lostTop=cardById(zone('lost').at(-1));$('discardPreview').className=`pile-preview ${discardTop?'':'empty'}`;$('discardPreview').innerHTML=discardTop?pileImage(discardTop):'';$('lostPreview').className=`pile-preview ${lostTop?'':'empty'}`;$('lostPreview').innerHTML=lostTop?pileImage(lostTop):'';$('undoButton').disabled=!undoStack.length;
   renderSelection();
+  window.dispatchEvent(new CustomEvent('ptcg-playtest-render'));
 }
 
 function draw(count=1){const available=Math.min(Number(count)||1,zone('deck').length);if(!available){toast('Deck is empty');return}mutate(`Drew ${available} card${available===1?'':'s'}`,()=>{for(let i=0;i<available;i++)state.zones.hand.push(state.zones.deck.shift())})}
@@ -216,16 +217,31 @@ function openCardSheet(cardId){
   const extras=[...under,...attached];const extraInfo=extras.length?`<div class="sheet-section-title">Under / attached</div><div class="zone-list">${extras.map(zoneRow).join('')}</div>`:'';
   openSheet(card.name,'CARD',`${zoneName(from)}${cardMeta(card)?` · ${cardMeta(card)}`:''}`,`<div class="card-sheet-layout"><div class="sheet-card-preview">${cardFrame(card)}</div><div class="action-grid">${buttons.join('')}</div></div>${fieldActions}${extraInfo}`)
 }
-function zoneRow(card){return `<button type="button" class="zone-row" data-card-id="${esc(card.id)}"><img class="zone-thumb" src="${esc(imageUrl(card))}" alt="" loading="lazy"><span class="zone-copy"><strong>${esc(card.name)}</strong><small>${esc(cardMeta(card))}</small></span><span class="row-count">›</span></button>`}
+function zoneRow(card){return `<button type="button" class="zone-row" data-card-id="${esc(card.id)}"><img class="zone-thumb" src="${esc(imageUrl(card))}" alt="" loading="lazy" decoding="async"><span class="zone-copy"><strong>${esc(card.name)}</strong><small>${esc(cardMeta(card))}</small></span><span class="row-count">›</span></button>`}
 function openZoneSheet(key){
   if(key==='deck'){openSearchDeck();return}const ids=zone(key);
   if(key==='prizes'){const body=ids.length?`<p class="sheet-note">Prize identities stay hidden.</p><div class="zone-list">${ids.map((id,index)=>`<button type="button" class="zone-row" data-take-prize="${index}"><span class="card-back" style="position:relative;left:auto;top:auto;transform:none;width:34px"></span><span class="zone-copy"><strong>Prize ${index+1}</strong><small>Face down</small></span><span class="row-count">Take</span></button>`).join('')}</div>`:'<p class="sheet-note">No prizes remaining.</p>';openSheet('Prizes','ZONE',`${ids.length} remaining`,body);return}
   const cards=ids.map(cardById).filter(Boolean);openSheet(zoneName(key),'ZONE',`${cards.length} card${cards.length===1?'':'s'}`,cards.length?`<div class="zone-list">${cards.map(zoneRow).join('')}</div>`:`<p class="sheet-note">${esc(zoneName(key))} is empty.</p>`)
 }
-function openSearchDeck(){const grouped=new Map();zone('deck').forEach(id=>{const card=cardById(id),key=[card.name,card.set||'',card.number||''].join('|');if(!grouped.has(key))grouped.set(key,{card,ids:[]});grouped.get(key).ids.push(id)});const rows=[...grouped.values()].sort((a,b)=>a.card.name.localeCompare(b.card.name));openSheet('Search Deck','DECK',`${zone('deck').length} cards remaining`,rows.length?`<p class="sheet-note">Tap a card to move one copy to hand. Shuffle separately when finished.</p><div class="search-list">${rows.map(row=>`<button type="button" class="search-row" data-search-card="${esc(row.ids[0])}"><img class="search-thumb" src="${esc(imageUrl(row.card))}" alt="" loading="lazy"><span class="search-copy"><strong>${esc(row.card.name)}</strong><small>${esc(cardMeta(row.card))}</small></span><span class="row-count">×${row.ids.length}</span></button>`).join('')}</div>`:'<p class="sheet-note">Deck is empty.</p>')}
+function openSearchDeck(){const grouped=new Map();zone('deck').forEach(id=>{const card=cardById(id),key=[card.name,card.set||'',card.number||''].join('|');if(!grouped.has(key))grouped.set(key,{card,ids:[]});grouped.get(key).ids.push(id)});const rows=[...grouped.values()].sort((a,b)=>a.card.name.localeCompare(b.card.name));openSheet('Search Deck','DECK',`${zone('deck').length} cards remaining`,rows.length?`<p class="sheet-note">Tap a card to move one copy to hand. Shuffle separately when finished.</p><div class="search-list">${rows.map(row=>`<button type="button" class="search-row" data-search-card="${esc(row.ids[0])}"><img class="search-thumb" src="${esc(imageUrl(row.card))}" alt="" loading="lazy" decoding="async"><span class="search-copy"><strong>${esc(row.card.name)}</strong><small>${esc(cardMeta(row.card))}</small></span><span class="row-count">×${row.ids.length}</span></button>`).join('')}</div>`:'<p class="sheet-note">Deck is empty.</p>')}
 function takePrize(index){const id=zone('prizes')[Number(index)];if(!id)return;mutate(`Took prize ${Number(index)+1}`,()=>{state.zones.prizes.splice(Number(index),1);state.zones.hand.push(id)});closeSheet();toast('Prize taken')}
 function openMenu(){const history=(state.history||[]).slice(0,12).map(entry=>`<div class="history-row">${esc(entry.text)}</div>`).join('')||'<div class="history-row">No actions yet.</div>';openSheet('Tabletop','PLAYTEST',`${state.identity.deckName||'Deck'} · ${Number(state.mulligans||0)} mulligan${Number(state.mulligans||0)===1?'':'s'} · turn ${state.turn}`,`<div class="menu-grid"><button type="button" data-menu-action="coin">Flip coin</button><button type="button" data-menu-action="shuffle">Shuffle deck</button><button type="button" data-menu-action="undo">Undo</button><button type="button" data-menu-action="reset">Fresh setup</button></div><div class="sheet-section-title">Recent actions</div><div class="history-list">${history}</div>`)}
 async function resetGame(){if(!launch||!confirm('Start a fresh setup with this exact list?'))return;undoStack=[];selection=null;state=await newState(launch);persist();render();closeSheet();toast(`${state.mulligans} mulligan${state.mulligans===1?'':'s'}`)}
+
+window.PTCGPlaytestCore={
+  getState:()=>state,
+  getSelection:()=>selection,
+  cardById,
+  sourceZone,
+  mutate:(label,fn)=>mutate(label,()=>fn(state)),
+  render,
+  closeSheet,
+  openCardSheet,
+  shuffleDeck,
+  draw,
+  toast,
+  clearSelection
+};
 
 function bind(){
   ensureSelectionBar();$('drawButton').addEventListener('click',()=>draw(1));$('searchButton').addEventListener('click',openSearchDeck);$('shuffleButton').addEventListener('click',shuffleDeck);$('coinButton').addEventListener('click',coinFlip);$('undoButton').addEventListener('click',undo);$('endTurn').addEventListener('click',endTurn);$('resetButton').addEventListener('click',()=>resetGame());$('menuButton').addEventListener('click',openMenu);
