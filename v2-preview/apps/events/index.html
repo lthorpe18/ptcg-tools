@@ -9,7 +9,7 @@
   <title>Events · PTCG Tools</title>
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="./styles.css?v=7">
+  <link rel="stylesheet" href="./styles.css?v=8">
   <link rel="stylesheet" href="./saved-venues.css?v=2">
   <link rel="stylesheet" href="./location.css?v=1">
   <link rel="stylesheet" href="./record-tournament.css?v=5">
@@ -24,7 +24,7 @@
     <div class="app-page-head events-page-head"><div><div class="app-eyebrow">Compete</div><h1>Events</h1></div><div class="events-page-actions"><button id="recordTournamentButton" class="record-tournament-button" type="button">Record tournament</button><button id="refreshButton" class="refresh-button" type="button" aria-label="Refresh event data">↻</button></div></div>
     <nav class="app-segmented event-view-tabs" aria-label="Event views"><button type="button" data-view="nearby" aria-selected="true">Nearby</button><button type="button" data-view="majors" aria-selected="false">Majors</button><button type="button" data-view="attending" aria-selected="false">Attending</button></nav>
 
-    <details class="event-controls">
+    <details id="eventControls" class="event-controls">
       <summary><span>Filters &amp; organisers</span><small>Adjust event view</small></summary>
       <div class="event-controls-body">
         <section id="nearbyFilters" class="filter-panel app-card" aria-label="Nearby event filters"><div class="type-chips" role="group" aria-label="Nearby event type"><button type="button" data-local-type="all" class="active">All</button><button type="button" data-local-type="League Cup">Cups</button><button type="button" data-local-type="League Challenge">Challenges</button><button type="button" data-local-type="Prerelease">Prerelease</button></div><div class="filter-row"><label><span>Distance</span><select id="distanceFilter"><option value="10">10 mi</option><option value="25" selected>25 mi</option><option value="50">50 mi</option><option value="75">75 mi</option><option value="100">100 mi</option><option value="all">Any</option></select></label><label><span>Date</span><select id="nearbyDateFilter"><option value="30">30 days</option><option value="90" selected>90 days</option><option value="180">6 months</option><option value="all">All</option></select></label></div><div class="location-row"><div><span class="location-label">From</span><strong id="locationSummary">Bristol</strong></div><button id="changeLocationButton" type="button" aria-expanded="false">Change</button></div><div id="locationEditor" class="location-editor hidden"><div class="location-actions"><button id="useDeviceLocationButton" type="button">Use current location</button><span>or</span><div class="postcode-row"><input id="postcodeInput" type="text" inputmode="text" autocomplete="postal-code" placeholder="UK postcode" aria-label="UK postcode"><button id="setPostcodeButton" type="button">Set</button></div></div><small id="locationError" class="location-error hidden"></small><small class="location-note">UK-wide local feed · upcoming 6 months. Distances filter from your selected location.</small></div><button id="savedVenuesFilter" class="saved-venues-filter" type="button" aria-pressed="false">☆ Saved organisers only</button></section>
@@ -42,6 +42,7 @@
 
   <div id="recordBackdrop" class="record-backdrop hidden" aria-hidden="true"><section class="record-sheet" role="dialog" aria-modal="true" aria-labelledby="recordSheetTitle"><div class="sheet-head"><div><small>Compete</small><h2 id="recordSheetTitle">Record tournament</h2></div><button id="closeRecordSheet" class="sheet-close" type="button" aria-label="Close">×</button></div><form id="recordTournamentForm"></form></section></div>
   <div id="toast" class="event-toast hidden" role="status" aria-live="polite"></div>
+  <script>window.addEventListener('pageshow',()=>document.getElementById('eventControls')?.removeAttribute('open'));</script>
   <script src="../_shared/storage.js?v=6"></script><script src="./app.js?v=13"></script><script src="./prep-link.js?v=3"></script><script src="./tournament-link.js?v=3"></script><script src="./record-tournament.js?v=4"></script><script src="../_shared/app-shell.js?v=7"></script>
 </body>
 </html>
