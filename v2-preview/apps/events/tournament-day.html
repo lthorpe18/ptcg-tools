@@ -8,7 +8,7 @@
   <title>Tournament Day · PTCG Tools</title>
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="./tournament-day.css?v=1">
+  <link rel="stylesheet" href="./tournament-day.css?v=2">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="compete">
   <header class="app-shell-header">
@@ -30,7 +30,7 @@
         <div class="record-top"><div><small>Current record</small><strong id="recordValue">0-0-0</strong></div><div class="round-count"><small>Rounds</small><strong id="roundsValue">0</strong></div></div>
         <div id="deckSummary" class="deck-summary"></div>
         <button id="addRound" type="button" class="primary-button full-button">Add Round 1</button>
-        <div class="quick-actions"><a id="cutIdLink" class="secondary-button" href="../tools/#cut">Cut / ID</a><button id="completeEvent" type="button" class="secondary-button">Complete event</button></div>
+        <div class="quick-actions"><button id="openIdCalc" class="secondary-button" type="button">ID Calc</button><button id="completeEvent" type="button" class="secondary-button">Complete event</button></div>
       </section>
 
       <section id="startCard" class="app-card td-card hidden">
@@ -67,6 +67,43 @@
     </section>
   </div>
 
+  <div id="idBackdrop" class="sheet-backdrop hidden" aria-hidden="true">
+    <section class="td-sheet id-sheet" role="dialog" aria-modal="true" aria-labelledby="idTitle">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head"><div><small>Decision support</small><h2 id="idTitle">ID Calc</h2></div><button id="closeIdCalc" type="button" class="sheet-close" aria-label="Close">×</button></div>
+      <div id="idCurrent" class="id-current"></div>
+      <form id="idForm">
+        <div class="id-section">
+          <div class="id-section-head"><strong>Tournament</strong><small>Remembered for this event</small></div>
+          <div class="id-three"><label><span>Players</span><input id="idPlayers" type="number" min="2" inputmode="numeric" placeholder="20"></label><label><span>Cut</span><input id="idCut" type="number" min="2" inputmode="numeric" value="8"></label><label><span>Swiss rounds</span><input id="idTotalRounds" type="number" min="1" inputmode="numeric" placeholder="5"></label></div>
+        </div>
+
+        <div class="id-section">
+          <div class="id-section-head"><strong>Your previous opponents now</strong><small>Update only when checking an ID</small></div>
+          <p class="id-help">Their current records are used to estimate your current Op Win %.</p>
+          <div id="opponentRecords" class="opponent-records"></div>
+        </div>
+
+        <div class="id-section">
+          <div class="id-section-head"><strong>Next matchup</strong><small>What happens if you play?</small></div>
+          <div class="record-entry next-record"><span>Opponent record</span><input id="nextW" aria-label="Next opponent wins" type="number" min="0" inputmode="numeric" placeholder="W"><input id="nextL" aria-label="Next opponent losses" type="number" min="0" inputmode="numeric" placeholder="L"><input id="nextD" aria-label="Next opponent draws" type="number" min="0" inputmode="numeric" placeholder="D"></div>
+          <fieldset><legend>How confident are you in the matchup?</legend><div class="confidence-input"><input type="radio" name="confidence" id="confBad" value="unfavourable"><label for="confBad">Bad</label><input type="radio" name="confidence" id="confSBad" value="slightly-unfavourable"><label for="confSBad">Slightly bad</label><input type="radio" name="confidence" id="confEven" value="even" checked><label for="confEven">Even</label><input type="radio" name="confidence" id="confSGood" value="slightly-favourable"><label for="confSGood">Slightly good</label><input type="radio" name="confidence" id="confGood" value="favourable"><label for="confGood">Good</label></div></fieldset>
+        </div>
+
+        <div class="id-section">
+          <div class="id-section-head"><strong>Players around the cut</strong><small>One current W-L-D per line</small></div>
+          <p class="id-help">Enter the other players who could matter to your ID, excluding your next opponent. You do not need low-table players who cannot reach your ID score.</p>
+          <textarea id="relevantRecords" rows="4" placeholder="4-0\n3-1\n3-0-1\n3-1"></textarea>
+          <label class="check-row"><input id="relevantComplete" type="checkbox"><span>I’ve entered everyone who can still reach my ID score</span></label>
+        </div>
+
+        <button class="primary-button full-button" type="submit">Run ID Calc</button>
+      </form>
+      <div id="idResult" class="id-result hidden" aria-live="polite"></div>
+      <a class="advanced-link" href="../tools/#cut">Advanced Cut / ID calculator →</a>
+    </section>
+  </div>
+
   <div id="completionBackdrop" class="sheet-backdrop hidden" aria-hidden="true">
     <section class="td-sheet" role="dialog" aria-modal="true" aria-labelledby="completionTitle">
       <div class="sheet-handle"></div>
@@ -87,7 +124,8 @@
   <script src="../_shared/deck-store.js?v=5"></script>
   <script src="../_shared/match-store.js?v=2"></script>
   <script src="../_shared/archetype-catalog.js?v=1"></script>
-  <script src="./tournament-day.js?v=1"></script>
+  <script src="../_shared/cut-id-engine.js?v=2"></script>
+  <script src="./tournament-day.js?v=2"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
 </body>
 </html>
