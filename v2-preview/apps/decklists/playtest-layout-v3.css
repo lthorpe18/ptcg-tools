@@ -17,7 +17,7 @@
     color:#101828;
     background:#eef2ef;
   }
-  body.ptcg-embedded.playtest-body{padding-bottom:128px!important}
+  html[data-ptcg-perf-shell="1"] .playtest-body{padding-bottom:128px!important}
 
   .playtest-header{position:sticky;top:0;z-index:50;grid-template-columns:36px minmax(0,1fr) 36px;padding:calc(4px + env(safe-area-inset-top)) 8px 4px;background:rgba(255,255,255,.97);border-bottom:1px solid #e3e8e5;box-shadow:none;backdrop-filter:blur(18px)}
   .playtest-title strong{font-size:15px;color:#101828}.playtest-title span{font-size:9px;color:#667085}
@@ -62,11 +62,11 @@
 
   /* Hand is always present unless explicitly hidden by a future control. */
   .hand-tray{position:fixed;left:0;right:0;bottom:calc(var(--app-nav-height) + env(safe-area-inset-bottom));z-index:40;height:128px;min-height:128px;background:rgba(255,255,255,.985);border-top:1px solid #d0d5dd;box-shadow:0 -2px 8px rgba(16,24,40,.06);backdrop-filter:blur(18px)}
-  body.ptcg-embedded .hand-tray{bottom:0}
+  html[data-ptcg-perf-shell="1"] .hand-tray{bottom:0}
   .hand-head{height:29px;padding:2px 8px;color:#101828}.hand-head>div{font-size:9px;color:#344054}.hand-head b{background:#e9efeb;color:#176b45}.hand-head button{min-height:25px;padding:0 10px;border:1px solid #176b45;background:#176b45;color:#fff;border-radius:8px;font-size:10px}
   .hand-actions{position:absolute;right:56px;top:2px;height:25px;display:flex;gap:4px;padding:0;background:transparent}.hand-actions button{min-width:0;width:25px;overflow:hidden;text-indent:-999px;border:1px solid #d0d5dd;border-radius:8px;background:#f8faf9;color:#344054;font-size:0;padding:0}.hand-actions button:before{display:block;text-indent:0;font-size:12px;line-height:23px}.hand-actions button:nth-child(1):before{content:'↻'}.hand-actions button:nth-child(2):before{content:'⇩'}.hand-actions button:nth-child(3):before{content:'⌫'}.hand-actions button:last-child{border-color:#fecdca;background:#fff6f5;color:#b42318}
   .hand-row{height:99px;padding:0 6px 5px;gap:0;align-items:flex-start;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}.hand-row::-webkit-scrollbar{display:none}.hand-row .play-card{width:84px;margin-right:-14px;transition:transform .12s ease,margin .12s ease}.hand-row .play-card:last-child{margin-right:0}.hand-row .play-card.is-selected{z-index:7;transform:translateY(-4px);margin-left:4px;margin-right:-4px}.hand-row .card-frame{width:80px;border-radius:5px;box-shadow:0 3px 9px rgba(16,24,40,.19)}.hand-empty{height:88px;color:#98a2b3}
 
   .zone-dock{display:none!important}
-  .playtest-toast{bottom:calc(132px + var(--app-nav-height) + env(safe-area-inset-bottom));background:#101828}.ptcg-embedded .playtest-toast{bottom:132px}.playtest-sheet{border-radius:22px 22px 0 0}
+  .playtest-toast{bottom:calc(132px + var(--app-nav-height) + env(safe-area-inset-bottom));background:#101828}html[data-ptcg-perf-shell="1"] .playtest-toast{bottom:132px}.playtest-sheet{border-radius:22px 22px 0 0}
 }
