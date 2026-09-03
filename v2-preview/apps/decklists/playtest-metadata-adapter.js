@@ -4,6 +4,9 @@
 const nativeFetch=window.fetch.bind(window);
 const POKEMON_API='https://api.pokemontcg.io/v2/cards';
 const TCGDEX_API='https://api.tcgdex.net/v2/en';
+const REQUEST_TIMEOUT_MS=4500;
+const MAX_DETAILS=8;
+let pendingNumber='';
 
 function jsonResponse(body,status=200){
   return new Response(JSON.stringify(body),{status,headers:{'Content-Type':'application/json'}});
@@ -24,15 +27,27 @@ function detailText(card){
     rules:[...rules,...effect]
   };
 }
-async function tcgdexByName(name){
+async function fetchWithTimeout(url,init={}){
+  let timer;
+  try{
+    return await Promise.race([
+      nativeFetch(url,init),
+      new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('metadata timeout')),REQUEST_TIMEOUT_MS)})
+    ]);
+  }finally{clearTimeout(timer)}
+}
+async function tcgdexByName(name,number=''){
   const listUrl=`${TCGDEX_API}/cards?name=${encodeURIComponent(`eq:${name}`)}&sort:field=id&sort:order=DESC&pagination:page=1&pagination:itemsPerPage=30`;
-  const listResponse=await nativeFetch(listUrl,{cache:'force-cache'});
+  const listResponse=await fetchWithTimeout(listUrl,{cache:'force-cache'});
   if(!listResponse.ok)return [];
   const briefs=await listResponse.json();
   if(!Array.isArray(briefs)||!briefs.length)return [];
-  const details=await Promise.all(briefs.slice(0,30).map(async brief=>{
+  const wanted=String(number||'').trim();
+  const exact=wanted?briefs.filter(brief=>String(brief?.localId??'').trim()===wanted):[];
+  const candidates=[...exact,...briefs.filter(brief=>!exact.includes(brief))].slice(0,MAX_DETAILS);
+  const details=await Promise.all(candidates.map(async brief=>{
     try{
-      const response=await nativeFetch(`${TCGDEX_API}/cards/${encodeURIComponent(brief.id)}`,{cache:'force-cache'});
+      const response=await fetchWithTimeout(`${TCGDEX_API}/cards/${encodeURIComponent(brief.id)}`,{cache:'force-cache'});
       return response.ok?await response.json():null;
     }catch{return null}
   }));
@@ -44,10 +59,11 @@ window.fetch=async function(input,init){
   if(!raw.startsWith(POKEMON_API))return nativeFetch(input,init);
   try{
     const url=new URL(raw),q=decodeURIComponent(url.searchParams.get('q')||'');
+    const numberMatch=q.match(/\bnumber:([^\s]+)/i);
     const nameMatch=q.match(/name:\"([^\"]+)\"/i);
-    if(!nameMatch)return jsonResponse({data:[]});
-    const name=nameMatch[1];
-    const cards=await tcgdexByName(name);
+    if(!nameMatch){pendingNumber=numberMatch?.[1]||'';return jsonResponse({data:[]})}
+    const name=nameMatch[1],number=numberMatch?.[1]||pendingNumber;pendingNumber='';
+    const cards=await tcgdexByName(name,number);
     const data=cards.map(card=>{
       const text=detailText(card);
       return {
@@ -63,6 +79,7 @@ window.fetch=async function(input,init){
     return jsonResponse({data});
   }catch(error){
     console.warn('Playtest metadata adapter failed',error);
+    pendingNumber='';
     return jsonResponse({data:[]});
   }
 };
