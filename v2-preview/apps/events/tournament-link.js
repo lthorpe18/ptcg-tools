@@ -1,18 +1,17 @@
 (function(){
 'use strict';
-function compatibleParticipation(participation){if(!participation||participation.plannedDeckRef)return participation;return window.PTCGStorage.updateParticipation(participation.id,row=>{row.plannedDeckRef={};return row})}
 function enhance(){
   document.querySelectorAll('.event-card').forEach(card=>{
     if(card.querySelector('[data-tournament-link]'))return;
     const id=card.dataset.eventId;if(!id||!window.PTCGStorage)return;
-    const participation=window.PTCGStorage.getParticipation(id);if(!participation)return;
+    let participation=window.PTCGStorage.getParticipation(id);if(!participation)return;
+    if(!participation.plannedDeckRef){participation=window.PTCGStorage.updateParticipation(participation.id,row=>{row.plannedDeckRef={};return row})}
     const active=!!participation.tournamentDay&&!participation.completion;
     const needsCompletion=(participation.phase==='needs-completion'||participation.attendanceStatus==='attended')&&!participation.completion;
     const canStart=participation.attendanceStatus==='attending'&&!participation.completion;
     if(!active&&!needsCompletion&&!canStart)return;
     const actions=card.querySelector('.event-actions');if(!actions)return;
-    const link=document.createElement('a');link.dataset.tournamentLink='true';link.className='primary-link tournament-entry-link';link.href=`./tournament-day.html?participation=${encodeURIComponent(participation.id)}`;link.textContent=active?'Tournament':needsCompletion?'Complete':'Start';
-    link.addEventListener('click',()=>compatibleParticipation(window.PTCGStorage.getParticipation(participation.id)));
+    const link=document.createElement('a');link.dataset.tournamentLink='true';link.className='primary-link tournament-entry-link';link.href=`./tournament-day.html?build=20260903-1940&participation=${encodeURIComponent(participation.id)}`;link.textContent=active?'Tournament':needsCompletion?'Complete':'Start';
     const more=actions.querySelector('.more-button');actions.insertBefore(link,more||null);
   });
 }
