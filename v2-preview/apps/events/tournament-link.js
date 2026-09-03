@@ -1,5 +1,6 @@
 (function(){
 'use strict';
+function compatibleParticipation(participation){if(!participation||participation.plannedDeckRef)return participation;return window.PTCGStorage.updateParticipation(participation.id,row=>{row.plannedDeckRef={};return row})}
 function enhance(){
   document.querySelectorAll('.event-card').forEach(card=>{
     if(card.querySelector('[data-tournament-link]'))return;
@@ -11,6 +12,7 @@ function enhance(){
     if(!active&&!needsCompletion&&!canStart)return;
     const actions=card.querySelector('.event-actions');if(!actions)return;
     const link=document.createElement('a');link.dataset.tournamentLink='true';link.className='primary-link tournament-entry-link';link.href=`./tournament-day.html?participation=${encodeURIComponent(participation.id)}`;link.textContent=active?'Tournament':needsCompletion?'Complete':'Start';
+    link.addEventListener('click',()=>compatibleParticipation(window.PTCGStorage.getParticipation(participation.id)));
     const more=actions.querySelector('.more-button');actions.insertBefore(link,more||null);
   });
 }
