@@ -6,7 +6,9 @@ let suggestionTimer=null;
 function resultName(v){return v==='win'?'W':v==='loss'?'L':v==='draw'?'T':''}
 function ensureUi(){
   const form=$('roundForm'), opponent=$('opponentArchetype');
-  if(!form||!opponent||form.querySelector('.game-results-editor'))return;
+  if(!form||!opponent)return;
+  document.body.classList.add('game-by-game-round-entry');
+  if(form.querySelector('.game-results-editor'))return;
   const matchResult=form.querySelector('.round-choice');
   const legacyScore=form.querySelector('.round-two-col');
   if(matchResult)matchResult.classList.add('legacy-round-control');
@@ -23,7 +25,7 @@ function ensureUi(){
 
   const editor=document.createElement('section');
   editor.className='game-results-editor';
-  editor.innerHTML=`<div class="game-results-head"><span>Game results</span><small>Match record is calculated automatically</small></div>
+  editor.innerHTML=`<div class="game-results-head"><span>Games</span><small>Match result calculated automatically</small></div>
     ${[1,2,3].map(n=>`<div class="game-result-row" data-game="${n}"><strong>Game ${n}</strong><div class="game-result-buttons"><button type="button" data-game-result="win">W</button><button type="button" data-game-result="loss">L</button><button type="button" data-game-result="draw">T</button></div>${n===1?'<div class="game-first-buttons"><span>Start</span><button type="button" data-first="first">1st</button><button type="button" data-first="second">2nd</button><button type="button" data-first="">?</button></div>':''}</div>`).join('')}`;
   const more=form.querySelector('.round-more');
   form.insertBefore(editor,more||form.querySelector('.sheet-actions'));
@@ -41,6 +43,8 @@ function ensureUi(){
     }
   });
 
+  opponent.removeAttribute('list');
+  opponent.setAttribute('placeholder','Search archetypes');
   opponent.addEventListener('input',()=>queueSuggestions(opponent.value));
   opponent.addEventListener('focus',()=>showSuggestions(opponent.value));
   opponent.addEventListener('keydown',event=>{if(event.key==='Escape')hideSuggestions()});
@@ -51,7 +55,7 @@ function ensureUi(){
   document.addEventListener('click',event=>{if(!picker.contains(event.target))hideSuggestions()});
 
   const backdrop=$('roundBackdrop');
-  new MutationObserver(()=>{if(!backdrop.classList.contains('hidden'))setTimeout(syncFromMatch,0)}).observe(backdrop,{attributes:true,attributeFilter:['class']});
+  if(backdrop)new MutationObserver(()=>{if(!backdrop.classList.contains('hidden'))setTimeout(()=>{ensureUi();syncFromMatch()},0)}).observe(backdrop,{attributes:true,attributeFilter:['class']});
   syncFromMatch();
 }
 function queueSuggestions(query){clearTimeout(suggestionTimer);suggestionTimer=setTimeout(()=>showSuggestions(query),70)}
@@ -91,5 +95,8 @@ function renderFirst(){
   const value=document.querySelector('input[name="wentFirst"]:checked')?.value??'';
   document.querySelectorAll('[data-first]').forEach(button=>button.classList.toggle('selected',button.dataset.first===value));
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ensureUi,{once:true});else ensureUi();
+function boot(){ensureUi();setTimeout(ensureUi,80);setTimeout(ensureUi,300)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+window.addEventListener('pageshow',boot);
+document.addEventListener('click',event=>{if(event.target.closest('#addRound,[data-match-id]'))setTimeout(()=>{ensureUi();syncFromMatch()},0)},true);
 })();
