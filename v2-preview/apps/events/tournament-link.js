@@ -11,7 +11,7 @@ function enhance(){
     const canStart=participation.attendanceStatus==='attending'&&!participation.completion;
     if(!active&&!needsCompletion&&!canStart)return;
     const actions=card.querySelector('.event-actions');if(!actions)return;
-    const link=document.createElement('a');link.dataset.tournamentLink='true';link.className='primary-link tournament-entry-link';link.href=`./tournament-day.html?build=20260903-2032&participation=${encodeURIComponent(participation.id)}`;link.textContent=active?'Tournament':needsCompletion?'Complete':'Start';
+    const link=document.createElement('a');link.dataset.tournamentLink='true';link.className='primary-link tournament-entry-link';link.href=`./tournament-day.html?build=20260903-2051&participation=${encodeURIComponent(participation.id)}`;link.textContent=active?'Tournament':needsCompletion?'Complete':'Start';
     const more=actions.querySelector('.more-button');actions.insertBefore(link,more||null);
   });
 }
