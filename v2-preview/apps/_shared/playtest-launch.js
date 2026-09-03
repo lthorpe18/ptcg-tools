@@ -2,17 +2,26 @@
   'use strict';
 
   const KEY='ptcg-tools.playtest.launch.v1';
+  const LOCAL_KEY='ptcg-tools.playtest.launch-fallback.v1';
   const CONTRACT_VERSION=1;
+  const MAX_FALLBACK_AGE_MS=10*60*1000;
   const DEFAULT_TARGET='../decklists/playtest-v2.html';
 
   function clean(value){return String(value==null?'':value).trim()}
-  function read(){
-    try{
-      const parsed=JSON.parse(sessionStorage.getItem(KEY)||'null');
-      return parsed&&parsed.contractVersion===CONTRACT_VERSION?parsed:null;
-    }catch{return null}
+  function valid(parsed){
+    return !!(parsed&&parsed.contractVersion===CONTRACT_VERSION&&parsed.identity?.deckId&&parsed.rawText);
   }
-  function clear(){try{sessionStorage.removeItem(KEY)}catch{}}
+  function readStore(storage,key){
+    try{const parsed=JSON.parse(storage.getItem(key)||'null');return valid(parsed)?parsed:null}catch{return null}
+  }
+  function read(){
+    const session=readStore(sessionStorage,KEY);if(session)return session;
+    const local=readStore(localStorage,LOCAL_KEY);if(!local)return null;
+    const created=Date.parse(local.createdAt||'');
+    if(!Number.isFinite(created)||Date.now()-created>MAX_FALLBACK_AGE_MS){try{localStorage.removeItem(LOCAL_KEY)}catch{}return null}
+    return local;
+  }
+  function clear(){try{sessionStorage.removeItem(KEY)}catch{}try{localStorage.removeItem(LOCAL_KEY)}catch{}}
 
   async function build(options={}){
     if(!global.PTCGDeckStore||!global.PTCGDeckParser)throw new Error('Deck infrastructure unavailable');
@@ -50,18 +59,22 @@
     };
   }
 
-  function freshTarget(target){
+  function freshTarget(target,payload){
     const url=new URL(clean(target)||DEFAULT_TARGET,global.location.href);
     url.searchParams.set('_pt',Date.now().toString());
+    if(payload?.identity?.deckId)url.searchParams.set('deck',payload.identity.deckId);
+    if(payload?.identity?.deckVersionId)url.searchParams.set('version',payload.identity.deckVersionId);
+    if(payload?.identity?.listHash)url.searchParams.set('list',payload.identity.listHash);
     return url.href;
   }
 
   async function open(options={}){
-    const payload=await build(options);
-    try{sessionStorage.setItem(KEY,JSON.stringify(payload))}catch{}
-    global.location.href=freshTarget(clean(options.targetUrl)||DEFAULT_TARGET);
+    const payload=await build(options),text=JSON.stringify(payload);
+    try{sessionStorage.setItem(KEY,text)}catch{}
+    try{localStorage.setItem(LOCAL_KEY,text)}catch{}
+    global.location.href=freshTarget(clean(options.targetUrl)||DEFAULT_TARGET,payload);
     return payload;
   }
 
-  global.PTCGPlaytestLaunch={KEY,CONTRACT_VERSION,DEFAULT_TARGET,read,clear,build,open,freshTarget};
+  global.PTCGPlaytestLaunch={KEY,LOCAL_KEY,CONTRACT_VERSION,DEFAULT_TARGET,read,clear,build,open,freshTarget};
 })(window);
