@@ -19,6 +19,7 @@ function shuffled(ids){const copy=[...ids];for(let i=copy.length-1;i>0;i--){cons
 function cardById(state,id){return state?.cards?.find(card=>card.id===id)||null}
 function reload(){location.reload()}
 function mutate(label,fn){const state=readState();if(!state?.zones)return;saveUndo(state);fn(state);log(state,label);writeState(state);reload()}
+function selectedCardElement(){return $('.play-card.is-selected[data-card-id]')}
 function selectedHandCard(){return $('#handZone .play-card.is-selected[data-card-id]')}
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
 function setCode(card){return String(card?.set||'').trim().toUpperCase()}
@@ -29,8 +30,9 @@ function installStyles(){
   if(document.getElementById('playtestEnhancementStyles'))return;
   const style=document.createElement('style');style.id='playtestEnhancementStyles';style.textContent=`
     .play-card .attachment-stack,.play-card .attachment-count{display:none!important}
-    .playtest-energy-tray{position:absolute;z-index:10;left:50%;bottom:1px;transform:translateX(-50%);display:flex;gap:2px;max-width:96%;justify-content:center;pointer-events:none;white-space:nowrap}
-    .playtest-energy-pill{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:15px;padding:0 4px;border:1.5px solid rgba(255,255,255,.96);border-radius:999px;background:rgba(16,24,40,.88);color:#fff;font-size:7px;font-weight:900;line-height:1;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+    .playtest-energy-tray{position:absolute;z-index:10;left:50%;bottom:0;transform:translateX(-50%);display:flex;gap:3px;max-width:98%;justify-content:center;pointer-events:none;white-space:nowrap}
+    .playtest-energy-pill{display:inline-flex;align-items:center;justify-content:center;min-width:23px;height:18px;padding:0 5px;border:2px solid rgba(255,255,255,.98);border-radius:999px;color:#fff;font-size:8px;font-weight:950;line-height:1;letter-spacing:.01em;box-shadow:0 2px 5px rgba(0,0,0,.34)}
+    .energy-fire{background:#d94832}.energy-water{background:#2878c8}.energy-lightning{background:#f0c62e;color:#342b00}.energy-grass{background:#429451}.energy-psychic{background:#8b55a5}.energy-fighting{background:#b7663d}.energy-darkness{background:#3f4650}.energy-metal{background:#788995}.energy-fairy{background:#d86e9d}.energy-colorless{background:#8a918e}.energy-special{background:#344054}
     .prize-reveal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
     .prize-reveal-card{display:grid;grid-template-columns:52px minmax(0,1fr);align-items:center;gap:8px;min-height:82px;padding:6px;border:1px solid #e4e7ec;border-radius:11px;background:#fff;color:#101828;text-align:left}
     .prize-reveal-card img{display:block;width:52px;aspect-ratio:2.5/3.5;object-fit:cover;border-radius:5px;background:#e4e7ec}
@@ -57,6 +59,23 @@ function handAction(action){
 function moveSelectedToTop(){
   const selected=selectedHandCard();if(!selected)return false;const id=selected.dataset.cardId;
   mutate('Put a card from hand on top of deck',state=>{state.zones.hand=(state.zones.hand||[]).filter(cardId=>cardId!==id);state.zones.deck=[id,...(state.zones.deck||[]).filter(cardId=>cardId!==id)]});
+  return true;
+}
+function removeIdFromZones(state,id){Object.keys(state.zones||{}).forEach(key=>{state.zones[key]=(state.zones[key]||[]).filter(cardId=>cardId!==id)})}
+function evolutionStackIds(state,topId){
+  const result=[];let parents=[topId];
+  while(parents.length){const parent=parents.shift();const children=(state.zones.under||[]).map(id=>cardById(state,id)).filter(card=>card?.stackedUnder===parent);children.forEach(card=>{if(!result.includes(card.id)){result.push(card.id);parents.push(card.id)}})}
+  return result;
+}
+function discardSelectedCard(){
+  const selected=selectedCardElement();if(!selected)return false;const id=selected.dataset.cardId;
+  const before=readState(),card=cardById(before,id);if(!card)return false;
+  mutate(`Discarded ${card.name}`,state=>{
+    const attached=(state.zones.attached||[]).map(attachedId=>cardById(state,attachedId)).filter(row=>row?.attachedTo===id).map(row=>row.id);
+    const under=evolutionStackIds(state,id);
+    const moving=[id,...attached,...under];
+    moving.forEach(cardId=>{removeIdFromZones(state,cardId);const row=cardById(state,cardId);if(row){row.attachedTo=null;row.stackedUnder=null;row.rotated=false}state.zones.discard.push(cardId)});
+  });
   return true;
 }
 function startNextTurn(){
@@ -88,10 +107,10 @@ function renderCardMarkers(){
   });
 }
 
-function energyLabel(name){
-  const value=String(name||'').replace(/\s+Energy$/i,'').trim();
-  const basic={Fire:'🔥',Water:'💧',Lightning:'⚡',Grass:'🍃',Psychic:'◉',Fighting:'✊',Darkness:'◐',Metal:'◆',Fairy:'✦'};
-  return basic[value]||value.replace(/\bEnergy\b/ig,'').trim().slice(0,5)||'E';
+function energyType(name){
+  const value=String(name||'').replace(/^Basic\s+/i,'').replace(/\s+Energy$/i,'').trim();
+  const known={Fire:['fire','F'],Water:['water','W'],Lightning:['lightning','L'],Grass:['grass','G'],Psychic:['psychic','P'],Fighting:['fighting','Fi'],Darkness:['darkness','D'],Metal:['metal','M'],Fairy:['fairy','Fa'],Colorless:['colorless','C']};
+  return known[value]||['special',value.split(/\s+/).map(word=>word[0]).join('').slice(0,3).toUpperCase()||'E'];
 }
 function renderEnergyAttachments(){
   const state=readState();if(!state?.zones)return;
@@ -105,7 +124,7 @@ function renderEnergyAttachments(){
     const signature=[...groups.entries()].map(([name,count])=>`${name}:${count}`).join('|');
     if(!tray){tray=document.createElement('span');tray.className='playtest-energy-tray';el.appendChild(tray)}
     if(tray.dataset.signature===signature)return;tray.dataset.signature=signature;
-    tray.innerHTML=[...groups.entries()].map(([name,count])=>`<span class="playtest-energy-pill" title="${esc(name)}">${esc(energyLabel(name))}${count>1?` ×${count}`:''}</span>`).join('');
+    tray.innerHTML=[...groups.entries()].map(([name,count])=>{const [type,label]=energyType(name);return `<span class="playtest-energy-pill energy-${type}" title="${esc(name)}">${esc(label)}${count>1?` ×${count}`:''}</span>`}).join('');
   });
 }
 
@@ -137,19 +156,21 @@ function injectMarkerControls(){
   body.appendChild(wrap);
 }
 function updateDeckTarget(){const deck=$('.side-pile[data-zone-button="deck"]');if(deck)deck.classList.toggle('is-target',!!selectedHandCard())}
+function updateDiscardTarget(){const discard=$('.side-pile[data-zone-button="discard"]');if(discard)discard.classList.toggle('is-target',!!selectedCardElement())}
 function refreshUndo(){const button=$('#undoButton');if(button&&hasUndo()&&button.disabled)button.disabled=false}
 function refreshTurnUI(){
   const state=readState();if(!state)return;
   const turn=$('#turnNumber');if(turn)turn.textContent=String(Number(state.turn||0));
   const button=$('#endTurn');if(button)button.textContent=Number(state.turn||0)===0?'Start turn 1':'End turn';
 }
-function refresh(){renderCardMarkers();renderEnergyAttachments();injectMarkerControls();updateDeckTarget();refreshUndo();refreshTurnUI()}
+function refresh(){renderCardMarkers();renderEnergyAttachments();injectMarkerControls();updateDeckTarget();updateDiscardTarget();refreshUndo();refreshTurnUI()}
 
 document.addEventListener('click',event=>{
   const handButton=event.target.closest('[data-hand-action]');if(handButton){event.preventDefault();event.stopImmediatePropagation();handAction(handButton.dataset.handAction);return}
   const marker=event.target.closest('[data-marker][data-marker-card]');if(marker){event.preventDefault();event.stopImmediatePropagation();toggleMarker(marker.dataset.markerCard,marker.dataset.marker);return}
   const prizeTake=event.target.closest('[data-enh-take-prize]');if(prizeTake){event.preventDefault();event.stopImmediatePropagation();takePrize(prizeTake.dataset.enhTakePrize);return}
   const prizeZone=event.target.closest('[data-zone-button="prizes"]');if(prizeZone){event.preventDefault();event.stopImmediatePropagation();openPrizeViewer();return}
+  const discardZone=event.target.closest('[data-zone-button="discard"]');if(discardZone&&selectedCardElement()){event.preventDefault();event.stopImmediatePropagation();discardSelectedCard();return}
   const end=event.target.closest('#endTurn');if(end){event.preventDefault();event.stopImmediatePropagation();startNextTurn();return}
   const undo=event.target.closest('#undoButton');if(undo&&hasUndo()){event.preventDefault();event.stopImmediatePropagation();undoEnhancement();return}
   const deck=event.target.closest('.side-pile[data-zone-button="deck"]');if(deck&&selectedHandCard()){event.preventDefault();event.stopImmediatePropagation();moveSelectedToTop();return}
