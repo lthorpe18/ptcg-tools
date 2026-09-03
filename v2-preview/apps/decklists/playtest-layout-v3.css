@@ -1,4 +1,4 @@
-/* Mobile Playtest product layout: viewport-fitted, dense, card-first, persistent hand. */
+/* Mobile Playtest: measured iPhone layout. Keep gameplay zones stable; avoid viewport-filling rows. */
 .playtest-marker-tray{position:absolute;z-index:9;left:50%;bottom:-7px;transform:translateX(-50%);display:flex;gap:3px;max-width:110%;justify-content:center;pointer-events:none}
 .playtest-marker{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 4px;border:2px solid #fff;border-radius:999px;background:#344054;color:#fff;font-size:8px;font-weight:900;box-shadow:0 2px 7px rgba(16,24,40,.24)}
 .marker-ability{background:#175cd3}.marker-poisoned{background:#7f56d9}.marker-burned{background:#d92d20}.marker-asleep{background:#667085}.marker-confused{background:#b54708}.marker-paralyzed{background:#ca8504;color:#101828}
@@ -7,25 +7,33 @@
 .marker-grid button.active{border-color:#175cd3;background:#eff4ff;color:#175cd3;box-shadow:inset 0 0 0 1px #175cd3}
 
 @media (max-width:699px){
-  html,body{height:100%;background:#eef2ef}
-  .playtest-body{height:calc(100dvh - var(--app-nav-height) - env(safe-area-inset-bottom));min-height:0;padding-bottom:0!important;overflow:hidden;display:grid;grid-template-rows:auto minmax(0,1fr) auto;color:#101828;background:#eef2ef}
+  html,body{background:#eef2ef}
+  .playtest-body{
+    min-height:100dvh;
+    height:auto;
+    overflow-x:hidden;
+    overflow-y:auto;
+    padding-bottom:calc(128px + var(--app-nav-height) + env(safe-area-inset-bottom))!important;
+    color:#101828;
+    background:#eef2ef;
+  }
 
-  .playtest-header{position:relative;top:auto;z-index:50;grid-template-columns:36px minmax(0,1fr) 36px;padding:calc(4px + env(safe-area-inset-top)) 8px 4px;background:rgba(255,255,255,.97);border-bottom:1px solid #e3e8e5;box-shadow:none;backdrop-filter:blur(18px)}
+  .playtest-header{position:sticky;top:0;z-index:50;grid-template-columns:36px minmax(0,1fr) 36px;padding:calc(4px + env(safe-area-inset-top)) 8px 4px;background:rgba(255,255,255,.97);border-bottom:1px solid #e3e8e5;box-shadow:none;backdrop-filter:blur(18px)}
   .playtest-title strong{font-size:15px;color:#101828}.playtest-title span{font-size:9px;color:#667085}
   .header-button{width:34px;height:34px;border:1px solid #d0d5dd;background:#fff;color:#344054;border-radius:9px;box-shadow:none}
 
-  /* Explicit rows prevent the contextual selection bar from expanding into the board. */
-  .playtest-app{width:100%;min-height:0;height:100%;padding:4px 6px 2px;display:grid;grid-template-rows:auto auto minmax(0,1fr);overflow:hidden}
-  .table-toolbar{grid-row:1;grid-template-columns:56px 60px 42px minmax(82px,1fr);gap:4px;margin-bottom:4px}
+  .playtest-app{position:relative;width:100%;height:auto;min-height:0;padding:4px 6px 4px;display:block;overflow:visible}
+  .table-toolbar{grid-template-columns:56px 60px 42px minmax(82px,1fr);gap:4px;margin-bottom:4px}
   .table-toolbar button{min-height:36px;padding:0 6px;border:1px solid #d0d5dd;border-radius:9px;background:#fff;color:#344054;font-size:10px;font-weight:850;box-shadow:none}
   .table-toolbar button span{font-size:13px;margin-right:2px}.table-toolbar button:disabled{opacity:.42;color:#98a2b3;background:#f2f4f7}.table-toolbar #coinResult{font-size:10px;color:inherit}
   .table-toolbar .end-turn{border-color:#176b45;background:#176b45;color:#fff;font-size:10px;box-shadow:none}
   .turn-state{height:36px;border:1px solid #d0d5dd;border-radius:9px;background:#fff;color:#101828;box-shadow:none}.turn-state small{font-size:7px;color:#667085}.turn-state strong{font-size:15px;line-height:15px}
 
-  .selection-bar{grid-row:2;min-height:0;margin:0 0 3px;padding:4px 6px;gap:4px;border:1px solid #b2ccff;border-radius:8px;background:#eff4ff;color:#175cd3;box-shadow:none}
-  .selection-bar strong{font-size:10px}.selection-bar span{margin-top:0;font-size:8px;color:#667085}.selection-bar button{min-height:28px;padding:0 7px;border-color:#b2ccff;border-radius:7px;background:#fff;color:#175cd3;font-size:9px}
+  /* Selection is contextual chrome, not a new layout row. */
+  .selection-bar{position:absolute;z-index:25;top:44px;left:10px;right:10px;min-height:30px;margin:0;padding:4px 6px;gap:4px;border:1px solid #b2ccff;border-radius:8px;background:rgba(239,244,255,.97);color:#175cd3;box-shadow:0 3px 10px rgba(16,24,40,.10)}
+  .selection-bar strong{font-size:10px}.selection-bar span{margin-top:0;font-size:8px;color:#667085}.selection-bar button{min-height:26px;padding:0 7px;border-color:#b2ccff;border-radius:7px;background:#fff;color:#175cd3;font-size:9px}
 
-  .tabletop{grid-row:3;min-height:0;height:100%;padding:4px 7px 5px;border:0;border-radius:14px;background:linear-gradient(180deg,#2d684c 0%,#285f45 100%);box-shadow:none;overflow:hidden;display:grid;grid-template-rows:29px 118px minmax(170px,1fr);align-content:stretch}
+  .tabletop{height:334px;min-height:334px;padding:4px 7px 5px;border:0;border-radius:14px;background:linear-gradient(180deg,#2d684c 0%,#285f45 100%);box-shadow:none;overflow:hidden;display:grid;grid-template-rows:29px 118px 178px;align-content:start}
   .tabletop:before{display:none}
 
   .stadium-row{min-height:0;height:29px;margin:0;align-items:start}
@@ -41,13 +49,15 @@
   .side-pile>span:not(.card-back):not(.prize-stack):not(.pile-preview){position:absolute;left:5px;bottom:4px;font-size:8px;font-weight:850;color:rgba(255,255,255,.8)}.side-pile>b{position:absolute;right:5px;bottom:3px;font-size:13px;color:#fff}.side-pile .card-back,.side-pile .pile-preview{top:3px}.side-pile .prize-stack{top:3px}
   .view-prizes{width:100%;min-height:22px;border:0;border-radius:7px;background:rgba(255,255,255,.10);color:#fff;font-size:9px;font-weight:850}
 
-  .bench-area{min-height:170px;padding-top:0;display:grid;grid-template-rows:17px 152px;overflow:hidden}.zone-heading{height:17px;font-size:8px;color:rgba(255,255,255,.78);margin:0}.zone-heading b{background:rgba(255,255,255,.12);color:#fff}
-  .bench-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(2,74px);grid-auto-rows:74px;gap:4px;overflow:hidden;min-height:0;max-height:152px;padding:0 1px;align-content:start;align-items:start}
-  .bench-row .play-card,.bench-target-slot{width:100%;min-width:0;height:74px;min-height:0!important;max-height:74px!important}
+  .bench-area{height:178px;min-height:178px;padding-top:0;display:grid;grid-template-rows:18px 156px;overflow:hidden}
+  .zone-heading{height:18px;font-size:8px;color:rgba(255,255,255,.78);margin:0}.zone-heading b{background:rgba(255,255,255,.12);color:#fff}
+  .bench-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(2,76px);grid-auto-rows:76px;gap:4px;overflow:hidden;min-height:0;max-height:156px;padding:0 1px;align-content:start;align-items:start}
+  .bench-row .play-card,.bench-target-slot{width:100%;min-width:0;height:76px;min-height:0!important;max-height:76px!important}
   .bench-row .card-frame{width:min(100%,53px);margin:0 auto;border-radius:4px;box-shadow:0 2px 7px rgba(0,0,0,.22)}
   .bench-target-slot{aspect-ratio:auto!important;border:1px dashed rgba(255,255,255,.25);border-radius:7px;background:rgba(255,255,255,.025);color:rgba(255,255,255,.42)}.bench-target-slot span{font-size:17px}
 
-  .hand-tray{position:relative;left:auto;right:auto;bottom:auto;z-index:40;height:128px;min-height:128px;background:rgba(255,255,255,.985);border-top:1px solid #d0d5dd;box-shadow:0 -2px 8px rgba(16,24,40,.06);backdrop-filter:blur(18px)}
+  /* Hand is always present unless explicitly hidden by a future control. */
+  .hand-tray{position:fixed;left:0;right:0;bottom:calc(var(--app-nav-height) + env(safe-area-inset-bottom));z-index:40;height:128px;min-height:128px;background:rgba(255,255,255,.985);border-top:1px solid #d0d5dd;box-shadow:0 -2px 8px rgba(16,24,40,.06);backdrop-filter:blur(18px)}
   .hand-head{height:29px;padding:2px 8px;color:#101828}.hand-head>div{font-size:9px;color:#344054}.hand-head b{background:#e9efeb;color:#176b45}.hand-head button{min-height:25px;padding:0 10px;border:1px solid #176b45;background:#176b45;color:#fff;border-radius:8px;font-size:10px}
   .hand-actions{position:absolute;right:56px;top:2px;height:25px;display:flex;gap:4px;padding:0;background:transparent}.hand-actions button{min-width:0;width:25px;overflow:hidden;text-indent:-999px;border:1px solid #d0d5dd;border-radius:8px;background:#f8faf9;color:#344054;font-size:0;padding:0}.hand-actions button:before{display:block;text-indent:0;font-size:12px;line-height:23px}.hand-actions button:nth-child(1):before{content:'↻'}.hand-actions button:nth-child(2):before{content:'⇩'}.hand-actions button:nth-child(3):before{content:'⌫'}.hand-actions button:last-child{border-color:#fecdca;background:#fff6f5;color:#b42318}
   .hand-row{height:99px;padding:0 6px 5px;gap:0;align-items:flex-start;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}.hand-row::-webkit-scrollbar{display:none}.hand-row .play-card{width:84px;margin-right:-14px;transition:transform .12s ease,margin .12s ease}.hand-row .play-card:last-child{margin-right:0}.hand-row .play-card.is-selected{z-index:7;transform:translateY(-4px);margin-left:4px;margin-right:-4px}.hand-row .card-frame{width:80px;border-radius:5px;box-shadow:0 3px 9px rgba(16,24,40,.19)}.hand-empty{height:88px;color:#98a2b3}
