@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v16';
+const CACHE_NAME = 'ptcg-tools-v17';
 const CORE = [
   './',
   './home-content.html',
@@ -64,10 +64,9 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // A version query is an explicit cache-busting request. Let the browser/network
-  // handle it directly for documents as well as assets so diagnostic/latest links
-  // cannot be satisfied by an older cached navigation response.
-  if (request.cache === 'no-store' || url.searchParams.has('v')) return;
+  // Explicit cache-busting requests must reach the browser/network directly.
+  // `v` is used by general assets/documents; `_pt` is the per-launch Playtest token.
+  if (request.cache === 'no-store' || url.searchParams.has('v') || url.searchParams.has('_pt')) return;
 
   if (request.mode === 'navigate') {
     event.respondWith(staleWhileRevalidate(request, canonicalNavigationRequest(request)));
