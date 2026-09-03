@@ -8,55 +8,53 @@
 
 @media (max-width:699px){
   html,body{background:#eef2ef}
-  .playtest-body{
-    min-height:100dvh;
-    height:auto;
-    overflow-x:hidden;
-    overflow-y:auto;
-    padding-bottom:128px!important;
-    color:#101828;
-    background:#eef2ef;
-  }
+  .playtest-body{min-height:100dvh;height:auto;overflow-x:hidden;overflow-y:auto;padding-bottom:128px!important;color:#101828;background:#eef2ef}
 
   .playtest-header{position:sticky;top:0;z-index:50;grid-template-columns:36px minmax(0,1fr) 36px;padding:calc(4px + env(safe-area-inset-top)) 8px 4px;background:rgba(255,255,255,.97);border-bottom:1px solid #e3e8e5;box-shadow:none;backdrop-filter:blur(18px)}
   .playtest-title strong{font-size:15px;color:#101828}.playtest-title span{font-size:9px;color:#667085}
   .header-button{width:34px;height:34px;border:1px solid #d0d5dd;background:#fff;color:#344054;border-radius:9px;box-shadow:none}
 
-  .playtest-app{position:relative;width:100%;height:auto;min-height:0;padding:4px 6px 4px;display:block;overflow:visible}
-  .table-toolbar{grid-template-columns:56px 60px 42px minmax(82px,1fr);gap:4px;margin-bottom:4px}
-  .table-toolbar button{min-height:36px;padding:0 6px;border:1px solid #d0d5dd;border-radius:9px;background:#fff;color:#344054;font-size:10px;font-weight:850;box-shadow:none}
-  .table-toolbar button span{font-size:13px;margin-right:2px}.table-toolbar button:disabled{opacity:.42;color:#98a2b3;background:#f2f4f7}.table-toolbar #coinResult{font-size:10px;color:inherit}
-  .table-toolbar .end-turn{border-color:#176b45;background:#176b45;color:#fff;font-size:10px;box-shadow:none}
-  .turn-state{height:36px;border:1px solid #d0d5dd;border-radius:9px;background:#fff;color:#101828;box-shadow:none}.turn-state small{font-size:7px;color:#667085}.turn-state strong{font-size:15px;line-height:15px}
+  .playtest-app{position:relative;width:100%;height:auto;min-height:0;padding:4px 6px;display:block;overflow:visible}
+
+  /* Compact, quiet utility controls; End Turn remains the primary action. */
+  .table-toolbar{grid-template-columns:52px 56px 40px minmax(82px,1fr);gap:4px;margin-bottom:4px}
+  .table-toolbar button{min-height:34px;padding:0 5px;border:1px solid #d7ddd9;border-radius:9px;background:rgba(255,255,255,.82);color:#475467;font-size:9px;font-weight:800;box-shadow:none}
+  .table-toolbar button span{font-size:12px;margin-right:2px}.table-toolbar #coinResult{font-size:9px;color:inherit}
+  .table-toolbar button:disabled{opacity:1;color:#b2bab5;background:rgba(255,255,255,.48);border-color:#e4e9e6}
+  .table-toolbar .end-turn{border-color:#176b45;background:#176b45;color:#fff;font-size:10px;font-weight:850;box-shadow:0 1px 2px rgba(16,24,40,.08)}
+  .turn-state{height:34px;border:1px solid #d7ddd9;border-radius:9px;background:rgba(255,255,255,.82);color:#101828;box-shadow:none}.turn-state small{font-size:7px;color:#7b8580}.turn-state strong{font-size:14px;line-height:14px}
 
   /* Selection is contextual chrome, not a new layout row. */
-  .selection-bar{position:absolute;z-index:25;top:44px;left:10px;right:10px;min-height:30px;margin:0;padding:4px 6px;gap:4px;border:1px solid #b2ccff;border-radius:8px;background:rgba(239,244,255,.97);color:#175cd3;box-shadow:0 3px 10px rgba(16,24,40,.10)}
+  .selection-bar{position:absolute;z-index:25;top:42px;left:10px;right:10px;min-height:30px;margin:0;padding:4px 6px;gap:4px;border:1px solid #b2ccff;border-radius:8px;background:rgba(239,244,255,.97);color:#175cd3;box-shadow:0 3px 10px rgba(16,24,40,.10)}
   .selection-bar strong{font-size:10px}.selection-bar span{margin-top:0;font-size:8px;color:#667085}.selection-bar button{min-height:26px;padding:0 7px;border-color:#b2ccff;border-radius:7px;background:#fff;color:#175cd3;font-size:9px}
 
-  /* Hand size is intentionally unchanged. Recovered viewport space belongs to the battlefield. */
+  /* Dimensions intentionally remain stable. */
   .tabletop{height:430px;min-height:430px;padding:4px 7px 7px;border:0;border-radius:14px;background:linear-gradient(180deg,#2d684c 0%,#285f45 100%);box-shadow:none;overflow:hidden;display:grid;grid-template-rows:31px 132px 252px;align-content:start}
   .tabletop:before{display:none}
 
   .stadium-row{min-height:0;height:31px;margin:0;align-items:start}
-  .stadium-slot{width:104px;height:27px;border:1px solid rgba(255,255,255,.13);border-radius:8px;background:rgba(255,255,255,.025)}
-  .stadium-slot .card-frame{width:31px}.slot-label{left:5px;top:3px;padding:1px 4px;background:rgba(10,35,24,.42);font-size:7px;color:#fff}.stadium-slot .empty-slot{font-size:8px;color:rgba(255,255,255,.54)}
+  .stadium-slot{width:104px;height:27px;border:1px solid rgba(255,255,255,.09);border-radius:8px;background:rgba(255,255,255,.015)}
+  .stadium-slot .card-frame{width:31px}.slot-label{left:5px;top:3px;padding:1px 4px;background:rgba(10,35,24,.38);font-size:7px;color:#fff}.stadium-slot .empty-slot{font-size:8px;color:rgba(255,255,255,.45)}
 
   .active-row{display:grid;grid-template-columns:minmax(66px,1fr) 90px minmax(66px,1fr);gap:5px;align-items:center;min-height:0;height:132px;margin:0}
   .active-slot{grid-column:2;width:90px;height:114px;justify-self:center;border:0;border-radius:10px;background:transparent}
-  .active-slot .card-frame{width:80px;border-radius:6px;box-shadow:0 3px 9px rgba(0,0,0,.26)}.active-slot .empty-slot{font-size:9px;color:rgba(255,255,255,.56)}
+  .active-slot .card-frame{width:80px;border-radius:6px;box-shadow:0 3px 9px rgba(0,0,0,.26)}.active-slot .empty-slot{font-size:9px;color:rgba(255,255,255,.5)}
 
+  /* Side zones are spatial anchors, not cards-within-cards. */
   .side-piles-left,.side-piles-right{display:grid;gap:3px;align-content:center}.side-piles-left{grid-column:1;grid-row:1}.side-piles-right{grid-column:3;grid-row:1}
-  .side-pile{position:relative;min-width:0;height:46px;border:0;border-radius:8px;background:rgba(255,255,255,.035);color:#fff;padding:3px;box-shadow:none}
-  .side-pile>span:not(.card-back):not(.prize-stack):not(.pile-preview){position:absolute;left:5px;bottom:4px;font-size:8px;font-weight:850;color:rgba(255,255,255,.7)}.side-pile>b{position:absolute;right:5px;bottom:3px;font-size:13px;color:#fff}.side-pile .card-back,.side-pile .pile-preview{top:3px}.side-pile .prize-stack{top:3px}
-  .view-prizes{width:100%;min-height:22px;border:0;border-radius:7px;background:rgba(255,255,255,.055);color:rgba(255,255,255,.9);font-size:9px;font-weight:850}
+  .side-pile{position:relative;min-width:0;height:46px;border:0;border-radius:7px;background:rgba(0,0,0,.035);color:#fff;padding:3px;box-shadow:none}
+  .side-pile>span:not(.card-back):not(.prize-stack):not(.pile-preview){position:absolute;left:5px;bottom:4px;font-size:8px;font-weight:800;color:rgba(255,255,255,.66)}.side-pile>b{position:absolute;right:5px;bottom:3px;font-size:13px;color:#fff;font-weight:850}.side-pile .card-back,.side-pile .pile-preview{top:3px}.side-pile .prize-stack{top:3px}
+  .view-prizes{width:100%;min-height:22px;border:0;border-radius:7px;background:rgba(0,0,0,.04);color:rgba(255,255,255,.88);font-size:9px;font-weight:800}
 
   .bench-area{height:252px;min-height:252px;padding-top:1px;display:grid;grid-template-rows:20px 228px;overflow:hidden}
-  .zone-heading{height:20px;font-size:8px;color:rgba(255,255,255,.72);margin:0}.zone-heading b{background:rgba(255,255,255,.09);color:#fff}
+  .zone-heading{height:20px;font-size:8px;color:rgba(255,255,255,.68);margin:0}.zone-heading b{background:rgba(255,255,255,.08);color:#fff}
   .bench-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(2,106px);grid-auto-rows:106px;gap:6px 4px;overflow:hidden;min-height:0;max-height:228px;padding:0 1px;align-content:start;align-items:start}
   .bench-row .play-card,.bench-target-slot{width:100%;min-width:0;height:106px;min-height:0!important;max-height:106px!important}
-  .bench-row .play-card{justify-content:flex-start;padding-top:3px}
-  .bench-row .card-frame{width:min(100%,53px);margin:0 auto;border-radius:4px;box-shadow:0 2px 7px rgba(0,0,0,.22)}
-  .bench-target-slot{aspect-ratio:auto!important;border:1px dashed rgba(255,255,255,.13);border-radius:7px;background:rgba(255,255,255,.008);color:rgba(255,255,255,.28)}.bench-target-slot span{font-size:17px}
+  .bench-row .play-card{justify-content:flex-start;padding-top:3px;border-radius:7px;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.055),transparent 62%)}
+  .bench-row .play-card.is-selected{background:rgba(140,238,195,.11);box-shadow:inset 0 0 0 1px rgba(160,245,208,.35)}
+  .bench-row .card-frame{width:min(100%,53px);margin:0 auto;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.28)}
+  .bench-target-slot{aspect-ratio:auto!important;border:1px dashed rgba(255,255,255,.085);border-radius:7px;background:transparent;color:rgba(255,255,255,.20)}.bench-target-slot span{font-size:16px;font-weight:400}
+  .bench-target-slot.is-valid-target{border-color:rgba(151,246,202,.55);background:rgba(151,246,202,.055);color:rgba(200,255,229,.78)}
   .bench-row>:nth-child(6){grid-column:2}.bench-row>:nth-child(7){grid-column:3}.bench-row>:nth-child(8){grid-column:4}
 
   /* Playtest has no in-document app nav. The persistent shell owns navigation. */
