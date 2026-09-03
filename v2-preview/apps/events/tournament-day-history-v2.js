@@ -8,7 +8,7 @@ function esc(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;
 function resultLetter(result){return result==='win'?'W':result==='loss'?'L':result==='draw'?'D':'?'}
 function gameSequence(match){if(String(match?.notes||'').trim().startsWith(ID_MARKER))return 'ID';return (match?.games||[]).map(game=>game.result==='win'?'W':game.result==='loss'?'L':game.result==='draw'?'T':'').filter(Boolean).join(' ')}
 function participation(){return window.PTCGStorage?.getParticipation?.(participationId)||null}
-function usedRef(){const row=participation();return row?.usedDeckRef||row?.plannedDeckRef||null}
+function usedRef(){const ref=participation()?.usedDeckRef;return ref?.deckId?ref:null}
 function usedArchetype(){return usedRef()?.archetypeSnapshot||''}
 async function index(){if(!pokemonIndexPromise)pokemonIndexPromise=window.PTCGSprites?.getIndex?.().catch(()=>[])||Promise.resolve([]);return pokemonIndexPromise}
 function normalise(text){return String(text||'').toLowerCase().replace(/[^a-z0-9\s-]/g,' ').replace(/\b(ex|vstar|vmax|v|gx)\b/g,' ').replace(/\s+/g,' ').trim()}
