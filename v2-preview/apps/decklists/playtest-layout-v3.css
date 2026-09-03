@@ -1,4 +1,5 @@
 /* Mobile Playtest: measured iPhone layout. Keep gameplay zones stable; avoid viewport-filling rows. */
+/* polish-build: 2026-09-03 */
 .playtest-marker-tray{position:absolute;z-index:9;left:50%;bottom:-7px;transform:translateX(-50%);display:flex;gap:3px;max-width:110%;justify-content:center;pointer-events:none}
 .playtest-marker{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 4px;border:2px solid #fff;border-radius:999px;background:#344054;color:#fff;font-size:8px;font-weight:900;box-shadow:0 2px 7px rgba(16,24,40,.24)}
 .marker-ability{background:#175cd3}.marker-poisoned{background:#7f56d9}.marker-burned{background:#d92d20}.marker-asleep{background:#667085}.marker-confused{background:#b54708}.marker-paralyzed{background:#ca8504;color:#101828}
