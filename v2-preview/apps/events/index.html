@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./styles.css?v=6">
   <link rel="stylesheet" href="./saved-venues.css?v=2">
   <link rel="stylesheet" href="./location.css?v=1">
-  <link rel="stylesheet" href="./record-tournament.css?v=1">
+  <link rel="stylesheet" href="./record-tournament.css?v=2">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="compete">
   <header class="app-shell-header">
@@ -126,19 +126,20 @@
       <div class="sheet-handle" aria-hidden="true"></div>
       <div class="sheet-head"><div><small>Tournament Day</small><h2 id="recordSheetTitle">Record tournament</h2></div><button id="closeRecordSheet" class="sheet-close" type="button" aria-label="Close">×</button></div>
       <form id="recordTournamentForm">
-        <label><span>Link to an event you’re attending <small>optional</small></span><select id="recordEventSelect"><option value="">No linked event — record anything</option></select></label>
+        <label><span>Attending event <small>optional</small></span><select id="recordEventSelect"><option value="">No linked event</option></select></label>
         <small id="recordEventHint" class="record-hint"></small>
         <div id="manualTournamentFields">
-          <div class="record-divider">or record something else</div>
-          <label><span>Tournament name</span><input id="recordName" type="text" autocomplete="off" placeholder="Friday League / Online Cup"></label>
+          <div class="record-divider">New tournament</div>
+          <label><span>Name</span><input id="recordName" type="text" autocomplete="off" placeholder="Friday League / Online Cup"></label>
           <div class="record-grid">
             <label><span>Date</span><input id="recordDate" type="date"></label>
-            <label><span>Played</span><select id="recordContext"><option value="irl">In person</option><option value="online">Online</option></select></label>
+            <fieldset style="border:0;padding:0;margin:9px 0 0"><legend style="color:var(--app-muted);font-size:11px;font-weight:750">Played</legend><div class="record-context-chips"><input id="recordContextIrl" type="radio" name="recordContextChoice" value="irl" checked><label for="recordContextIrl">In person</label><input id="recordContextOnline" type="radio" name="recordContextChoice" value="online"><label for="recordContextOnline">Online</label></div></fieldset>
           </div>
-          <label><span>Type <small>optional</small></span><input id="recordType" type="text" autocomplete="off" placeholder="League Night, Online Tournament…"></label>
+          <details class="record-more"><summary>More details</summary><label><span>Type <small>optional</small></span><input id="recordType" type="text" autocomplete="off" placeholder="League Night, Online Tournament…"></label></details>
+          <input id="recordContext" type="hidden" value="irl">
         </div>
         <div id="recordError" class="record-error hidden"></div>
-        <button id="recordSubmit" class="record-submit" type="submit">Start recording tournament</button>
+        <button id="recordSubmit" class="record-submit" type="submit">Start tournament</button>
       </form>
     </section>
   </div>
@@ -149,7 +150,7 @@
   <script src="./app.js?v=13"></script>
   <script src="./prep-link.js?v=3"></script>
   <script src="./tournament-link.js?v=1"></script>
-  <script src="./record-tournament.js?v=1"></script>
+  <script src="./record-tournament.js?v=2"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
 </body>
 </html>
