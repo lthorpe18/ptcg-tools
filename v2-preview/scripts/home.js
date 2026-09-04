@@ -136,7 +136,10 @@
         const share=Number(row.share)||0;
         const pct=share*100;
         const barPct=Math.min(100,(share/maxShare)*100);
-        return `<div class="home-meta-bar-item"><div class="home-meta-bar" style="--bar:${barPct.toFixed(1)}%"><span>${pct.toFixed(1)}%</span></div>${heroSprite(row.name)}</div>`;
+        const label=`${pct.toFixed(1)}%`;
+        const labelOutside=pct<5;
+        const smallInside=!labelOutside&&pct<8;
+        return `<div class="home-meta-bar-item${labelOutside?' has-outside-label':''}"><div class="home-meta-bar${smallInside?' is-small-label':''}" style="--bar:${barPct.toFixed(1)}%">${labelOutside?'':`<span>${label}</span>`}</div>${labelOutside?`<span class="home-meta-bar-label-outside">${label}</span>`:''}${heroSprite(row.name)}</div>`;
       }).join('');
       return true;
     }catch(error){
