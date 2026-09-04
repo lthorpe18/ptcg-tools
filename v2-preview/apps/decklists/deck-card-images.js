@@ -110,7 +110,7 @@
     ui.dataset.ptcgCardSearchLoader='true';
     ui.onload=()=>{
       const fix=document.createElement('script');
-      fix.src='deck-card-search-glc-fix.js?v=1';
+      fix.src='deck-card-search-glc-fix.js?v=2';
       fix.dataset.ptcgCardSearchLoader='true';
       document.body.appendChild(fix);
     };
