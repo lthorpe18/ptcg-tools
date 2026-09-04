@@ -39,6 +39,7 @@
     addQuery(query,'trainerType',params.trainerType);
     addQuery(query,'rarity',params.rarity);
     addQuery(query,'illustrator',params.illustrator);
+    if(params.standardOnly)query.set('legal.standard','true');
     if(String(params.hpMin??'').trim())addQuery(query,'hp',params.hpMin,'gte:');
     if(String(params.hpMax??'').trim())addQuery(query,'hp',params.hpMax,'lte:');
     return query;
@@ -118,7 +119,7 @@
     let briefs=[];
     if(!text){
       briefs=await search(params);
-      if(!params.standardOnly)return briefs;
+      if(!params.standardOnly||!String(params.name||'').trim())return briefs;
     }else if(String(params.name||'').trim()){
       briefs=await search(params);
     }else{
@@ -133,7 +134,6 @@
       briefs=[...byId.values()];
     }
 
-    if(!text&&!params.standardOnly)return briefs;
     const detailed=[];
     const batchSize=24;
     for(let index=0;index<briefs.length;index+=batchSize){
