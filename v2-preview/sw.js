@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v17';
+const CACHE_NAME = 'ptcg-tools-v18';
 const CORE = [
   './',
   './home-content.html',
@@ -48,9 +48,22 @@ function canonicalNavigationRequest(request) {
   return new Request(url.href, { method: 'GET', headers: { accept: 'text/html' } });
 }
 
+async function networkFirstNavigation(request) {
+  const cache = await caches.open(CACHE_NAME);
+  const key = canonicalNavigationRequest(request);
+  try {
+    const response = await fetch(request);
+    if (response && response.ok) {
+      await cache.put(key, response.clone());
+      return response;
+    }
+  } catch (_) {}
+  return (await cache.match(key)) || Response.error();
+}
+
 async function staleWhileRevalidate(request, cacheKey = request) {
   const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(cacheKey, { ignoreSearch: request.mode === 'navigate' });
+  const cached = await cache.match(cacheKey);
   const network = fetch(request).then(response => {
     if (response && response.ok) cache.put(cacheKey, response.clone());
     return response;
@@ -64,12 +77,10 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Explicit cache-busting requests must reach the browser/network directly.
-  // `v` is used by general assets/documents; `_pt` is the per-launch Playtest token.
   if (request.cache === 'no-store' || url.searchParams.has('v') || url.searchParams.has('_pt')) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(staleWhileRevalidate(request, canonicalNavigationRequest(request)));
+    event.respondWith(networkFirstNavigation(request));
     return;
   }
   const isStatic = ['script', 'style', 'image', 'font', 'manifest'].includes(request.destination);
