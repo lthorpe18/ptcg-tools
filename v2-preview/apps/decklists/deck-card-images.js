@@ -82,16 +82,8 @@
     button.textContent='Hide list';
   }
 
-  function enhance(){
-    scheduled=false;
-    enhanceWorkingList();
-    enhanceVersionRows();
-  }
-  function queueEnhance(){
-    if(scheduled)return;
-    scheduled=true;
-    queueMicrotask(enhance);
-  }
+  function enhance(){scheduled=false;enhanceWorkingList();enhanceVersionRows()}
+  function queueEnhance(){if(scheduled)return;scheduled=true;queueMicrotask(enhance)}
 
   document.addEventListener('click',event=>{
     const button=event.target.closest('[data-view-version]');
@@ -107,14 +99,14 @@
   if(document.querySelector('script[data-ptcg-card-search-loader]'))return;
   const style=document.createElement('link');
   style.rel='stylesheet';
-  style.href='deck-card-search.css?v=3';
+  style.href='deck-card-search.css?v=4';
   document.head.appendChild(style);
   const catalog=document.createElement('script');
-  catalog.src='../_shared/card-catalog.js?v=3';
+  catalog.src='../_shared/card-catalog.js?v=4';
   catalog.dataset.ptcgCardSearchLoader='true';
   catalog.onload=()=>{
     const ui=document.createElement('script');
-    ui.src='deck-card-search.js?v=3';
+    ui.src='deck-card-search.js?v=4';
     ui.dataset.ptcgCardSearchLoader='true';
     document.body.appendChild(ui);
   };
