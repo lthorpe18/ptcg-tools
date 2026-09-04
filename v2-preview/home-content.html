@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
   <link rel="stylesheet" href="./apps/_shared/app-shell.css?v=2">
   <link rel="stylesheet" href="./apps/_shared/auth-ui.css?v=1">
-  <link rel="stylesheet" href="./styles.css?v=9">
+  <link rel="stylesheet" href="./styles.css?v=10">
 </head>
 <body class="ptcg-v2" data-app-root="." data-app-section="home">
   <header class="app-shell-header home-header">
@@ -27,15 +27,60 @@
       <a class="home-settings-link" href="./apps/settings/" aria-label="Settings">⚙</a>
     </div>
   </header>
+
   <main class="app-shell-page home-shell">
-    <div class="home-title-row"><h1>Home</h1></div>
-    <div class="home-area-grid">
-      <section class="home-area-card area-meta"><a class="home-area-head" href="./apps/meta/"><span class="home-area-icon">◈</span><h2>Meta</h2></a><a id="metaPreview" class="home-area-preview" href="./apps/meta/#current"></a><div class="home-area-actions"><a href="./apps/meta/#prep"><span>What should I play?</span><b>›</b></a><a href="./apps/meta/#current"><span>Field &amp; matchups</span><b>›</b></a></div></section>
-      <section class="home-area-card area-decks"><a class="home-area-head" href="./apps/decklists/"><span class="home-area-icon">▤</span><h2>Decks</h2></a><a id="deckPreview" class="home-area-preview" href="./apps/decklists/"></a><div class="home-area-actions"><a href="./apps/decklists/"><span>My decks</span><b>›</b></a><a href="./apps/decklists/"><span>Versions &amp; odds</span><b>›</b></a></div></section>
-      <section class="home-area-card area-compete"><a class="home-area-head" href="./apps/events/"><span class="home-area-icon">◇</span><h2>Compete</h2></a><a id="competePreview" class="home-area-preview" href="./apps/events/"></a><div class="home-area-actions"><a href="./apps/events/"><span>Events</span><b>›</b></a><a href="./apps/swiss/"><span>Tournament manager</span><b>›</b></a></div></section>
-      <section class="home-area-card area-tools"><a class="home-area-head" href="./apps/tools/"><span class="home-area-icon">⊕</span><h2>Tools</h2></a><a id="toolsPreview" class="home-area-preview" href="./apps/tools/#cut"></a><div class="home-area-actions"><a href="./apps/tools/#cut"><span>Cut calculator</span><b>›</b></a><a href="./apps/tools/"><span>Deck maths</span><b>›</b></a></div></section>
+    <section class="home-meta-hero" aria-labelledby="homeBlendedMetaTitle">
+      <div class="home-meta-head">
+        <span class="home-field-pill"><span aria-hidden="true">▥</span> Current field</span>
+        <h1 id="homeBlendedMetaTitle">Blended Meta</h1>
+        <p>IRL latest major weekend + Online since last major weekend</p>
+      </div>
+
+      <div id="blendedMetaPreview" class="home-meta-chart" aria-label="Blended Meta top five">
+        <div class="home-meta-bar-item"><div class="home-meta-bar" style="--bar:100%"><span>—</span></div><div class="home-meta-sprite-placeholder">◆</div></div>
+        <div class="home-meta-bar-item"><div class="home-meta-bar" style="--bar:70%"><span>—</span></div><div class="home-meta-sprite-placeholder">◆</div></div>
+        <div class="home-meta-bar-item"><div class="home-meta-bar" style="--bar:58%"><span>—</span></div><div class="home-meta-sprite-placeholder">◆</div></div>
+        <div class="home-meta-bar-item"><div class="home-meta-bar" style="--bar:42%"><span>—</span></div><div class="home-meta-sprite-placeholder">◆</div></div>
+        <div class="home-meta-bar-item"><div class="home-meta-bar" style="--bar:34%"><span>—</span></div><div class="home-meta-sprite-placeholder">◆</div></div>
+      </div>
+
+      <a class="home-meta-cta" href="./apps/meta/#current"><span>Explore current meta</span><b>›</b></a>
+    </section>
+
+    <div class="home-personal-grid">
+      <section class="home-personal-card home-deck-card">
+        <div class="home-card-heading"><span class="home-card-icon">▤</span><h2>My Deck</h2></div>
+        <a id="deckPreview" class="home-area-preview home-card-preview" href="./apps/decklists/"></a>
+        <a class="home-card-action" href="./apps/decklists/"><span>Open deck</span><b>›</b></a>
+      </section>
+
+      <section class="home-personal-card home-event-card">
+        <div class="home-card-heading"><span class="home-card-icon">□</span><h2>Next Event</h2></div>
+        <a id="competePreview" class="home-area-preview home-card-preview" href="./apps/events/"></a>
+        <a class="home-card-action" href="./apps/events/"><span>View event</span><b>›</b></a>
+      </section>
     </div>
+
+    <nav class="home-quick-actions" aria-label="Quick actions">
+      <a href="./apps/decklists/"><span class="home-quick-icon">⌕</span><span>Card Search</span></a>
+      <a href="./apps/tools/#cut"><span class="home-quick-icon warm">✂</span><span>Cut / ID</span></a>
+      <a href="./apps/decklists/"><span class="home-quick-icon">▷</span><span>Playtest</span></a>
+    </nav>
+
+    <a class="home-play-card" href="./apps/meta/#prep">
+      <div class="home-play-copy">
+        <span class="home-play-icon" aria-hidden="true">✦</span>
+        <span><strong>What should I play?</strong><small>Analyse the expected field</small></span>
+      </div>
+      <div class="home-play-graphic" aria-hidden="true">
+        <span class="home-play-dot grass">●</span><span class="home-play-dot fire">●</span><span class="home-play-dot water">●</span><span class="home-play-dot lightning">●</span><span class="home-play-dot psychic">●</span>
+        <i style="--h:48%"></i><i style="--h:70%"></i><i style="--h:43%"></i><i style="--h:84%"></i><i style="--h:58%"></i><i style="--h:92%"></i><i style="--h:61%"></i><i style="--h:76%"></i>
+        <svg viewBox="0 0 100 32" preserveAspectRatio="none"><path d="M1 24 C15 16,24 25,36 17 S55 9,67 17 S83 23,99 10" /></svg>
+      </div>
+      <b class="home-play-chevron">›</b>
+    </a>
   </main>
+
   <script src="./apps/_shared/storage.js?v=6"></script>
   <script src="./apps/_shared/deckParser.js?v=2"></script>
   <script src="./apps/_shared/deck-store.js?v=5"></script>
