@@ -1,10 +1,10 @@
 # PTCG Tools — Master Product & Design Document
 
 **Status:** Current product source of truth  
-**Date:** 2 September 2026  
+**Date:** 4 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
-**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`
+**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`
 
 ## 1. Product vision
 
@@ -21,12 +21,12 @@ The app should help answer the recurring competitive questions:
 3. **What do I need physically?** — understand owned cards, allocations, missing cards and deck readiness.
 4. **Where and when can I play?** — discover relevant local and major events and track attendance intent.
 5. **How should I prepare?** — connect event, expected meta, deck choice, testing and final list.
-6. **What should I do during a tournament?** — track tournament state and make informed cut / ID decisions.
+6. **What should I do during a tournament?** — track results and make informed cut / ID decisions.
 7. **What did I learn?** — retain results, testing and matchup evidence for future decisions.
 
-PTCG Tools is not intended to replace Pokémon TCG Live with a fully rules-enforced client. Its playtest experience should instead be a fast, flexible, touch-first competitive tabletop.
+PTCG Tools is not intended to replace Pokémon TCG Live with a fully rules-enforced client. Mobile Playtest is a fast, flexible, touch-first tabletop.
 
-The long-term product opportunity is not simply presenting Limitless, RK9, Pokémon or Pokédata information. It is the **connected layer for one player**:
+The long-term product opportunity is the connected layer for one player:
 
 **Meta → deck choice → deck development/testing → physical readiness → event preparation → tournament-day decisions → review/learning.**
 
@@ -38,1127 +38,698 @@ Account-backed persistence makes that workflow longitudinal and device-independe
 
 ### 2.1 Decision first, methodology second
 
-The app should surface the useful competitive answer before exposing detailed methodology.
+Surface the useful answer before exposing detailed methodology.
 
 Examples:
 
 - “This exact variant is best positioned into your expected field.”
-- “These are the matchups driving that recommendation.”
+- “These matchups are driving that recommendation.”
 - “ID is safe / unsafe because this many players can still finish above you.”
-- “You are missing these four physical cards to build this deck.”
+- “You are missing these cards to build this exact list.”
 
 Evidence, assumptions and advanced controls remain available through progressive disclosure.
 
 ### 2.2 Mobile first
 
-The primary design width is approximately 390 CSS pixels.
+Primary design width is approximately **390 CSS px**.
 
 Rules:
 
-- no desktop-first tables that overflow horizontally on iPhone;
-- compact information density rather than oversized marketing cards;
-- controls must remain comfortably tappable;
-- form and search inputs should render at **16 px or larger on iPhone** so Safari does not focus-zoom the page;
-- safe-area handling is mandatory for home-screen use;
-- important workflows should not depend on hover, keyboard shortcuts or precise drag-and-drop.
+- no desktop-first horizontal tables on iPhone;
+- compact information density;
+- comfortably tappable controls;
+- form/search inputs at 16 px or larger on iPhone;
+- safe-area handling for home-screen use;
+- no workflow should depend on hover or precise drag-and-drop.
 
-### 2.3 One product, one design system
+### 2.3 One product, one design system, one shared engine per shared concern
 
 All areas should share:
 
-- app shell and navigation;
-- typography and colour tokens;
-- cards and surfaces;
-- form controls and segmented controls;
-- search/filter treatment;
-- loading, empty and error states;
-- disclosure panels;
-- Pokémon sprite treatment;
-- persistence conventions.
+- app shell/navigation;
+- typography/colour tokens;
+- cards/surfaces;
+- forms/segmented controls;
+- loading/empty/error states;
+- searchable-list patterns;
+- persistence conventions;
+- Pokémon sprite treatment.
 
-Domain-specific components are encouraged, but each feature must not reinvent the visual system.
+A concern that is conceptually shared across features should have **one canonical engine**.
+
+The September 2026 sprite regression established this as an explicit architecture lock: Settings/Meta already owned the `DeckSprites` archetype→sprite mapping, while Tournament Day had independently inferred Pokémon from names. That duplication caused inconsistent output.
+
+Rule:
+
+> **If a shared engine exists, feature pages consume it. They do not recreate a second primary implementation.**
+
+Feature-local inference is allowed only as a genuine fallback for unsupported data.
 
 ### 2.4 Pokémon character without clutter
 
-Pokémon sprites are primarily **identity**, not decoration.
+Sprites are identity, not decoration.
 
-They should identify deck archetypes, exact variants and saved decks. Sprite selection is a presentation concern only and must never alter analytical grouping or data identity.
+Representative deck sprites:
 
-Representative deck sprites have sensible built-in defaults, but users can override them in **Settings → Deck icons**. Overrides may use one or two Pokémon and should be resettable to the default. Basic Box currently defaults to **Teal Mask Ogerpon** rather than Mewtwo.
+- identify archetypes/variants/decks;
+- may contain one or two Pokémon;
+- have built-in defaults;
+- may be overridden in **Settings → Deck icons**;
+- never alter deck identity, family grouping, field share or matchup data.
+
+The canonical sprite mapping/render source is `window.DeckSprites` from the shared Meta sprite module until/unless that functionality is moved into an even more neutral shared module.
 
 ### 2.5 Fast defaults, explicit evidence
 
-The app should work immediately without configuration, but analytical pages must make their evidence scope understandable.
+The app should work immediately without configuration, but analytical pages must make evidence scope understandable.
 
-Never hide a materially different evidence source behind a vague label. Online and IRL Meta evidence are distinct datasets and selected scope must actually change the underlying evidence, not only the text shown to the user.
+Online and IRL Meta evidence are distinct datasets. Source/scope selectors must genuinely change the underlying evidence.
 
 ### 2.6 Correctness before polish
 
-Data semantics matter more than decorative UI. A number shown on a deck page must describe that deck unless clearly labelled otherwise. Global dataset counts must not be presented as though they are deck-specific samples.
+Data semantics matter more than decorative UI.
+
+A deck page must not present global dataset counts as though they are deck-specific samples. Planned deck and played deck must not be conflated. A cached older document must not be mistaken for current user state.
 
 ### 2.7 Personal-first, public-ready
 
-Build the best possible competitive app for the primary user, but avoid choices that unnecessarily make later community/public use impossible.
+Build the strongest product for the primary user while preserving future community/public viability:
 
-This does **not** mean designing prematurely for millions of users. It means preserving a few durable foundations:
-
-- user-owned state is clearly account-scoped;
-- personal data can restore across devices;
-- shared public competitive data is conceptually distinct from private user data;
-- source provenance is retained;
-- upstream scraping is not silently treated as a permanent public integration contract;
-- the PTCG Tools brand remains independent rather than presenting as an official Pokémon product.
+- account-scoped user state;
+- cross-device restoration;
+- shared/public data separated from private personal data;
+- retained source provenance;
+- no silent dependence on unauthorized scraping as a permanent public contract;
+- independent PTCG Tools branding.
 
 ---
 
 ## 3. Current V2 application state
 
-V2 is the active product direction and the public GitHub Pages root routes users into it. The old launcher is legacy rather than product source of truth.
+V2 is the active product direction and the public GitHub Pages root routes into it.
 
-Current V2 implementation lives under:
+Implementation lives under:
 
 `v2-preview/`
-
-Current application areas include:
-
-- `v2-preview/apps/meta`
-- `v2-preview/apps/decklists`
-- `v2-preview/apps/events`
-- `v2-preview/apps/swiss`
-- `v2-preview/apps/tools`
-- `v2-preview/apps/settings`
-- `v2-preview/apps/_shared`
-
-The public root URL remains:
-
-`https://lthorpe18.github.io/ptcg-tools/`
-
-The root should remain the canonical user-facing entry point even while internal implementation paths still contain the `v2-preview` name.
-
-### 3.1 Source-of-truth rule
-
-For redesign work, inspect and modify the V2 implementation first. Legacy `apps/*` code should not silently drive new architectural decisions.
-
-Feature chats are focused working spaces, not independent architectural authorities. Any durable decision that changes ownership, identity, persistence or relationships across Meta, Decks, Compete, Tools, Collection or Analytics must be promoted into this document. Future work should inspect the repository and this document rather than assuming that another chat's full transcript is available.
-
-### 3.2 Validation rule
-
-Before claiming a significant change is complete:
-
-1. inspect current GitHub state;
-2. explain the implementation approach where the change is substantial;
-3. implement against V2;
-4. run / inspect **Validate Meta Lab** for Meta changes where relevant;
-5. confirm GitHub Pages deployment succeeds;
-6. do not claim visual verification unless the deployed UI has actually been viewed/tested.
-
-### 3.3 Current account foundation
-
-PTCG Tools now has an implemented account layer using **Google sign-in via Supabase Auth**.
-
-Google is the only supported provider for now. Apple and Discord were deliberately removed after Google proved sufficient for the current stage.
-
-The account milestone is not theoretical: authentication and cross-device persistence have been tested successfully on multiple devices.
-
----
-
-## 4. Information architecture and feature ownership
 
 Top-level product areas:
 
 **Home · Meta · Decks · Compete · Tools**
 
-Settings is an app-level destination rather than a sixth competitive domain.
+Settings is app-level rather than a sixth competitive domain.
 
-### Home
-Personal competitive dashboard and contextual shortcuts.
+### Source-of-truth rule
 
-### Meta
-Public competitive evidence and expected-field analysis.
+For new work, inspect current GitHub V2 implementation first. Legacy `apps/*` code must not silently drive new architecture.
 
-### Decks
-Saved decks, versions, decklists, consistency maths, physical readiness integration and Mobile Playtest.
+Feature chats are focused workspaces, not independent architecture authorities. Durable changes to ownership, identity, persistence or cross-feature relationships must be promoted into this document or the relevant companion architecture document.
 
-### Compete
-Events, attendance, the event-specific Tournament Prep experience, real tournament results, tournament-day workflows and competitive-season / Championship Point tracking.
+### Validation rule
 
-### Tools
-Small standalone competitive utilities only.
+Before claiming a significant change is complete:
 
-### Settings
-Account, application preferences, deck icon overrides and future storage/import/export controls.
-
-### Ownership locks
-
-- **Mobile Playtest belongs to Decks**, not Tools.
-- **Event finder belongs to Compete**.
-- **Meta modelling belongs to Meta**.
-- **Expected Fields belong to Meta as one reusable account-owned model**; Compete selects, lightly adjusts and snapshots them for event Prep rather than creating a second incompatible model.
-- **Deck and DeckVersion identity belongs to Decks**; Compete refers to an exact DeckVersion when planning or recording what was used at an event.
-- **Real event/tournament result entry belongs contextually to Compete** and writes the shared Match/Game contract. Solo/goldfish Playtest observations remain separate and Decks-owned.
-- **Cut / ID Calculator belongs to Tools**, but should also be contextually accessible from Tournament Day.
-- **Collection** is a cross-cutting long-term capability connected to Decks, Prep and Home, not a simple “owned” checkbox feature.
-- **Competitive seasons, Championship Point tracking and completed Championship Series participation belong to Compete**; they are not a separate top-level area or an Analytics-only concern.
+1. inspect current GitHub state;
+2. explain the implementation approach for substantial changes;
+3. modify V2 rather than legacy code;
+4. run relevant validation workflows where applicable;
+5. verify GitHub Pages deploys the exact intended SHA;
+6. do not claim mobile visual acceptance until it has actually been tested.
 
 ---
 
-## 5. Global app shell and visual language
+## 4. Feature ownership
 
-### 5.1 Navigation
+### Home
 
-Persistent mobile navigation makes the five competitive areas immediately reachable:
+Personal competitive dashboard and contextual shortcuts.
+
+### Meta
+
+Public competitive evidence, exact-variant analysis and Expected Fields.
+
+### Decks
+
+Saved decks, working lists, immutable checkpoints/versions, deck maths, Mobile Playtest and eventual physical readiness integration.
+
+### Compete
+
+Events, attendance, Event Prep, Tournament Day, real tournament results and Competitive Record / Season.
+
+### Tools
+
+Small standalone competitive utilities only.
+
+### Settings
+
+Account, app preferences, deck-icon overrides and future storage/import/export controls.
+
+### Ownership locks
+
+- **Mobile Playtest belongs to Decks.**
+- **Event finder belongs to Compete.**
+- **Meta modelling belongs to Meta.**
+- **Expected Fields belong to Meta as one reusable account-owned model; Compete selects/adjusts/snapshots them for Prep.**
+- **Deck and DeckVersion identity belongs to Decks.**
+- **Real tournament result entry belongs to Compete and writes the shared Match/Game contract.**
+- **Solo/goldfish Playtest never creates competitive W/L.**
+- **Cut / ID engine/standalone utility belongs to Tools and is contextually exposed in Tournament Day.**
+- **Collection is cross-cutting, connected to Decks, Prep and Home.**
+- **Competitive seasons / CP / BFL belong to Compete.**
+
+---
+
+## 5. Global shell, caching and performance
+
+### 5.1 Persistent five-area shell
+
+The production shell keeps the five core areas mounted after first load:
 
 **Home · Meta · Decks · Compete · Tools**
 
-This is a production architectural requirement, not only a visual preference.
+Routine section switching changes the active view instead of rebuilding the application from scratch.
 
-The public root owns a persistent five-area shell. Home, Meta, Decks, Compete and Tools remain mounted after first load and section switching changes the active view rather than performing a fresh top-level document navigation. This architecture was promoted on 1 September 2026 after direct iPhone testing showed a substantial improvement in perceived navigation performance.
+This is a production performance requirement.
 
-Nested objects such as exact deck detail or tournament detail use compact contextual back navigation while preserving the shared shell.
+### 5.2 OAuth exception
 
-**Architecture lock:** future feature work must not casually restore full-page reloads as the default navigation mechanism between the five core areas. Any replacement shell/navigation implementation must retain the same key behaviour: already-loaded areas remain available immediately and routine cross-area navigation should not rebuild the application from scratch.
+Google OAuth deliberately escapes child views and navigates at the top level, then returns to PTCG Tools.
 
-Current implementation uses persistent child views as a pragmatic bridge over the existing plain-HTML feature pages. A future move to a true shared-DOM shell is allowed, but only if it preserves or improves measured/perceived performance and does not require a framework rewrite solely for architectural neatness.
+Do not trap third-party OAuth inside the persistent child iframe.
 
-### 5.2 OAuth exception to persistent child navigation
+### 5.3 Service worker
 
-Third-party authentication pages such as Google must **not** be loaded inside the persistent child iframe that contains Settings.
+Static/versioned assets and generated data may use stale-while-revalidate caching where appropriate.
 
-Google OAuth therefore deliberately escapes to a **top-level navigation**, then returns to the top-level PTCG Tools app after authentication.
+**Navigation/document HTML is network-first as of 4 September 2026.**
 
-This behaviour was required to fix an iPhone failure where Google returned a 403 page while PTCG Tools' bottom navigation remained visible underneath it.
+Reason: the previous stale-first navigation strategy could reopen an older cached Tournament Day page after the user had already seen a newer deployment. That appeared as saved-state/UI regression even though the underlying user state had not reverted.
 
-Future auth/external flows that prohibit embedding must follow the same rule.
+Current rule:
 
-### 5.3 Design tokens
+- online document navigation → network first;
+- successful response updates cache;
+- cached document is offline/error fallback;
+- static JS/CSS/images remain cacheable/versioned.
 
-Core visual direction:
+Service-worker generation was bumped to `ptcg-tools-v18` for this transition.
 
-- Background: `#F7F8FB`
-- Surface: `#FFFFFF`
-- Primary text: `#101828`
-- Secondary text: `#667085`
-- Light muted text: `#98A2B3`
-- Border: `#E4E7EC`
-- Interaction blue: approximately `#175CD3`
-- Positive green: approximately `#079455`
-- Warning amber: approximately `#B54708`
-- Negative red: approximately `#D92D20`
+### 5.4 No scattered dated navigation pins
 
-Use the native/system font stack.
+Development-era links such as `?build=20260903-...` must not remain distributed across feature entry points.
 
-Shape direction:
+They caused different routes to target different application generations and interacted poorly with service-worker navigation caching.
 
-- main cards around 15–18 px radius;
-- controls around 9–12 px radius;
-- full-radius pills/chips;
-- compact spacing with clear hierarchy.
+Canonical internal routes should point to the current document plus semantic identifiers only, e.g.:
 
-### 5.4 Search as a standard list capability
+`tournament-day.html?participation=<id>`
 
-Lists containing many decks should be searchable/filterable by default where it materially improves navigation.
+Any temporary development revision mechanism must have one explicit owner and be removed in release hardening.
 
-Already applied in V2 Meta to:
-
-- Current Meta;
-- Deck Explorer;
-- standalone Matchups deck/opponent selection;
-- exact deck Matchups list.
-
-The same principle should be reused elsewhere rather than implemented independently each time.
-
-### 5.5 PWA behaviour
-
-The app should continue toward a genuine standalone home-screen experience with:
-
-- manifest;
-- `display: standalone`;
-- app/touch icons;
-- `theme-color`;
-- `viewport-fit=cover`;
-- safe-area CSS;
-- stable canonical start URL;
-- service worker/static shell caching where useful and safe.
-
-Cache-busting/versioning must be handled deliberately for changed static assets so an iPhone home-screen install does not appear stale after deployment.
-
-### 5.6 Performance architecture — current production baseline
-
-A dedicated performance pass on 1 September 2026 established the production baseline:
-
-- a service worker caches the app shell, static assets and generated JSON with stale-while-revalidate behaviour where appropriate;
-- routine Home preview data no longer deliberately bypasses browser caching;
-- duplicate Home Meta-index requests were removed/shared;
-- the five core areas are progressively warmed after app launch;
-- once loaded, core areas stay alive inside the persistent shell and switching between them is effectively immediate in normal use;
-- feature state is preserved across routine section switching because the feature page is not destroyed and recreated;
-- explicit/manual refresh paths may still bypass caches where fresh source data is genuinely required.
-
-The original intermittent navigation hangs were primarily caused by full-document navigation repeatedly rebuilding pages, scripts and data state. Cache tuning alone did not remove the issue; promoting the persistent shell did.
-
-The remaining occasional first-initialisation pause is accepted for now. **Performance is considered good enough and the navigation-performance milestone is complete.** Do not prioritise further optimisation ahead of product work unless a measurable/user-visible regression appears.
-
-See `PERFORMANCE_ARCHITECTURE.md` before changing global navigation, caching, shell-owned sync or OAuth routing.
+See `PERFORMANCE_ARCHITECTURE.md` for the complete cache/performance contract.
 
 ---
 
 ## 6. Home
 
-Home should behave like a competitive dashboard, not a directory of apps.
+Home is a competitive dashboard, not a directory.
 
 Priority content:
 
 - current format/context;
-- high-value route into **What should I play?**;
+- high-value route into What Should I Play;
 - current Meta snapshot;
-- recently used / saved deck context;
-- next event or attendance context where available;
-- current competitive season, counting Championship Points and progress toward user-defined season goals where meaningful;
-- quick access to Decks, Events and Cut / ID;
-- compact account state without allowing account chrome to dominate the competitive dashboard.
+- recently used/edited deck context;
+- next-event/attendance context;
+- eventual current-season/CP context;
+- compact shortcuts to Decks, Events and Cut / ID.
 
-Only show personal modules where meaningful data exists.
-
-Settings should remain easy to reach from Home without competing with primary competitive navigation.
+Only show personal modules when meaningful data exists.
 
 ---
 
 ## 7. Meta — locked architecture
 
-Meta is currently the most developed V2 product area and should remain the UX benchmark.
+### 7.1 Sources are evidence, not themes
 
-### 7.1 Core principle: sources are evidence, not themes
+Online and IRL are distinct evidence sources.
 
-**Online** and **IRL** are distinct evidence sources.
-
-A source selector must change the underlying dataset. Scope selectors must also be functional everywhere they appear.
+Source and scope selections must actually drive the data.
 
 ### 7.2 Online scopes
 
-Required Online scopes:
+Required scopes:
 
-- **Last 14 days**
-- **Last 30 days**
-- **Since last major weekend**
-- **All in format**
+- Last 14 days;
+- Last 30 days;
+- Since last major weekend;
+- All in format.
 
-“Since last major weekend” answers:
-
-> Since the latest major established the IRL meta, what has the online playerbase done with that information?
-
-Its cutoff is derived from the same authoritative latest-major-weekend model used by IRL. Same-weekend majors are merged; the online period begins after that merged competitive weekend.
+Same-weekend IRL majors merge when defining the latest major weekend.
 
 ### 7.3 IRL scopes
 
-Required IRL scopes:
+Required scopes:
 
-- **Latest IRL majors weekend**
-- **All IRL majors this format**
-- **Individual event**
+- Latest IRL majors weekend;
+- All IRL majors this format;
+- Individual event.
 
-When multiple majors occur in the same competitive weekend they merge into the default latest-weekend view.
+The scope model must behave consistently across Current Meta, Matchups, Deck Explorer, Deck Detail and What Should I Play.
 
-The IRL scope model must behave consistently across Current Meta, Matchups, Deck Explorer, deck detail and What Should I Play.
+### 7.4 Exact variants vs families
 
-### 7.4 Source/scope functionality everywhere
-
-Wherever Meta lets the user choose Online vs IRL, it should expose the corresponding detailed scope and the choice must actually drive data.
-
-This applies to:
-
-- Current Meta;
-- Matchups;
-- Deck Explorer;
-- exact deck detail where source switching exists;
-- What Should I Play field source;
-- What Should I Play matchup source.
-
-For blended What Should I Play modes, Online and IRL scopes must be independently configurable.
-
-### 7.5 Evidence context
-
-A selected source/scope should expose enough context to understand what is being analysed, including as appropriate:
-
-- event count;
-- entry count;
-- source description;
-- date/update context;
-- matchup game sample;
-- matchup event sample when available.
-
-Field evidence and matchup evidence must be described separately because they may have different coverage.
-
-### 7.6 Variant and family model
-
-Variant grouping is only a **Current Meta field-share presentation layer**.
+Variant grouping is only a Current Meta field-share presentation layer.
 
 Rules:
 
-- no separate family pages;
+- no family pages;
 - grouped families expand inline to exact variants;
-- grouped family share has one source of truth;
-- matchup data belongs to exact variants;
-- win rate and result analysis belongs to exact variants;
-- exact Deck Detail belongs to exact variants;
-- What Should I Play analyses exact variants;
-- exact variants should interlink between Current Meta, Deck Explorer, Deck Detail and Matchups.
+- matchup/WR/results/deck detail belong to exact variants;
+- What Should I Play analyses exact variants.
 
 Short form:
 
 **Families describe the meta; variants play games.**
 
-### 7.7 Current Meta
+### 7.5 Expected Fields
 
-Current Meta should remain compact and answer “what is being played?” quickly.
+An Expected Field is a named, reusable, account-owned prediction of what will be played.
 
-It should support:
+It may be created from:
 
-- Online / IRL source switching;
-- full corresponding scope control;
-- optional family grouping for field-share presentation only;
-- inline expansion to exact variants;
-- deck search/filter;
-- event/entry/update context;
-- navigation to exact deck detail.
+- current Online scope;
+- current IRL scope;
+- individual IRL event/weekend;
+- transparent blend preset;
+- another Expected Field;
+- blank/custom starting point where useful.
 
-### 7.8 What Should I Play
+Saving copies the current evidence into an editable prediction with provenance. It is not a silent live link to future Meta changes.
 
-This is the reference interaction model for analytical UX.
+Compete/Prep uses the same records, may make event-specific adjustments, and preserves an immutable Event Expected Field snapshot when finalised.
 
-Preserve:
-
-- expected field;
-- exact-variant recommendations;
-- matchup-weighted positioning;
-- confidence/evidence indication;
-- “check a deck” flow;
-- expandable methodology;
-- Expected Field modelling.
-
-Field source and matchup source are independent.
-
-**Expected Field** is the product term for the existing custom/saved-meta concept. It is one editable model with presets, not a separate incompatible data model.
-
-Data-source controls should live in a compact collapsible **Data sources** panel and only show scope controls relevant to the source currently selected.
-
-Prep reuses the analytical functions defined here, including expected-field weighting, matchup evidence, confidence, coverage and candidate comparison. It does not embed the whole What Should I Play interface. Prep shows a concise event-scoped result and can deep-link into the full analysis with the same context preloaded.
-
-### 7.9 Expected Fields
-
-An **Expected Field** is a named, reusable, account-owned prediction of what will be played. Meta and Compete/Prep operate on the same underlying records through different interfaces.
-
-Terminology:
-
-- **Observed Meta** — actual Online or IRL evidence for a selected source, scope and time period;
-- **Observed Meta snapshot** — a point-in-time copy of that evidence used as provenance for a prediction;
-- **Expected Field** — the editable prediction the user can name, save, duplicate, reuse and delete;
-- **Event Expected Field snapshot** — the immutable copy retained by an event once its preparation/list is locked.
-
-An Expected Field can be created at any time from:
-
-- the current Online scope;
-- the current IRL scope;
-- an individual IRL event or major weekend;
-- a transparent Online/IRL blend preset;
-- another Expected Field duplicated as a new scenario;
-- a blank/custom starting point where genuinely useful.
-
-Creation copies the selected shares into a new editable record and retains source provenance such as source type, scope, contributing events/date range, capture time and calculation/model version where available. It is not a silent live link: later changes to shared Meta evidence must not rewrite the saved prediction. A deliberate refresh/rebase may be offered later, but must show what will change.
-
-When an event becomes **Attending**, Compete should suggest an initial Expected Field rather than present a blank form. The baseline should use the relevant Meta evidence available at that time: recent comparable IRL evidence, short-term Online movement and a broader Online baseline. Any blend must be deterministic, visible and editable. A fixed weighting such as `50/30/20` may exist as a preset, but must not be presented as universally correct. Event type, geography, evidence staleness, set/rotation timing and reliable local knowledge can justify different weighting or lower confidence.
-
-Useful editing behaviour:
-
-- visible archetype percentages totalling 100%;
-- `− / +` quick adjustment;
-- direct percentage override;
-- optional locking of known rows while remaining rows rebalance;
-- an explicit `Other` allowance;
-- confidence and concise reasons/source context;
-- reset to the captured baseline;
-- duplicate/save-as for alternative scenarios.
-
-Meta provides the full CRUD, evidence and scenario-management interface. Prep provides a compact event-specific view: select or create a field, accept it with **Looks right**, make quick adjustments, or open the full Meta editor. Deleting an Expected Field must never delete immutable snapshots already attached to historical events.
-
-### 7.10 Matchups
+### 7.6 Matchups and exact deck detail
 
 Matchups are exact-variant to exact-variant evidence.
 
-Requirements:
+Deck detail must distinguish:
 
-- Online and IRL must genuinely use different evidence;
-- selected scope must drive the matchup dataset;
-- opponent lists should be searchable/filterable;
-- game counts are deck-specific on an exact deck page;
-- insufficient evidence should be shown explicitly rather than filled with overall WR or inferred data.
+- field sample = exact variant’s entries across selected field events;
+- matchup sample = head-to-head games involving that exact variant.
 
-### 7.11 Exact deck detail
+Do not substitute overall tournament sample counts for deck-specific samples.
 
-The deck detail page should answer “where is this deck now?” first, then expose evidence.
+### 7.7 Shared Meta runtime
 
-Header:
+Direction:
 
-- exact variant name and sprite;
-- family context where relevant;
-- one stable **Current share** callout.
+- **MetaState** — source/scope state;
+- **MetaData** — evidence/data access;
+- **MetaControls** — shared source/scope behavior;
+- **DeckSprites** — canonical archetype presentation mapping/rendering.
 
-Reference scope for the header share:
-
-- Online → **Since last major weekend**;
-- IRL → **Latest IRL majors weekend**.
-
-Everything between the header and matchup list is grouped into a collapsible **Data & performance** panel.
-
-Field performance should use one three-metric row:
-
-- Deck entries
-- Field share
-- Win rate
-
-Do not show the old Record metric in that summary row.
-
-Evidence semantics must be deck-specific:
-
-- **Field sample** = this exact variant’s entries across selected field events;
-- **Matchup sample** = head-to-head games involving this exact variant.
-
-A whole-tournament match count must never be displayed as though the deck itself played that many games.
-
-### 7.12 Recent results on deck detail
-
-Recent results belong at the bottom of exact deck detail.
-
-**Online:** only tournaments inside the currently selected Online scope, filtered to the exact variant, sorted by placement best first.
-
-**IRL:** only events inside the selected IRL scope, filtered to the exact variant, sorted by placement best first. Individual result rows should link directly to the player’s Limitless Labs decklist where available.
-
-### 7.13 Meta data architecture
-
-Shared runtime direction:
-
-- **MetaState** — single source of truth for Online/IRL scopes;
-- **MetaData** — shared evidence/data access layer;
-- **MetaControls** — shared UI scope/source behaviour.
-
-Avoid rebuilding overlapping page-specific scope systems.
-
-Online field scope changes should use compact precomputed/cached history rather than rerunning expensive aggregation on every interaction.
-
-Detailed matchup coverage may be narrower than field coverage. The UI must reflect this honestly.
-
-### 7.14 Meta data sources
-
-Current direction:
-
-- `play.limitlesstcg.com` / documented Limitless APIs for online tournament data where available;
-- compact generated online field history for fast scope switching;
-- rolling detailed pairing archive for scoped online matchup evidence;
-- broader aggregate matchup history for all-format evidence;
-- `labs.limitlesstcg.com` for current IRL evidence while the integration remains appropriate.
-
-Do not silently substitute one source for another when the UI claims otherwise.
-
-For any future community/public release, documented/authorized data access should replace essential scraping wherever possible. See Section 18 and `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`.
+Avoid page-specific reimplementations of those concerns.
 
 ---
 
-## 8. Settings and accounts
+## 8. Accounts, persistence and Settings
 
-Settings is an implemented app-level area.
+### 8.1 Authentication
 
-### 8.1 Account
+Google sign-in through Supabase Auth is implemented and proven across devices.
 
-Google sign-in is now the supported account mechanism.
+Google is the only provider for now.
 
-Requirements/principles:
+No Gmail/Drive/Contacts access is requested. OAuth secrets remain server-side.
 
-- Google only for now;
-- request only basic identity information needed for the account;
-- no Gmail/Drive/Contacts access;
-- never receive/store Google passwords;
-- OAuth provider secrets remain server-side and never enter the public repo;
-- name/email are personal data and must be treated accordingly;
-- account state should be compact and understandable.
+### 8.2 Cloud persistence
 
-The current Supabase account backend is **PTCG Tools V2 Auth**, project reference `naylqcyrnhjvqodjpjsg`, hosted in `eu-west-2` on the free tier at the current stage.
+Current per-account persistence uses one schema-versioned `user_snapshots` row per user protected by Supabase RLS.
 
-### 8.2 Deck icon overrides
+Durable personal state includes:
 
-Users can configure representative Pokémon for deck/archetype presentation.
+- Decks and embedded DeckVersions;
+- root V2 state including `eventParticipations`;
+- real Match/Game history;
+- preferences/deck icon overrides;
+- saved Expected Fields.
 
-Requirements:
+Local changes auto-sync; cross-device restore has been tested successfully.
 
-- searchable archetype/deck list;
-- choose one or two representative Pokémon;
-- preview current sprite treatment;
-- save override;
-- reset to built-in default;
-- presentation only — no effect on deck identity, family grouping, field shares or matchup data.
+The sync controller belongs to the top-level shell.
 
-Overrides live in shared preferences state, with compatibility handling for older locally stored values where required.
+### 8.3 Snapshot vs normalized future tables
 
-### 8.3 Future Settings direction
+The whole-account snapshot remains pragmatic while the product model evolves.
 
-Settings should own genuine app preferences, not analytical assumptions that belong contextually inside Meta/Tools/Decks.
+Normalize domains only when concrete query/conflict/history/scale/collaboration needs justify it.
 
-Potential future settings:
+### 8.4 Settings → Deck icons
 
-- appearance/preferences shared across the app;
-- default competitive format where useful;
-- presentation preferences;
-- data/storage/import/export controls;
-- account export/delete controls before broad public release.
+Deck icon overrides are account-owned presentation preferences.
+
+The shared `DeckSprites` engine owns:
+
+- built-in defaults;
+- one/two-Pokémon overrides;
+- sprite slugs/URLs/rendering.
+
+Every feature displaying archetype sprites should consume this mapping first.
 
 ---
 
 ## 9. Decks
 
-Decks is the home for:
+### 9.1 Deck identity
 
-- My Decks;
-- saved deck versions;
-- decklists;
-- deck-aware probability/consistency maths;
-- Mobile Playtest;
-- eventual physical-card readiness.
+A Deck is the long-lived personal project/identity.
 
-### 9.1 Deck library
+It contains:
 
-Mobile-first library with search, compact add action, deck name, one or two representative sprites, current/version context and concise useful metadata.
+- stable Deck ID;
+- user-facing name;
+- separately stored exact archetype classification;
+- mutable working list;
+- embedded immutable DeckVersion/checkpoint records;
+- canonical `listHash` values.
 
-Limitless is the preferred deck-building source for now. PTCG Tools should make bringing a list across quick, then own the personal identity and downstream relationships that a generic builder does not know about.
+Deck name and archetype are separate concepts.
 
-The import flow is:
+### 9.2 Version model
 
-1. paste a Limitless/PTCGL-format list or supply a supported Limitless shared-list link;
-2. choose **New Deck** or **Update Existing**;
-3. confirm a user-facing deck name and select the separately stored archetype/variant from the shared searchable Meta catalogue;
-4. create a new immutable version only when the canonical list hash has changed.
+- working list may change;
+- checkpoints/DeckVersions are immutable exact lists;
+- every exact list has canonical `listHash`;
+- same canonical list reuses the matching checkpoint instead of creating duplicates;
+- historical references use `deckId + listHash`, plus `deckVersionId` where a saved checkpoint was selected;
+- historical display snapshots survive later rename/deletion.
 
-A Deck's name is personal context, for example **“Mega Lucario Hariyama — Card Catcher build”**. Its archetype is analytical classification, for example **Mega Lucario / Hariyama**. Multiple Decks may share an archetype when the user wants independent projects or meaningful forks.
+### 9.3 Mobile Playtest
 
-The archetype picker must reuse the exact-variant catalogue derived from current Online and selected-format IRL Meta evidence, augmented by classifications already present in My Decks. Decks must not introduce a second hand-maintained archetype taxonomy.
+Mobile Playtest v1 is feature-complete pending ordinary acceptance/cleanup.
 
-Decks should retain useful source provenance and provide low-friction handoffs:
+It is:
 
-- open the source list in Limitless when a source URL exists;
-- copy the exact list in PTCGL/Limitless-compatible text;
-- **Create deck image** by copying that text and opening Limitless ImgGen at `https://limitlesstcg.com/tools/imggen`.
+- Decks-owned;
+- solo/goldfish;
+- touch-first;
+- iPhone-first;
+- manual/flexible after setup rather than a partial rules engine.
 
-Do not depend on an undocumented ImgGen prefill URL. Copy-and-open is the durable initial integration unless Limitless publishes a supported mechanism.
+Ordinary actions render in place and use the core Undo path. No normal `location.reload()` interaction flow.
 
-### 9.2 Deck detail
+Transient tabletop state is local browser work-in-progress and is not automatically cloud-synced.
 
-Target structure remains approximately:
+See `PLAYTEST_ARCHITECTURE.md`.
 
-**Overview · List · Odds**
+### 9.4 Match evidence boundary
 
-with Playtest and physical readiness integrated contextually rather than hidden in unrelated Tools pages.
+Real PTCGL/in-person results use the shared Match/Game contract.
 
-The List view is the default Deck detail tab and primary compact editor: group cards by Pokémon, Trainer and Energy, show section totals, keep set code/number inline with the card name, and provide touch-sized −/+ quantity controls. Raw PTCGL/Limitless text remains available for paste, advanced correction and export, but is not the default reading experience. Prices are not part of this view.
-
-Selecting an archetype automatically proposes up to two representative Pokémon sprites from that classification. These are defaults for fast visual identification; the Deck identity fields remain available as a manual override.
-
-### 9.3 Deck versions
-
-The durable Deck model is deliberately small:
-
-- a **Deck** is the long-lived personal project/identity, with its own stable ID, user-facing name and separately stored archetype/variant;
-- `Deck.rawText` is its mutable, account-synced **working list**;
-- a **checkpoint** (`DeckVersion` in the current code) is an immutable exact list with a stable ID, automatic visible sequence such as V1/V2/V3, and optional meaningful name/notes;
-- every working list and checkpoint carries a `listHash` derived from the canonical parsed card list.
-
-Canonicalization combines duplicate lines and ignores headings, whitespace and line order. Quantities, card names, set codes and card numbers remain significant. Therefore differently formatted exports of the same exact cards share a hash, while changing one card or printing changes the hash.
-
-The hash answers **“are these exact card lists the same?”**. Stable Deck/checkpoint IDs answer **“which saved project or named milestone did the user select?”**.
-
-Rules:
-
-- ordinary edits save the working list without rewriting historical checkpoints;
-- imports and meaningful saves create sequential versions; optional names can record milestones such as “Cup submission” without replacing V1/V2/V3;
-- saving an unchanged list reuses the matching checkpoint instead of creating duplicate list data; when a new non-empty version name is supplied, it renames that matching checkpoint;
-- future evidence may refer to `deckId + listHash`, with `deckVersionId` included whenever a saved version was selected;
-- working lists remain immediately usable for Odds and testing without forcing checkpoint creation;
-- source URL/type and imported-at provenance may be retained on the Deck and exact version where useful, but do not turn source metadata into a second identity system;
-- updating an existing Deck means “this is the next revision of the same project”; a strategically independent fork is a new Deck even when it has the same archetype;
-- versions remain embedded inside Deck objects and inside the current account snapshot until normalized tables provide a concrete benefit.
-
-Existing/unversioned Deck records are migrated in place to stable model/version IDs and hashes. The legacy Decks page must not remain a second writer to the same IndexedDB store.
-
-### 9.4 Mobile Playtest
-
-**Current programme milestone: Mobile Playtest v1.** Complete this before moving the overall roadmap deeper into Tournament Day/Season work unless a genuine blocker is discovered or the roadmap is explicitly changed.
-
-Playtest is a Decks feature.
-
-Direction:
-
-- tap-driven tabletop rather than full rules engine;
-- solo/goldfish first;
-- iPhone portrait must be fully usable;
-- no keyboard dependence;
-- no requirement for precise drag-and-drop.
-
-Core zones:
-
-- Deck
-- Hand
-- Active
-- Bench
-- Discard
-- Lost Zone
-- Prizes
-- Stadium
-
-Support attachments, damage/markers, turn state and undo/history where practical.
-
-Primary actions should include Draw, Search Deck, Shuffle, Coin Flip, Undo and End Turn.
-
-Future phases may include two-deck local testing, scenario saving and lightweight practice analytics.
-
-### 9.5 Match history vs Playtest
-
-Actual competitive evidence and solo Playtest evidence are separate domains:
-
-- **Match History** contains real PTCGL and in-person games with an opponent, result and opponent archetype;
-- **Playtest Sessions** contain one-sided goldfish/setup evidence such as opening hands, mulligans and consistency observations;
-- both may refer to the same `deckId + listHash`, but Playtest must not create wins/losses or affect matchup statistics.
-
-The durable real-game contract is:
-
-- a **Match** is one real encounter against an opponent and owns the context shared by its games: source, date, exact saved list, opponent archetype, format, event/round and notes;
-- a **Game** is a child result inside that Match, including per-game result and first/second state where known;
-- a PTCGL battle-log import creates one Game inside one Match; manual in-person entry uses the same contract and may record a multi-game score;
-- exact-list attribution stores `deckId + listHash`, plus `deckVersionId` when a named checkpoint was selected, and retains deck/version display snapshots so old evidence stays intelligible after later edits or deletion;
-- imported logs carry a canonical import hash for duplicate prevention, parser version and the original user-supplied log so future parser improvements can reprocess it;
-- parser suggestions for the user's saved list and the opponent archetype are conveniences, not immutable truth; the user confirms or corrects them before saving.
-
-Match records currently remain embedded in the account snapshot. This is intentional: normalize them into user tables only when concrete query, scale or collaboration needs exceed the snapshot model.
-
-Training Court is the preferred capture experience for real PTCGL and in-person results if a supported personal export or read-only integration can be obtained. PTCG Tools should then ingest the user's records into the Match/Game contract and use them for Deck history, event preparation and personal analytics.
-
-While that route is unresolved:
-
-- retain the current Decks Training Log, PTCGL parser and manual entry as a working native fallback and ingestion-contract proof;
-- do not materially expand a duplicate Training Court-style capture/analytics product;
-- do not scrape authenticated pages or seek access to another product's private database;
-- prefer export/API history with stable external IDs and update timestamps; a webhook is helpful but not required if incremental pull is supported;
-- preserve source and external-record identifiers so repeat imports are idempotent and user corrections can be reconciled.
-
-Tournament entry belongs contextually in Compete but must write the same Match/Game contract rather than creating a second store. Raw PTCGL logs and imported Training Court records are private account-owned data and must not become community evidence by default.
+Playtest observations are a separate future practice-evidence domain and never alter competitive matchup W/L statistics.
 
 ---
 
 ## 10. Collection / physical readiness
 
-Long-term locked requirement:
+Long-term requirement:
 
-> Maintain a live record of every physical Pokémon TCG card owned and which decks those cards are currently allocated to, so the user can immediately see what must be bought, moved or freed up.
+> Maintain exact owned quantities and allocations so the user can immediately see what must be bought, moved or freed up for a saved exact deck list.
 
-Do **not** model this as a simple “I own this card” checkbox.
+The model must support:
 
-The collection model must support:
-
-- exact owned quantities;
 - exact printing/card identity where relevant;
-- gameplay interchangeability where appropriate;
-- loose/unallocated inventory;
-- allocation to saved decks / deck versions;
-- multiple decks kept built simultaneously;
+- gameplay equivalence where appropriate;
+- loose inventory;
+- deck allocations;
+- multiple simultaneously built decks;
 - prevention of accidental double-allocation;
 - required vs owned vs allocated;
-- deck readiness;
-- “move these cards from deck A to deck B”;
-- missing-card lists;
-- shopping/acquisition lists.
+- missing/shopping lists.
 
-Distinguish exact physical printing from gameplay-equivalent cards that can satisfy the same deck requirement.
-
-Collection should eventually connect to Decks, Tournament Prep and Home.
+Collection connects to Decks, Prep and Home.
 
 ---
 
 ## 11. Compete / Events
 
-Compete owns the player's complete relationship with organised play:
+Compete owns:
 
 **Discover → Interested/Attending → Prepare → Play → Complete → Season record**
 
-The same event/participation identity should progress through that lifecycle rather than creating separate, disconnected Prep, Tournament Day, result-history and CP records.
+The same `UserEventParticipation` progresses through that lifecycle.
 
-### 11.1 Event-source authority
+### 11.1 Event sources
 
-Local events primarily come from **Pokédata**:
+Local discovery primarily uses Pokédata for Cups/Challenges/Prereleases.
 
-- Cups;
-- Challenges;
-- Prereleases.
+Majors use official Pokémon Championship Series data as existence/date authority and may be enriched by RK9 for practical outbound details where appropriate.
 
-Pokédata is a discovery/index source, not automatically exact authority for every event detail.
+Source provenance is retained.
 
-Majors use **official Pokémon Championship Series data** as the existence/date authority, enriched by **RK9** where useful for practical registration, venue and detail information.
+### 11.2 Events UI
 
-Normalised imported event data should preserve source provenance.
+The main Events surface has one persistent shared header and three in-page views:
 
-### 11.2 Event UX
+**Nearby · Majors · My Tournaments**
 
-Compete should support:
+My Tournaments must not navigate to a separate page/header.
 
-- Nearby/local discovery;
-- Majors;
-- attendance intent / Attending state;
-- **Season / Competitive Record**;
-- compact mobile cards;
-- useful filters;
-- list/map views where location is valuable.
+Its filters are:
 
-Event intent has two distinct states:
+- **Current** — literally tournaments dated today;
+- **Upcoming** — future-dated tournaments;
+- **Completed** — completed records;
+- **Archived** — archived records.
 
-- **Interested** bookmarks an event without creating preparation work;
-- **Attending** creates or opens that event's Prep workspace inside Compete.
+There is no All filter.
 
-Prep is not a sixth top-level area. It is durable event-specific state owned by Compete and connected to Decks, Meta, matches, Collection and the competitive-season record.
+Default:
 
-The participation foundation and Event Prep v1 are established in V2. Root account state stores one schema-versioned `eventParticipations` relationship per user/event identity. Existing `plannedEvents` and Prep records migrate into that relationship without changing their stable relationship IDs or losing retained event snapshots. Attendance intent is `attendanceStatus`; lifecycle `phase`, embedded Prep, planned/used DeckVersion references, Tournament Day state, completion state and season identity are reserved on the same record. Changing Interested/Attending updates the existing relationship; Attending now creates or opens the lightweight Prep workflow. Clearing intent removes an otherwise empty relationship, but archives it when dependent Prep, deck, match, Tournament Day or completion data exists.
+- Current when at least one tournament is today;
+- otherwise Upcoming.
 
-### 11.2.1 Local-event feed retention and post-event lifecycle
+Ordering:
 
-Local discovery uses a **UK-wide upcoming-event feed** rather than a user-specific Bristol subset. The shared feed retains no historic local events and is capped at **six months into the future**. A user's selected/device location and radius filter that shared UK feed client-side. This keeps shared data bounded while making location changes genuinely change the events shown.
+- Current/Upcoming → nearest first;
+- Completed/Archived → most recent first.
 
-Personal event history is separate from the shared discovery feed. Once a user saves an attendance relationship, the retained `UserEventParticipation.eventSnapshot` is authoritative for preserving that event after it drops out of the source feed. Historic global event rows are therefore not required to preserve the user's competitive record.
+### 11.3 Event lifecycle and retention
 
-When the event date passes, a participation still marked **Attending** rolls forward to **Attended**. If completion/result data has not yet been recorded, its lifecycle phase becomes **Needs completion** and it remains surfaced in Compete until completed or explicitly corrected/skipped. Passing the event date must never silently imply that tournament results were entered. Saved organiser identity should prefer a stable source organiser/league ID where available. Legacy name-based favourites are reconciled to a stable ID only when the canonical organiser name maps unambiguously to one live source identity; matching retains a canonical-name fallback so feed normalization cannot silently orphan a favourite. Compete exposes a small organiser-management control for explicitly removing saved organisers.
+`UserEventParticipation` is the canonical account-owned relationship.
 
-### 11.3 Event Prep
+It retains:
 
-**Event Prep v1 is implemented and is an established foundation rather than the current programme milestone.**
+- attendance intent/status;
+- event snapshot;
+- Prep;
+- `plannedDeckRef`;
+- `usedDeckRef`;
+- Tournament Day state;
+- Matches via `participationId`;
+- completion;
+- future season identity.
 
-Prep is not a sixth top-level area. It lives at:
+Historic shared local feed rows are not required once a user has a retained participation snapshot.
 
-**Compete → Attending → Event → Prep**
+Past Attending events without completion become Needs completion rather than silently implying results were entered.
 
-Prep is the event-scoped orchestration layer across Meta, Decks, Collection/readiness, matches and the competitive-season record. It must not duplicate ownership of those domains.
+### 11.4 Event Prep
 
-The normal weekly journey should remain light:
+Event Prep v1 is implemented.
 
-1. tap an event and mark **I'm going**;
-2. review the suggested Expected Field and choose **Looks right** or **Review field**;
-3. consider roughly two to four relevant deck/archetype candidates;
-4. record personal reactions such as **Interested**, **Comfortable**, **Practise more** or **Not for me**;
-5. choose/import an exact list when ready;
-6. record or import tournament results;
-7. retain the completed event, exact list and field snapshot for later learning.
+Normal journey:
 
-The default iPhone Prep view should contain three compact, answer-first areas:
+1. mark event Attending;
+2. review suggested Expected Field;
+3. consider a small candidate set;
+4. record lightweight reactions;
+5. choose/import an exact list;
+6. play/record tournament;
+7. retain event/list/field snapshot for later learning.
 
-1. **Expected Field** — leading archetypes and visible predicted percentages, plus **Looks right** and **Review field**;
-2. **Deck options** — two to four candidates with clearly labelled estimated performance into that field, evidence/confidence context and the user's reaction;
-3. **Your plan** — leading/chosen deck, current exact list/version, a small number of practice priorities, readiness and later results.
+Prep orchestrates Meta/Decks/evidence; it does not duplicate their domain ownership.
 
-The important percentages remain visible in the default view. Field percentages describe predicted archetype share. Candidate percentages describe estimated performance into this Expected Field. Do not replace them with an unexplained synthetic score or imply false precision when evidence is weak or incomplete.
+### 11.5 Planned deck vs used deck
 
-Progressive disclosure:
+`plannedDeckRef` and `usedDeckRef` are separate concepts.
 
-- **Review field** opens the percentage editor, source evidence and assumptions;
-- tapping a candidate opens its event-scoped matchup breakdown, evidence quality and testing notes;
-- **Open full analysis** deep-links into What Should I Play with the event, field and candidates preloaded;
-- advanced source weighting, scenario management, row locks and immutable IDs remain available without dominating the routine path.
+Prep may plan an exact `deckId + deckVersionId + listHash`.
 
-Candidate archetypes may initially point to shared exact Meta variants before a personal Deck exists. Their funnel statuses may use **Considering**, **Leading choice**, **Chosen** and **Dropped**, while the user's lightweight reactions use **Interested**, **Comfortable**, **Practise more** and **Not for me**. Once selected for development, a candidate may link to or create a stable personal Deck.
+Tournament Day may start without any deck selected. The user can attach/change/remove the exact deck actually played at any point.
 
-The Expected Field contract and creation sources are defined in Section 7.9. Prep uses the same named reusable Expected Field records as Meta; it must not create a separate saved-meta store. Prep may accept the suggested field unchanged or make event-specific adjustments. Finalising Prep preserves an immutable Event Expected Field snapshot containing the baseline provenance, user adjustments/overrides and calculation/model version.
+A planned deck may be suggested in the picker but must never silently become the played deck.
 
-The event-to-list relationship is not a free-text `usedFor` field on Deck. It is an event-owned reference to `deckId + deckVersionId + listHash`, with a lifecycle such as **Planned for event** then **Used at event**. The same version may be used at multiple events. Historical events retain display snapshots so they remain intelligible after later renaming or deletion, and future Deck edits/new versions never rewrite the historical list.
+### 11.6 Tournament Day v1 — current state
 
-Results may be entered directly in Compete or imported through an authorized Training Court integration if available. Both routes must write/reconcile with the shared Match/Game and UserEventParticipation contracts rather than producing separate competing histories. Playtest sessions never create tournament wins/losses.
+Tournament Day + event-linked results is now **substantially implemented and in acceptance/cleanup**.
 
-### 11.4 Competitive seasons and Championship Points
+Implemented behavior includes:
 
-Competitive Pokémon seasons are a first-class product and data dimension. A calendar year is not an adequate substitute for a season. The current product context is the **2027 competitive season**, while historical participation must retain the season and rules under which it occurred.
+- start from an Event-linked participation or create an ad-hoc tournament;
+- same canonical `UserEventParticipation` lifecycle;
+- no mandatory deck gate before rounds;
+- compact **My Deck** control for selecting/changing/removing exact used DeckVersion;
+- game-by-game W/L/T capture;
+- aggregate Match W/L/D;
+- ID capture/display;
+- opponent archetype search;
+- opponent-only compact round history;
+- one/two configured opponent sprites from shared `DeckSprites` mapping;
+- opponent names allowed to wrap compactly;
+- large circular result badges: Win green, Draw amber/orange, Loss red, ID neutral/dark;
+- current W-L-D derived from canonical Matches;
+- contextual ID Calc using shared Tools engine;
+- completion into `UserEventParticipation.completion`.
 
-The core entities are:
+Round row hierarchy:
 
-- **CompetitiveSeason** — stable season ID/label plus official start/end boundaries and applicable format context;
-- **ChampionshipEvent** — Challenge, Cup, Regional, Special Championship/Event, International or another officially CP-awarding event type;
-- **UserEventParticipation** — the account-owned durable record linking the user to an event and carrying Prep, deck/version, match and completion state;
-- **ChampionshipPointRuleset** — a season-versioned, source-cited representation of official placement bands, attendance/kicker thresholds, divisions, rating zones and Best Finish Limits;
-- **SeasonSummary** — derived raw CP, counting CP, excluded results and goal progress.
+**R# · vs · opponent sprite(s) + name · game sequence · result badge**
 
-A completed Championship Series participation should capture or resolve:
+The user’s own deck is shown once at the top and is not repeated in every round record.
 
-- event and competitive season;
-- event type;
-- age division and rating zone where rules require them;
-- final record and placement;
-- final player count / attendance relevant to the applicable division;
-- exact DeckVersion/list used;
-- calculated CP award;
-- whether the finish currently counts under its Best Finish Limit;
-- source/provenance for imported facts and any user-supplied corrections;
-- optional notes and match history.
+See `TOURNAMENT_DAY_ARCHITECTURE.md`.
 
-Placement and player count may be entered or corrected manually when reliable source data is unavailable. Manual correction must be explicit and provenance-aware; it must not silently overwrite shared event facts for every user.
+### 11.7 Competitive Record / Season
 
-CP is **derived**, not normally typed as an unexplained total. The calculation engine must use the official ruleset for the participation's season and must never retroactively recalculate historical seasons using a newer ruleset. Official rule documents/tables must be verified before implementation; event types, thresholds, point bands or BFL values must not be inferred from prior seasons.
+Competitive seasons are first-class entities; calendar year is not an adequate substitute.
 
-Best Finish Limits are dynamic derived state across all eligible results in a season/category. The Season view should distinguish:
+Future Season v1 should derive:
 
-- CP earned at the event;
-- total raw CP earned;
-- CP currently counting;
-- results currently outside the BFL;
-- which result would be displaced by a better finish.
+- raw CP;
+- counting CP;
+- BFL exclusions;
+- goal progress;
+- event-level CP from verified season-versioned official rules.
 
-Season goals are allowed but must not imply that one universal CP threshold guarantees Worlds qualification. The model should support official qualification/ranking context where available and user-defined targets without conflating CP, rating-zone rank and direct-invite paths.
+Historical seasons must retain the ruleset version used. Do not recalculate old seasons with new rules.
 
-This one participation record supplies multiple consumers:
-
-- **Compete / Season** — CP and BFL tracking;
-- **Decks** — tournament history for the exact version used;
-- **Analytics** — personal event, deck and matchup performance;
-- **Prep** — evidence for future event decisions;
-- **Home** — current season and next-event context.
-
-Do not create duplicate tournament-history records inside Decks or Analytics.
-
-### 11.5 Tournament-day workspace
-
-**Tournament Day / event-linked results completion is the next available Compete milestone, but not the current overall programme milestone while Mobile Playtest v1 is being developed.**
-
-Tournament Day should eventually connect:
-
-- current event and participation;
-- current record;
-- pairings/opponent notes;
-- standings;
-- Cut / ID access;
-- result logging;
-- completion into the durable season record.
-
-Tournament Day and manual post-event entry must write the same UserEventParticipation and Match/Game contracts.
+Do not create duplicate tournament histories inside Decks or Analytics.
 
 ---
 
 ## 12. Tools
 
-Tools is for **small standalone competitive utilities that do not belong in Meta, Decks or Compete**.
+Tools is for small standalone competitive utilities that do not belong in Meta, Decks or Compete.
 
-Known/planned tools include:
-
-- Cut / ID Calculator;
-- deck maths / probability utilities;
-- odds-style calculations;
-- other compact helpers where genuinely useful.
-
-Avoid turning Tools into a dumping ground.
-
-### 12.1 Cut / ID Calculator
+### Cut / ID
 
 Requirements:
 
-- support real Pokémon Swiss records including draws;
-- deterministic possible-cutoff calculations first;
-- clearly show how many players can finish above/equal to a point total;
-- support Top 4 / Top 8 etc.;
-- account for known pairings and IDs where supplied;
-- use probabilistic simulation only when deterministic information is insufficient;
-- empirical tie-rate assumptions are optional uncertainty inputs, never hidden defaults driving deterministic answers.
+- real Pokémon Swiss records including draws;
+- deterministic possible-cutoff logic first;
+- support Top N cut sizes;
+- account for known pairings/IDs where supplied;
+- no hidden empirical tie-rate assumptions;
+- probabilistic simulation only when deterministic information is insufficient and explicitly justified.
 
-Answer-first mobile UX should show the actionable conclusion before detailed modelling.
-
----
-
-## 13. Persistence, accounts and shared state
-
-### 13.1 Current cloud persistence
-
-V2 now has working per-account cloud persistence through Supabase.
-
-The current model keeps one latest `user_snapshots` record per authenticated user, protected by Row Level Security using the authenticated user ID.
-
-Current snapshot-capable personal state includes:
-
-- saved decks and their versions;
-- real-game Match/Game history, including PTCGL imports and manual in-person records;
-- root V2 state including canonical event participation, attendance intent, retained event snapshots and implemented Event Prep state;
-- preferences/deck icon overrides;
-- saved Expected Fields and their source provenance.
-
-Future Collection, Playtest history and other account-owned data should join this model deliberately as those domains are implemented.
-
-### 13.2 Sync behaviour
-
-The intended behaviour is:
-
-> Sign in with Google once; PTCG Tools data follows the account.
-
-Current behaviour includes:
-
-- if an authenticated user has no cloud snapshot, existing local data is uploaded rather than replaced by an empty account;
-- newer cloud data can restore on another device;
-- personal local changes mark account state dirty and auto-upload;
-- reconnect/focus/foreground events can trigger reconciliation;
-- deck deletions restore correctly because the deck library can be replaced rather than only appended;
-- offline local use remains possible and sync resumes later.
-
-The sync controller lives at the **top-level persistent shell** so it is not tied to whichever feature page happens to be open.
-
-### 13.3 Proven cross-device behaviour
-
-On 1 September 2026, Google sign-in and cloud sync were tested across devices. Setting an event to **Attending** on one device persisted to the other device using the same Google account.
-
-Therefore **Google account + per-account cloud persistence + cross-device restore/sync is a completed foundation milestone for the current stage**.
-
-### 13.4 Snapshot vs normalized future tables
-
-The current whole-account snapshot is intentionally pragmatic while the product model is still evolving.
-
-Move domains into normalized user tables when there is a concrete reason, such as:
-
-- queryability;
-- conflict resolution;
-- history/audit needs;
-- collaboration;
-- large collection datasets;
-- tournament/match analytics;
-- performance/scale.
-
-Do not normalize solely for architectural purity.
-
-Import/export remains valuable as backup/interoperability even with accounts.
-
-### 13.5 Shared vs per-user data
-
-Maintain a strong conceptual split.
-
-**Shared competitive data:** cards, formats, events, results, public decklists, Meta aggregates, public matchup evidence.
-
-**Per-user data:** saved decks/versions, Collection, attendance, preparation, personal matches/testing, notes and preferences.
-
-Do not duplicate heavyweight shared public datasets inside every user's account snapshot.
+Tournament Day uses the same shared engine contextually.
 
 ---
 
-## 14. Technical architecture direction
+## 13. Technical architecture direction
 
-Plain HTML/CSS/JavaScript remains acceptable; do not introduce a heavy framework solely to modernise the appearance.
+Plain HTML/CSS/JavaScript remains acceptable. Do not introduce a heavy framework merely for modernization.
 
 Strengthen shared layers instead.
 
-Shared responsibilities should include:
+Shared responsibilities include:
 
-- persistent app shell;
-- navigation;
-- application-level auth/session lifecycle;
-- cloud reconciliation;
-- design tokens;
-- forms/segmented controls;
-- disclosure behaviour;
-- searchable list patterns;
-- safe-area/mobile helpers;
+- persistent shell/navigation;
+- app-level auth/session lifecycle;
+- cloud sync;
+- design tokens/forms/list patterns;
 - persistence/preferences;
-- sprite resolution and overrides;
-- caching/service-worker behaviour where appropriate.
+- archetype sprite mapping/rendering;
+- caching/service worker;
+- shared Match/Game store;
+- shared Deck store;
+- shared Cut/ID engine;
+- shared source/scope runtime where applicable.
 
-Domain logic stays separated:
+Domain logic remains separated among Meta, Decks, Compete, Collection and Tools.
 
-- Meta evidence/state/controls;
-- Deck parsing/playtest state;
-- Events normalisation;
-- Tournament logic;
-- Collection allocation model.
+### Shared upstream direction
 
-Performance-sensitive analysis should favour generated compact data and caching over recomputing large historical aggregates during routine UI interactions.
+As usage grows, prefer:
 
-The current production shell deliberately prioritises **perceived navigation responsiveness and state retention** over architectural purity. Do not replace it with a cleaner-looking routing abstraction if that would return the app to page-by-page cold starts.
+`external source → PTCG Tools ingestion/cache → normalized shared data → all users`
 
-### 14.1 Shared upstream ingestion direction
+rather than every browser independently hitting upstream services.
 
-As usage expands beyond one person, shared source requests should increasingly be centralized:
+### Source adapters
 
-`Limitless / Pokémon / Pokédata / authorized sources → PTCG Tools ingestion/cache → normalized shared dataset → all users`
+Long-term normalized entities include Tournament, TournamentResult, Decklist, Match, Event and Card.
 
-rather than every user's browser independently requesting the same upstream data.
-
-This reduces source rate-limit pressure, duplicated traffic and inconsistent user experiences.
-
-### 14.2 Source Adapter direction
-
-Future data architecture should converge toward normalized entities such as:
-
-- Tournament;
-- TournamentResult;
-- Decklist;
-- Match;
-- Event;
-- Card.
-
-Adapters may include `LimitlessAdapter`, `PokemonAdapter`, `RK9Adapter`, `PokedataAdapter` or successors.
-
-Imported records should preserve provenance where practical: source, source ID, retrieval timestamp, field authority and access classification.
-
-Useful access classifications:
-
-- Official API;
-- Explicit permission;
-- Public data;
-- Scraped;
-- User supplied.
-
-Any **Scraped** source that becomes essential to a future public application should be reviewed/replaced/authorized before broad launch.
+Adapters should retain provenance and access classification such as Official API, Explicit permission, Public data, Scraped or User supplied.
 
 ---
 
-## 15. Near-term roadmap
+## 14. Current roadmap status — 4 September 2026
 
 ### Completed / substantially established
 
-- V2 shared visual direction and app shell;
-- public GitHub Pages root entering V2;
-- **persistent five-area production shell with state-retaining cross-area navigation**;
-- **service-worker/static/data caching baseline and progressive section warm-up**;
-- **navigation-performance milestone completed; remaining first-initialisation pause accepted for now**;
-- redesigned Home direction;
-- major Meta Current Meta / Deck Explorer / Deck Detail / Matchups / What Should I Play redesign;
-- shared Meta source/scope architecture;
-- Online + IRL evidence separation;
-- scoped online field history and rolling matchup archive;
-- IRL major data pipeline;
-- exact-variant deck detail and deck-specific evidence;
-- recent IRL results with Limitless decklist links;
-- searchable deck-list surfaces in Meta;
-- app Settings area with deck icon overrides;
-- iPhone input sizing rule to prevent search-field focus zoom;
-- **Google account sign-in via Supabase Auth**;
-- **top-level OAuth flow compatible with the persistent iPhone shell**;
-- **per-account cloud snapshots and automatic reconciliation**;
-- **cross-device persistence tested successfully using event Attending state**;
-- **Deck/list foundation with working lists, canonical hashes, named checkpoints and stable relationships**;
-- **Match/Game ingestion contract with PTCGL parsing and manual in-person recording**;
-- **Limitless-backed Deck intake and editing**;
-- **Compete participation foundation using durable UserEventParticipation**;
-- **UK-wide Event discovery/retention lifecycle, Interested/Attending state and saved-organiser behaviour**;
-- **Event Prep v1 including Attending → Prep, reusable Expected Field provenance, candidate decision flow and exact planned DeckVersion linkage**.
+- V2 design language and production persistent shell;
+- navigation-performance milestone;
+- service-worker/static-data caching baseline;
+- network-first navigation HTML fix preventing stale-page regressions;
+- Google authentication and cross-device account persistence;
+- Meta source/scope architecture and exact-variant analysis;
+- Expected Fields;
+- Deck working-list/version/hash foundation;
+- shared Match/Game contract;
+- Mobile Playtest v1;
+- Event discovery/attendance/retention foundation;
+- Event Prep v1;
+- My Tournaments in-page lifecycle view;
+- Tournament Day v1 core recording/results flow;
+- contextual Cut / ID workflow;
+- canonical shared archetype sprite mapping now reused by Tournament Day.
 
-### Current programme milestone
+### Active status
 
-1. **Mobile Playtest v1 — current** — launch the separate solo/goldfish touch-first tabletop from a DeckVersion or the current Prep candidate/final list. It should make the missing **Build & Test** stage genuinely usable before the roadmap moves further downstream.
+**Tournament Day v1 is substantially implemented.** Remaining work should be bounded acceptance/cleanup, not uncontrolled feature expansion.
 
-### Next major product milestones
+The central Roadmap should now review whether to:
 
-2. **Tournament Day + event-linked results completion** — current record, pairing/result capture, manual post-event completion and Cut / ID access writing into the same UserEventParticipation and Match/Game contracts.
-3. **Competitive Record / Season v1** — complete attended Championship events with placement and player count, calculate season-specific CP from verified official rules, apply Best Finish Limits and show raw versus counting CP.
-4. **Collection / readiness** — owned quantities, allocations, missing cards and shopping connected to the event's exact planned list.
-5. **Learning loop** — personal matchup, tournament and Playtest analytics kept semantically distinct while reusing the same underlying completed-event and Match/Game contracts.
-6. **Community hardening when useful** — privacy/export/delete controls, centralized source ingestion and operational observability before inviting a materially larger cohort.
+1. finish the short Tournament Day cleanup/acceptance pass;
+2. perform any immediate cross-feature architecture cleanup revealed by this implementation;
+3. then move to **Competitive Record / Season v1** as the next major product milestone.
 
-The **Cut / ID Calculator** remains a Tools-owned utility and should be implemented/strengthened in step with Tournament Day so the same deterministic engine can be accessed standalone and contextually from an active event.
+### Next major milestones
 
-Performance should be reopened as a dedicated milestone only if future growth creates a material regression in first-load/navigation responsiveness or cloud reconciliation begins competing with active interaction.
+1. **Tournament Day acceptance / cleanup** — verify normal tournament use, remove legacy/dead UI paths and ensure current shared engines are actually canonical.
+2. **Competitive Record / Season v1** — placement/player count, verified season-specific CP rules, BFL and raw vs counting CP.
+3. **Collection / readiness** — owned quantities, allocations, missing/shopping connected to exact planned lists.
+4. **Learning loop** — personal matchup/tournament/practice analytics with clear evidence provenance.
+5. **Community hardening when useful** — privacy/export/delete, centralized ingestion and operational observability.
 
-Roadmap decisions should preserve the loop:
+Performance is not a dedicated next milestone unless a material regression appears.
 
-**Analyse → Build & Test → Prepare → Compete → Learn**
+---
+
+## 15. Release-hardening milestone before stable release
+
+Before calling the app stable, perform a formal **Development Cleanup / Release Hardening** pass.
+
+This must include repository-wide checks for:
+
+- dated `?build=` / temporary development navigation strings;
+- stale route pins;
+- hidden-but-not-deleted legacy UI/render code;
+- feature enhancement layers that should be merged into core;
+- duplicate domain/presentation engines;
+- obsolete compatibility shims;
+- old cache generations/service-worker assumptions;
+- asset versioning consistency;
+- stale standalone pages no longer used by navigation;
+- mobile acceptance on current deployed SHA.
+
+Specific known cleanup candidate from Tournament Day:
+
+- old legacy large deck-summary/render path should be **deleted**, not merely hidden, once the compact My Deck control is fully accepted.
+
+The objective is not aesthetic refactoring. It is to reduce drift, duplicated behavior and stale-code regressions before a stable/public-ready version.
 
 ---
 
@@ -1166,151 +737,65 @@ Roadmap decisions should preserve the loop:
 
 PTCG Tools is successful when:
 
-- launching the public URL/home-screen icon feels like opening one coherent app;
-- routine switching between already-loaded Home, Meta, Decks, Compete and Tools feels immediate rather than like loading separate websites;
-- a user can sign in once and their meaningful PTCG Tools state follows them across devices;
-- Home surfaces useful competitive context rather than acting as a directory;
-- Meta clearly communicates what evidence is being used and never confuses field evidence with matchup evidence;
-- exact deck variants are consistently linked across field, matchups, results and recommendations;
-- major deck lists are quickly searchable on iPhone;
-- saved decks are easy to edit, version, analyse and playtest;
-- a Limitless-built list can become a clearly named personal Deck or a new exact version without duplicate checkpoints;
-- an attending event can progress from evidence-based field forecast through candidate archetypes to the exact list planned and used;
-- a player can goldfish a deck comfortably on an iPhone;
-- event, preparation and tournament-day workflows become connected rather than duplicated;
-- marking an event as Attending leads to a useful Prep check-in without requiring configuration-heavy setup;
-- Expected Fields can be created from observed Online/IRL Meta, named, saved, reused and safely snapshotted for historical events;
-- Prep keeps predicted field shares and candidate performance visible while deeper evidence remains one tap away;
-- physical collection state can answer “can I build this?” without double-counting cards;
-- Cut / ID answers deterministic questions before resorting to probabilistic simulation;
-- advanced analysis remains available without overwhelming routine use;
-- every major feature supports a real competitive decision or workflow;
-- the architecture can support a local community without every user independently hammering upstream sources.
+- opening the app feels like one coherent product;
+- repeat navigation between core areas feels immediate;
+- account-owned state follows the user across devices;
+- Home is useful competitive context, not a launcher;
+- Meta always communicates its evidence scope correctly;
+- exact variants interlink consistently across field/matchups/results/recommendations;
+- Decks supports editing/versioning/analysis/playtest without duplicate identity systems;
+- an Attending event moves naturally through Prep → Tournament Day → Completion;
+- Tournament Day can begin without unnecessary setup but still retain exact used-deck identity;
+- configured archetype sprites look the same everywhere because one shared mapping owns them;
+- round/result capture is fast enough for real tournament use on iPhone;
+- physical readiness can eventually answer “can I build this?” without double-counting;
+- Cut / ID answers deterministic questions before probabilistic ones;
+- advanced methodology remains available without dominating routine use;
+- future community scale does not require every browser to hammer upstream providers independently.
 
 ---
 
-## 17. Features to avoid or defer
+## 17. Features to avoid / defer
 
-### Full automated Pokémon rules engine
-High complexity and unnecessary for the core mobile tabletop goal.
-
-### AI opponent as an early Playtest dependency
-Potential future research, but must not delay a highly useful manual solo tabletop.
-
-### Social-network/community layer
-Not core. “Community release” means multiple independent users can use the same product, not that PTCG Tools needs feeds, followers, chat or social-network mechanics.
-
-### Large quantities of novelty calculators
-Tools should remain curated.
-
-### Meta family pages
-Explicitly avoid them. Families are Current Meta presentation groupings only; exact variants own gameplay evidence.
-
-### Premature hyperscale architecture
-Do not design for millions of users before real demand exists.
+- full automated Pokémon rules engine;
+- AI opponent as an early Playtest dependency;
+- social-network/community feed layer;
+- novelty-calculator sprawl;
+- Meta family pages;
+- premature hyperscale architecture;
+- duplicate cross-feature engines for things already owned centrally.
 
 ---
 
-## 18. External data, permissions and public-release position
+## 18. External data / public-release position
 
-### 18.1 Limitless
+### Limitless
 
-Limitless is an important data source and product reference, particularly for competitive results, decklists, matchups and its Tabletop concept.
+Prefer documented developer APIs/authorized mechanisms for community/public use. Personal Deck workflow should favor lightweight interoperability rather than rebuilding its mature editor.
 
-For personal Deck workflow, prefer lightweight interoperability over rebuilding its mature deck editor: accept compatible list text or supported shared links, retain provenance, and provide open/copy/ImgGen handoffs. PTCG Tools owns personal Deck identity, immutable revisions and relationships to Prep, Playtest, readiness and evidence.
+### RK9
 
-For community/public use, documented Limitless developer APIs should be preferred over undocumented/scraped endpoints wherever possible. Legitimate public projects can seek API access/higher limits where required.
+Do not make unauthorized automated extraction a public product dependency. Official Pokémon remains major-event existence/date authority; RK9 may be used as practical outbound destination or authorized enrichment source.
 
-PTCG Tools should not clone Limitless visually or technically.
+### Pokémon IP / privacy
 
-### 18.2 RK9
+Before broad public/App Store release, review card art, Pokémon artwork/logos, trademarks, third-party service terms, privacy/GDPR and store requirements.
 
-RK9's published Terms prohibit automated extraction/screen scraping for commercial **or non-commercial** purposes.
+Collect the minimum account identity necessary, protect per-user data with RLS and provide export/delete/privacy controls before broad distribution.
 
-Therefore a free app does not make RK9 scraping acceptable.
-
-Public-ready direction:
-
-- official Pokémon remains major-event existence/date authority;
-- RK9 can be linked to for registration/practical details;
-- automated RK9 dependence should require permission or an authorized mechanism;
-- do not make unauthorized RK9 scraping a core public dependency.
-
-### 18.3 Pokémon IP
-
-A free fan app is not automatically exempt from intellectual-property obligations.
-
-Before broad public/App Store release, review at minimum:
-
-- card artwork/images;
-- Pokémon artwork/logos;
-- trademarks/naming and official-looking branding;
-- energy/game symbols and other protected assets;
-- third-party service terms;
-- privacy/GDPR obligations;
-- app-store IP rules.
-
-PTCG Tools should maintain an independent brand and clearly identify itself as unofficial/community software if released widely.
-
-Facts, calculations and statistics are different from copying protected artwork, but source/database terms still matter.
-
-### 18.4 Privacy
-
-Google identity can provide name, email, stable IDs and profile image where available. Name/email are personal data.
-
-Principles:
-
-- collect the minimum necessary;
-- request no unrelated Google scopes;
-- protect personal rows with RLS;
-- do not expose one user's state to another;
-- provide export/delete controls before broad public release;
-- create a formal privacy policy before broad distribution.
+See `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`.
 
 ---
 
-## 19. Community and future native-app direction
+## 19. Release progression
 
-### 19.1 Local-community middle ground
+1. **Personal product** — continue building the primary user's complete competitive workflow.
+2. **Development Cleanup / Release Hardening** — remove temporary scaffolding and duplicate implementations before calling a version stable.
+3. **Local community** — validate with a small cohort if useful.
+4. **Private beta** — expand only if value/support model is proven.
+5. **Provider/IP/privacy review** — resolve source and distribution obligations.
+6. **Public release** — only when operational/legal foundations are adequate.
 
-A local-community PWA release is a legitimate next step if/when useful:
+The broader product loop remains:
 
-> no monetisation required, no App Store required, no broad marketing required — simply allow a small competitive community to use the installable web app with their own Google accounts and cloud-backed personal state.
-
-Approximate engineering thresholds:
-
-| Scale | Expected concern |
-|---|---|
-| One user / a few friends | Essentially none |
-| 20–100 regular users | Technically trivial |
-| Hundreds active | Watch bandwidth and upstream-source traffic |
-| Low thousands | Production hosting/CDN/backend observability sensible |
-| Tens of thousands | Genuine scale engineering |
-
-User count does not multiply browser RAM; persistent-shell memory is primarily a per-device concern.
-
-GitHub Pages is acceptable for the current personal/community phase. Reassess hosting before sustained low-thousands usage rather than treating GitHub Pages as the permanent high-scale production platform.
-
-### 19.2 Native iOS/Android feasibility
-
-PTCG Tools is technically convertible into a native-distributed product without rewriting every domain model from scratch.
-
-Potential evolution:
-
-1. mature the responsive PWA and shared backend;
-2. keep domain/data logic platform-independent;
-3. consider Capacitor/native wrapping if the mature web UI remains the preferred client;
-4. consider React Native/Expo or another native client only if native interaction requirements justify it.
-
-The eventual app should provide genuine app functionality rather than being a simple web clipping. Saved decks, Playtest, Collection, preparation, tournament-day tools and cloud accounts naturally support that direction.
-
-### 19.3 Recommended release progression
-
-1. **Personal product** — continue building for the primary user's real competitive workflow.
-2. **Public-ready foundations** — maintain accounts, provenance, normalized shared data and durable persistence.
-3. **Local community** — validate the app with a small number of real competitive players.
-4. **Private beta** — expand to tens of users if useful and observe support/data-source impact.
-5. **Provider/IP/privacy review** — resolve source permissions, Pokémon asset use, privacy and store requirements.
-6. **Public release** — only if there is real demand and the operational/legal foundations are adequate.
-
-For detailed account/community/source guidance, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md` is the companion source of truth.
+**Analyse → Build & Test → Prepare → Compete → Learn**
