@@ -45,51 +45,95 @@
       listHead.appendChild(right);
     }
 
-    if($('cardSearchSheet'))return;
-    document.body.insertAdjacentHTML('beforeend',`
-      <div id="cardSearchSheet" class="card-search-screen" hidden>
-        <section class="card-search-card" role="dialog" aria-modal="true" aria-labelledby="cardSearchTitle">
-          <header class="card-search-head">
-            <div><small id="cardSearchEyebrow">CARD DATABASE</small><h2 id="cardSearchTitle">Card search</h2></div>
-            <button class="sheet-close" type="button" data-close-card-search aria-label="Close">×</button>
-          </header>
-          <div class="card-search-controls">
-            <input id="cardSearchName" type="search" placeholder="Search card name…" autocomplete="off" aria-label="Card name">
-            <div class="card-search-scope" role="group" aria-label="Card legality">
-              <button type="button" data-card-scope="all" aria-pressed="true">All cards</button>
-              <button type="button" data-card-scope="standard" aria-pressed="false">Standard</button>
-            </div>
+    if(!$('cardSearchScreen')){
+      const screen=document.createElement('section');
+      screen.id='cardSearchScreen';
+      screen.hidden=true;
+      screen.innerHTML='<div id="cardSearchInlineMount" class="card-search-inline-mount"></div>';
+      nav?.insertAdjacentElement('afterend',screen);
+    }
+
+    if(!$('cardSearchOverlay')){
+      document.body.insertAdjacentHTML('beforeend',`
+        <div id="cardSearchOverlay" class="card-search-screen" hidden>
+          <section class="card-search-card" role="dialog" aria-modal="true" aria-labelledby="cardSearchTitle">
+            <header class="card-search-head">
+              <div><small>DECK EDITOR</small><h2 id="cardSearchTitle">Add card</h2></div>
+              <button class="sheet-close" type="button" data-close-card-search aria-label="Close">×</button>
+            </header>
+            <div id="cardSearchOverlayMount"></div>
+          </section>
+        </div>`);
+    }
+
+    if(!$('cardSearchSurface')){
+      const surface=document.createElement('div');
+      surface.id='cardSearchSurface';
+      surface.className='card-search-surface';
+      surface.innerHTML=`
+        <div class="card-search-controls">
+          <input id="cardSearchName" type="search" placeholder="Search card name…" autocomplete="off" aria-label="Card name">
+          <div class="card-search-scope" role="group" aria-label="Card legality">
+            <button type="button" data-card-scope="all" aria-pressed="true">All cards</button>
+            <button type="button" data-card-scope="standard" aria-pressed="false">Standard</button>
           </div>
-          <div id="cardSearchStatus" class="card-search-status">Type a card name.</div>
-          <section id="cardSearchResults" class="card-search-results" aria-live="polite"></section>
-          <div class="card-search-more"><button id="cardSearchMore" class="app-button" type="button" hidden>More results</button></div>
-        </section>
-      </div>`);
+        </div>
+        <div id="cardSearchStatus" class="card-search-status">Type a card name.</div>
+        <section id="cardSearchResults" class="card-search-results" aria-live="polite"></section>
+        <div class="card-search-more"><button id="cardSearchMore" class="app-button" type="button" hidden>More results</button></div>`;
+      $('cardSearchInlineMount')?.appendChild(surface);
+    }
   }
 
   function selectWorkspace(value){
     document.querySelectorAll('[data-workspace]').forEach(button=>button.setAttribute('aria-selected',String(button.dataset.workspace===value)));
   }
 
-  function open(nextMode){
+  function mountSurface(hostId){
+    const surface=$('cardSearchSurface'),host=$(hostId);
+    if(surface&&host&&surface.parentElement!==host)host.appendChild(surface);
+  }
+
+  function hideBrowseScreen(){
+    if($('cardSearchScreen'))$('cardSearchScreen').hidden=true;
+  }
+
+  function showBrowse(){
     ensureUi();
-    mode=nextMode==='add'?'add':'browse';
-    if(mode==='browse')selectWorkspace('cards');
-    $('cardSearchEyebrow').textContent=mode==='add'?'DECK EDITOR':'CARD DATABASE';
-    $('cardSearchTitle').textContent=mode==='add'?'Add card':'Card search';
-    $('cardSearchStatus').textContent=mode==='add'?'Search, then tap a card image to add that exact printing.':'Type a card name.';
-    $('cardSearchSheet').hidden=false;
+    mode='browse';
+    mountSurface('cardSearchInlineMount');
+    $('cardSearchOverlay').hidden=true;
+    document.documentElement.classList.remove('sheet-open');
+    document.body.classList.remove('card-search-open');
+    if($('libraryScreen'))$('libraryScreen').hidden=true;
+    if($('trainingScreen'))$('trainingScreen').hidden=true;
+    if($('deckScreen'))$('deckScreen').hidden=true;
+    if($('workspaceNav'))$('workspaceNav').hidden=false;
+    if($('newDeckTop'))$('newDeckTop').hidden=true;
+    $('cardSearchScreen').hidden=false;
+    selectWorkspace('cards');
+    $('cardSearchStatus').textContent=$('cardSearchName').value.trim().length>=2?$('cardSearchStatus').textContent:'Type a card name.';
+    setTimeout(()=>$('cardSearchName')?.focus(),20);
+  }
+
+  function openAdd(){
+    ensureUi();
+    mode='add';
+    mountSurface('cardSearchOverlayMount');
+    $('cardSearchStatus').textContent=$('cardSearchName').value.trim().length>=2?$('cardSearchStatus').textContent:'Search, then tap a card image to add that exact printing.';
+    $('cardSearchOverlay').hidden=false;
     document.documentElement.classList.add('sheet-open');
     document.body.classList.add('card-search-open');
     setTimeout(()=>$('cardSearchName')?.focus(),20);
   }
 
-  function close(){
-    if(!$('cardSearchSheet'))return;
-    $('cardSearchSheet').hidden=true;
+  function closeAdd(){
+    if(!$('cardSearchOverlay'))return;
+    $('cardSearchOverlay').hidden=true;
     document.documentElement.classList.remove('sheet-open');
     document.body.classList.remove('card-search-open');
-    if(mode==='browse')window.PTCGDecksApp?.showLibrary();
+    mode='browse';
+    mountSurface('cardSearchInlineMount');
   }
 
   function scope(){return document.querySelector('[data-card-scope][aria-pressed="true"]')?.dataset.cardScope||'all'}
@@ -196,15 +240,17 @@
   document.addEventListener('input',event=>{if(event.target.id==='cardSearchName')queueSearch()});
 
   document.addEventListener('click',event=>{
-    if(event.target.closest('[data-workspace="cards"]'))open('browse');
-    if(event.target.closest('#addCardButton'))open('add');
-    if(event.target.closest('[data-close-card-search]'))close();
+    if(event.target.closest('[data-workspace="cards"]'))showBrowse();
+    if(event.target.closest('[data-workspace="decks"],[data-workspace="training"]'))hideBrowseScreen();
+    if(event.target.closest('#addCardButton'))openAdd();
+    if(event.target.closest('[data-close-card-search]'))closeAdd();
     const scopeButton=event.target.closest('[data-card-scope]');if(scopeButton)setScope(scopeButton.dataset.cardScope);
     const add=event.target.closest('[data-card-add]');if(add)addCard(add.dataset.cardAdd,add);
     if(event.target.closest('#cardSearchMore')){page+=1;runSearch(true)}
   });
 
-  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&$('cardSearchSheet')&&!$('cardSearchSheet').hidden)close()});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&$('cardSearchOverlay')&&!$('cardSearchOverlay').hidden)closeAdd()});
 
   ensureUi();
+  window.PTCGCardSearch={showBrowse,hideBrowseScreen,openAdd,closeAdd};
 })();
