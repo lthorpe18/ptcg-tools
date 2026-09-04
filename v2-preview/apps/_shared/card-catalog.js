@@ -6,6 +6,17 @@
   const setCache=new Map();
   let setsPromise=null;
 
+  const SET_CODE_BY_NAME=new Map(Object.entries({
+    'scarlet & violet':'SVI','paldea evolved':'PAL','obsidian flames':'OBF','151':'MEW','pokémon 151':'MEW',
+    'paradox rift':'PAR','paldean fates':'PAF','temporal forces':'TEF','twilight masquerade':'TWM',
+    'shrouded fable':'SFA','stellar crown':'SCR','surging sparks':'SSP','prismatic evolutions':'PRE',
+    'journey together':'JTG','destined rivals':'DRI','black bolt':'BLK','white flare':'WHT',
+    'mega evolution':'MEG','mega evolution energy':'MEE','mega promos':'MEP','phantasmal flames':'PFL',
+    'ascended heroes':'ASC','perfect order':'POR','chaos rising':'CRI','pitch black':'PBL'
+  }));
+
+  function normaliseSetName(value){return String(value||'').trim().toLocaleLowerCase('en').replace(/\s+/g,' ')}
+
   async function json(url){
     const response=await fetch(url,{headers:{Accept:'application/json'}});
     if(!response.ok)throw new Error(`Card data request failed (${response.status})`);
@@ -26,9 +37,7 @@
     return promise;
   }
 
-  async function cards(ids=[]){
-    return Promise.all(ids.map(id=>card(id).catch(()=>null)));
-  }
+  async function cards(ids=[]){return Promise.all(ids.map(id=>card(id).catch(()=>null)))}
 
   async function set(id){
     if(!id)return null;
@@ -48,14 +57,20 @@
     return root?`${root}/${quality}.webp`:'';
   }
 
-  function isStandard(cardObject){
-    return cardObject?.legal?.standard===true;
+  function isStandard(cardObject){return cardObject?.legal?.standard===true}
+
+  function fallbackSetCode(fullSet,cardObject){
+    for(const name of [fullSet?.name,cardObject?.set?.name].map(normaliseSetName).filter(Boolean)){
+      const code=SET_CODE_BY_NAME.get(name);
+      if(code)return code;
+    }
+    return '';
   }
 
   async function exactDeckIdentity(cardObject){
     if(!cardObject)return null;
     const fullSet=await set(cardObject.set?.id);
-    const setCode=String(fullSet?.tcgOnline||'').trim().toUpperCase();
+    const setCode=String(fullSet?.tcgOnline||fallbackSetCode(fullSet,cardObject)||'').trim().toUpperCase();
     const number=String(cardObject.localId??'').trim();
     if(!setCode||!number)return null;
     return {
