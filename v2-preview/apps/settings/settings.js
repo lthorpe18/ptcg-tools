@@ -4,17 +4,7 @@
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let names=[];
 
-  function pokemonSlug(value){
-    const raw=String(value||'').trim();
-    if(!raw)return '';
-    const lower=raw.toLowerCase().replace(/[’']/g,'').replace(/[^a-z0-9]+/g,' ').trim();
-    const special={
-      'green ogerpon':'ogerpon','teal mask ogerpon':'ogerpon','ogerpon teal mask':'ogerpon',
-      'mega excadrill':'excadrill-mega','mega lucario':'lucario-mega','mega greninja':'greninja-mega',
-      'mega chandelure':'chandelure-mega','mega venusaur':'venusaur-mega'
-    };
-    return special[lower]||lower.replace(/\s+/g,'-');
-  }
+  function pokemonSlug(value){return window.DeckSprites?.normalizeSlug?.(value)||''}
 
   function collectFromData(data,set){
     (data?.tournaments||[]).forEach(event=>(event?.archetypes||[]).forEach(a=>{if(a?.name)set.add(a.name)}));
