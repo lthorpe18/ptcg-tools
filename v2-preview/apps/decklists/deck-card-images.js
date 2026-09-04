@@ -103,7 +103,7 @@
   document.head.appendChild(style);
 
   const artwork=document.createElement('script');
-  artwork.src='../_shared/card-images.js?v=2';
+  artwork.src='../_shared/card-images.js?v=3';
   artwork.dataset.ptcgCardSearchLoader='true';
   artwork.onload=()=>{
     const catalog=document.createElement('script');
