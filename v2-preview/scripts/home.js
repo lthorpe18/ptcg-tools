@@ -2,8 +2,8 @@
   'use strict';
 
   const DAY=86400000;
-  const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-  let metaIndexPromise=null;
+  const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[c]));
+  let metaRuntimeWindow=null;
 
   function safeDate(snapshot){
     if(!snapshot||typeof snapshot!=='object')return null;
@@ -14,12 +14,12 @@
     return Number.isNaN(d.getTime())?null:d;
   }
 
+  function rootState(){return window.PTCGStorage?.load?.()||{}}
+
   function getNextEvent(){
-    if(!window.PTCGStorage)return null;
-    const state=window.PTCGStorage.load();
     const now=Date.now();
-    return (state.eventParticipations||[])
-      .filter(p=>p.attendanceStatus==='attending')
+    return (rootState().eventParticipations||[])
+      .filter(p=>p&&p.attendanceStatus==='attending'&&!p.completion)
       .map(p=>({p,d:safeDate(p.eventSnapshot)}))
       .filter(x=>x.d&&x.d.getTime()>=now-DAY)
       .sort((a,b)=>a.d-b.d)[0]||null;
@@ -36,86 +36,96 @@
     return days>1?`${days} days away`:'';
   }
 
-  function renderNextEvent(){
+  function seasonSummary(){
+    const engine=window.PTCGSeasonEngine;
+    const season=window.PTCGCompetitiveSeasons?.pokemon2027;
+    const rules=window.PTCGSeasonRules?.pokemon2027;
+    if(!engine||!season||!rules)return null;
+    return engine.buildSeasonSummary(rootState().eventParticipations||[],season,rules);
+  }
+
+  function renderCompetePreview(){
     const el=document.getElementById('competePreview');
     if(!el)return;
     const upcoming=getNextEvent();
-    if(!upcoming){el.hidden=true;el.innerHTML='';return}
-    const e=upcoming.p.eventSnapshot||{};
-    const label=e.name||e.venue||e.city||'Next event';
-    const extra=[daysUntil(upcoming.d),e.city].filter(Boolean).join(' · ');
-    el.innerHTML=`<span class="home-preview-calendar">${esc(formatDate(upcoming.d).replace(' ','<br>'))}</span><span class="home-preview-copy"><span class="home-preview-kicker">Next event</span><span class="home-preview-title">${esc(label)}</span>${extra?`<span class="home-preview-meta">${esc(extra)}</span>`:''}</span>`;
-    const calendar=el.querySelector('.home-preview-calendar');
-    if(calendar)calendar.innerHTML=esc(formatDate(upcoming.d)).replace(' ','<br>');
+    if(upcoming){
+      const e=upcoming.p.eventSnapshot||{};
+      const label=e.name||e.venue||e.city||'Next tournament';
+      const extra=[daysUntil(upcoming.d),e.type,e.city].filter(Boolean).join(' · ');
+      el.href='./apps/events/';
+      el.innerHTML=`<span class="home-preview-calendar">${esc(formatDate(upcoming.d))}</span><span class="home-preview-copy"><span class="home-preview-kicker">Next tournament</span><span class="home-preview-title">${esc(label)}</span>${extra?`<span class="home-preview-meta">${esc(extra)}</span>`:''}</span>`;
+      const calendar=el.querySelector('.home-preview-calendar');
+      if(calendar)calendar.innerHTML=esc(formatDate(upcoming.d)).replace(' ','<br>');
+      el.hidden=false;
+      return;
+    }
+
+    const summary=seasonSummary();
+    el.href='./apps/events/?view=season';
+    if(summary&&summary.completedEvents){
+      el.innerHTML=`<span class="home-preview-tool-icon">★</span><span class="home-preview-copy"><span class="home-preview-kicker">2027 Season</span><span class="home-preview-title">${Number(summary.countingCP||0).toLocaleString()} CP</span><span class="home-preview-meta">${Number(summary.eligibleEvents||0)} eligible · ${Number(summary.completedEvents||0)} completed</span></span>`;
+    }else{
+      el.innerHTML='<span class="home-preview-tool-icon">★</span><span class="home-preview-copy"><span class="home-preview-kicker">2027 Season</span><span class="home-preview-title">Season record</span><span class="home-preview-meta">No upcoming tournament · view Season</span></span>';
+    }
     el.hidden=false;
   }
 
-  function mondayKey(date){
-    const d=new Date(date);
-    if(Number.isNaN(d.getTime()))return '';
-    const utc=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()));
-    const diff=(utc.getUTCDay()+6)%7;
-    utc.setUTCDate(utc.getUTCDate()-diff);
-    return utc.toISOString().slice(0,10);
+  function parentMetaFrame(){
+    if(window.parent===window)return null;
+    try{return window.parent.document.querySelector('iframe[data-section="meta"]')}catch{return null}
   }
 
-  function weekendDateLabel(events){
-    const dates=events.map(e=>new Date(e.date)).filter(d=>!Number.isNaN(d.getTime())).sort((a,b)=>a-b);
-    if(!dates.length)return '';
-    const first=dates[0],last=dates[dates.length-1];
-    if(first.toISOString().slice(0,10)===last.toISOString().slice(0,10))return first.toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'UTC'});
-    if(first.getUTCMonth()===last.getUTCMonth())return `${first.getUTCDate()}–${last.getUTCDate()} ${last.toLocaleDateString('en-GB',{month:'short',timeZone:'UTC'})}`;
-    return `${first.toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'UTC'})}–${last.toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'UTC'})}`;
-  }
-
-  async function loadMetaIndex(){
-    if(!metaIndexPromise){
-      metaIndexPromise=fetch('./data/meta/index.json',{cache:'default'}).then(r=>{
-        if(!r.ok)throw new Error('format index unavailable');
-        return r.json();
-      }).catch(error=>{metaIndexPromise=null;throw error});
-    }
-    return metaIndexPromise;
-  }
-
-  async function renderMetaPreview(){
+  function renderMetaPreview(){
     const el=document.getElementById('metaPreview');
-    if(!el)return;
-    try{
-      const index=await loadMetaIndex();
-      const format=(index.formats||[]).find(x=>x.id===index.current);
-      const formatId=format?.id||index.current||'TEF-PBL';
-      const response=await fetch(`./data/meta/irl/${encodeURIComponent(formatId)}.json`,{cache:'default'});
-      if(!response.ok)throw new Error('IRL data unavailable');
-      const data=await response.json();
-      const events=(data.events||[]).filter(e=>e&&e.date&&Array.isArray(e.decks));
-      if(!events.length)throw new Error('no IRL events');
-      events.sort((a,b)=>new Date(b.date)-new Date(a.date));
-      const key=mondayKey(events[0].date);
-      const weekend=events.filter(e=>mondayKey(e.date)===key);
-      const grouped=new Map();
-      let total=0;
-      for(const event of weekend){
-        for(const deck of event.decks||[]){
-          const entries=Number(deck.entries||0);
-          if(!entries||!deck.name)continue;
-          const family=window.ArchetypeGroups?.familyName?.(deck.name)||deck.name;
-          grouped.set(family,(grouped.get(family)||0)+entries);
-          total+=entries;
-        }
-      }
-      const top=[...grouped.entries()].sort((a,b)=>b[1]-a[1])[0];
-      if(!top||!total)throw new Error('no IRL field');
-      const [name,entries]=top;
-      const share=100*entries/total;
-      const context=weekend.length===1?(weekend[0].name||'Latest IRL major'):`Last ${weekend.length} majors · ${weekendDateLabel(weekend)}`;
-      const sprite=window.DeckSprites?.html?.(name,{size:48})||`<span class="deck-sprite deck-sprite-fallback">${esc(name.charAt(0))}</span>`;
-      el.innerHTML=`<span class="home-preview-sprite">${sprite}</span><span class="home-preview-copy"><span class="home-preview-kicker">Latest IRL leader</span><span class="home-preview-title">${esc(name)}</span><span class="home-preview-value">${share.toFixed(1)}%</span><span class="home-preview-meta">${esc(context)}</span></span>`;
+    if(!el)return false;
+    let runtime=null;
+    try{runtime=parentMetaFrame()?.contentWindow}catch{}
+    const metaData=runtime?.MetaData;
+    if(!metaData){
+      el.href='./apps/meta/#current';
+      el.innerHTML='<span class="home-preview-tool-icon">◈</span><span class="home-preview-copy"><span class="home-preview-kicker">Current Meta</span><span class="home-preview-title">Loading latest IRL field…</span><span class="home-preview-meta">Latest major weekend</span></span>';
       el.hidden=false;
+      return false;
+    }
+    try{
+      const data=metaData.data('irl',{scope:'latest-weekend'});
+      const top=(data.decks||[]).find(d=>d&&d.name&&Number(d.entries||0)>0);
+      const context=metaData.context('irl',{scope:'latest-weekend'});
+      if(!top){
+        el.href='./apps/meta/#current';
+        el.innerHTML='<span class="home-preview-tool-icon">◈</span><span class="home-preview-copy"><span class="home-preview-kicker">Current Meta</span><span class="home-preview-title">No IRL major field yet</span><span class="home-preview-meta">Open Meta for current evidence</span></span>';
+        el.hidden=false;
+        return true;
+      }
+      const sprite=window.DeckSprites?.html?.(top.name,{size:48})||`<span class="deck-sprite deck-sprite-fallback">${esc(top.name.charAt(0))}</span>`;
+      const detail=[context?.label,context?.detail].filter(Boolean).join(' · ');
+      el.href='./apps/meta/#current';
+      el.innerHTML=`<span class="home-preview-sprite">${sprite}</span><span class="home-preview-copy"><span class="home-preview-kicker">Latest IRL leader</span><span class="home-preview-title">${esc(top.name)}</span><span class="home-preview-value">${Number(top.share||0).toFixed(1)}%</span>${detail?`<span class="home-preview-meta">${esc(detail)}</span>`:''}</span>`;
+      el.hidden=false;
+      return true;
     }catch(error){
       console.warn('Home meta preview unavailable',error);
-      el.hidden=true;el.innerHTML='';
+      return false;
     }
+  }
+
+  function bindMetaRuntime(){
+    const frame=parentMetaFrame();
+    if(!frame){renderMetaPreview();return}
+    const bind=()=>{
+      let runtime=null;
+      try{runtime=frame.contentWindow}catch{}
+      if(!runtime)return;
+      if(metaRuntimeWindow!==runtime){
+        metaRuntimeWindow=runtime;
+        runtime.addEventListener('irl:updated',renderMetaPreview);
+        runtime.addEventListener('meta:data-changed',renderMetaPreview);
+        runtime.addEventListener('decksprites:updated',renderMetaPreview);
+      }
+      renderMetaPreview();
+    };
+    frame.addEventListener('load',bind);
+    bind();
   }
 
   function ago(ts){
@@ -132,21 +142,35 @@
     return decks.sort((a,b)=>Number(b.updatedAt||0)-Number(a.updatedAt||0))[0]||null;
   }
 
+  function savedDeckSprite(deck){
+    const shared=window.DeckSprites?.html?.(deck?.archetype||deck?.name,{size:48});
+    if(shared)return `<span class="home-preview-sprite">${shared}</span>`;
+    const sprite=deck?.sprites?.find(Boolean);
+    if(sprite?.spriteUrl)return `<span class="home-preview-deck-sprite"><img src="${esc(sprite.spriteUrl)}" alt=""></span>`;
+    return '<span class="home-preview-deck-sprite home-preview-tool-icon">▤</span>';
+  }
+
   async function renderDeckPreview(){
     const el=document.getElementById('deckPreview');
     if(!el)return null;
     try{
       const deck=await latestDeck();
-      if(!deck){el.hidden=true;el.innerHTML='';return null}
-      const sprite=deck.sprites?.find(Boolean);
-      const visual=sprite?.spriteUrl?`<span class="home-preview-deck-sprite"><img src="${esc(sprite.spriteUrl)}" alt=""></span>`:`<span class="home-preview-deck-sprite home-preview-tool-icon">▤</span>`;
+      if(!deck){
+        el.href='./apps/decklists/';
+        el.innerHTML='<span class="home-preview-tool-icon">▤</span><span class="home-preview-copy"><span class="home-preview-kicker">My Decks</span><span class="home-preview-title">No saved decks yet</span><span class="home-preview-meta">Create or import a deck</span></span>';
+        el.hidden=false;
+        return null;
+      }
       el.href=`./apps/decklists/?deck=${encodeURIComponent(deck.id)}`;
-      el.innerHTML=`${visual}<span class="home-preview-copy"><span class="home-preview-kicker">Recently edited</span><span class="home-preview-title">${esc(deck.name||'Untitled deck')}</span><span class="home-preview-meta">${esc(ago(deck.updatedAt))}</span></span>`;
+      el.innerHTML=`${savedDeckSprite(deck)}<span class="home-preview-copy"><span class="home-preview-kicker">Recently edited</span><span class="home-preview-title">${esc(deck.name||'Untitled deck')}</span><span class="home-preview-meta">${esc(deck.archetype||ago(deck.updatedAt))}${deck.archetype?` · ${esc(ago(deck.updatedAt))}`:''}</span></span>`;
       el.hidden=false;
       return deck;
     }catch(error){
       console.warn('Home deck preview unavailable',error);
-      el.hidden=true;el.innerHTML='';return null;
+      el.href='./apps/decklists/';
+      el.innerHTML='<span class="home-preview-tool-icon">▤</span><span class="home-preview-copy"><span class="home-preview-kicker">My Decks</span><span class="home-preview-title">Open Decks</span><span class="home-preview-meta">Saved decks and testing</span></span>';
+      el.hidden=false;
+      return null;
     }
   }
 
@@ -158,29 +182,27 @@
     const recentDeck=deck&&Date.now()-Number(deck.updatedAt||0)<=7*DAY;
     if(nearEvent){
       el.href='./apps/tools/#cut';
-      el.innerHTML='<span class="home-preview-tool-icon">⊕</span><span class="home-preview-copy"><span class="home-preview-kicker">Suggested</span><span class="home-preview-title">Cut / ID calculator</span><span class="home-preview-meta">Work out your path to cut</span></span>';
+      el.innerHTML='<span class="home-preview-tool-icon">⊕</span><span class="home-preview-copy"><span class="home-preview-kicker">For your next event</span><span class="home-preview-title">Cut / ID calculator</span><span class="home-preview-meta">Check your path to cut</span></span>';
     }else if(recentDeck){
       el.href='./apps/tools/';
-      el.innerHTML=`<span class="home-preview-tool-icon">%</span><span class="home-preview-copy"><span class="home-preview-kicker">Suggested</span><span class="home-preview-title">Deck maths</span><span class="home-preview-meta">Check ${esc(deck.name||'your deck')} odds</span></span>`;
+      el.innerHTML=`<span class="home-preview-tool-icon">%</span><span class="home-preview-copy"><span class="home-preview-kicker">For your deck</span><span class="home-preview-title">Deck maths</span><span class="home-preview-meta">Check ${esc(deck.name||'your deck')} odds</span></span>`;
     }else{
       el.href='./apps/tools/#cut';
-      el.innerHTML='<span class="home-preview-tool-icon">⊕</span><span class="home-preview-copy"><span class="home-preview-kicker">Suggested</span><span class="home-preview-title">Cut / ID calculator</span><span class="home-preview-meta">Swiss cut and ID decisions</span></span>';
+      el.innerHTML='<span class="home-preview-tool-icon">⊕</span><span class="home-preview-copy"><span class="home-preview-kicker">Quick utility</span><span class="home-preview-title">Cut / ID calculator</span><span class="home-preview-meta">Swiss cut and ID decisions</span></span>';
     }
-  }
-
-  async function loadFormat(){
-    try{const data=await loadMetaIndex();const f=(data.formats||[]).find(x=>x.id===data.current);if(f){const pill=document.querySelector('#formatPill span:last-child');if(pill)pill.textContent=`${f.label} · Standard`}}catch{}
+    el.hidden=false;
   }
 
   async function renderHome(){
-    renderNextEvent();
+    renderCompetePreview();
     const deck=await renderDeckPreview();
     renderToolsPreview(deck);
     renderMetaPreview();
-    loadFormat();
   }
 
+  bindMetaRuntime();
   renderHome();
   window.addEventListener('storage',renderHome);
   window.addEventListener('ptcg:local-change',renderHome);
+  window.addEventListener('decksprites:updated',()=>{renderDeckPreview();renderMetaPreview()});
 })();
