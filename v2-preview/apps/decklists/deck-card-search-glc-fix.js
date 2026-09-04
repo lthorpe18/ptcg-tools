@@ -104,4 +104,40 @@
       format.value='all';
     },0);
   });
+
+  const cardIdByImageUrl=new Map();
+  const originalImage=catalog.image.bind(catalog);
+  catalog.image=function(card,quality='low'){
+    const url=originalImage(card,quality);
+    if(url&&card?.id)cardIdByImageUrl.set(url,card.id);
+    return url;
+  };
+
+  const fallbackInFlight=new WeakSet();
+  document.addEventListener('error',async event=>{
+    const image=event.target;
+    if(!(image instanceof HTMLImageElement)||!image.closest('.card-search-tile'))return;
+    if(image.dataset.cardSearchFallback==='done'||fallbackInFlight.has(image))return;
+
+    const failedUrl=image.currentSrc||image.src;
+    const cardId=cardIdByImageUrl.get(failedUrl);
+    if(!cardId)return;
+
+    fallbackInFlight.add(image);
+    try{
+      const detail=await catalog.card(cardId);
+      const exact=await catalog.exactDeckIdentity(detail);
+      const fallback=exact&&window.PTCGCardImages?.imageUrl({set:exact.set,number:exact.number});
+      if(!fallback||fallback===failedUrl)return;
+
+      image.dataset.cardSearchFallback='done';
+      const tile=image.closest('.card-search-tile');
+      if(tile?.dataset.cardZoom)tile.dataset.cardZoom=fallback;
+      image.src=fallback;
+    }catch{
+      image.dataset.cardSearchFallback='done';
+    }finally{
+      fallbackInFlight.delete(image);
+    }
+  },true);
 })();
