@@ -28,7 +28,7 @@ async function renderSlot(){
   slot.className=`tournament-deck-slot ${ref?'has-deck':'is-empty'}`;
   slot.setAttribute('aria-label',ref?'Change tournament deck':'Choose tournament deck');
   slot.title=ref?'Change deck':'Choose deck';
-  slot.innerHTML='<span class="deck-slot-placeholder" aria-hidden="true">◇</span><span class="deck-slot-sprites" aria-hidden="true"></span>';
+  slot.innerHTML='<span class="deck-slot-placeholder">My Deck</span><span class="deck-slot-sprites" aria-hidden="true"></span>';
   if(slot.dataset.bound!=='true'){slot.dataset.bound='true';slot.addEventListener('click',openPicker)}
   const legacy=document.getElementById('manageTournamentDeck');if(legacy)legacy.hidden=true;
   if(!ref)return;
@@ -37,30 +37,59 @@ async function renderSlot(){
   if(host&&urls.length)host.innerHTML=urls.map(url=>`<img src="${esc(url)}" alt="">`).join('');
 }
 function ensurePicker(){let backdrop=document.getElementById('deckPickerBackdrop');if(backdrop)return backdrop;backdrop=document.createElement('div');backdrop.id='deckPickerBackdrop';backdrop.className='sheet-backdrop hidden';backdrop.setAttribute('aria-hidden','true');backdrop.innerHTML=`<section class="td-sheet deck-picker-sheet" role="dialog" aria-modal="true" aria-labelledby="deckPickerTitle"><div class="sheet-handle"></div><div class="sheet-head"><div><small>Optional</small><h2 id="deckPickerTitle">Deck played</h2></div><button type="button" class="sheet-close" data-close aria-label="Close">×</button></div><div id="deckPickerStatus" class="deck-picker-status">Loading saved decks…</div><div id="deckPickerControls" class="deck-picker-grid hidden"><label><span>Deck</span><select id="optionalDeckSelect"></select></label><label><span>Version</span><select id="optionalVersionSelect"></select></label></div><button type="button" class="primary-button full-button" id="saveOptionalDeck" disabled>Save deck</button><button type="button" class="secondary-button full-button" id="clearOptionalDeck">Remove deck from tournament</button></section>`;document.body.appendChild(backdrop);backdrop.querySelector('[data-close]').addEventListener('click',closePicker);backdrop.addEventListener('click',event=>{if(event.target===backdrop)closePicker()});backdrop.querySelector('#optionalDeckSelect').addEventListener('change',renderVersions);backdrop.querySelector('#saveOptionalDeck').addEventListener('click',saveDeck);backdrop.querySelector('#clearOptionalDeck').addEventListener('click',clearDeck);return backdrop}
-function openPicker(){
+function readDecksDirect(){
+  return new Promise((resolve,reject)=>{
+    if(!window.indexedDB){reject(new Error('IndexedDB unavailable'));return}
+    const name=window.PTCGDeckStore?.DB_NAME||'ptcg-tools-db',storeName=window.PTCGDeckStore?.STORE||'decks';
+    const request=indexedDB.open(name);
+    request.onerror=()=>reject(request.error||new Error('Could not open deck database'));
+    request.onsuccess=()=>{
+      const database=request.result;
+      if(!database.objectStoreNames.contains(storeName)){database.close();resolve([]);return}
+      let tx;
+      try{tx=database.transaction([storeName],'readonly')}catch(error){database.close();reject(error);return}
+      const get=tx.objectStore(storeName).getAll();
+      get.onsuccess=()=>{
+        const raw=Array.isArray(get.result)?get.result:[];
+        const rows=raw.map(row=>{try{return window.PTCGDeckStore?.normalise?window.PTCGDeckStore.normalise(row):row}catch{return row}}).filter(Boolean);
+        database.close();resolve(rows);
+      };
+      get.onerror=()=>{database.close();reject(get.error||new Error('Could not read saved decks'))};
+    };
+  });
+}
+async function loadDeckRows(){
+  let primaryError=null;
+  try{
+    if(typeof window.PTCGDeckStore?.all==='function')return await window.PTCGDeckStore.all();
+    primaryError=new TypeError('PTCGDeckStore.all unavailable');
+  }catch(error){primaryError=error;console.warn('Deck store prepared read failed; using raw IndexedDB fallback',error)}
+  try{return await readDecksDirect()}catch(error){error.cause=primaryError;throw error}
+}
+async function openPicker(){
   const backdrop=ensurePicker();backdrop.classList.remove('hidden');backdrop.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
   const status=document.getElementById('deckPickerStatus'),controls=document.getElementById('deckPickerControls'),save=document.getElementById('saveOptionalDeck');
   status.textContent='Loading saved decks…';status.classList.remove('hidden');controls.classList.add('hidden');save.disabled=true;document.getElementById('clearOptionalDeck').disabled=!playedRef();
-  window.PTCGDeckStore.all().then(rows=>{
-    decks=rows||[];
+  try{
+    decks=(await loadDeckRows())||[];
     const select=document.getElementById('optionalDeckSelect'),ref=suggestedRef();
-    select.innerHTML=`<option value="">Choose a deck</option>${decks.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).map(deck=>`<option value="${esc(deck.id)}">${esc(deck.name)}${deck.archetype?` · ${esc(deck.archetype)}`:''}</option>`).join('')}`;
+    select.innerHTML=`<option value="">Choose a deck</option>${decks.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).map(deck=>`<option value="${esc(deck.id)}">${esc(deck.name||'Untitled deck')}${deck.archetype?` · ${esc(deck.archetype)}`:''}</option>`).join('')}`;
     if(ref?.deckId&&decks.some(deck=>deck.id===ref.deckId))select.value=ref.deckId;
     renderVersions();
     status.textContent=decks.length?'':'No saved decks found.';
     status.classList.toggle('hidden',decks.length>0);
     controls.classList.remove('hidden');
     save.disabled=decks.length===0;
-  }).catch(error=>{
+  }catch(error){
     console.error('Tournament deck picker could not read decks',error);
     status.textContent=`Could not load saved decks${error?.name?` (${error.name})`:''}.`;
     controls.classList.add('hidden');save.disabled=true;
-  });
+  }
 }
 function renderVersions(){const deck=decks.find(item=>item.id===document.getElementById('optionalDeckSelect')?.value),select=document.getElementById('optionalVersionSelect');if(!select)return;const ref=suggestedRef();select.innerHTML=`<option value="">Choose exact version</option>${(deck?.versions||[]).slice().reverse().map(version=>`<option value="${esc(version.id)}">${esc(version.name?`${version.label} · ${version.name}`:version.label)}</option>`).join('')}`;const preferred=ref?.deckId===deck?.id?ref.deckVersionId:deck?.currentVersionId;if(preferred&&(deck?.versions||[]).some(version=>version.id===preferred))select.value=preferred}
 function closePicker(){const backdrop=document.getElementById('deckPickerBackdrop');if(backdrop){backdrop.classList.add('hidden');backdrop.setAttribute('aria-hidden','true')}document.body.style.overflow=''}
 async function saveDeck(){
-  const deck=decks.find(item=>item.id===document.getElementById('optionalDeckSelect')?.value),version=deck&&window.PTCGDeckStore.getVersion(deck,document.getElementById('optionalVersionSelect')?.value);
+  const deck=decks.find(item=>item.id===document.getElementById('optionalDeckSelect')?.value),version=deck&&(deck.versions||[]).find(item=>item.id===document.getElementById('optionalVersionSelect')?.value);
   if(!deck||!version){alert('Choose a saved deck and exact version.');return}
   let listHash=version.listHash||null;
   if(!listHash&&window.PTCGDeckParser?.hashDecklist)listHash=await window.PTCGDeckParser.hashDecklist(version.rawText||'');
