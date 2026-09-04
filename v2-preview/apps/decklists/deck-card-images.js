@@ -101,20 +101,27 @@
   style.rel='stylesheet';
   style.href='deck-card-search.css?v=6';
   document.head.appendChild(style);
-  const catalog=document.createElement('script');
-  catalog.src='../_shared/card-catalog.js?v=5';
-  catalog.dataset.ptcgCardSearchLoader='true';
-  catalog.onload=()=>{
-    const ui=document.createElement('script');
-    ui.src='deck-card-search.js?v=8';
-    ui.dataset.ptcgCardSearchLoader='true';
-    ui.onload=()=>{
-      const fix=document.createElement('script');
-      fix.src='deck-card-search-glc-fix.js?v=2';
-      fix.dataset.ptcgCardSearchLoader='true';
-      document.body.appendChild(fix);
+
+  const artwork=document.createElement('script');
+  artwork.src='../_shared/card-images.js?v=2';
+  artwork.dataset.ptcgCardSearchLoader='true';
+  artwork.onload=()=>{
+    const catalog=document.createElement('script');
+    catalog.src='../_shared/card-catalog.js?v=5';
+    catalog.dataset.ptcgCardSearchLoader='true';
+    catalog.onload=()=>{
+      const ui=document.createElement('script');
+      ui.src='deck-card-search.js?v=8';
+      ui.dataset.ptcgCardSearchLoader='true';
+      ui.onload=()=>{
+        const fix=document.createElement('script');
+        fix.src='deck-card-search-glc-fix.js?v=3';
+        fix.dataset.ptcgCardSearchLoader='true';
+        document.body.appendChild(fix);
+      };
+      document.body.appendChild(ui);
     };
-    document.body.appendChild(ui);
+    document.body.appendChild(catalog);
   };
-  document.body.appendChild(catalog);
+  document.body.appendChild(artwork);
 })();
