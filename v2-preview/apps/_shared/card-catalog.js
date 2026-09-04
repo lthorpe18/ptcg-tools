@@ -6,32 +6,6 @@
   const setCache=new Map();
   let setsPromise=null;
 
-  function qs(params={}){
-    const out=new URLSearchParams();
-    const put=(key,value)=>{
-      if(value===undefined||value===null||value==='')return;
-      out.set(key,String(value));
-    };
-    put('name',params.name);
-    put('category',params.category&&params.category!=='all'?`eq:${params.category}`:'');
-    put('regulationMark',params.regulationMark?`eq:${params.regulationMark}`:'');
-    put('rarity',params.rarity);
-    put('stage',params.stage&&params.stage!=='all'?`eq:${params.stage}`:'');
-    put('trainerType',params.trainerType&&params.trainerType!=='all'?`eq:${params.trainerType}`:'');
-    put('types',params.type&&params.type!=='all'?`eq:${params.type}`:'');
-    put('set.id',params.setId?`eq:${params.setId}`:'');
-    if(params.standardOnly)put('legal.standard','true');
-    if(params.hpMin!=='')put('hp',`gte:${params.hpMin}`);
-    if(params.hpMax!=='')put('hp',`lte:${params.hpMax}`);
-    if(params.retreatMax!=='')put('retreat',`lte:${params.retreatMax}`);
-    put('illustrator',params.illustrator);
-    put('sort:field',params.sortField||'name');
-    put('sort:order',params.sortOrder||'ASC');
-    put('pagination:page',params.page||1);
-    put('pagination:itemsPerPage',params.pageSize||30);
-    return out;
-  }
-
   async function json(url){
     const response=await fetch(url,{headers:{Accept:'application/json'}});
     if(!response.ok)throw new Error(`Card data request failed (${response.status})`);
@@ -39,7 +13,8 @@
   }
 
   async function search(params={}){
-    const url=`${API}/cards?${qs(params).toString()}`;
+    const name=String(params.name||'').trim();
+    const url=name?`${API}/cards?name=${encodeURIComponent(name)}`:`${API}/cards`;
     return json(url);
   }
 
@@ -49,6 +24,10 @@
     const promise=json(`${API}/cards/${encodeURIComponent(id)}`).catch(error=>{detailCache.delete(id);throw error;});
     detailCache.set(id,promise);
     return promise;
+  }
+
+  async function cards(ids=[]){
+    return Promise.all(ids.map(id=>card(id).catch(()=>null)));
   }
 
   async function set(id){
@@ -69,20 +48,8 @@
     return root?`${root}/${quality}.webp`:'';
   }
 
-  function cardText(card){
-    return [
-      card?.description,
-      ...(card?.abilities||[]).flatMap(item=>[item.name,item.effect]),
-      ...(card?.attacks||[]).flatMap(item=>[item.name,item.effect,item.damage]),
-      ...(card?.effect?[card.effect]:[])
-    ].filter(Boolean).join(' ').toLocaleLowerCase('en');
-  }
-
-  function matchesClientFilters(card,params={}){
-    const text=String(params.text||'').trim().toLocaleLowerCase('en');
-    if(text&&!cardText(card).includes(text))return false;
-    if(params.standardOnly&&card?.legal?.standard!==true)return false;
-    return true;
+  function isStandard(cardObject){
+    return cardObject?.legal?.standard===true;
   }
 
   async function exactDeckIdentity(cardObject){
@@ -111,5 +78,5 @@
     return 'unknown';
   }
 
-  window.PTCGCardCatalog={API,search,card,set,sets,image,matchesClientFilters,exactDeckIdentity,categoryToSection};
+  window.PTCGCardCatalog={API,search,card,cards,set,sets,image,isStandard,exactDeckIdentity,categoryToSection};
 })();
