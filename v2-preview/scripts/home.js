@@ -75,6 +75,11 @@
     try{return window.parent.document.querySelector('iframe[data-section="meta"]')}catch{return null}
   }
 
+  function compactSprite(name){
+    const html=window.DeckSprites?.html?.(name,{size:24})||`<span class="deck-sprite deck-sprite-fallback">${esc(String(name||'?').charAt(0))}</span>`;
+    return `<span class="home-preview-sprite" style="flex:0 0 52px;width:52px;height:32px">${html}</span>`;
+  }
+
   function renderMetaPreview(){
     const el=document.getElementById('metaPreview');
     if(!el)return false;
@@ -97,10 +102,9 @@
         el.hidden=false;
         return true;
       }
-      const sprite=window.DeckSprites?.html?.(top.name,{size:48})||`<span class="deck-sprite deck-sprite-fallback">${esc(top.name.charAt(0))}</span>`;
       const detail=[context?.label,context?.detail].filter(Boolean).join(' · ');
       el.href='./apps/meta/#current';
-      el.innerHTML=`<span class="home-preview-sprite">${sprite}</span><span class="home-preview-copy"><span class="home-preview-kicker">Latest IRL leader</span><span class="home-preview-title">${esc(top.name)}</span><span class="home-preview-value">${Number(top.share||0).toFixed(1)}%</span>${detail?`<span class="home-preview-meta">${esc(detail)}</span>`:''}</span>`;
+      el.innerHTML=`${compactSprite(top.name)}<span class="home-preview-copy"><span class="home-preview-kicker">Latest IRL leader</span><span class="home-preview-title">${esc(top.name)}</span><span class="home-preview-value">${Number(top.share||0).toFixed(1)}%</span>${detail?`<span class="home-preview-meta">${esc(detail)}</span>`:''}</span>`;
       el.hidden=false;
       return true;
     }catch(error){
@@ -143,11 +147,7 @@
   }
 
   function savedDeckSprite(deck){
-    const shared=window.DeckSprites?.html?.(deck?.archetype||deck?.name,{size:48});
-    if(shared)return `<span class="home-preview-sprite">${shared}</span>`;
-    const sprite=deck?.sprites?.find(Boolean);
-    if(sprite?.spriteUrl)return `<span class="home-preview-deck-sprite"><img src="${esc(sprite.spriteUrl)}" alt=""></span>`;
-    return '<span class="home-preview-deck-sprite home-preview-tool-icon">▤</span>';
+    return compactSprite(deck?.archetype||deck?.name||'');
   }
 
   async function renderDeckPreview(){
