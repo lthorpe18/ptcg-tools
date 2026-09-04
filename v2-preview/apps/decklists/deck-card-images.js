@@ -101,3 +101,22 @@
   [$('parsedPreview'),$('versionList')].filter(Boolean).forEach(root=>new MutationObserver(queueEnhance).observe(root,{childList:true,subtree:true}));
   enhance();
 })();
+
+(function loadCardSearch(){
+  'use strict';
+  if(document.querySelector('script[data-ptcg-card-search-loader]'))return;
+  const style=document.createElement('link');
+  style.rel='stylesheet';
+  style.href='deck-card-search.css?v=1';
+  document.head.appendChild(style);
+  const catalog=document.createElement('script');
+  catalog.src='../_shared/card-catalog.js?v=1';
+  catalog.dataset.ptcgCardSearchLoader='true';
+  catalog.onload=()=>{
+    const ui=document.createElement('script');
+    ui.src='deck-card-search.js?v=1';
+    ui.dataset.ptcgCardSearchLoader='true';
+    document.body.appendChild(ui);
+  };
+  document.body.appendChild(catalog);
+})();
