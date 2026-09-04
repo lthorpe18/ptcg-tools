@@ -23,11 +23,33 @@
     return response.json();
   }
 
-  async function search(params={}){
-    const name=String(params.name||'').trim();
-    const url=name?`${API}/cards?name=${encodeURIComponent(name)}`:`${API}/cards`;
-    return json(url);
+  function addQuery(query,key,value,prefix=''){
+    const text=String(value??'').trim();
+    if(text)query.set(key,`${prefix}${text}`);
   }
+
+  function baseQuery(params={}){
+    const query=new URLSearchParams();
+    addQuery(query,'name',params.name);
+    addQuery(query,'category',params.category);
+    addQuery(query,'set.id',params.setId);
+    addQuery(query,'regulationMark',params.regulationMark);
+    addQuery(query,'types',params.type);
+    addQuery(query,'stage',params.stage);
+    addQuery(query,'trainerType',params.trainerType);
+    addQuery(query,'rarity',params.rarity);
+    addQuery(query,'illustrator',params.illustrator);
+    if(String(params.hpMin??'').trim())addQuery(query,'hp',params.hpMin,'gte:');
+    if(String(params.hpMax??'').trim())addQuery(query,'hp',params.hpMax,'lte:');
+    return query;
+  }
+
+  async function list(query){
+    const suffix=query&&String(query)?`?${String(query)}`:'';
+    return json(`${API}/cards${suffix}`);
+  }
+
+  async function search(params={}){return list(baseQuery(params))}
 
   async function card(id){
     if(!id)return null;
@@ -58,6 +80,68 @@
   }
 
   function isStandard(cardObject){return cardObject?.legal?.standard===true}
+
+  function cardText(cardObject){
+    if(!cardObject)return '';
+    const values=[];
+    const push=value=>{if(value!=null&&value!=='')values.push(String(value))};
+    push(cardObject.effect);
+    push(cardObject.description);
+    (cardObject.rules||[]).forEach(push);
+    (cardObject.attacks||[]).forEach(item=>{push(item?.name);push(item?.effect);push(item?.damage)});
+    (cardObject.abilities||[]).forEach(item=>{push(item?.name);push(item?.effect)});
+    push(cardObject.item?.name);push(cardObject.item?.effect);
+    return values.join(' ').replace(/\s+/g,' ').trim();
+  }
+
+  function matchesAdvanced(cardObject,params={}){
+    if(!cardObject)return false;
+    const lower=value=>String(value||'').toLocaleLowerCase('en');
+    if(params.standardOnly&&!isStandard(cardObject))return false;
+    if(params.text&&!lower(cardText(cardObject)).includes(lower(params.text)))return false;
+    if(params.category&&lower(cardObject.category)!==lower(params.category))return false;
+    if(params.setId&&String(cardObject.set?.id||'')!==String(params.setId))return false;
+    if(params.regulationMark&&lower(cardObject.regulationMark)!==lower(params.regulationMark))return false;
+    if(params.type&&!(cardObject.types||[]).some(value=>lower(value)===lower(params.type)))return false;
+    if(params.stage&&!lower(cardObject.stage).includes(lower(params.stage)))return false;
+    if(params.trainerType&&!lower(cardObject.trainerType).includes(lower(params.trainerType)))return false;
+    if(params.rarity&&!lower(cardObject.rarity).includes(lower(params.rarity)))return false;
+    if(params.illustrator&&!lower(cardObject.illustrator).includes(lower(params.illustrator)))return false;
+    const hp=Number(cardObject.hp);
+    if(String(params.hpMin??'').trim()&&(!Number.isFinite(hp)||hp<Number(params.hpMin)))return false;
+    if(String(params.hpMax??'').trim()&&(!Number.isFinite(hp)||hp>Number(params.hpMax)))return false;
+    return true;
+  }
+
+  async function searchAdvanced(params={}){
+    const text=String(params.text||'').trim();
+    let briefs=[];
+    if(!text){
+      briefs=await search(params);
+      if(!params.standardOnly)return briefs;
+    }else if(String(params.name||'').trim()){
+      briefs=await search(params);
+    }else{
+      const fields=['effect','description','rules','attacks.name','attacks.effect','abilities.name','abilities.effect','item.name','item.effect'];
+      const groups=await Promise.all(fields.map(async field=>{
+        const query=baseQuery(params);
+        query.set(field,text);
+        try{return await list(query)}catch{return []}
+      }));
+      const byId=new Map();
+      groups.flat().forEach(item=>{if(item?.id)byId.set(item.id,item)});
+      briefs=[...byId.values()];
+    }
+
+    if(!text&&!params.standardOnly)return briefs;
+    const detailed=[];
+    const batchSize=24;
+    for(let index=0;index<briefs.length;index+=batchSize){
+      const batch=await cards(briefs.slice(index,index+batchSize).map(item=>item.id));
+      batch.forEach(item=>{if(matchesAdvanced(item,params))detailed.push(item)});
+    }
+    return detailed;
+  }
 
   function fallbackSetCode(fullSet,cardObject){
     for(const name of [fullSet?.name,cardObject?.set?.name].map(normaliseSetName).filter(Boolean)){
@@ -93,5 +177,5 @@
     return 'unknown';
   }
 
-  window.PTCGCardCatalog={API,search,card,cards,set,sets,image,isStandard,exactDeckIdentity,categoryToSection};
+  window.PTCGCardCatalog={API,search,searchAdvanced,card,cards,set,sets,image,isStandard,cardText,matchesAdvanced,exactDeckIdentity,categoryToSection};
 })();
