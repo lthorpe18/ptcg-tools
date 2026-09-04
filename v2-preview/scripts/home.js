@@ -80,36 +80,41 @@
     return `<span class="home-preview-sprite" style="flex:0 0 52px;width:52px;height:32px">${html}</span>`;
   }
 
+  function heroSprite(name){
+    const html=window.DeckSprites?.html?.(name,{size:36})||`<span class="deck-sprite deck-sprite-fallback">${esc(String(name||'?').charAt(0))}</span>`;
+    return `<div class="home-meta-sprite" title="${esc(name)}" aria-label="${esc(name)}">${html}</div>`;
+  }
+
+  function renderMetaLoading(message='Loading current field…'){
+    const el=document.getElementById('blendedMetaPreview');
+    if(!el)return false;
+    el.innerHTML=`<div class="home-meta-state">${esc(message)}</div>`;
+    return false;
+  }
+
   function renderMetaPreview(){
-    const el=document.getElementById('metaPreview');
+    const el=document.getElementById('blendedMetaPreview');
     if(!el)return false;
     let runtime=null;
     try{runtime=parentMetaFrame()?.contentWindow}catch{}
-    const metaData=runtime?.MetaData;
-    if(!metaData){
-      el.href='./apps/meta/#current';
-      el.innerHTML='<span class="home-preview-tool-icon">◈</span><span class="home-preview-copy"><span class="home-preview-kicker">Current Meta</span><span class="home-preview-title">Loading latest IRL field…</span><span class="home-preview-meta">Latest major weekend</span></span>';
-      el.hidden=false;
-      return false;
-    }
+    const model=runtime?.MetaBlendedField;
+    if(!model?.current)return renderMetaLoading();
+
     try{
-      const data=metaData.data('irl',{scope:'latest-weekend'});
-      const top=(data.decks||[]).find(d=>d&&d.name&&Number(d.entries||0)>0);
-      const context=metaData.context('irl',{scope:'latest-weekend'});
-      if(!top){
-        el.href='./apps/meta/#current';
-        el.innerHTML='<span class="home-preview-tool-icon">◈</span><span class="home-preview-copy"><span class="home-preview-kicker">Current Meta</span><span class="home-preview-title">No IRL major field yet</span><span class="home-preview-meta">Open Meta for current evidence</span></span>';
-        el.hidden=false;
-        return true;
-      }
-      const detail=[context?.label,context?.detail].filter(Boolean).join(' · ');
-      el.href='./apps/meta/#current';
-      el.innerHTML=`${compactSprite(top.name)}<span class="home-preview-copy"><span class="home-preview-kicker">Latest IRL leader</span><span class="home-preview-title">${esc(top.name)}</span><span class="home-preview-value">${Number(top.share||0).toFixed(1)}%</span>${detail?`<span class="home-preview-meta">${esc(detail)}</span>`:''}</span>`;
-      el.hidden=false;
+      const result=model.current();
+      const rows=(result?.rows||[]).filter(row=>row&&row.name&&Number(row.share)>0).slice(0,5);
+      if(!rows.length)return renderMetaLoading('No blended field available yet');
+      const maxShare=Math.max(...rows.map(row=>Number(row.share)||0),0.001);
+      el.innerHTML=rows.map(row=>{
+        const share=Number(row.share)||0;
+        const pct=share*100;
+        const barPct=Math.max(28,Math.min(100,(share/maxShare)*100));
+        return `<div class="home-meta-bar-item"><div class="home-meta-bar" style="--bar:${barPct.toFixed(1)}%"><span>${pct.toFixed(1)}%</span></div>${heroSprite(row.name)}</div>`;
+      }).join('');
       return true;
     }catch(error){
-      console.warn('Home meta preview unavailable',error);
-      return false;
+      console.warn('Home blended meta unavailable',error);
+      return renderMetaLoading('Current field unavailable');
     }
   }
 
@@ -123,6 +128,7 @@
       if(metaRuntimeWindow!==runtime){
         metaRuntimeWindow=runtime;
         runtime.addEventListener('irl:updated',renderMetaPreview);
+        runtime.addEventListener('online:updated',renderMetaPreview);
         runtime.addEventListener('meta:data-changed',renderMetaPreview);
         runtime.addEventListener('decksprites:updated',renderMetaPreview);
       }
@@ -146,9 +152,7 @@
     return decks.sort((a,b)=>Number(b.updatedAt||0)-Number(a.updatedAt||0))[0]||null;
   }
 
-  function savedDeckSprite(deck){
-    return compactSprite(deck?.archetype||deck?.name||'');
-  }
+  function savedDeckSprite(deck){return compactSprite(deck?.archetype||deck?.name||'')}
 
   async function renderDeckPreview(){
     const el=document.getElementById('deckPreview');
@@ -174,31 +178,11 @@
     }
   }
 
-  function renderToolsPreview(deck){
-    const el=document.getElementById('toolsPreview');
-    if(!el)return;
-    const upcoming=getNextEvent();
-    const nearEvent=upcoming&&Math.ceil((upcoming.d.getTime()-Date.now())/DAY)<=2;
-    const recentDeck=deck&&Date.now()-Number(deck.updatedAt||0)<=7*DAY;
-    if(nearEvent){
-      el.href='./apps/tools/#cut';
-      el.innerHTML='<span class="home-preview-tool-icon">⊕</span><span class="home-preview-copy"><span class="home-preview-kicker">For your next event</span><span class="home-preview-title">Cut / ID calculator</span><span class="home-preview-meta">Check your path to cut</span></span>';
-    }else if(recentDeck){
-      el.href='./apps/tools/';
-      el.innerHTML=`<span class="home-preview-tool-icon">%</span><span class="home-preview-copy"><span class="home-preview-kicker">For your deck</span><span class="home-preview-title">Deck maths</span><span class="home-preview-meta">Check ${esc(deck.name||'your deck')} odds</span></span>`;
-    }else{
-      el.href='./apps/tools/#cut';
-      el.innerHTML='<span class="home-preview-tool-icon">⊕</span><span class="home-preview-copy"><span class="home-preview-kicker">Quick utility</span><span class="home-preview-title">Cut / ID calculator</span><span class="home-preview-meta">Swiss cut and ID decisions</span></span>';
-    }
-    el.hidden=false;
-  }
-
   function bindPersonalCardTargets(){
     document.querySelectorAll('[data-home-card-target]').forEach(card=>{
       const go=()=>{
         const target=document.getElementById(card.dataset.homeCardTarget||'');
-        const href=target?.getAttribute('href');
-        if(href)window.location.href=href;
+        if(target)target.click();
       };
       card.addEventListener('click',event=>{
         if(event.target.closest('a'))return;
@@ -212,8 +196,7 @@
 
   async function renderHome(){
     renderCompetePreview();
-    const deck=await renderDeckPreview();
-    renderToolsPreview(deck);
+    await renderDeckPreview();
     renderMetaPreview();
   }
 
