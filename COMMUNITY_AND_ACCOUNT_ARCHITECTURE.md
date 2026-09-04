@@ -1,438 +1,363 @@
 # PTCG Tools — Accounts, Community & Public-Ready Architecture
 
 **Status:** Current companion architecture source of truth  
-**Date:** 3 September 2026  
-**Companion to:** `PTCG_TOOLS_MASTER.md`, `PERFORMANCE_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`
+**Date:** 4 September 2026  
+**Companion to:** `PTCG_TOOLS_MASTER.md`, `PERFORMANCE_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`
 
 ## Purpose
 
-This document records the decisions established while exploring PTCG Tools beyond a single-user personal web app: Google account sign-in, cross-device persistence, local-community sharing, future public release, third-party data-source implications and the architectural choices that keep those options open.
+This document records the account, persistence, community/public-release and source-governance decisions that keep PTCG Tools **personal-first, public-ready**.
 
-The product position is:
-
-> **Personal-first, public-ready.**
-
-PTCG Tools should continue to optimise for the primary user's competitive workflow, while avoiding implementation choices that unnecessarily prevent a future community or public release.
+The product should continue to optimize for the primary user's competitive workflow without making unnecessary choices that block future community use.
 
 ---
 
 ## 1. Current account model
 
-### 1.1 Authentication
+### Authentication
 
-PTCG Tools now supports **Google sign-in** through Supabase Auth.
+PTCG Tools supports **Google sign-in through Supabase Auth**.
 
-Google is the only supported sign-in provider for now. Apple and Discord were deliberately removed from the UI after Google was proven sufficient for the current product stage.
+Google is the only provider for now. Apple and Discord were deliberately removed after Google proved sufficient for the current stage.
 
-Authentication principles:
+Principles:
 
-- request only the minimum identity information required for account functionality;
-- do not request access to Gmail, Drive, Contacts or other unrelated Google services;
-- never receive or store the user's Google password;
-- treat name and email address as personal data;
-- retain only identity data that has a clear product purpose;
-- keep OAuth provider secrets out of the public GitHub repository.
+- request only basic identity information needed for account functionality;
+- no Gmail, Drive, Contacts or unrelated Google scopes;
+- never receive/store the user's Google password;
+- treat name/email/profile identifiers as personal data;
+- keep provider secrets out of the public GitHub repository.
 
 Current Supabase project:
 
-- project name: **PTCG Tools V2 Auth**;
-- project reference: `naylqcyrnhjvqodjpjsg`;
-- region: `eu-west-2`;
-- current plan: free tier.
+- **PTCG Tools V2 Auth**;
+- project ref `naylqcyrnhjvqodjpjsg`;
+- `eu-west-2`;
+- free tier at current scale.
 
-The public frontend uses only the Supabase publishable client key. Provider client secrets remain server-side in Supabase configuration.
+The frontend uses only the publishable client key.
 
-### 1.2 OAuth and the persistent shell
+### OAuth / persistent-shell boundary
 
-The production app uses persistent embedded child views for the five main product areas. Google authentication pages must **never be loaded inside those embedded views**.
+Google OAuth must never be loaded inside the embedded feature child view.
 
-Google OAuth is therefore initiated as a **top-level navigation**. The entire PTCG Tools window leaves for Google and returns to the top-level app after authentication.
+Authentication deliberately performs a **top-level navigation** away from PTCG Tools and returns to the top-level app afterward.
 
-This is an architectural rule for any future external authentication flow: third-party identity pages must not be assumed to support iframe embedding.
+This remains the rule for any external auth/provider flow that prohibits iframe embedding.
 
 ---
 
 ## 2. Cross-device persistence
 
-### 2.1 Current implementation
+Authenticated users have cloud-backed per-account persistence through one schema-versioned `user_snapshots` row per account, protected by Supabase Row Level Security.
 
-Authenticated users now have cloud-backed per-account persistence via Supabase.
+Current durable snapshot state includes:
 
-The current cloud model stores one latest `user_snapshots` record per authenticated user, protected by Row Level Security using the authenticated Supabase user ID.
+- saved Decks;
+- embedded DeckVersions/checkpoints;
+- root V2 personal state including `eventParticipations`;
+- attendance, retained event snapshots, Prep, Tournament Day and completion state;
+- canonical Match/Game history;
+- preferences including deck/archetype presentation overrides;
+- saved Expected Fields and provenance.
 
-The snapshot currently includes the personal state that the V2 app knows how to capture, including:
+### Sync behavior
 
-- saved decks;
-- deck versions contained within saved deck objects;
-- root V2 personal state including canonical UserEventParticipation relationships, attendance intent and retained event snapshots;
-- preferences;
-- saved/custom expected Meta data.
+Desired user model:
 
-The architecture is deliberately schema-versioned so it can evolve as Collection, Tournament Prep, testing history and other personal domains are added.
+> Sign in once; meaningful PTCG Tools state follows the account.
 
-The V2 participation schema now migrates the previous `plannedEvents` plus linked Prep state into one `eventParticipations` collection. The relationship ID and event snapshot survive migration. A status-only relationship may be removed when intent is cleared; once dependent Prep, deck/version, match, Tournament Day or completion state exists, clearing intent archives rather than deletes the relationship. This preserves one account-owned record for later Season, Deck history, Home and Analytics consumers while retaining the pragmatic whole-account snapshot model.
+Current behavior includes:
 
-### 2.2 Sync behaviour
+- local data uploads when an authenticated account has no cloud snapshot;
+- newer cloud state can restore on another device;
+- durable local changes mark state dirty and auto-upload;
+- reconnect/focus/foreground may trigger reconciliation;
+- collection replacement semantics allow deletions to sync correctly;
+- offline local operation remains possible and reconciliation resumes later.
 
-The desired user model is simple:
+The sync controller belongs to the **top-level persistent shell**, not to an individual feature page.
 
-> Sign in once; personal PTCG Tools data follows the account.
+### Proven behavior
 
-Current behaviour:
+Google authentication and cross-device persistence were tested successfully across devices, including event Attending state.
 
-- when an authenticated user has no cloud snapshot, existing local data is uploaded rather than replaced by an empty cloud state;
-- when another device has a newer cloud snapshot, it can be restored locally;
-- local changes mark the account state dirty and are pushed automatically;
-- returning online, refocusing the app or resuming visibility can trigger reconciliation;
-- deck deletions are represented correctly because cloud restore can replace the local deck collection rather than only append records;
-- local/offline operation remains possible and sync resumes when connectivity returns.
-
-The sync controller lives at the **top-level persistent application shell**, not inside one particular feature page. This allows account persistence to continue while users move between Home, Meta, Decks, Compete and Tools.
-
-### 2.3 Proven behaviour
-
-On 1 September 2026 the account flow was tested across devices:
-
-- Google authentication completed successfully;
-- a cloud snapshot was created in Supabase;
-- changing an event to **Attending** on one device persisted to another device using the same Google account.
-
-Therefore the **Google account + cloud persistence + cross-device restore/sync milestone is considered complete for the current product stage**.
-
-### 2.4 Mobile Playtest persistence boundary
-
-Mobile Playtest deliberately has two different persistence layers because they represent different kinds of state.
-
-**Durable/account-owned:**
-
-- Deck identity;
-- mutable working list;
-- immutable DeckVersions/checkpoints;
-- exact canonical `listHash`;
-- Event Prep's exact planned/candidate deck reference.
-
-These continue to use the established Deck/account snapshot architecture and can therefore follow the account across devices.
-
-**Transient/local tabletop state:**
-
-- current shuffled Deck order;
-- current Hand;
-- Active/Bench placement;
-- current Prizes;
-- attachments/evolution stack;
-- damage/markers;
-- current turn/coin state;
-- active Undo history.
-
-The current active Playtest state is local browser work-in-progress state (`ptcg-tools.playtest.active.v2`). It is **not** silently uploaded as part of the user's durable account snapshot.
-
-This is intentional for v1. A transient goldfish board position is not the same thing as a durable saved DeckVersion or competitive Match record.
-
-Future cross-device Playtest persistence should therefore be an explicit product feature such as **Save Playtest session** or **Practice evidence**, not an accidental side-effect of syncing every tabletop mutation.
-
-### 2.5 Playtest evidence boundary
-
-Solo/goldfish Playtest does **not** write wins/losses and does not alter competitive matchup statistics.
-
-Real PTCGL/in-person results remain in the Match/Game contract.
-
-If Playtest later records durable practice evidence such as mulligan rate, opening-hand observations or scenario notes, that should be a separate account-owned Decks domain with explicit provenance and semantics.
-
-Do not merge goldfish observations into competitive match evidence merely because both reference the same `deckId + listHash`.
-
-### 2.6 Future persistence evolution
-
-The current whole-account snapshot is appropriate while the product and data model are still changing rapidly.
-
-As the app matures, high-value domains may move from one large snapshot into normalized per-user tables, especially:
-
-- Collection quantities and allocations;
-- tournament history and matches;
-- deliberately saved Playtest sessions/practice evidence;
-- matchup notes/testing evidence;
-- deck/version relationships;
-- preparation workspaces;
-- completed Championship Series participation, season goals and manual event-result corrections.
-
-Do not normalize prematurely solely for database purity. Move a domain when querying, conflict resolution, collaboration, history or scale genuinely benefits from it.
-
-Import/export should remain available as a user-controlled backup/interoperability mechanism even with cloud accounts.
+The account/sync milestone is therefore established for the current product stage.
 
 ---
 
-## 3. Shared data vs per-user data
+## 3. Durable vs transient state
 
-The long-term architecture should maintain a strong distinction between shared competitive data and private/user-owned state.
+### Durable/account-owned
+
+Examples:
+
+- Deck identity and working lists;
+- immutable DeckVersions;
+- `listHash`;
+- Expected Fields;
+- event attendance/Prep;
+- Tournament Day results/completion;
+- real Match/Game history;
+- preferences/presentation overrides;
+- future Collection quantities/allocations;
+- future Season/CP state.
+
+### Transient/local work-in-progress
+
+Current Mobile Playtest tabletop state remains local browser state, including:
+
+- shuffle/deck order;
+- Hand/Active/Bench/Prizes;
+- attachments/evolution stacks;
+- damage/markers;
+- turn state;
+- Undo history.
+
+It is not silently uploaded as durable account data.
+
+A future **Save Playtest session / Practice evidence** feature must be explicit.
+
+Solo/goldfish Playtest never creates competitive W/L.
+
+---
+
+## 4. Shared competitive data vs private personal state
 
 ### Shared competitive data
 
-Fetched/derived once and reused by all users:
+Fetched/derived once and reused across users:
 
-- Cards and formats;
-- tournament/event records;
-- tournament results;
-- public decklists;
-- normalized Meta data;
+- cards/formats;
+- event/tournament facts;
+- tournament results/public decklists;
+- normalized Meta evidence;
 - public matchup evidence;
-- generated aggregate analysis;
-- official competitive-season boundaries and season-versioned Championship Point / Best Finish Limit rulesets.
+- aggregate analysis;
+- official competitive-season/ruleset facts.
 
 ### Per-user data
 
-Owned by one authenticated account and protected accordingly:
+Account-owned/private:
 
-- saved decks and versions;
-- Collection quantities and allocations;
-- event attendance intent;
-- preparation workspaces;
-- completed Championship Series participation, placement/player-count corrections and season goals;
-- personal match/tournament history;
-- deliberately saved testing notes/results/practice evidence;
-- preferences and presentation overrides.
+- Decks/versions;
+- Collection;
+- attendance;
+- Prep;
+- Tournament Day/completion;
+- personal Matches;
+- Expected Fields;
+- notes/testing evidence;
+- preferences and deck-icon overrides;
+- season goals/manual corrections.
 
-Transient unsaved Playtest tabletop state is local work-in-progress, not shared competitive data and not automatically durable per-user cloud data.
+Do not duplicate heavyweight public datasets inside every user's account snapshot.
 
-The app must not duplicate heavyweight public datasets inside every user's account data.
+### Presentation preferences are account-owned but globally consumed
 
-Competitive-season summaries are derived from both sides of this boundary: shared, source-cited season/CP rules and event facts are applied to private UserEventParticipation records. A user's manual correction may affect their own participation calculation without silently changing the shared event record for other users. Historical participation must retain the ruleset version used so later season updates cannot rewrite prior CP totals.
+Deck/archetype sprite overrides are a good example of the boundary:
+
+- the override itself is private user preference state;
+- every feature should consume the same shared presentation engine (`DeckSprites`);
+- features must not independently re-infer or maintain competing archetype→sprite mappings.
+
+This keeps personal customization consistent across Meta, Decks, Compete and future surfaces.
 
 ---
 
-## 4. Local-community release
+## 5. Whole-account snapshot vs future normalized user tables
 
-A middle ground between a single personal app and a broadly marketed public application is explicitly supported.
+The current snapshot model remains appropriate while the product schema is evolving rapidly.
 
-The intended model is:
+Normalize a domain only when there is a concrete need for:
 
-> No monetisation required. No App Store required. Share the installable web app with a local competitive community and make it genuinely multi-user over time.
+- queryability;
+- conflict resolution;
+- history/audit;
+- collaboration;
+- scale/performance;
+- selective sync.
 
-### 4.1 Scale expectations
+Likely future candidates include:
 
-Current static/PWA architecture is technically comfortable for a local community.
+- Collection;
+- tournament/match history;
+- saved Playtest/practice evidence;
+- deck/version relationships;
+- preparation workspaces;
+- completed Championship Series/Season state.
+
+Do not normalize only for database purity.
+
+Import/export remains desirable as user-controlled backup/interoperability even with cloud accounts.
+
+---
+
+## 6. Local-community release
+
+A legitimate middle ground is:
+
+> no monetization required, no App Store required, no social network required — simply allow a local competitive community to use the installable app with their own accounts.
 
 Approximate engineering thresholds:
 
 | Scale | Expected concern |
 |---|---|
 | One user / a few friends | Essentially none |
-| 20–100 regular users | Still technically trivial |
-| Hundreds of active users | Start watching bandwidth and upstream-source traffic |
-| Low thousands | Production hosting/CDN/backend observability becomes sensible |
-| Tens of thousands | Genuine scale engineering required |
+| 20–100 regular users | Technically straightforward |
+| Hundreds active | Watch bandwidth/upstream traffic |
+| Low thousands | Production hosting/CDN/observability sensible |
+| Tens of thousands | Genuine scale engineering |
 
-User count does not multiply browser RAM. Each user's device runs its own frontend. The persistent shell's memory cost is primarily a **per-device** concern.
+User count does not multiply browser RAM; persistent-shell memory is per device.
 
-### 4.2 GitHub Pages
-
-GitHub Pages is suitable for the current personal/community phase, but it is not the assumed permanent production platform for a large public application.
-
-Current documented constraints include approximately:
-
-- recommended source repository size up to 1 GB;
-- published site size up to 1 GB;
-- soft bandwidth limit around 100 GB/month;
-- build-frequency limits unless custom Actions workflows are used.
-
-Service-worker caching materially reduces repeat-download bandwidth.
-
-Before the application reaches sustained low-thousands usage, reassess deployment and likely move public delivery to production hosting/CDN infrastructure.
-
-### 4.3 Browser storage
-
-Browser-local storage capacity is not the main scaling constraint for PTCG Tools personal data. Decklists, collection quantities, attendance records and notes are small structured data.
-
-The more important issue is **durability**: browser storage can be cleared, evicted or lost with device replacement.
-
-Therefore meaningful user-owned data should be cloud-backed once users begin relying on it. The implemented Google-account sync addresses this for current V2 durable personal state.
-
-This does not imply that every transient UI/session state must be synced. Mobile Playtest is the current example of a deliberate boundary: saved Deck identity is durable/cloud-backed, while an unsaved live tabletop remains local until an explicit saved-session feature exists.
+GitHub Pages is suitable for the current personal/community phase but should not be assumed permanent high-scale hosting.
 
 ---
 
-## 5. Upstream-source architecture
+## 7. Upstream-source architecture
 
-For a community/public application, upstream requests should not multiply linearly with users.
+For community/public use, avoid:
 
-Avoid:
-
-`every user's browser → Limitless / Pokémon / Pokédata / other source`
+`every browser → Limitless / Pokémon / Pokédata / other source`
 
 Prefer:
 
 `external source → PTCG Tools ingestion/cache → normalized shared data → all users`
 
-This reduces:
+Benefits:
 
-- rate-limit pressure;
-- dependency on source availability during every user interaction;
-- duplicated network traffic;
-- inconsistency between users;
-- source-permission risk caused by uncontrolled distributed scraping.
-
-Shared public competitive data should increasingly be generated/ingested centrally, while personal state remains account-specific.
-
-Card-art delivery used by Mobile Playtest is a presentation dependency and must not be confused with card/deck identity. A future public-scale review should consider the authority/licensing/cache strategy for card images separately from the user's exact Deck state.
+- reduced rate-limit pressure;
+- less duplicated traffic;
+- consistent data across users;
+- lower dependence on upstream availability at interaction time;
+- easier source-governance/permission handling.
 
 ---
 
-## 6. Source Adapter architecture
+## 8. Source Adapter direction
 
-If PTCG Tools expands beyond its current scripts, external data access should converge on a normalized adapter model.
+The app should increasingly reason in normalized entities such as:
 
-The application should reason about normalized entities such as:
+- Tournament;
+- TournamentResult;
+- Decklist;
+- Match;
+- Event;
+- Card.
 
-- `Tournament`;
-- `TournamentResult`;
-- `Decklist`;
-- `Match`;
-- `Event`;
-- `Card`.
+Potential adapters include Limitless, Pokémon, RK9 and Pokédata adapters or successors.
 
-Possible adapters:
-
-- `LimitlessAdapter`;
-- `PokemonAdapter`;
-- `RK9Adapter`;
-- `PokedataAdapter`.
-
-Each imported record should retain provenance where practical:
+Imported records should retain provenance where practical:
 
 - source;
-- source record/event ID;
+- source record ID;
 - retrieval timestamp;
-- which fields the source is authoritative for;
-- data-access classification.
+- field authority;
+- access classification.
 
-Useful source-access classifications:
+Useful access classifications:
 
-- **Official API**;
-- **Explicit permission**;
-- **Public data**;
-- **Scraped**;
-- **User supplied**.
+- Official API;
+- Explicit permission;
+- Public data;
+- Scraped;
+- User supplied.
 
-Anything classified as **Scraped** that is essential to a future public product should be reviewed, replaced with an authorized mechanism, or explicitly permitted before broad launch.
-
----
-
-## 7. Third-party source implications
-
-### 7.1 Limitless
-
-Limitless publishes developer documentation for tournament data, including tournament placings, decklists, matches and webhooks.
-
-Public-facing PTCG Tools should prefer documented Limitless APIs over undocumented/scraped endpoints wherever possible.
-
-Most documented endpoints can be used without an API key subject to limits, while legitimate public projects can seek API keys/higher limits. A future community/public launch should therefore approach Limitless with the working product and expected traffic rather than treating scraping as the long-term integration contract.
-
-### 7.2 RK9
-
-RK9's published Terms prohibit automated extraction/screen scraping for both commercial and non-commercial purposes.
-
-Therefore:
-
-- a free app does **not** make RK9 scraping acceptable;
-- PTCG Tools should not make unauthorized RK9 scraping a core public dependency;
-- official Pokémon data should remain the major-event existence/date authority;
-- RK9 can remain a practical outbound registration/detail destination;
-- richer automated RK9 use should require permission or an authorized access mechanism.
-
-### 7.3 Pokédata and other discovery sources
-
-Discovery/index sources should be treated as such unless exact authority is established. Normalization must retain provenance and the UI should not overstate certainty.
+Anything classified as **Scraped** that becomes essential to a public product should be replaced, reviewed or explicitly authorized before broad launch.
 
 ---
 
-## 8. Pokémon intellectual property and app-store implications
+## 9. Third-party source implications
 
-A free fan application is not automatically exempt from trademark, copyright, database-right or third-party-service obligations.
+### Limitless
 
-Before a broad public/App Store release, review at minimum:
+Prefer documented Limitless developer APIs for public/community integrations where possible. Legitimate public projects can seek appropriate access/higher limits.
 
-- card artwork/images, including the card-image strategy used by Mobile Playtest;
-- Pokémon artwork and logos;
+For personal Deck workflow, favor compatible list import/export and supported links over rebuilding the Limitless editor.
+
+### RK9
+
+Do not treat a free/non-commercial app as permission to scrape RK9.
+
+Current direction:
+
+- official Pokémon remains major-event existence/date authority;
+- RK9 may be an outbound registration/detail destination;
+- richer automated RK9 use requires permission/authorized access.
+
+### Pokédata / discovery sources
+
+Treat discovery/index sources according to their actual authority and retain provenance. Do not overstate certainty.
+
+---
+
+## 10. Pokémon IP / public distribution
+
+A free fan app is not automatically exempt from copyright, trademark, database-right or service-term obligations.
+
+Before broad public/App Store release review at minimum:
+
+- card artwork/images;
+- Pokémon artwork/logos/sprites;
 - Pokémon/name trademark presentation;
-- energy/game symbols and other protected assets;
+- symbols/assets;
 - third-party service terms;
-- privacy/GDPR obligations;
-- app-store intellectual-property requirements.
+- privacy/GDPR;
+- app-store IP requirements.
 
-PTCG Tools should maintain its own independent brand, avoid presenting itself as an official Pokémon product, and clearly identify itself as unofficial/community software if released more widely.
-
-Facts, calculations and statistics are a different category from copying protected artwork, but the terms governing the source of those facts still matter.
-
-### Native app viability
-
-A future iOS/Android application is technically viable without rewriting all domain logic from scratch.
-
-Potential evolution:
-
-1. continue maturing the responsive PWA;
-2. strengthen the shared backend/data model;
-3. use a native wrapper such as Capacitor if the mature web UI remains the preferred client;
-4. consider React Native/Expo or another more-native client only if native interaction requirements justify it.
-
-Apple requires apps to provide sufficient functionality beyond a simple repackaged website. PTCG Tools' saved decks, Collection, Playtest, preparation, tournament-day and account functionality should naturally support that requirement if the product reaches that stage.
+PTCG Tools should maintain an independent brand and identify itself as unofficial/community software if released widely.
 
 ---
 
-## 9. Privacy position
+## 11. Privacy position
 
-Once accounts are available, PTCG Tools is handling personal data.
-
-Current identity data from Google can include:
-
-- stable provider/user identifiers;
-- email address;
-- display name;
-- profile image URL where supplied.
+Once accounts exist, PTCG Tools handles personal data.
 
 Principles:
 
 - collect the minimum necessary;
 - never request unrelated Google scopes;
-- protect user-owned database records with Row Level Security;
-- do not expose one user's personal state to another;
-- document what is stored before broader community use;
-- provide a reasonable route to export/delete personal data before a broad public release;
-- treat email/name as personal data even when the application is free.
+- protect account-owned rows with RLS;
+- never expose one user's personal state to another;
+- document what is stored before broader use;
+- provide practical export/delete controls before public release;
+- treat email/name/profile details as personal data.
 
-A formal privacy policy becomes necessary before broad public distribution and is sensible before inviting a larger community cohort.
-
-If Playtest later gains cloud-backed saved sessions/practice notes, those become private account-owned data and must follow the same privacy/export/delete principles. The current unsaved transient tabletop is local and should not be represented to users as cloud-restorable.
+A formal privacy policy is required before broad public distribution and sensible before a larger community cohort.
 
 ---
 
-## 10. Public-release progression
+## 12. Public-release progression
 
-The recommended progression is deliberately incremental:
+Recommended progression:
 
-1. **Personal product** — build the strongest possible competitive companion for the primary user.
-2. **Public-ready architecture** — use accounts, normalized shared data and source provenance so future release remains feasible.
-3. **Local community** — allow a small competitive community to use the PWA and validate whether the connected workflow is useful to people other than the creator.
-4. **Private beta** — if valuable, expand to roughly tens of competitive players and observe usage/support/data-source impact.
-5. **Provider/IP review** — approach Limitless/RK9/other providers as required; review Pokémon asset use, privacy and store requirements.
-6. **Public release** — only once data-source permissions, durability, privacy and operational support are adequate.
+1. **Personal product** — complete the connected competitive workflow.
+2. **Development Cleanup / Release Hardening** — remove temporary build pins, dead compatibility code, duplicate cross-feature engines and stale cache assumptions.
+3. **Public-ready architecture** — retain account scoping, provenance and normalized shared-data direction.
+4. **Local community** — small real-player cohort.
+5. **Private beta** — tens of users if useful.
+6. **Provider/IP/privacy review** — resolve external dependencies and distribution obligations.
+7. **Public release** — only with adequate data-source, privacy and operational foundations.
 
-Do not design for millions of users prematurely. The two decisions that matter now are:
-
-1. user-owned durable state must remain cleanly account-scoped and cloud-restorable;
-2. shared third-party competitive data should increasingly be ingested once and served to many users rather than fetched independently by every client.
-
-A third implementation discipline follows from Mobile Playtest: **do not automatically cloud-sync high-frequency transient UI state merely because an account exists.** Persist it only when it has a clear durable user value and conflict model.
+Do not design for millions prematurely.
 
 ---
 
-## 11. Product implication
+## 13. Release-hardening implications
 
-The defensible value of PTCG Tools is not simply reproducing Limitless, RK9 or Pokémon data.
+The Tournament Day development cycle exposed two classes of issue that must be systematically removed before a stable release:
 
-Its value is the connected player workflow:
+1. **temporary navigation/cache scaffolding** — dated build strings, stale service-worker assumptions, multiple entry routes pinning different application generations;
+2. **duplicate shared logic** — e.g. a feature-local archetype sprite resolver diverging from the account-owned Settings/Meta `DeckSprites` mapping.
 
-**Meta → Deck choice → Deck development/testing → physical readiness → event preparation → tournament-day decisions → review/learning**
+Before stable release:
 
-The account/cloud layer is what allows the durable parts of that workflow to become longitudinal and device-independent.
+- search repository-wide for dated build/revision links;
+- delete obsolete legacy UI paths rather than only hiding them;
+- consolidate shared concerns into one implementation;
+- verify service-worker generation/cache behavior;
+- ensure personal preferences are consumed consistently everywhere;
+- verify current deployed SHA and iPhone behavior.
 
-Mobile Playtest now completes a substantial part of the **Build & Test** stage without confusing transient tabletop state with durable competitive history.
-
-That connected personal competitive history is a more important product asset than any one external data source.
+This hardening step is part of becoming public-ready, not optional cosmetic refactoring.
