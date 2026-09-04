@@ -8,11 +8,14 @@
 .home-meta-grouping span{display:block;padding:4px 8px;border-radius:999px;color:#667085;font-size:9px;font-weight:800;line-height:1}
 .home-meta-grouping input:checked+span{background:#fff;color:#067647;box-shadow:0 1px 3px rgba(16,24,40,.08)}
 .home-meta-bar{min-height:22px}
+.home-meta-bar.is-small-label{align-items:center;padding-top:0}
+.home-meta-bar.is-small-label span{font-size:10px;line-height:1}
+.home-meta-bar-label-outside{position:absolute;left:50%;bottom:58px;transform:translateX(-50%);color:#067647;font-size:10px;font-weight:850;line-height:1;white-space:nowrap}
 .home-meta-sprite-placeholder{display:flex;align-items:center;justify-content:center}
 .home-meta-hero-sprite{position:relative;display:block;width:48px;height:48px;margin:0 auto}
 .home-meta-hero-primary{position:absolute;left:4px;top:4px;width:40px;height:40px;object-fit:contain}
 .home-meta-hero-secondary-badge{position:absolute;right:-2px;bottom:-1px;display:grid;place-items:center;width:25px;height:25px;border:2px solid rgba(255,255,255,.95);border-radius:50%;background:#dff8e8;box-shadow:0 1px 4px rgba(16,24,40,.15);z-index:2}
 .home-meta-hero-secondary{width:20px;height:20px;object-fit:contain}
 .home-meta-hero-fallback{display:grid;place-items:center;width:40px;height:40px;margin:auto;border-radius:50%;background:rgba(255,255,255,.72);color:#079455;font-weight:900}
-@media(max-height:740px) and (max-width:759px){.home-meta-topline{gap:6px}.home-meta-grouping-control{gap:4px}.home-meta-grouping-label{font-size:7px}.home-meta-grouping span{padding:3px 6px;font-size:8px}.home-meta-bar{min-height:20px}.home-meta-hero-sprite{width:43px;height:43px}.home-meta-hero-primary{width:35px;height:35px}.home-meta-hero-secondary-badge{width:22px;height:22px}.home-meta-hero-secondary{width:17px;height:17px}}
-@media(max-width:359px){.home-meta-grouping-label{display:none}.home-meta-grouping span{padding:3px 5px;font-size:7px}.home-meta-hero-sprite{width:41px;height:41px}.home-meta-hero-primary{width:33px;height:33px}.home-meta-hero-secondary-badge{width:21px;height:21px}.home-meta-hero-secondary{width:16px;height:16px}}
+@media(max-height:740px) and (max-width:759px){.home-meta-topline{gap:6px}.home-meta-grouping-control{gap:4px}.home-meta-grouping-label{font-size:7px}.home-meta-grouping span{padding:3px 6px;font-size:8px}.home-meta-bar{min-height:20px}.home-meta-bar.is-small-label span{font-size:9px}.home-meta-bar-label-outside{bottom:46px;font-size:9px}.home-meta-hero-sprite{width:43px;height:43px}.home-meta-hero-primary{width:35px;height:35px}.home-meta-hero-secondary-badge{width:22px;height:22px}.home-meta-hero-secondary{width:17px;height:17px}}
+@media(max-width:359px){.home-meta-grouping-label{display:none}.home-meta-grouping span{padding:3px 5px;font-size:7px}.home-meta-bar-label-outside{font-size:8px}.home-meta-hero-sprite{width:41px;height:41px}.home-meta-hero-primary{width:33px;height:33px}.home-meta-hero-secondary-badge{width:21px;height:21px}.home-meta-hero-secondary{width:16px;height:16px}}
