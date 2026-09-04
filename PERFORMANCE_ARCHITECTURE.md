@@ -1,100 +1,134 @@
 # PTCG Tools — Performance Architecture
 
 **Status:** Current production source of truth  
-**Date:** 3 September 2026
+**Date:** 4 September 2026
 
 ## Purpose
 
-This document records the performance decisions established during the September 2026 app-performance pass and the subsequent Mobile Playtest performance consolidation. It is a companion to `PTCG_TOOLS_MASTER.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md` and `PLAYTEST_ARCHITECTURE.md` and should be consulted before changing global navigation, caching, app-shell behaviour or Playtest rendering.
+This document records the performance decisions established during the September 2026 app-performance pass, Mobile Playtest performance consolidation and the Tournament Day cache/navigation regression investigation. It is a companion to `PTCG_TOOLS_MASTER.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md` and `TOURNAMENT_DAY_ARCHITECTURE.md`.
 
-## Problem observed
+Consult it before changing global navigation, caching, app-shell behaviour, shell-owned sync or Playtest/Tournament Day rendering.
 
-On iPhone/home-screen use, the app could sometimes feel very fast and at other times hang for several seconds when moving between major areas.
+## Core performance principle
 
-The key finding was that the principal problem was **cross-page full-document navigation**, not general rendering slowness. Moving around inside an already-loaded Meta page was usually responsive; the largest stalls occurred when switching Home / Meta / Decks / Compete / Tools because each navigation destroyed the existing document and rebuilt the destination page, scripts and data state.
+The dominant recurring performance failure mode has been unnecessary **document lifecycle churn** rather than raw computation.
 
-A later Playtest-specific regression reproduced the same underlying class of problem at a smaller scope: interaction helper layers used `location.reload()` after tabletop mutations. Safari then destroyed/recreated the whole Playtest document and visible card images, producing slow-looking image reloads and visible card-art popping. This reinforced the same architecture principle: **ordinary interaction should update state/render in place rather than restart the document.**
+Examples observed:
 
-## Performance work completed
+- switching Home / Meta / Decks / Compete / Tools via full-document navigation;
+- Playtest helper layers calling `location.reload()` after ordinary tabletop mutations;
+- a service worker returning stale cached navigation HTML before the network, causing newer code to appear to regress to an older UI generation.
 
-### 1. Caching baseline
+The durable principle is:
 
-A service worker was added for the V2 app.
+> **Routine interaction should preserve the active application/document where practical, render state changes in place, and use caching to accelerate—not override—the current online application.**
 
-Current direction:
+## 1. Persistent production shell
 
-- stale-while-revalidate caching for suitable static assets and generated JSON;
-- pre-cache the primary app surfaces;
-- allow genuine explicit refresh paths to bypass cache;
-- deliberate cache-version bumps when shell/static behaviour changes.
-
-Home was also cleaned up so routine Meta-preview data no longer deliberately uses `cache: no-store`, and duplicate requests for the Meta format index were shared.
-
-This improved network behaviour but **did not solve the main navigation stalls by itself**.
-
-### 2. Persistent production shell
-
-A persistent five-area shell was prototyped, tested on iPhone, then promoted to production.
-
-Core areas:
+The production app keeps the five core areas mounted after first load:
 
 **Home · Meta · Decks · Compete · Tools**
 
-The key behaviour is:
+Section switching changes the active child view rather than cold-starting a new top-level document each time.
 
-- areas stay mounted once loaded;
-- section switching changes the active view rather than performing a new top-level document load;
-- already-loaded feature state is retained;
-- other core areas progressively warm in the background after launch;
-- ordinary repeat navigation is therefore largely independent of network latency and repeated application bootstrap.
+This provides:
 
-The current implementation uses persistent child views around the existing plain-HTML feature pages. This was intentionally chosen as a safe migration path that produced a large real-world improvement without forcing a framework rewrite.
+- immediate repeat navigation once areas have loaded;
+- retained feature state;
+- background warming of other core areas;
+- reduced repeated bootstrap/data work.
 
-### 3. Shell-owned account sync
+The current persistent-child-view architecture is a pragmatic migration path over the existing plain HTML/CSS/JS feature pages. A future shared-DOM/router shell is allowed only if it preserves or improves the measured iPhone experience.
 
-Google account persistence and cross-device cloud reconciliation were added after the navigation-performance pass.
+## 2. Shell-owned account sync
 
-The automatic cloud-sync controller belongs to the **top-level persistent shell**, not to one feature child view. This ensures that authentication/session reconciliation and dirty-state uploads continue to work while the user moves among Home, Meta, Decks, Compete and Tools.
+Google account reconciliation belongs to the **top-level persistent shell**, not to one feature child view.
 
-Current sync triggers include local personal-data changes plus appropriate resume/reconnect signals such as returning online, focusing the app or bringing it back to the foreground.
+Current sync may react to:
 
-Do not move the account sync lifecycle into one feature page unless an equivalent top-level lifecycle remains in place.
+- durable local personal-data changes;
+- reconnect/online events;
+- focus/foreground/resume signals.
 
-### 4. External OAuth must escape child views
+Do not move the only sync controller into one feature page.
 
-The persistent child-view architecture creates an important exception to the normal “keep navigation inside the shell” rule.
+## 3. OAuth exception
 
-Third-party authentication pages such as Google OAuth must **not** be navigated inside a child iframe. Google blocks authentication in that embedded context and the result on iPhone was a Google 403 page displayed underneath the still-visible PTCG Tools navigation.
+External OAuth must escape embedded child views.
 
-OAuth therefore deliberately performs a **top-level navigation** away from PTCG Tools, then returns to the top-level application after authentication.
+Google authentication is a deliberate top-level navigation because Google blocks the embedded authentication flow used by the persistent shell.
 
-This is correct behaviour and must be preserved for future authentication providers or other external flows that prohibit iframe embedding.
+This is an exception to the normal “stay inside the shell” navigation rule and must remain available for future providers/external flows that prohibit embedding.
 
-### 5. Mobile Playtest in-place rendering
+## 4. Service-worker architecture
 
-Mobile Playtest initially accumulated helper/enhancement layers that persisted mutations and then called `location.reload()` to make the UI reflect the new state.
+### 4.1 Static/generated assets
 
-On iPhone this caused visible card art to disappear/reappear or “pop” during normal tabletop play, even where images were already cached.
+Suitable static assets and generated JSON may use stale-while-revalidate caching.
 
-The fix consolidated Playtest interaction layers onto the existing core mutation/render path:
+Useful cache targets include:
+
+- shell/static CSS and JS;
+- generated shared data;
+- card/sprite images where source/usage allows;
+- pre-cached primary app entry surfaces.
+
+Versioned assets should use deliberate version bumps when behavior changes.
+
+### 4.2 Navigation HTML — network first
+
+As of 4 September 2026, **navigation/document HTML is network-first with cached fallback**.
+
+This supersedes the earlier stale-while-revalidate navigation behavior.
+
+Reason: the previous service worker could return an old cached Tournament Day document immediately and only fetch the new document in the background. This made the user see a newer UI, navigate elsewhere, then reopen an apparently “regressed” older UI even though GitHub Pages had already deployed the new code.
+
+Current rule:
+
+1. for online navigation, request the current HTML from the network first;
+2. cache a successful current response;
+3. use cached HTML only when the network is unavailable/fails.
+
+The service-worker cache generation was bumped from `ptcg-tools-v17` to `ptcg-tools-v18` for this transition.
+
+Do not restore cache-first/stale-first navigation without a specific offline-first product requirement and direct testing that it cannot serve obsolete application generations during ordinary online use.
+
+### 4.3 Query-string cache behavior
+
+Historic development links such as `?build=YYYY...` were used to try to force fresh Tournament Day loads. They became dangerous because different entry points could pin different application generations, and the older service worker normalized navigation cache keys anyway.
+
+Current direction:
+
+- internal navigation should point to the canonical current page, e.g. `tournament-day.html?participation=<id>`;
+- do not scatter dated build IDs across features;
+- static JS/CSS versioning and correct service-worker strategy own cache invalidation;
+- any temporary development token must have one explicit owner and be removed during release hardening.
+
+## 5. Mobile Playtest in-place rendering
+
+Ordinary Playtest actions follow the core path:
 
 **mutate → push Undo snapshot → change state → persist → clear selection → render in place**
 
-Current architecture lock:
+Do not use `location.reload()` for routine tabletop interactions.
 
-- ordinary Playtest actions must not reload the document;
-- enhancement/completeness layers call the core Playtest API rather than maintaining a second reload/Undo path;
-- grouped actions such as Hand multi-select remain one core mutation / one Undo step;
-- turn advance + automatic start-of-turn draw remains one core mutation;
-- card/zone state changes should re-render the relevant Playtest UI without top-level navigation.
+This applies to:
 
-This applies to actions including markers, prize taking, Hand bulk/multi-select actions, direct discard/deck/lost moves, damage controls, attachment/evolution management, Stadium replacement, Deck shuffle/draw and Deck-search destination movement.
+- markers/status;
+- prize taking;
+- Hand multi-select/bulk movement;
+- discard/deck/lost moves;
+- damage;
+- attachments/evolution;
+- Stadium replacement;
+- Deck search/shuffle/draw;
+- turn advance and automatic start-of-turn draw.
 
-### 6. Mobile Playtest image-loading policy
+Grouped actions remain one logical mutation / one Undo step.
 
-The Playtest performance pass also separated immediately visible art from secondary/search thumbnails.
+## 6. Mobile Playtest image policy
 
-Eager-load card images that are immediately visible in the main interaction surface:
+Eager-load immediately visible main-tabletop art:
 
 - Hand;
 - Active;
@@ -102,105 +136,120 @@ Eager-load card images that are immediately visible in the main interaction surf
 - Stadium;
 - visible Prize inspection where appropriate.
 
-Keep secondary/search/list thumbnails lazy-loaded where appropriate, including long Deck-search/zone lists.
+Keep secondary/search/list thumbnails lazy where appropriate.
 
-The objective is not “load every image immediately”; it is to prevent the primary tabletop from looking unstable while keeping secondary lists economical.
+The goal is stable primary interaction without needlessly eager-loading every secondary image.
 
-### 7. Mobile Playtest cache-busting
+## 7. Mobile Playtest cache-busting
 
-Playtest had repeated stale-asset issues on iPhone because Safari/service-worker state could retain older generations of Playtest HTML/JS/CSS.
+Playtest uses a fresh `_pt=<timestamp>` launch token for local Playtest assets/navigation.
 
-Current solution:
+The service worker bypasses `_pt` requests rather than normalizing the token away.
 
-- every fresh Playtest launch receives a `_pt=<timestamp>` token;
-- `playtest-v2.html` propagates `_pt` to local Playtest CSS/JS;
-- the service worker explicitly bypasses `_pt` Playtest assets/navigation rather than stripping/normalising the token;
-- card images remain normally cacheable;
-- a fresh launch from Decks naturally creates a fresh token.
+Card images remain normally cacheable.
 
-Do **not** return to manual `?v=` iteration as the normal Playtest asset-refresh strategy.
+This remains a Playtest-specific mechanism; do not generalize it into dated build strings throughout the application.
 
-An outer Decks/shell `?v=` bump may still be used as a deliberate one-time cache transition where required.
+## 8. Shell / Playtest viewport boundary
 
-Do not describe this system as “cache-proof”; verify iPhone behaviour after cache-sensitive changes.
+The visible five-item navigation belongs to the **outer persistent shell**.
 
-### 8. Playtest / persistent-shell viewport boundary
+Playtest does not reserve/own a second global-nav height and does not load a duplicate bottom nav.
 
-The visible five-item bottom navigation is owned by the **outer persistent shell**, not by Playtest.
+Its Hand tray anchors to the bottom of its own bounded child viewport.
 
-Playtest therefore must not reserve another internal app-nav height. Doing so previously created a blank band between the fixed Hand tray and the real shell navigation.
+## 9. Tournament Day rendering and shared services
 
-Current rule:
+Tournament Day should update its current record/round history in place after Match changes rather than reloading the document.
 
-- the shell already bounds the child Playtest viewport above the outer nav;
-- Playtest Hand fixes to the bottom of its own viewport;
-- Playtest does not load/own a duplicate global bottom nav;
-- its mobile zone dock remains hidden.
+Cross-feature presentation/data helpers should be reused rather than duplicated. The September 4 sprite issue demonstrated this clearly: Tournament Day had independently inferred archetype sprites instead of consuming the shared `DeckSprites` engine used by Settings/Meta.
 
-This is both a layout and performance/state-ownership boundary and should not be casually changed.
+Performance and correctness both benefit from one shared implementation because duplicate helper stacks increase:
 
-## Architecture lock
+- script cost;
+- maintenance cost;
+- inconsistent behavior;
+- stale-code/cache confusion;
+- re-render races.
 
-Future feature work must preserve the persistent-navigation behaviour.
+Architecture rule:
 
-Do **not** casually return the five core areas to ordinary full-page navigation.
+> If a cross-app concern already has a shared engine, consume that engine first. A local fallback may exist only for genuinely unsupported data, not as a second primary implementation.
 
-Do **not** reintroduce full-page reloads as the normal Playtest interaction mechanism.
+## 10. Current performance status
 
-A future true shared-DOM/router shell is allowed and may ultimately be cleaner, but it must satisfy all of the following before replacing the current implementation:
+Real iPhone testing after the persistent-shell pass reported navigation as **much, much snappier**.
 
-1. already-loaded core areas remain immediately available;
-2. routine section switching does not cold-start each feature;
-3. feature state can be preserved across navigation;
-4. measured/perceived iPhone performance is at least as good as the current shell;
-5. the change is justified by product/technical value rather than framework modernisation for its own sake;
-6. account/session sync retains an application-level lifecycle;
-7. external OAuth can still navigate at the top level rather than being trapped inside a feature child view;
-8. Playtest ordinary interactions remain in-place and Undo-consistent;
-9. Playtest cache-busting continues to defeat stale local Playtest code without disabling useful card-image caching;
-10. the outer shell remains the sole owner of the five-item global mobile navigation.
+Mobile Playtest’s card-art popping regression was resolved by removing full-page reloads from ordinary actions.
 
-## Current performance status
-
-After promotion, real iPhone use was reported as **much, much snappier to navigate**. A small number of hangs were still seen during initial warm-up/initialisation, but normal navigation after that was satisfactory.
-
-The later Playtest card-art popping regression was traced to page reloads and corrected by moving interaction helper layers to the core render path. Subsequent user testing reported the Playtest behaviour as good.
+Tournament Day’s apparent saved-state/UI regression was traced to stale navigation HTML served by the application service worker and corrected by making online document navigation network-first.
 
 Therefore:
 
-- **the navigation-performance milestone is complete**;
-- **the Mobile Playtest rendering-performance regression is resolved for the current stage**.
+- **navigation-performance milestone is complete**;
+- **Mobile Playtest in-place rendering regression is resolved**;
+- **navigation HTML cache regression is resolved architecturally as of 4 September 2026**;
+- further performance work is not the next product milestone unless a material user-visible regression appears.
 
-Do not prioritise further performance work over product milestones unless the app develops a material user-visible regression as it grows.
+## 11. Architecture lock
 
-## If performance work is reopened
+Future shell/router/performance work must preserve:
+
+1. already-loaded core areas remain immediately available;
+2. routine section switching does not cold-start each feature;
+3. feature state survives normal navigation where practical;
+4. perceived iPhone performance is at least as good as the current shell;
+5. account/session sync retains an application-level lifecycle;
+6. external OAuth can navigate at top level;
+7. ordinary Playtest actions remain in-place and Undo-consistent;
+8. Playtest cache-busting keeps local Playtest code fresh without disabling useful image caching;
+9. the outer shell remains sole owner of the five-item global mobile navigation;
+10. online navigation HTML must not preferentially serve a stale cached application generation;
+11. cross-app helpers such as deck/archetype sprite mapping remain centralized rather than repeatedly reimplemented.
+
+## 12. If performance work is reopened
 
 Diagnose the category before changing architecture:
 
-- **Initialisation cost:** first load/warm-up of Meta, Decks, Compete, etc.
-- **Navigation cost:** switching between already-loaded sections.
-- **Data cost:** network latency, cache misses, large JSON or parsing.
-- **Rendering/main-thread cost:** synchronous analysis, DOM construction or layout.
-- **Sync cost:** account reconciliation or local snapshot work competing with active interaction.
-- **Playtest mutation cost:** unnecessary full renders, reloads or repeated image-element reconstruction during tabletop actions.
-- **Playtest asset freshness:** Safari/service-worker serving stale Playtest CSS/JS rather than a runtime performance problem.
+- **Initialisation cost** — first load/warm-up of Meta, Decks, Compete, etc.;
+- **Navigation cost** — switching between already-loaded sections;
+- **Data cost** — network latency, large JSON, cache misses, parsing;
+- **Rendering/main-thread cost** — DOM/layout/synchronous analysis;
+- **Sync cost** — account reconciliation competing with interaction;
+- **Mutation cost** — unnecessary re-renders/reloads;
+- **Asset freshness** — stale JS/CSS/HTML masquerading as a runtime bug;
+- **Service-worker lifecycle** — an old worker/cache generation controlling the client.
 
-Measure/diagnose before optimising. Do not assume every hang is caused by the network.
+Measure/diagnose before optimising. Do not assume every delay is network latency and do not assume every UI regression is state corruption.
 
-Likely future targets, only if needed:
+Potential future work only if justified:
 
-- instrument transition and first-load timings;
+- instrument transition/first-load timings;
 - reduce Meta first-entry startup cost;
-- make background warm-up adaptive so it never competes with active work;
-- consolidate shared data/runtime caches;
-- keep cloud reconciliation lightweight and asynchronous;
-- eventually migrate from persistent child views to a true shared DOM shell if there is a clear benefit;
-- consolidate older Playtest helper layers once acceptance testing proves behaviour is stable, without changing the settled interaction contract.
+- adaptive background warming;
+- consolidate shared runtime/data caches;
+- keep cloud reconciliation asynchronous/lightweight;
+- migrate from persistent child views to a shared-DOM shell only with clear product/performance benefit;
+- consolidate temporary feature enhancer layers during release hardening.
+
+## 13. Release-hardening requirement
+
+Before a stable/public-ready release, perform a deliberate cache/runtime cleanup pass:
+
+- search repository-wide for dated `build=` links and stale development route pins;
+- remove obsolete compatibility/enhancer code where behavior has moved into core;
+- verify one canonical shared engine for reusable cross-app concerns;
+- review service-worker pre-cache contents and generation/version strategy;
+- ensure navigation remains network-first online with offline cached fallback;
+- verify current deployment SHA before acceptance;
+- retest iPhone/home-screen navigation after service-worker changes.
 
 ## Relationship to roadmap
 
-Performance is no longer the next development focus. Product work should resume from the master roadmap around the broader Analyse → Build & Test → Prepare → Compete → Learn loop.
+Performance is an established foundation, not the current feature milestone.
 
-Account authentication and cross-device persistence are established foundations rather than unfinished infrastructure milestones. Mobile Playtest v1 is also now considered feature-complete pending acceptance/cleanup testing rather than a reason to keep extending the Build & Test milestone.
+Product work should continue through:
 
-See `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md` for account/community boundaries and `PLAYTEST_ARCHITECTURE.md` for the complete current Mobile Playtest contract.
+**Analyse → Build & Test → Prepare → Compete → Learn**
+
+See `TOURNAMENT_DAY_ARCHITECTURE.md` for the current Compete implementation contract, `PLAYTEST_ARCHITECTURE.md` for Mobile Playtest and `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md` for account/public-ready boundaries.
