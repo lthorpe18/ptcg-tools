@@ -106,7 +106,7 @@
   catalog.dataset.ptcgCardSearchLoader='true';
   catalog.onload=()=>{
     const ui=document.createElement('script');
-    ui.src='deck-card-search.js?v=5';
+    ui.src='deck-card-search.js?v=6';
     ui.dataset.ptcgCardSearchLoader='true';
     document.body.appendChild(ui);
   };
