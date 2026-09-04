@@ -4,7 +4,7 @@
 **Date:** 4 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
-**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`
+**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`
 
 ## 1. Product vision
 
@@ -147,6 +147,7 @@ Account, preferences, deck-icon overrides and future storage/import/export contr
 - Cut / ID engine/standalone utility belongs to Tools and is contextually exposed in Tournament Day.
 - Collection is cross-cutting, connected to Decks, Prep and Home, and must reuse the existing exact-card/Card Catalog/Card Images foundation.
 - Competitive seasons / CP / BFL belong to Compete.
+- Home owns no competitive business logic; it consumes shared Meta, Deck, Event, Season and Tools state and routes into the owning feature.
 
 ---
 
@@ -155,6 +156,8 @@ Account, preferences, deck-icon overrides and future storage/import/export contr
 ### 5.1 Persistent five-area shell
 
 The production shell keeps the five core areas mounted after first load. Routine section switching changes the active view instead of rebuilding the application.
+
+Home is a child view of this shell. The persistent shell owns the single bottom navigation layer; child Home links must route through the shell rather than recursively loading the full shell inside the Home frame.
 
 ### 5.2 OAuth exception
 
@@ -176,21 +179,75 @@ See `PERFORMANCE_ARCHITECTURE.md`.
 
 ---
 
-## 6. Home
+## 6. Home — accepted current state
 
-Home is a competitive dashboard, not a directory.
+Home is a **derived competitive dashboard, not a directory and not a source of truth**.
 
-Priority context:
+The current accepted single-screen iPhone hierarchy is:
 
-- current format;
-- high-value What Should I Play route;
-- current Meta snapshot;
-- recently edited/used deck;
-- next event/attendance;
-- current Season/CP context when meaningful;
-- compact shortcuts to Decks, Events and Cut / ID.
+1. **Blended Meta** hero;
+2. **My Deck | Next Event** side-by-side personal row;
+3. **Card Search | Cut / ID | Playtest** quick actions;
+4. **What should I play?** full-width entry card;
+5. persistent **Home · Meta · Decks · Compete · Tools** bottom navigation.
 
-Only show personal modules when meaningful data exists.
+### 6.1 Blended Meta
+
+Home consumes the shared `MetaBlendedField.current()` read model rather than implementing its own Meta aggregation.
+
+The current-field blend is:
+
+- **IRL:** latest IRL major weekend;
+- **Online:** 50+ player events since that major weekend.
+
+Source weighting decays continuously with age of the latest major weekend:
+
+`IRL weight = max(30%, 70% - 2 percentage points × days since major weekend)`
+
+`Online weight = 100% - IRL weight`
+
+Therefore day 0 is 70/30, day 10 is 50/50, and day 20+ floors at 30/70. If one evidence source is unavailable, the available source becomes 100%; if neither exists, Home shows an empty/loading-safe state rather than fabricated data.
+
+The hero shows the top five shares as genuinely proportional bars with percentages and canonical archetype sprites. Percentage labels adapt for short bars; below 5% the label moves above the bar rather than being forced inside.
+
+The compact control is **Variant grouping — Off / On**:
+
+- Off = exact variants;
+- On = family-grouped presentation using the canonical Meta family definitions.
+
+Grouping is presentation only and does not change exact-variant matchup/detail identity or What Should I Play semantics.
+
+### 6.2 Home sprite treatment
+
+Home still uses canonical `DeckSprites` identity and Settings overrides.
+
+The hero may use `DeckSprites.slugs()` / `DeckSprites.url()` directly for a purpose-built presentation: primary sprite centred, with an overlapping secondary sprite in a small filled circular badge. This is a presentation specialization, not a second sprite mapping.
+
+### 6.3 Personal row
+
+**My Deck** currently derives the most recently edited saved deck from `PTCGDeckStore` and displays canonical deck/archetype sprites plus compact edit context.
+
+**Next Event** derives the nearest current/future incomplete `attending` `UserEventParticipation`. When no suitable next event exists, a shared Season summary may be used as fallback.
+
+The whole My Deck and Next Event cards are tap targets. Do not add redundant `Open deck` / `View event` buttons inside them.
+
+### 6.4 Quick actions and recommendation entry
+
+Locked quick actions:
+
+- Card Search → Decks-owned Card Search;
+- Cut / ID → Tools-owned Cut / ID;
+- Playtest → Decks-owned Mobile Playtest.
+
+The lower What Should I Play card is a launcher into the existing Meta recommendation flow; Home owns no recommendation calculations.
+
+### 6.5 Home state/performance rule
+
+Reuse warmed/shared state and engines. Do not add duplicate Home-specific fetches, stores, blend/grouping engines or reload/cache hacks.
+
+The current Home redesign is accepted for this product stage. Further Home work is polish/bugfix only unless deliberately reopened by the roadmap.
+
+See `HOME_ARCHITECTURE.md`.
 
 ---
 
@@ -246,12 +303,15 @@ Deck detail must distinguish field sample from head-to-head matchup sample. Do n
 
 ### 7.7 Shared Meta runtime
 
-Direction:
+Current shared direction/components include:
 
 - MetaState — source/scope state;
 - MetaData — evidence/data access;
 - MetaControls — shared source/scope behavior;
-- DeckSprites — canonical archetype presentation mapping/rendering.
+- DeckSprites — canonical archetype presentation mapping/rendering;
+- MetaBlendedField — shared current-field blend used by Home and available to other surfaces that need the same semantics.
+
+`MetaBlendedField` owns the current dynamic IRL/Online weighting policy described in Home architecture. Feature surfaces should consume it rather than recreate the formula.
 
 ---
 
@@ -622,7 +682,8 @@ Shared responsibilities include:
 - Deck store;
 - Cut/ID engine;
 - Season engine/versioned rules/config;
-- source/scope runtime where applicable.
+- source/scope runtime where applicable;
+- shared current-field blend/read model where applicable.
 
 Domain logic remains separated among Meta, Decks, Compete, Collection and Tools.
 
@@ -653,6 +714,10 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - Google authentication and cross-device account persistence;
 - Meta source/scope architecture and exact-variant analysis;
 - Expected Fields;
+- shared dynamic `MetaBlendedField` current-field model;
+- **Home dashboard redesign accepted for the current product stage**;
+- single-screen iPhone Home hierarchy with Blended Meta, My Deck / Next Event, quick actions and What Should I Play;
+- Home Variant grouping Off/On presentation and proportional top-five Meta bars;
 - Deck working-list/version/hash foundation;
 - Decks peer workspace model: My Decks / Training Log / Card Search;
 - shared TCGdex-backed Card Catalog and exact-print mapping;
@@ -665,7 +730,7 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - My Tournaments in-page lifecycle view;
 - Tournament Day v1 accepted core recording/results flow;
 - contextual Cut / ID workflow;
-- shared DeckSprites reused by Compete;
+- shared DeckSprites reused by Compete and Home;
 - manual canonical Top Cut round tagging;
 - tournament reopen lifecycle;
 - **Competitive Record / Season v1 accepted/complete for the current product stage**;
@@ -684,6 +749,8 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 ### Active status
 
 **Collection / physical readiness is the current major product milestone.**
+
+The bounded Home product-surface pass is complete/accepted for now. Home should not remain an active roadmap thread unless a concrete regression or usability blocker appears.
 
 The Card Search/Card Images pass is considered functionally established and documented. The small cleanup items above should not expand into another Decks redesign and should only interrupt Collection for a genuine regression or identity/data blocker.
 
@@ -731,6 +798,8 @@ PTCG Tools is successful when:
 - repeat navigation between core areas feels immediate;
 - account-owned state follows the user across devices;
 - Home is useful competitive context, not a launcher;
+- Home remains a derived dashboard over shared state rather than a second business-logic layer;
+- the current-field blend has one shared formula and clear evidence semantics;
 - Meta communicates evidence scope correctly;
 - exact variants interlink consistently;
 - Decks supports My Decks, Training Log, Card Search, editing/versioning/analysis/playtest without duplicate identities;
@@ -747,53 +816,3 @@ PTCG Tools is successful when:
 - future scale does not require every browser to hammer upstream providers independently.
 
 ---
-
-## 17. Features to avoid / defer
-
-- full automated Pokémon rules engine;
-- AI opponent as an early Playtest dependency;
-- social-network/community feed layer;
-- novelty-calculator sprawl;
-- Meta family pages;
-- premature hyperscale architecture;
-- duplicate cross-feature engines for concerns already owned centrally;
-- speculative qualification/ranking logic not backed by official data.
-
----
-
-## 18. External data / public-release position
-
-### Limitless
-
-Prefer documented developer APIs/authorized mechanisms for community/public use. Personal Deck workflow should favor lightweight interoperability rather than rebuilding its mature editor.
-
-### TCGdex
-
-TCGdex is currently the direct shared card metadata/search dependency used by the Card Catalog. Preserve provider provenance and avoid coupling canonical Deck/card identity to TCGdex-specific IDs. Revisit direct-browser runtime dependence during Release Hardening/public-readiness if API availability, CORS, terms or operational reliability justify a PTCG Tools ingestion/cache layer.
-
-### RK9
-
-Do not make unauthorized automated extraction a public product dependency. Official Pokémon remains major-event existence/date authority; RK9 may be used as practical outbound destination or authorized enrichment source.
-
-### Pokémon IP / privacy
-
-Before broad public/App Store release, review card art, Pokémon artwork/logos, trademarks, third-party service terms, privacy/GDPR and store requirements.
-
-Collect the minimum account identity necessary, protect per-user data with RLS and provide export/delete/privacy controls before broad distribution.
-
-See `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`.
-
----
-
-## 19. Release progression
-
-1. **Personal product** — complete the primary user's competitive workflow.
-2. **Development Cleanup / Release Hardening** — remove temporary scaffolding and duplicate implementations before calling a version stable.
-3. **Local community** — validate with a small cohort if useful.
-4. **Private beta** — expand only if value/support model is proven.
-5. **Provider/IP/privacy review** — resolve source and distribution obligations.
-6. **Public release** — only when operational/legal foundations are adequate.
-
-The broader product loop remains:
-
-**Analyse → Build & Test → Prepare → Compete → Learn**
