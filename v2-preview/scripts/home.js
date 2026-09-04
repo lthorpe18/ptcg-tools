@@ -81,8 +81,14 @@
   }
 
   function heroSprite(name){
-    const html=window.DeckSprites?.html?.(name,{size:34})||`<span class="deck-sprite deck-sprite-fallback">${esc(String(name||'?').charAt(0))}</span>`;
-    return `<div class="home-meta-sprite-placeholder" title="${esc(name)}" aria-label="${esc(name)}">${html}</div>`;
+    const sprites=window.DeckSprites;
+    const slugs=sprites?.slugs?.(name)||[];
+    if(!slugs.length){
+      return `<div class="home-meta-sprite-placeholder" title="${esc(name)}" aria-label="${esc(name)}"><span class="home-meta-hero-fallback">${esc(String(name||'?').charAt(0))}</span></div>`;
+    }
+    const primary=`<img class="home-meta-hero-primary" src="${sprites.url(slugs[0])}" alt="" loading="lazy" decoding="async">`;
+    const secondary=slugs[1]?`<img class="home-meta-hero-secondary" src="${sprites.url(slugs[1])}" alt="" loading="lazy" decoding="async">`:'';
+    return `<div class="home-meta-sprite-placeholder" title="${esc(name)}" aria-label="${esc(name)}"><span class="home-meta-hero-sprite">${primary}${secondary}</span></div>`;
   }
 
   function renderMetaLoading(){
