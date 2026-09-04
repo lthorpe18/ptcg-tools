@@ -457,7 +457,9 @@ Round history remains canonical Match/Game evidence. Editing replaces the stable
 
 See `TOURNAMENT_DAY_ARCHITECTURE.md`.
 
-### 11.7 Competitive Record / Season v1 — implemented/integrated
+### 11.7 Competitive Record / Season v1 — accepted current state
+
+Competitive Record / Season v1 is accepted/complete for the current product stage.
 
 Competitive seasons are first-class entities; calendar year is not an adequate substitute.
 
@@ -501,13 +503,15 @@ Older supported completions without explicit identity continue to derive and are
 
 One manually recorded Cup has been user-smoke-tested and the expected tournament information flowed into Season correctly.
 
-Remaining bounded acceptance work:
+Non-blocking verification/maintenance remains useful for the Season implementation:
 
 - execute deterministic Season engine tests in a real JS runtime;
-- exercise a BFL overflow/displacement case;
+- exercise BFL overflow/displacement beyond official limits;
 - verify Season correction sync across devices;
-- real iPhone smoke test;
-- directly verify official 2027 season end boundary.
+- additional real iPhone smoke testing;
+- directly verify and fill the official 2027 season end boundary when an authoritative source is available.
+
+These checks no longer keep the Season milestone open. A genuine defect found by them may reopen a bounded Season bugfix, but not a broad Season feature programme.
 
 See `SEASON_ARCHITECTURE.md`.
 
@@ -591,32 +595,23 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - shared DeckSprites reused by Compete;
 - manual canonical Top Cut round tagging;
 - tournament reopen lifecycle;
-- Competitive Record / Season v1 engine, official 2027 rules/config, inline UI and correction model;
+- **Competitive Record / Season v1 accepted/complete for the current product stage**;
+- official 2027 Season CP/BFL engine and rules/config;
 - completion-time season/ruleset identity persistence;
 - Season result detail linked to exact used deck/version and canonical rounds.
 
 ### Active status
 
-**Season v1 is implemented and integrated.** It is now in bounded acceptance/hardening rather than feature-build mode.
+**Collection / physical readiness is the next major product milestone.**
 
-Still outstanding for full Season acceptance:
-
-1. run deterministic Season tests in a real JS runtime;
-2. exercise BFL overflow/displacement;
-3. verify cross-device correction sync;
-4. perform iPhone smoke testing;
-5. verify official season end boundary.
-
-None of those require broad new Season architecture.
+Tournament Day and Season are closed for the current stage. Remaining acceptance, verification or helper cleanup in those areas is non-blocking and should only interrupt the roadmap for a genuine regression or correctness defect.
 
 ### Recommended next major milestones
 
-1. **Season acceptance/hardening** — finish the bounded checks above while preserving the current architecture.
-2. **Collection / physical readiness** — owned quantities, allocations and missing/shopping connected to exact planned lists.
-3. **Learning loop** — personal tournament/matchup/practice analytics with explicit evidence provenance.
-4. **Community/release hardening when useful** — privacy/export/delete, centralized ingestion and operational observability.
-
-The Roadmap chat should decide whether Season acceptance is handled as a short closure pass before Collection or alongside the start of the next milestone. It should not reopen Tournament Day or Season architecture without a genuine blocker.
+1. **Collection / physical readiness** — owned quantities, allocations and missing/shopping connected to exact DeckVersions and planned event lists.
+2. **Learning loop** — personal tournament/matchup/practice analytics with explicit evidence provenance.
+3. **Development Cleanup / Release Hardening** — repository-wide removal of temporary scaffolding, stale routes, duplicate engines and obsolete compatibility layers before calling the broader app stable/public-ready.
+4. **Community/public expansion when useful** — privacy/export/delete, centralized ingestion and operational observability as required by actual usage.
 
 Performance is not a dedicated next milestone unless a material regression appears.
 
