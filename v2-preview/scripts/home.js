@@ -193,6 +193,23 @@
     el.hidden=false;
   }
 
+  function bindPersonalCardTargets(){
+    document.querySelectorAll('[data-home-card-target]').forEach(card=>{
+      const go=()=>{
+        const target=document.getElementById(card.dataset.homeCardTarget||'');
+        const href=target?.getAttribute('href');
+        if(href)window.location.href=href;
+      };
+      card.addEventListener('click',event=>{
+        if(event.target.closest('a'))return;
+        go();
+      });
+      card.addEventListener('keydown',event=>{
+        if(event.key==='Enter'||event.key===' '){event.preventDefault();go()}
+      });
+    });
+  }
+
   async function renderHome(){
     renderCompetePreview();
     const deck=await renderDeckPreview();
@@ -200,6 +217,7 @@
     renderMetaPreview();
   }
 
+  bindPersonalCardTargets();
   bindMetaRuntime();
   renderHome();
   window.addEventListener('storage',renderHome);
