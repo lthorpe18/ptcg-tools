@@ -7,7 +7,8 @@
 
   const $=id=>document.getElementById(id);
   const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
-  let mode='browse',page=1,loading=false,debounceTimer=null,lastQuery='';
+  const PAGE_SIZE=36;
+  let mode='browse',page=1,debounceTimer=null,requestSeq=0,currentBriefs=[];
 
   function ensureUi(){
     if($('cardSearchSheet'))return;
@@ -38,9 +39,8 @@
     }
 
     document.body.insertAdjacentHTML('beforeend',`
-      <div id="cardSearchSheet" class="sheet card-search-sheet" hidden>
-        <div class="sheet-backdrop" data-close-card-search></div>
-        <section class="sheet-card card-search-card" role="dialog" aria-modal="true" aria-labelledby="cardSearchTitle">
+      <div id="cardSearchSheet" class="card-search-screen" hidden>
+        <section class="card-search-card" role="dialog" aria-modal="true" aria-labelledby="cardSearchTitle">
           <header class="card-search-head">
             <div><small id="cardSearchEyebrow">CARD DATABASE</small><h2 id="cardSearchTitle">Card search</h2></div>
             <button class="sheet-close" type="button" data-close-card-search aria-label="Close">×</button>
@@ -67,6 +67,7 @@
     $('cardSearchStatus').textContent=mode==='add'?'Search, then tap a card image to add that exact printing.':'Type a card name.';
     $('cardSearchSheet').hidden=false;
     document.documentElement.classList.add('sheet-open');
+    document.body.classList.add('card-search-open');
     setTimeout(()=>$('cardSearchName')?.focus(),20);
   }
 
@@ -74,6 +75,7 @@
     if(!$('cardSearchSheet'))return;
     $('cardSearchSheet').hidden=true;
     document.documentElement.classList.remove('sheet-open');
+    document.body.classList.remove('card-search-open');
   }
 
   function scope(){
@@ -86,46 +88,62 @@
     runSearch(false);
   }
 
-  function currentParams(){
-    return {
-      name:$('cardSearchName').value.trim(),
-      standardOnly:scope()==='standard',
-      sortField:'name',sortOrder:'ASC',page,pageSize:36
-    };
+  async function standardBriefs(briefs,seq){
+    const accepted=[];
+    const batchSize=24;
+    for(let i=0;i<briefs.length;i+=batchSize){
+      if(seq!==requestSeq)return [];
+      const batch=briefs.slice(i,i+batchSize);
+      const details=await catalog.cards(batch.map(card=>card.id));
+      if(seq!==requestSeq)return [];
+      for(const detail of details){
+        if(detail&&catalog.isStandard(detail))accepted.push(detail);
+      }
+    }
+    return accepted;
   }
 
   async function runSearch(append=false){
-    const filters=currentParams();
-    if(filters.name.length<2){
-      $('cardSearchResults').innerHTML='';
-      $('cardSearchMore').hidden=true;
-      $('cardSearchStatus').textContent=mode==='add'?'Search, then tap a card image to add that exact printing.':'Type at least 2 letters.';
+    const name=$('cardSearchName').value.trim();
+    const standardOnly=scope()==='standard';
+    const seq=++requestSeq;
+    const root=$('cardSearchResults'),status=$('cardSearchStatus'),more=$('cardSearchMore');
+
+    if(name.length<2){
+      currentBriefs=[];
+      page=1;
+      root.innerHTML='';
+      more.hidden=true;
+      status.textContent=mode==='add'?'Search, then tap a card image to add that exact printing.':'Type at least 2 letters.';
       return;
     }
-    if(loading)return;
-    loading=true;
-    lastQuery=filters.name;
-    const root=$('cardSearchResults'),status=$('cardSearchStatus'),more=$('cardSearchMore');
-    if(!append)root.innerHTML='<div class="card-search-loading">Loading…</div>';
+
+    if(!append){
+      page=1;
+      root.innerHTML='<div class="card-search-loading">Loading…</div>';
+    }
     status.textContent='Searching…';
     more.hidden=true;
+
     try{
-      const briefs=await catalog.search(filters);
-      let results=briefs;
-      if(filters.standardOnly){
-        const details=await Promise.all(briefs.map(item=>catalog.card(item.id).catch(()=>null)));
-        results=details.filter(card=>card&&catalog.matchesClientFilters(card,filters));
+      if(!append){
+        const briefs=await catalog.search({name});
+        if(seq!==requestSeq)return;
+        currentBriefs=standardOnly?await standardBriefs(briefs,seq):briefs;
+        if(seq!==requestSeq)return;
       }
-      renderResults(results,append);
-      status.textContent=results.length
-        ? `${results.length}${append?' more':''} ${filters.standardOnly?'Standard ':''}printing${results.length===1?'':'s'}${mode==='add'?' · tap one to add':''}`
+      const start=(page-1)*PAGE_SIZE;
+      const pageResults=currentBriefs.slice(start,start+PAGE_SIZE);
+      renderResults(pageResults,append);
+      const total=currentBriefs.length;
+      status.textContent=total
+        ? `${total} ${standardOnly?'Standard ':''}printing${total===1?'':'s'} found${mode==='add'?' · tap one to add':''}`
         : 'No matching cards found.';
-      more.hidden=briefs.length<36;
+      more.hidden=start+PAGE_SIZE>=total;
     }catch(error){
+      if(seq!==requestSeq)return;
       if(!append)root.innerHTML='';
       status.textContent=error?.message||'Card search failed.';
-    }finally{
-      loading=false;
     }
   }
 
@@ -192,8 +210,7 @@
 
   function queueSearch(){
     clearTimeout(debounceTimer);
-    page=1;
-    debounceTimer=setTimeout(()=>runSearch(false),220);
+    debounceTimer=setTimeout(()=>runSearch(false),180);
   }
 
   document.addEventListener('input',event=>{
