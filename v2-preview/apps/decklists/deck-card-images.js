@@ -107,14 +107,14 @@
   if(document.querySelector('script[data-ptcg-card-search-loader]'))return;
   const style=document.createElement('link');
   style.rel='stylesheet';
-  style.href='deck-card-search.css?v=2';
+  style.href='deck-card-search.css?v=3';
   document.head.appendChild(style);
   const catalog=document.createElement('script');
-  catalog.src='../_shared/card-catalog.js?v=2';
+  catalog.src='../_shared/card-catalog.js?v=3';
   catalog.dataset.ptcgCardSearchLoader='true';
   catalog.onload=()=>{
     const ui=document.createElement('script');
-    ui.src='deck-card-search.js?v=2';
+    ui.src='deck-card-search.js?v=3';
     ui.dataset.ptcgCardSearchLoader='true';
     document.body.appendChild(ui);
   };
