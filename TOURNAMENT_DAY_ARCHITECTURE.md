@@ -1,12 +1,12 @@
 # PTCG Tools — Tournament Day / Results Architecture
 
-**Status:** Current Compete implementation source of truth  
+**Status:** Accepted Tournament Day v1 source of truth  
 **Date:** 4 September 2026  
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`
 
 ## Purpose
 
-This document records the durable architecture established by the Tournament Day + event-linked results implementation.
+This document records the accepted architecture established by the Tournament Day + event-linked results implementation.
 
 The canonical account-owned record throughout is one `UserEventParticipation` in the V2 root state. Tournament Day is not a second tournament/history model layered on top of Events.
 
@@ -79,6 +79,8 @@ Phase remains derived by shared storage:
 
 Tournament Day updates this existing participation. It does not create a separate tournament-history entity.
 
+Opening Tournament Day for an uncompleted participation starts the Tournament Day workspace immediately by creating lightweight `tournamentDay` timestamps if required. **Deck selection is not a start gate.**
+
 ## My Tournaments surface
 
 My Tournaments is a third in-page Compete / Events tab alongside:
@@ -108,6 +110,8 @@ Ordering:
 
 Tournament cards show event identity, date/type/status, used deck where present, W-L-D, round count and compact management actions. `usedDeckRef` is the only deck reference that may be presented as the deck actually played.
 
+My Tournaments uses the same shared `DeckSprites` mapping as Settings / Meta / Tournament Day for deck presentation, including one/two-sprite user overrides.
+
 ## Planned list vs used list
 
 `plannedDeckRef` and `usedDeckRef` are deliberately separate concepts.
@@ -118,11 +122,11 @@ Event Prep may write `plannedDeckRef` with exact Deck identity:
 - `deckVersionId`
 - `listHash`
 
-Tournament Day must **not** require a deck before rounds can begin.
+Tournament Day does **not** require a deck before rounds can begin.
 
-The user can start Tournament Day and record rounds with no deck selected. At any time they may attach, change or remove the exact deck actually played. Saving that selection writes `usedDeckRef`.
+The user can open Tournament Day and record rounds with no deck selected. At any time they may attach, change or remove the exact deck actually played. Saving that selection writes `usedDeckRef`.
 
-The compact Tournament Day deck control is the only intended live deck-selection UI:
+The compact Tournament Day deck control is the only live deck-selection UI:
 
 - no deck → compact **My Deck** control;
 - selected deck → representative sprites in that same compact control;
@@ -130,7 +134,7 @@ The compact Tournament Day deck control is the only intended live deck-selection
 - selecting a deck/version updates existing participation-linked Match records with the same exact deck reference;
 - removing the tournament deck clears `usedDeckRef` and the corresponding deck fields on those Matches.
 
-The old large `Playing / Deck not selected / Saved deck · Exact list` summary is legacy UI and should be removed during cleanup rather than retained as a second presentation path.
+The former large `Playing / Deck not selected / Saved deck · Exact list` summary and the old pre-round deck-selection start card were deleted during the acceptance cleanup. They are no longer hidden compatibility UI.
 
 A planned deck may be used as a picker suggestion, but must never silently become `usedDeckRef` merely because it was planned.
 
@@ -147,8 +151,12 @@ The picker:
 - opens immediately on tap;
 - may show loading state while deck records resolve;
 - lists saved Decks and exact versions;
-- preselection must tolerate `usedDeckRef === null`;
+- preselection tolerates `usedDeckRef === null`;
 - enables Save only when a Deck and exact version are selected.
+
+The compact deck slot uses `DeckSprites` directly for its configured sprite presentation rather than maintaining a second Pokémon-name parser.
+
+A core acceptance fix refreshes the participation from shared storage before deck-sensitive round-save and completion actions. This prevents a deck selection made by the picker from being missed by an older in-memory participation object.
 
 Do not add browser-specific parallel deck-reading paths to work around a local failure. Fix the shared store contract or picker logic instead.
 
@@ -198,19 +206,19 @@ Normal round entry is game-by-game:
 - Game 3 W/L/T where required;
 - aggregate Match W/L/D derived from those entered Games.
 
-First/second is not part of the current Tournament Day capture requirement.
+First/second is not part of the accepted Tournament Day v1 capture requirement.
 
 ### ID
 
 An intentional draw is displayed distinctly as **ID** rather than a normal played draw.
 
-The current implementation retains a compatibility marker for ID in Match notes while using the canonical Match result as draw. A future cleanup may introduce an explicit canonical outcome kind such as `played | id | bye | no-show`, but only if done centrally in the Match contract rather than as Tournament Day-only metadata.
+The accepted v1 implementation retains the `[ID]` compatibility marker in Match notes while using the canonical Match result as draw. This is deliberately left as a non-blocking compatibility detail. A future central Match-contract change may add an explicit outcome kind such as `played | id | bye | no-show`, but Tournament Day must not invent a private parallel result field.
 
 ## Round-history UX
 
 Round rows are compact, iPhone-first records of the opponent and result.
 
-The intended hierarchy is:
+The accepted hierarchy is:
 
 **R# · vs · opponent sprite(s) + opponent archetype · game sequence · match-result badge**
 
@@ -229,7 +237,7 @@ The game sequence remains visible beside the main result, e.g. `W W`, `W L T`, `
 
 ## Canonical archetype sprite presentation
 
-Tournament Day round rows must use the same archetype presentation engine as Settings / Meta.
+Tournament Day and My Tournaments use the same archetype presentation engine as Settings / Meta.
 
 Current canonical source:
 
@@ -242,7 +250,9 @@ Current canonical source:
 - sprite slugs;
 - sprite URL generation / HTML rendering.
 
-Tournament Day must resolve configured `DeckSprites` mappings first. Name parsing via `PTCGSprites` is fallback only for archetypes that genuinely have no configured/shared mapping.
+Tournament Day round rows resolve configured `DeckSprites` mappings first. Name parsing via `PTCGSprites` remains fallback only for archetypes that genuinely have no configured/shared mapping.
+
+The compact My Deck control and My Tournaments cards use `DeckSprites` directly and no longer maintain their own primary name-parsing implementation.
 
 This is a general architecture rule: when a presentation/domain concern already has a shared engine, feature pages consume that engine rather than reimplementing inference locally.
 
@@ -256,7 +266,7 @@ No second W-L-D counter is persisted in the live Tournament Day workspace.
 
 Completing an event writes `participation.completion` and changes attendance to `attended`.
 
-Completion currently captures:
+Completion captures:
 
 - completion timestamp;
 - final placement;
@@ -269,6 +279,8 @@ Completion currently captures:
 The linked Match/Game history remains the authoritative per-round evidence.
 
 Past events in `needs-completion` use the same Tournament Day/completion workspace rather than a separate historical-result form.
+
+The accepted v1 completion flow requires the user to attach the exact deck actually used before completion so the historical completion snapshot can retain exact list identity. This does not block round entry.
 
 ## Cut / ID boundary
 
@@ -329,7 +341,9 @@ Tournament Day entry points exist from:
 - Record tournament;
 - Event Prep.
 
-These routes must all open the same current `tournament-day.html?participation=<id>` implementation.
+All accepted routes open the same current:
+
+`tournament-day.html?participation=<id>`
 
 Do not maintain feature-specific historical `?build=YYYY...` pins. Those were development cache workarounds and caused different routes to reopen different generations of Tournament Day.
 
@@ -352,40 +366,37 @@ Tournament Day is mobile-first around ~390 CSS px and answer-first:
 - nested Tournament Day navigation remains inside the existing Compete child view and does not replace the five-area persistent shell;
 - no full-page reload is required after saving/editing/deleting a round.
 
-## Current implementation status — 4 September 2026
+## Acceptance status — 4 September 2026
 
-Tournament Day v1 is **substantially implemented and in acceptance/cleanup**, including:
+**Tournament Day v1 is accepted/complete for the current product stage.**
 
-- event-linked and ad-hoc tournament records;
-- My Tournaments in-page Events tab;
-- Current/Upcoming/Completed/Archived lifecycle views;
-- exact current-date semantics for Current;
-- optional used-deck selection and exact DeckVersion linkage;
-- game-by-game W/L/T round entry;
-- ID capture/display;
-- opponent archetype search;
-- shared configured archetype sprites;
-- W/L/D/ID round badges;
-- derived tournament record;
-- contextual ID Calc;
-- completion flow;
-- canonical Match/Game writes;
-- network-first HTML navigation to prevent apparent regression to older cached UI.
+The bounded acceptance/cleanup pass confirmed the implemented contracts and removed the known legacy paths:
 
-Remaining work should be treated as acceptance/cleanup rather than an excuse to expand the feature indefinitely.
+- event-linked and ad-hoc tournament records use one participation model;
+- Tournament Day opens/starts without a mandatory deck selection;
+- compact My Deck is the only deck-selection surface;
+- legacy large Playing/deck summary and pre-round deck-selection gate were deleted;
+- used deck can be selected, changed and removed, with linked Match deck references reconciled;
+- game-by-game Win/Loss/played Draw and ID use the canonical Match/Game store;
+- editing a round replaces the stable Match rather than creating a duplicate;
+- tournament W-L-D is derived from linked Matches;
+- completion writes placement/player count/final record/used-deck snapshot to the same `UserEventParticipation`;
+- all Tournament Day entry routes are canonical current routes;
+- navigation HTML is network-first, preventing the prior stale-page regression class;
+- configured one/two-sprite overrides use the shared `DeckSprites` engine consistently in the accepted Compete surfaces.
 
-## Release-hardening requirement
+A deterministic data-contract acceptance harness exercised four linked rounds, round replacement, deck select/change/remove/reattach and completion. The final derived example state was `2-0-2` across four Matches, with the edited Match count remaining four and completion retained on the same participation.
 
-Before calling the broader app stable, perform a deliberate repository-wide hardening pass that includes:
+The final deployed code still requires ordinary real-device smoke testing whenever future changes touch layout, service-worker behaviour or Safari-specific interaction; this acceptance status does not claim automated iPhone browser testing from the development environment.
 
-- remove dated/development navigation query pins;
-- delete obsolete legacy Tournament Day deck-summary/render paths rather than only hiding them;
-- consolidate temporary enhancer scripts into core implementations where safe;
-- remove dead compatibility shims once migrations are no longer needed;
-- verify one canonical sprite/presentation engine is used everywhere;
-- audit service-worker cache strategy and asset versions;
-- search the repo for stale build IDs / old routes;
-- verify current GitHub Pages SHA and iPhone behavior before declaring a stable release.
+## Remaining non-blocking technical debt
+
+These items do not block Tournament Day v1 acceptance:
+
+- `tournament-day-history-v2.js` and `tournament-day-optional-deck.js` remain separate bounded helper modules rather than being fully merged into the core script; a full merge was deliberately deferred because it would add acceptance risk without changing the product contract;
+- the `[ID]` note marker remains the accepted compatibility representation for intentional draws;
+- hidden result/score compatibility inputs remain because the game-by-game entry adapter still feeds the core save contract through them;
+- broader repository-wide legacy pages, build pins and enhancer consolidation belong to the later Development Cleanup / Release Hardening milestone.
 
 ## Deferred
 
@@ -399,4 +410,4 @@ This milestone does not add:
 - Playtest evidence crossover;
 - probabilistic Cut / ID simulation.
 
-Competitive Record / Season remains the intended next major downstream milestone after Tournament Day acceptance/cleanup and central Roadmap review.
+Competitive Record / Season remains the intended next major downstream milestone after central Roadmap review.
