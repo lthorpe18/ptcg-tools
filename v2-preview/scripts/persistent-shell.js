@@ -25,6 +25,14 @@
     return null;
   }
 
+  function isCanonicalHome(input){
+    try{
+      const url=new URL(input,window.location.href);
+      const base=root.pathname.replace(/\/$/,'');
+      return url.origin===window.location.origin&&url.pathname===`${base}/home-content.html`;
+    }catch{return false}
+  }
+
   function showStatus(text){
     if(!status)return;
     status.textContent=text;
@@ -32,9 +40,21 @@
   }
   function hideStatus(){if(status)status.hidden=true}
 
+  function restoreHomeFrame(){
+    const frame=frameBySection.get('home');
+    if(!frame)return;
+    let current='';
+    try{current=frame.contentWindow?.location?.href||frame.src||''}catch{current=frame.src||''}
+    if(isCanonicalHome(current))return;
+    const target=frame.dataset.src||'./home-content.html?v=4';
+    frame.dataset.loading='1';
+    frame.src=target;
+  }
+
   function loadFrame(section,url){
     const frame=frameBySection.get(section);
     if(!frame)return;
+    if(section==='home'&&!url){restoreHomeFrame();return}
     const target=url||frame.dataset.src;
     if(target&&(!frame.src||frame.getAttribute('src')==='about:blank')){
       frame.dataset.loading='1';
@@ -87,7 +107,15 @@
       try{url=new URL(anchor.href,frame.contentWindow.location.href)}catch{return}
       const section=sectionForUrl(url.href);
       if(!section)return;
-      if(section===frame.dataset.section)return;
+
+      if(section===frame.dataset.section){
+        if(section==='home'){
+          event.preventDefault();
+          activate('home',null,'push');
+        }
+        return;
+      }
+
       event.preventDefault();
       activate(section,url.href,'push');
     },true);
