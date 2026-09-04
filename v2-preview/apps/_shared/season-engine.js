@@ -12,10 +12,10 @@
     const raw=String(value||'').trim().toLowerCase().replace(/[_–—]/g,'-').replace(/\s+/g,' ');
     if(!raw)return null;
     if(/league challenge|challenge/.test(raw))return 'league-challenge';
-    if(/league cup|cup/.test(raw))return 'league-cup';
     if(/international/.test(raw))return 'international';
     if(/special/.test(raw))return 'special';
     if(/regional/.test(raw))return 'regional';
+    if(/league cup|\bcup\b/.test(raw))return 'league-cup';
     return raw.replace(/\s+/g,'-');
   }
 
@@ -38,7 +38,7 @@
 
   function completionRecord(participation){
     const completion=object(participation&&participation.completion)||{};
-    const record=object(completion.finalRecord)||{};
+    const record=object(completion.record)||object(completion.finalRecord)||{};
     return {
       wins:positiveInteger(record.wins??record.w)??0,
       losses:positiveInteger(record.losses??record.l)??0,
@@ -63,9 +63,9 @@
     }
 
     const eventType=corrected('eventType',event.type||completion.eventType||null);
-    const placement=corrected('placement',completion.finalPlacement??completion.placement??null);
-    const playerCount=corrected('playerCount',completion.finalPlayerCount??completion.playerCount??null);
-    const seasonId=corrected('seasonId',row.seasonId||event.seasonId||event.season||null);
+    const placement=corrected('placement',completion.placement??completion.finalPlacement??null);
+    const playerCount=corrected('playerCount',completion.playerCount??completion.finalPlayerCount??null);
+    const seasonId=corrected('seasonId',row.seasonId||event.seasonId||null);
 
     return {
       participationId:text(row.id),
@@ -78,7 +78,7 @@
       seasonId:text(seasonId.value),
       completedAt:text(completion.completedAt||completion.finishedAt||completion.timestamp),
       record:completionRecord(row),
-      usedDeckRef:object(row.usedDeckRef)||object(completion.usedDeckRef),
+      usedDeckRef:object(completion.usedDeckRef)||object(row.usedDeckRef),
       notes:text(completion.notes),
       provenance:{
         eventType:eventType.provenance,
@@ -127,12 +127,6 @@
       eventRule:rule,
       award
     };
-  }
-
-  function bflBucketFor(eventType,ruleset){
-    const type=canonicalEventType(eventType);
-    const buckets=Array.isArray(ruleset&&ruleset.bestFinishLimits)?ruleset.bestFinishLimits:[];
-    return buckets.find(bucket=>(bucket.eventTypes||[]).map(canonicalEventType).includes(type))||null;
   }
 
   function applyBestFinishLimits(results,ruleset){
