@@ -80,6 +80,7 @@ function init(){
   if(root)new MutationObserver(()=>schedule()).observe(root,{subtree:true,childList:true});
   document.getElementById('deckArchetype')?.addEventListener('input',()=>schedule(true));
   window.addEventListener('decksprites:updated',()=>schedule(true));
+  window.addEventListener('storage',()=>schedule(true));
   window.addEventListener('ptcg:local-change',event=>{
     if(event.detail?.source==='decks'){deckCache=null;schedule(true)}
     if(event.detail?.source==='deck-icons')schedule(true);
