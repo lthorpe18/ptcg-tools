@@ -6,11 +6,11 @@
 
 ## Purpose
 
-Competitive Record / Season is the Compete-owned continuation of the existing tournament lifecycle:
+Competitive Record / Season is the Compete-owned continuation of the tournament lifecycle:
 
 **attendance → Prep → Tournament Day → completion → Season**
 
-It turns completed `UserEventParticipation` records into a useful season view without creating a second tournament-history database.
+It turns completed `UserEventParticipation` records into a season record without creating a second tournament-history database.
 
 ## Ownership and identity locks
 
@@ -32,11 +32,12 @@ Implemented on 4 September 2026:
 - `v2-preview/apps/_shared/season-rules-2027.js` — official 2027 TCG CP tables and BFL configuration;
 - `v2-preview/apps/_shared/season-config-2027.js` — first-class 2027 season identity and start boundary;
 - `v2-preview/apps/_shared/season-participation.js` — bounded per-user season correction helpers;
-- `v2-preview/apps/events/season.html` / `season.js` / `season.css` — Compete Season surface;
-- `tests/season-engine.test.js` — deterministic placement/kicker/BFL checks;
-- Compete view navigation now links to Season.
+- `v2-preview/apps/events/season-inline.js` / `season.js` / `season.css` — Season as an in-page Events view;
+- `v2-preview/apps/events/tournament-season-stamp.js` — completion-time season/ruleset identity stamping plus safe repair of older completed records when opened;
+- `v2-preview/apps/events/tournament-day-topcut.js` — manual canonical Match `roundStage` tags for Swiss / Asym Top 16/8/4 / Top 16/8/4 / Finals;
+- `tests/season-engine.test.js` — deterministic placement/kicker/BFL checks.
 
-Tournament Day v1 already supplies the core history contract required by Season:
+Tournament Day supplies the history contract required by Season:
 
 - stable participation identity;
 - retained event snapshot;
@@ -46,9 +47,11 @@ Tournament Day v1 already supplies the core history contract required by Season:
 - final W-L-D snapshot;
 - exact `usedDeckRef`;
 - participation-linked Match/Game evidence;
-- completion timestamp/notes.
+- optional `roundStage` on canonical Matches;
+- completion timestamp/notes;
+- persisted season/ruleset identity for supported Championship Series completions.
 
-`v2-preview/apps/_shared/storage.js` includes nullable `seasonId` on normalized `UserEventParticipation` records. No duplicate tournament entity is required.
+No duplicate tournament or season-history entity is required.
 
 ## CompetitiveSeason
 
@@ -97,7 +100,29 @@ The versioned ruleset contains:
 - League Cup BFL = 4;
 - shared Regional/Special/International BFL = 5.
 
-The engine supports age-division/rating-zone constraints if a future official ruleset requires them.
+## Completion-time historical identity
+
+Supported Championship Series completions now persist historical season identity on the existing participation:
+
+```js
+participation.seasonId = 'pokemon-2027'
+participation.seasonRulesetRef = {
+  id: 'pokemon-tcg-2027-cp',
+  version: '2027.1',
+  assignedAt: 'completion timestamp',
+  source: 'tournament-completion'
+}
+```
+
+The stamping hook only applies when:
+
+- the participation is complete;
+- the event date resolves inside the configured season;
+- the event type is supported by the ruleset.
+
+Generic locals, prereleases and unsupported event types are not stamped as CP events merely because their date falls within the season.
+
+Older completed supported records without explicit identity continue to derive correctly and are stamped when next opened in Tournament Day. Historical records therefore no longer depend solely on future date-based inference.
 
 ## Shared engine
 
@@ -133,7 +158,7 @@ participation.seasonCorrection = {
 }
 ```
 
-The Season result sheet currently exposes bounded corrections for event type, placement and player count, plus an optional note. Corrected results are visibly labelled. Clearing corrections restores recorded participation facts.
+The Season result sheet exposes bounded corrections for event type, placement and player count, plus an optional note. Corrected results are visibly labelled. Clearing corrections restores recorded participation facts.
 
 ## SeasonSummary
 
@@ -155,8 +180,11 @@ Current UI exposes:
 - counting/excluded state;
 - W-L-D;
 - placement/player count;
-- exact used-deck reference label where available;
-- visible correction state.
+- exact used deck name and saved DeckVersion/list snapshot where available;
+- visible correction state;
+- participation-linked round history;
+- manual Top Cut stage tags where recorded;
+- direct link back to the canonical Tournament Day record.
 
 It is not separately persisted as editable truth.
 
@@ -174,57 +202,94 @@ For each official BFL bucket:
 
 This supports the official shared BFL across Regionals, Specials and Internationals with different CP scales.
 
+## Events / My Tournaments lifecycle
+
+Season is an equal in-page Compete view under the permanent Events header:
+
+**Nearby · Majors · My Tournaments · Season**
+
+Season must not navigate to a separate page/header during normal use.
+
+My Tournaments now presents the primary lifecycle as:
+
+**Current · Upcoming · Incomplete · Completed**
+
+- Current = dated today;
+- Upcoming = future-dated, not complete;
+- Incomplete = past/un-dated tournament record without completion;
+- Completed = completed tournament record.
+
+Archived is deliberately demoted from the primary lifecycle. It is a secondary recovery/cleanup view shown only when archived records exist.
+
+A completed or archived tournament can be reopened without losing event snapshot, used deck or Match/Game evidence. Reopening clears completion/archive state and routes the record back to Current, Upcoming or Incomplete according to date.
+
+## Top Cut round semantics
+
+Top Cut stage is optional metadata on the canonical Match, not a second result model.
+
+Accepted manual tags:
+
+- Swiss (default / no explicit `roundStage`);
+- Asym Top 16;
+- Asym Top 8;
+- Asym Top 4;
+- Top 16;
+- Top 8;
+- Top 4;
+- Finals.
+
+The 2026 rules update caps TCG asymmetrical top cut at 16 competitors. PTCG Tools does not attempt to automate bracket determination in v1; the user tags the stage when recording/editing the round.
+
 ## UI direction and current surface
 
 Season belongs inside Compete and remains iPhone-first.
 
 Current answer-first hierarchy:
 
-1. current season label;
+1. compact `2027 Season` heading;
 2. counting CP;
 3. raw CP;
 4. eligible/completed event counts;
 5. BFL bucket state;
 6. recent results;
-7. result detail/corrections.
+7. result evidence/corrections.
 
-The current surface is intentionally card/list based rather than a wide desktop table.
+The permanent Events shell/header remains visible when switching among Compete views.
 
 ## Acceptance state — 4 September 2026
 
-Completed:
+Completed / established:
 
 - official numerical 2027 rules configuration committed with provenance;
 - deterministic rules/BFL test file committed;
 - 2027 season identity/start definition committed;
-- Season page implemented;
-- Season linked from Compete navigation;
-- previous rules/test commit successfully deployed through GitHub Pages.
+- Season implemented as an in-page Events view;
+- permanent Events header retained across Season;
+- one real manually recorded Cup was checked by the user and the expected tournament information flowed through to Season correctly;
+- supported completions now stamp season/ruleset identity;
+- Season detail now exposes exact deck/version snapshots, linked rounds and Top Cut stage tags, with a direct Tournament Day link;
+- completed/archived tournaments can be reopened without losing evidence;
+- primary My Tournaments lifecycle simplified to Current / Upcoming / Incomplete / Completed.
 
 Still required before Season v1 can be called fully accepted:
 
 1. execute the deterministic test suite in a real JS runtime and record the result;
-2. verify the latest Season UI/navigation SHA completes GitHub Pages deployment;
-3. perform completion → Season integration using real account data;
-4. verify a known Challenge/Cup result produces the correct CP and BFL state;
-5. verify a correction syncs across devices/account persistence;
-6. verify the whole-season end boundary from an official source;
-7. perform a real iPhone visual/interaction smoke test before claiming mobile acceptance.
+2. verify a BFL overflow case with at least 5 Challenges, 5 Cups and/or 6 major-event results;
+3. verify a Season correction syncs across devices/account persistence;
+4. verify the whole-season end boundary from an official source;
+5. perform a real iPhone visual/interaction smoke test before claiming mobile acceptance.
 
 ## Next implementation sequence
 
-1. **Acceptance / integration**
-   - execute tests;
-   - verify deployed SHA;
-   - run completion → Season smoke test.
-2. **Season identity persistence**
-   - stamp season/ruleset identity at completion or a deliberate migration point so historical recalculation cannot drift.
-3. **Result detail depth**
-   - link exact DeckVersion/list and participation-linked Matches cleanly from Season detail.
-4. **Season quality pass**
-   - improve empty/error/provenance context only where real use exposes a need.
-5. **Acceptance**
-   - cross-device and iPhone checks.
+Season v1 is now at acceptance/hardening rather than feature-build stage.
+
+1. **Validation** — execute deterministic Season tests in a real JS runtime.
+2. **BFL acceptance** — exercise displacement beyond official BFL limits.
+3. **Cross-device acceptance** — verify correction persistence on another device.
+4. **Mobile acceptance** — smoke-test Events / My Tournaments / Tournament Day / Season on iPhone.
+5. **Official boundary completion** — fill the season end only when directly verified.
+
+No broad Season feature expansion is required before moving the central roadmap forward.
 
 ## Explicitly deferred
 
