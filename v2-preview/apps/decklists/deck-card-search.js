@@ -94,6 +94,14 @@
     if(surface&&host&&surface.parentElement!==host)host.appendChild(surface);
   }
 
+  function rerenderCurrentPage(){
+    if(!currentBriefs.length)return;
+    const start=(page-1)*PAGE_SIZE;
+    renderResults(currentBriefs.slice(start,start+PAGE_SIZE),false);
+    const more=$('cardSearchMore');
+    if(more)more.hidden=start+PAGE_SIZE>=currentBriefs.length;
+  }
+
   function hideBrowseScreen(){
     if($('cardSearchScreen'))$('cardSearchScreen').hidden=true;
   }
@@ -102,6 +110,7 @@
     ensureUi();
     mode='browse';
     mountSurface('cardSearchInlineMount');
+    rerenderCurrentPage();
     $('cardSearchOverlay').hidden=true;
     document.documentElement.classList.remove('sheet-open');
     document.body.classList.remove('card-search-open');
@@ -120,6 +129,7 @@
     ensureUi();
     mode='add';
     mountSurface('cardSearchOverlayMount');
+    rerenderCurrentPage();
     $('cardSearchStatus').textContent=$('cardSearchName').value.trim().length>=2?$('cardSearchStatus').textContent:'Search, then tap a card image to add that exact printing.';
     $('cardSearchOverlay').hidden=false;
     document.documentElement.classList.add('sheet-open');
@@ -134,6 +144,7 @@
     document.body.classList.remove('card-search-open');
     mode='browse';
     mountSurface('cardSearchInlineMount');
+    rerenderCurrentPage();
   }
 
   function scope(){return document.querySelector('[data-card-scope][aria-pressed="true"]')?.dataset.cardScope||'all'}
