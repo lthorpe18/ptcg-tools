@@ -4,7 +4,7 @@
   const images=window.PTCGCardImages,parser=window.PTCGDeckParser,store=window.PTCGDeckStore;
   if(!images||!parser||!store)return;
   const $=id=>document.getElementById(id);
-  const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[char]));
+  const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
   const sections=[['pokemon','Pokémon'],['trainers','Trainers'],['energy','Energy'],['unknown','Other']];
   let scheduled=false;
 
