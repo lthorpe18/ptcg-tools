@@ -109,9 +109,10 @@
     const found = slugs(name);
     if (!found.length) {
       const initial = String(name || '?').trim().charAt(0).toUpperCase() || '?';
-      return `<span class="deck-sprite deck-sprite-fallback${className}" style="--sprite-size:${size}px" aria-hidden="true">${initial}</span>`;
+      return `<span class="deck-sprite deck-sprite-fallback${className}" style="--sprite-size:${size}px;width:${size}px;height:${size}px" aria-hidden="true">${initial}</span>`;
     }
-    return `<span class="deck-sprite-stack${className}" style="--sprite-size:${size}px" aria-hidden="true">${found.map((slug, i) => `<img class="deck-sprite-img sprite-${i + 1}" src="${url(slug)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`).join('')}</span>`;
+    const gap = found.length > 1 ? Math.max(2, Math.round(size * 0.08)) : 0;
+    return `<span class="deck-sprite-stack${className}" style="--sprite-size:${size}px;display:inline-flex!important;align-items:center;gap:${gap}px;width:auto!important;height:${size}px;position:relative" aria-hidden="true">${found.map((slug, i) => `<img class="deck-sprite-img sprite-${i + 1}" src="${url(slug)}" alt="" loading="lazy" decoding="async" style="position:static!important;inset:auto!important;display:block;width:${size}px!important;height:${size}px!important;object-fit:contain" onerror="this.style.display='none'">`).join('')}</span>`;
   }
 
   window.DeckSprites = { slugs, url, html, normalizeSlug, setOverride, clearOverride, overrides: loadOverrides, defaults: EXACT };
