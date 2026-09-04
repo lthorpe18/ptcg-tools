@@ -83,6 +83,17 @@
         <div class="card-search-more"><button id="cardSearchMore" class="app-button" type="button" hidden>More results</button></div>`;
       $('cardSearchInlineMount')?.appendChild(surface);
     }
+
+    if(!$('cardZoomOverlay')){
+      document.body.insertAdjacentHTML('beforeend',`<div id="cardZoomOverlay" class="card-zoom-overlay" hidden role="dialog" aria-modal="true" aria-label="Card image"><img id="cardZoomImage" alt=""></div>`);
+    }
+
+    if(!$('cardZoomStyle')){
+      const style=document.createElement('style');
+      style.id='cardZoomStyle';
+      style.textContent='.card-search-tile.zoomable{cursor:zoom-in}.card-zoom-overlay{position:fixed;inset:0;z-index:1400;display:grid;place-items:center;padding:max(18px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom));background:rgba(0,0,0,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}.card-zoom-overlay[hidden]{display:none}.card-zoom-overlay img{display:block;max-width:min(92vw,520px);max-height:90dvh;width:auto;height:auto;border-radius:12px;box-shadow:0 18px 60px rgba(0,0,0,.45);cursor:zoom-out}';
+      document.head.appendChild(style);
+    }
   }
 
   function selectWorkspace(value){
@@ -104,6 +115,7 @@
 
   function hideBrowseScreen(){
     if($('cardSearchScreen'))$('cardSearchScreen').hidden=true;
+    closeZoom();
   }
 
   function showBrowse(){
@@ -127,6 +139,7 @@
 
   function openAdd(){
     ensureUi();
+    closeZoom();
     mode='add';
     mountSurface('cardSearchOverlayMount');
     rerenderCurrentPage();
@@ -145,6 +158,23 @@
     mode='browse';
     mountSurface('cardSearchInlineMount');
     rerenderCurrentPage();
+  }
+
+  function openZoom(src,alt){
+    if(mode!=='browse'||!src)return;
+    ensureUi();
+    const image=$('cardZoomImage');
+    image.src=src;
+    image.alt=alt||'Card';
+    $('cardZoomOverlay').hidden=false;
+  }
+
+  function closeZoom(){
+    const overlay=$('cardZoomOverlay');
+    if(!overlay||overlay.hidden)return;
+    overlay.hidden=true;
+    const image=$('cardZoomImage');
+    if(image){image.removeAttribute('src');image.alt='';}
   }
 
   function scope(){return document.querySelector('[data-card-scope][aria-pressed="true"]')?.dataset.cardScope||'all'}
@@ -206,9 +236,10 @@
     const root=$('cardSearchResults');
     const html=results.map(card=>{
       const image=catalog.image(card,'low');
+      const highImage=catalog.image(card,'high')||image;
       const title=esc(`${card.name||'Card'}${card.localId?` ${card.localId}`:''}`);
       if(mode==='add')return `<button class="card-search-tile addable" type="button" data-card-add="${esc(card.id)}" aria-label="Add ${esc(card.name||'card')}"><img src="${esc(image)}" alt="${title}" loading="lazy" decoding="async"><span class="card-add-badge">+</span></button>`;
-      return `<div class="card-search-tile"><img src="${esc(image)}" alt="${title}" loading="lazy" decoding="async"></div>`;
+      return `<button class="card-search-tile zoomable" type="button" data-card-zoom="${esc(highImage)}" aria-label="View ${title} larger"><img src="${esc(image)}" alt="${title}" loading="lazy" decoding="async"></button>`;
     }).join('');
     if(append)root.insertAdjacentHTML('beforeend',html);else root.innerHTML=html;
   }
@@ -251,6 +282,9 @@
   document.addEventListener('input',event=>{if(event.target.id==='cardSearchName')queueSearch()});
 
   document.addEventListener('click',event=>{
+    const zoom=event.target.closest('[data-card-zoom]');
+    if(zoom){openZoom(zoom.dataset.cardZoom,zoom.querySelector('img')?.alt);return;}
+    if(event.target.closest('#cardZoomOverlay')){closeZoom();return;}
     if(event.target.closest('[data-workspace="cards"]'))showBrowse();
     if(event.target.closest('[data-workspace="decks"],[data-workspace="training"]'))hideBrowseScreen();
     if(event.target.closest('#addCardButton'))openAdd();
@@ -260,7 +294,11 @@
     if(event.target.closest('#cardSearchMore')){page+=1;runSearch(true)}
   });
 
-  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&$('cardSearchOverlay')&&!$('cardSearchOverlay').hidden)closeAdd()});
+  document.addEventListener('keydown',event=>{
+    if(event.key!=='Escape')return;
+    if($('cardZoomOverlay')&&!$('cardZoomOverlay').hidden){closeZoom();return;}
+    if($('cardSearchOverlay')&&!$('cardSearchOverlay').hidden)closeAdd();
+  });
 
   ensureUi();
   window.PTCGCardSearch={showBrowse,hideBrowseScreen,openAdd,closeAdd};
