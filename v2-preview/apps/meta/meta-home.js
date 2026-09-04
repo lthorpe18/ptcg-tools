@@ -48,7 +48,8 @@
     const expandable = state.grouping === 'families' && row.variants.length > 1;
     const open = state.expanded.has(row.name);
     const variants = expandable && open ? `<div class="current-variants">${row.variants.map(v => `<button type="button" class="variant-row" data-explore-deck="${esc(v.name)}" data-explore-source="${state.source}"><span>${esc(v.name)}</span><b>${pct(v.share)}</b><small>${Number(v.entries||0).toLocaleString()} entries</small><span class="explore-arrow">›</span></button>`).join('')}</div>` : '';
-    return `<article class="current-meta-row ${expandable?'expandable':''}" data-current-family="${esc(row.name)}"><div class="current-rank">${index+1}</div><div class="current-name">${window.DeckSprites?.html?.(row.name,{size:34})||''}<span><b>${esc(row.name)}</b><small>${expandable?`${row.variants.length} variants · tap to ${open?'collapse':'expand'}`:`${Number(row.entries||0).toLocaleString()} entries`}</small></span></div><div class="current-share"><b>${pct(row.share)}</b><small>${Number(row.entries||0).toLocaleString()} entries</small></div><span class="row-chevron" aria-hidden="true">${expandable?(open?'⌃':'⌄'):''}</span>${variants}</article>`;
+    const sprites = window.DeckSprites?.html?.(row.name,{size:32}) || '';
+    return `<article class="current-meta-row ${expandable?'expandable':''}" data-current-family="${esc(row.name)}"><div class="current-rank">${index+1}</div><div class="current-name"><span class="current-sprites">${sprites}</span><span class="current-name-copy"><b>${esc(row.name)}</b><small>${expandable?`${row.variants.length} variants · tap to ${open?'collapse':'expand'}`:`${Number(row.entries||0).toLocaleString()} entries`}</small></span></div><div class="current-share"><b>${pct(row.share)}</b><small>${Number(row.entries||0).toLocaleString()} entries</small></div><span class="row-chevron" aria-hidden="true">${expandable?(open?'⌃':'⌄'):''}</span>${variants}</article>`;
   }
 
   function renderCurrent() {
