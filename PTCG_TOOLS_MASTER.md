@@ -4,7 +4,7 @@
 **Date:** 4 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
-**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`
+**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`
 
 ## 1. Product vision
 
@@ -60,6 +60,8 @@ Feature-local inference is allowed only as a genuine fallback.
 Sprites are identity, not decoration. Representative deck sprites may show one or two Pokémon, have built-in defaults and may be overridden in **Settings → Deck icons**.
 
 The canonical current archetype sprite mapping/render source is `window.DeckSprites` from the shared Meta sprite module.
+
+Card artwork is also presentation only. Exact-print artwork should resolve through the shared `PTCGCardImages` helper and must never alter canonical Deck/card identity.
 
 ### 2.5 Fast defaults, explicit evidence
 
@@ -118,7 +120,7 @@ Personal competitive dashboard and contextual shortcuts.
 Public competitive evidence, exact-variant analysis and Expected Fields.
 
 ### Decks
-Saved decks, working lists, immutable checkpoints/versions, deck maths, Mobile Playtest and future physical-readiness integration.
+Saved decks, working lists, immutable checkpoints/versions, Training Log, deck maths, Mobile Playtest, Card Search/Add Card and future physical-readiness integration.
 
 ### Compete
 Events, attendance, Event Prep, Tournament Day, real tournament results and Competitive Record / Season.
@@ -132,14 +134,18 @@ Account, preferences, deck-icon overrides and future storage/import/export contr
 ### Ownership locks
 
 - Mobile Playtest belongs to Decks.
+- Card Search/Add Card belongs to Decks and is not a sixth top-level area or generic Tools utility.
 - Event finder belongs to Compete.
 - Meta modelling belongs to Meta.
 - Expected Fields belong to Meta as one reusable account-owned model; Compete selects/adjusts/snapshots them for Prep.
 - Deck and DeckVersion identity belongs to Decks.
+- TCGdex is shared card metadata/search infrastructure, not a new card identity model.
+- Exact card identity remains the existing card name + set code + card number path used by Decks.
+- Card artwork is presentation only and should resolve through the shared `PTCGCardImages` helper.
 - Real tournament result entry belongs to Compete and writes shared Match/Game evidence.
 - Solo/goldfish Playtest never creates competitive W/L evidence.
 - Cut / ID engine/standalone utility belongs to Tools and is contextually exposed in Tournament Day.
-- Collection is cross-cutting, connected to Decks, Prep and Home.
+- Collection is cross-cutting, connected to Decks, Prep and Home, and must reuse the existing exact-card/Card Catalog/Card Images foundation.
 - Competitive seasons / CP / BFL belong to Compete.
 
 ---
@@ -283,7 +289,17 @@ See `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`.
 
 ## 9. Decks
 
-### 9.1 Deck identity
+### 9.1 Deck workspace information architecture
+
+The Decks area currently contains three peer workspace sections:
+
+**My Decks · Training Log · Card Search**
+
+The global product area remains named **Decks** for now because it owns the broader build/train/playtest/card-lookup workflow. Do not rename it without an explicit product-wide decision.
+
+My Decks and Training Log no longer need large workspace hero headers; the three peer sections should retain consistent hierarchy. Import / Export is secondary library management and belongs behind a compact library-options `•••` control rather than as a primary full-width action.
+
+### 9.2 Deck identity
 
 A Deck is a long-lived personal project with:
 
@@ -296,7 +312,7 @@ A Deck is a long-lived personal project with:
 
 Deck name and archetype are separate concepts.
 
-### 9.2 Version model
+### 9.3 Version model
 
 - working list may change;
 - checkpoints/DeckVersions are immutable exact lists;
@@ -305,7 +321,47 @@ Deck name and archetype are separate concepts.
 - historical refs use `deckId + listHash`, plus `deckVersionId` where selected;
 - historical display snapshots survive later rename/deletion.
 
-### 9.3 Mobile Playtest
+### 9.4 Card Search / Add Card
+
+Card Search is an established reusable Decks capability.
+
+Normal Card Search:
+
+- appears inline below the Decks workspace tabs;
+- keeps the normal search bar minimal;
+- supports simple card-name search plus a compact advanced-filter control;
+- shows image-only results;
+- opens a large zoomed artwork view on tap.
+
+Add Card from a Deck uses the same underlying search surface/state as a full-screen picker. Selecting a result resolves that exact printing and writes through the existing authoritative `#deckText → parser → DeckStore` path. Existing exact printings increment quantity; different printings remain separate exact rows.
+
+Advanced filters currently include printed card text, format, category, set, regulation mark, Pokémon type, stage, Trainer type, rarity, illustrator and HP bounds. Printed-text search includes effect/rules/attacks/abilities and Trainer/Energy effect fields where supplied by the metadata source.
+
+Current format filters are All cards, Standard and GLC. GLC is intended as card-level legality rather than Expanded aliasing: Black & White onward, no Rule Box Pokémon, no ACE SPEC and current explicit GLC bans represented by the implementation.
+
+The shared metadata/search catalog is `v2-preview/apps/_shared/card-catalog.js`, backed currently by TCGdex `https://api.tcgdex.net/v2/en`. TCGdex IDs are discovery metadata only; exact Deck identity remains card name + existing set code + card number. Missing `tcgOnline` mappings use bounded shared modern-set fallback mappings.
+
+Current implementation has small cleanup debt: Card Search is dynamically bootstrapped from `deck-card-images.js`, and GLC legality/artwork decoration currently lives in `deck-card-search-glc-fix.js` rather than cleanly in the shared catalog/modules. Those are stabilization/Release Hardening items, not a reason to keep the Card Search milestone open.
+
+See `CARD_SEARCH_ARCHITECTURE.md`.
+
+### 9.5 Exact card artwork
+
+The shared exact-card artwork resolver is `v2-preview/apps/_shared/card-images.js` → `window.PTCGCardImages`.
+
+Intended source order is:
+
+1. exact Limitless-hosted TPCI artwork from resolved set code + card number;
+2. TCGdex artwork fallback;
+3. stable no-art fallback.
+
+This presentation path is intended for Deck working lists, saved DeckVersions, Card Search, Add Card, zoom views, Mobile Playtest and future Collection. Artwork never changes canonical card/deck identity.
+
+Playtest historically contained local image helpers; if equivalent duplication remains in current code, consolidate it into `PTCGCardImages` during bounded cleanup/Release Hardening rather than treating it as a competing architecture.
+
+See `CARD_IMAGE_ARCHITECTURE.md`.
+
+### 9.6 Mobile Playtest
 
 Mobile Playtest v1 is feature-complete for the current stage.
 
@@ -315,7 +371,7 @@ Transient tabletop state is local browser work-in-progress and is not automatica
 
 See `PLAYTEST_ARCHITECTURE.md`.
 
-### 9.4 Match evidence boundary
+### 9.7 Match evidence boundary
 
 Real PTCGL/in-person results use shared Match/Game evidence. Playtest observations are a separate future practice-evidence domain and never alter competitive matchup W/L statistics.
 
@@ -323,11 +379,20 @@ Real PTCGL/in-person results use shared Match/Game evidence. Playtest observatio
 
 ## 10. Collection / physical readiness
 
-Long-term requirement:
+Current major milestone requirement:
 
 > Maintain exact owned quantities and allocations so the user can immediately see what must be bought, moved or freed up for a saved exact deck list.
 
-The model must support exact printing/card identity where relevant, gameplay equivalence where appropriate, loose inventory, deck allocations, multiple simultaneously built decks, no accidental double allocation, required vs owned vs allocated, and missing/shopping lists.
+Collection must build on the existing exact-card infrastructure rather than inventing another card database or printing identity.
+
+Reuse:
+
+- existing Deck/DeckVersion/listHash identity;
+- exact card name + set code + card number identity;
+- `PTCGCardCatalog` for shared metadata/search;
+- `PTCGCardImages` for artwork presentation.
+
+The Collection model must support exact printing/card identity where relevant, gameplay equivalence where appropriate, loose inventory, deck allocations, multiple simultaneously built decks, no accidental double allocation, required vs owned vs allocated, and missing/shopping lists.
 
 Collection connects to Decks, Prep and Home.
 
@@ -550,6 +615,8 @@ Shared responsibilities include:
 - design tokens/forms/list patterns;
 - persistence/preferences;
 - archetype sprite mapping/rendering;
+- exact-card metadata/search catalog;
+- exact-card artwork resolution/fallback;
 - caching/service worker;
 - Match/Game store;
 - Deck store;
@@ -566,6 +633,8 @@ Prefer:
 `external source → PTCG Tools ingestion/cache → normalized shared data → all users`
 
 rather than every browser independently hitting upstream services.
+
+TCGdex card metadata/search is currently a direct browser runtime dependency. If public/release reliability, CORS, terms, schema stability or operational load later justify it, shared card metadata may move behind a PTCG Tools ingestion/cache layer without changing the canonical Deck/card identity model.
 
 ### Source adapters
 
@@ -585,6 +654,10 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - Meta source/scope architecture and exact-variant analysis;
 - Expected Fields;
 - Deck working-list/version/hash foundation;
+- Decks peer workspace model: My Decks / Training Log / Card Search;
+- shared TCGdex-backed Card Catalog and exact-print mapping;
+- Card Search/Add Card with advanced printed-text/filter search and bounded Standard/GLC filtering;
+- shared exact-card artwork resolver plus Deck working-list/saved-version imagery;
 - shared Match/Game contract;
 - Mobile Playtest v1;
 - Event discovery/attendance/retention foundation;
@@ -600,15 +673,25 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - completion-time season/ruleset identity persistence;
 - Season result detail linked to exact used deck/version and canonical rounds.
 
+### Needs small cleanup, but does not block roadmap
+
+- move Card Search bootstrapping out of `deck-card-images.js` into a clearer Decks bootstrap/core path;
+- move reusable GLC legality/filtering out of `deck-card-search-glc-fix.js` and into shared card-catalog/legality code;
+- audit Mobile Playtest for duplicated local card-art set/number/URL helpers and migrate to `PTCGCardImages` if still present;
+- keep modern set-code fallback mappings centralised/maintainable in shared card infrastructure;
+- remove obsolete patch/enhancer layers during bounded cleanup or Development Cleanup / Release Hardening once equivalent core behavior is proven.
+
 ### Active status
 
-**Collection / physical readiness is the next major product milestone.**
+**Collection / physical readiness is the current major product milestone.**
 
-Tournament Day and Season are closed for the current stage. Remaining acceptance, verification or helper cleanup in those areas is non-blocking and should only interrupt the roadmap for a genuine regression or correctness defect.
+The Card Search/Card Images pass is considered functionally established and documented. The small cleanup items above should not expand into another Decks redesign and should only interrupt Collection for a genuine regression or identity/data blocker.
+
+Tournament Day and Season remain closed for the current stage.
 
 ### Recommended next major milestones
 
-1. **Collection / physical readiness** — owned quantities, allocations and missing/shopping connected to exact DeckVersions and planned event lists.
+1. **Collection / physical readiness** — exact owned quantities, gameplay equivalence where appropriate, loose inventory, allocations across multiple built decks, required/owned/allocated state and missing/shopping requirements, all built on existing exact-card infrastructure.
 2. **Learning loop** — personal tournament/matchup/practice analytics with explicit evidence provenance.
 3. **Development Cleanup / Release Hardening** — repository-wide removal of temporary scaffolding, stale routes, duplicate engines and obsolete compatibility layers before calling the broader app stable/public-ready.
 4. **Community/public expansion when useful** — privacy/export/delete, centralized ingestion and operational observability as required by actual usage.
@@ -628,6 +711,8 @@ Repository-wide checks must include:
 - hidden-but-not-deleted legacy UI/render code;
 - enhancement layers that should be merged into core;
 - duplicate domain/presentation engines;
+- Card Search patch/bootstrap layers that should be consolidated into shared/core modules;
+- duplicated feature-local card artwork resolvers;
 - obsolete compatibility shims;
 - old cache generations/service-worker assumptions;
 - asset version consistency;
@@ -648,13 +733,15 @@ PTCG Tools is successful when:
 - Home is useful competitive context, not a launcher;
 - Meta communicates evidence scope correctly;
 - exact variants interlink consistently;
-- Decks supports editing/versioning/analysis/playtest without duplicate identities;
+- Decks supports My Decks, Training Log, Card Search, editing/versioning/analysis/playtest without duplicate identities;
+- Card Search discovers exact printings without introducing a second card/deck identity system;
+- exact card artwork is consistent across features because one shared resolver owns provider/fallback choice;
 - an Attending event moves naturally through Prep → Tournament Day → Completion → Season;
 - Tournament Day begins without unnecessary setup while retaining exact played-deck identity;
 - round capture is fast enough for real tournament use on iPhone;
 - Season correctly preserves historical CP/ruleset identity and BFL semantics;
 - configured archetype sprites look the same everywhere because one shared mapping owns them;
-- physical readiness can eventually answer “can I build this?” without double counting;
+- physical readiness can answer “can I build this?” without double counting;
 - Cut / ID answers deterministic questions before probabilistic ones;
 - advanced methodology remains available without dominating routine use;
 - future scale does not require every browser to hammer upstream providers independently.
@@ -679,6 +766,10 @@ PTCG Tools is successful when:
 ### Limitless
 
 Prefer documented developer APIs/authorized mechanisms for community/public use. Personal Deck workflow should favor lightweight interoperability rather than rebuilding its mature editor.
+
+### TCGdex
+
+TCGdex is currently the direct shared card metadata/search dependency used by the Card Catalog. Preserve provider provenance and avoid coupling canonical Deck/card identity to TCGdex-specific IDs. Revisit direct-browser runtime dependence during Release Hardening/public-readiness if API availability, CORS, terms or operational reliability justify a PTCG Tools ingestion/cache layer.
 
 ### RK9
 
