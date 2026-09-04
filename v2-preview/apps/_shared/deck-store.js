@@ -32,14 +32,14 @@
       const req=indexedDB.open(DB_NAME,DB_VERSION);
       req.onupgradeneeded=()=>{
         const database=req.result;
-        if(!database.objectStoreNames.contains(STORE)){
+        if(!Array.from(database.objectStoreNames||[]).includes(STORE)){
           const target=database.createObjectStore(STORE,{keyPath:'id'});
           target.createIndex('updatedAt','updatedAt',{unique:false});
           target.createIndex('name','name',{unique:false});
         }
       };
       req.onsuccess=()=>{db=req.result;resolve(db)};
-      req.onerror=()=>reject(req.error);
+      req.onerror=()=>reject(req.error||new Error('Could not open deck database'));
     }).then(async database=>{
       try{await migrateAll()}catch(error){console.warn('Deck migration deferred',error)}
       migrated=true;
@@ -47,8 +47,8 @@
     }).finally(()=>{openPromise=null});
     return openPromise;
   }
-  function objectStore(mode='readonly'){return db.transaction([STORE],mode).objectStore(STORE)}
-  function readAllRaw(){return new Promise((resolve,reject)=>{const req=objectStore().getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)})}
+  function objectStore(mode='readonly'){if(!db)throw new Error('Deck database is not open');return db.transaction([STORE],mode).objectStore(STORE)}
+  function readAllRaw(){return new Promise((resolve,reject)=>{let req;try{req=objectStore().getAll()}catch(error){reject(error);return}req.onsuccess=()=>resolve(Array.isArray(req.result)?req.result:[]);req.onerror=()=>reject(req.error||new Error('Could not read saved decks'))})}
   function writeRows(rows){
     return new Promise((resolve,reject)=>{
       const tx=db.transaction([STORE],'readwrite'),target=tx.objectStore(STORE);
@@ -113,6 +113,7 @@
     const changed=after.filter((row,index)=>JSON.stringify(row)!==JSON.stringify(before[index]));
     if(changed.length){await writeRows(changed);notify()}
   }
+  async function allRaw(){await open();return (await readAllRaw()).map(row=>normalise(row))}
   async function all(){
     await open();
     const raw=await readAllRaw();
@@ -120,7 +121,7 @@
   }
   async function get(id){
     await open();
-    const raw=await new Promise((resolve,reject)=>{const req=objectStore().get(id);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)});
+    const raw=await new Promise((resolve,reject)=>{let req;try{req=objectStore().get(id)}catch(error){reject(error);return}req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)});
     if(!raw)return null;
     try{return await prepare(raw)}catch(error){console.warn('Using deck without rehash',error);return normalise(raw)}
   }
@@ -188,5 +189,5 @@
     return copy;
   }
 
-  global.PTCGDeckStore={DB_NAME,DB_VERSION,STORE,MODEL_VERSION,open,all,get,put,remove,replaceAll,newDeck,normalise,prepare,currentVersion,getVersion,workingMatchesVersion,checkpoint,cloneWithNewIds,subscribe};
+  global.PTCGDeckStore={DB_NAME,DB_VERSION,STORE,MODEL_VERSION,open,all,allRaw,get,put,remove,replaceAll,newDeck,normalise,prepare,currentVersion,getVersion,workingMatchesVersion,checkpoint,cloneWithNewIds,subscribe};
 })(window);
