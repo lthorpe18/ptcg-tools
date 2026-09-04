@@ -20,7 +20,7 @@
     put('trainerType',params.trainerType&&params.trainerType!=='all'?`eq:${params.trainerType}`:'');
     put('types',params.type&&params.type!=='all'?`eq:${params.type}`:'');
     put('set.id',params.setId?`eq:${params.setId}`:'');
-    if(params.standardOnly)put('legal.standard','eq:true');
+    if(params.standardOnly)put('legal.standard','true');
     if(params.hpMin!=='')put('hp',`gte:${params.hpMin}`);
     if(params.hpMax!=='')put('hp',`lte:${params.hpMax}`);
     if(params.retreatMax!=='')put('retreat',`lte:${params.retreatMax}`);
@@ -81,6 +81,7 @@
   function matchesClientFilters(card,params={}){
     const text=String(params.text||'').trim().toLocaleLowerCase('en');
     if(text&&!cardText(card).includes(text))return false;
+    if(params.standardOnly&&card?.legal?.standard!==true)return false;
     return true;
   }
 
