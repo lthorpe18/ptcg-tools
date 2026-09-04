@@ -40,7 +40,11 @@
       };
       req.onsuccess=()=>{db=req.result;resolve(db)};
       req.onerror=()=>reject(req.error);
-    }).then(async database=>{await migrateAll();migrated=true;return database}).finally(()=>{openPromise=null});
+    }).then(async database=>{
+      try{await migrateAll()}catch(error){console.warn('Deck migration deferred',error)}
+      migrated=true;
+      return database;
+    }).finally(()=>{openPromise=null});
     return openPromise;
   }
   function objectStore(mode='readonly'){return db.transaction([STORE],mode).objectStore(STORE)}
@@ -109,11 +113,16 @@
     const changed=after.filter((row,index)=>JSON.stringify(row)!==JSON.stringify(before[index]));
     if(changed.length){await writeRows(changed);notify()}
   }
-  async function all(){await open();return Promise.all((await readAllRaw()).map(prepare))}
+  async function all(){
+    await open();
+    const raw=await readAllRaw();
+    return Promise.all(raw.map(async row=>{try{return await prepare(row)}catch(error){console.warn('Using deck without rehash',error);return normalise(row)}}));
+  }
   async function get(id){
     await open();
     const raw=await new Promise((resolve,reject)=>{const req=objectStore().get(id);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)});
-    return raw?prepare(raw):null;
+    if(!raw)return null;
+    try{return await prepare(raw)}catch(error){console.warn('Using deck without rehash',error);return normalise(raw)}
   }
   async function put(deck,options={}){
     await open();
@@ -166,17 +175,7 @@
       return {deck:d,version:existing,created:false,renamed};
     }
     const ordinal=d.versions.reduce((max,version)=>Math.max(max,Number(version.ordinal)||0),0)+1;
-    const version={
-      id:uid('version'),
-      ordinal,
-      label:`V${ordinal}`,
-      name:String(config.name||'').trim(),
-      rawText:d.rawText,
-      listHash:d.listHash,
-      sourceType:String(config.sourceType??d.sourceType??'').trim(),
-      sourceUrl:String(config.sourceUrl??d.sourceUrl??'').trim(),
-      createdAt:Date.now()
-    };
+    const version={id:uid('version'),ordinal,label:`V${ordinal}`,name:String(config.name||'').trim(),rawText:d.rawText,listHash:d.listHash,sourceType:String(config.sourceType??d.sourceType??'').trim(),sourceUrl:String(config.sourceUrl??d.sourceUrl??'').trim(),createdAt:Date.now()};
     d.versions.push(version);
     d.currentVersionId=version.id;
     return {deck:d,version,created:true,renamed:false};
@@ -184,9 +183,7 @@
   async function cloneWithNewIds(deck,name){
     const source=await prepare(deck),now=Date.now(),versionIds=new Map();
     const copy={...source,id:uid(),name:name||`${source.name} copy`,createdAt:now,updatedAt:now};
-    copy.versions=source.versions.map(version=>{
-      const id=uid('version');versionIds.set(version.id,id);return {...version,id};
-    });
+    copy.versions=source.versions.map(version=>{const id=uid('version');versionIds.set(version.id,id);return {...version,id}});
     copy.currentVersionId=versionIds.get(source.currentVersionId)||copy.versions[copy.versions.length-1]?.id||null;
     return copy;
   }
