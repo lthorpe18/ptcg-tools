@@ -4,7 +4,7 @@
   const images=window.PTCGCardImages,parser=window.PTCGDeckParser,store=window.PTCGDeckStore;
   if(!images||!parser||!store)return;
   const $=id=>document.getElementById(id);
-  const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+  const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[char]));
   const sections=[['pokemon','Pokémon'],['trainers','Trainers'],['energy','Energy'],['unknown','Other']];
   let scheduled=false;
 
@@ -108,6 +108,12 @@
     const ui=document.createElement('script');
     ui.src='deck-card-search.js?v=8';
     ui.dataset.ptcgCardSearchLoader='true';
+    ui.onload=()=>{
+      const fix=document.createElement('script');
+      fix.src='deck-card-search-glc-fix.js?v=1';
+      fix.dataset.ptcgCardSearchLoader='true';
+      document.body.appendChild(fix);
+    };
     document.body.appendChild(ui);
   };
   document.body.appendChild(catalog);
