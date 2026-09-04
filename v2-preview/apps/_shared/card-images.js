@@ -51,8 +51,8 @@
     return `<span class="ptcg-card-thumb${className?` ${esc(className)}`:''}" data-card-thumb>${url?`<img src="${esc(url)}" alt="${esc(card?.name||'Card')}" loading="${loading}" decoding="async">`:''}<span class="ptcg-card-thumb-fallback" aria-hidden="true">No art</span></span>`;
   }
   function bindFallback(root=document){
-    if(!root||root.__ptcgCardImagesBound)return;
-    root.__ptcgCardImagesBound=true;
+    if(!root||root.__ptcgCardImagesResolverBound)return;
+    root.__ptcgCardImagesResolverBound=true;
     root.addEventListener('error',event=>{
       const image=event.target;
       if(!(image instanceof HTMLImageElement))return;
