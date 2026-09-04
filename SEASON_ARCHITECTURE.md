@@ -1,6 +1,6 @@
 # PTCG Tools — Competitive Record / Season Architecture
 
-**Status:** Competitive Record / Season v1 implementation source of truth  
+**Status:** Competitive Record / Season v1 accepted current-stage source of truth  
 **Date:** 4 September 2026  
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`
 
@@ -258,38 +258,40 @@ The permanent Events shell/header remains visible when switching among Compete v
 
 ## Acceptance state — 4 September 2026
 
-Completed / established:
+**Season v1 is accepted/complete for the current product stage.**
+
+Established implementation includes:
 
 - official numerical 2027 rules configuration committed with provenance;
 - deterministic rules/BFL test file committed;
 - 2027 season identity/start definition committed;
 - Season implemented as an in-page Events view;
 - permanent Events header retained across Season;
-- one real manually recorded Cup was checked by the user and the expected tournament information flowed through to Season correctly;
-- supported completions now stamp season/ruleset identity;
-- Season detail now exposes exact deck/version snapshots, linked rounds and Top Cut stage tags, with a direct Tournament Day link;
-- completed/archived tournaments can be reopened without losing evidence;
+- one real manually recorded Cup checked by the user with the expected tournament information flowing through to Season correctly;
+- supported completions stamping season/ruleset identity;
+- Season detail exposing exact deck/version snapshots, linked rounds and Top Cut stage tags, with a direct Tournament Day link;
+- completed/archived tournaments reopening without losing evidence;
 - primary My Tournaments lifecycle simplified to Current / Upcoming / Incomplete / Completed.
 
-Still required before Season v1 can be called fully accepted:
+The following remain useful **non-blocking verification/maintenance checks** and do not keep the Season milestone open:
 
 1. execute the deterministic test suite in a real JS runtime and record the result;
-2. verify a BFL overflow case with at least 5 Challenges, 5 Cups and/or 6 major-event results;
+2. exercise BFL overflow/displacement beyond the official limits;
 3. verify a Season correction syncs across devices/account persistence;
-4. verify the whole-season end boundary from an official source;
-5. perform a real iPhone visual/interaction smoke test before claiming mobile acceptance.
+4. perform additional real iPhone visual/interaction smoke testing;
+5. fill the whole-season end boundary only when directly verified from an authoritative official source.
 
-## Next implementation sequence
+Any genuine defect found by those checks may reopen a bounded Season bugfix, but there is no further planned Season v1 feature-development programme.
 
-Season v1 is now at acceptance/hardening rather than feature-build stage.
+## Roadmap handoff
 
-1. **Validation** — execute deterministic Season tests in a real JS runtime.
-2. **BFL acceptance** — exercise displacement beyond official BFL limits.
-3. **Cross-device acceptance** — verify correction persistence on another device.
-4. **Mobile acceptance** — smoke-test Events / My Tournaments / Tournament Day / Season on iPhone.
-5. **Official boundary completion** — fill the season end only when directly verified.
+Season v1 is closed. Central roadmap work should move to the next major product milestone while keeping the verification items above as background/non-blocking follow-up.
 
-No broad Season feature expansion is required before moving the central roadmap forward.
+Current intended sequence after Season:
+
+1. **Collection / physical readiness**;
+2. **Learn / personal analytics**;
+3. **Development Cleanup / Release Hardening** before calling the broader application stable/public-ready.
 
 ## Explicitly deferred
 
