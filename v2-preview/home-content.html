@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="./apps/_shared/app-shell.css?v=2">
   <link rel="stylesheet" href="./apps/_shared/auth-ui.css?v=1">
   <link rel="stylesheet" href="./styles.css?v=14">
-  <link rel="stylesheet" href="./home-tweaks.css?v=5">
+  <link rel="stylesheet" href="./home-tweaks.css?v=6">
 </head>
 <body class="ptcg-v2" data-app-root="." data-app-section="home">
   <header class="app-shell-header home-header">
@@ -34,10 +34,13 @@
       <div class="home-meta-head">
         <div class="home-meta-topline">
           <span class="home-field-pill"><span aria-hidden="true">▥</span> Current field</span>
-          <fieldset class="home-meta-grouping" aria-label="Variant grouping">
-            <label><input type="radio" name="homeVariantGrouping" value="variants" checked><span>Exact</span></label>
-            <label><input type="radio" name="homeVariantGrouping" value="grouped"><span>Grouped</span></label>
-          </fieldset>
+          <div class="home-meta-grouping-control">
+            <span class="home-meta-grouping-label">Variant grouping</span>
+            <fieldset class="home-meta-grouping" aria-label="Variant grouping">
+              <label><input type="radio" name="homeVariantGrouping" value="variants" checked><span>Off</span></label>
+              <label><input type="radio" name="homeVariantGrouping" value="grouped"><span>On</span></label>
+            </fieldset>
+          </div>
         </div>
         <h1 id="homeBlendedMetaTitle">Blended Meta</h1>
         <p>IRL latest major weekend + Online since last major weekend</p>
@@ -93,7 +96,7 @@
   <script src="./apps/_shared/season-config-2027.js?v=1"></script>
   <script src="./apps/_shared/cloud-sync.js?v=6"></script>
   <script src="./apps/_shared/auth-ui.js?v=4"></script>
-  <script src="./scripts/home.js?v=13"></script>
+  <script src="./scripts/home.js?v=14"></script>
   <script src="./apps/_shared/app-shell.js?v=7"></script>
 </body>
 </html>
