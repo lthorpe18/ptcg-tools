@@ -81,14 +81,14 @@
   }
 
   function heroSprite(name){
-    const html=window.DeckSprites?.html?.(name,{size:36})||`<span class="deck-sprite deck-sprite-fallback">${esc(String(name||'?').charAt(0))}</span>`;
-    return `<div class="home-meta-sprite" title="${esc(name)}" aria-label="${esc(name)}">${html}</div>`;
+    const html=window.DeckSprites?.html?.(name,{size:34})||`<span class="deck-sprite deck-sprite-fallback">${esc(String(name||'?').charAt(0))}</span>`;
+    return `<div class="home-meta-sprite-placeholder" title="${esc(name)}" aria-label="${esc(name)}">${html}</div>`;
   }
 
-  function renderMetaLoading(message='Loading current field…'){
+  function renderMetaLoading(){
     const el=document.getElementById('blendedMetaPreview');
     if(!el)return false;
-    el.innerHTML=`<div class="home-meta-state">${esc(message)}</div>`;
+    el.innerHTML=[100,70,58,42,34].map(bar=>`<div class="home-meta-bar-item"><div class="home-meta-bar" style="--bar:${bar}%"><span>—</span></div><div class="home-meta-sprite-placeholder">◆</div></div>`).join('');
     return false;
   }
 
@@ -103,7 +103,7 @@
     try{
       const result=model.current();
       const rows=(result?.rows||[]).filter(row=>row&&row.name&&Number(row.share)>0).slice(0,5);
-      if(!rows.length)return renderMetaLoading('No blended field available yet');
+      if(!rows.length)return renderMetaLoading();
       const maxShare=Math.max(...rows.map(row=>Number(row.share)||0),0.001);
       el.innerHTML=rows.map(row=>{
         const share=Number(row.share)||0;
@@ -114,7 +114,7 @@
       return true;
     }catch(error){
       console.warn('Home blended meta unavailable',error);
-      return renderMetaLoading('Current field unavailable');
+      return renderMetaLoading();
     }
   }
 
