@@ -1,6 +1,6 @@
 # PTCG Tools — Roadmap Handoff — 4 September 2026
 
-**Purpose:** central coordination handoff after substantial implementation of Tournament Day / My Tournaments and the associated cache/shared-engine cleanup.
+**Purpose:** central coordination handoff after acceptance and cleanup of Tournament Day / My Tournaments v1.
 
 Read first:
 
@@ -12,19 +12,19 @@ Read first:
 
 ## Current programme state
 
-The previous 3 September handoff made Tournament Day the active milestone after Mobile Playtest v1.
-
 As of 4 September 2026:
 
-> **Tournament Day v1 is substantially implemented and should now be treated as an acceptance/cleanup milestone rather than an open-ended feature build.**
+> **Tournament Day v1 is accepted/complete for the current product stage. The bounded cleanup pass is closed.**
 
-The primary end-to-end loop now has working structural coverage through:
+The primary loop now has working structural coverage through:
 
 **Analyse → Build & Test → Prepare → Compete**
 
 with **Learn** and physical readiness/Collection still incomplete.
 
-## What Tournament Day / My Tournaments now includes
+Tournament Day should not remain an open-ended implementation programme. Future changes should be genuine bug fixes, evidence from real tournament use, or work explicitly scheduled by the central Roadmap.
+
+## Accepted Tournament Day / My Tournaments scope
 
 ### Events / My Tournaments
 
@@ -38,28 +38,32 @@ with **Learn** and physical readiness/Collection still incomplete.
 - Current/Upcoming sort nearest first;
 - Completed/Archived sort most recent first;
 - cards show event identity, date/type/status, used deck where present, W-L-D and round count;
-- archive/delete/remove-deck management exists.
+- archive/delete/remove-deck management exists;
+- deck sprites use the shared `DeckSprites` engine and account-owned one/two-sprite overrides.
 
 ### Tournament Day
 
 - event-linked and ad-hoc tournament entry use the same `UserEventParticipation` model;
-- a tournament can start without choosing a deck;
-- compact **My Deck** control is the only intended live deck-selection surface;
+- opening an uncompleted Tournament Day creates/updates the lightweight tournament workspace immediately;
+- there is no deck-selection start gate;
+- compact **My Deck** is the only live deck-selection surface;
+- the legacy large Playing/deck summary and pre-round deck-selection card have been deleted rather than merely hidden;
 - selected deck is exact `usedDeckRef` with Deck/DeckVersion/list identity;
 - planned deck remains separate and may only preselect/suggest;
-- deck can be changed or removed later;
+- deck can be selected, changed or removed later;
+- changing/removing the played deck reconciles the deck fields on existing participation-linked Matches;
 - saved Decks/versions load through the shared Deck store;
 - game-by-game W/L/T round entry;
 - aggregate Match W/L/D derived from Games;
-- intentional draw displayed as ID;
+- intentional draw displayed distinctly as ID;
 - opponent archetype search;
 - current W-L-D derived from canonical participation-linked Matches;
 - contextual ID Calc uses the shared Tools engine;
-- completion writes back to the same participation.
+- completion writes placement/player count/final record/used deck back to the same participation.
 
 ### Round-history presentation
 
-Current intended row:
+Accepted row:
 
 **R# · vs · opponent sprite(s) + archetype · game sequence · result badge**
 
@@ -72,118 +76,112 @@ Current intended row:
 
 ### Shared sprite architecture
 
-Tournament Day originally developed a local name-based Pokémon resolver. That was an architectural mistake because Settings/Meta already owned the canonical `DeckSprites` archetype presentation mapping.
+`DeckSprites` is the canonical source for configured archetype sprites and user overrides across Settings / Meta / Compete.
 
-Current lock:
+Tournament Day round rows consume it first, with Pokémon-name parsing only as fallback for genuinely unmapped archetypes. The compact My Deck control and My Tournaments cards now also use `DeckSprites` directly rather than maintaining separate primary name parsers.
 
-- `DeckSprites` is the canonical source for configured archetype sprites and user overrides;
-- Tournament Day consumes it first;
-- name parsing is fallback only;
-- future features must reuse established shared engines instead of independently recreating them.
+General architecture lock:
 
-This should be treated as a general architecture lesson for all future work.
+> If a shared engine already owns a cross-feature concern, feature pages consume it rather than creating a second primary implementation.
 
-## Cache/navigation regression resolved
+## Acceptance / cleanup completed
 
-During Tournament Day iteration the UI sometimes appeared to revert to an older saved state after navigating around the app.
+The bounded closure pass:
 
-The underlying causes were not user data rollback:
+- deleted the legacy `deckSummary` / Playing render path;
+- deleted the old mandatory pre-round deck picker/start gate;
+- removed the dead deck-summary history enhancer and associated CSS;
+- retained the compact optional-deck helper as a bounded module rather than risking a broad core merge;
+- removed duplicate sprite inference from the compact deck slot and My Tournaments cards;
+- fixed a stale in-memory participation issue by refreshing shared participation state before deck-sensitive round saves and completion;
+- verified all four Tournament Day entry routes use `tournament-day.html?participation=<id>`;
+- retained service-worker v18 network-first navigation HTML behavior;
+- fixed the small My Tournaments date validity check while touching that code;
+- kept only compatibility paths still used by the game-by-game entry contract.
 
-1. multiple entry routes had historical hard-coded `?build=...` Tournament Day links;
-2. the service worker served navigation HTML stale-while-revalidate/cache-first, so an old document could be shown before the current network version.
+A deterministic Match/participation acceptance harness covered:
 
-Current architecture:
+- start with no used deck;
+- deck select/change/remove/reattach;
+- Win, Loss, played Draw and ID;
+- editing a stable Match without increasing Match count;
+- derived W-L-D;
+- same-participation completion with placement/player count and final used-deck snapshot.
 
-- historical dated Tournament Day navigation pins removed;
-- canonical routes use `tournament-day.html?participation=<id>`;
-- service-worker generation bumped to `ptcg-tools-v18`;
-- **online navigation HTML is network-first with cached fallback**;
-- static/versioned assets remain cacheable.
+The example acceptance state finished `2-0-2` across four linked Matches after editing one existing round; the Match count remained four.
 
-Do not reintroduce scattered dated build IDs as the normal solution to stale assets.
+The service-worker and route inspection verifies the prior stale-document regression class is removed architecturally. As always, future cache/layout changes still require real iPhone smoke testing before claiming visual acceptance.
 
-## Known cleanup rather than feature expansion
+## Non-blocking technical debt left deliberately
 
-Before declaring Tournament Day accepted/stable, perform a short bounded cleanup pass:
+- `tournament-day-history-v2.js` and `tournament-day-optional-deck.js` remain separate bounded helper modules; fully folding them into core is deferred to release hardening unless real use exposes a problem.
+- ID still uses the accepted `[ID]` note compatibility marker with canonical draw result.
+- hidden result/score fields remain because the visible game-by-game entry layer still deliberately feeds the core Match save contract through them.
+- broader orphaned pages, historical compatibility code and repository-wide build/version cleanup remain part of the formal Development Cleanup / Release Hardening milestone.
 
-- delete the legacy large `deckSummary` / Playing render path rather than merely hiding it;
-- consolidate temporary Tournament Day enhancement layers into core where safe;
-- remove dead compatibility code after confirming migrations are no longer needed;
-- verify all Tournament Day entry routes use the canonical current URL;
-- verify configured one/two-sprite overrides render consistently;
-- complete at least one realistic mobile tournament-entry/round-edit/completion test;
-- verify no apparent old-state regression after navigating away/back.
+None of these block Tournament Day v1 acceptance.
 
-Do not add Championship Points, Collection, Learn analytics or broad new Tournament Day features during this cleanup pass.
+## Cache/navigation contract carried forward
 
-## Release-hardening milestone added
+The previous apparent UI regressions were caused by old hard-coded build routes plus stale-first navigation HTML, not user data rollback.
 
-Before a future stable/public-ready release, the roadmap must include a formal:
+Current architecture remains:
 
-**Development Cleanup / Release Hardening**
-
-Repository-wide tasks:
-
-- search/remove dated `?build=` and temporary revision pins;
-- remove orphaned/legacy standalone pages no longer used;
-- delete hidden obsolete UI/render paths;
-- consolidate feature enhancer scripts into core implementations where sensible;
-- eliminate duplicated cross-app engines;
-- audit service-worker/cache-generation strategy;
-- normalize asset versioning;
-- verify current deployment SHA and iPhone behavior;
-- keep architecture docs synchronized with the code after cleanup.
-
-This is functional hardening, not aesthetic refactoring.
+- canonical Tournament Day routes with semantic participation ID only;
+- service-worker generation `ptcg-tools-v18`;
+- online navigation HTML network-first with cached fallback;
+- suitable versioned/static assets remain cacheable;
+- do not reintroduce scattered dated `?build=` navigation pins.
 
 ## Recommended next roadmap decision
 
-The central Roadmap should now decide the immediate sequence between:
+Tournament Day is no longer the active milestone.
 
-### A. Short Tournament Day acceptance/cleanup
+The next major product milestone should now be reviewed centrally as:
 
-Recommended first. Keep it strictly bounded and close the milestone.
+**Competitive Record / Season v1**
 
-### B. Competitive Record / Season v1
+Expected scope remains:
 
-Recommended next major product milestone after Tournament Day acceptance.
-
-Scope should include:
-
-- completed Championship-event record;
+- completed Championship-event record using the existing `UserEventParticipation` history;
 - placement/player count;
 - competitive season identity;
 - verified season-specific Championship Point rules;
 - raw CP vs counting CP;
 - Best Finish Limits;
-- clear provenance/manual-correction handling;
+- provenance/manual-correction handling;
 - no duplicate history entity outside `UserEventParticipation` + Match/Game.
 
-### C. Collection / readiness
+Do not start Season implementation from this handoff without central Roadmap review.
 
-Still a later major milestone:
+Later candidates remain:
 
-- owned quantities;
-- physical allocations;
-- missing/shopping list;
-- exact DeckVersion/event-plan integration.
+- Collection / physical readiness;
+- Learn / personal analytics;
+- broader Cut / ID sophistication only where real tournament use demonstrates value.
 
-### D. Learn loop
+## Release-hardening milestone
 
-Later:
+Before a future stable/public-ready release, perform formal **Development Cleanup / Release Hardening**:
 
-- personal matchup/tournament analytics;
-- event/deck/version history;
-- practice evidence kept distinct from competitive Match evidence.
+- repository-wide search/remove dated build/revision pins;
+- remove orphaned/legacy standalone pages no longer used;
+- delete hidden obsolete UI/render paths;
+- consolidate helper/enhancer modules into core where it reduces real complexity without introducing regression risk;
+- eliminate duplicated cross-app engines;
+- audit service-worker/cache generations and asset versioning;
+- verify current deployment SHA and iPhone behavior;
+- keep architecture docs synchronized.
+
+This is functional hardening rather than aesthetic refactoring.
 
 ## Recommended roadmap order
 
-1. **Tournament Day acceptance / cleanup**
-2. **Competitive Record / Season v1**
-3. **Collection / physical readiness**
-4. **Learn / personal analytics**
-5. **Development Cleanup / Release Hardening** before calling the broader app stable/public-ready (or bring forward individual hardening tasks whenever they become blockers)
-6. community/public expansion only if useful
+1. **Competitive Record / Season v1** — subject to central Roadmap confirmation
+2. **Collection / physical readiness**
+3. **Learn / personal analytics**
+4. **Development Cleanup / Release Hardening** before calling the broader app stable/public-ready, with individual hardening fixes brought forward whenever they become blockers
+5. community/public expansion only if useful
 
 The broader loop remains:
 
