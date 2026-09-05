@@ -32,8 +32,14 @@ Controls do not own navigation and must not intercept generic clicks.
 ### Navigation
 Navigation remains separate from evidence state:
 - `meta-home.js` owns Current Meta / child view navigation
-- `meta-explorer-v2.js` owns exact-variant drill-down / deck detail navigation
+- child views use semantic hashes: `#prep`, `#matchups`, `#decks` (with existing What Should I Play aliases accepted on entry)
+- `meta-explorer-v2.js` owns exact-variant drill-down / deck detail rendering
+- exact-variant detail routes use `?deck=<exact variant>&source=<online|irl>&from=<origin>#detail`
+- `meta-navigation.js` keeps detail/subview intent synchronized with browser history and the outer persistent shell
+- the persistent shell remains the sole owner of top-level Home / Meta / Decks / Compete / Tools history and preserves child-route intent when switching areas
 - shared data/control modules must not call `preventDefault`, `stopPropagation` or `stopImmediatePropagation` on unrelated page navigation
+
+Browser Back/Forward must restore Meta subviews/detail without changing evidence semantics. A shell reload of a routed Meta view must preserve the intended Meta child route rather than silently falling back to Current Meta.
 
 ## Variant grouping
 Variant grouping is presentation-only on Current Meta and defaults OFF.
@@ -76,3 +82,6 @@ Before calling a Meta change complete, smoke-test:
 5. Deck Explorer source/scope and deck detail drill-down
 6. Deck Detail source/scope and Back
 7. Current Meta back navigation and bottom app navigation
+8. Home → Meta and Home → What Should I Play through the persistent shell
+9. browser Back/Forward across Meta subviews and exact-variant detail
+10. reload/restore of a shell-routed Meta child view
