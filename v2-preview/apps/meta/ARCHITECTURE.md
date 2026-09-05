@@ -22,12 +22,24 @@ Pages render data; they do not independently reinterpret what Online or IRL mean
 
 ### MetaControls
 `meta-controls.js` owns the reusable source/scope UI contract:
-- Current Meta reuses its compact scope select
+- Current Meta reuses its compact scope select for Online/IRL
 - Matchups and Deck Explorer show exactly one subordinate scope matching the active source
 - What Should I Play shows only the Online and/or IRL scopes required by its selected field and matchup sources
 - Deck Detail shows the scope matching its active Online/IRL source
 
 Controls do not own navigation and must not intercept generic clicks.
+
+### Blended Current Meta
+Current Meta also exposes a **Blended** presentation alongside Online and IRL.
+
+Blended must consume `MetaBlendedField.current()` directly, using the same policy as the Home hero:
+- IRL = latest IRL major weekend;
+- Online = 50+ player events since that major weekend;
+- IRL weight starts at 70%, decays by 2 percentage points per day and floors at 30%;
+- Online receives the remaining weight;
+- if only one source is available, that source becomes 100%.
+
+Blended is a current-field presentation, not a third matchup/detail evidence source. Exact-variant drill-down remains Online/IRL and must not invent blended matchup evidence or blended deck-detail statistics.
 
 ### Navigation
 Navigation remains separate from evidence state:
@@ -39,7 +51,7 @@ Navigation remains separate from evidence state:
 - the persistent shell remains the sole owner of top-level Home / Meta / Decks / Compete / Tools history and preserves child-route intent when switching areas
 - shared data/control modules must not call `preventDefault`, `stopPropagation` or `stopImmediatePropagation` on unrelated page navigation
 
-Browser Back/Forward must restore Meta subviews/detail without changing evidence semantics. A shell reload of a routed Meta view must preserve the intended Meta child route rather than silently falling back to Current Meta.
+Browser Back/Forward must restore Meta subviews/detail without changing evidence semantics. A shell reload of a routed Meta view must preserve the intended Meta child route rather than silently falling back to Current Meta. Ordinary interaction inside an open Deck Detail, including expanding/collapsing Data & performance and changing its source/scope controls, must not reset the Meta view to Current Meta.
 
 ## Variant grouping
 Variant grouping is presentation-only on Current Meta and defaults OFF.
@@ -75,12 +87,12 @@ Do not recreate or re-add these superseded implementations:
 Whenever behavior or styling changes, bump the relevant JS/CSS query version in `index.html`. Do not rely on the HTML URL query alone to invalidate iOS/PWA subresource caches.
 
 Before calling a Meta change complete, smoke-test:
-1. Current Meta Online and IRL scope switching
+1. Current Meta Online, IRL and Blended switching
 2. variant grouping off/on and exact variant drill-down
 3. What Should I Play field source, matchup source and required scope visibility
 4. Matchups source/scope and deck detail drill-down
 5. Deck Explorer source/scope and deck detail drill-down
-6. Deck Detail source/scope and Back
+6. Deck Detail source/scope, Data & performance collapse/expand, and Back
 7. Current Meta back navigation and bottom app navigation
 8. Home → Meta and Home → What Should I Play through the persistent shell
 9. browser Back/Forward across Meta subviews and exact-variant detail
