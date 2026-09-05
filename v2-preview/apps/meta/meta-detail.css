@@ -1,15 +1,3 @@
-/* Deck detail is a mutually exclusive Meta view. Keep this declarative: do not
-   use mutation observers to rewrite sibling classes while the user interacts. */
-body[data-meta-view="detail"] #currentMetaPage,
-body[data-meta-view="detail"] #prep,
-body[data-meta-view="detail"] #matchups,
-body[data-meta-view="detail"] #decks{
-  display:none!important;
-}
-body[data-meta-view="detail"] #deckDetail{
-  display:grid!important;
-}
-
 /* Deck detail hierarchy: matchups are primary; field statistics are supporting context. */
 .deck-detail .detail-data-panel{
   background:#f9fafb;

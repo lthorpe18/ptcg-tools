@@ -1,26 +1,4 @@
 (() => {
-  const originalRenderArchetype = window.renderArchetype || renderArchetype;
-
-  function loadMetaOverviewTable() {
-    if (!document.querySelector('link[data-meta-table-styles]')) {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'meta-table.css?v=1';
-      link.dataset.metaTableStyles = '1';
-      document.head.appendChild(link);
-    }
-    if (!document.querySelector('script[data-meta-table-script]')) {
-      const script = document.createElement('script');
-      script.src = 'meta-table.js?v=1';
-      script.dataset.metaTableScript = '1';
-      document.body.appendChild(script);
-    }
-  }
-
-  function decklistUrl(tournamentId, playerId) {
-    return `https://play.limitlesstcg.com/tournament/${encodeURIComponent(tournamentId)}/player/${encodeURIComponent(playerId)}/decklist`;
-  }
-
   function recordsUrl(name) {
     const deck = window.DeckAggregate?.getDeck?.(name);
     if (!deck?.slug) return '';
@@ -63,46 +41,6 @@
     });
   }
 
-  function renderDecklistResults(name) {
-    const target = document.getElementById('archResults');
-    if (!target || !Array.isArray(FILTERED_TOURNAMENTS)) return;
-
-    const rows = [];
-    for (const tournament of FILTERED_TOURNAMENTS) {
-      for (const standing of tournament.standings || []) {
-        if ((standing?.deck?.name || 'Unknown') !== name) continue;
-        const placing = Number(standing.placing);
-        if (standing.placing == null || !Number.isFinite(placing) || placing <= 0) continue;
-        rows.push({
-          placing,
-          player: standing.name || standing.player,
-          playerId: standing.player,
-          tournament: tournament.name,
-          tournamentId: tournament.id,
-          date: tournament.date,
-          players: tournament.players,
-          record: standing.record,
-          hasDecklist: !!standing.decklist,
-        });
-      }
-    }
-
-    rows.sort((a, b) => a.placing - b.placing || new Date(b.date) - new Date(a.date));
-    const top = rows.slice(0, 20);
-    target.innerHTML = '<table><thead><tr><th>Place</th><th>Player</th><th>Event</th><th>Record</th><th>Decklist</th></tr></thead><tbody>' +
-      top.map(r => {
-        const link = r.hasDecklist && r.tournamentId && r.playerId
-          ? `<a class="decklist-link" href="${decklistUrl(r.tournamentId, r.playerId)}" target="_blank" rel="noopener">View decklist ↗</a>`
-          : '—';
-        return `<tr><td>${r.placing}/${r.players}</td><td>${escapeHtml(r.player)}</td><td>${escapeHtml(r.tournament)}</td><td>${r.record?.wins || 0}-${r.record?.losses || 0}-${r.record?.ties || 0}</td><td>${link}</td></tr>`;
-      }).join('') + '</tbody></table>';
-  }
-
-  window.renderArchetype = function(name) {
-    originalRenderArchetype(name);
-    renderDecklistResults(name);
-  };
-
   const observer = new MutationObserver(records => {
     for (const record of records) {
       for (const node of record.addedNodes) {
@@ -116,6 +54,5 @@
   window.addEventListener('deckagg:updated', () => addRecommendationRecordLinks());
   window.addEventListener('field:updated', () => requestAnimationFrame(() => addRecommendationRecordLinks()));
   window.addEventListener('meta:updated', () => requestAnimationFrame(() => addRecommendationRecordLinks()));
-  loadMetaOverviewTable();
   addRecommendationRecordLinks();
 })();

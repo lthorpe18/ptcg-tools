@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'scripts/update-irl-labs.mjs'
-      - 'v2-preview/apps/meta/meta-results-v2.js'
+      - 'v2-preview/apps/meta/meta-explorer-v3.js'
       - '.github/workflows/update-irl-labs.yml'
   schedule:
     - cron: '41 5 * * *'

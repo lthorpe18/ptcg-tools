@@ -82,7 +82,7 @@
   $('playMatchupSource')?.addEventListener('change', renderPrep);
   window.addEventListener('meta:data-changed', renderVisible);
   document.addEventListener('click', e => {
-    if (e.target.closest('[data-meta-view],[data-explore-deck],[data-detail-source]')) setTimeout(renderVisible, 0);
+    if (e.target.closest('[data-meta-route],[data-explore-deck],[data-detail-source]')) setTimeout(renderVisible, 0);
   });
 
   window.MetaContext = { render: renderVisible, renderPrep };

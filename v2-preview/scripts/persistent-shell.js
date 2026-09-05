@@ -7,6 +7,7 @@
   const root=new URL('./',window.location.href);
   const frameBySection=new Map(frames.map(frame=>[frame.dataset.section,frame]));
   const loaded=new Set();
+  const routes=new Map();
   let active='home';
 
   function label(section){return ({home:'Home',meta:'Meta',decks:'Decks',compete:'Compete',tools:'Tools'})[section]||section}
@@ -84,17 +85,29 @@
     frame.src=target;
   }
 
+  function sendFrameRoute(frame,url){
+    const childUrl=validRoute(frame.dataset.section,url);
+    if(!childUrl||!frame.contentWindow)return;
+    try{frame.contentWindow.postMessage({type:'ptcg:shell-apply-route',url:childUrl},window.location.origin)}catch{}
+  }
+
   function loadFrame(section,url){
     const frame=frameBySection.get(section);
     if(!frame)return;
     if(section==='home'&&!url){restoreHomeFrame();return}
-    const target=validRoute(section,url)||frame.dataset.src;
+    const requested=validRoute(section,url);
+    if(requested)routes.set(section,requested);
+    const target=requested||routes.get(section)||frame.dataset.src;
     if(target&&(!frame.src||frame.getAttribute('src')==='about:blank')){
       frame.dataset.loading='1';
       frame.src=target;
       return;
     }
-    if(url){
+    if(target&&section==='meta'&&loaded.has(section)){
+      sendFrameRoute(frame,target);
+      return;
+    }
+    if(requested){
       try{
         const current=frame.contentWindow?.location?.href;
         const requested=new URL(target,window.location.href).href;
@@ -111,7 +124,8 @@
 
   function activate(section,url,historyMode='push'){
     if(!frameBySection.has(section))return;
-    const requested=validRoute(section,url);
+    const requested=validRoute(section,url)||routes.get(section)||currentFrameUrl(section);
+    if(requested)routes.set(section,requested);
     loadFrame(section,requested);
     active=section;
     for(const frame of frames)frame.classList.toggle('is-active',frame.dataset.section===section);
@@ -152,6 +166,9 @@
         if(section==='home'){
           event.preventDefault();
           activate('home',null,'push');
+        }else if(section==='meta'){
+          event.preventDefault();
+          activate(section,url.href,'push');
         }
         return;
       }
@@ -166,6 +183,7 @@
       loaded.add(frame.dataset.section);
       delete frame.dataset.loading;
       installChildBridge(frame);
+      if(frame.dataset.section==='meta'&&routes.has('meta'))sendFrameRoute(frame,routes.get('meta'));
       if(frame.dataset.section===active)hideStatus();
     });
   }
@@ -173,21 +191,26 @@
   for(const item of nav)item.addEventListener('click',()=>activate(item.dataset.target,null,'push'));
 
   window.addEventListener('message',event=>{
-    if(event.origin!==window.location.origin||event.data?.type!=='ptcg:shell-route')return;
+    if(event.origin!==window.location.origin||event.data?.type!=='ptcg:shell-navigate')return;
     const frame=frames.find(candidate=>candidate.contentWindow===event.source);
     if(!frame)return;
     const section=frame.dataset.section;
     const childUrl=validRoute(section,event.data.url);
     if(!childUrl||section!==active)return;
-    const state={...(history.state||{}),section,childUrl};
-    history.replaceState(state,'',shellUrlFor(section,childUrl));
+    routes.set(section,childUrl);
+    const state={section,childUrl};
+    const shellUrl=shellUrlFor(section,childUrl);
+    if(event.data.mode==='replace')history.replaceState(state,'',shellUrl);
+    else history.pushState(state,'',shellUrl);
   });
 
   window.addEventListener('popstate',event=>{
     const params=new URLSearchParams(location.search);
     const section=event.state?.section||params.get('section')||'home';
     const route=event.state?.childUrl||params.get('route');
-    activate(section,validRoute(section,route),'none');
+    const requested=validRoute(section,route);
+    if(requested)routes.set(section,requested);
+    activate(section,requested,'none');
   });
 
   function warm(section,delay){

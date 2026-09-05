@@ -5,6 +5,9 @@ on:
     paths:
       - 'apps/meta/**'
       - 'v2-preview/apps/meta/**'
+      - 'v2-preview/scripts/persistent-shell.js'
+      - 'v2-preview/index.html'
+      - 'tests/meta-navigation.test.js'
       - '.github/workflows/validate-meta-lab.yml'
   workflow_dispatch:
 
@@ -35,16 +38,16 @@ jobs:
           const requiredIds = [
             'currentMetaPage','currentWindow','currentGroupingToggle',
             'prep','playFieldSource','playMatchupSource','fieldSource','matchupSource',
-            'matchups','matchupPageSource','decks','deckPageSource'
+            'matchups','matchupPageSource','decks','deckPageSource','deckDetail'
           ];
           const missing = requiredIds.filter(id => !html.includes(`id="${id}"`));
           if (missing.length) throw new Error(`Missing V2 Meta hooks: ${missing.join(', ')}`);
 
-          const requiredScripts = ['meta-core.js','meta-controls.js','meta-home.js','meta-explorer-v2.js','meta-source-context.js'];
+          const requiredScripts = ['meta-core.js','meta-controls.js','meta-home.js','meta-explorer-v3.js','meta-source-context.js','meta-router.js'];
           const absentScripts = requiredScripts.filter(name => !html.includes(name));
           if (absentScripts.length) throw new Error(`Missing unified Meta scripts: ${absentScripts.join(', ')}`);
 
-          const retired = ['irl-scope.js','meta-consistency-v3.js','meta-window-fix.js','source-controls.js','meta-scope-controls.js','meta-detail-scope.js'];
+          const retired = ['irl-scope.js','meta-consistency-v3.js','meta-window-fix.js','source-controls.js','meta-scope-controls.js','meta-detail-scope.js','meta-navigation.js','meta-explorer-v2.js','meta-results-v2.js','meta-table.js'];
           const reintroduced = retired.filter(name => html.includes(name));
           if (reintroduced.length) throw new Error(`Retired Meta runtime layers reintroduced: ${reintroduced.join(', ')}`);
 
@@ -64,3 +67,5 @@ jobs:
           if (!architecture.includes('Variant grouping is presentation-only')) throw new Error('Meta architecture document is missing grouping lock');
           console.log('Validated Meta state/data/control ownership');
           NODE
+      - name: Test Meta navigation contract
+        run: node --test tests/meta-navigation.test.js

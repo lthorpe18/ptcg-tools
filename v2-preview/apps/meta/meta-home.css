@@ -6,3 +6,4 @@
 .source-segment{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;box-sizing:border-box}
 .source-segment button{min-width:0}
 @media(max-width:600px){.source-segment{grid-template-columns:repeat(3,minmax(0,1fr))}}
+button.current-meta-row{width:100%;border-left:0;border-right:0;border-top:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}

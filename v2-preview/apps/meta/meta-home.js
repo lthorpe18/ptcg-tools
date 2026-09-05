@@ -1,19 +1,10 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const state = { source: 'online', grouping: 'variants', showAll: false, expanded: new Set(), view: 'current', query: '' };
+  const state = { source: 'online', grouping: 'variants', showAll: false, expanded: new Set(), query: '' };
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pct = value => `${Number(value || 0).toFixed(1)}%`;
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
-  const validViews = new Set(['current','prep','matchups','decks']);
-
-  function viewFromLocation() {
-    const hash = String(location.hash || '').replace(/^#/, '').toLowerCase();
-    if (hash === 'overview' || hash === 'meta') return 'current';
-    if (hash === 'what-should-i-play' || hash === 'play') return 'prep';
-    if (hash === 'detail') return state.view;
-    return validViews.has(hash) ? hash : 'current';
-  }
 
   function blendedRows() {
     const result = window.MetaBlendedField?.current?.();
@@ -73,7 +64,9 @@
     const variants = expandable && open ? `<div class="current-variants">${row.variants.map(v => `<button type="button" class="variant-row" data-explore-deck="${esc(v.name)}" data-explore-source="${exploreSource}"><span>${esc(v.name)}</span><b>${pct(v.share)}</b><small>${v.blended || v.entries == null ? 'Blended share' : `${Number(v.entries||0).toLocaleString()} entries`}</small><span class="explore-arrow">›</span></button>`).join('')}</div>` : '';
     const sprites = window.DeckSprites?.html?.(row.name,{size:32}) || '';
     const meta = rowMeta(row);
-    return `<article class="current-meta-row ${expandable?'expandable':''}" data-current-family="${esc(row.name)}"><div class="current-rank">${index+1}</div><div class="current-name"><span class="current-sprites">${sprites}</span><span class="current-name-copy"><b>${esc(row.name)}</b><small>${expandable?`${row.variants.length} variants · tap to ${open?'collapse':'expand'}`:esc(meta)}</small></span></div><div class="current-share"><b>${pct(row.share)}</b><small>${row.blended || row.entries == null ? 'blended' : `${Number(row.entries||0).toLocaleString()} entries`}</small></div><span class="row-chevron" aria-hidden="true">${expandable?(open?'⌃':'⌄'):''}</span>${variants}</article>`;
+    const content = `<div class="current-rank">${index+1}</div><div class="current-name"><span class="current-sprites">${sprites}</span><span class="current-name-copy"><b>${esc(row.name)}</b><small>${expandable?`${row.variants.length} variants · tap to ${open?'collapse':'expand'}`:esc(meta)}</small></span></div><div class="current-share"><b>${pct(row.share)}</b><small>${row.blended || row.entries == null ? 'blended' : `${Number(row.entries||0).toLocaleString()} entries`}</small></div><span class="row-chevron" aria-hidden="true">${expandable?(open?'⌃':'⌄'):'›'}</span>${variants}`;
+    if (expandable) return `<article class="current-meta-row expandable" data-current-family="${esc(row.name)}">${content}</article>`;
+    return `<button type="button" class="current-meta-row" data-explore-deck="${esc(row.name)}" data-explore-source="${exploreSource}">${content}</button>`;
   }
 
   function blendedContextHtml() {
@@ -108,20 +101,6 @@
     }));
   }
 
-  function setView(view, syncUrl = true) {
-    const next = validViews.has(view) ? view : 'current';
-    state.view = next;
-    ['current','prep','matchups','decks'].forEach(name => $(name === 'current' ? 'currentMetaPage' : name)?.classList.toggle('hidden', name !== next));
-    document.body.dataset.metaView = next;
-    document.querySelectorAll('[data-tab="prep"]').forEach(el => el.classList.toggle('active', next === 'prep'));
-    if (syncUrl) {
-      const wanted = next === 'current' ? '' : `#${next}`;
-      if (location.hash !== wanted) history.pushState({ptcgMetaView:next}, '', `${location.pathname}${location.search}${wanted}`);
-    }
-    window.scrollTo({top:0,behavior:'instant'});
-    if (next === 'prep') window.dispatchEvent(new CustomEvent('field:updated'));
-  }
-
   document.querySelectorAll('[data-current-source]').forEach(btn => btn.addEventListener('click', () => {
     const requested = btn.dataset.currentSource;
     state.source = requested === 'irl' ? 'irl' : requested === 'blend' ? 'blend' : 'online';
@@ -130,24 +109,13 @@
   $('currentGroupingToggle')?.addEventListener('change', e => { state.grouping=e.currentTarget.checked?'families':'variants'; state.expanded.clear(); renderCurrent(); });
   $('currentMetaSearch')?.addEventListener('input', e => { state.query=e.currentTarget.value || ''; state.expanded.clear(); renderCurrent(); });
   $('currentMetaMore')?.addEventListener('click', () => { state.showAll=!state.showAll; renderCurrent(); });
-  document.querySelectorAll('[data-meta-view]').forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.metaView)));
-  document.querySelectorAll('[data-meta-back]').forEach(btn => btn.addEventListener('click', () => {
-    if (history.state?.ptcgMetaView && state.view !== 'current') history.back();
-    else setView('current');
-  }));
-  const syncLocationView = () => {
-    if (document.body.dataset.metaView === 'detail' || String(location.hash || '').toLowerCase() === '#detail') return;
-    setView(viewFromLocation(), false);
-  };
-  window.addEventListener('hashchange', syncLocationView);
-  window.addEventListener('popstate', syncLocationView);
-  window.addEventListener('meta:data-changed', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) { state.showAll=false; state.expanded.clear(); renderCurrent(); } });
-  window.addEventListener('meta:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
-  window.addEventListener('irl:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
-  window.addEventListener('online:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden') && state.source === 'blend') renderCurrent(); });
-  window.addEventListener('decksprites:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
+  const currentIsActive = () => window.MetaRouter?.get?.().view === 'current' || (!window.MetaRouter && !$('currentMetaPage')?.classList.contains('hidden'));
+  window.addEventListener('meta:data-changed', () => { if (currentIsActive()) { state.showAll=false; state.expanded.clear(); renderCurrent(); } });
+  window.addEventListener('meta:updated', () => { if (currentIsActive()) renderCurrent(); });
+  window.addEventListener('irl:updated', () => { if (currentIsActive()) renderCurrent(); });
+  window.addEventListener('online:updated', () => { if (currentIsActive() && state.source === 'blend') renderCurrent(); });
+  window.addEventListener('decksprites:updated', () => { if (currentIsActive()) renderCurrent(); });
 
-  window.MetaHome = { render:renderCurrent, setView };
-  setView(viewFromLocation(), false);
+  window.MetaHome = { render:renderCurrent };
   renderCurrent();
 })();

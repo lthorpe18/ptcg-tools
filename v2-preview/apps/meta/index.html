@@ -16,14 +16,13 @@
   <link rel="stylesheet" href="sprite-polish.css?v=3" />
   <link rel="stylesheet" href="saved-metas.css?v=1" />
   <link rel="stylesheet" href="v2.css?v=3" />
-  <link rel="stylesheet" href="meta-home.css?v=7" />
-  <link rel="stylesheet" href="meta-explorer-v2.css?v=6" />
+  <link rel="stylesheet" href="meta-home.css?v=8" />
+  <link rel="stylesheet" href="meta-explorer-v2.css?v=7" />
   <link rel="stylesheet" href="meta-explorer-layout.css?v=1" />
-  <link rel="stylesheet" href="meta-detail-priority.css?v=2" />
-  <link rel="stylesheet" href="meta-results-v2.css?v=1" />
+  <link rel="stylesheet" href="meta-detail.css?v=1" />
   <link rel="stylesheet" href="meta-source-context.css?v=1" />
 </head>
-<body class="ptcg-v2" data-app-root="../.." data-app-section="meta" data-meta-view="current">
+<body class="ptcg-v2" data-app-root="../.." data-app-section="meta" data-meta-active-view="current">
 <header class="app-shell-header meta-v2-header">
   <a class="app-shell-brand" href="../../" aria-label="PTCG Tools home"><span class="app-shell-mark" aria-hidden="true">◈</span><span class="app-shell-brand-copy"><strong>Meta</strong><small>Current field & competitive analysis</small></span></a>
   <div class="app-shell-header-actions">
@@ -51,16 +50,16 @@
     <section class="meta-explore">
       <h2>Explore</h2>
       <div class="meta-explore-grid">
-        <button class="meta-explore-card" type="button" data-meta-view="prep" data-tab="prep"><b>What should I play?</b><span>Model decks into the field you expect.</span></button>
-        <button class="meta-explore-card" type="button" data-meta-view="matchups"><b>Matchups</b><span>Explore head-to-head evidence.</span></button>
-        <button class="meta-explore-card" type="button" data-meta-view="decks"><b>Deck Explorer</b><span>Browse exact variants and performance.</span></button>
+        <button class="meta-explore-card" type="button" data-meta-route="prep" data-tab="prep"><b>What should I play?</b><span>Model decks into the field you expect.</span></button>
+        <button class="meta-explore-card" type="button" data-meta-route="matchups"><b>Matchups</b><span>Explore head-to-head evidence.</span></button>
+        <button class="meta-explore-card" type="button" data-meta-route="decks"><b>Deck Explorer</b><span>Browse exact variants and performance.</span></button>
       </div>
     </section>
   </section>
 
   <section id="prep" class="meta-child play-page hidden">
     <header class="meta-child-header">
-      <button class="meta-back" type="button" data-meta-back>← Current meta</button>
+      <button class="meta-back" type="button" data-meta-route="current">← Current meta</button>
       <div class="meta-child-title"><div><div class="eyebrow">META EXPLORER</div><h1>What should I play?</h1><p>Use one field source and independent matchup evidence.</p></div></div>
       <div class="child-source-row">
         <label>Field<select id="playFieldSource"><option value="online">Online · 50+ player tournaments</option><option value="irl">IRL</option><option value="blend">Online + IRL</option><option value="custom">Custom / saved meta</option></select></label>
@@ -97,7 +96,7 @@
 
   <section id="matchups" class="meta-child hidden">
     <header class="meta-child-header">
-      <button class="meta-back" type="button" data-meta-back>← Current meta</button>
+      <button class="meta-back" type="button" data-meta-route="current">← Current meta</button>
       <div class="meta-child-title"><div><div class="eyebrow">HEAD-TO-HEAD</div><h1>Matchups</h1><p>Head-to-head evidence is shown for exact deck variants.</p></div></div>
       <div class="single-source-control"><label>Evidence source<select id="matchupPageSource"><option value="online">Online · 50+ player tournaments</option><option value="irl">IRL</option></select></label><label>Min games<input id="matchupPageMin" type="number" min="1" value="10"></label></div>
     </header>
@@ -106,11 +105,16 @@
 
   <section id="decks" class="meta-child hidden">
     <header class="meta-child-header">
-      <button class="meta-back" type="button" data-meta-back>← Current meta</button>
+      <button class="meta-back" type="button" data-meta-route="current">← Current meta</button>
       <div class="meta-child-title"><div><div class="eyebrow">ARCHETYPES</div><h1>Deck explorer</h1><p>Browse exact deck variants, performance and matchups.</p></div></div>
       <div class="single-source-control"><label>Field source<select id="deckPageSource"><option value="online">Online · 50+ player tournaments</option><option value="irl">IRL</option></select></label></div>
     </header>
     <div id="deckExplorerList" class="deck-explorer-list"><div class="meta-empty">Loading deck data…</div></div>
+  </section>
+
+  <section id="deckDetail" class="meta-child deck-detail hidden" hidden inert>
+    <header class="meta-child-header"><button class="meta-back" id="deckDetailBack" type="button">← Back</button><div id="deckDetailHead"></div></header>
+    <div id="deckDetailBody"></div>
   </section>
 
   <section class="legacy-meta-plumbing" aria-hidden="true">
@@ -137,12 +141,12 @@
 <script src="field-builder.js?v=6"></script>
 <script src="meta-controls.js?v=7"></script>
 <script src="prep.js?v=6"></script>
-<script src="meta-home.js?v=12"></script>
+<script src="meta-home.js?v=13"></script>
 <script src="decklinks.js?v=3"></script>
 <script src="searchable-decks.js?v=6"></script>
-<script src="meta-explorer-v3.js?v=1"></script>
-<script src="meta-results-v2.js?v=1"></script>
+<script src="meta-explorer-v3.js?v=2"></script>
 <script src="meta-source-context.js?v=7"></script>
+<script src="meta-router.js?v=1"></script>
 <script src="../_shared/app-shell.js?v=6"></script>
 </body>
 </html>

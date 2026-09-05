@@ -25,7 +25,7 @@ Pages render data; they do not independently reinterpret what Online or IRL mean
 - Current Meta reuses its compact scope select for Online/IRL
 - Matchups and Deck Explorer show exactly one subordinate scope matching the active source
 - What Should I Play shows only the Online and/or IRL scopes required by its selected field and matchup sources
-- Deck Detail shows the scope matching its active Online/IRL source
+- Deck Detail renders its own source-matched scope control from `MetaState`
 
 Controls do not own navigation and must not intercept generic clicks.
 
@@ -42,16 +42,19 @@ Blended must consume `MetaBlendedField.current()` directly, using the same polic
 Blended is a current-field presentation, not a third matchup/detail evidence source. Exact-variant drill-down remains Online/IRL and must not invent blended matchup evidence or blended deck-detail statistics.
 
 ### Navigation
-Navigation remains separate from evidence state, but there is only one owner for each layer:
-- `meta-home.js` owns Current Meta / child view navigation;
+Navigation remains separate from evidence state, with one owner at each boundary:
+- `meta-router.js` is the only owner of the active Meta view;
+- its route is a discriminated state: `current | prep | matchups | decks | detail`, where `detail` must also carry exact deck name, Online/IRL source and origin;
+- the five view roots exist statically in `index.html`, and every route transition sets `hidden` and `inert` on all inactive roots before rendering the active root;
 - child views use semantic hashes: `#prep`, `#matchups`, `#decks` (with existing What Should I Play aliases accepted on entry);
-- `meta-explorer-v2.js` owns the complete exact-variant Deck Detail lifecycle: opening, closing, source changes, detail visibility and exact-variant route/history synchronization;
+- `meta-explorer-v3.js` renders Deck Explorer, Matchups and exact-variant Deck Detail, but it never changes sibling visibility or browser history;
 - exact-variant detail routes use `?deck=<exact variant>&source=<online|irl>&from=<origin>#detail`;
-- there is no separate `meta-navigation.js` interception layer;
-- the persistent shell remains the sole owner of top-level Home / Meta / Decks / Compete / Tools history and preserves child-route intent when switching areas;
+- when embedded, `persistent-shell.js` is the sole browser-history owner. Meta requests a route with `ptcg:shell-navigate`; the shell restores one with `ptcg:shell-apply-route` without reloading the iframe;
+- when opened standalone, `meta-router.js` owns its own `pushState` / `replaceState` and Back/Forward projection;
+- source and scope controls rerender evidence only. Detail source replacement may update the serialized route with `replaceState`, but never creates a view transition;
 - shared data/control modules must not call `preventDefault`, `stopPropagation` or `stopImmediatePropagation` on unrelated page navigation.
 
-Deck Detail is mutually exclusive with Current Meta / What Should I Play / Matchups / Deck Explorer. Every Deck Detail render reasserts that single view directly; no mutation observer rewrites section classes in the background.
+Deck Detail is mutually exclusive with Current Meta / What Should I Play / Matchups / Deck Explorer by construction. Renderers cannot activate themselves, and no mutation observer rewrites section classes in the background.
 
 Browser Back/Forward must restore Meta subviews/detail without changing evidence semantics. A shell reload of a routed Meta view must preserve the intended Meta child route rather than silently falling back to Current Meta. Ordinary interaction inside an open Deck Detail, including expanding/collapsing Data & performance and changing its source/scope controls, must never reveal or navigate to an underlying Meta view.
 
@@ -85,6 +88,10 @@ Do not recreate or re-add these superseded implementations:
 - `meta-scope-controls.js`
 - `meta-detail-scope.js`
 - `meta-navigation.js`
+- `meta-explorer-v2.js`
+- `meta-results-v2.js`
+- `meta-table.js`
+- `perf-shell/shell.js`
 
 ## Deployment rule
 Whenever behavior or styling changes, bump the relevant JS/CSS query version in `index.html`. Do not rely on the HTML URL query alone to invalidate iOS/PWA subresource caches.

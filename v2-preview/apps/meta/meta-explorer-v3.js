@@ -2,8 +2,13 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
-  const MAIN = ['currentMetaPage','prep','matchups','decks'];
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const safeUrl = value => {
+    try {
+      const url = new URL(String(value || ''), location.href);
+      return /^https?:$/.test(url.protocol) ? url.href : '';
+    } catch { return ''; }
+  };
   const pct = value => Number.isFinite(Number(value)) ? `${Number(value).toFixed(1)}%` : '—';
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
 
@@ -15,8 +20,6 @@
   };
   let matchupDeck = '';
 
-  const sectionForView = view => view === 'current' ? 'currentMetaPage' : ['prep','matchups','decks'].includes(view) ? view : 'currentMetaPage';
-  const viewForSection = id => id === 'currentMetaPage' ? 'current' : ['prep','matchups','decks'].includes(id) ? id : 'current';
   const sourceData = source => window.MetaData?.data?.(source) || {decks:[],matchups:[],events:[],overview:{}};
 
   function rows(source) {
@@ -54,41 +57,6 @@
     return `<div class="matchup-card-list">${list.map(({opponent,m})=>`<button class="matchup-card" type="button" data-explore-deck="${esc(opponent.name)}" data-explore-source="${source}"><span class="matchup-opponent">${sprite(opponent.name,32)}<span><b>${esc(opponent.name)}</b><small>${m.wins}-${m.losses}-${m.ties} · ${m.games} games</small></span></span><strong>${pct(m.winRate)}</strong></button>`).join('')}</div>`;
   }
 
-  function ensureDetail() {
-    if ($('deckDetail')) return;
-    const section=document.createElement('section');
-    section.id='deckDetail';
-    section.className='meta-child deck-detail hidden';
-    section.innerHTML='<header class="meta-child-header"><button class="meta-back" id="deckDetailBack" type="button">← Back</button><div id="deckDetailHead"></div></header><div id="deckDetailBody"></div>';
-    document.querySelector('main.wrap')?.appendChild(section);
-  }
-
-  function enterDetail() {
-    ensureDetail();
-    MAIN.forEach(id=>$(id)?.classList.add('hidden'));
-    $('deckDetail')?.classList.remove('hidden');
-    document.body.dataset.metaView='detail';
-  }
-
-  function detailUrl() {
-    const url=new URL(location.href);
-    url.searchParams.set('deck',detail.name);
-    url.searchParams.set('source',detail.source);
-    url.searchParams.set('from',detail.origin);
-    url.hash='detail';
-    return url;
-  }
-
-  function syncDetailUrl(mode='replace') {
-    const url=detailUrl();
-    const state={ptcgMetaDetail:true,deck:detail.name,source:detail.source,from:detail.origin};
-    if (mode==='push') history.pushState(state,'',url);
-    else history.replaceState(state,'',url);
-    if (window.parent!==window) {
-      try { window.parent.postMessage({type:'ptcg:shell-route',url:location.href},location.origin); } catch {}
-    }
-  }
-
   function scopeOptions(source) {
     const state=window.MetaState?.get?.() || {};
     const options=source==='irl' ? (window.MetaState?.irlScopes?.() || []) : (window.MetaState?.onlineScopes?.() || []);
@@ -100,15 +68,35 @@
 
   function context(source) { return window.MetaData?.context?.(source) || {}; }
 
-  function recentResults(name) {
-    const data=sourceData('online');
-    const selected=new Set((data.events||[]).map(e=>e.name).filter(Boolean));
-    return (data.results||[]).filter(r=>r.archetype===name).filter(r=>!selected.size || selected.has(r.tournament)).sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,8);
+  function recentResults(name,source) {
+    const data=sourceData(source);
+    const ids=new Set((data.events||[]).map(e=>String(e.id??'')).filter(Boolean));
+    const names=new Set((data.events||[]).map(e=>String(e.name||'')).filter(Boolean));
+    return (data.results||[])
+      .filter(r=>r.archetype===name)
+      .filter(r=>{
+        const id=r?.eventId??r?.tournamentId??r?.id;
+        if(id!=null&&ids.size)return ids.has(String(id));
+        if(names.size&&r?.tournament)return names.has(String(r.tournament));
+        return !ids.size&&!names.size;
+      })
+      .filter(r=>Number.isFinite(Number(r?.placing))&&Number(r.placing)>0)
+      .sort((a,b)=>Number(a.placing)-Number(b.placing)||new Date(b.date||0)-new Date(a.date||0)||String(a.player||'').localeCompare(String(b.player||'')))
+      .slice(0,20);
+  }
+
+  function resultCard(row,source) {
+    const record=row.record||{};
+    const placing=Number(row.placing||0), players=Number(row.players||0);
+    const placement=players?`${placing}/${players}`:`#${placing}`;
+    const href=source==='irl'?safeUrl(row.decklistUrl||row.sourceUrl):'';
+    const linkText=row.decklistUrl?'Decklist ↗':href?'Limitless ↗':'';
+    const body=`<b>${esc(placement)}</b><span>${esc(row.player||'Unknown player')}</span><small>${esc(row.tournament||'')}${row.tournament?' · ':''}${Number(record.wins||0)}-${Number(record.losses||0)}-${Number(record.ties||0)}</small>${linkText?`<em>${esc(linkText)}</em>`:''}`;
+    return href?`<a class="result-card result-card-link" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${body}</a>`:`<div class="result-card">${body}</div>`;
   }
 
   function renderDetail() {
     if (!detail.name) return;
-    enterDetail();
     const previousOpen=$('deckDetailEvidence')?.open ?? true;
     const scrollY=window.scrollY;
     const data=sourceData(detail.source);
@@ -136,8 +124,8 @@
 
     const games=(data.matchups||[]).filter(m=>m.a===detail.name).reduce((sum,m)=>sum+Number(m.games||Number(m.wins||0)+Number(m.losses||0)+Number(m.ties||0)),0);
     const eventCount=Number(data.overview?.events || data.events?.length || 0);
-    const results=detail.source==='online'?recentResults(detail.name):[];
-    const resultsHtml=results.length?`<section class="detail-section"><div class="section-row"><h2>Recent results</h2><span>Live result sample within selected field scope</span></div><div class="result-card-list">${results.map(r=>`<div class="result-card"><b>${r.placing}/${r.players}</b><span>${esc(r.player)}</span><small>${esc(r.tournament)} · ${r.record?.wins||0}-${r.record?.losses||0}-${r.record?.ties||0}</small></div>`).join('')}</div></section>`:'';
+    const results=recentResults(detail.name,detail.source);
+    const resultsHtml=results.length?`<section id="deckRecentResults" class="detail-section deck-recent-results"><div class="section-row"><h2>Recent results</h2><span>${esc(currentScope)} · sorted by placement</span></div><div class="result-card-list">${results.map(r=>resultCard(r,detail.source)).join('')}</div></section>`:'';
 
     $('deckDetailBody').innerHTML=`<details id="deckDetailEvidence" class="detail-data-panel" ${previousOpen?'open':''}><summary><span><b>Data & performance</b><small>${esc(currentScope)} · ${row.entries.toLocaleString()} deck entries · ${pct(row.winRate)} WR</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls">${sourceControl}${scopeControl}</div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Field performance</b><small>This exact variant within the selected field</small></div><div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Deck entries</span></div><div><b>${pct(row.share)}</b><span>Field share</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div><div class="detail-sample-strip"><span>Field sample</span><b>${row.entries.toLocaleString()} deck entries across ${eventCount.toLocaleString()} ${eventCount===1?'event':'events'}</b></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Matchup evidence</b><small>Head-to-head games involving this exact variant</small></div><div class="detail-sample-strip matchup-sample"><span>Matchup sample</span><b>${games.toLocaleString()} games involving ${esc(detail.name)}</b></div></div></div></details><section class="detail-section detail-matchups"><div class="section-row"><h2>Matchups</h2><span>${esc(currentScope)}</span></div><label class="deck-list-search"><span class="search-glyph">⌕</span><input id="detailMatchupSearch" type="search" autocomplete="off" placeholder="Filter matchups" aria-label="Filter matchups"></label>${matchupCards(detail.name,detail.source)}</section>${resultsHtml}`;
     bindDetailControls();
@@ -163,32 +151,12 @@
     },{once:true});
   }
 
-  function openDetail(name,source,options={}) {
-    if (!name) return;
-    const visible=MAIN.find(id=>!$(id)?.classList.contains('hidden'));
-    detail.origin=options.origin || (visible?viewForSection(visible):detail.origin) || 'current';
-    detail.name=name;
-    detail.source=source==='irl'?'irl':'online';
+  function showDetail(next) {
+    if (!next?.deckName) return;
+    detail.name=next.deckName;
+    detail.source=next.source==='irl'?'irl':'online';
+    detail.origin=next.origin || 'current';
     renderDetail();
-    if (options.syncUrl!==false) syncDetailUrl(options.replace?'replace':'push');
-    if (!options.preserveScroll) window.scrollTo({top:0,behavior:'instant'});
-  }
-
-  function closeDetail({syncUrl=true}={}) {
-    clearTimeout(detail.renderTimer);
-    $('deckDetail')?.classList.add('hidden');
-    window.MetaHome?.setView?.(detail.origin,false);
-    document.body.dataset.metaView=detail.origin;
-    if (syncUrl) {
-      const url=new URL(location.href);
-      url.searchParams.delete('deck'); url.searchParams.delete('source'); url.searchParams.delete('from');
-      url.hash=detail.origin==='current'?'':detail.origin;
-      history.replaceState({ptcgMetaView:detail.origin},'',url);
-      if (window.parent!==window) {
-        try { window.parent.postMessage({type:'ptcg:shell-route',url:location.href},location.origin); } catch {}
-      }
-    }
-    window.scrollTo({top:0,behavior:'instant'});
   }
 
   function renderDeckExplorer() {
@@ -217,26 +185,25 @@
     const back=event.target.closest('#deckDetailBack');
     if (back) {
       event.preventDefault();
-      if (history.state?.ptcgMetaDetail) history.back(); else closeDetail();
+      window.MetaRouter?.closeDetail?.();
       return;
     }
     const sourceButton=event.target.closest('#deckDetail [data-detail-source]');
     if (sourceButton) {
       event.preventDefault();
+      event.stopPropagation();
       detail.source=sourceButton.dataset.detailSource==='irl'?'irl':'online';
       renderDetail();
-      syncDetailUrl('replace');
+      window.MetaRouter?.replaceDetailSource?.(detail.source);
       return;
     }
     const deck=event.target.closest('[data-explore-deck]');
     if (!deck) return;
     event.preventDefault();
     event.stopPropagation();
-    openDetail(deck.dataset.exploreDeck,deck.dataset.exploreSource||'online');
+    window.MetaRouter?.openDetail?.(deck.dataset.exploreDeck,deck.dataset.exploreSource||'online');
   },true);
 
-  document.querySelector('[data-meta-view="decks"]')?.addEventListener('click',()=>setTimeout(renderDeckExplorer,0));
-  document.querySelector('[data-meta-view="matchups"]')?.addEventListener('click',()=>setTimeout(renderMatchups,0));
   $('deckPageSource')?.addEventListener('change',()=>setTimeout(renderDeckExplorer,0));
   $('matchupPageSource')?.addEventListener('change',()=>{matchupDeck='';setTimeout(renderMatchups,0);});
 
@@ -251,18 +218,12 @@
     if(!$('matchups')?.classList.contains('hidden'))renderMatchups();
   });
 
-  function applyLocation() {
-    const params=new URLSearchParams(location.search);
-    const name=params.get('deck');
-    if (location.hash.toLowerCase()==='#detail' && name) {
-      openDetail(name,params.get('source')==='irl'?'irl':'online',{origin:params.get('from')||'current',syncUrl:false});
-    } else if ($('deckDetail') && !$('deckDetail').classList.contains('hidden')) {
-      closeDetail({syncUrl:false});
-    }
-  }
-  window.addEventListener('popstate',applyLocation);
-  window.addEventListener('hashchange',()=>{ if(location.hash.toLowerCase()==='#detail' || ($('deckDetail')&&!$('deckDetail').classList.contains('hidden'))) applyLocation(); });
-
-  window.MetaExplore={openDeck:(name,source)=>openDetail(name,source),closeDeck:closeDetail,renderDetail};
-  applyLocation();
+  window.MetaExplore={
+    showDetail,
+    renderDetail,
+    renderDeckExplorer,
+    renderMatchups,
+    openDeck:(name,source)=>window.MetaRouter?.openDetail?.(name,source),
+    closeDeck:()=>window.MetaRouter?.closeDetail?.(),
+  };
 })();
