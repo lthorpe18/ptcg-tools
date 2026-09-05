@@ -4,7 +4,7 @@
 **Date:** 5 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
-**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`
+**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`
 
 ## 1. Product vision
 
@@ -126,10 +126,10 @@ Saved decks, working lists, immutable checkpoints/versions, Training Log, deck m
 Events, attendance, Event Prep, Tournament Day, real tournament results and Competitive Record / Season.
 
 ### Tools
-Small standalone competitive utilities only.
+Small standalone competitive utilities: Cut / ID, the local organiser Tournament Manager and generic exact probability tools.
 
 ### Settings
-Account, preferences, deck-icon overrides and future storage/import/export controls.
+App-level account, preferences, deck-icon overrides and data controls. The current Settings review is accepted/closed for this product stage.
 
 ### Ownership locks
 
@@ -145,6 +145,8 @@ Account, preferences, deck-icon overrides and future storage/import/export contr
 - Real tournament result entry belongs to Compete and writes shared Match/Game evidence.
 - Solo/goldfish Playtest never creates competitive W/L evidence.
 - Cut / ID engine/standalone utility belongs to Tools and is contextually exposed in Tournament Day.
+- Tournament Manager is a standalone organiser utility. Its local tournaments never create Compete Events, `UserEventParticipation`, Tournament Day, canonical Match/Game or Season records.
+- Generic Draw / Outs, Opening and Prize probability helpers belong to Tools; deck-specific consistency analysis remains Decks-owned.
 - Collection is cross-cutting, connected to Decks, Prep and Home, and must reuse the existing exact-card/Card Catalog/Card Images foundation.
 - Competitive seasons / CP / BFL belong to Compete.
 - Home owns no competitive business logic; it consumes shared Meta, Deck, Event, Season and Tools state and routes into the owning feature.
@@ -372,6 +374,12 @@ The account snapshot remains pragmatic while the product model evolves. Normaliz
 
 Deck icon overrides are account-owned presentation preferences. All feature surfaces displaying archetype sprites should consume the shared `DeckSprites` mapping first.
 
+### 8.5 Settings current-stage acceptance
+
+The bounded Settings review is complete and accepted. Settings remains the app-level home for account/session presentation, global preferences, deck-icon overrides and app-level data controls. Feature-owned controls remain with their owning domains, and top-level shell sync remains the lifecycle owner rather than Settings.
+
+Further Settings work is bugfix/polish only unless a new app-level preference or data-management requirement genuinely belongs there.
+
 See `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`.
 
 ---
@@ -481,9 +489,11 @@ Reuse:
 - `PTCGCardCatalog` for shared metadata/search;
 - `PTCGCardImages` for artwork presentation.
 
-The Collection model must support exact printing/card identity where relevant, gameplay equivalence where appropriate, loose inventory, deck allocations, multiple simultaneously built decks, no accidental double allocation, required vs owned vs allocated, and missing/shopping lists.
+Collection owns private physical inventory/allocation state. Readiness is derived from an exact immutable DeckVersion/checkpoint/list reference rather than copied editable deck truth.
 
-Collection connects to Decks, Prep and Home.
+The Collection model must support exact printing/card identity where relevant, gameplay equivalence as a separate concept, loose inventory, deck allocations, multiple simultaneously built decks, no accidental double allocation, required vs owned vs allocated vs available vs missing, and derived missing/shopping requirements.
+
+Collection connects to Decks, Prep and Home. For v1, prefer the existing account snapshot persistence architecture unless a concrete query/conflict/history/scale requirement justifies normalization.
 
 ---
 
@@ -671,22 +681,35 @@ See `SEASON_ARCHITECTURE.md`.
 
 ---
 
-## 12. Tools
+## 12. Tools — accepted current state
 
 Tools is for small standalone competitive utilities that do not belong in Meta, Decks or Compete.
 
-### Cut / ID
+Current accepted top-of-area navigation:
 
-Requirements:
+**Cut / ID · Tournament · Odds**
 
-- real Pokémon Swiss records including draws;
-- deterministic possible-cutoff logic first;
-- support Top N cut sizes;
-- account for known pairings/IDs where supplied;
-- no hidden empirical tie-rate assumptions;
-- probabilistic simulation only when deterministic information is insufficient and explicitly justified.
+### 12.1 Cut / ID
 
-Tournament Day uses the same shared engine contextually.
+Cut / ID uses the canonical shared `v2-preview/apps/_shared/cut-id-engine.js` and is the same engine consumed contextually by Tournament Day.
+
+Requirements remain deterministic-first Pokémon Swiss reasoning with W/L/D, 3/1/0 points, Top N support, known pairings/IDs where supplied, and clear guaranteed / unsafe / resistance-dependent output. No hidden empirical tie-rate or default simulation assumptions.
+
+### 12.2 Tournament Manager
+
+Tournament Manager is a native standalone organiser utility for running an independent local tournament/group event. It supports Swiss, W/L/D, standings, saved authenticated-user player names, Top Cut, winner display and a full-screen round clock.
+
+Organiser tournament state stays local in its own IndexedDB `tournaments` store and never creates or synchronizes Compete Events, `UserEventParticipation`, Tournament Day, canonical Match/Game or Season records.
+
+### 12.3 Odds
+
+Odds contains **Draw / Outs · Opening · Prizes** and uses shared exact hypergeometric/combinatoric maths from `v2-preview/apps/_shared/probability.js`.
+
+Deck-specific consistency modelling remains Decks-owned.
+
+The Tools review is accepted/closed after real-iPhone testing. Further Tools work is bounded bugfix/polish only unless a genuinely useful small standalone utility clearly earns a place without blurring feature ownership.
+
+See `TOOLS_ARCHITECTURE.md`.
 
 ---
 
@@ -710,6 +733,7 @@ Shared responsibilities include:
 - Match/Game store;
 - Deck store;
 - Cut/ID engine;
+- exact probability/combinatorics helper;
 - Season engine/versioned rules/config;
 - source/scope runtime where applicable;
 - shared current-field blend/read model where applicable.
@@ -741,6 +765,7 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - service-worker/static-data caching baseline;
 - network-first navigation HTML fix;
 - Google authentication and cross-device account persistence;
+- **Settings review accepted/closed for the current product stage**;
 - Meta source/scope architecture and exact-variant analysis;
 - Expected Fields;
 - shared dynamic `MetaBlendedField` current-field model;
@@ -767,7 +792,10 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - **Competitive Record / Season v1 accepted/complete for the current product stage**;
 - official 2027 Season CP/BFL engine and rules/config;
 - completion-time season/ruleset identity persistence;
-- Season result detail linked to exact used deck/version and canonical rounds.
+- Season result detail linked to exact used deck/version and canonical rounds;
+- **Tools review accepted/closed with Cut / ID · Tournament · Odds**;
+- native standalone Tournament Manager with Swiss, Top Cut, standings, saved-player convenience and round clock;
+- shared exact probability helper used by Draw / Outs, Opening and Prize odds.
 
 ### Needs small cleanup, but does not block roadmap
 
@@ -775,26 +803,25 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - move reusable GLC legality/filtering out of `deck-card-search-glc-fix.js` and into shared card-catalog/legality code;
 - audit Mobile Playtest for duplicated local card-art set/number/URL helpers and migrate to `PTCGCardImages` if still present;
 - keep modern set-code fallback mappings centralised/maintainable in shared card infrastructure;
+- retire remaining legacy `v2-preview/apps/swiss` surface once native Tournament Manager parity is considered sufficient;
 - remove obsolete patch/enhancer layers during bounded cleanup or Development Cleanup / Release Hardening once equivalent core behavior is proven.
 
 ### Active status
 
-**Collection / physical readiness remains the next major product milestone, preceded by the current bounded Settings review and Tools review.**
+**Collection / physical readiness v1 is now the active major product milestone.**
 
-The Home, Meta and Navigation/Shell passes are complete/accepted for now. They should not remain active roadmap threads unless a concrete regression or usability blocker appears.
+The Home, Meta, Navigation/Shell, Settings and Tools passes are complete/accepted for now. They should not remain active roadmap threads unless a concrete regression or genuine Collection dependency appears.
 
-The Card Search/Card Images pass is considered functionally established and documented. The small cleanup items above should not expand into another Decks redesign and should only interrupt the bounded review sequence or Collection for a genuine regression or identity/data blocker.
+The Card Search/Card Images pass is considered functionally established and documented. The small cleanup items above should not expand into another Decks redesign and should only interrupt Collection for a genuine regression or identity/data blocker.
 
 Tournament Day and Season remain closed for the current stage.
 
 ### Recommended near-term sequence
 
-1. **Settings review** — bounded product-surface/ownership cleanup.
-2. **Tools review** — bounded standalone-utility review/polish.
-3. **Collection / physical readiness** — exact owned quantities, gameplay equivalence where appropriate, loose inventory, allocations across multiple built decks, required/owned/allocated state and missing/shopping requirements, all built on existing exact-card infrastructure.
-4. **Learning loop** — personal tournament/matchup/practice analytics with explicit evidence provenance.
-5. **Development Cleanup / Release Hardening** — repository-wide removal of temporary scaffolding, stale routes, duplicate engines and obsolete compatibility layers before calling the broader app stable/public-ready.
-6. **Community/public expansion when useful** — privacy/export/delete, centralized ingestion and operational observability as required by actual usage.
+1. **Collection / physical readiness v1** — exact owned quantities, gameplay equivalence as a separate concept, loose inventory, allocations across multiple simultaneously built decks, required/owned/allocated/available/missing derived state and shopping requirements, all built on existing exact-card infrastructure.
+2. **Learning loop** — personal tournament/matchup/practice analytics with explicit evidence provenance.
+3. **Development Cleanup / Release Hardening** — repository-wide removal of temporary scaffolding, stale routes, duplicate engines and obsolete compatibility layers before calling the broader app stable/public-ready.
+4. **Community/public expansion when useful** — privacy/export/delete, centralized ingestion and operational observability as required by actual usage.
 
 Performance is not a dedicated next milestone unless a material regression appears.
 
@@ -846,6 +873,7 @@ PTCG Tools is successful when:
 - configured archetype sprites look the same everywhere because one shared mapping owns them;
 - physical readiness can answer “can I build this?” without double counting;
 - Cut / ID answers deterministic questions before probabilistic ones;
+- standalone organiser tournaments remain isolated from personal Compete evidence;
 - advanced methodology remains available without dominating routine use;
 - future scale does not require every browser to hammer upstream providers independently.
 
