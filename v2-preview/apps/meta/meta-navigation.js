@@ -4,6 +4,11 @@
   let applyingRoute = false;
   let lastNonDetail = document.body.dataset.metaView || 'current';
 
+  function detailOpen() {
+    const detail = document.getElementById('deckDetail');
+    return !!detail && !detail.classList.contains('hidden');
+  }
+
   function notifyShell() {
     if (window.parent === window) return;
     try {
@@ -41,7 +46,7 @@
   }
 
   function syncDetailUrl({replace=false} = {}) {
-    if (applyingRoute || document.body.dataset.metaView !== 'detail') return;
+    if (applyingRoute || !detailOpen()) return;
     const {name,source} = detailIdentity();
     if (!name) return;
     const url = detailUrl(name, source);
@@ -55,7 +60,7 @@
   }
 
   function closeDetailFromHistory() {
-    if (document.body.dataset.metaView !== 'detail') return;
+    if (!detailOpen()) return;
     applyingRoute = true;
     document.getElementById('deckDetailBack')?.click();
     setTimeout(() => { applyingRoute = false; notifyShell(); }, 0);
@@ -70,7 +75,7 @@
     if (wantsDetail) {
       const from = originView();
       applyingRoute = true;
-      if (document.body.dataset.metaView !== 'detail') {
+      if (!detailOpen()) {
         window.MetaHome?.setView?.(from, false);
         lastNonDetail = from;
       }
@@ -79,7 +84,7 @@
       return;
     }
 
-    if (document.body.dataset.metaView === 'detail') closeDetailFromHistory();
+    if (detailOpen()) closeDetailFromHistory();
     else notifyShell();
   }
 
@@ -101,7 +106,7 @@
 
   document.addEventListener('click', event => {
     const back = event.target.closest?.('#deckDetailBack');
-    if (back && !applyingRoute && document.body.dataset.metaView === 'detail') {
+    if (back && !applyingRoute && detailOpen()) {
       event.preventDefault();
       event.stopPropagation();
       if (history.state?.ptcgMetaDetail) history.back();
@@ -122,7 +127,7 @@
 
   window.addEventListener('popstate', applyLocation);
   window.addEventListener('hashchange', () => {
-    if (location.hash.toLowerCase() === '#detail' || document.body.dataset.metaView === 'detail') applyLocation();
+    if (location.hash.toLowerCase() === '#detail' || detailOpen()) applyLocation();
     else notifyShell();
   });
 
