@@ -33,6 +33,39 @@
     }catch{return false}
   }
 
+  function validRoute(section,input){
+    if(!input)return null;
+    try{
+      const url=new URL(input,window.location.href);
+      return sectionForUrl(url.href)===section?url.href:null;
+    }catch{return null}
+  }
+
+  function routeToken(input){
+    try{
+      const url=new URL(input,window.location.href);
+      return `${url.pathname}${url.search}${url.hash}`;
+    }catch{return ''}
+  }
+
+  function currentFrameUrl(section){
+    const frame=frameBySection.get(section);
+    if(!frame)return null;
+    try{
+      const current=frame.contentWindow?.location?.href;
+      return validRoute(section,current);
+    }catch{return validRoute(section,frame.src)}
+  }
+
+  function shellUrlFor(section,childUrl){
+    const shellUrl=new URL(window.location.href);
+    if(section==='home')shellUrl.searchParams.delete('section');else shellUrl.searchParams.set('section',section);
+    const route=section==='home'?null:validRoute(section,childUrl);
+    if(route)shellUrl.searchParams.set('route',routeToken(route));else shellUrl.searchParams.delete('route');
+    shellUrl.hash='';
+    return shellUrl;
+  }
+
   function showStatus(text){
     if(!status)return;
     status.textContent=text;
@@ -55,7 +88,7 @@
     const frame=frameBySection.get(section);
     if(!frame)return;
     if(section==='home'&&!url){restoreHomeFrame();return}
-    const target=url||frame.dataset.src;
+    const target=validRoute(section,url)||frame.dataset.src;
     if(target&&(!frame.src||frame.getAttribute('src')==='about:blank')){
       frame.dataset.loading='1';
       frame.src=target;
@@ -64,15 +97,22 @@
     if(url){
       try{
         const current=frame.contentWindow?.location?.href;
-        const requested=new URL(url,window.location.href).href;
-        if(current&&current!==requested){frame.dataset.loading='1';frame.src=requested}
-      }catch{frame.dataset.loading='1';frame.src=url}
+        const requested=new URL(target,window.location.href).href;
+        if(current&&current!==requested){
+          frame.dataset.loading='1';
+          frame.contentWindow.location.replace(requested);
+        }
+      }catch{
+        frame.dataset.loading='1';
+        frame.src=target;
+      }
     }
   }
 
   function activate(section,url,historyMode='push'){
     if(!frameBySection.has(section))return;
-    loadFrame(section,url);
+    const requested=validRoute(section,url);
+    loadFrame(section,requested);
     active=section;
     for(const frame of frames)frame.classList.toggle('is-active',frame.dataset.section===section);
     for(const item of nav){
@@ -82,9 +122,9 @@
     }
     if(!loaded.has(section))showStatus(`Loading ${label(section)}…`);else hideStatus();
     if(historyMode!=='none'){
-      const shellUrl=new URL(window.location.href);
-      if(section==='home')shellUrl.searchParams.delete('section');else shellUrl.searchParams.set('section',section);
-      const state={section};
+      const childUrl=requested||currentFrameUrl(section);
+      const state={section,childUrl:childUrl||null};
+      const shellUrl=shellUrlFor(section,childUrl);
       if(historyMode==='replace')history.replaceState(state,'',shellUrl);else history.pushState(state,'',shellUrl);
     }
   }
@@ -132,10 +172,22 @@
 
   for(const item of nav)item.addEventListener('click',()=>activate(item.dataset.target,null,'push'));
 
+  window.addEventListener('message',event=>{
+    if(event.origin!==window.location.origin||event.data?.type!=='ptcg:shell-route')return;
+    const frame=frames.find(candidate=>candidate.contentWindow===event.source);
+    if(!frame)return;
+    const section=frame.dataset.section;
+    const childUrl=validRoute(section,event.data.url);
+    if(!childUrl||section!==active)return;
+    const state={...(history.state||{}),section,childUrl};
+    history.replaceState(state,'',shellUrlFor(section,childUrl));
+  });
+
   window.addEventListener('popstate',event=>{
     const params=new URLSearchParams(location.search);
     const section=event.state?.section||params.get('section')||'home';
-    activate(section,null,'none');
+    const route=event.state?.childUrl||params.get('route');
+    activate(section,validRoute(section,route),'none');
   });
 
   function warm(section,delay){
@@ -144,8 +196,10 @@
     },delay);
   }
 
-  const initial=new URLSearchParams(location.search).get('section')||'home';
-  if(initial!=='home')activate(initial,null,'replace');else history.replaceState({section:'home'},'',location.href);
+  const params=new URLSearchParams(location.search);
+  const initial=params.get('section')||'home';
+  const initialRoute=validRoute(initial,params.get('route'));
+  if(initial!=='home')activate(initial,initialRoute,'replace');else history.replaceState({section:'home',childUrl:null},'',shellUrlFor('home',null));
 
   warm('meta',250);
   warm('decks',900);
