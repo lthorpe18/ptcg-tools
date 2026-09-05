@@ -3,17 +3,10 @@
 
   let applyingRoute = false;
   let lastNonDetail = document.body.dataset.metaView || 'current';
-  const mainSectionIds = ['currentMetaPage','prep','matchups','decks'];
 
   function detailOpen() {
     const detail = document.getElementById('deckDetail');
     return !!detail && !detail.classList.contains('hidden');
-  }
-
-  function enforceDetailExclusive() {
-    if (!detailOpen()) return;
-    for (const id of mainSectionIds) document.getElementById(id)?.classList.add('hidden');
-    if (document.body.dataset.metaView !== 'detail') document.body.dataset.metaView = 'detail';
   }
 
   function notifyShell() {
@@ -54,7 +47,6 @@
 
   function syncDetailUrl({replace=false} = {}) {
     if (applyingRoute || !detailOpen()) return;
-    enforceDetailExclusive();
     const {name,source} = detailIdentity();
     if (!name) return;
     const url = detailUrl(name, source);
@@ -70,7 +62,9 @@
   function closeDetailFromHistory() {
     if (!detailOpen()) return;
     applyingRoute = true;
-    document.getElementById('deckDetailBack')?.click();
+    document.getElementById('deckDetail')?.classList.add('hidden');
+    const from = originView();
+    window.MetaHome?.setView?.(from, false);
     setTimeout(() => { applyingRoute = false; notifyShell(); }, 0);
   }
 
@@ -88,8 +82,7 @@
         lastNonDetail = from;
       }
       window.MetaExplore?.openDeck?.(name, source);
-      enforceDetailExclusive();
-      setTimeout(() => { applyingRoute = false; enforceDetailExclusive(); notifyShell(); }, 0);
+      setTimeout(() => { applyingRoute = false; notifyShell(); }, 0);
       return;
     }
 
@@ -104,13 +97,8 @@
       const previous = record.oldValue || lastNonDetail;
       if (current === 'detail') {
         if (previous !== 'detail' && ['current','prep','matchups','decks'].includes(previous)) lastNonDetail = previous;
-        enforceDetailExclusive();
         syncDetailUrl({replace:applyingRoute});
-      } else {
-        if (detailOpen()) {
-          enforceDetailExclusive();
-          continue;
-        }
+      } else if (!detailOpen()) {
         if (['current','prep','matchups','decks'].includes(current)) lastNonDetail = current;
         notifyShell();
       }
@@ -118,24 +106,7 @@
   });
   bodyObserver.observe(document.body, { attributes:true, attributeFilter:['data-meta-view'], attributeOldValue:true });
 
-  const sectionObserver = new MutationObserver(() => enforceDetailExclusive());
-  for (const id of mainSectionIds) {
-    const section = document.getElementById(id);
-    if (section) sectionObserver.observe(section, { attributes:true, attributeFilter:['class'] });
-  }
-
   document.addEventListener('click', event => {
-    const summary = event.target.closest?.('#deckDetailEvidence > summary');
-    if (summary && detailOpen()) {
-      event.preventDefault();
-      event.stopPropagation();
-      event.stopImmediatePropagation();
-      const panel = summary.parentElement;
-      if (panel) panel.open = !panel.open;
-      enforceDetailExclusive();
-      return;
-    }
-
     const back = event.target.closest?.('#deckDetailBack');
     if (back && !applyingRoute && detailOpen()) {
       event.preventDefault();
@@ -146,7 +117,6 @@
         const from = originView();
         document.getElementById('deckDetail')?.classList.add('hidden');
         window.MetaHome?.setView?.(from, false);
-        back.click();
         history.replaceState({ptcgMetaView:from}, '', normalUrl(from));
         setTimeout(() => { applyingRoute = false; notifyShell(); }, 0);
       }
@@ -154,16 +124,8 @@
     }
 
     const sourceButton = event.target.closest?.('#deckDetail [data-detail-source]');
-    if (sourceButton) setTimeout(() => { enforceDetailExclusive(); syncDetailUrl({replace:true}); }, 0);
+    if (sourceButton) setTimeout(() => syncDetailUrl({replace:true}), 0);
   }, true);
-
-  document.addEventListener('change', event => {
-    if (event.target.closest?.('#deckDetail') && detailOpen()) setTimeout(enforceDetailExclusive, 0);
-  }, true);
-
-  window.addEventListener('meta:data-changed', () => setTimeout(enforceDetailExclusive, 0));
-  window.addEventListener('deckagg:updated', () => setTimeout(enforceDetailExclusive, 0));
-  window.addEventListener('irl:updated', () => setTimeout(enforceDetailExclusive, 0));
 
   window.addEventListener('popstate', applyLocation);
   window.addEventListener('hashchange', () => {
