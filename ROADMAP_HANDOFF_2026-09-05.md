@@ -1,6 +1,6 @@
 # PTCG Tools — Roadmap Handoff — 5 September 2026
 
-**Status:** Current coordination handoff after accepted Meta navigation/data-architecture rework  
+**Status:** Current coordination handoff after accepted Meta architecture and bounded Navigation / Home deep-link regression pass  
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`
 
 ## 1. What has just closed
@@ -29,12 +29,42 @@ Key locks:
 
 The implementation landed primarily in commit `0bcda945aa5d3fdf9fdcd92b945bb421209a7732` and was followed by a successful scheduled incremental data refresh (`9bf56b537b40f8f8b1072fa12ed6458ea203ddaf`).
 
+### 1.1 Navigation / Home deep-link regression pass
+
+A bounded Navigation / Shell consistency pass was subsequently completed without redesigning the accepted persistent shell.
+
+The shell architecture remains unchanged:
+
+- **Home · Meta · Decks · Compete · Tools** remain the five top-level areas;
+- Settings remains app-level;
+- the persistent shell remains sole owner of the bottom navigation;
+- already-loaded core areas remain mounted;
+- navigation HTML remains network-first;
+- top-level OAuth remains the deliberate exception to child routing.
+
+The accepted Home navigation semantics are now:
+
+- Blended Meta hero → Meta main, while Variant grouping remains independently interactive;
+- Decks heading/card background → Decks main;
+- Recently edited deck preview → that exact Deck;
+- Events heading/card background → My Tournaments;
+- Next tournament preview → that exact tournament;
+- Card Search → direct Decks-owned Card Search entry;
+- Cut / ID → direct Tools-owned calculator entry;
+- Playtest → Decks-owned deck picker, then launch the selected Deck working list through the existing Playtest launch contract.
+
+The preview-link regression was traced to Home CSS suppressing pointer events on the exact-item links, causing taps to fall through to the parent cards. The bounded fix restored independent exact-item tap targets rather than changing shell routing.
+
+This behavior was accepted on iPhone against implementation baseline `62854a094feece32fe2d1756bd8896fe1d73dd6b`.
+
+Navigation / Home is therefore closed again for the current stage unless a new concrete regression appears.
+
 ## 2. Accepted/closed product areas
 
 Current-stage accepted or substantially established areas include:
 
 - persistent five-area shell and navigation-performance architecture;
-- Home single-screen derived dashboard;
+- Home single-screen derived dashboard and accepted contextual deep-link semantics;
 - Meta source/scope, exact-variant, Expected Field, navigation and ingest/delivery architecture;
 - Deck/DeckVersion/listHash foundation;
 - Decks workspace: My Decks / Training Log / Card Search;
@@ -75,7 +105,7 @@ Sequence:
 5. **Development Cleanup / Release Hardening**.
 6. Community/public expansion when useful and justified by actual usage.
 
-Home and Meta are not active roadmap threads now.
+Home, Meta and Navigation/Shell are not active roadmap threads now.
 
 ## 5. Settings review boundary
 
@@ -142,4 +172,4 @@ Use one dedicated implementation chat per bounded workstream.
 
 Current handoff:
 
-> **Meta architecture accepted/closed → Settings review next → Tools review → Collection / physical readiness v1.**
+> **Meta + Navigation/Home accepted/closed → Settings review → Tools review → Collection / physical readiness v1.**
