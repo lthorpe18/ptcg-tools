@@ -49,6 +49,7 @@
   async function onAuthStateChange(callback){const c=await client();return c.auth.onAuthStateChange((event,session)=>callback(event,session))}
   function userLabel(user){if(!user)return 'Guest';const meta=user.user_metadata||{};return meta.full_name||meta.name||user.email?.split('@')[0]||'Signed in'}
   function providerLabel(user){return user?'Google':''}
+  async function status(){const user=await getUser();return {signedIn:!!user,online:navigator.onLine,dirtyAt:dirtyAt(),lastSyncAt:lastSyncAt(),syncing,restoring}}
   async function push(){
     const c=await client(),user=await getUser();if(!user)throw new Error('Sign in first');
     const beforeDirty=dirtyAt(),payload=await localSnapshot(),now=new Date().toISOString();
@@ -91,6 +92,6 @@
     onAuthStateChange((event)=>{if(event==='SIGNED_IN'||event==='INITIAL_SESSION'||event==='TOKEN_REFRESHED')reconcile().catch(()=>{})}).catch(()=>{});
     reconcile().catch(()=>{});
   }
-  global.PTCGCloud={client,getUser,getSession,providerStatus,signInWithProvider,signOut,onAuthStateChange,userLabel,providerLabel,push,pull,sync:reconcile,reconcile,localSnapshot,restoreLocal,providers:PROVIDERS.slice()};
+  global.PTCGCloud={client,getUser,getSession,providerStatus,signInWithProvider,signOut,onAuthStateChange,userLabel,providerLabel,status,push,pull,sync:reconcile,reconcile,localSnapshot,restoreLocal,providers:PROVIDERS.slice()};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installAutoSync,{once:true});else installAutoSync();
 })(window);
