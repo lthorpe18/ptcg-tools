@@ -3,10 +3,17 @@
 
   let applyingRoute = false;
   let lastNonDetail = document.body.dataset.metaView || 'current';
+  const mainSectionIds = ['currentMetaPage','prep','matchups','decks'];
 
   function detailOpen() {
     const detail = document.getElementById('deckDetail');
     return !!detail && !detail.classList.contains('hidden');
+  }
+
+  function enforceDetailExclusive() {
+    if (!detailOpen()) return;
+    for (const id of mainSectionIds) document.getElementById(id)?.classList.add('hidden');
+    if (document.body.dataset.metaView !== 'detail') document.body.dataset.metaView = 'detail';
   }
 
   function notifyShell() {
@@ -47,6 +54,7 @@
 
   function syncDetailUrl({replace=false} = {}) {
     if (applyingRoute || !detailOpen()) return;
+    enforceDetailExclusive();
     const {name,source} = detailIdentity();
     if (!name) return;
     const url = detailUrl(name, source);
@@ -80,7 +88,8 @@
         lastNonDetail = from;
       }
       window.MetaExplore?.openDeck?.(name, source);
-      setTimeout(() => { applyingRoute = false; notifyShell(); }, 0);
+      enforceDetailExclusive();
+      setTimeout(() => { applyingRoute = false; enforceDetailExclusive(); notifyShell(); }, 0);
       return;
     }
 
@@ -88,27 +97,34 @@
     else notifyShell();
   }
 
-  const observer = new MutationObserver(records => {
+  const bodyObserver = new MutationObserver(records => {
     for (const record of records) {
       if (record.type !== 'attributes' || record.attributeName !== 'data-meta-view') continue;
       const current = document.body.dataset.metaView || 'current';
       const previous = record.oldValue || lastNonDetail;
       if (current === 'detail') {
         if (previous !== 'detail' && ['current','prep','matchups','decks'].includes(previous)) lastNonDetail = previous;
+        enforceDetailExclusive();
         syncDetailUrl({replace:applyingRoute});
       } else {
+        if (detailOpen()) {
+          enforceDetailExclusive();
+          continue;
+        }
         if (['current','prep','matchups','decks'].includes(current)) lastNonDetail = current;
         notifyShell();
       }
     }
   });
-  observer.observe(document.body, { attributes:true, attributeFilter:['data-meta-view'], attributeOldValue:true });
+  bodyObserver.observe(document.body, { attributes:true, attributeFilter:['data-meta-view'], attributeOldValue:true });
+
+  const sectionObserver = new MutationObserver(() => enforceDetailExclusive());
+  for (const id of mainSectionIds) {
+    const section = document.getElementById(id);
+    if (section) sectionObserver.observe(section, { attributes:true, attributeFilter:['class'] });
+  }
 
   document.addEventListener('click', event => {
-    // iOS Safari was treating the native <details> summary interaction as part
-    // of the iframe's joint history traversal in this routed child view. Own
-    // this one toggle explicitly so collapsing Data & performance is a pure
-    // in-place UI mutation and can never leave Deck Detail.
     const summary = event.target.closest?.('#deckDetailEvidence > summary');
     if (summary && detailOpen()) {
       event.preventDefault();
@@ -116,6 +132,7 @@
       event.stopImmediatePropagation();
       const panel = summary.parentElement;
       if (panel) panel.open = !panel.open;
+      enforceDetailExclusive();
       return;
     }
 
@@ -127,6 +144,7 @@
       else {
         applyingRoute = true;
         const from = originView();
+        document.getElementById('deckDetail')?.classList.add('hidden');
         window.MetaHome?.setView?.(from, false);
         back.click();
         history.replaceState({ptcgMetaView:from}, '', normalUrl(from));
@@ -136,8 +154,16 @@
     }
 
     const sourceButton = event.target.closest?.('#deckDetail [data-detail-source]');
-    if (sourceButton) setTimeout(() => syncDetailUrl({replace:true}), 0);
+    if (sourceButton) setTimeout(() => { enforceDetailExclusive(); syncDetailUrl({replace:true}); }, 0);
   }, true);
+
+  document.addEventListener('change', event => {
+    if (event.target.closest?.('#deckDetail') && detailOpen()) setTimeout(enforceDetailExclusive, 0);
+  }, true);
+
+  window.addEventListener('meta:data-changed', () => setTimeout(enforceDetailExclusive, 0));
+  window.addEventListener('deckagg:updated', () => setTimeout(enforceDetailExclusive, 0));
+  window.addEventListener('irl:updated', () => setTimeout(enforceDetailExclusive, 0));
 
   window.addEventListener('popstate', applyLocation);
   window.addEventListener('hashchange', () => {
