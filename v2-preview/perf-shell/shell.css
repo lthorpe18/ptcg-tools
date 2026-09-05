@@ -12,3 +12,5 @@ body{position:fixed;inset:0;height:100dvh;min-height:100dvh}
 .shell-nav-item:active{transform:scale(.96)}
 .shell-status{position:absolute;left:50%;bottom:calc(var(--shell-nav-row) + env(safe-area-inset-bottom) + 12px);transform:translateX(-50%);z-index:30;padding:7px 10px;border-radius:999px;background:rgba(17,24,39,.9);color:white;font-size:12px;white-space:nowrap}
 .shell-view[data-loading="1"]{background:#f7f8fb}
+body.tm-round-clock-open .shell-views{inset:0}
+body.tm-round-clock-open .shell-nav,body.tm-round-clock-open .shell-status{display:none!important}
