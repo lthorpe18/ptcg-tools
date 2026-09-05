@@ -4,7 +4,7 @@
   "sourceUrl": "https://labs.limitlesstcg.com",
   "format": "TEF-PBL",
   "formatStart": "2026-07-17T00:00:00.000Z",
-  "generatedAt": "2026-09-04T09:55:59.365Z",
+  "generatedAt": "2026-09-05T09:21:01.124Z",
   "events": [
     {
       "id": "0071",
@@ -15,68 +15,68 @@
       "decks": [
         {
           "name": "Dragapult",
-          "entries": 172,
-          "share": 22.22,
-          "wins": 541,
-          "losses": 581,
-          "ties": 155,
-          "winRate": 46.41,
+          "entries": 178,
+          "share": 22.33,
+          "wins": 553,
+          "losses": 601,
+          "ties": 162,
+          "winRate": 46.12,
           "url": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
         },
         {
           "name": "Dragapult Dusknoir",
-          "entries": 81,
-          "share": 10.47,
-          "wins": 229,
-          "losses": 289,
-          "ties": 54,
-          "winRate": 43.18,
+          "entries": 83,
+          "share": 10.41,
+          "wins": 236,
+          "losses": 297,
+          "ties": 55,
+          "winRate": 43.25,
           "url": "https://labs.limitlesstcg.com/0071/decks/dragapult-dusknoir"
         },
         {
           "name": "Dragapult Blaziken",
-          "entries": 76,
-          "share": 9.82,
-          "wins": 252,
-          "losses": 261,
-          "ties": 83,
-          "winRate": 46.92,
+          "entries": 78,
+          "share": 9.79,
+          "wins": 261,
+          "losses": 269,
+          "ties": 86,
+          "winRate": 47.02,
           "url": "https://labs.limitlesstcg.com/0071/decks/dragapult-blaziken"
         },
         {
           "name": "Basic Box",
-          "entries": 73,
-          "share": 9.43,
-          "wins": 280,
-          "losses": 266,
-          "ties": 47,
-          "winRate": 49.86,
+          "entries": 74,
+          "share": 9.28,
+          "wins": 284,
+          "losses": 269,
+          "ties": 48,
+          "winRate": 49.92,
           "url": "https://labs.limitlesstcg.com/0071/decks/basic-box-m"
         },
         {
           "name": "N's Zoroark",
-          "entries": 58,
-          "share": 7.49,
-          "wins": 214,
-          "losses": 215,
-          "ties": 42,
-          "winRate": 48.41,
+          "entries": 60,
+          "share": 7.53,
+          "wins": 221,
+          "losses": 223,
+          "ties": 43,
+          "winRate": 48.32,
           "url": "https://labs.limitlesstcg.com/0071/decks/n-zoroark"
         },
         {
           "name": "Alakazam Dudunsparce",
-          "entries": 53,
-          "share": 6.85,
-          "wins": 218,
-          "losses": 159,
+          "entries": 54,
+          "share": 6.78,
+          "wins": 220,
+          "losses": 165,
           "ties": 70,
-          "winRate": 53.99,
+          "winRate": 53.48,
           "url": "https://labs.limitlesstcg.com/0071/decks/alakazam-dudunsparce"
         },
         {
           "name": "Slowking",
           "entries": 47,
-          "share": 6.07,
+          "share": 5.9,
           "wins": 181,
           "losses": 164,
           "ties": 39,
@@ -86,7 +86,7 @@
         {
           "name": "Mega Excadrill",
           "entries": 32,
-          "share": 4.13,
+          "share": 4.02,
           "wins": 112,
           "losses": 122,
           "ties": 20,
@@ -95,28 +95,28 @@
         },
         {
           "name": "Raging Bolt Ogerpon",
-          "entries": 24,
-          "share": 3.1,
-          "wins": 81,
-          "losses": 88,
-          "ties": 15,
-          "winRate": 46.74,
+          "entries": 25,
+          "share": 3.14,
+          "wins": 84,
+          "losses": 92,
+          "ties": 16,
+          "winRate": 46.53,
           "url": "https://labs.limitlesstcg.com/0071/decks/raging-bolt-ogerpon"
         },
         {
           "name": "Festival Lead",
-          "entries": 22,
-          "share": 2.84,
-          "wins": 74,
-          "losses": 78,
+          "entries": 23,
+          "share": 2.89,
+          "wins": 78,
+          "losses": 82,
           "ties": 16,
-          "winRate": 47.22,
+          "winRate": 47.35,
           "url": "https://labs.limitlesstcg.com/0071/decks/festival-lead"
         },
         {
           "name": "Crustle",
           "entries": 20,
-          "share": 2.58,
+          "share": 2.51,
           "wins": 103,
           "losses": 59,
           "ties": 27,
@@ -126,7 +126,7 @@
         {
           "name": "Ogerpon Meganium Hydrapple",
           "entries": 12,
-          "share": 1.55,
+          "share": 1.51,
           "wins": 49,
           "losses": 41,
           "ties": 10,
@@ -135,18 +135,18 @@
         },
         {
           "name": "Clefairy Ogerpon",
-          "entries": 10,
-          "share": 1.29,
-          "wins": 44,
-          "losses": 35,
-          "ties": 5,
-          "winRate": 54.37,
+          "entries": 11,
+          "share": 1.38,
+          "wins": 47,
+          "losses": 39,
+          "ties": 6,
+          "winRate": 53.26,
           "url": "https://labs.limitlesstcg.com/0071/decks/clefairy-ogerpon"
         },
         {
           "name": "Dhelmise",
           "entries": 8,
-          "share": 1.03,
+          "share": 1,
           "wins": 27,
           "losses": 26,
           "ties": 9,
@@ -156,7 +156,7 @@
         {
           "name": "Grimmsnarl Froslass",
           "entries": 7,
-          "share": 0.9,
+          "share": 0.88,
           "wins": 11,
           "losses": 29,
           "ties": 5,
@@ -166,7 +166,7 @@
         {
           "name": "Kangaskhan Bouffalant",
           "entries": 7,
-          "share": 0.9,
+          "share": 0.88,
           "wins": 19,
           "losses": 21,
           "ties": 8,
@@ -174,9 +174,19 @@
           "url": "https://labs.limitlesstcg.com/0071/decks/kangaskhan-bouffalant"
         },
         {
+          "name": "Mega Lucario",
+          "entries": 6,
+          "share": 0.75,
+          "wins": 22,
+          "losses": 21,
+          "ties": 2,
+          "winRate": 50.37,
+          "url": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+        },
+        {
           "name": "Ogerpon Meganium Arboliva",
           "entries": 6,
-          "share": 0.78,
+          "share": 0.75,
           "wins": 16,
           "losses": 23,
           "ties": 5,
@@ -184,19 +194,19 @@
           "url": "https://labs.limitlesstcg.com/0071/decks/ogerpon-meganium-arboliva"
         },
         {
-          "name": "Mega Lucario",
+          "name": "Dragapult Dudunsparce",
           "entries": 5,
-          "share": 0.65,
-          "wins": 18,
-          "losses": 18,
-          "ties": 1,
-          "winRate": 49.55,
-          "url": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+          "share": 0.63,
+          "wins": 17,
+          "losses": 16,
+          "ties": 3,
+          "winRate": 50,
+          "url": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
         },
         {
           "name": "Alakazam Dusknoir",
           "entries": 4,
-          "share": 0.52,
+          "share": 0.5,
           "wins": 26,
           "losses": 11,
           "ties": 2,
@@ -206,7 +216,7 @@
         {
           "name": "Cynthia's Garchomp",
           "entries": 4,
-          "share": 0.52,
+          "share": 0.5,
           "wins": 5,
           "losses": 13,
           "ties": 3,
@@ -214,19 +224,9 @@
           "url": "https://labs.limitlesstcg.com/0071/decks/cynthia-garchomp-ex"
         },
         {
-          "name": "Dragapult Dudunsparce",
-          "entries": 4,
-          "share": 0.52,
-          "wins": 16,
-          "losses": 13,
-          "ties": 3,
-          "winRate": 53.13,
-          "url": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
-        },
-        {
           "name": "Lillie's Clefairy",
           "entries": 4,
-          "share": 0.52,
+          "share": 0.5,
           "wins": 15,
           "losses": 13,
           "ties": 1,
@@ -236,7 +236,7 @@
         {
           "name": "Seaking Festival Lead",
           "entries": 4,
-          "share": 0.52,
+          "share": 0.5,
           "wins": 16,
           "losses": 12,
           "ties": 3,
@@ -246,7 +246,7 @@
         {
           "name": "Lopunny Dudunsparce",
           "entries": 3,
-          "share": 0.39,
+          "share": 0.38,
           "wins": 13,
           "losses": 9,
           "ties": 5,
@@ -256,7 +256,7 @@
         {
           "name": "Lopunny Dusknoir",
           "entries": 3,
-          "share": 0.39,
+          "share": 0.38,
           "wins": 9,
           "losses": 13,
           "ties": 2,
@@ -266,7 +266,7 @@
         {
           "name": "Lucario Hariyama",
           "entries": 3,
-          "share": 0.39,
+          "share": 0.38,
           "wins": 14,
           "losses": 15,
           "ties": 2,
@@ -276,7 +276,7 @@
         {
           "name": "Mega Venusaur",
           "entries": 3,
-          "share": 0.39,
+          "share": 0.38,
           "wins": 11,
           "losses": 14,
           "ties": 3,
@@ -286,7 +286,7 @@
         {
           "name": "Metagross",
           "entries": 3,
-          "share": 0.39,
+          "share": 0.38,
           "wins": 7,
           "losses": 8,
           "ties": 5,
@@ -294,9 +294,19 @@
           "url": "https://labs.limitlesstcg.com/0071/decks/metagross-cri"
         },
         {
+          "name": "Rocket's Mewtwo",
+          "entries": 3,
+          "share": 0.38,
+          "wins": 12,
+          "losses": 11,
+          "ties": 3,
+          "winRate": 50,
+          "url": "https://labs.limitlesstcg.com/0071/decks/rocket-mewtwo-ex"
+        },
+        {
           "name": "Ethan's Typhlosion",
           "entries": 2,
-          "share": 0.26,
+          "share": 0.25,
           "wins": 7,
           "losses": 6,
           "ties": 1,
@@ -306,7 +316,7 @@
         {
           "name": "Froslass Munkidori",
           "entries": 2,
-          "share": 0.26,
+          "share": 0.25,
           "wins": 5,
           "losses": 9,
           "ties": 2,
@@ -316,7 +326,7 @@
         {
           "name": "Mega Chandelure",
           "entries": 2,
-          "share": 0.26,
+          "share": 0.25,
           "wins": 8,
           "losses": 8,
           "ties": 4,
@@ -324,19 +334,9 @@
           "url": "https://labs.limitlesstcg.com/0071/decks/mega-chandelure-ex"
         },
         {
-          "name": "Rocket's Mewtwo",
-          "entries": 2,
-          "share": 0.26,
-          "wins": 8,
-          "losses": 8,
-          "ties": 2,
-          "winRate": 48.15,
-          "url": "https://labs.limitlesstcg.com/0071/decks/rocket-mewtwo-ex"
-        },
-        {
           "name": "Starmie Froslass",
           "entries": 2,
-          "share": 0.26,
+          "share": 0.25,
           "wins": 4,
           "losses": 7,
           "ties": 0,
@@ -346,7 +346,7 @@
         {
           "name": "Toucannon",
           "entries": 2,
-          "share": 0.26,
+          "share": 0.25,
           "wins": 6,
           "losses": 9,
           "ties": 1,
@@ -356,7 +356,7 @@
         {
           "name": "Toxtricity Box",
           "entries": 2,
-          "share": 0.26,
+          "share": 0.25,
           "wins": 12,
           "losses": 5,
           "ties": 3,
@@ -394,6 +394,16 @@
           "url": "https://labs.limitlesstcg.com/0071/decks/mega-absol-box"
         },
         {
+          "name": "Mega Dragonite",
+          "entries": 1,
+          "share": 0.13,
+          "wins": 2,
+          "losses": 5,
+          "ties": 1,
+          "winRate": 29.17,
+          "url": "https://labs.limitlesstcg.com/0071/decks/mega-dragonite-ex"
+        },
+        {
           "name": "Mega Greninja",
           "entries": 1,
           "share": 0.13,
@@ -402,6 +412,16 @@
           "ties": 0,
           "winRate": 50,
           "url": "https://labs.limitlesstcg.com/0071/decks/mega-greninja-ex"
+        },
+        {
+          "name": "Ogerpon Meganium",
+          "entries": 1,
+          "share": 0.13,
+          "wins": 2,
+          "losses": 3,
+          "ties": 3,
+          "winRate": 37.5,
+          "url": "https://labs.limitlesstcg.com/0071/decks/ogerpon-meganium"
         },
         {
           "name": "Rocket's Honchkrow",
@@ -1327,6 +1347,22 @@
         },
         {
           "archetype": "Dragapult",
+          "placing": 292,
+          "player": "TENSEI TSUBAKINO",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 4,
+            "losses": 3,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0273/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+        },
+        {
+          "archetype": "Dragapult",
           "placing": 294,
           "player": "Aoi Saito",
           "tournament": "World Championship San Francisco",
@@ -1983,6 +2019,22 @@
         },
         {
           "archetype": "Dragapult",
+          "placing": 479,
+          "player": "ryota okano",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 3,
+            "losses": 5,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0383/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+        },
+        {
+          "archetype": "Dragapult",
           "placing": 480,
           "player": "JOOHO KOH",
           "tournament": "World Championship San Francisco",
@@ -2107,6 +2159,22 @@
             "ties": 0
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0020/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+        },
+        {
+          "archetype": "Dragapult",
+          "placing": 507,
+          "player": "Takumi Mizusugi",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 3,
+            "losses": 5,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0658/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
         },
         {
@@ -2431,6 +2499,22 @@
         },
         {
           "archetype": "Dragapult",
+          "placing": 603,
+          "player": "Ryoji Inoue",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 1,
+            "losses": 1,
+            "ties": 3
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0291/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+        },
+        {
+          "archetype": "Dragapult",
           "placing": 605,
           "player": "Paolo Camus",
           "tournament": "World Championship San Francisco",
@@ -2687,6 +2771,22 @@
         },
         {
           "archetype": "Dragapult",
+          "placing": 666,
+          "player": "MYUNG JOON KIM",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 1,
+            "losses": 3,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0322/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+        },
+        {
+          "archetype": "Dragapult",
           "placing": 669,
           "player": "Rowan Stavenow",
           "tournament": "World Championship San Francisco",
@@ -2939,6 +3039,22 @@
             "ties": 0
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0588/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+        },
+        {
+          "archetype": "Dragapult",
+          "placing": 736,
+          "player": "Takumi Tamaru",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 0,
+            "losses": 3,
+            "ties": 2
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0640/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
         },
         {
@@ -3535,6 +3651,22 @@
         },
         {
           "archetype": "Dragapult Dusknoir",
+          "placing": 317,
+          "player": "星輔 平田",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 4,
+            "losses": 4,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0694/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dusknoir"
+        },
+        {
+          "archetype": "Dragapult Dusknoir",
           "placing": 325,
           "player": "Hyogo Ohara",
           "tournament": "World Championship San Francisco",
@@ -3787,6 +3919,22 @@
             "ties": 1
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0592/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dusknoir"
+        },
+        {
+          "archetype": "Dragapult Dusknoir",
+          "placing": 445,
+          "player": "Sango Makimura",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 3,
+            "losses": 4,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0018/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dusknoir"
         },
         {
@@ -4607,6 +4755,22 @@
         },
         {
           "archetype": "Dragapult Blaziken",
+          "placing": 111,
+          "player": "Naoya Iwamoto",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 6,
+            "losses": 3,
+            "ties": 3
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0293/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-blaziken"
+        },
+        {
+          "archetype": "Dragapult Blaziken",
           "placing": 116,
           "player": "Adriano Manzini Silva",
           "tournament": "World Championship San Francisco",
@@ -5291,6 +5455,22 @@
             "ties": 0
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0529/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-blaziken"
+        },
+        {
+          "archetype": "Dragapult Blaziken",
+          "placing": 506,
+          "player": "Takumi Mitani",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 3,
+            "losses": 5,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0066/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-blaziken"
         },
         {
@@ -6123,6 +6303,22 @@
             "ties": 1
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0784/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/basic-box-m"
+        },
+        {
+          "archetype": "Basic Box",
+          "placing": 263,
+          "player": "TOMOKI HASEGAWA",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 4,
+            "losses": 3,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0319/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/basic-box-m"
         },
         {
@@ -7279,6 +7475,22 @@
         },
         {
           "archetype": "N's Zoroark",
+          "placing": 349,
+          "player": "Shunsuke Shoda",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 4,
+            "losses": 4,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0575/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/n-zoroark"
+        },
+        {
+          "archetype": "N's Zoroark",
           "placing": 354,
           "player": "福田 悠人",
           "tournament": "World Championship San Francisco",
@@ -7371,6 +7583,22 @@
             "ties": 1
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0118/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/n-zoroark"
+        },
+        {
+          "archetype": "N's Zoroark",
+          "placing": 411,
+          "player": "HIROICHI AOYAMA",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 3,
+            "losses": 4,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0158/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/n-zoroark"
         },
         {
@@ -8571,6 +8799,22 @@
             "ties": 0
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0475/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/alakazam-dudunsparce"
+        },
+        {
+          "archetype": "Alakazam Dudunsparce",
+          "placing": 637,
+          "player": "Yudai Abe",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 2,
+            "losses": 6,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0270/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/alakazam-dudunsparce"
         },
         {
@@ -10079,6 +10323,22 @@
         },
         {
           "archetype": "Raging Bolt Ogerpon",
+          "placing": 427,
+          "player": "YUKI TOKUNAGA",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 3,
+            "losses": 4,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0025/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/raging-bolt-ogerpon"
+        },
+        {
+          "archetype": "Raging Bolt Ogerpon",
           "placing": 440,
           "player": "Zhiqian Zhang",
           "tournament": "World Championship San Francisco",
@@ -10427,6 +10687,22 @@
             "ties": 0
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0160/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/festival-lead"
+        },
+        {
+          "archetype": "Festival Lead",
+          "placing": 329,
+          "player": "Takuya Shomura",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 4,
+            "losses": 4,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0099/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/festival-lead"
         },
         {
@@ -11279,6 +11555,22 @@
         },
         {
           "archetype": "Clefairy Ogerpon",
+          "placing": 434,
+          "player": "Ryunosuke Murata",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 3,
+            "losses": 4,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0519/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/clefairy-ogerpon"
+        },
+        {
+          "archetype": "Clefairy Ogerpon",
           "placing": 604,
           "player": "Chwan yaw Tee",
           "tournament": "World Championship San Francisco",
@@ -11678,6 +11970,102 @@
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/kangaskhan-bouffalant"
         },
         {
+          "archetype": "Mega Lucario",
+          "placing": 189,
+          "player": "Nicolai Stiborg",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 5,
+            "losses": 3,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0723/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+        },
+        {
+          "archetype": "Mega Lucario",
+          "placing": 241,
+          "player": "YUTA ITO",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 4,
+            "losses": 3,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0494/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+        },
+        {
+          "archetype": "Mega Lucario",
+          "placing": 288,
+          "player": "Bert Wolters",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 4,
+            "losses": 3,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0035/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+        },
+        {
+          "archetype": "Mega Lucario",
+          "placing": 338,
+          "player": "Jerrick Gumila",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 4,
+            "losses": 4,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0780/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+        },
+        {
+          "archetype": "Mega Lucario",
+          "placing": 348,
+          "player": "Victor ZHAO",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 4,
+            "losses": 4,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0760/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+        },
+        {
+          "archetype": "Mega Lucario",
+          "placing": 693,
+          "player": "Austin Charles",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 1,
+            "losses": 4,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0308/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+        },
+        {
           "archetype": "Ogerpon Meganium Arboliva",
           "placing": 397,
           "player": "Margherita Caponeri",
@@ -11774,41 +12162,25 @@
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/ogerpon-meganium-arboliva"
         },
         {
-          "archetype": "Mega Lucario",
-          "placing": 189,
-          "player": "Nicolai Stiborg",
+          "archetype": "Dragapult Dudunsparce",
+          "placing": 14,
+          "player": "HUI YUAN HUANG",
           "tournament": "World Championship San Francisco",
           "eventId": "0071",
           "date": "2026-08-28T00:00:00.000Z",
           "players": 797,
           "record": {
-            "wins": 5,
-            "losses": 3,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0723/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
-        },
-        {
-          "archetype": "Mega Lucario",
-          "placing": 288,
-          "player": "Bert Wolters",
-          "tournament": "World Championship San Francisco",
-          "eventId": "0071",
-          "date": "2026-08-28T00:00:00.000Z",
-          "players": 797,
-          "record": {
-            "wins": 4,
-            "losses": 3,
+            "wins": 9,
+            "losses": 2,
             "ties": 1
           },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0035/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0218/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
         },
         {
-          "archetype": "Mega Lucario",
-          "placing": 338,
-          "player": "Jerrick Gumila",
+          "archetype": "Dragapult Dudunsparce",
+          "placing": 312,
+          "player": "Hiro Kamei",
           "tournament": "World Championship San Francisco",
           "eventId": "0071",
           "date": "2026-08-28T00:00:00.000Z",
@@ -11818,40 +12190,56 @@
             "losses": 4,
             "ties": 0
           },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0780/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0607/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
         },
         {
-          "archetype": "Mega Lucario",
-          "placing": 348,
-          "player": "Victor ZHAO",
+          "archetype": "Dragapult Dudunsparce",
+          "placing": 489,
+          "player": "Eduardo Molina",
           "tournament": "World Championship San Francisco",
           "eventId": "0071",
           "date": "2026-08-28T00:00:00.000Z",
           "players": 797,
           "record": {
-            "wins": 4,
-            "losses": 4,
+            "wins": 3,
+            "losses": 5,
             "ties": 0
           },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0760/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0477/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
         },
         {
-          "archetype": "Mega Lucario",
-          "placing": 693,
-          "player": "Austin Charles",
+          "archetype": "Dragapult Dudunsparce",
+          "placing": 729,
+          "player": "Junya Tanaka",
           "tournament": "World Championship San Francisco",
           "eventId": "0071",
           "date": "2026-08-28T00:00:00.000Z",
           "players": 797,
           "record": {
             "wins": 1,
-            "losses": 4,
+            "losses": 3,
             "ties": 0
           },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0308/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0328/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
+        },
+        {
+          "archetype": "Dragapult Dudunsparce",
+          "placing": 733,
+          "player": "Jon Eng",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 0,
+            "losses": 2,
+            "ties": 2
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0153/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
         },
         {
           "archetype": "Alakazam Dusknoir",
@@ -11980,70 +12368,6 @@
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0432/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/cynthia-garchomp-ex"
-        },
-        {
-          "archetype": "Dragapult Dudunsparce",
-          "placing": 14,
-          "player": "HUI YUAN HUANG",
-          "tournament": "World Championship San Francisco",
-          "eventId": "0071",
-          "date": "2026-08-28T00:00:00.000Z",
-          "players": 797,
-          "record": {
-            "wins": 9,
-            "losses": 2,
-            "ties": 1
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0218/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
-        },
-        {
-          "archetype": "Dragapult Dudunsparce",
-          "placing": 312,
-          "player": "Hiro Kamei",
-          "tournament": "World Championship San Francisco",
-          "eventId": "0071",
-          "date": "2026-08-28T00:00:00.000Z",
-          "players": 797,
-          "record": {
-            "wins": 4,
-            "losses": 4,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0607/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
-        },
-        {
-          "archetype": "Dragapult Dudunsparce",
-          "placing": 489,
-          "player": "Eduardo Molina",
-          "tournament": "World Championship San Francisco",
-          "eventId": "0071",
-          "date": "2026-08-28T00:00:00.000Z",
-          "players": 797,
-          "record": {
-            "wins": 3,
-            "losses": 5,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0477/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
-        },
-        {
-          "archetype": "Dragapult Dudunsparce",
-          "placing": 733,
-          "player": "Jon Eng",
-          "tournament": "World Championship San Francisco",
-          "eventId": "0071",
-          "date": "2026-08-28T00:00:00.000Z",
-          "players": 797,
-          "record": {
-            "wins": 0,
-            "losses": 2,
-            "ties": 2
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0153/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
         },
         {
           "archetype": "Lillie's Clefairy",
@@ -12414,6 +12738,54 @@
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/metagross-cri"
         },
         {
+          "archetype": "Rocket's Mewtwo",
+          "placing": 93,
+          "player": "Juho Kallama",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 7,
+            "losses": 4,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0689/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/rocket-mewtwo-ex"
+        },
+        {
+          "archetype": "Rocket's Mewtwo",
+          "placing": 272,
+          "player": "Tomoki Takasaka",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 4,
+            "losses": 3,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0520/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/rocket-mewtwo-ex"
+        },
+        {
+          "archetype": "Rocket's Mewtwo",
+          "placing": 688,
+          "player": "Vojtěch Kotlán",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 1,
+            "losses": 4,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0661/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/rocket-mewtwo-ex"
+        },
+        {
           "archetype": "Ethan's Typhlosion",
           "placing": 150,
           "player": "Yasmin Kiss",
@@ -12508,38 +12880,6 @@
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0274/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-chandelure-ex"
-        },
-        {
-          "archetype": "Rocket's Mewtwo",
-          "placing": 93,
-          "player": "Juho Kallama",
-          "tournament": "World Championship San Francisco",
-          "eventId": "0071",
-          "date": "2026-08-28T00:00:00.000Z",
-          "players": 797,
-          "record": {
-            "wins": 7,
-            "losses": 4,
-            "ties": 1
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0689/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/rocket-mewtwo-ex"
-        },
-        {
-          "archetype": "Rocket's Mewtwo",
-          "placing": 688,
-          "player": "Vojtěch Kotlán",
-          "tournament": "World Championship San Francisco",
-          "eventId": "0071",
-          "date": "2026-08-28T00:00:00.000Z",
-          "players": 797,
-          "record": {
-            "wins": 1,
-            "losses": 4,
-            "ties": 1
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0661/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/rocket-mewtwo-ex"
         },
         {
           "archetype": "Starmie Froslass",
@@ -12686,6 +13026,22 @@
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-absol-box"
         },
         {
+          "archetype": "Mega Dragonite",
+          "placing": 554,
+          "player": "Takuro Hirasawa",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 2,
+            "losses": 5,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0267/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-dragonite-ex"
+        },
+        {
           "archetype": "Mega Greninja",
           "placing": 324,
           "player": "Kaname Sato",
@@ -12700,6 +13056,22 @@
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0676/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-greninja-ex"
+        },
+        {
+          "archetype": "Ogerpon Meganium",
+          "placing": 449,
+          "player": "Yano Wataru",
+          "tournament": "World Championship San Francisco",
+          "eventId": "0071",
+          "date": "2026-08-28T00:00:00.000Z",
+          "players": 797,
+          "record": {
+            "wins": 2,
+            "losses": 3,
+            "ties": 3
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0750/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/ogerpon-meganium"
         },
         {
           "archetype": "Rocket's Honchkrow",
@@ -12771,44 +13143,44 @@
   "decks": [
     {
       "name": "Dragapult",
-      "entries": 172,
-      "wins": 541,
-      "losses": 581,
-      "ties": 155
+      "entries": 178,
+      "wins": 553,
+      "losses": 601,
+      "ties": 162
     },
     {
       "name": "Dragapult Dusknoir",
-      "entries": 81,
-      "wins": 229,
-      "losses": 289,
-      "ties": 54
+      "entries": 83,
+      "wins": 236,
+      "losses": 297,
+      "ties": 55
     },
     {
       "name": "Dragapult Blaziken",
-      "entries": 76,
-      "wins": 252,
-      "losses": 261,
-      "ties": 83
+      "entries": 78,
+      "wins": 261,
+      "losses": 269,
+      "ties": 86
     },
     {
       "name": "Basic Box",
-      "entries": 73,
-      "wins": 280,
-      "losses": 266,
-      "ties": 47
+      "entries": 74,
+      "wins": 284,
+      "losses": 269,
+      "ties": 48
     },
     {
       "name": "N's Zoroark",
-      "entries": 58,
-      "wins": 214,
-      "losses": 215,
-      "ties": 42
+      "entries": 60,
+      "wins": 221,
+      "losses": 223,
+      "ties": 43
     },
     {
       "name": "Alakazam Dudunsparce",
-      "entries": 53,
-      "wins": 218,
-      "losses": 159,
+      "entries": 54,
+      "wins": 220,
+      "losses": 165,
       "ties": 70
     },
     {
@@ -12827,16 +13199,16 @@
     },
     {
       "name": "Raging Bolt Ogerpon",
-      "entries": 24,
-      "wins": 81,
-      "losses": 88,
-      "ties": 15
+      "entries": 25,
+      "wins": 84,
+      "losses": 92,
+      "ties": 16
     },
     {
       "name": "Festival Lead",
-      "entries": 22,
-      "wins": 74,
-      "losses": 78,
+      "entries": 23,
+      "wins": 78,
+      "losses": 82,
       "ties": 16
     },
     {
@@ -12855,10 +13227,10 @@
     },
     {
       "name": "Clefairy Ogerpon",
-      "entries": 10,
-      "wins": 44,
-      "losses": 35,
-      "ties": 5
+      "entries": 11,
+      "wins": 47,
+      "losses": 39,
+      "ties": 6
     },
     {
       "name": "Dhelmise",
@@ -12882,6 +13254,13 @@
       "ties": 8
     },
     {
+      "name": "Mega Lucario",
+      "entries": 6,
+      "wins": 22,
+      "losses": 21,
+      "ties": 2
+    },
+    {
       "name": "Ogerpon Meganium Arboliva",
       "entries": 6,
       "wins": 16,
@@ -12889,11 +13268,11 @@
       "ties": 5
     },
     {
-      "name": "Mega Lucario",
+      "name": "Dragapult Dudunsparce",
       "entries": 5,
-      "wins": 18,
-      "losses": 18,
-      "ties": 1
+      "wins": 17,
+      "losses": 16,
+      "ties": 3
     },
     {
       "name": "Alakazam Dusknoir",
@@ -12906,13 +13285,6 @@
       "name": "Cynthia's Garchomp",
       "entries": 4,
       "wins": 5,
-      "losses": 13,
-      "ties": 3
-    },
-    {
-      "name": "Dragapult Dudunsparce",
-      "entries": 4,
-      "wins": 16,
       "losses": 13,
       "ties": 3
     },
@@ -12966,6 +13338,13 @@
       "ties": 5
     },
     {
+      "name": "Rocket's Mewtwo",
+      "entries": 3,
+      "wins": 12,
+      "losses": 11,
+      "ties": 3
+    },
+    {
       "name": "Ethan's Typhlosion",
       "entries": 2,
       "wins": 7,
@@ -12985,13 +13364,6 @@
       "wins": 8,
       "losses": 8,
       "ties": 4
-    },
-    {
-      "name": "Rocket's Mewtwo",
-      "entries": 2,
-      "wins": 8,
-      "losses": 8,
-      "ties": 2
     },
     {
       "name": "Starmie Froslass",
@@ -13036,11 +13408,25 @@
       "ties": 1
     },
     {
+      "name": "Mega Dragonite",
+      "entries": 1,
+      "wins": 2,
+      "losses": 5,
+      "ties": 1
+    },
+    {
       "name": "Mega Greninja",
       "entries": 1,
       "wins": 4,
       "losses": 4,
       "ties": 0
+    },
+    {
+      "name": "Ogerpon Meganium",
+      "entries": 1,
+      "wins": 2,
+      "losses": 3,
+      "ties": 3
     },
     {
       "name": "Rocket's Honchkrow",
@@ -13075,49 +13461,49 @@
     {
       "a": "Dragapult",
       "b": "Basic Box",
-      "games": 119,
-      "wins": 54,
-      "losses": 65,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult",
-      "b": "Dragapult Dusknoir",
-      "games": 114,
-      "wins": 55,
-      "losses": 59,
+      "games": 130,
+      "wins": 60,
+      "losses": 70,
       "ties": 0
     },
     {
       "a": "Dragapult",
       "b": "Dragapult Blaziken",
-      "games": 112,
-      "wins": 55,
-      "losses": 57,
+      "games": 127,
+      "wins": 61,
+      "losses": 66,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult",
+      "b": "Dragapult Dusknoir",
+      "games": 121,
+      "wins": 60,
+      "losses": 61,
       "ties": 0
     },
     {
       "a": "Dragapult",
       "b": "Alakazam Dudunsparce",
-      "games": 106,
-      "wins": 57,
-      "losses": 49,
+      "games": 110,
+      "wins": 60,
+      "losses": 50,
       "ties": 0
     },
     {
       "a": "Dragapult",
       "b": "N's Zoroark",
-      "games": 91,
+      "games": 94,
       "wins": 34,
-      "losses": 57,
+      "losses": 60,
       "ties": 0
     },
     {
       "a": "Dragapult",
       "b": "Slowking",
-      "games": 78,
+      "games": 79,
       "wins": 25,
-      "losses": 53,
+      "losses": 54,
       "ties": 0
     },
     {
@@ -13131,25 +13517,25 @@
     {
       "a": "Dragapult",
       "b": "Raging Bolt Ogerpon",
-      "games": 41,
+      "games": 42,
       "wins": 22,
-      "losses": 19,
+      "losses": 20,
       "ties": 0
     },
     {
       "a": "Dragapult",
       "b": "Crustle",
-      "games": 34,
+      "games": 35,
       "wins": 6,
-      "losses": 28,
+      "losses": 29,
       "ties": 0
     },
     {
       "a": "Dragapult",
       "b": "Festival Lead",
-      "games": 28,
-      "wins": 16,
-      "losses": 12,
+      "games": 30,
+      "wins": 17,
+      "losses": 13,
       "ties": 0
     },
     {
@@ -13165,6 +13551,14 @@
       "b": "Dhelmise",
       "games": 18,
       "wins": 7,
+      "losses": 11,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult",
+      "b": "Clefairy Ogerpon",
+      "games": 14,
+      "wins": 3,
       "losses": 11,
       "ties": 0
     },
@@ -13187,17 +13581,17 @@
     {
       "a": "Dragapult",
       "b": "Dragapult Dudunsparce",
-      "games": 11,
-      "wins": 2,
+      "games": 12,
+      "wins": 3,
       "losses": 9,
       "ties": 0
     },
     {
       "a": "Dragapult",
-      "b": "Clefairy Ogerpon",
-      "games": 11,
-      "wins": 1,
-      "losses": 10,
+      "b": "Mega Lucario",
+      "games": 9,
+      "wins": 6,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -13210,10 +13604,10 @@
     },
     {
       "a": "Dragapult",
-      "b": "Mega Lucario",
+      "b": "Lucario Hariyama",
       "games": 7,
-      "wins": 4,
-      "losses": 3,
+      "wins": 3,
+      "losses": 4,
       "ties": 0
     },
     {
@@ -13234,7 +13628,7 @@
     },
     {
       "a": "Dragapult",
-      "b": "Lucario Hariyama",
+      "b": "Mega Chandelure",
       "games": 6,
       "wins": 3,
       "losses": 3,
@@ -13258,14 +13652,6 @@
     },
     {
       "a": "Dragapult",
-      "b": "Mega Chandelure",
-      "games": 5,
-      "wins": 3,
-      "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult",
       "b": "Lillie's Clefairy",
       "games": 4,
       "wins": 1,
@@ -13278,6 +13664,14 @@
       "games": 4,
       "wins": 3,
       "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult",
+      "b": "Other",
+      "games": 4,
+      "wins": 1,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -13318,14 +13712,6 @@
       "games": 3,
       "wins": 1,
       "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult",
-      "b": "Other",
-      "games": 3,
-      "wins": 0,
-      "losses": 3,
       "ties": 0
     },
     {
@@ -13370,6 +13756,14 @@
     },
     {
       "a": "Dragapult",
+      "b": "Mega Dragonite",
+      "games": 2,
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult",
       "b": "Ethan's Typhlosion",
       "games": 1,
       "wins": 0,
@@ -13382,6 +13776,14 @@
       "games": 1,
       "wins": 0,
       "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult",
+      "b": "Ogerpon Meganium",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
       "ties": 0
     },
     {
@@ -13419,49 +13821,49 @@
     {
       "a": "Dragapult Dusknoir",
       "b": "Dragapult",
-      "games": 114,
-      "wins": 54,
-      "losses": 60,
+      "games": 121,
+      "wins": 57,
+      "losses": 64,
       "ties": 0
     },
     {
       "a": "Dragapult Dusknoir",
       "b": "Dragapult Blaziken",
-      "games": 63,
-      "wins": 25,
-      "losses": 38,
+      "games": 67,
+      "wins": 27,
+      "losses": 40,
       "ties": 0
     },
     {
       "a": "Dragapult Dusknoir",
       "b": "Basic Box",
-      "games": 50,
-      "wins": 22,
-      "losses": 28,
+      "games": 53,
+      "wins": 23,
+      "losses": 30,
       "ties": 0
     },
     {
       "a": "Dragapult Dusknoir",
       "b": "N's Zoroark",
-      "games": 40,
+      "games": 41,
       "wins": 16,
-      "losses": 24,
+      "losses": 25,
       "ties": 0
     },
     {
       "a": "Dragapult Dusknoir",
       "b": "Alakazam Dudunsparce",
-      "games": 34,
-      "wins": 12,
-      "losses": 22,
+      "games": 37,
+      "wins": 13,
+      "losses": 24,
       "ties": 0
     },
     {
       "a": "Dragapult Dusknoir",
       "b": "Slowking",
-      "games": 30,
+      "games": 31,
       "wins": 11,
-      "losses": 19,
+      "losses": 20,
       "ties": 0
     },
     {
@@ -13474,6 +13876,14 @@
     },
     {
       "a": "Dragapult Dusknoir",
+      "b": "Festival Lead",
+      "games": 21,
+      "wins": 13,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Dusknoir",
       "b": "Raging Bolt Ogerpon",
       "games": 18,
       "wins": 6,
@@ -13482,17 +13892,9 @@
     },
     {
       "a": "Dragapult Dusknoir",
-      "b": "Festival Lead",
-      "games": 18,
-      "wins": 11,
-      "losses": 7,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dusknoir",
       "b": "Crustle",
-      "games": 13,
-      "wins": 4,
+      "games": 14,
+      "wins": 5,
       "losses": 9,
       "ties": 0
     },
@@ -13514,6 +13916,14 @@
     },
     {
       "a": "Dragapult Dusknoir",
+      "b": "Dhelmise",
+      "games": 5,
+      "wins": 4,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Dusknoir",
       "b": "Lillie's Clefairy",
       "games": 5,
       "wins": 1,
@@ -13530,7 +13940,7 @@
     },
     {
       "a": "Dragapult Dusknoir",
-      "b": "Dhelmise",
+      "b": "Seaking Festival Lead",
       "games": 4,
       "wins": 4,
       "losses": 0,
@@ -13550,14 +13960,6 @@
       "games": 4,
       "wins": 2,
       "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dusknoir",
-      "b": "Seaking Festival Lead",
-      "games": 3,
-      "wins": 3,
-      "losses": 0,
       "ties": 0
     },
     {
@@ -13587,6 +13989,14 @@
     {
       "a": "Dragapult Dusknoir",
       "b": "Kangaskhan Bouffalant",
+      "games": 3,
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Dusknoir",
+      "b": "Rocket's Mewtwo",
       "games": 3,
       "wins": 1,
       "losses": 2,
@@ -13674,14 +14084,6 @@
     },
     {
       "a": "Dragapult Dusknoir",
-      "b": "Rocket's Mewtwo",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dusknoir",
       "b": "Toxtricity Box",
       "games": 1,
       "wins": 0,
@@ -13715,17 +14117,17 @@
     {
       "a": "Dragapult Blaziken",
       "b": "Dragapult",
-      "games": 112,
-      "wins": 50,
-      "losses": 62,
+      "games": 127,
+      "wins": 59,
+      "losses": 68,
       "ties": 0
     },
     {
       "a": "Dragapult Blaziken",
       "b": "Dragapult Dusknoir",
-      "games": 63,
-      "wins": 36,
-      "losses": 27,
+      "games": 67,
+      "wins": 39,
+      "losses": 28,
       "ties": 0
     },
     {
@@ -13739,33 +14141,41 @@
     {
       "a": "Dragapult Blaziken",
       "b": "Alakazam Dudunsparce",
-      "games": 48,
-      "wins": 21,
-      "losses": 27,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Blaziken",
-      "b": "Slowking",
-      "games": 40,
+      "games": 50,
       "wins": 22,
-      "losses": 18,
+      "losses": 28,
       "ties": 0
     },
     {
       "a": "Dragapult Blaziken",
       "b": "N's Zoroark",
-      "games": 39,
+      "games": 43,
       "wins": 15,
-      "losses": 24,
+      "losses": 28,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Blaziken",
+      "b": "Slowking",
+      "games": 41,
+      "wins": 22,
+      "losses": 19,
       "ties": 0
     },
     {
       "a": "Dragapult Blaziken",
       "b": "Raging Bolt Ogerpon",
-      "games": 21,
-      "wins": 8,
+      "games": 22,
+      "wins": 9,
       "losses": 13,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Blaziken",
+      "b": "Festival Lead",
+      "games": 19,
+      "wins": 9,
+      "losses": 10,
       "ties": 0
     },
     {
@@ -13774,14 +14184,6 @@
       "games": 18,
       "wins": 3,
       "losses": 15,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Blaziken",
-      "b": "Festival Lead",
-      "games": 17,
-      "wins": 9,
-      "losses": 8,
       "ties": 0
     },
     {
@@ -13803,8 +14205,16 @@
     {
       "a": "Dragapult Blaziken",
       "b": "Clefairy Ogerpon",
-      "games": 8,
+      "games": 9,
       "wins": 3,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Blaziken",
+      "b": "Dragapult Dudunsparce",
+      "games": 7,
+      "wins": 2,
       "losses": 5,
       "ties": 0
     },
@@ -13818,7 +14228,7 @@
     },
     {
       "a": "Dragapult Blaziken",
-      "b": "Dragapult Dudunsparce",
+      "b": "Mega Lucario",
       "games": 6,
       "wins": 2,
       "losses": 4,
@@ -13850,18 +14260,18 @@
     },
     {
       "a": "Dragapult Blaziken",
-      "b": "Mega Lucario",
-      "games": 5,
-      "wins": 2,
-      "losses": 3,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Blaziken",
       "b": "Metagross",
       "games": 4,
       "wins": 2,
       "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Blaziken",
+      "b": "Other",
+      "games": 3,
+      "wins": 0,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -13875,6 +14285,14 @@
     {
       "a": "Dragapult Blaziken",
       "b": "Mega Venusaur",
+      "games": 3,
+      "wins": 3,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Blaziken",
+      "b": "Lucario Hariyama",
       "games": 3,
       "wins": 3,
       "losses": 0,
@@ -13922,6 +14340,14 @@
     },
     {
       "a": "Dragapult Blaziken",
+      "b": "Ogerpon Meganium",
+      "games": 2,
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Blaziken",
       "b": "Mega Chandelure",
       "games": 2,
       "wins": 1,
@@ -13934,14 +14360,6 @@
       "games": 2,
       "wins": 1,
       "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Blaziken",
-      "b": "Lucario Hariyama",
-      "games": 2,
-      "wins": 2,
-      "losses": 0,
       "ties": 0
     },
     {
@@ -13986,7 +14404,7 @@
     },
     {
       "a": "Dragapult Blaziken",
-      "b": "Other",
+      "b": "Rocket's Mewtwo",
       "games": 1,
       "wins": 0,
       "losses": 1,
@@ -14018,6 +14436,14 @@
     },
     {
       "a": "Dragapult Blaziken",
+      "b": "Mega Dragonite",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Blaziken",
       "b": "Toucannon",
       "games": 1,
       "wins": 1,
@@ -14027,9 +14453,17 @@
     {
       "a": "Basic Box",
       "b": "Dragapult",
-      "games": 119,
-      "wins": 60,
-      "losses": 59,
+      "games": 130,
+      "wins": 65,
+      "losses": 65,
+      "ties": 0
+    },
+    {
+      "a": "Basic Box",
+      "b": "N's Zoroark",
+      "games": 55,
+      "wins": 33,
+      "losses": 22,
       "ties": 0
     },
     {
@@ -14042,26 +14476,18 @@
     },
     {
       "a": "Basic Box",
-      "b": "N's Zoroark",
-      "games": 54,
-      "wins": 32,
-      "losses": 22,
-      "ties": 0
-    },
-    {
-      "a": "Basic Box",
       "b": "Dragapult Dusknoir",
-      "games": 50,
-      "wins": 26,
-      "losses": 24,
+      "games": 53,
+      "wins": 28,
+      "losses": 25,
       "ties": 0
     },
     {
       "a": "Basic Box",
       "b": "Alakazam Dudunsparce",
-      "games": 48,
-      "wins": 16,
-      "losses": 32,
+      "games": 52,
+      "wins": 18,
+      "losses": 34,
       "ties": 0
     },
     {
@@ -14099,17 +14525,17 @@
     {
       "a": "Basic Box",
       "b": "Festival Lead",
-      "games": 15,
-      "wins": 8,
+      "games": 16,
+      "wins": 9,
       "losses": 7,
       "ties": 0
     },
     {
       "a": "Basic Box",
       "b": "Clefairy Ogerpon",
-      "games": 9,
+      "games": 10,
       "wins": 5,
-      "losses": 4,
+      "losses": 5,
       "ties": 0
     },
     {
@@ -14147,9 +14573,17 @@
     {
       "a": "Basic Box",
       "b": "Mega Lucario",
-      "games": 4,
+      "games": 5,
       "wins": 2,
-      "losses": 2,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "a": "Basic Box",
+      "b": "Dragapult Dudunsparce",
+      "games": 4,
+      "wins": 3,
+      "losses": 1,
       "ties": 0
     },
     {
@@ -14174,6 +14608,14 @@
       "games": 3,
       "wins": 1,
       "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Basic Box",
+      "b": "Other",
+      "games": 3,
+      "wins": 2,
+      "losses": 1,
       "ties": 0
     },
     {
@@ -14234,14 +14676,6 @@
     },
     {
       "a": "Basic Box",
-      "b": "Other",
-      "games": 2,
-      "wins": 1,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Basic Box",
       "b": "Ethan's Typhlosion",
       "games": 2,
       "wins": 1,
@@ -14262,14 +14696,6 @@
       "games": 2,
       "wins": 0,
       "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Basic Box",
-      "b": "Dragapult Dudunsparce",
-      "games": 2,
-      "wins": 1,
-      "losses": 1,
       "ties": 0
     },
     {
@@ -14355,73 +14781,81 @@
     {
       "a": "N's Zoroark",
       "b": "Dragapult",
-      "games": 91,
-      "wins": 54,
+      "games": 94,
+      "wins": 57,
       "losses": 37,
       "ties": 0
     },
     {
       "a": "N's Zoroark",
       "b": "Basic Box",
-      "games": 54,
+      "games": 55,
       "wins": 21,
-      "losses": 33,
-      "ties": 0
-    },
-    {
-      "a": "N's Zoroark",
-      "b": "Dragapult Dusknoir",
-      "games": 40,
-      "wins": 23,
-      "losses": 17,
+      "losses": 34,
       "ties": 0
     },
     {
       "a": "N's Zoroark",
       "b": "Dragapult Blaziken",
-      "games": 39,
-      "wins": 22,
+      "games": 43,
+      "wins": 26,
+      "losses": 17,
+      "ties": 0
+    },
+    {
+      "a": "N's Zoroark",
+      "b": "Dragapult Dusknoir",
+      "games": 41,
+      "wins": 24,
       "losses": 17,
       "ties": 0
     },
     {
       "a": "N's Zoroark",
       "b": "Slowking",
-      "games": 34,
+      "games": 35,
       "wins": 20,
-      "losses": 14,
+      "losses": 15,
       "ties": 0
     },
     {
       "a": "N's Zoroark",
       "b": "Alakazam Dudunsparce",
-      "games": 30,
+      "games": 32,
       "wins": 11,
-      "losses": 19,
+      "losses": 21,
       "ties": 0
     },
     {
       "a": "N's Zoroark",
       "b": "Mega Excadrill",
-      "games": 26,
+      "games": 27,
       "wins": 7,
-      "losses": 19,
+      "losses": 20,
       "ties": 0
     },
     {
       "a": "N's Zoroark",
       "b": "Festival Lead",
-      "games": 14,
+      "games": 15,
       "wins": 2,
-      "losses": 12,
+      "losses": 13,
       "ties": 0
     },
     {
       "a": "N's Zoroark",
       "b": "Crustle",
-      "games": 10,
+      "games": 12,
       "wins": 3,
-      "losses": 7,
+      "losses": 9,
+      "ties": 0
+    },
+    {
+      "a": "N's Zoroark",
+      "b": "Clefairy Ogerpon",
+      "games": 10,
+      "wins": 4,
+      "losses": 6,
       "ties": 0
     },
     {
@@ -14434,18 +14868,18 @@
     },
     {
       "a": "N's Zoroark",
-      "b": "Clefairy Ogerpon",
+      "b": "Raging Bolt Ogerpon",
       "games": 9,
-      "wins": 3,
-      "losses": 6,
+      "wins": 5,
+      "losses": 4,
       "ties": 0
     },
     {
       "a": "N's Zoroark",
-      "b": "Raging Bolt Ogerpon",
-      "games": 8,
-      "wins": 4,
-      "losses": 4,
+      "b": "Other",
+      "games": 6,
+      "wins": 3,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -14458,26 +14892,26 @@
     },
     {
       "a": "N's Zoroark",
-      "b": "Ogerpon Meganium Arboliva",
-      "games": 4,
-      "wins": 3,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "N's Zoroark",
       "b": "Kangaskhan Bouffalant",
-      "games": 4,
-      "wins": 1,
+      "games": 5,
+      "wins": 2,
       "losses": 3,
       "ties": 0
     },
     {
       "a": "N's Zoroark",
-      "b": "Other",
-      "games": 3,
-      "wins": 1,
-      "losses": 2,
+      "b": "Mega Lucario",
+      "games": 5,
+      "wins": 0,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "a": "N's Zoroark",
+      "b": "Ogerpon Meganium Arboliva",
+      "games": 4,
+      "wins": 3,
+      "losses": 1,
       "ties": 0
     },
     {
@@ -14494,14 +14928,6 @@
       "games": 3,
       "wins": 2,
       "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "N's Zoroark",
-      "b": "Mega Lucario",
-      "games": 3,
-      "wins": 0,
-      "losses": 3,
       "ties": 0
     },
     {
@@ -14610,6 +15036,22 @@
     },
     {
       "a": "N's Zoroark",
+      "b": "Rocket's Mewtwo",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "N's Zoroark",
+      "b": "Ogerpon Meganium",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "N's Zoroark",
       "b": "Dudunsparce Control",
       "games": 1,
       "wins": 1,
@@ -14635,40 +15077,40 @@
     {
       "a": "Alakazam Dudunsparce",
       "b": "Dragapult",
-      "games": 106,
-      "wins": 41,
-      "losses": 65,
-      "ties": 0
-    },
-    {
-      "a": "Alakazam Dudunsparce",
-      "b": "Dragapult Blaziken",
-      "games": 48,
-      "wins": 23,
-      "losses": 25,
+      "games": 110,
+      "wins": 43,
+      "losses": 67,
       "ties": 0
     },
     {
       "a": "Alakazam Dudunsparce",
       "b": "Basic Box",
-      "games": 48,
-      "wins": 31,
-      "losses": 17,
+      "games": 52,
+      "wins": 33,
+      "losses": 19,
+      "ties": 0
+    },
+    {
+      "a": "Alakazam Dudunsparce",
+      "b": "Dragapult Blaziken",
+      "games": 50,
+      "wins": 24,
+      "losses": 26,
       "ties": 0
     },
     {
       "a": "Alakazam Dudunsparce",
       "b": "Dragapult Dusknoir",
-      "games": 34,
-      "wins": 20,
-      "losses": 14,
+      "games": 37,
+      "wins": 22,
+      "losses": 15,
       "ties": 0
     },
     {
       "a": "Alakazam Dudunsparce",
       "b": "N's Zoroark",
-      "games": 30,
-      "wins": 16,
+      "games": 32,
+      "wins": 18,
       "losses": 14,
       "ties": 0
     },
@@ -14691,9 +15133,9 @@
     {
       "a": "Alakazam Dudunsparce",
       "b": "Crustle",
-      "games": 17,
+      "games": 18,
       "wins": 2,
-      "losses": 15,
+      "losses": 16,
       "ties": 0
     },
     {
@@ -14706,18 +15148,18 @@
     },
     {
       "a": "Alakazam Dudunsparce",
-      "b": "Clefairy Ogerpon",
-      "games": 8,
-      "wins": 8,
-      "losses": 0,
+      "b": "Raging Bolt Ogerpon",
+      "games": 9,
+      "wins": 7,
+      "losses": 2,
       "ties": 0
     },
     {
       "a": "Alakazam Dudunsparce",
-      "b": "Raging Bolt Ogerpon",
+      "b": "Clefairy Ogerpon",
       "games": 8,
-      "wins": 6,
-      "losses": 2,
+      "wins": 8,
+      "losses": 0,
       "ties": 0
     },
     {
@@ -14790,6 +15232,14 @@
       "games": 2,
       "wins": 1,
       "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Alakazam Dudunsparce",
+      "b": "Mega Dragonite",
+      "games": 2,
+      "wins": 2,
+      "losses": 0,
       "ties": 0
     },
     {
@@ -14898,6 +15348,14 @@
     },
     {
       "a": "Alakazam Dudunsparce",
+      "b": "Other",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Alakazam Dudunsparce",
       "b": "Rocket's Mewtwo",
       "games": 1,
       "wins": 0,
@@ -14915,8 +15373,8 @@
     {
       "a": "Slowking",
       "b": "Dragapult",
-      "games": 78,
-      "wins": 49,
+      "games": 79,
+      "wins": 50,
       "losses": 29,
       "ties": 0
     },
@@ -14931,24 +15389,24 @@
     {
       "a": "Slowking",
       "b": "Dragapult Blaziken",
-      "games": 40,
+      "games": 41,
       "wins": 17,
-      "losses": 23,
+      "losses": 24,
       "ties": 0
     },
     {
       "a": "Slowking",
       "b": "N's Zoroark",
-      "games": 34,
+      "games": 35,
       "wins": 13,
-      "losses": 21,
+      "losses": 22,
       "ties": 0
     },
     {
       "a": "Slowking",
       "b": "Dragapult Dusknoir",
-      "games": 30,
-      "wins": 18,
+      "games": 31,
+      "wins": 19,
       "losses": 12,
       "ties": 0
     },
@@ -15058,6 +15516,14 @@
     },
     {
       "a": "Slowking",
+      "b": "Rocket's Mewtwo",
+      "games": 3,
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Slowking",
       "b": "Seaking Festival Lead",
       "games": 2,
       "wins": 0,
@@ -15094,14 +15560,6 @@
       "games": 2,
       "wins": 1,
       "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Slowking",
-      "b": "Rocket's Mewtwo",
-      "games": 2,
-      "wins": 0,
-      "losses": 2,
       "ties": 0
     },
     {
@@ -15147,6 +15605,14 @@
     {
       "a": "Slowking",
       "b": "Mega Venusaur",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Slowking",
+      "b": "Ogerpon Meganium",
       "games": 1,
       "wins": 0,
       "losses": 1,
@@ -15211,8 +15677,8 @@
     {
       "a": "Mega Excadrill",
       "b": "N's Zoroark",
-      "games": 26,
-      "wins": 18,
+      "games": 27,
+      "wins": 19,
       "losses": 8,
       "ties": 0
     },
@@ -15243,9 +15709,9 @@
     {
       "a": "Mega Excadrill",
       "b": "Raging Bolt Ogerpon",
-      "games": 12,
+      "games": 13,
       "wins": 6,
-      "losses": 6,
+      "losses": 7,
       "ties": 0
     },
     {
@@ -15267,9 +15733,9 @@
     {
       "a": "Mega Excadrill",
       "b": "Mega Lucario",
-      "games": 5,
+      "games": 6,
       "wins": 2,
-      "losses": 3,
+      "losses": 4,
       "ties": 0
     },
     {
@@ -15278,6 +15744,14 @@
       "games": 5,
       "wins": 3,
       "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Mega Excadrill",
+      "b": "Rocket's Mewtwo",
+      "games": 5,
+      "wins": 4,
+      "losses": 1,
       "ties": 0
     },
     {
@@ -15306,14 +15780,6 @@
     },
     {
       "a": "Mega Excadrill",
-      "b": "Rocket's Mewtwo",
-      "games": 4,
-      "wins": 3,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Mega Excadrill",
       "b": "Lillie's Clefairy",
       "games": 2,
       "wins": 1,
@@ -15326,6 +15792,14 @@
       "games": 2,
       "wins": 2,
       "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Mega Excadrill",
+      "b": "Mega Dragonite",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
       "ties": 0
     },
     {
@@ -15395,17 +15869,17 @@
     {
       "a": "Raging Bolt Ogerpon",
       "b": "Dragapult",
-      "games": 41,
-      "wins": 18,
+      "games": 42,
+      "wins": 19,
       "losses": 23,
       "ties": 0
     },
     {
       "a": "Raging Bolt Ogerpon",
       "b": "Dragapult Blaziken",
-      "games": 21,
+      "games": 22,
       "wins": 12,
-      "losses": 9,
+      "losses": 10,
       "ties": 0
     },
     {
@@ -15435,41 +15909,41 @@
     {
       "a": "Raging Bolt Ogerpon",
       "b": "Mega Excadrill",
-      "games": 12,
-      "wins": 6,
+      "games": 13,
+      "wins": 7,
       "losses": 6,
       "ties": 0
     },
     {
       "a": "Raging Bolt Ogerpon",
-      "b": "N's Zoroark",
-      "games": 8,
-      "wins": 4,
-      "losses": 4,
-      "ties": 0
-    },
-    {
-      "a": "Raging Bolt Ogerpon",
       "b": "Alakazam Dudunsparce",
-      "games": 8,
-      "wins": 1,
+      "games": 9,
+      "wins": 2,
       "losses": 7,
       "ties": 0
     },
     {
       "a": "Raging Bolt Ogerpon",
-      "b": "Crustle",
-      "games": 5,
-      "wins": 0,
+      "b": "N's Zoroark",
+      "games": 9,
+      "wins": 4,
       "losses": 5,
       "ties": 0
     },
     {
       "a": "Raging Bolt Ogerpon",
+      "b": "Crustle",
+      "games": 7,
+      "wins": 0,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "a": "Raging Bolt Ogerpon",
       "b": "Festival Lead",
-      "games": 4,
+      "games": 5,
       "wins": 2,
-      "losses": 2,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -15586,6 +16060,14 @@
     },
     {
       "a": "Raging Bolt Ogerpon",
+      "b": "Other",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Raging Bolt Ogerpon",
       "b": "Clefairy Ogerpon",
       "games": 1,
       "wins": 1,
@@ -15603,40 +16085,40 @@
     {
       "a": "Festival Lead",
       "b": "Dragapult",
-      "games": 28,
-      "wins": 11,
+      "games": 30,
+      "wins": 13,
       "losses": 17,
       "ties": 0
     },
     {
       "a": "Festival Lead",
       "b": "Dragapult Dusknoir",
-      "games": 18,
-      "wins": 6,
-      "losses": 12,
+      "games": 21,
+      "wins": 7,
+      "losses": 14,
       "ties": 0
     },
     {
       "a": "Festival Lead",
       "b": "Dragapult Blaziken",
-      "games": 17,
-      "wins": 8,
-      "losses": 9,
+      "games": 19,
+      "wins": 9,
+      "losses": 10,
       "ties": 0
     },
     {
       "a": "Festival Lead",
       "b": "Basic Box",
-      "games": 15,
-      "wins": 6,
+      "games": 16,
+      "wins": 7,
       "losses": 9,
       "ties": 0
     },
     {
       "a": "Festival Lead",
       "b": "N's Zoroark",
-      "games": 14,
-      "wins": 11,
+      "games": 15,
+      "wins": 12,
       "losses": 3,
       "ties": 0
     },
@@ -15666,6 +16148,22 @@
     },
     {
       "a": "Festival Lead",
+      "b": "Raging Bolt Ogerpon",
+      "games": 5,
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Festival Lead",
+      "b": "Clefairy Ogerpon",
+      "games": 5,
+      "wins": 2,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "a": "Festival Lead",
       "b": "Mega Excadrill",
       "games": 5,
       "wins": 1,
@@ -15674,10 +16172,10 @@
     },
     {
       "a": "Festival Lead",
-      "b": "Raging Bolt Ogerpon",
+      "b": "Ogerpon Meganium Hydrapple",
       "games": 4,
-      "wins": 2,
-      "losses": 2,
+      "wins": 4,
+      "losses": 0,
       "ties": 0
     },
     {
@@ -15686,22 +16184,6 @@
       "games": 4,
       "wins": 2,
       "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Festival Lead",
-      "b": "Clefairy Ogerpon",
-      "games": 4,
-      "wins": 2,
-      "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Festival Lead",
-      "b": "Ogerpon Meganium Hydrapple",
-      "games": 3,
-      "wins": 3,
-      "losses": 0,
       "ties": 0
     },
     {
@@ -15718,6 +16200,14 @@
       "games": 2,
       "wins": 1,
       "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Festival Lead",
+      "b": "Alakazam Dusknoir",
+      "games": 2,
+      "wins": 0,
+      "losses": 2,
       "ties": 0
     },
     {
@@ -15786,14 +16276,6 @@
     },
     {
       "a": "Festival Lead",
-      "b": "Alakazam Dusknoir",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Festival Lead",
       "b": "Mega Venusaur",
       "games": 1,
       "wins": 1,
@@ -15806,6 +16288,14 @@
       "games": 1,
       "wins": 0,
       "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Festival Lead",
+      "b": "Mega Dragonite",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
       "ties": 0
     },
     {
@@ -15827,9 +16317,17 @@
     {
       "a": "Crustle",
       "b": "Dragapult",
-      "games": 34,
-      "wins": 25,
+      "games": 35,
+      "wins": 26,
       "losses": 9,
+      "ties": 0
+    },
+    {
+      "a": "Crustle",
+      "b": "Alakazam Dudunsparce",
+      "games": 18,
+      "wins": 15,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -15850,18 +16348,18 @@
     },
     {
       "a": "Crustle",
-      "b": "Alakazam Dudunsparce",
-      "games": 17,
-      "wins": 14,
-      "losses": 3,
+      "b": "Dragapult Dusknoir",
+      "games": 14,
+      "wins": 7,
+      "losses": 7,
       "ties": 0
     },
     {
       "a": "Crustle",
-      "b": "Dragapult Dusknoir",
-      "games": 13,
-      "wins": 7,
-      "losses": 6,
+      "b": "N's Zoroark",
+      "games": 12,
+      "wins": 9,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -15870,14 +16368,6 @@
       "games": 11,
       "wins": 3,
       "losses": 8,
-      "ties": 0
-    },
-    {
-      "a": "Crustle",
-      "b": "N's Zoroark",
-      "games": 10,
-      "wins": 7,
-      "losses": 3,
       "ties": 0
     },
     {
@@ -15899,9 +16389,17 @@
     {
       "a": "Crustle",
       "b": "Raging Bolt Ogerpon",
-      "games": 5,
-      "wins": 5,
+      "games": 7,
+      "wins": 7,
       "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Crustle",
+      "b": "Other",
+      "games": 4,
+      "wins": 2,
+      "losses": 2,
       "ties": 0
     },
     {
@@ -15934,14 +16432,6 @@
       "games": 2,
       "wins": 0,
       "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Crustle",
-      "b": "Other",
-      "games": 2,
-      "wins": 2,
-      "losses": 0,
       "ties": 0
     },
     {
@@ -16106,18 +16596,18 @@
     },
     {
       "a": "Ogerpon Meganium Hydrapple",
-      "b": "Crustle",
+      "b": "Festival Lead",
       "games": 4,
-      "wins": 2,
-      "losses": 2,
+      "wins": 0,
+      "losses": 4,
       "ties": 0
     },
     {
       "a": "Ogerpon Meganium Hydrapple",
-      "b": "Festival Lead",
-      "games": 3,
-      "wins": 0,
-      "losses": 3,
+      "b": "Crustle",
+      "games": 4,
+      "wins": 2,
+      "losses": 2,
       "ties": 0
     },
     {
@@ -16219,17 +16709,25 @@
     {
       "a": "Clefairy Ogerpon",
       "b": "Dragapult",
-      "games": 11,
-      "wins": 10,
-      "losses": 1,
+      "games": 14,
+      "wins": 11,
+      "losses": 3,
       "ties": 0
     },
     {
       "a": "Clefairy Ogerpon",
       "b": "N's Zoroark",
-      "games": 9,
+      "games": 10,
       "wins": 6,
-      "losses": 3,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "a": "Clefairy Ogerpon",
+      "b": "Basic Box",
+      "games": 10,
+      "wins": 5,
+      "losses": 5,
       "ties": 0
     },
     {
@@ -16242,10 +16740,10 @@
     },
     {
       "a": "Clefairy Ogerpon",
-      "b": "Basic Box",
+      "b": "Dragapult Blaziken",
       "games": 9,
-      "wins": 4,
-      "losses": 5,
+      "wins": 5,
+      "losses": 4,
       "ties": 0
     },
     {
@@ -16258,10 +16756,10 @@
     },
     {
       "a": "Clefairy Ogerpon",
-      "b": "Dragapult Blaziken",
-      "games": 8,
-      "wins": 4,
-      "losses": 4,
+      "b": "Festival Lead",
+      "games": 5,
+      "wins": 2,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -16282,9 +16780,9 @@
     },
     {
       "a": "Clefairy Ogerpon",
-      "b": "Festival Lead",
-      "games": 4,
-      "wins": 1,
+      "b": "Lopunny Dudunsparce",
+      "games": 3,
+      "wins": 0,
       "losses": 3,
       "ties": 0
     },
@@ -16298,10 +16796,10 @@
     },
     {
       "a": "Clefairy Ogerpon",
-      "b": "Lopunny Dudunsparce",
+      "b": "Rocket's Mewtwo",
       "games": 2,
-      "wins": 0,
-      "losses": 2,
+      "wins": 1,
+      "losses": 1,
       "ties": 0
     },
     {
@@ -16346,6 +16844,14 @@
     },
     {
       "a": "Clefairy Ogerpon",
+      "b": "Grimmsnarl Froslass",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Clefairy Ogerpon",
       "b": "Raging Bolt Ogerpon",
       "games": 1,
       "wins": 0,
@@ -16378,7 +16884,7 @@
     },
     {
       "a": "Dhelmise",
-      "b": "Dragapult Blaziken",
+      "b": "Dragapult Dusknoir",
       "games": 5,
       "wins": 1,
       "losses": 4,
@@ -16386,9 +16892,9 @@
     },
     {
       "a": "Dhelmise",
-      "b": "Dragapult Dusknoir",
-      "games": 4,
-      "wins": 0,
+      "b": "Dragapult Blaziken",
+      "games": 5,
+      "wins": 1,
       "losses": 4,
       "ties": 0
     },
@@ -16641,6 +17147,14 @@
       "ties": 0
     },
     {
+      "a": "Grimmsnarl Froslass",
+      "b": "Clefairy Ogerpon",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
       "a": "Kangaskhan Bouffalant",
       "b": "Dragapult",
       "games": 8,
@@ -16658,18 +17172,18 @@
     },
     {
       "a": "Kangaskhan Bouffalant",
-      "b": "Alakazam Dudunsparce",
-      "games": 4,
-      "wins": 1,
+      "b": "N's Zoroark",
+      "games": 5,
+      "wins": 2,
       "losses": 3,
       "ties": 0
     },
     {
       "a": "Kangaskhan Bouffalant",
-      "b": "N's Zoroark",
+      "b": "Alakazam Dudunsparce",
       "games": 4,
-      "wins": 2,
-      "losses": 2,
+      "wins": 1,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -16790,6 +17304,134 @@
       "games": 1,
       "wins": 0,
       "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Dragapult",
+      "games": 9,
+      "wins": 2,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Mega Excadrill",
+      "games": 6,
+      "wins": 4,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Dragapult Blaziken",
+      "games": 6,
+      "wins": 4,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Basic Box",
+      "games": 5,
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "N's Zoroark",
+      "games": 5,
+      "wins": 4,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Slowking",
+      "games": 2,
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Cynthia's Garchomp",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Dudunsparce Control",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Grimmsnarl Froslass",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Kangaskhan Bouffalant",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Mega Venusaur",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Dhelmise",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Dragapult Dusknoir",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Alakazam Dudunsparce",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Crustle",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Raging Bolt Ogerpon",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
       "ties": 0
     },
     {
@@ -16921,87 +17563,55 @@
       "ties": 0
     },
     {
-      "a": "Mega Lucario",
+      "a": "Dragapult Dudunsparce",
       "b": "Dragapult",
-      "games": 7,
-      "wins": 2,
-      "losses": 5,
+      "games": 12,
+      "wins": 9,
+      "losses": 3,
       "ties": 0
     },
     {
-      "a": "Mega Lucario",
-      "b": "Mega Excadrill",
-      "games": 5,
-      "wins": 3,
-      "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Mega Lucario",
+      "a": "Dragapult Dudunsparce",
       "b": "Dragapult Blaziken",
-      "games": 5,
-      "wins": 3,
+      "games": 7,
+      "wins": 5,
       "losses": 2,
       "ties": 0
     },
     {
-      "a": "Mega Lucario",
+      "a": "Dragapult Dudunsparce",
       "b": "Basic Box",
       "games": 4,
-      "wins": 2,
-      "losses": 2,
+      "wins": 1,
+      "losses": 3,
       "ties": 0
     },
     {
-      "a": "Mega Lucario",
-      "b": "N's Zoroark",
-      "games": 3,
-      "wins": 3,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Mega Lucario",
+      "a": "Dragapult Dudunsparce",
       "b": "Slowking",
+      "games": 3,
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Dudunsparce",
+      "b": "Crustle",
       "games": 2,
       "wins": 0,
       "losses": 2,
       "ties": 0
     },
     {
-      "a": "Mega Lucario",
-      "b": "Cynthia's Garchomp",
+      "a": "Dragapult Dudunsparce",
+      "b": "Alakazam Dusknoir",
       "games": 1,
       "wins": 0,
       "losses": 1,
       "ties": 0
     },
     {
-      "a": "Mega Lucario",
-      "b": "Grimmsnarl Froslass",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Mega Lucario",
-      "b": "Kangaskhan Bouffalant",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Mega Lucario",
-      "b": "Mega Venusaur",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Mega Lucario",
+      "a": "Dragapult Dudunsparce",
       "b": "Dhelmise",
       "games": 1,
       "wins": 0,
@@ -17009,32 +17619,48 @@
       "ties": 0
     },
     {
-      "a": "Mega Lucario",
-      "b": "Dragapult Dusknoir",
+      "a": "Dragapult Dudunsparce",
+      "b": "N's Zoroark",
       "games": 1,
       "wins": 0,
       "losses": 1,
       "ties": 0
     },
     {
-      "a": "Mega Lucario",
-      "b": "Alakazam Dudunsparce",
+      "a": "Dragapult Dudunsparce",
+      "b": "Toxtricity Brute Bonnet",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Dudunsparce",
+      "b": "Seaking Festival Lead",
       "games": 1,
       "wins": 1,
       "losses": 0,
       "ties": 0
     },
     {
-      "a": "Mega Lucario",
-      "b": "Crustle",
+      "a": "Dragapult Dudunsparce",
+      "b": "Kangaskhan Bouffalant",
       "games": 1,
       "wins": 0,
       "losses": 1,
       "ties": 0
     },
     {
-      "a": "Mega Lucario",
-      "b": "Raging Bolt Ogerpon",
+      "a": "Dragapult Dudunsparce",
+      "b": "Starmie Froslass",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Dragapult Dudunsparce",
+      "b": "Mega Excadrill",
       "games": 1,
       "wins": 1,
       "losses": 0,
@@ -17106,6 +17732,14 @@
     },
     {
       "a": "Alakazam Dusknoir",
+      "b": "Festival Lead",
+      "games": 2,
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Alakazam Dusknoir",
       "b": "Alakazam Dudunsparce",
       "games": 2,
       "wins": 2,
@@ -17146,10 +17780,10 @@
     },
     {
       "a": "Alakazam Dusknoir",
-      "b": "Festival Lead",
+      "b": "Other",
       "games": 1,
-      "wins": 1,
-      "losses": 0,
+      "wins": 0,
+      "losses": 1,
       "ties": 0
     },
     {
@@ -17250,6 +17884,14 @@
     },
     {
       "a": "Cynthia's Garchomp",
+      "b": "Ogerpon Meganium",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Cynthia's Garchomp",
       "b": "Dragapult Blaziken",
       "games": 1,
       "wins": 1,
@@ -17262,110 +17904,6 @@
       "games": 1,
       "wins": 0,
       "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Dragapult",
-      "games": 11,
-      "wins": 9,
-      "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Dragapult Blaziken",
-      "games": 6,
-      "wins": 4,
-      "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Slowking",
-      "games": 3,
-      "wins": 0,
-      "losses": 3,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Crustle",
-      "games": 2,
-      "wins": 0,
-      "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Basic Box",
-      "games": 2,
-      "wins": 1,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Alakazam Dusknoir",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Dhelmise",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "N's Zoroark",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Toxtricity Brute Bonnet",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Seaking Festival Lead",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Kangaskhan Bouffalant",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Starmie Froslass",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Dragapult Dudunsparce",
-      "b": "Mega Excadrill",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
       "ties": 0
     },
     {
@@ -17467,9 +18005,9 @@
     {
       "a": "Seaking Festival Lead",
       "b": "Dragapult Dusknoir",
-      "games": 3,
+      "games": 4,
       "wins": 0,
-      "losses": 3,
+      "losses": 4,
       "ties": 0
     },
     {
@@ -17562,6 +18100,14 @@
     },
     {
       "a": "Seaking Festival Lead",
+      "b": "Ogerpon Meganium",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Seaking Festival Lead",
       "b": "Ethan's Typhlosion",
       "games": 1,
       "wins": 1,
@@ -17578,15 +18124,15 @@
     },
     {
       "a": "Lopunny Dudunsparce",
-      "b": "Lillie's Clefairy",
-      "games": 2,
-      "wins": 2,
+      "b": "Clefairy Ogerpon",
+      "games": 3,
+      "wins": 3,
       "losses": 0,
       "ties": 0
     },
     {
       "a": "Lopunny Dudunsparce",
-      "b": "Clefairy Ogerpon",
+      "b": "Lillie's Clefairy",
       "games": 2,
       "wins": 2,
       "losses": 0,
@@ -17795,8 +18341,8 @@
     {
       "a": "Lucario Hariyama",
       "b": "Dragapult",
-      "games": 6,
-      "wins": 3,
+      "games": 7,
+      "wins": 4,
       "losses": 3,
       "ties": 0
     },
@@ -17826,6 +18372,14 @@
     },
     {
       "a": "Lucario Hariyama",
+      "b": "Dragapult Blaziken",
+      "games": 3,
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "a": "Lucario Hariyama",
       "b": "Crustle",
       "games": 2,
       "wins": 2,
@@ -17838,14 +18392,6 @@
       "games": 2,
       "wins": 1,
       "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Lucario Hariyama",
-      "b": "Dragapult Blaziken",
-      "games": 2,
-      "wins": 0,
-      "losses": 2,
       "ties": 0
     },
     {
@@ -18073,6 +18619,110 @@
       "ties": 0
     },
     {
+      "a": "Rocket's Mewtwo",
+      "b": "Mega Excadrill",
+      "games": 5,
+      "wins": 0,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Dragapult",
+      "games": 4,
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Slowking",
+      "games": 3,
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Dragapult Dusknoir",
+      "games": 3,
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Clefairy Ogerpon",
+      "games": 2,
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Basic Box",
+      "games": 2,
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Cynthia's Garchomp",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Dragapult Blaziken",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "N's Zoroark",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Kangaskhan Bouffalant",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Toucannon",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Lopunny Dusknoir",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Mewtwo",
+      "b": "Alakazam Dudunsparce",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
       "a": "Ethan's Typhlosion",
       "b": "Slowking",
       "games": 3,
@@ -18226,18 +18876,18 @@
     },
     {
       "a": "Mega Chandelure",
-      "b": "N's Zoroark",
-      "games": 5,
+      "b": "Dragapult",
+      "games": 6,
       "wins": 3,
-      "losses": 2,
+      "losses": 3,
       "ties": 0
     },
     {
       "a": "Mega Chandelure",
-      "b": "Dragapult",
+      "b": "N's Zoroark",
       "games": 5,
-      "wins": 2,
-      "losses": 3,
+      "wins": 3,
+      "losses": 2,
       "ties": 0
     },
     {
@@ -18275,86 +18925,6 @@
     {
       "a": "Mega Chandelure",
       "b": "Slowking",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Mewtwo",
-      "b": "Dragapult",
-      "games": 4,
-      "wins": 1,
-      "losses": 3,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Mewtwo",
-      "b": "Mega Excadrill",
-      "games": 4,
-      "wins": 0,
-      "losses": 4,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Mewtwo",
-      "b": "Basic Box",
-      "games": 2,
-      "wins": 1,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Mewtwo",
-      "b": "Slowking",
-      "games": 2,
-      "wins": 1,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Mewtwo",
-      "b": "Cynthia's Garchomp",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Mewtwo",
-      "b": "Dragapult Dusknoir",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Mewtwo",
-      "b": "Kangaskhan Bouffalant",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Mewtwo",
-      "b": "Toucannon",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Mewtwo",
-      "b": "Lopunny Dusknoir",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Mewtwo",
-      "b": "Alakazam Dudunsparce",
       "games": 1,
       "wins": 1,
       "losses": 0,
@@ -20369,6 +20939,22 @@
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0468/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/crustle-dri"
+    },
+    {
+      "archetype": "Dragapult Blaziken",
+      "placing": 111,
+      "player": "Naoya Iwamoto",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 6,
+        "losses": 3,
+        "ties": 3
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0293/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-blaziken"
     },
     {
       "archetype": "Crustle",
@@ -22419,6 +23005,22 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/n-zoroark"
     },
     {
+      "archetype": "Mega Lucario",
+      "placing": 241,
+      "player": "YUTA ITO",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 4,
+        "losses": 3,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0494/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+    },
+    {
       "archetype": "Dragapult",
       "placing": 242,
       "player": "Zhihao Qiu",
@@ -22755,6 +23357,22 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
     },
     {
+      "archetype": "Basic Box",
+      "placing": 263,
+      "player": "TOMOKI HASEGAWA",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 4,
+        "losses": 3,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0319/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/basic-box-m"
+    },
+    {
       "archetype": "N's Zoroark",
       "placing": 264,
       "player": "Jeffrey Xue",
@@ -22881,6 +23499,22 @@
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0718/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-blaziken"
+    },
+    {
+      "archetype": "Rocket's Mewtwo",
+      "placing": 272,
+      "player": "Tomoki Takasaka",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 4,
+        "losses": 3,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0520/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/rocket-mewtwo-ex"
     },
     {
       "archetype": "Dragapult",
@@ -23184,6 +23818,22 @@
         "ties": 1
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0407/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+    },
+    {
+      "archetype": "Dragapult",
+      "placing": 292,
+      "player": "TENSEI TSUBAKINO",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 4,
+        "losses": 3,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0273/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
     },
     {
@@ -23555,6 +24205,22 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
     },
     {
+      "archetype": "Dragapult Dusknoir",
+      "placing": 317,
+      "player": "星輔 平田",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 4,
+        "losses": 4,
+        "ties": 0
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0694/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dusknoir"
+    },
+    {
       "archetype": "Dragapult Blaziken",
       "placing": 318,
       "player": "Tomoharu Kumada",
@@ -23729,6 +24395,22 @@
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0581/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/alakazam-dudunsparce"
+    },
+    {
+      "archetype": "Festival Lead",
+      "placing": 329,
+      "player": "Takuya Shomura",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 4,
+        "losses": 4,
+        "ties": 0
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0099/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/festival-lead"
     },
     {
       "archetype": "Dragapult Blaziken",
@@ -24033,6 +24715,22 @@
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0760/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-lucario-ex"
+    },
+    {
+      "archetype": "N's Zoroark",
+      "placing": 349,
+      "player": "Shunsuke Shoda",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 4,
+        "losses": 4,
+        "ties": 0
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0575/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/n-zoroark"
     },
     {
       "archetype": "Basic Box",
@@ -25012,6 +25710,22 @@
     },
     {
       "archetype": "N's Zoroark",
+      "placing": 411,
+      "player": "HIROICHI AOYAMA",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 3,
+        "losses": 4,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0158/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/n-zoroark"
+    },
+    {
+      "archetype": "N's Zoroark",
       "placing": 412,
       "player": "Javier Andres Fernández Caro",
       "tournament": "World Championship San Francisco",
@@ -25251,6 +25965,22 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dusknoir"
     },
     {
+      "archetype": "Raging Bolt Ogerpon",
+      "placing": 427,
+      "player": "YUKI TOKUNAGA",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 3,
+        "losses": 4,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0025/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/raging-bolt-ogerpon"
+    },
+    {
       "archetype": "Dragapult Blaziken",
       "placing": 428,
       "player": "Shota Utsumi",
@@ -25345,6 +26075,22 @@
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0024/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+    },
+    {
+      "archetype": "Clefairy Ogerpon",
+      "placing": 434,
+      "player": "Ryunosuke Murata",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 3,
+        "losses": 4,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0519/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/clefairy-ogerpon"
     },
     {
       "archetype": "Dragapult",
@@ -25507,6 +26253,22 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/n-zoroark"
     },
     {
+      "archetype": "Dragapult Dusknoir",
+      "placing": 445,
+      "player": "Sango Makimura",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 3,
+        "losses": 4,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0018/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dusknoir"
+    },
+    {
       "archetype": "Basic Box",
       "placing": 446,
       "player": "Kristopher Kemp",
@@ -25553,6 +26315,22 @@
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0061/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+    },
+    {
+      "archetype": "Ogerpon Meganium",
+      "placing": 449,
+      "player": "Yano Wataru",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 2,
+        "losses": 3,
+        "ties": 3
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0750/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/ogerpon-meganium"
     },
     {
       "archetype": "Lillie's Clefairy",
@@ -26020,6 +26798,22 @@
     },
     {
       "archetype": "Dragapult",
+      "placing": 479,
+      "player": "ryota okano",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 3,
+        "losses": 5,
+        "ties": 0
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0383/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+    },
+    {
+      "archetype": "Dragapult",
       "placing": 480,
       "player": "JOOHO KOH",
       "tournament": "World Championship San Francisco",
@@ -26432,6 +27226,38 @@
         "ties": 0
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0020/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+    },
+    {
+      "archetype": "Dragapult Blaziken",
+      "placing": 506,
+      "player": "Takumi Mitani",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 3,
+        "losses": 5,
+        "ties": 0
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0066/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-blaziken"
+    },
+    {
+      "archetype": "Dragapult",
+      "placing": 507,
+      "player": "Takumi Mizusugi",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 3,
+        "losses": 5,
+        "ties": 0
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0658/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
     },
     {
@@ -27169,6 +27995,22 @@
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0317/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/alakazam-dudunsparce"
+    },
+    {
+      "archetype": "Mega Dragonite",
+      "placing": 554,
+      "player": "Takuro Hirasawa",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 2,
+        "losses": 5,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0267/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/mega-dragonite-ex"
     },
     {
       "archetype": "Raging Bolt Ogerpon",
@@ -27939,6 +28781,22 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
     },
     {
+      "archetype": "Dragapult",
+      "placing": 603,
+      "player": "Ryoji Inoue",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 3
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0291/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+    },
+    {
       "archetype": "Clefairy Ogerpon",
       "placing": 604,
       "player": "Chwan yaw Tee",
@@ -28467,6 +29325,22 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/n-zoroark"
     },
     {
+      "archetype": "Alakazam Dudunsparce",
+      "placing": 637,
+      "player": "Yudai Abe",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 2,
+        "losses": 6,
+        "ties": 0
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0270/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/alakazam-dudunsparce"
+    },
+    {
       "archetype": "Dragapult",
       "placing": 638,
       "player": "TAKESHI YAMANAKA",
@@ -28912,6 +29786,22 @@
         "ties": 1
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0729/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
+    },
+    {
+      "archetype": "Dragapult",
+      "placing": 666,
+      "player": "MYUNG JOON KIM",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 1,
+        "losses": 3,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0322/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
     },
     {
@@ -29907,6 +30797,22 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/basic-box-m"
     },
     {
+      "archetype": "Dragapult Dudunsparce",
+      "placing": 729,
+      "player": "Junya Tanaka",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 1,
+        "losses": 3,
+        "ties": 0
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0328/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-dudunsparce"
+    },
+    {
       "archetype": "Mega Excadrill",
       "placing": 730,
       "player": "星宇 文",
@@ -30001,6 +30907,22 @@
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0325/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/grimmsnarl-froslass"
+    },
+    {
+      "archetype": "Dragapult",
+      "placing": 736,
+      "player": "Takumi Tamaru",
+      "tournament": "World Championship San Francisco",
+      "eventId": "0071",
+      "date": "2026-08-28T00:00:00.000Z",
+      "players": 797,
+      "record": {
+        "wins": 0,
+        "losses": 3,
+        "ties": 2
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0071/player/0640/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0071/decks/dragapult-ex"
     },
     {
       "archetype": "Dragapult",
