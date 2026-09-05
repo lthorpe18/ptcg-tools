@@ -99,6 +99,7 @@
   $('deckIconSearch')?.addEventListener('input',render);
   $('exportAccountData')?.addEventListener('click',exportAccountData);
   ['ptcg:cloud-sync','ptcg:local-change','ptcg:auth-change'].forEach(name=>window.addEventListener(name,renderSyncStatus));
+  window.addEventListener('storage',()=>{render();renderSyncStatus();});
   window.addEventListener('online',renderSyncStatus);window.addEventListener('offline',renderSyncStatus);
   loadNames().then(render);
   renderSyncStatus();
