@@ -107,6 +107,21 @@
   bodyObserver.observe(document.body, { attributes:true, attributeFilter:['data-meta-view'], attributeOldValue:true });
 
   document.addEventListener('click', event => {
+    // Keep the Deck Detail disclosure as a pure in-place UI action. On iOS,
+    // allowing the native <details> summary click to participate in the routed
+    // iframe's event/history chain can cause the Meta route to fall back to the
+    // underlying page. Own only this one interaction; do not observe or rewrite
+    // other Meta section classes.
+    const summary = event.target.closest?.('#deckDetailEvidence > summary');
+    if (summary && detailOpen()) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      const panel = summary.parentElement;
+      if (panel) panel.open = !panel.open;
+      return;
+    }
+
     const back = event.target.closest?.('#deckDetailBack');
     if (back && !applyingRoute && detailOpen()) {
       event.preventDefault();
