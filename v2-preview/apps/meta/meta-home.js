@@ -11,6 +11,7 @@
     const hash = String(location.hash || '').replace(/^#/, '').toLowerCase();
     if (hash === 'overview' || hash === 'meta') return 'current';
     if (hash === 'what-should-i-play' || hash === 'play') return 'prep';
+    if (hash === 'detail') return state.view;
     return validViews.has(hash) ? hash : 'current';
   }
 
@@ -79,7 +80,7 @@
     document.querySelectorAll('[data-tab="prep"]').forEach(el => el.classList.toggle('active', next === 'prep'));
     if (syncUrl) {
       const wanted = next === 'current' ? '' : `#${next}`;
-      if (location.hash !== wanted) history.replaceState(null, '', `${location.pathname}${location.search}${wanted}`);
+      if (location.hash !== wanted) history.pushState({ptcgMetaView:next}, '', `${location.pathname}${location.search}${wanted}`);
     }
     window.scrollTo({top:0,behavior:'instant'});
     if (next === 'prep') window.dispatchEvent(new CustomEvent('field:updated'));
@@ -90,8 +91,16 @@
   $('currentMetaSearch')?.addEventListener('input', e => { state.query=e.currentTarget.value || ''; state.expanded.clear(); renderCurrent(); });
   $('currentMetaMore')?.addEventListener('click', () => { state.showAll=!state.showAll; renderCurrent(); });
   document.querySelectorAll('[data-meta-view]').forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.metaView)));
-  document.querySelectorAll('[data-meta-back]').forEach(btn => btn.addEventListener('click', () => setView('current')));
-  window.addEventListener('hashchange', () => setView(viewFromLocation(), false));
+  document.querySelectorAll('[data-meta-back]').forEach(btn => btn.addEventListener('click', () => {
+    if (history.state?.ptcgMetaView && state.view !== 'current') history.back();
+    else setView('current');
+  }));
+  const syncLocationView = () => {
+    if (String(location.hash || '').toLowerCase() === '#detail') return;
+    setView(viewFromLocation(), false);
+  };
+  window.addEventListener('hashchange', syncLocationView);
+  window.addEventListener('popstate', syncLocationView);
   window.addEventListener('meta:data-changed', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) { state.showAll=false; state.expanded.clear(); renderCurrent(); } });
   window.addEventListener('meta:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
   window.addEventListener('irl:updated', () => { if (!$('currentMetaPage')?.classList.contains('hidden')) renderCurrent(); });
