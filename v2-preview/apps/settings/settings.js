@@ -1,10 +1,11 @@
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
-  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
   let names=[];
 
   function pokemonSlug(value){return window.DeckSprites?.normalizeSlug?.(value)||''}
+  function spriteOptions(){return window.DeckSprites?.knownSlugs?.()||[]}
 
   function collectFromData(data,set){
     (data?.tournaments||[]).forEach(event=>(event?.archetypes||[]).forEach(a=>{if(a?.name)set.add(a.name)}));
@@ -35,11 +36,57 @@
     names=[...set].filter(Boolean).sort((a,b)=>a.localeCompare(b));
   }
 
+  function inputHtml(attr,value,placeholder){
+    return `<div class="sprite-input-wrap"><input ${attr} value="${esc(value||'')}" placeholder="${esc(placeholder)}" autocomplete="off"><span class="sprite-field-preview" data-icon-preview aria-hidden="true"></span><div class="sprite-suggestions" data-icon-suggestions hidden></div></div>`;
+  }
+
   function rowHtml(name){
     const overrides=window.DeckSprites?.overrides?.()||{};
     const custom=Array.isArray(overrides[name])&&overrides[name].length;
     const values=custom?overrides[name]:(window.DeckSprites?.defaults?.[name]||window.DeckSprites?.slugs?.(name)||[]);
-    return `<article class="deck-icon-row" data-deck-name="${esc(name)}"><div class="deck-icon-preview">${window.DeckSprites?.html?.(name,{size:38})||''}</div><div class="deck-icon-main"><div class="deck-icon-title"><b>${esc(name)}</b><small>${custom?'Custom':'Default'}</small></div><div class="deck-icon-fields"><label>Pokémon 1<input data-icon-one value="${esc(values[0]||'')}" placeholder="e.g. ogerpon"></label><label>Pokémon 2 (optional)<input data-icon-two value="${esc(values[1]||'')}" placeholder="e.g. dudunsparce"></label></div><div class="deck-icon-actions"><button class="primary" type="button" data-save-icon>Save</button><button type="button" data-reset-icon>Reset default</button></div></div></article>`;
+    return `<article class="deck-icon-row" data-deck-name="${esc(name)}"><div class="deck-icon-preview">${window.DeckSprites?.html?.(name,{size:38})||''}</div><div class="deck-icon-main"><div class="deck-icon-title"><b>${esc(name)}</b><small>${custom?'Custom':'Default'}</small></div><div class="deck-icon-fields"><label>Pokémon 1${inputHtml('data-icon-one',values[0],'e.g. ogerpon')}</label><label>Pokémon 2 (optional)${inputHtml('data-icon-two',values[1],'e.g. dudunsparce')}</label></div><div class="deck-icon-actions"><button class="primary" type="button" data-save-icon>Save</button><button type="button" data-reset-icon>Reset default</button></div></div></article>`;
+  }
+
+  function previewFor(input,slug){
+    const wrap=input?.closest('.sprite-input-wrap');
+    const preview=wrap?.querySelector('[data-icon-preview]');
+    if(!preview)return;
+    preview.innerHTML=slug?`<img src="${esc(window.DeckSprites?.url?.(slug)||'')}" alt="" onerror="this.style.display='none'">`:'';
+  }
+
+  function matchingSlugs(value){
+    const q=pokemonSlug(value);
+    if(!q)return [];
+    return spriteOptions().filter(slug=>slug.startsWith(q)).concat(spriteOptions().filter(slug=>!slug.startsWith(q)&&slug.includes(q))).slice(0,5);
+  }
+
+  function updateSpriteField(input){
+    const wrap=input?.closest('.sprite-input-wrap');
+    const suggestions=wrap?.querySelector('[data-icon-suggestions]');
+    if(!wrap||!suggestions)return;
+    const matches=matchingSlugs(input.value);
+    const exact=pokemonSlug(input.value);
+    const previewSlug=matches[0]||exact;
+    previewFor(input,previewSlug);
+    suggestions.innerHTML=matches.map(slug=>`<button type="button" data-sprite-choice="${esc(slug)}"><img src="${esc(window.DeckSprites?.url?.(slug)||'')}" alt=""><span>${esc(slug.replace(/-/g,' '))}</span></button>`).join('');
+    suggestions.hidden=!matches.length||document.activeElement!==input;
+  }
+
+  function bindSpriteFields(){
+    document.querySelectorAll('[data-icon-one],[data-icon-two]').forEach(input=>{
+      updateSpriteField(input);
+      input.addEventListener('focus',()=>updateSpriteField(input));
+      input.addEventListener('input',()=>updateSpriteField(input));
+      input.addEventListener('blur',()=>setTimeout(()=>{const box=input.closest('.sprite-input-wrap')?.querySelector('[data-icon-suggestions]');if(box)box.hidden=true;},120));
+    });
+    document.querySelectorAll('[data-sprite-choice]').forEach(button=>button.addEventListener('pointerdown',event=>{
+      event.preventDefault();
+      const input=button.closest('.sprite-input-wrap')?.querySelector('input');
+      if(!input)return;
+      input.value=button.dataset.spriteChoice||'';
+      updateSpriteField(input);
+      input.focus();
+    }));
   }
 
   function render(){
@@ -47,6 +94,7 @@
     const overrides=window.DeckSprites?.overrides?.()||{};
     const filtered=q?names.filter(n=>n.toLowerCase().includes(q)):names.filter(n=>Array.isArray(overrides[n])&&overrides[n].length);
     $('deckIconList').innerHTML=filtered.length?filtered.map(rowHtml).join(''):`<div class="settings-empty">${q?'No archetypes match this search.':'No custom deck icons yet. Search for an archetype to customise its icon.'}</div>`;
+    bindSpriteFields();
     document.querySelectorAll('[data-save-icon]').forEach(btn=>btn.addEventListener('click',()=>{
       const row=btn.closest('.deck-icon-row'); const name=row?.dataset.deckName;if(!name)return;
       const first=pokemonSlug(row.querySelector('[data-icon-one]')?.value);
