@@ -1,72 +1,45 @@
 # PTCG Tools — Roadmap Handoff — 5 September 2026
 
-**Status:** Current coordination handoff after accepted Meta architecture and bounded Navigation / Home deep-link regression pass  
-**Companion to:** `PTCG_TOOLS_MASTER.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`
+**Status:** Current coordination handoff after accepted Settings and Tools review passes  
+**Companion to:** `PTCG_TOOLS_MASTER.md`, `TOOLS_ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`
 
-## 1. What has just closed
+## 1. Current programme position
 
-The September 2026 Meta navigation and data-ingest/delivery architecture rework is **accepted and closed for the current product stage** after successful real-iPhone testing.
+The bounded September product-surface sequence preceding Collection is now complete.
 
-The accepted current Meta architecture is:
+Accepted/closed for the current product stage:
 
-`Limitless sources → scheduled repository ingestion → canonical data/meta archives → validated browser release → Home/Meta`
+- Home / Menu;
+- Meta navigation;
+- Meta ingest/data-delivery architecture;
+- Navigation / Shell regression pass;
+- Settings review;
+- Tools review.
 
-Key locks:
+The persistent product shell remains:
 
-- normal browsers do not ingest Limitless tournament data directly;
-- scheduled GitHub Actions own shared Meta ingestion/refresh;
-- `scripts/build-meta-release.mjs` publishes a content-addressed, purpose-split release under `v2-preview/data/meta/release/`;
-- Home and ordinary Current Meta consume the small `core.json` payload;
-- history, matchup and result payloads load on demand;
-- `meta-release-loader.js` owns release discovery, checksum validation and last-known-good Cache Storage;
-- a new release is activated only after core validation;
-- current/previous validated releases provide local fallback resilience;
-- `meta-router.js` is the single Meta navigation owner;
-- `MetaState`, `MetaData` and `MetaControls` remain the single evidence-state/control contract;
-- `PTCGMetaBlend` / `MetaBlendedField` remains the shared current-field blend logic used by Home and Meta;
-- fixed background warming of every top-level area on app launch has been removed; unopened areas load on demand while already-opened areas remain mounted;
-- Supabase remains private per-account persistence, not a duplicate shared Meta warehouse.
+**Home · Meta · Decks · Compete · Tools**
 
-The implementation landed primarily in commit `0bcda945aa5d3fdf9fdcd92b945bb421209a7732` and was followed by a successful scheduled incremental data refresh (`9bf56b537b40f8f8b1072fa12ed6458ea203ddaf`).
+Settings remains app-level.
 
-### 1.1 Navigation / Home deep-link regression pass
+The next active major milestone is now:
 
-A bounded Navigation / Shell consistency pass was subsequently completed without redesigning the accepted persistent shell.
+> **Collection / physical readiness v1**
 
-The shell architecture remains unchanged:
+Do not reopen the recently accepted areas as broad feature programmes unless a concrete regression or genuine Collection dependency appears.
 
-- **Home · Meta · Decks · Compete · Tools** remain the five top-level areas;
-- Settings remains app-level;
-- the persistent shell remains sole owner of the bottom navigation;
-- already-loaded core areas remain mounted;
-- navigation HTML remains network-first;
-- top-level OAuth remains the deliberate exception to child routing.
+---
 
-The accepted Home navigation semantics are now:
+## 2. Accepted application foundations
 
-- Blended Meta hero → Meta main, while Variant grouping remains independently interactive;
-- Decks heading/card background → Decks main;
-- Recently edited deck preview → that exact Deck;
-- Events heading/card background → My Tournaments;
-- Next tournament preview → that exact tournament;
-- Card Search → direct Decks-owned Card Search entry;
-- Cut / ID → direct Tools-owned calculator entry;
-- Playtest → Decks-owned deck picker, then launch the selected Deck working list through the existing Playtest launch contract.
-
-The preview-link regression was traced to Home CSS suppressing pointer events on the exact-item links, causing taps to fall through to the parent cards. The bounded fix restored independent exact-item tap targets rather than changing shell routing.
-
-This behavior was accepted on iPhone against implementation baseline `62854a094feece32fe2d1756bd8896fe1d73dd6b`.
-
-Navigation / Home is therefore closed again for the current stage unless a new concrete regression appears.
-
-## 2. Accepted/closed product areas
-
-Current-stage accepted or substantially established areas include:
+Current-stage accepted or substantially established foundations include:
 
 - persistent five-area shell and navigation-performance architecture;
+- already-loaded core areas remain mounted, unopened areas load on demand;
+- network-first navigation/document HTML;
 - Home single-screen derived dashboard and accepted contextual deep-link semantics;
 - Meta source/scope, exact-variant, Expected Field, navigation and ingest/delivery architecture;
-- Deck/DeckVersion/listHash foundation;
+- Deck / DeckVersion / `listHash` identity foundation;
 - Decks workspace: My Decks / Training Log / Card Search;
 - shared Card Catalog / exact-print mapping;
 - shared Card Images resolver;
@@ -75,60 +48,89 @@ Current-stage accepted or substantially established areas include:
 - Event Prep v1;
 - Tournament Day v1;
 - shared Match/Game evidence;
-- Cut / ID shared engine/contextual Tournament Day use;
 - Competitive Record / Season v1 including 2027 CP/BFL rules/config;
-- Google authentication and cross-device account snapshot persistence.
+- Google authentication and cross-device account snapshot persistence;
+- Settings account/preferences/deck-icon surface;
+- Tools area: Cut / ID · Tournament · Odds.
 
-Do not reopen these as broad feature programmes without a concrete regression or a genuine dependency for the active milestone.
+---
 
-## 3. Small technical debt — defer unless blocking
+## 3. Tools review — accepted and closed
 
-Known cleanup remains, but none should interrupt the near-term roadmap without a real defect:
+The Tools pass is accepted for the current product stage after iterative real-iPhone testing.
 
-- Card Search bootstrap currently routed through enhancement-layer code;
-- GLC legality still needs eventual consolidation into shared card legality/catalog infrastructure;
-- Mobile Playtest should eventually converge any remaining local card-art resolver helpers onto `PTCGCardImages`;
-- modern set-name → PTCGL code fallbacks need ongoing maintainability;
-- legacy/enhancer/compatibility layers should be removed during bounded cleanup or formal Development Cleanup / Release Hardening;
-- routine Meta upstream refreshes and release generation are maintenance, not a feature milestone.
+Canonical Tools top-of-area navigation:
 
-## 4. Correct near-term sequence
+**Cut / ID · Tournament · Odds**
 
-`Collection / physical readiness v1` remains the **next major product milestone**, but two deliberately bounded product-surface reviews are scheduled before Collection implementation.
+See `TOOLS_ARCHITECTURE.md` for the durable source of truth.
 
-Sequence:
+### 3.1 Cut / ID
 
-1. **Settings review** — bounded product-surface/ownership cleanup.
-2. **Tools review** — bounded utility-suite review/polish.
-3. **Collection / physical readiness v1** — next major implementation milestone.
-4. **Learn / personal analytics**.
-5. **Development Cleanup / Release Hardening**.
-6. Community/public expansion when useful and justified by actual usage.
+Cut / ID remains the core shared competitive utility.
 
-Home, Meta and Navigation/Shell are not active roadmap threads now.
+- standalone utility belongs to Tools;
+- Tournament Day consumes the same shared `cut-id-engine.js` contextually;
+- Pokémon W/L/D and 3/1/0 points semantics remain explicit;
+- deterministic cut/ID reasoning comes first;
+- known pairings/known IDs may constrain deterministic ceilings;
+- guaranteed / unsafe / resistance-dependent outcomes are distinguished;
+- no hidden tie-rate assumptions or default simulation.
 
-## 5. Settings review boundary
+Home → Cut / ID remains a direct Tools deep-link.
 
-The Settings review should inspect and rationalise the current app-level controls without turning Settings into a new domain.
+### 3.2 Native Tournament Manager
 
-Expected topics:
+Tournament Manager is now a native Tools subview rather than the old embedded Swiss screen.
 
-- Google account/session presentation;
-- account-owned preferences;
-- Deck icon overrides through canonical `DeckSprites`;
-- import/export/backup/interoperability affordances where appropriate;
-- storage/sync visibility only where genuinely useful;
-- removal or consolidation of duplicated/awkward settings controls.
+Its product role is explicitly:
 
-Settings remains app-level, not a sixth top-level competitive area.
+> **Run a tournament for a group.**
 
-Do not expand the Settings pass into Collection implementation, broad account architecture redesign or release-hardening.
+It is not Compete/Tournament Day and must never create:
 
-## 6. Tools review boundary
+- Compete Events;
+- `UserEventParticipation`;
+- canonical Match/Game history;
+- Tournament Day records;
+- Season/CP/BFL records.
 
-Tools remains the home for **small standalone competitive utilities that do not belong to Meta, Decks or Compete**.
+Organiser tournament state remains local to the Tournament Manager IndexedDB `tournaments` store.
 
-The review should preserve Cut / ID as the established shared core and decide the smallest coherent utility set, potentially including compact probability/record helpers where they genuinely earn a place.
+Accepted capabilities include:
+
+- Casual / Cup / Challenge / League / Other labels;
+- Best of 1 / Best of 3;
+- configurable Swiss rounds;
+- No top cut / Top 4 / Top 8 / Top 16;
+- native Run · Players · Standings subviews;
+- Swiss pairing generation, byes and repeat-opponent avoidance where practical;
+- clear name-based W/L/D result picker;
+- player records displayed as the record entering each round;
+- current/newest round above previous rounds;
+- stateful round-generation controls;
+- live standings/resistance-style tiebreak display;
+- native standard-seeded single-elimination Top Cut;
+- completed-event winner/champion displayed in the tournament library;
+- authenticated-account-only saved player names, with direct add from the picker;
+- native tournament timer;
+- dedicated high-contrast full-screen round clock with prominent tournament/round context and Pause/Resume.
+
+The old `v2-preview/apps/swiss` page is no longer the intended visible product surface; its cleanup is deferred to Development Cleanup / Release Hardening.
+
+### 3.3 Odds
+
+Odds is the compact generic card-maths utility.
+
+Current modes:
+
+**Draw / Outs · Opening · Prizes**
+
+All use the shared exact hypergeometric helper in `v2-preview/apps/_shared/probability.js`.
+
+Deck-specific consistency modelling remains Decks-owned.
+
+### 3.4 Tools boundary remains locked
 
 Do not move these into Tools:
 
@@ -137,39 +139,126 @@ Do not move these into Tools:
 - deck version comparison;
 - Event discovery;
 - Expected Fields;
-- Tournament/Season records;
+- personal Tournament Day/Season records;
 - Collection/readiness;
 - Learn/personal analytics.
 
-Do not let Tools become a dumping ground.
+Further Tools work is bugfix/polish only unless a genuinely useful small standalone utility clearly earns a place.
 
-## 7. Collection remains the next major milestone
+---
 
-After Settings and Tools are closed, begin **Collection / physical readiness v1** in a dedicated workspace.
+## 4. Small technical debt — defer unless blocking
 
-Collection must build on existing foundations rather than inventing another card/deck model:
+Known cleanup remains, but none should interrupt Collection without a real defect:
+
+- Card Search bootstrap still has enhancement-layer debt;
+- GLC legality should eventually consolidate into shared card legality/catalog infrastructure;
+- Mobile Playtest should converge any remaining local card-art helpers onto `PTCGCardImages`;
+- modern set-name → PTCGL code fallbacks require ongoing maintainability;
+- legacy/enhancer/compatibility layers should be removed during Development Cleanup / Release Hardening;
+- legacy `v2-preview/apps/swiss` should eventually be retired once native Tournament Manager parity is considered sufficient;
+- routine Meta upstream refreshes/release generation are maintenance, not roadmap milestones.
+
+---
+
+## 5. Collection / physical readiness v1 — active next milestone
+
+Begin Collection in a dedicated implementation workspace.
+
+### 5.1 Core product question
+
+Collection v1 should answer:
+
+> **Can I physically build this exact deck, and if not, what must I buy, move or free up?**
+
+### 5.2 Reuse existing identity foundations
+
+Collection must not invent another card/deck model.
+
+Reuse:
 
 - Deck / DeckVersion / `listHash` remain Decks-owned;
 - exact card identity remains card name + set code + card number;
 - `PTCGCardCatalog` supplies shared metadata/search;
 - `PTCGCardImages` supplies artwork presentation;
-- Collection owns physical inventory and allocations;
-- readiness is derived from an exact immutable list/reference;
-- exact printing ownership and gameplay equivalence are separate concepts;
-- multiple built decks compete for the same physical copies;
-- loose vs allocated copies must be explicit;
-- required / owned / allocated / available / missing state is derived;
-- shopping requirements are derived, not separately edited truth;
-- Collection is private account-owned state and should initially fit the existing snapshot architecture unless a concrete technical need justifies normalization.
+- exact immutable deck list/reference is the readiness input.
 
-Explicitly defer scanning/OCR, pricing, marketplace/trading, binder/collector polish, social Collection and Learn analytics from Collection v1.
+### 5.3 Collection ownership
+
+Collection owns private physical inventory and allocation state.
+
+It must support:
+
+- exact printing ownership;
+- gameplay equivalence as a separate concept from exact-print ownership;
+- owned quantity;
+- loose/unallocated quantity;
+- allocation into multiple simultaneously-built decks;
+- protection against accidental double allocation;
+- required / owned / allocated / available / missing derived state;
+- missing/shopping requirements derived from inventory + intended deck builds;
+- readiness against exact saved DeckVersion/checkpoint or other immutable exact list reference.
+
+Collection should connect naturally to Decks, Event Prep and Home, but those surfaces should consume Collection state rather than reimplementing it.
+
+### 5.4 Persistence
+
+Collection is private account-owned state.
+
+For v1, prefer the existing snapshot persistence architecture unless a concrete query/conflict/history/scale need justifies normalized tables.
+
+### 5.5 Explicit v1 deferrals
+
+Do not include in Collection v1:
+
+- scanning/OCR;
+- card pricing/value tracking;
+- marketplace/trading;
+- binder/collector showcase polish;
+- social/public Collection;
+- Learn/personal analytics;
+- broad account architecture redesign.
+
+---
+
+## 6. Correct near-term sequence
+
+1. **Collection / physical readiness v1** — active next milestone.
+2. **Learn / personal analytics** — tournament/matchup/practice learning loop with explicit evidence provenance.
+3. **Development Cleanup / Release Hardening** — remove obsolete compatibility/enhancement layers, stale routes, duplicate engines and legacy surfaces before stable/public-ready release.
+4. **Community/public expansion** only when justified by actual usage.
+
+Performance is not a standalone milestone unless a material regression appears.
+
+---
+
+## 7. Collection workspace startup requirements
+
+Before implementing Collection, inspect the latest repository and read:
+
+- `PTCG_TOOLS_MASTER.md`;
+- `ROADMAP_HANDOFF_2026-09-05.md`;
+- `CARD_SEARCH_ARCHITECTURE.md`;
+- `CARD_IMAGE_ARCHITECTURE.md`;
+- `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`;
+- relevant Deck / DeckVersion / listHash implementation;
+- current Deck working-list and saved-version UI;
+- Event Prep exact-list references;
+- Home architecture where future readiness summary may surface;
+- Settings/account persistence behavior.
+
+Audit current card identity and persistence paths before proposing Collection storage. Preserve one canonical exact-card identity and one canonical Deck/DeckVersion identity.
+
+Start with the smallest coherent v1 data model and user workflow before implementation.
+
+---
 
 ## 8. Master/Roadmap operating rule
 
-Use this Master/Roadmap workspace to manage programme status, architecture locks, milestone order and handoffs.
+Use the Master/Roadmap workspace for programme status, architecture locks, milestone order and handoffs.
 
 Use one dedicated implementation chat per bounded workstream.
 
 Current handoff:
 
-> **Meta + Navigation/Home accepted/closed → Settings review → Tools review → Collection / physical readiness v1.**
+> **Home + Meta + Navigation + Settings + Tools accepted/closed → Collection / physical readiness v1.**
