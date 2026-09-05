@@ -1,11 +1,12 @@
 (function(){
 'use strict';
 const $=id=>document.getElementById(id);
-const DB_NAME='ptcg-tools-db',DB_VERSION=2,STORE='tournaments';
+const DB_NAME='ptcg-tools-db',STORE='tournaments';
 let db=null,tournaments=[],current=null,selectedTab='run',timerTick=null;
 const uid=()=>crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(16).slice(2)}`;
 const now=()=>new Date().toISOString();
-function openDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(DB_NAME,DB_VERSION);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains(STORE)){const s=d.createObjectStore(STORE,{keyPath:'id'});s.createIndex('updatedAt','updatedAt',{unique:false});s.createIndex('name','name',{unique:false})}if(!d.objectStoreNames.contains('decks')){const s=d.createObjectStore('decks',{keyPath:'id'});s.createIndex('updatedAt','updatedAt',{unique:false});s.createIndex('name','name',{unique:false})}};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+function ensureTournamentStore(d){if(!d.objectStoreNames.contains(STORE)){const s=d.createObjectStore(STORE,{keyPath:'id'});s.createIndex('updatedAt','updatedAt',{unique:false});s.createIndex('name','name',{unique:false})}}
+function openDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(DB_NAME);r.onerror=()=>reject(r.error);r.onsuccess=()=>{const currentDb=r.result;if(currentDb.objectStoreNames.contains(STORE)){resolve(currentDb);return}const nextVersion=currentDb.version+1;currentDb.close();const upgrade=indexedDB.open(DB_NAME,nextVersion);upgrade.onupgradeneeded=()=>ensureTournamentStore(upgrade.result);upgrade.onsuccess=()=>resolve(upgrade.result);upgrade.onerror=()=>reject(upgrade.error);upgrade.onblocked=()=>reject(new Error('Tournament database upgrade blocked'))}})}
 function tx(mode='readonly'){return db.transaction(STORE,mode).objectStore(STORE)}
 function all(){return new Promise((res,rej)=>{const r=tx().getAll();r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error)})}
 function put(v){return new Promise((res,rej)=>{v.updatedAt=now();const r=tx('readwrite').put(v);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
