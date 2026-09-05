@@ -122,3 +122,22 @@ Before calling a Meta change complete, smoke-test:
 8. Home → Meta and Home → What Should I Play through the persistent shell
 9. browser Back/Forward across Meta subviews and exact-variant detail
 10. reload/restore of a shell-routed Meta child view
+
+## Current acceptance state — 5 September 2026
+
+The Meta navigation and data-ingest/delivery architecture rework is **accepted and closed for the current product stage**.
+
+Acceptance includes successful real-iPhone testing after the architecture rework. The current implementation is considered the canonical Meta runtime/data-delivery model:
+
+- one `meta-router.js` navigation owner;
+- one `MetaState` / `MetaData` / `MetaControls` evidence contract;
+- scheduled central ingestion instead of browser-side Limitless tournament ingestion;
+- canonical `data/meta/` archives;
+- validated, content-addressed, purpose-split browser releases;
+- small `core.json` for Home/current-field use;
+- lazy-loaded history/matchup/result evidence;
+- checksum validation and last-known-good local Cache Storage;
+- shared Home/Meta blend calculation;
+- on-demand top-level area loading rather than fixed startup warming of every area.
+
+Do not reopen Meta as a broad roadmap programme unless a concrete correctness, navigation, ingest or usability regression is found. Routine upstream data refreshes are maintenance, not a feature milestone.
