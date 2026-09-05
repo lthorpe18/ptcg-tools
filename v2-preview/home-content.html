@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f7f8fb">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="PTCG Tools">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-app-status-bar-style" content="default">
   <title>PTCG Tools</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" type="image/png" href="./assets/apple-touch-icon.png">
@@ -30,7 +30,7 @@
   </header>
 
   <main class="app-shell-page home-shell">
-    <section class="home-meta-hero" aria-labelledby="homeBlendedMetaTitle">
+    <section class="home-meta-hero" data-home-href="./apps/meta/" tabindex="0" role="link" aria-label="Open Meta" aria-labelledby="homeBlendedMetaTitle">
       <div class="home-meta-head">
         <div class="home-meta-topline">
           <span class="home-field-pill"><span aria-hidden="true">▥</span> Current field</span>
@@ -56,21 +56,21 @@
     </section>
 
     <div class="home-personal-grid">
-      <section class="home-personal-card home-deck-card" data-home-card-target="deckPreview" tabindex="0" role="link" aria-label="Open my deck">
-        <div class="home-card-heading"><span class="home-card-icon">▤</span><h2>My Deck</h2></div>
+      <section class="home-personal-card home-deck-card" data-home-href="./apps/decklists/" tabindex="0" role="link" aria-label="Open Decks">
+        <div class="home-card-heading"><span class="home-card-icon">▤</span><h2>Decks</h2></div>
         <a id="deckPreview" class="home-area-preview home-card-preview" href="./apps/decklists/"></a>
       </section>
 
-      <section class="home-personal-card home-event-card" data-home-card-target="competePreview" tabindex="0" role="link" aria-label="View next event">
-        <div class="home-card-heading"><span class="home-card-icon">□</span><h2>Next Event</h2></div>
-        <a id="competePreview" class="home-area-preview home-card-preview" href="./apps/events/"></a>
+      <section class="home-personal-card home-event-card" data-home-href="./apps/events/?view=tournaments" tabindex="0" role="link" aria-label="Open My Tournaments">
+        <div class="home-card-heading"><span class="home-card-icon">□</span><h2>Events</h2></div>
+        <a id="competePreview" class="home-area-preview home-card-preview" href="./apps/events/?view=tournaments"></a>
       </section>
     </div>
 
     <nav class="home-quick-actions" aria-label="Quick actions">
-      <a href="./apps/decklists/"><span class="home-quick-icon">⌕</span><span>Card Search</span></a>
+      <a href="./apps/decklists/?workspace=cards"><span class="home-quick-icon">⌕</span><span>Card Search</span></a>
       <a href="./apps/tools/#cut"><span class="home-quick-icon warm">✂</span><span>Cut / ID</span></a>
-      <a href="./apps/decklists/"><span class="home-quick-icon">▷</span><span>Playtest</span></a>
+      <a href="./apps/decklists/?playtest=pick"><span class="home-quick-icon">▷</span><span>Playtest</span></a>
     </nav>
 
     <a class="home-play-card" href="./apps/meta/#prep">
@@ -99,7 +99,7 @@
   <script src="./apps/_shared/season-config-2027.js?v=1"></script>
   <script src="./apps/_shared/cloud-sync.js?v=6"></script>
   <script src="./apps/_shared/auth-ui.js?v=4"></script>
-  <script src="./scripts/home.js?v=16"></script>
+  <script src="./scripts/home.js?v=17"></script>
   <script src="./apps/_shared/app-shell.js?v=7"></script>
 </body>
 </html>
