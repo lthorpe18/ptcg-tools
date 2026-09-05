@@ -1,7 +1,7 @@
 # PTCG Tools — Home Architecture
 
 **Status:** Current implemented Home source of truth  
-**Date:** 4 September 2026  
+**Date:** 5 September 2026  
 **Scope:** `v2-preview/` Home/dashboard only
 
 ## 1. Role
@@ -27,7 +27,7 @@ Home does not own Meta, Deck, Event, Season, Playtest, Card Search or Cut / ID d
 The current Home order is:
 
 1. **Blended Meta** hero;
-2. **My Deck | Next Event** side-by-side personal row;
+2. **Decks | Events** side-by-side personal row;
 3. **Card Search | Cut / ID | Playtest** quick-action strip;
 4. **What should I play?** full-width recommendation entry card;
 5. persistent bottom navigation: **Home · Meta · Decks · Compete · Tools**.
@@ -51,6 +51,8 @@ It shows the top five decks as a proportional bar chart with:
 - optional variant grouping presentation control.
 
 Deck names and chart axes are intentionally omitted to keep the hero compact; sprite identity plus percentages carry the presentation.
+
+The **hero card itself opens Meta main**. The Variant grouping control is an embedded interaction and must not trigger navigation when operated.
 
 ### 3.2 Canonical blended-field model
 
@@ -128,7 +130,7 @@ This is presentation only and must continue to respect canonical sprite mappings
 
 ---
 
-## 4. My Deck
+## 4. Decks card
 
 Home reads `PTCGDeckStore` and currently uses the most recently edited deck as the v1 relevance rule.
 
@@ -138,13 +140,18 @@ Display includes:
 - deck name;
 - recently edited context.
 
-The **entire My Deck card is the tap target**. Do not add a separate `Open deck` button/link inside the card.
+The card deliberately has **two navigation levels**:
 
-The card deep-links to the relevant existing Decks route and does not own Deck state.
+- tapping the **Decks heading/card background** opens Decks main;
+- tapping the **Recently edited deck preview** opens that exact saved Deck by stable Deck ID.
+
+Do not collapse these two targets into one whole-card route and do not add redundant `Open deck` buttons.
+
+Home does not own Deck state.
 
 ---
 
-## 5. Next Event
+## 5. Events card
 
 Home derives the next attended event from existing `UserEventParticipation` state.
 
@@ -157,7 +164,14 @@ Primary behavior:
 
 If there is no suitable next event, Home may fall back to a compact Season summary using the shared Season engine.
 
-The **entire Next Event card is the tap target**. Do not add a separate `View event` button/link inside the card.
+The card deliberately has **two navigation levels** when a next tournament exists:
+
+- tapping the **Events heading/card background** opens **My Tournaments**;
+- tapping the **Next tournament preview** opens that exact tournament by `participation` ID through the canonical Tournament Day route.
+
+When the preview is showing a Season fallback, its own route may open the Season view instead.
+
+Do not collapse the Events card and exact-tournament preview into one route and do not add redundant `View event` buttons.
 
 Home does not own event lifecycle state.
 
@@ -167,9 +181,11 @@ Home does not own event lifecycle state.
 
 The locked Home quick-action strip is:
 
-- **Card Search** → Decks-owned Card Search;
-- **Cut / ID** → Tools-owned Cut / ID;
-- **Playtest** → Decks-owned Mobile Playtest.
+- **Card Search** → direct entry to Decks-owned Card Search;
+- **Cut / ID** → direct entry to the Tools-owned Cut / ID calculator;
+- **Playtest** → Decks-owned deck picker, then launch Mobile Playtest using the selected Deck working list through the existing Playtest launch contract.
+
+The Playtest picker is an entry affordance only. Home does not own Deck selection state or Playtest state.
 
 These are contextual deep-links and do not change feature ownership or the five-area shell.
 
@@ -199,6 +215,8 @@ Home child links that target a shell-owned section must be intercepted/routed th
 
 The shell includes self-healing behavior so returning to Home restores the canonical Home child document if that iframe has navigated away.
 
+Feature-specific deep links should preserve semantic route identity, including exact Deck IDs and exact tournament participation IDs.
+
 Do not reintroduce nested shells or duplicate bottom navs.
 
 Home viewport calculations must not reserve bottom-navigation height twice. The dashboard should use the actual child viewport supplied above the parent shell navigation.
@@ -216,7 +234,8 @@ Reuse:
 - `PTCGDeckStore`;
 - root `PTCGStorage` / `UserEventParticipation`;
 - shared Season engine;
-- canonical `DeckSprites`.
+- canonical `DeckSprites`;
+- existing Decks/Compete/Tools feature entry contracts.
 
 Avoid:
 
@@ -224,6 +243,7 @@ Avoid:
 - Home-specific deck/event stores;
 - Home-owned Expected Fields;
 - duplicate blend/grouping engines;
+- Home-owned Playtest launch state;
 - reload/cache hacks to update state;
 - full-shell navigation inside child frames.
 
@@ -233,21 +253,28 @@ Home should respond to existing local/storage/shared-runtime update events where
 
 ## 10. Current acceptance state
 
-The current Home redesign is accepted for the present product stage after iterative iPhone testing.
+The current Home redesign and navigation semantics are accepted for the present product stage after iterative iPhone testing.
 
 Accepted product surface:
 
 - single-screen dashboard on the target iPhone portrait experience;
-- Blended Meta hero with live shared data;
+- Blended Meta hero with live shared data and whole-card route to Meta main;
 - dynamic IRL/Online source weighting;
-- Variant grouping Off/On presentation control;
+- Variant grouping Off/On presentation control that does not trigger hero navigation;
 - proportional top-five bars and adaptive percentage labels;
 - canonical sprite identity with Home-specific two-sprite layering;
-- My Deck / Next Event whole-card navigation;
-- Card Search / Cut-ID / Playtest quick actions;
+- **Decks** card background → Decks main;
+- **Recently edited** preview → exact Deck;
+- **Events** card background → My Tournaments;
+- **Next tournament** preview → exact tournament;
+- Card Search → direct Card Search entry;
+- Cut / ID → direct calculator entry;
+- Playtest → Deck picker → selected Deck working-list Playtest;
 - What Should I Play entry card;
 - one persistent bottom navigation layer.
 
+The Home navigation regression/consistency pass was accepted on iPhone against implementation baseline `62854a094feece32fe2d1756bd8896fe1d73dd6b`.
+
 Further Home work is polish/bugfix only unless the roadmap deliberately reopens the product surface.
 
-The next major roadmap milestone remains **Collection / physical readiness v1**.
+The next major roadmap milestone remains **Collection / physical readiness v1**, subject to the current bounded Settings/Tools review sequence.
