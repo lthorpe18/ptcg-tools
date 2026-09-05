@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
-  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let names=[];
 
   function pokemonSlug(value){return window.DeckSprites?.normalizeSlug?.(value)||''}
@@ -57,7 +57,8 @@
   function matchingSlugs(value){
     const q=pokemonSlug(value);
     if(!q)return [];
-    return spriteOptions().filter(slug=>slug.startsWith(q)).concat(spriteOptions().filter(slug=>!slug.startsWith(q)&&slug.includes(q))).slice(0,5);
+    const options=spriteOptions();
+    return options.filter(slug=>slug.startsWith(q)).concat(options.filter(slug=>!slug.startsWith(q)&&slug.includes(q))).slice(0,5);
   }
 
   function updateSpriteField(input){
@@ -66,27 +67,29 @@
     if(!wrap||!suggestions)return;
     const matches=matchingSlugs(input.value);
     const exact=pokemonSlug(input.value);
-    const previewSlug=matches[0]||exact;
-    previewFor(input,previewSlug);
+    previewFor(input,matches[0]||exact);
     suggestions.innerHTML=matches.map(slug=>`<button type="button" data-sprite-choice="${esc(slug)}"><img src="${esc(window.DeckSprites?.url?.(slug)||'')}" alt=""><span>${esc(slug.replace(/-/g,' '))}</span></button>`).join('');
     suggestions.hidden=!matches.length||document.activeElement!==input;
   }
 
   function bindSpriteFields(){
-    document.querySelectorAll('[data-icon-one],[data-icon-two]').forEach(input=>{
+    document.querySelectorAll('.sprite-input-wrap').forEach(wrap=>{
+      const input=wrap.querySelector('input');
+      const suggestions=wrap.querySelector('[data-icon-suggestions]');
+      if(!input||!suggestions)return;
       updateSpriteField(input);
       input.addEventListener('focus',()=>updateSpriteField(input));
       input.addEventListener('input',()=>updateSpriteField(input));
-      input.addEventListener('blur',()=>setTimeout(()=>{const box=input.closest('.sprite-input-wrap')?.querySelector('[data-icon-suggestions]');if(box)box.hidden=true;},120));
+      input.addEventListener('blur',()=>setTimeout(()=>{suggestions.hidden=true;},120));
+      suggestions.addEventListener('pointerdown',event=>{
+        const button=event.target.closest('[data-sprite-choice]');
+        if(!button)return;
+        event.preventDefault();
+        input.value=button.dataset.spriteChoice||'';
+        updateSpriteField(input);
+        input.focus();
+      });
     });
-    document.querySelectorAll('[data-sprite-choice]').forEach(button=>button.addEventListener('pointerdown',event=>{
-      event.preventDefault();
-      const input=button.closest('.sprite-input-wrap')?.querySelector('input');
-      if(!input)return;
-      input.value=button.dataset.spriteChoice||'';
-      updateSpriteField(input);
-      input.focus();
-    }));
   }
 
   function render(){
