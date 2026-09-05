@@ -1,13 +1,15 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
   const pct = n => Number.isFinite(Number(n)) ? `${Number(n).toFixed(1)}%` : '—';
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
+  const mainIds = ['currentMetaPage','prep','matchups','decks'];
   let detailOrigin = 'currentMetaPage';
   let detailName = '';
   let detailSource = 'online';
   let matchupDeck = '';
+  let applyingLocation = false;
 
   function familyFor(name) {
     return (window.ArchetypeGroups?.FAMILIES || []).find(f => f.name === name || f.variants.includes(name)) || null;
@@ -72,6 +74,23 @@
     apply();
   }
 
+  function notifyShell() {
+    if (window.parent === window) return;
+    try { window.parent.postMessage({ type:'ptcg:shell-route', url:location.href }, location.origin); } catch {}
+  }
+
+  function sectionIdForView(view) {
+    return view === 'current' ? 'currentMetaPage' : ['prep','matchups','decks'].includes(view) ? view : 'currentMetaPage';
+  }
+
+  function viewForSectionId(id) {
+    return id === 'currentMetaPage' ? 'current' : ['prep','matchups','decks'].includes(id) ? id : 'current';
+  }
+
+  function currentMainSection() {
+    return mainIds.find(id => !$(id)?.classList.contains('hidden')) || detailOrigin;
+  }
+
   function ensureDetail() {
     if ($('deckDetail')) return;
     const section = document.createElement('section');
@@ -79,28 +98,68 @@
     section.className = 'meta-child deck-detail hidden';
     section.innerHTML = '<header class="meta-child-header"><button class="meta-back" id="deckDetailBack" type="button">← Back</button><div id="deckDetailHead"></div></header><div id="deckDetailBody"></div>';
     document.querySelector('main.wrap')?.appendChild(section);
-    $('deckDetailBack')?.addEventListener('click', closeDetail);
+    $('deckDetailBack')?.addEventListener('click', () => {
+      if (history.state?.ptcgMetaDetail) history.back();
+      else closeDetail({ syncUrl:true });
+    });
   }
-  function hideMainSections() {
-    ['currentMetaPage','prep','matchups','decks'].forEach(id => $(id)?.classList.add('hidden'));
-  }
-  function openDetail(name, source) {
-    if (!name) return;
-    ensureDetail();
-    const visible = ['currentMetaPage','prep','matchups','decks'].find(id => !$(id)?.classList.contains('hidden'));
-    if (visible) detailOrigin = visible;
-    detailName = name;
-    detailSource = source === 'irl' ? 'irl' : 'online';
-    hideMainSections();
+
+  function enterDetailView() {
+    mainIds.forEach(id => $(id)?.classList.add('hidden'));
     $('deckDetail')?.classList.remove('hidden');
     document.body.dataset.metaView = 'detail';
+  }
+
+  function detailUrl() {
+    const url = new URL(location.href);
+    url.searchParams.set('deck', detailName);
+    url.searchParams.set('source', detailSource);
+    url.searchParams.set('from', viewForSectionId(detailOrigin));
+    url.hash = 'detail';
+    return url;
+  }
+
+  function normalUrl(originId = detailOrigin) {
+    const view = viewForSectionId(originId);
+    const url = new URL(location.href);
+    url.searchParams.delete('deck');
+    url.searchParams.delete('source');
+    url.searchParams.delete('from');
+    url.hash = view === 'current' ? '' : view;
+    return url;
+  }
+
+  function syncDetailUrl(mode='replace') {
+    if (applyingLocation || !detailName) return;
+    const url = detailUrl();
+    const state = { ptcgMetaDetail:true, deck:detailName, source:detailSource, from:viewForSectionId(detailOrigin) };
+    if (mode === 'push') history.pushState(state, '', url);
+    else history.replaceState(state, '', url);
+    notifyShell();
+  }
+
+  function openDetail(name, source, options={}) {
+    if (!name) return;
+    ensureDetail();
+    if (!options.origin) detailOrigin = currentMainSection();
+    else detailOrigin = sectionIdForView(options.origin);
+    detailName = name;
+    detailSource = source === 'irl' ? 'irl' : 'online';
+    enterDetailView();
     renderDetail();
+    if (options.syncUrl !== false) syncDetailUrl(options.replace ? 'replace' : 'push');
     window.scrollTo({top:0,behavior:'instant'});
   }
-  function closeDetail() {
+
+  function closeDetail(options={}) {
     $('deckDetail')?.classList.add('hidden');
-    $(detailOrigin)?.classList.remove('hidden');
-    document.body.dataset.metaView = detailOrigin === 'currentMetaPage' ? 'current' : detailOrigin;
+    const view = viewForSectionId(detailOrigin);
+    window.MetaHome?.setView?.(view, false);
+    document.body.dataset.metaView = view;
+    if (options.syncUrl) {
+      history.replaceState({ptcgMetaView:view}, '', normalUrl(detailOrigin));
+      notifyShell();
+    }
     window.MetaControls?.sync?.();
     window.MetaContext?.render?.();
     window.scrollTo({top:0,behavior:'instant'});
@@ -124,6 +183,7 @@
   }
 
   function variantDetail() {
+    enterDetailView();
     const panelWasOpen = $('deckDetailEvidence')?.open || false;
     const data = sourceData(detailSource);
     const variants = variantRows(detailSource);
@@ -137,7 +197,7 @@
 
     if (!row) {
       $('deckDetailBody').innerHTML = `<details id="deckDetailEvidence" class="detail-data-panel" ${panelWasOpen?'open':''}><summary><span><b>Data & performance</b><small>${sourceLabel} · selected scope</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls"><div class="detail-source"><button type="button" data-detail-source="online" class="${detailSource==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detailSource==='irl'?'active':''}">IRL</button></div></div><div class="meta-empty">This exact variant is not present in the selected ${sourceLabel} source and scope.</div></div></details>`;
-      setTimeout(()=>{ window.MetaControls?.syncDetail?.(); window.MetaContext?.render?.(); },0);
+      setTimeout(()=>{ enterDetailView(); window.MetaControls?.syncDetail?.(); window.MetaContext?.render?.(); },0);
       return;
     }
 
@@ -152,17 +212,21 @@
 
     $('deckDetailBody').innerHTML = `${evidencePanel}<section class="detail-section detail-matchups"><div class="section-row"><h2>Matchups</h2><span>${esc(scopeText)}</span></div>${searchBox('detailMatchupSearch','Filter matchups')}${matchupCards(detailName,detailSource,60)}</section>${resultsHtml}`;
     setTimeout(()=>{
-      window.MetaControls?.syncDetail?.(); window.MetaContext?.render?.();
+      enterDetailView();
+      window.MetaControls?.syncDetail?.();
+      window.MetaContext?.render?.();
       const list=$('detailMatchupSearch')?.closest('.detail-section')?.querySelector('.matchup-card-list');
       wireListFilter('detailMatchupSearch',list,'.matchup-card','.matchup-opponent b');
     },0);
   }
 
   function renderDetail() {
+    enterDetailView();
     variantDetail();
     document.querySelectorAll('#deckDetail [data-detail-source]').forEach(btn=>btn.addEventListener('click',()=>{
-      detailSource=btn.dataset.detailSource;
+      detailSource=btn.dataset.detailSource === 'irl' ? 'irl' : 'online';
       renderDetail();
+      syncDetailUrl('replace');
     }));
   }
 
@@ -187,12 +251,14 @@
   }
 
   function sourceForContext() {
+    if (document.body.dataset.metaView === 'detail') return detailSource;
     if(!$('currentMetaPage')?.classList.contains('hidden')) return document.querySelector('[data-current-source="irl"]')?.classList.contains('active')?'irl':'online';
     if(!$('decks')?.classList.contains('hidden'))return $('deckPageSource')?.value||'online';
     if(!$('matchups')?.classList.contains('hidden'))return $('matchupPageSource')?.value||'online';
     if(!$('prep')?.classList.contains('hidden'))return ($('playMatchupSource')?.value||'online')==='irl'?'irl':'online';
     return 'online';
   }
+
   function targetInfo(target) {
     const explicit=target.closest('[data-explore-deck]');
     if(explicit)return{name:explicit.dataset.exploreDeck,source:explicit.dataset.exploreSource};
@@ -210,6 +276,18 @@
     return null;
   }
 
+  function applyLocation() {
+    const params = new URLSearchParams(location.search);
+    const name = params.get('deck') || '';
+    const source = params.get('source') === 'irl' ? 'irl' : 'online';
+    const from = params.get('from');
+    const wantsDetail = location.hash.toLowerCase() === '#detail' && !!name;
+    applyingLocation = true;
+    if (wantsDetail) openDetail(name, source, { origin:from, syncUrl:false });
+    else if (!$('deckDetail')?.classList.contains('hidden')) closeDetail({ syncUrl:false });
+    applyingLocation = false;
+  }
+
   document.addEventListener('click',event=>{
     const info=targetInfo(event.target); if(!info?.name)return;
     event.preventDefault(); event.stopPropagation(); event.stopImmediatePropagation();
@@ -221,9 +299,35 @@
   $('matchupPageSource')?.addEventListener('change',()=>{matchupDeck='';setTimeout(renderMatchupsV2,0);});
   $('matchupPageMin')?.closest('label')?.remove();
   $('deckPageSource')?.addEventListener('change',()=>setTimeout(renderDeckExplorerV2,0));
-  window.addEventListener('deckagg:updated',()=>{if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
-  window.addEventListener('irl:updated',()=>{if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
-  window.addEventListener('meta:data-changed',()=>{if(!$('deckDetail')?.classList.contains('hidden'))setTimeout(renderDetail,0);});
-  window.addEventListener('decksprites:updated',()=>{if(!$('matchups')?.classList.contains('hidden'))renderMatchupsV2();if(!$('decks')?.classList.contains('hidden'))renderDeckExplorerV2();if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();});
-  window.MetaExplore={openDeck:(name,source)=>openDetail(name,source)};
+
+  window.addEventListener('deckagg:updated',()=>{
+    if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);
+    if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);
+    if(!$('deckDetail')?.classList.contains('hidden'))setTimeout(()=>{ enterDetailView(); renderDetail(); },50);
+  });
+  window.addEventListener('irl:updated',()=>{
+    if(!$('matchups')?.classList.contains('hidden'))setTimeout(renderMatchupsV2,0);
+    if(!$('decks')?.classList.contains('hidden'))setTimeout(renderDeckExplorerV2,0);
+    if(!$('deckDetail')?.classList.contains('hidden'))setTimeout(()=>{ enterDetailView(); renderDetail(); },50);
+  });
+  window.addEventListener('meta:data-changed',()=>{
+    if(!$('deckDetail')?.classList.contains('hidden'))setTimeout(()=>{ enterDetailView(); renderDetail(); },80);
+  });
+  window.addEventListener('decksprites:updated',()=>{
+    if(!$('matchups')?.classList.contains('hidden'))renderMatchupsV2();
+    if(!$('decks')?.classList.contains('hidden'))renderDeckExplorerV2();
+    if(!$('deckDetail')?.classList.contains('hidden'))renderDetail();
+  });
+  window.addEventListener('popstate', applyLocation);
+  window.addEventListener('hashchange', () => {
+    if (location.hash.toLowerCase() === '#detail' || !$('deckDetail')?.classList.contains('hidden')) applyLocation();
+  });
+
+  window.MetaExplore={
+    openDeck:(name,source)=>openDetail(name,source),
+    closeDeck:()=>closeDetail({syncUrl:true}),
+    renderDetail,
+  };
+
+  applyLocation();
 })();
