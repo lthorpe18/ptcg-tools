@@ -76,6 +76,14 @@
     return special[lower]||lower.replace(/\s+/g,'-');
   }
 
+  function knownSlugs() {
+    const set=new Set();
+    Object.values(EXACT).forEach(rows=>rows.forEach(slug=>slug&&set.add(slug)));
+    TOKENS.forEach(([,slug])=>slug&&set.add(slug));
+    Object.values(loadOverrides()).forEach(rows=>Array.isArray(rows)&&rows.forEach(slug=>slug&&set.add(slug)));
+    return [...set].sort((a,b)=>a.localeCompare(b));
+  }
+
   function slugs(name) {
     if (!name) return [];
     const override = loadOverrides()[name];
@@ -115,5 +123,5 @@
     return `<span class="deck-sprite-stack${className}" style="--sprite-size:${size}px;display:inline-flex!important;align-items:center;gap:${gap}px;width:auto!important;height:${size}px;position:relative" aria-hidden="true">${found.map((slug, i) => `<img class="deck-sprite-img sprite-${i + 1}" src="${url(slug)}" alt="" loading="lazy" decoding="async" style="position:static!important;inset:auto!important;display:block;width:${size}px!important;height:${size}px!important;object-fit:contain" onerror="this.style.display='none'">`).join('')}</span>`;
   }
 
-  window.DeckSprites = { slugs, url, html, normalizeSlug, setOverride, clearOverride, overrides: loadOverrides, defaults: EXACT };
+  window.DeckSprites = { slugs, url, html, normalizeSlug, knownSlugs, setOverride, clearOverride, overrides: loadOverrides, defaults: EXACT };
 })();
