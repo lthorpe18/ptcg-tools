@@ -135,3 +135,10 @@ test('the legacy Meta entry redirects into the one supported implementation', ()
   assert.match(legacy, /child\.hash = window\.location\.hash/);
   assert.equal(fs.readdirSync(path.join(root, 'apps/meta')).filter(name => name !== 'index.html').length, 0);
 });
+
+test('deck-detail matchup rows reserve the full two-sprite identity width', () => {
+  const css = read('v2-preview/apps/meta/meta-explorer-v2.css');
+  const html = read('v2-preview/apps/meta/index.html');
+  assert.match(css, /\.matchup-opponent>\.deck-sprite-stack,\.matchup-opponent>\.deck-sprite\{flex:0 0 68px;min-width:68px;max-width:68px;overflow:visible\}/);
+  assert.match(html, /meta-explorer-v2\.css\?v=8/);
+});
