@@ -105,6 +105,20 @@
   observer.observe(document.body, { attributes:true, attributeFilter:['data-meta-view'], attributeOldValue:true });
 
   document.addEventListener('click', event => {
+    // iOS Safari was treating the native <details> summary interaction as part
+    // of the iframe's joint history traversal in this routed child view. Own
+    // this one toggle explicitly so collapsing Data & performance is a pure
+    // in-place UI mutation and can never leave Deck Detail.
+    const summary = event.target.closest?.('#deckDetailEvidence > summary');
+    if (summary && detailOpen()) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      const panel = summary.parentElement;
+      if (panel) panel.open = !panel.open;
+      return;
+    }
+
     const back = event.target.closest?.('#deckDetailBack');
     if (back && !applyingRoute && detailOpen()) {
       event.preventDefault();
