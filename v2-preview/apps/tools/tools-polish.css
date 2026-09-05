@@ -1,0 +1,22 @@
+/* Mobile-first Tools density and Tournament run ordering */
+#tmRun{display:flex;flex-direction:column-reverse;gap:8px}
+
+@media(max-width:700px){
+  .tools-page>.app-page-head{display:none}
+  .tools-page{gap:8px!important;padding-top:8px!important}
+  .tools-segment{top:4px}
+  .tm-intro{display:none}
+  .tm-shell{gap:4px}
+  .tm-work-head{padding:9px 12px 8px;gap:7px}
+  .tm-work-row{gap:6px}
+  .tm-work-title h2{font-size:16px}
+  .tm-work-title p{margin-top:1px}
+  .tm-icon-btn{width:34px;height:34px;border-radius:9px}
+  .tm-timer{font-size:15px}
+  .tm-secondary{min-height:34px;padding:0 10px}
+  .tm-tabs{margin-top:1px}
+  .tm-pane{padding:0 12px 12px;gap:8px}
+  .tm-round-head{padding:8px 10px}
+  .tm-match-picker{padding:8px 10px!important}
+  .tm-result-choices button{min-height:38px!important}
+}
