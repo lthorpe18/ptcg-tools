@@ -8,3 +8,8 @@
 .deck-detail .detail-stats>div:nth-child(2){border-right:1px solid #eaecf0}
 .deck-detail .detail-stats>div:nth-child(4){border-right:0}
 @media(max-width:600px){.deck-detail .detail-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.deck-detail .detail-stats>div{border-bottom:0!important;padding:8px 7px}.deck-detail .detail-stats>div:nth-child(2){border-right:1px solid #eaecf0}.deck-detail .detail-stats b{font-size:12px}.deck-detail .detail-stats span{font-size:8px}}
+
+/* DeckSprites can render two-sprite stacks wider than a single sprite. Reserve the full identity width so the stack never spills into the deck name. */
+.deck-explorer-card{grid-template-columns:22px 68px minmax(0,1fr) auto 12px}
+.deck-explorer-card>.deck-sprite-stack,.deck-explorer-card>.deck-sprite{width:68px;max-width:68px;overflow:visible}
+@media(max-width:600px){.deck-explorer-card{grid-template-columns:18px 60px minmax(0,1fr) auto 10px}.deck-explorer-card>.deck-sprite-stack,.deck-explorer-card>.deck-sprite{width:60px;max-width:60px}}
