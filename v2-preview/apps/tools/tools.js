@@ -23,4 +23,5 @@ document.querySelectorAll('[data-odds-mode]').forEach(button=>button.addEventLis
 $('outsCalculate')?.addEventListener('click',calcOuts);$('openingCalculate')?.addEventListener('click',calcOpening);$('prizeCalculate')?.addEventListener('click',calcPrizes);
 window.addEventListener('hashchange',()=>{const hash=location.hash.slice(1);if(['cut','tournament','odds'].includes(hash))showView(hash,{writeHash:false});else if(['draw','opening','prizes'].includes(hash)){showView('odds',{writeHash:false});showOdds(hash)}});
 const initial=location.hash.slice(1);if(['draw','opening','prizes'].includes(initial)){showView('odds',{writeHash:false});showOdds(initial)}else showView(initial||'cut',{writeHash:false});
+if(!document.querySelector('script[data-tournament-clock]')){const script=document.createElement('script');script.src='./tournament-clock.js?v=1';script.dataset.tournamentClock='1';document.head.appendChild(script)}
 })();
