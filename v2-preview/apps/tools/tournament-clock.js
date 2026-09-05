@@ -61,14 +61,14 @@ function install(){
   const style=document.createElement('style');style.id='tmClockPolishStyles';style.textContent=`
     .tm-clock-overlay{background:radial-gradient(circle at 50% 38%,#17213a 0,#0a0f1c 46%,#05070d 100%)!important;padding:max(18px,env(safe-area-inset-top)) max(22px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(22px,env(safe-area-inset-left))!important}
     .tm-clock-face{grid-template-rows:auto 1fr auto auto!important;align-items:center;justify-items:center;max-width:1100px;margin:auto}
-    .tm-clock-context{align-self:start;text-align:center;padding-top:clamp(10px,4vh,42px);display:grid;gap:4px}
-    .tm-clock-tournament{font-size:clamp(14px,2.2vw,22px);font-weight:800;color:rgba(255,255,255,.92);letter-spacing:.01em}
-    .tm-clock-round{font-size:clamp(12px,1.7vw,18px);font-weight:700;color:rgba(255,255,255,.48)}
+    .tm-clock-context{align-self:start;text-align:center;padding-top:clamp(10px,4vh,42px);display:grid;gap:7px}
+    .tm-clock-tournament{font-size:clamp(24px,6vw,38px);font-weight:850;color:rgba(255,255,255,.96);letter-spacing:-.015em;line-height:1.05}
+    .tm-clock-round{font-size:clamp(18px,4.5vw,28px);font-weight:800;color:rgba(255,255,255,.62);line-height:1.1}
     .tm-clock-value{align-self:center!important;font-size:clamp(96px,29vw,320px)!important;line-height:.82!important;font-weight:860!important;letter-spacing:-.065em!important;color:#fff;text-shadow:0 10px 50px rgba(0,0,0,.28);font-variant-numeric:tabular-nums lining-nums}
     .tm-clock-pause{min-width:min(280px,70vw)!important;min-height:62px!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:999px!important;background:rgba(255,255,255,.11)!important;color:#fff!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font-size:18px!important}
     .tm-clock-pause:active{transform:scale(.98);background:rgba(255,255,255,.18)!important}
     .tm-clock-hint{align-self:end!important;padding:14px 0 2px!important;color:rgba(255,255,255,.35)!important;font-size:11px!important;font-weight:650;letter-spacing:.01em}
-    @media(orientation:landscape){.tm-clock-context{padding-top:4px}.tm-clock-value{font-size:clamp(86px,22vw,250px)!important}.tm-clock-pause{min-height:54px!important}.tm-clock-hint{padding-top:6px!important}}
+    @media(orientation:landscape){.tm-clock-context{padding-top:4px}.tm-clock-tournament{font-size:clamp(22px,3.4vw,34px)}.tm-clock-round{font-size:clamp(17px,2.5vw,24px)}.tm-clock-value{font-size:clamp(86px,22vw,250px)!important}.tm-clock-pause{min-height:54px!important}.tm-clock-hint{padding-top:6px!important}}
   `;
   document.head.appendChild(style);
 }
