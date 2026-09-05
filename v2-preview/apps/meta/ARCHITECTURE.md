@@ -42,16 +42,18 @@ Blended must consume `MetaBlendedField.current()` directly, using the same polic
 Blended is a current-field presentation, not a third matchup/detail evidence source. Exact-variant drill-down remains Online/IRL and must not invent blended matchup evidence or blended deck-detail statistics.
 
 ### Navigation
-Navigation remains separate from evidence state:
-- `meta-home.js` owns Current Meta / child view navigation
-- child views use semantic hashes: `#prep`, `#matchups`, `#decks` (with existing What Should I Play aliases accepted on entry)
-- `meta-explorer-v2.js` owns exact-variant drill-down / deck detail rendering
-- exact-variant detail routes use `?deck=<exact variant>&source=<online|irl>&from=<origin>#detail`
-- `meta-navigation.js` keeps detail/subview intent synchronized with browser history and the outer persistent shell
-- the persistent shell remains the sole owner of top-level Home / Meta / Decks / Compete / Tools history and preserves child-route intent when switching areas
-- shared data/control modules must not call `preventDefault`, `stopPropagation` or `stopImmediatePropagation` on unrelated page navigation
+Navigation remains separate from evidence state, but there is only one owner for each layer:
+- `meta-home.js` owns Current Meta / child view navigation;
+- child views use semantic hashes: `#prep`, `#matchups`, `#decks` (with existing What Should I Play aliases accepted on entry);
+- `meta-explorer-v2.js` owns the complete exact-variant Deck Detail lifecycle: opening, closing, source changes, detail visibility and exact-variant route/history synchronization;
+- exact-variant detail routes use `?deck=<exact variant>&source=<online|irl>&from=<origin>#detail`;
+- there is no separate `meta-navigation.js` interception layer;
+- the persistent shell remains the sole owner of top-level Home / Meta / Decks / Compete / Tools history and preserves child-route intent when switching areas;
+- shared data/control modules must not call `preventDefault`, `stopPropagation` or `stopImmediatePropagation` on unrelated page navigation.
 
-Browser Back/Forward must restore Meta subviews/detail without changing evidence semantics. A shell reload of a routed Meta view must preserve the intended Meta child route rather than silently falling back to Current Meta. Ordinary interaction inside an open Deck Detail, including expanding/collapsing Data & performance and changing its source/scope controls, must not reset the Meta view to Current Meta.
+Deck Detail is mutually exclusive with Current Meta / What Should I Play / Matchups / Deck Explorer. Every Deck Detail render reasserts that single view directly; no mutation observer rewrites section classes in the background.
+
+Browser Back/Forward must restore Meta subviews/detail without changing evidence semantics. A shell reload of a routed Meta view must preserve the intended Meta child route rather than silently falling back to Current Meta. Ordinary interaction inside an open Deck Detail, including expanding/collapsing Data & performance and changing its source/scope controls, must never reveal or navigate to an underlying Meta view.
 
 ## Variant grouping
 Variant grouping is presentation-only on Current Meta and defaults OFF.
@@ -82,6 +84,7 @@ Do not recreate or re-add these superseded implementations:
 - `source-controls.js`
 - `meta-scope-controls.js`
 - `meta-detail-scope.js`
+- `meta-navigation.js`
 
 ## Deployment rule
 Whenever behavior or styling changes, bump the relevant JS/CSS query version in `index.html`. Do not rely on the HTML URL query alone to invalidate iOS/PWA subresource caches.
