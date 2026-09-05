@@ -1,7 +1,7 @@
 # PTCG Tools — Roadmap Handoff — 5 September 2026
 
-**Status:** Current coordination handoff after accepted Settings and Tools review passes  
-**Companion to:** `PTCG_TOOLS_MASTER.md`, `TOOLS_ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`
+**Status:** Current coordination handoff after the bounded What Should I Play rebuild
+**Companion to:** `PTCG_TOOLS_MASTER.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`
 
 ## 1. Current programme position
 
@@ -14,7 +14,8 @@ Accepted/closed for the current product stage:
 - Meta ingest/data-delivery architecture;
 - Navigation / Shell regression pass;
 - Settings review;
-- Tools review.
+- Tools review;
+- What Should I Play review and bounded rebuild.
 
 The persistent product shell remains:
 
@@ -39,6 +40,7 @@ Current-stage accepted or substantially established foundations include:
 - network-first navigation/document HTML;
 - Home single-screen derived dashboard and accepted contextual deep-link semantics;
 - Meta source/scope, exact-variant, Expected Field, navigation and ingest/delivery architecture;
+- shared exact-variant field vocabulary and What Should I Play recommendation engine used by Meta and Event Prep;
 - Deck / DeckVersion / `listHash` identity foundation;
 - Decks workspace: My Decks / Training Log / Card Search;
 - shared Card Catalog / exact-print mapping;

@@ -11,8 +11,7 @@
   <link rel="stylesheet" href="collapsible.css" />
   <link rel="stylesheet" href="chips.css" />
   <link rel="stylesheet" href="searchable-decks.css?v=4" />
-  <link rel="stylesheet" href="breakdown.css?v=2" />
-  <link rel="stylesheet" href="play.css?v=1" />
+  <link rel="stylesheet" href="play.css?v=8" />
   <link rel="stylesheet" href="sprite-polish.css?v=3" />
   <link rel="stylesheet" href="saved-metas.css?v=1" />
   <link rel="stylesheet" href="v2.css?v=3" />
@@ -60,35 +59,27 @@
   <section id="prep" class="meta-child play-page hidden">
     <header class="meta-child-header">
       <button class="meta-back" type="button" data-meta-route="current">← Current meta</button>
-      <div class="meta-child-title"><div><div class="eyebrow">META EXPLORER</div><h1>What should I play?</h1><p>Use one field source and independent matchup evidence.</p></div></div>
+      <div class="meta-child-title"><div><div class="eyebrow">META EXPLORER</div><h1>What should I play?</h1><p>Choose an exact variant for the field you expect.</p></div></div>
       <div class="child-source-row">
-        <label>Field<select id="playFieldSource"><option value="online">Online · 50+ player tournaments</option><option value="irl">IRL</option><option value="blend">Online + IRL</option><option value="custom">Custom / saved meta</option></select></label>
-        <label>Matchups<select id="playMatchupSource"><option value="online">Online · 50+ player tournaments</option><option value="irl">IRL</option><option value="combined">Online + IRL</option></select></label>
+        <label>Field<select id="playFieldSource"><option value="blend" selected>Blended current field</option><option value="online">Online field</option><option value="irl">IRL field</option><option value="expected">Saved Expected Field</option></select></label>
+        <label>H2H evidence<select id="playMatchupSource"><option value="combined" selected>Online + IRL</option><option value="online">Online only</option><option value="irl">IRL only</option></select></label>
       </div>
+      <div id="playSourceContext" class="play-source-context"></div>
     </header>
 
     <div class="play-shell">
       <section class="play-surface field-surface" aria-label="Expected field"><div id="prepFieldOverview"><div class="play-empty">Loading the current competitive field…</div></div></section>
-      <section class="play-section recommendations-section"><div class="play-section-title"><div><span class="section-icon">✦</span><h2>Best positioned</h2></div><p>Matchup-weighted into your field</p></div><div id="prepResults"><div class="play-empty">Loading recommendations…</div></div></section>
-      <section class="play-section checker-section"><div class="play-section-title"><div><span class="section-icon search-icon">⌕</span><h2>Check a deck</h2></div><p>See how any archetype fits your field</p></div><div id="prepCheckResult"></div></section>
+      <section class="play-section recommendations-section"><div class="play-section-title"><div><span class="wsip-step">2</span><h2>Candidates</h2></div><p>Best-positioned exact variants</p></div><div id="prepResults"><div class="play-empty">Loading recommendations…</div></div></section>
+      <section class="play-section compare-section"><div class="play-section-title"><div><span class="wsip-step">4</span><h2>Compare</h2></div><p>Only decision-relevant differences</p></div><div id="prepCompare"></div></section>
+      <section class="play-section decide-section"><div class="play-section-title"><div><span class="wsip-step">5</span><h2>Decide</h2></div><p>Your choice remains explicit</p></div><div id="prepDecide"></div></section>
 
       <details class="play-advanced" id="advancedSettings">
-        <summary><span class="settings-summary-main"><span class="settings-gear">⚙</span><span><b>Advanced settings</b><small id="advancedSettingsSummary">Evidence and field assumptions</small></span></span><span class="settings-chevron">⌄</span></summary>
+        <summary><span class="settings-summary-main"><span class="settings-gear">⚙</span><span><b>Field detail & methodology</b><small id="advancedSettingsSummary">12-game neutral prior · unknowns remain unknown</small></span></span><span class="settings-chevron">⌄</span></summary>
         <div class="advanced-body">
-          <div class="advanced-head"><div><div class="eyebrow">ANALYSIS MODEL</div><h3>Fine-tune the recommendation</h3></div><span id="irlStatus" class="muted">Loading IRL source…</span></div>
-          <div class="advanced-grid">
-            <label>Recent-meta weighting<select id="prepRecency"><option value="high">High — react quickly</option><option value="balanced" selected>Balanced</option><option value="equal">Equal — whole legality</option></select></label>
-            <label>Matchup evidence<select id="prepEvidence"><option value="min10" selected>Ignore under 10 games</option><option value="min5">Ignore under 5 games</option><option value="conservative">Conservative shrinkage</option><option value="raw">Use raw results</option></select></label>
-            <label>Minimum matchup coverage<input id="prepMinCoverage" type="number" min="0" max="100" step="5" value="50" /></label>
-            <label>Minimum deck entries<input id="prepMinEntries" type="number" min="1" max="100" value="5" /></label>
-            <label>Meta event size<input id="prepMinPlayers" type="number" min="50" max="1000" step="10" value="50" /></label>
-            <label>Field source<select id="fieldSource"><option value="online" selected>Online · 50+ player tournaments</option><option value="irl">IRL only · Limitless Labs</option><option value="blend">Online + IRL blend</option><option value="custom">Custom / saved meta</option></select></label>
-            <label id="blendControl" class="hidden">IRL share <span id="blendValue">50%</span><input id="fieldBlend" type="range" min="0" max="100" value="50" /></label>
-            <label>Matchup source<select id="matchupSource"><option value="online" selected>Online · 50+ player tournaments</option><option value="irl">IRL only</option><option value="combined">Online + IRL</option></select></label>
-            <label>Field weighting<select id="fieldAnalysisMode"><option value="shares" selected>Expected shares</option><option value="equal">Equal selected decks</option></select></label>
-          </div>
-          <details class="fine-field-editor"><summary><span><b>Fine-tune field shares</b><small>Edit individual inclusions and percentages</small></span><span>⌄</span></summary><div class="fine-field-body"><div class="field-actions"><button id="fieldAll" class="btn">All</button><button id="fieldNone" class="btn">None</button><button id="fieldReset" class="btn">Reset</button><button id="fieldShowAll" class="btn">Show all</button><span id="fieldCoverage" class="muted"></span></div><div id="fieldEditor" class="field-editor"><div class="prep-empty">Waiting for meta data…</div></div></div></details>
-          <p class="advanced-method">Field composition and matchup evidence are independent. Online evidence uses tournaments with 50+ players. Missing matchups are never replaced with overall win rate.</p>
+          <div class="advanced-head"><div><div class="eyebrow">EXPECTED FIELD</div><h3>Fine-tune exact-variant shares</h3></div></div>
+          <div class="field-actions"><button id="fieldAll" class="btn" type="button">All</button><button id="fieldNone" class="btn" type="button">None</button><button id="fieldReset" class="btn" type="button">Reset</button><button id="fieldShowAll" class="btn" type="button">Show all</button><span id="fieldCoverage" class="muted"></span></div>
+          <div id="fieldEditor" class="field-editor"><div class="prep-empty">Waiting for meta data…</div></div>
+          <p class="advanced-method">Field percentages are expected entry share and are normalised to 100% for analysis. Online and IRL are evidence sources. Blended uses the app-wide current-field policy: latest IRL majors weekend plus Online since the last major, with the IRL weight decaying over time. H2H rates use a 12-game neutral prior. Missing matchups remain unknown and the displayed estimate covers only field share with decisive evidence.</p>
         </div>
       </details>
     </div>
@@ -120,17 +111,18 @@
 </main>
 
 <script src="sprites.js?v=4"></script>
-<script src="saved-metas.js?v=2"></script>
-<script src="archetype-groups.js?v=2"></script>
+<script src="../_shared/meta-field.js?v=1"></script>
+<script src="saved-metas.js?v=3"></script>
+<script src="archetype-groups.js?v=3"></script>
 <script src="meta-release-loader.js?v=1"></script>
 <script src="meta-core.js?v=7"></script>
-<script src="../_shared/meta-blend.js?v=1"></script>
+<script src="../_shared/meta-blend.js?v=2"></script>
 <script src="blended-field.js?v=2"></script>
-<script src="field-builder.js?v=7"></script>
-<script src="meta-controls.js?v=7"></script>
-<script src="prep.js?v=7"></script>
+<script src="../_shared/recommendation-engine.js?v=1"></script>
+<script src="field-builder.js?v=8"></script>
+<script src="meta-controls.js?v=8"></script>
+<script src="prep.js?v=8"></script>
 <script src="meta-home.js?v=13"></script>
-<script src="decklinks.js?v=4"></script>
 <script src="searchable-decks.js?v=7"></script>
 <script src="meta-explorer-v3.js?v=3"></script>
 <script src="meta-source-context.js?v=7"></script>

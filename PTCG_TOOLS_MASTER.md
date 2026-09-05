@@ -316,13 +316,23 @@ Saving copies current evidence into an editable prediction with provenance. It i
 
 Compete/Prep uses the same records, may make event-specific adjustments, and preserves an immutable Event Expected Field snapshot when finalised.
 
-### 7.6 Matchups and exact deck detail
+### 7.6 What Should I Play
+
+What Should I Play is a staged exact-variant decision flow: **field → candidates → why → compare → explicit action**.
+
+Shared `PTCGMetaField` owns field-source vocabulary, fraction/percentage semantics, row normalisation and canonical family presentation metadata. Shared `PTCGRecommendation` owns matchup retrieval, small-sample adjustment, expected-performance calculation, evidence quality, ranking, close-call handling and contribution explanations. Meta WSIP and Event Prep consume these engines; Home only launches WSIP.
+
+Missing matchups remain unknown. The displayed estimate is explicitly calculated over covered field share, while unknown share and sample quality are shown beside it. Only decision-ready exact variants receive ranks, and recommendations within 2 percentage points are presented as a close call rather than a precise ordering.
+
+See `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`.
+
+### 7.7 Matchups and exact deck detail
 
 Matchups are exact-variant to exact-variant evidence.
 
 Deck detail must distinguish field sample from head-to-head matchup sample. Do not substitute overall tournament counts for deck-specific samples.
 
-### 7.7 Shared Meta runtime
+### 7.8 Shared Meta runtime
 
 Current shared direction/components include:
 
@@ -330,11 +340,13 @@ Current shared direction/components include:
 - MetaData — evidence/data access;
 - MetaControls — shared source/scope behavior;
 - DeckSprites — canonical archetype presentation mapping/rendering;
-- MetaBlendedField — shared current-field blend used by Home and available to other surfaces that need the same semantics.
+- MetaBlendedField — shared current-field blend used by Home and available to other surfaces that need the same semantics;
+- PTCGMetaField — shared source vocabulary, field-share normalisation and family presentation definitions;
+- PTCGRecommendation — shared exact-variant WSIP/Event Prep decision engine.
 
 `MetaBlendedField` owns the current dynamic IRL/Online weighting policy described in Home architecture. Feature surfaces should consume it rather than recreate the formula.
 
-### 7.8 Meta ingestion and delivery
+### 7.9 Meta ingestion and delivery
 
 Shared Meta evidence follows one central pipeline:
 
@@ -574,7 +586,7 @@ Normal journey:
 6. play/record tournament;
 7. retain event/list/field evidence for later learning.
 
-Prep orchestrates Meta/Decks/evidence; it does not duplicate their ownership.
+Prep orchestrates Meta/Decks/evidence; it does not duplicate their ownership. Its lightweight candidate shortlist consumes the same `PTCGRecommendation` engine and shared blended-field definition as What Should I Play.
 
 ### 11.5 Planned deck vs used deck
 
@@ -767,6 +779,7 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - Google authentication and cross-device account persistence;
 - **Settings review accepted/closed for the current product stage**;
 - Meta source/scope architecture and exact-variant analysis;
+- What Should I Play staged decision flow and shared recommendation engine;
 - Expected Fields;
 - shared dynamic `MetaBlendedField` current-field model;
 - **Home dashboard redesign accepted for the current product stage**;
@@ -810,7 +823,7 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 
 **Collection / physical readiness v1 is now the active major product milestone.**
 
-The Home, Meta, Navigation/Shell, Settings and Tools passes are complete/accepted for now. They should not remain active roadmap threads unless a concrete regression or genuine Collection dependency appears.
+The Home, Meta, What Should I Play, Navigation/Shell, Settings and Tools passes are complete/accepted for now. They should not remain active roadmap threads unless a concrete regression or genuine Collection dependency appears.
 
 The Card Search/Card Images pass is considered functionally established and documented. The small cleanup items above should not expand into another Decks redesign and should only interrupt Collection for a genuine regression or identity/data blocker.
 

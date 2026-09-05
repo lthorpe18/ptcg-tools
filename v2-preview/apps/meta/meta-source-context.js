@@ -21,11 +21,11 @@
 
   function combinedContext(kind) {
     const online = window.MetaData.context('online');
-    const irl = window.MetaData.context('irl');
+    const irl = window.MetaData.context('irl', kind === 'matchup' ? { scope:'all-irl' } : {});
     return {
       events: Number(online.events || 0) + Number(irl.events || 0),
       entries: Number(online.entries || 0) + Number(irl.entries || 0),
-      label: kind === 'field' ? 'Online + IRL expected field' : 'Online + IRL matchup evidence',
+      label: kind === 'field' ? 'Shared blended current field' : 'Online + all-format IRL matchup evidence',
       detail: `${online.label} · ${irl.label}`,
     };
   }
@@ -38,25 +38,23 @@
 
   function renderPrep() {
     if ($('prep')?.classList.contains('hidden')) return;
-    const fieldSlot = $('playFieldContext');
-    const matchupSlot = $('playMatchupContext');
-    if (!fieldSlot || !matchupSlot) return;
-    const field = $('playFieldSource')?.value || 'online';
-    const matchup = $('playMatchupSource')?.value || 'online';
+    const slot = $('playSourceContext');
+    if (!slot) return;
+    const field = $('playFieldSource')?.value || 'blend';
+    const matchup = $('playMatchupSource')?.value || 'combined';
     const fieldContext = field === 'irl'
       ? window.MetaData.context('irl')
       : field === 'blend'
-        ? combinedContext('field')
-        : field === 'custom'
-          ? { events:0, entries:0, label:'Custom / saved meta', detail:'Your editable expected-field composition' }
+        ? { events:0, entries:0, label:window.PrepField?.sourceLabel?.() || 'Blended current field', detail:'Online since the last major · latest IRL majors weekend' }
+        : field === 'expected'
+          ? { events:0, entries:0, label:window.PrepField?.sourceLabel?.() || 'Saved Expected Field', detail:'Explicit predicted field · exact-variant shares are editable below' }
           : window.MetaData.context('online');
     const matchupContext = matchup === 'irl'
-      ? window.MetaData.context('irl')
+      ? window.MetaData.context('irl', { scope:'all-irl' })
       : matchup === 'combined'
         ? combinedContext('matchup')
         : window.MetaData.context('online');
-    fieldSlot.innerHTML = card(fieldContext);
-    matchupSlot.innerHTML = card(matchupContext);
+    slot.innerHTML = `<div><b>Field</b><span>${esc(fieldContext.label)} · ${esc(fieldContext.detail || '')}</span></div><div><b>H2H</b><span>${esc(matchupContext.label)} · ${esc(matchupContext.detail || '')}</span></div>`;
   }
 
   function clearDetailContext() {

@@ -2,6 +2,7 @@
   const STORAGE_KEY = 'ptcg-tools.meta-lab.saved-metas.v1';
 
   function cleanField(field) {
+    if (window.PTCGMetaField?.normalizeRows) return window.PTCGMetaField.normalizeRows(field).map(row => ({ name:row.name, share:row.share }));
     const rows = (Array.isArray(field) ? field : [])
       .map(row => ({ name: String(row?.name || '').trim(), share: Number(row?.share || 0) }))
       .filter(row => row.name && row.name !== 'Other' && row.name !== 'Unknown' && row.share > 0);

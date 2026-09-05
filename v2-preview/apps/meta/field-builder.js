@@ -1,396 +1,136 @@
 (() => {
-  const $f = id => document.getElementById(id);
-  const state = { custom: new Map(), touched: false, showAll: false };
-  const pct = n => `${Number(n || 0).toFixed(1)}%`;
-  const ignored = name => !name || name === 'Other' || name === 'Unknown';
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[char]));
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const state = { rows:new Map(), touched:false, showAll:false, expectedField:null, definition:null };
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[char]));
+  const pct = value => `${(100 * Number(value || 0)).toFixed(1)}%`;
 
-  function analysisMinPlayers() {
-    return Math.max(50, Number($f('prepMinPlayers')?.value || 50));
+  function source() { return $('playFieldSource')?.value || 'blend'; }
+
+  function resolveDefinition() {
+    return window.PTCGMetaField?.resolve?.({ source:source(), expectedField:state.expectedField }) || { source:source(), rows:[], provenance:{} };
   }
 
-  function onlineFieldFromCache() {
-    const mode = $f('prepRecency')?.value || 'balanced';
-    const minPlayers = analysisMinPlayers();
-    const scope = window.MetaState?.get?.().onlineScope || '30';
-    const rows = window.MetaData?.fieldRows?.('online', { scope, minPlayers, recency:mode }) || [];
-    return window.ArchetypeGroups?.groupRows?.(rows, 'share') || rows;
+  function resetFromDefinition() {
+    state.definition=resolveDefinition();
+    const selection=(state.definition.source === 'expected' || state.definition.source === 'custom')
+      ? { rows:state.definition.rows }
+      : (window.PTCGMetaField?.selectCoverage?.(state.definition.rows, 0.9) || { rows:[] });
+    state.rows.clear();
+    const selectedNames=new Set(selection.rows.map(row => row.name));
+    for (const row of state.definition.rows) state.rows.set(row.name, {
+      name:row.name, share:row.share, originalShare:row.share,
+      included:selectedNames.has(row.name), defaultIncluded:selectedNames.has(row.name), pinned:false,
+    });
+    state.touched=false;
+    state.showAll=false;
   }
 
-  function irlField() {
-    const rows = window.MetaData?.fieldRows?.('irl') || [];
-    return window.ArchetypeGroups?.groupRows?.(rows, 'share') || rows;
+  function ensure() {
+    if (!state.definition) resetFromDefinition();
+    return state.definition;
   }
 
-  function mergeFields(a, b, bWeight) {
-    const map = new Map();
-    for (const row of a) map.set(row.name, (map.get(row.name) || 0) + row.share * (1 - bWeight));
-    for (const row of b) map.set(row.name, (map.get(row.name) || 0) + row.share * bWeight);
-    const total = [...map.values()].reduce((s, x) => s + x, 0);
-    return [...map.entries()].map(([name, value]) => ({ name, share: total ? value / total : 0, source: 'blend' }));
-  }
-
-  function baseField() {
-    const source = $f('fieldSource')?.value || 'online';
-    const online = onlineFieldFromCache();
-    const irl = irlField();
-    if (source === 'irl') return irl;
-    if (source === 'blend') return mergeFields(online, irl, Number($f('fieldBlend')?.value || 50) / 100);
-    if (source === 'custom') return online.length ? online : irl;
-    return online;
-  }
-
-  function top90Names(base) {
-    const names = new Set();
-    let cumulative = 0;
-    for (const row of base) {
-      if (cumulative >= 0.9 && names.size) break;
-      names.add(row.name);
-      cumulative += Math.max(0, Number(row.share || 0));
-    }
-    return names;
-  }
-
-  function syncCustom(reset = false) {
-    const base = baseField().sort((a, b) => b.share - a.share);
-    if (reset || !state.touched) {
-      const defaults = top90Names(base);
-      state.custom.clear();
-      for (const row of base) {
-        state.custom.set(row.name, {
-          name: row.name,
-          share: row.share,
-          originalShare: row.share,
-          included: defaults.has(row.name),
-          defaultIncluded: defaults.has(row.name),
-          pinned: false,
-        });
-      }
-      state.touched = false;
-      return;
-    }
-    const defaults = top90Names(base);
-    for (const row of base) {
-      const existing = state.custom.get(row.name);
-      if (!existing) {
-        state.custom.set(row.name, {
-          name: row.name,
-          share: row.share,
-          originalShare: row.share,
-          included: false,
-          defaultIncluded: defaults.has(row.name),
-          pinned: false,
-        });
-      } else {
-        existing.originalShare = row.share;
-        existing.defaultIncluded = defaults.has(row.name);
-      }
-    }
-  }
-
-  function selectedRows() {
-    syncCustom(false);
-    return [...state.custom.values()].filter(r => r.included && !ignored(r.name));
-  }
-
-  function selectedField() {
-    const rows = selectedRows();
-    if (!rows.length) return [];
-    if (($f('fieldAnalysisMode')?.value || 'shares') === 'equal') {
-      return rows.map(r => ({ name: r.name, share: 1 / rows.length, originalShare: Number(r.originalShare || 0) }));
-    }
-    const total = rows.reduce((sum, r) => sum + Math.max(0, Number(r.share || 0)), 0);
-    return rows.map(r => ({
-      name: r.name,
-      share: total ? Math.max(0, Number(r.share || 0)) / total : 1 / rows.length,
-      originalShare: Number(r.originalShare || 0),
-    }));
-  }
-
-  function snapshot() {
-    return selectedField().map(row => ({ name: row.name, share: row.share }));
-  }
-
-  function applyComposition(inputRows) {
-    const rows = (Array.isArray(inputRows) ? inputRows : [])
-      .map(row => ({ name: String(row?.name || '').trim(), share: Math.max(0, Number(row?.share || 0)) }))
-      .filter(row => !ignored(row.name) && row.share > 0);
-    const total = rows.reduce((sum, row) => sum + row.share, 0);
-    if (!total) return false;
-
-    const source = $f('fieldSource');
-    if (source) source.value = 'custom';
-    const mode = $f('fieldAnalysisMode');
-    if (mode) mode.value = 'shares';
-    $f('blendControl')?.classList.add('hidden');
-
-    state.touched = false;
-    state.showAll = false;
-    syncCustom(true);
-    for (const row of state.custom.values()) {
-      row.included = false;
-      row.pinned = false;
-    }
-
-    for (const saved of rows) {
-      let row = state.custom.get(saved.name);
-      if (!row) {
-        row = {
-          name: saved.name,
-          share: 0,
-          originalShare: 0,
-          included: false,
-          defaultIncluded: false,
-          pinned: true,
-        };
-        state.custom.set(saved.name, row);
-      }
-      row.share = saved.share / total;
-      row.included = true;
-      row.pinned = true;
-    }
-
-    state.touched = true;
-    render();
-    notify();
-    return true;
-  }
-
-  function chipRows() {
-    syncCustom(false);
-    const selectedShares = new Map(selectedField().map(r => [r.name, r.share]));
-    return [...state.custom.values()]
-      .filter(r => !ignored(r.name) && (r.defaultIncluded || r.included || r.pinned))
-      .sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0))
-      .map(r => ({
-        name: r.name,
-        included: r.included,
-        share: r.included ? Number(selectedShares.get(r.name) || 0) : null,
-        originalShare: Number(r.originalShare || 0),
-      }));
-  }
+  function selectedRaw() { ensure(); return [...state.rows.values()].filter(row => row.included && row.share > 0); }
+  function getField() { return window.PTCGMetaField?.normalizeRows?.(selectedRaw()) || []; }
+  function snapshot() { return getField().map(({ name, share }) => ({ name, share })); }
+  function originalCoverage() { return selectedRaw().reduce((sum,row) => sum + Number(row.originalShare || 0), 0); }
 
   function allRows() {
-    syncCustom(false);
-    return [...state.custom.values()]
-      .filter(r => !ignored(r.name))
-      .sort((a, b) => Number(b.originalShare || b.share || 0) - Number(a.originalShare || a.share || 0))
-      .map(r => ({ ...r }));
-  }
-
-  function originalCoverage() {
-    return selectedRows().reduce((sum, r) => sum + Math.max(0, Number(r.originalShare || 0)), 0);
-  }
-
-  function visibleRows(rows) {
-    if (state.showAll) return rows;
-    let cumulative = 0;
-    const visible = [];
-    for (const row of rows) {
-      if (cumulative >= 0.9 && visible.length) break;
-      visible.push(row);
-      cumulative += Math.max(0, Number(row.originalShare || row.share || 0));
-    }
-    return visible;
-  }
-
-  function render() {
-    const editor = $f('fieldEditor');
-    if (!editor) return;
-    syncCustom(false);
-    const rows = allRows();
-    if (!rows.length) {
-      editor.innerHTML = '<div class="prep-empty">No data is available for this field source in the current legality.</div>';
-      const coverage = $f('fieldCoverage');
-      if (coverage) coverage.textContent = '0.0% of the original filtered meta selected.';
-      return;
-    }
-    const shown = visibleRows(rows);
-    const selected = rows.filter(r => r.included);
-    const selectedOriginalCoverage = originalCoverage();
-    const coverage = $f('fieldCoverage');
-    if (coverage) {
-      coverage.textContent = state.showAll
-        ? `Showing all ${rows.length} archetypes · ${selected.length} selected · ${pct(selectedOriginalCoverage * 100)} original meta coverage.`
-        : `${selected.length} selected · ${pct(selectedOriginalCoverage * 100)} of the original filtered meta.`;
-    }
-    const showAll = $f('fieldShowAll');
-    if (showAll) showAll.textContent = state.showAll ? 'Top 90%' : 'Show all';
-
-    editor.innerHTML = `<div class="tablewrap"><table class="field-table"><thead><tr><th>Use</th><th>Archetype</th><th>Model share</th></tr></thead><tbody>${shown.map(r => `<tr class="field-row ${r.included ? 'included' : 'excluded'}" data-name="${escapeHtml(r.name)}"><td><input class="field-check" data-name="${escapeHtml(r.name)}" type="checkbox" ${r.included ? 'checked' : ''}></td><td><span class="field-deck-name">${window.DeckSprites?.html?.(r.name, { size: 30 }) || ''}<b>${escapeHtml(r.name)}</b></span></td><td><input class="field-share" data-name="${escapeHtml(r.name)}" type="number" min="0" max="100" step="0.1" value="${(Number(r.share || 0) * 100).toFixed(1)}">%</td></tr>`).join('')}</tbody></table></div>`;
-    editor.querySelectorAll('.field-row').forEach(row => row.addEventListener('click', e => {
-      if (e.target.matches('input')) return;
-      toggle(row.dataset.name);
-    }));
-    editor.querySelectorAll('.field-check').forEach(el => el.addEventListener('change', () => {
-      const r = state.custom.get(el.dataset.name);
-      if (r) {
-        r.included = el.checked;
-        if (el.checked) r.pinned = true;
-        state.touched = true;
-        render();
-        notify();
-      }
-    }));
-    editor.querySelectorAll('.field-share').forEach(el => el.addEventListener('change', () => {
-      const r = state.custom.get(el.dataset.name);
-      if (r) {
-        r.share = Math.max(0, Number(el.value || 0)) / 100;
-        r.pinned = true;
-        state.touched = true;
-        render();
-        notify();
-      }
+    ensure();
+    const selected=new Map(getField().map(row => [row.name, row.share]));
+    return [...state.rows.values()].sort((a,b) => b.originalShare-a.originalShare || a.name.localeCompare(b.name)).map(row => ({
+      ...row, modelShare:row.included ? Number(selected.get(row.name) || 0) : null,
     }));
   }
 
-  function setIncluded(name, included = true) {
-    if (ignored(name)) return false;
-    syncCustom(false);
-    const row = state.custom.get(name);
-    if (!row) return false;
-    row.included = !!included;
-    row.pinned = true;
-    state.touched = true;
-    render();
-    notify();
-    return true;
-  }
+  function getChipRows() { return allRows().filter(row => row.defaultIncluded || row.included || row.pinned); }
 
-  function add(name) { return setIncluded(name, true); }
-
-  function toggle(name) {
-    if (ignored(name)) return;
-    syncCustom(false);
-    const row = state.custom.get(name);
-    if (!row) return;
-    row.included = !row.included;
-    row.pinned = true;
-    state.touched = true;
-    render();
-    notify();
-  }
-
-  function resetField() {
-    state.touched = false;
-    state.showAll = false;
-    syncCustom(true);
-    render();
-    notify();
-  }
-
-  function notify(dispatch = true) {
-    if (dispatch) window.dispatchEvent(new CustomEvent('field:updated'));
-  }
-
-  function onlineMatchup(candidate, opponent) {
-    return window.MetaData?.matchup?.('online', candidate, opponent) || null;
-  }
-
-  function matchup(candidate, opponent, onlineFallback) {
-    if (ignored(candidate) || ignored(opponent)) return null;
-    const mode = $f('matchupSource')?.value || 'online';
-    const candidateVariants = window.ArchetypeGroups?.variants?.(candidate) || [candidate];
-    const opponentVariants = window.ArchetypeGroups?.variants?.(opponent) || [opponent];
-    const combine = rows => {
-      const valid=rows.filter(Boolean);
-      if(!valid.length)return null;
-      return valid.reduce((out,m)=>({a:candidate,b:opponent,wins:out.wins+Number(m.wins||0),losses:out.losses+Number(m.losses||0),ties:out.ties+Number(m.ties||0),games:out.games+Number(m.games||Number(m.wins||0)+Number(m.losses||0)+Number(m.ties||0))}),{wins:0,losses:0,ties:0,games:0});
-    };
-    const online = combine(candidateVariants.flatMap(a=>opponentVariants.map(b=>onlineMatchup(a,b))));
-    const irlRows = window.MetaData?.data?.('irl')?.matchups || [];
-    const irl = combine(candidateVariants.flatMap(a=>opponentVariants.map(b=>irlRows.find(m => m.a === a && m.b === b && !ignored(m.a) && !ignored(m.b)) || null)));
-    if (mode === 'irl') return irl || null;
-    if (mode === 'combined') {
-      if (!online) return irl || null;
-      if (!irl) return online;
-      return {
-        a: candidate, b: opponent,
-        wins: Number(online.wins || 0) + Number(irl.wins || 0),
-        losses: Number(online.losses || 0) + Number(irl.losses || 0),
-        ties: Number(online.ties || 0) + Number(irl.ties || 0),
-        games: Number(online.games || 0) + Number(irl.games || 0),
-      };
-    }
-    return online || onlineFallback || null;
+  function provenance() {
+    const definition=ensure();
+    return { ...(definition.provenance || {}), identity:'exact-variant', selectedCoverage:originalCoverage(), fieldRows:snapshot().length };
   }
 
   function sourceLabel() {
-    const field = $f('fieldSource')?.value || 'online';
-    const matchup = $f('matchupSource')?.value || 'online';
-    const fieldLabels = { online: '50+ online field', irl: 'IRL Labs field', blend: `${$f('fieldBlend')?.value || 50}% IRL blend`, custom: 'custom field' };
-    const richOnline = !!window.MetaData?.data?.('online')?.matchups?.length;
-    const matchLabels = {
-      online: richOnline ? 'all-event Limitless matchups' : 'online tournament matchups',
-      irl: 'IRL matchups',
-      combined: richOnline ? 'all-event Limitless + IRL matchups' : 'online + IRL matchups',
-    };
-    return `${fieldLabels[field]} · ${matchLabels[matchup]}`;
+    const definition=ensure();
+    if (definition.source === 'blend') {
+      const weights=definition.provenance?.weights || {};
+      return `Blended current field · ${Math.round(100 * Number(weights.online || 0))}% Online / ${Math.round(100 * Number(weights.irl || 0))}% IRL`;
+    }
+    return definition.provenance?.label || definition.definition?.label || 'Expected field';
+  }
+
+  function renderEditor() {
+    const target=$('fieldEditor');
+    if (!target) return;
+    const rows=allRows();
+    if (!rows.length) {
+      target.innerHTML='<div class="prep-empty">No exact-variant field data is available for this source.</div>';
+      if ($('fieldCoverage')) $('fieldCoverage').textContent='0% represented';
+      return;
+    }
+    const visible=state.showAll ? rows : rows.filter(row => row.defaultIncluded || row.included || row.pinned);
+    if ($('fieldCoverage')) $('fieldCoverage').textContent=`${visible.filter(row => row.included).length} variants · ${pct(originalCoverage())} of source field represented`;
+    if ($('fieldShowAll')) $('fieldShowAll').textContent=state.showAll ? 'Top field' : 'Show all';
+    target.innerHTML=`<div class="field-edit-list">${visible.map(row => `<label class="field-edit-row ${row.included ? '' : 'off'}"><input class="field-check" data-name="${esc(row.name)}" type="checkbox" ${row.included ? 'checked' : ''}><span>${window.DeckSprites?.html?.(row.name,{size:28}) || ''}<b>${esc(row.name)}</b></span><span class="field-edit-share"><input class="field-share" data-name="${esc(row.name)}" type="number" min="0" max="100" step="0.1" value="${(100 * Number(row.share || 0)).toFixed(1)}" ${row.included ? '' : 'disabled'}><i>%</i></span></label>`).join('')}</div>`;
+    target.querySelectorAll('.field-check').forEach(input => input.addEventListener('change', () => setIncluded(input.dataset.name, input.checked)));
+    target.querySelectorAll('.field-share').forEach(input => input.addEventListener('change', () => {
+      const row=state.rows.get(input.dataset.name);
+      if (!row) return;
+      row.share=Math.max(0, Number(input.value || 0)) / 100;
+      row.included=row.share > 0;
+      row.pinned=true;
+      state.touched=true;
+      renderEditor();
+      notify();
+    }));
+  }
+
+  function notify() { window.dispatchEvent(new CustomEvent('field:updated')); }
+  function setIncluded(name, included=true) {
+    ensure();
+    const row=state.rows.get(name);
+    if (!row) return false;
+    row.included=!!included;
+    row.pinned=true;
+    state.touched=true;
+    renderEditor();
+    notify();
+    return true;
+  }
+  function toggle(name) { const row=state.rows.get(name); return row ? setIncluded(name,!row.included) : false; }
+  function add(name) { return setIncluded(name,true); }
+  function reset() { resetFromDefinition(); renderEditor(); notify(); }
+
+  function applyExpectedField(record) {
+    const rows=window.PTCGMetaField?.normalizeRows?.(record?.field || record?.rows || []) || [];
+    if (!rows.length) return false;
+    state.expectedField={ ...record, field:rows };
+    if ($('playFieldSource')) $('playFieldSource').value='expected';
+    resetFromDefinition();
+    renderEditor();
+    notify();
+    return true;
+  }
+
+  function applyComposition(rows) { return applyExpectedField({ name:'Custom Expected Field', field:rows, provenance:{ type:'expected-field', source:'custom', identity:'exact-variant' } }); }
+
+  function handleSourceChange() {
+    if (source() === 'expected' && !state.expectedField) state.expectedField=window.SavedMetas?.list?.()[0] || null;
+    resetFromDefinition();
+    renderEditor();
+    notify();
   }
 
   function bind() {
-    $f('fieldSource')?.addEventListener('change', () => {
-      $f('blendControl')?.classList.toggle('hidden', $f('fieldSource').value !== 'blend');
-      state.touched = false;
-      syncCustom(true);
-      render();
-      notify();
-    });
-    $f('fieldBlend')?.addEventListener('input', () => {
-      if ($f('blendValue')) $f('blendValue').textContent = `${$f('fieldBlend').value}%`;
-      state.touched = false;
-      syncCustom(true);
-      render();
-      notify();
-    });
-    $f('fieldAnalysisMode')?.addEventListener('change', () => notify());
-    $f('matchupSource')?.addEventListener('change', () => notify());
-    $f('fieldReset')?.addEventListener('click', resetField);
-    $f('fieldAll')?.addEventListener('click', () => {
-      syncCustom(false);
-      for (const r of state.custom.values()) if (!ignored(r.name)) { r.included = true; r.pinned = true; }
-      state.touched = true;
-      render();
-      notify();
-    });
-    $f('fieldNone')?.addEventListener('click', () => {
-      syncCustom(false);
-      for (const r of state.custom.values()) r.included = false;
-      state.touched = true;
-      render();
-      notify();
-    });
-    $f('fieldShowAll')?.addEventListener('click', () => { state.showAll = !state.showAll; render(); });
-    $f('prepRecency')?.addEventListener('change', () => {
-      if (!state.touched) syncCustom(true);
-      render();
-      notify();
-    });
-    $f('prepMinPlayers')?.addEventListener('change', () => {
-      if (!state.touched) syncCustom(true);
-      render();
-      notify();
-    });
-    window.addEventListener('meta:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
-    window.addEventListener('irl:updated', () => { if (!state.touched) { syncCustom(true); render(); } });
-    window.addEventListener('deckagg:updated', () => notify());
-    window.addEventListener('archetype-grouping:changed', () => { state.touched=false; syncCustom(true); render(); notify(); });
+    $('playFieldSource')?.addEventListener('change', handleSourceChange);
+    $('fieldReset')?.addEventListener('click', reset);
+    $('fieldAll')?.addEventListener('click', () => { ensure(); for (const row of state.rows.values()) row.included=true; state.touched=true; renderEditor(); notify(); });
+    $('fieldNone')?.addEventListener('click', () => { ensure(); for (const row of state.rows.values()) row.included=false; state.touched=true; renderEditor(); notify(); });
+    $('fieldShowAll')?.addEventListener('click', () => { state.showAll=!state.showAll; renderEditor(); });
+    window.addEventListener('meta:data-changed', () => { if (!state.touched && source() !== 'expected') { resetFromDefinition(); renderEditor(); notify(); } });
   }
 
-  window.PrepField = {
-    getField: selectedField,
-    getChipRows: chipRows,
-    getAllRows: allRows,
-    getOriginalCoverage: originalCoverage,
-    getMatchup: matchup,
-    snapshot,
-    applyComposition,
-    render,
-    sourceLabel,
-    toggle,
-    add,
-    setIncluded,
-    reset: resetField,
-  };
+  window.PrepField={ getField, getChipRows, getAllRows:allRows, getOriginalCoverage:originalCoverage, snapshot, provenance, sourceLabel, applyExpectedField, applyComposition, render:renderEditor, toggle, add, setIncluded, reset };
   bind();
 })();

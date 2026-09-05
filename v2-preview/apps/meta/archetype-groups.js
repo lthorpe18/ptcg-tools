@@ -1,12 +1,7 @@
 (() => {
   'use strict';
 
-  const FAMILIES = [
-    { name: 'Dragapult', variants: ['Dragapult', 'Dragapult Dusknoir', 'Dragapult Blaziken', 'Dragapult Dudunsparce'] },
-    { name: 'Alakazam', variants: ['Alakazam Dudunsparce', 'Alakazam Dusknoir'] },
-    { name: 'Lopunny', variants: ['Lopunny Dudunsparce', 'Lopunny Dusknoir'] },
-    { name: 'Ogerpon Meganium', variants: ['Ogerpon Meganium Hydrapple', 'Ogerpon Meganium Arboliva'] },
-  ];
+  const FAMILIES = window.PTCGMetaField?.FAMILIES || [];
 
   const variantToFamily = new Map();
   const familyToVariants = new Map();
@@ -15,23 +10,15 @@
     for (const variant of family.variants) variantToFamily.set(variant, family.name);
   }
 
-  function enabled() {
-    const el = document.getElementById('archetypeGrouping');
-    return !el || el.value !== 'variants';
-  }
-
   function familyName(name) {
-    if (!enabled()) return name;
     return variantToFamily.get(name) || name;
   }
 
   function variants(name) {
-    if (!enabled()) return [name];
     return familyToVariants.get(name) || [name];
   }
 
   function groupRows(rows, valueKey = 'share') {
-    if (!enabled()) return (rows || []).map(row => ({ ...row, variants: [row.name] }));
     const map = new Map();
     for (const row of rows || []) {
       const name = familyName(row.name);
@@ -48,7 +35,6 @@
   }
 
   function aggregateRecords(rows) {
-    if (!enabled()) return (rows || []).map(row => ({ ...row, variants: [row.name] }));
     const map = new Map();
     for (const row of rows || []) {
       const name = familyName(row.name);
@@ -75,5 +61,5 @@
     return list ? `${list.length} variants grouped` : '';
   }
 
-  window.ArchetypeGroups = { FAMILIES, enabled, familyName, variants, groupRows, aggregateRecords, describe };
+  window.ArchetypeGroups = { FAMILIES, familyName, variants, groupRows, aggregateRecords, describe };
 })();

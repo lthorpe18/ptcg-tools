@@ -39,8 +39,8 @@
 
   function refreshPrepField() {
     if (!prepVisible()) return;
-    const source = document.getElementById('fieldSource')?.value || 'online';
-    if (source !== 'custom') window.PrepField?.reset?.();
+    const source = document.getElementById('playFieldSource')?.value || 'blend';
+    if (source !== 'expected') window.PrepField?.reset?.();
   }
 
   function setOnlineScope(value, reason = 'online-scope') {

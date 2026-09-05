@@ -6,7 +6,7 @@ Meta uses one shared state/data/control contract across Current Meta, What Shoul
 
 ### MetaState
 `meta-core.js` owns the selected evidence scopes:
-- Online: `14`, `30`, `all`
+- Online: `14`, `30`, `since-major`, `all` (`since-major` supports the shared current-field blend)
 - IRL: `latest-weekend`, `all-irl`, `event:<id>`
 
 No page-level script should introduce a second independent copy of these scope values.
@@ -24,7 +24,7 @@ Pages render data; they do not independently reinterpret what Online or IRL mean
 `meta-controls.js` owns the reusable source/scope UI contract:
 - Current Meta reuses its compact scope select for Online/IRL
 - Matchups and Deck Explorer show exactly one subordinate scope matching the active source
-- What Should I Play shows only the Online and/or IRL scopes required by its selected field and matchup sources
+- What Should I Play declares one field control and one H2H evidence control directly. It consumes the current shared source scopes and does not mirror them into hidden controls.
 - Deck Detail renders its own source-matched scope control from `MetaState`
 
 Controls do not own navigation and must not intercept generic clicks.
@@ -63,10 +63,18 @@ Variant grouping is presentation-only on Current Meta and defaults OFF.
 
 Families can group Current Meta field share and expand inline. Matchups, Deck Explorer, Deck Detail and What Should I Play remain exact-variant analytical surfaces.
 
+Canonical family metadata and field-row normalisation live in `../_shared/meta-field.js`, so Home and Meta do not maintain separate definitions.
+
+## What Should I Play
+
+WSIP consumes the shared field vocabulary, `MetaData` evidence, `MetaBlendedField` and the DOM-free `PTCGRecommendation` engine. Event Prep consumes the same field/recommendation engines for its shortlist. Missing H2H evidence remains unknown, small samples use the documented neutral prior, and only variants meeting the shared coverage/sample-quality rules receive ranks.
+
+The accepted flow is field → candidates → why → compare → explicit action. See `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md` at the repository root for the scoring and uncertainty contract.
+
 ## Page hierarchy
 Locked high-level hierarchy:
 - Current Meta: purpose → source → scope → grouping → evidence summary → field → exploration
-- What Should I Play: back → purpose → field/matchup sources → required scopes → evidence summaries → expected field → recommendations → checker → advanced settings
+- What Should I Play: back → purpose → field/H2H sources → field → candidates → why → compare → explicit action → progressive methodology
 - Matchups: back → purpose → source → scope → evidence summary → exact variant → matchup evidence → detail
 - Deck Explorer: back → purpose → source → scope → evidence summary → exact variants → detail
 - Deck Detail: back → identity → source → scope → headline stats → exact-variant evidence
@@ -107,6 +115,9 @@ Do not recreate or re-add these superseded implementations:
 - `live.js`
 - `deck-aggregate.js`
 - `irl-labs.js`
+- `decklinks.js`
+- `breakdown.css`
+- mirrored hidden WSIP source controls and DOM relocation patches
 
 ## Deployment rule
 Whenever behavior or styling changes, bump the relevant JS/CSS query version in `index.html`. Do not rely on the HTML URL query alone to invalidate iOS/PWA subresource caches.
@@ -114,7 +125,7 @@ Whenever behavior or styling changes, bump the relevant JS/CSS query version in 
 Before calling a Meta change complete, smoke-test:
 1. Current Meta Online, IRL and Blended switching
 2. variant grouping off/on and exact variant drill-down
-3. What Should I Play field source, matchup source and required scope visibility
+3. What Should I Play field/H2H source changes, Expected Field load/edit/save, recommendation explanations and compact comparison
 4. Matchups source/scope and deck detail drill-down
 5. Deck Explorer source/scope and deck detail drill-down
 6. Deck Detail source/scope, Data & performance collapse/expand, and Back
