@@ -1,0 +1,10 @@
+/* Deck Explorer identity column must fit the widest canonical two-sprite stack.
+   DeckSprites renders two 38px sprites plus its inline gap (~79px total). */
+.deck-explorer-card{
+  grid-template-columns:22px 82px minmax(0,1fr) auto 12px;
+}
+@media(max-width:600px){
+  .deck-explorer-card{
+    grid-template-columns:18px 82px minmax(0,1fr) auto 10px;
+  }
+}
