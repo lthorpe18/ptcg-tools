@@ -29,15 +29,17 @@ jobs:
           node-version: '22'
       - name: Read PBL aggregate deck and matchup data
         run: node scripts/update-limitless-decks.mjs
+      - name: Build validated browser release
+        run: node scripts/build-meta-release.mjs
       - name: Publish deck matchup dataset
         run: |
-          if [ -z "$(git status --porcelain -- data/meta/decks)" ]; then
+          if [ -z "$(git status --porcelain -- data/meta/decks v2-preview/data/meta/release)" ]; then
             echo "Deck matchup dataset unchanged"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/meta/decks
+          git add data/meta/decks v2-preview/data/meta/release
           git commit -m "Update Limitless PBL deck matchups"
           git pull --rebase
           git push

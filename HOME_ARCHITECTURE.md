@@ -211,8 +211,8 @@ Home is derived state only.
 
 Reuse:
 
-- warmed persistent-shell Meta runtime;
-- shared `MetaBlendedField` / Meta runtime;
+- locally cached Meta release core;
+- shared `PTCGMetaBlend` / `MetaBlendedField` calculation;
 - `PTCGDeckStore`;
 - root `PTCGStorage` / `UserEventParticipation`;
 - shared Season engine;

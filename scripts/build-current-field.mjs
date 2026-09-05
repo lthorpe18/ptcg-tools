@@ -13,13 +13,16 @@ const PAGE_SIZE = 100;
 const MAX_PAGES = 20;
 const DAY = 86400000;
 const BOOTSTRAP_DAYS = 7;
+const RESULT_TOURNAMENTS = 36;
 
 const root = process.cwd();
 const outputFile = path.join(root, 'data', 'meta', 'current-field.json');
 const archiveFile = path.join(root, 'data', 'meta', 'online-events', `${FORMAT_ID}.json`);
 const aggregateFile = path.join(root, 'data', 'meta', 'decks', `${FORMAT_ID}.json`);
 const irlFile = path.join(root, 'data', 'meta', 'irl', `${FORMAT_ID}.json`);
+const resultsFile = path.join(root, 'data', 'meta', 'online-results', `${FORMAT_ID}.json`);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const standingsPromises = new Map();
 
 async function readJson(file, fallback = null) {
   try { return JSON.parse(await fs.readFile(file, 'utf8')); }
@@ -50,6 +53,12 @@ async function mapConcurrent(items, limit, fn) {
   }
   await Promise.all(Array.from({ length: Math.min(limit, Math.max(1, items.length)) }, worker));
   return results;
+}
+
+function standingsFor(tournamentId) {
+  const id = String(tournamentId);
+  if (!standingsPromises.has(id)) standingsPromises.set(id, get(`/tournaments/${encodeURIComponent(id)}/standings`));
+  return standingsPromises.get(id);
 }
 
 async function tournamentIndex() {
@@ -118,6 +127,34 @@ function compactTournament(tournament, standings, pairings) {
   };
 }
 
+function compactResultEvent(tournament, standings) {
+  const results = [];
+  for (const standing of standings || []) {
+    const archetype = standing?.deck?.name;
+    const placing = Number(standing?.placing);
+    if (ignoredArchetype(archetype) || !Number.isFinite(placing) || placing <= 0) continue;
+    results.push({
+      archetype,
+      placing,
+      player:standing.name || standing.player || 'Unknown player',
+      tournament:tournament.name || '',
+      eventId:String(tournament.id),
+      date:tournament.date,
+      players:Number(tournament.players || 0),
+      record:{
+        wins:Number(standing.record?.wins || 0),
+        losses:Number(standing.record?.losses || 0),
+        ties:Number(standing.record?.ties || 0),
+      },
+    });
+  }
+  return { id:String(tournament.id), name:tournament.name || '', date:tournament.date, players:Number(tournament.players || 0), results };
+}
+
+function ignoredArchetype(name) {
+  return !name || name === 'Other' || name === 'Unknown';
+}
+
 function isoWeekKey(value) {
   const d = new Date(value);
   const u = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
@@ -184,8 +221,8 @@ function fullAggregateBucket(raw) {
   };
 }
 
-const [index, majorWeekend, previousField, previousArchive, fullAggregate] = await Promise.all([
-  tournamentIndex(), latestMajorWeekend(), readJson(outputFile, null), readJson(archiveFile, null), readJson(aggregateFile, null),
+const [index, majorWeekend, previousField, previousArchive, fullAggregate, previousResults] = await Promise.all([
+  tournamentIndex(), latestMajorWeekend(), readJson(outputFile, null), readJson(archiveFile, null), readJson(aggregateFile, null), readJson(resultsFile, { events:[] }),
 ]);
 console.log(`Found ${index.length} qualifying ${FORMAT_ID} online tournaments.`);
 if (majorWeekend) console.log(`Post-major scope starts ${majorWeekend.cutoffIso} after ${majorWeekend.events.map(e=>e.name).join(' + ')}`);
@@ -218,7 +255,7 @@ console.log(`Detailed matchup fetch: ${needDetailed.length} tournament(s); ${arc
 const fetched = await mapConcurrent(needDetailed, CONCURRENCY, async (tournament, i) => {
   try {
     const [standings,pairings] = await Promise.all([
-      get(`/tournaments/${encodeURIComponent(tournament.id)}/standings`),
+      standingsFor(tournament.id),
       get(`/tournaments/${encodeURIComponent(tournament.id)}/pairings`),
     ]);
     const compact = compactTournament(tournament,standings,pairings);
@@ -244,7 +281,7 @@ const missingField = index.filter(t => !fieldMap.has(String(t.id)));
 if (missingField.length) console.log(`Field-only fetch: ${missingField.length} tournament(s).`);
 const fieldFetched = await mapConcurrent(missingField, CONCURRENCY, async tournament => {
   try {
-    const standings = await get(`/tournaments/${encodeURIComponent(tournament.id)}/standings`);
+    const standings = await standingsFor(tournament.id);
     const compact = compactTournament(tournament,standings,[]);
     if (!compact) return null;
     const {matchups,matchCount,...fieldEvent}=compact;
@@ -255,6 +292,21 @@ const fieldFetched = await mapConcurrent(missingField, CONCURRENCY, async tourna
   }
 });
 for (const event of fieldFetched.filter(Boolean)) fieldMap.set(String(event.id),event);
+
+const previousResultMap = new Map((previousResults?.events || []).map(event => [String(event.id), event]));
+const resultTargets = index.slice(0, RESULT_TOURNAMENTS);
+const missingResults = resultTargets.filter(tournament => !previousResultMap.has(String(tournament.id)));
+if (missingResults.length) console.log(`Result fetch: ${missingResults.length} tournament(s); retaining the latest ${RESULT_TOURNAMENTS}.`);
+const fetchedResults = await mapConcurrent(missingResults, CONCURRENCY, async tournament => {
+  try {
+    return compactResultEvent(tournament, await standingsFor(tournament.id));
+  } catch (error) {
+    console.warn(`Skipping results ${tournament.id}: ${error.message}`);
+    return null;
+  }
+});
+for (const event of fetchedResults.filter(Boolean)) previousResultMap.set(String(event.id), event);
+const resultEvents = resultTargets.map(tournament => previousResultMap.get(String(tournament.id))).filter(Boolean);
 
 const indexIds = new Set(index.map(t=>String(t.id)));
 const fieldEvents = [...fieldMap.values()].filter(e=>indexIds.has(String(e.id))).sort((a,b)=>new Date(b.date)-new Date(a.date));
@@ -283,13 +335,24 @@ const archivePayload = {
   note:'Append-only per-tournament matchup archive. Bootstrap begins with 7 days; daily refreshes add every unseen qualifying tournament from coverageStart onward.',
   events:archivedEvents,
 };
+const resultsPayload = {
+  schemaVersion:1,
+  generatedAt,
+  format:FORMAT_ID,
+  tournamentLimit:RESULT_TOURNAMENTS,
+  note:'Recent Online placement evidence collected centrally. Browsers do not query Limitless tournament standings.',
+  events:resultEvents,
+};
 
 await fs.mkdir(path.dirname(outputFile),{recursive:true});
 await fs.mkdir(path.dirname(archiveFile),{recursive:true});
+await fs.mkdir(path.dirname(resultsFile),{recursive:true});
 await Promise.all([
   fs.writeFile(outputFile,JSON.stringify(payload)),
   fs.writeFile(archiveFile,JSON.stringify(archivePayload)),
+  fs.writeFile(resultsFile,JSON.stringify(resultsPayload)),
 ]);
 
 console.log(`Wrote ${outputFile}: ${fieldEvents.length} field tournaments; ${archivedEvents.length} detailed archived tournaments.`);
 for (const [scope,bucket] of Object.entries(matchupScopes)) console.log(`Matchups ${scope}: ${bucket.overview.events} events · ${bucket.overview.matches} matches · ${bucket.matchups.length} rows`);
+console.log(`Results: ${resultEvents.reduce((sum, event) => sum + (event.results || []).length, 0)} placements from ${resultEvents.length} recent tournaments.`);

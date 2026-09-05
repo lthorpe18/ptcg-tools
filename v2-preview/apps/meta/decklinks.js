@@ -1,11 +1,6 @@
 (() => {
   function recordsUrl(name) {
-    const deck = window.DeckAggregate?.getDeck?.(name);
-    if (!deck?.slug) return '';
-    const data = window.DeckAggregate?.getData?.() || {};
-    const rotation = encodeURIComponent(data.rotation || 2026);
-    const set = encodeURIComponent(data.set || 'PBL');
-    return `https://play.limitlesstcg.com/decks/${encodeURIComponent(deck.slug)}?format=standard&rotation=${rotation}&set=${set}`;
+    return window.MetaData?.recordsUrl?.(name) || '';
   }
 
   function ensureRecommendationStyles() {
@@ -51,8 +46,7 @@
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
-  window.addEventListener('deckagg:updated', () => addRecommendationRecordLinks());
+  window.addEventListener('meta:data-changed', () => addRecommendationRecordLinks());
   window.addEventListener('field:updated', () => requestAnimationFrame(() => addRecommendationRecordLinks()));
-  window.addEventListener('meta:updated', () => requestAnimationFrame(() => addRecommendationRecordLinks()));
   addRecommendationRecordLinks();
 })();

@@ -29,13 +29,13 @@ The production app keeps the five core areas mounted after first load:
 
 **Home · Meta · Decks · Compete · Tools**
 
-Section switching changes the active child view rather than cold-starting a new top-level document each time.
+Section switching changes the active child view rather than cold-starting a new top-level document each time. Only the active/requested area is loaded; the shell no longer starts every other feature on fixed timers during Home launch.
 
 This provides:
 
 - immediate repeat navigation once areas have loaded;
 - retained feature state;
-- background warming of other core areas;
+- retained already-open areas without paying their startup cost on every app launch;
 - reduced repeated bootstrap/data work.
 
 The current persistent-child-view architecture is a pragmatic migration path over the existing plain HTML/CSS/JS feature pages. A future shared-DOM/router shell is allowed only if it preserves or improves the measured iPhone experience.
@@ -92,6 +92,14 @@ Current rule:
 The service-worker cache generation was bumped from `ptcg-tools-v17` to `ptcg-tools-v18` for this transition.
 
 Do not restore cache-first/stale-first navigation without a specific offline-first product requirement and direct testing that it cannot serve obsolete application generations during ordinary online use.
+
+### 4.4 Meta release cache
+
+Shared Meta evidence is built centrally by scheduled ingestion and published as a content-addressed, purpose-split release. Home and Meta initially load only the manifest plus `core.json`; history, matchup and result payloads load on demand.
+
+Validated release files use a dedicated Cache Storage cache. The active manifest pointer is small local metadata, not a copy of the dataset in `localStorage`. A new release becomes active only after its core validates, and the current/previous releases are retained as last-known-good offline fallbacks.
+
+Normal browsers must not call Limitless tournament APIs. They read prepared GitHub Pages assets; Supabase is not the shared Meta warehouse at the present scale.
 
 ### 4.3 Query-string cache behavior
 
@@ -189,13 +197,14 @@ Therefore:
 - **navigation-performance milestone is complete**;
 - **Mobile Playtest in-place rendering regression is resolved**;
 - **navigation HTML cache regression is resolved architecturally as of 4 September 2026**;
+- **Meta launch no longer performs browser-side tournament ingestion or fixed background startup of every top-level area**;
 - further performance work is not the next product milestone unless a material user-visible regression appears.
 
 ## 11. Architecture lock
 
 Future shell/router/performance work must preserve:
 
-1. already-loaded core areas remain immediately available;
+1. already-loaded core areas remain immediately available, while unopened areas are loaded on demand;
 2. routine section switching does not cold-start each feature;
 3. feature state survives normal navigation where practical;
 4. perceived iPhone performance is at least as good as the current shell;

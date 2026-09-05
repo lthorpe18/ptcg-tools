@@ -21,6 +21,20 @@
   let matchupDeck = '';
 
   const sourceData = source => window.MetaData?.data?.(source) || {decks:[],matchups:[],events:[],overview:{}};
+  const evidenceKeys = (source, results = false) => source === 'irl'
+    ? ['irlMatchups', ...(results ? ['irlResults'] : [])]
+    : ['onlineMatchups', ...(results ? ['onlineResults'] : [])];
+
+  function evidenceReady(source, results = false) {
+    return evidenceKeys(source, results).every(key => window.MetaData?.isLoaded?.(key));
+  }
+
+  function loadEvidence(source, results, callback) {
+    window.MetaData?.ensure?.(evidenceKeys(source, results)).then(() => callback(null)).catch(error => {
+      console.warn(`Could not load ${source} Meta evidence.`, error);
+      callback(error);
+    });
+  }
 
   function rows(source) {
     const raw = (sourceData(source).decks || []).filter(d => !ignored(d.name));
@@ -97,6 +111,20 @@
 
   function renderDetail() {
     if (!detail.name) return;
+    if (!evidenceReady(detail.source, true)) {
+      const source = detail.source;
+      const sourceLabel = source === 'irl' ? 'IRL' : 'Online';
+      $('deckDetailHead').innerHTML=`<div class="detail-heading-row"><div class="detail-title">${sprite(detail.name,52)}<div><div class="eyebrow">${sourceLabel} DECK</div><h1>${esc(detail.name)}</h1><p>Exact variant detail</p></div></div></div>`;
+      $('deckDetailBody').innerHTML='<div class="meta-empty">Loading field, matchup and result evidence…</div>';
+      loadEvidence(source, true, error => {
+        if (error) {
+          $('deckDetailBody').innerHTML='<div class="meta-empty">Detailed evidence could not be loaded. Your last field snapshot remains available.</div>';
+          return;
+        }
+        if (detail.name && detail.source === source && window.MetaRouter?.get?.().view === 'detail') renderDetail();
+      });
+      return;
+    }
     const previousOpen=$('deckDetailEvidence')?.open ?? true;
     const scrollY=window.scrollY;
     const data=sourceData(detail.source);
@@ -174,6 +202,17 @@
   function renderMatchups() {
     const target=$('metaMatchupMatrix'); if(!target)return;
     const source=$('matchupPageSource')?.value||'online';
+    if (!evidenceReady(source)) {
+      target.innerHTML='<div class="meta-empty">Loading matchup evidence…</div>';
+      loadEvidence(source, false, error => {
+        if (error) {
+          target.innerHTML='<div class="meta-empty">Matchup evidence could not be loaded. Please try refresh again.</div>';
+          return;
+        }
+        if (!$('matchups')?.classList.contains('hidden') && ($('matchupPageSource')?.value || 'online') === source) renderMatchups();
+      });
+      return;
+    }
     const available=rows(source).filter(d=>(sourceData(source).matchups||[]).some(m=>m.a===d.name));
     if (!available.length) { target.innerHTML='<div class="meta-empty">No variant-level matchup data available in the selected source and scope.</div>'; return; }
     if (!matchupDeck || !available.some(d=>d.name===matchupDeck)) matchupDeck=available[0].name;
@@ -209,11 +248,7 @@
 
   // Global data changes update list views only. An open detail is deliberately
   // NOT rebuilt here; its own source/scope controls are the sole render owner.
-  window.addEventListener('deckagg:updated',()=>{
-    if(!$('decks')?.classList.contains('hidden'))renderDeckExplorer();
-    if(!$('matchups')?.classList.contains('hidden'))renderMatchups();
-  });
-  window.addEventListener('irl:updated',()=>{
+  window.addEventListener('meta:data-changed',()=>{
     if(!$('decks')?.classList.contains('hidden'))renderDeckExplorer();
     if(!$('matchups')?.classList.contains('hidden'))renderMatchups();
   });

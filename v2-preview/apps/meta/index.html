@@ -27,7 +27,7 @@
   <a class="app-shell-brand" href="../../" aria-label="PTCG Tools home"><span class="app-shell-mark" aria-hidden="true">◈</span><span class="app-shell-brand-copy"><strong>Meta</strong><small>Current field & competitive analysis</small></span></a>
   <div class="app-shell-header-actions">
     <span class="format-context app-context-pill"><span class="app-live-dot"></span><span>TEF–PBL · Standard</span></span>
-    <button id="refresh" class="btn header-refresh" aria-label="Refresh live data"><span class="refresh-icon">↻</span><span class="refresh-label">Refresh</span></button>
+    <button id="refresh" class="btn header-refresh" aria-label="Check for updated Meta data"><span class="refresh-icon">↻</span><span class="refresh-label">Refresh</span></button>
   </div>
 </header>
 
@@ -117,34 +117,22 @@
     <div id="deckDetailBody"></div>
   </section>
 
-  <section class="legacy-meta-plumbing" aria-hidden="true">
-    <select id="archetypeGrouping"><option value="families">Families</option><option value="variants" selected>Variants</option></select>
-    <select id="format"><option value="TEF-PBL" selected>TEF–PBL</option><option value="TEF-CRI">TEF–CRI</option></select>
-    <select id="days"><option value="all" selected>All</option><option value="30">30</option></select>
-    <input id="minPlayers" type="number" value="50"><input id="minMatches" type="number" value="5"><button id="apply"></button><span id="status"></span>
-    <div id="summary"></div><div id="comparisonTitle"></div><div id="comparisonStatus"></div><div id="comparison"></div><table><tbody id="metaBody"></tbody></table><div id="matrix"></div>
-    <div id="archTitle"></div><select id="archSelect"></select><div id="archSummary"></div><div id="trendSummary"></div><div id="trendChart"></div><div id="archMatchups"></div><div id="archResults"></div>
-  </section>
 </main>
 
 <script src="sprites.js?v=4"></script>
-<script src="meta-engine.js?v=2"></script>
-<script src="limitless.js?v=1"></script>
-<script src="app.js?v=2"></script>
-<script src="deck-aggregate.js?v=2"></script>
-<script src="live.js?v=3"></script>
-<script src="irl-labs.js?v=6"></script>
 <script src="saved-metas.js?v=2"></script>
 <script src="archetype-groups.js?v=2"></script>
-<script src="meta-core.js?v=6"></script>
-<script src="blended-field.js?v=1"></script>
-<script src="field-builder.js?v=6"></script>
+<script src="meta-release-loader.js?v=1"></script>
+<script src="meta-core.js?v=7"></script>
+<script src="../_shared/meta-blend.js?v=1"></script>
+<script src="blended-field.js?v=2"></script>
+<script src="field-builder.js?v=7"></script>
 <script src="meta-controls.js?v=7"></script>
-<script src="prep.js?v=6"></script>
+<script src="prep.js?v=7"></script>
 <script src="meta-home.js?v=13"></script>
-<script src="decklinks.js?v=3"></script>
-<script src="searchable-decks.js?v=6"></script>
-<script src="meta-explorer-v3.js?v=2"></script>
+<script src="decklinks.js?v=4"></script>
+<script src="searchable-decks.js?v=7"></script>
+<script src="meta-explorer-v3.js?v=3"></script>
 <script src="meta-source-context.js?v=7"></script>
 <script src="meta-router.js?v=1"></script>
 <script src="../_shared/app-shell.js?v=6"></script>

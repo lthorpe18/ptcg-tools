@@ -3,7 +3,7 @@
 
   const DAY=86400000;
   const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[c]));
-  let metaRuntimeWindow=null;
+  let metaCore=null;
 
   function safeDate(snapshot){
     if(!snapshot||typeof snapshot!=='object')return null;
@@ -70,11 +70,6 @@
     el.hidden=false;
   }
 
-  function parentMetaFrame(){
-    if(window.parent===window)return null;
-    try{return window.parent.document.querySelector('iframe[data-section="meta"]')}catch{return null}
-  }
-
   function compactSprite(name){
     const html=window.DeckSprites?.html?.(name,{size:24})||`<span class="deck-sprite deck-sprite-fallback">${esc(String(name||'?').charAt(0))}</span>`;
     return `<span class="home-preview-sprite" style="flex:0 0 52px;width:52px;height:32px">${html}</span>`;
@@ -95,10 +90,10 @@
     return document.querySelector('input[name="homeVariantGrouping"]:checked')?.value||'variants';
   }
 
-  function presentationRows(rows,runtime){
+  function presentationRows(rows){
     const clean=(rows||[]).filter(row=>row&&row.name&&Number(row.share)>0);
     if(groupingMode()!=='grouped')return clean;
-    const families=runtime?.ArchetypeGroups?.FAMILIES||[];
+    const families=window.ArchetypeGroups?.FAMILIES||[];
     const variantToFamily=new Map();
     for(const family of families)for(const variant of family.variants||[])variantToFamily.set(variant,family.name);
     const grouped=new Map();
@@ -122,14 +117,12 @@
   function renderMetaPreview(){
     const el=document.getElementById('blendedMetaPreview');
     if(!el)return false;
-    let runtime=null;
-    try{runtime=parentMetaFrame()?.contentWindow}catch{}
-    const model=runtime?.MetaBlendedField;
-    if(!model?.current)return renderMetaLoading();
+    const model=window.PTCGMetaBlend;
+    if(!model?.currentFromCore||!metaCore)return renderMetaLoading();
 
     try{
-      const result=model.current();
-      const rows=presentationRows(result?.rows||[],runtime).slice(0,5);
+      const result=model.currentFromCore(metaCore);
+      const rows=presentationRows(result?.rows||[]).slice(0,5);
       if(!rows.length)return renderMetaLoading();
       const maxShare=Math.max(...rows.map(row=>Number(row.share)||0),0.001);
       el.innerHTML=rows.map(row=>{
@@ -153,23 +146,13 @@
   }
 
   function bindMetaRuntime(){
-    const frame=parentMetaFrame();
-    if(!frame){renderMetaPreview();return}
-    const bind=()=>{
-      let runtime=null;
-      try{runtime=frame.contentWindow}catch{}
-      if(!runtime)return;
-      if(metaRuntimeWindow!==runtime){
-        metaRuntimeWindow=runtime;
-        runtime.addEventListener('irl:updated',renderMetaPreview);
-        runtime.addEventListener('online:updated',renderMetaPreview);
-        runtime.addEventListener('meta:data-changed',renderMetaPreview);
-        runtime.addEventListener('decksprites:updated',renderMetaPreview);
-      }
+    const apply=()=>{
+      metaCore=window.MetaRelease?.core?.()||metaCore;
       renderMetaPreview();
     };
-    frame.addEventListener('load',bind);
-    bind();
+    window.addEventListener('meta:release-core',apply);
+    window.MetaRelease?.ready?.().then(payload=>{metaCore=payload||metaCore;renderMetaPreview()});
+    apply();
   }
 
   function ago(ts){

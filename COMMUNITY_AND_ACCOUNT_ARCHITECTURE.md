@@ -225,6 +225,10 @@ Prefer:
 
 `external source → PTCG Tools ingestion/cache → normalized shared data → all users`
 
+For Meta today, that means scheduled GitHub Actions ingest and normalize Online/IRL evidence into canonical `data/meta/` archives, then build a content-addressed, purpose-split browser release served by GitHub Pages. Home/Meta validate and cache those files locally. A normal browser session does not query or scrape Limitless directly.
+
+Supabase stores private per-user snapshots and authentication state. It is deliberately not a duplicate warehouse for the same shared Meta release at the current scale.
+
 Benefits:
 
 - reduced rate-limit pressure;

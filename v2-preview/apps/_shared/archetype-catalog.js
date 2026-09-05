@@ -33,10 +33,12 @@
   async function load(){
     if(loadPromise)return loadPromise;
     loadPromise=(async()=>{
-      const base=new URL('../../data/meta/',document.baseURI),target=new Map();
-      const sources=await Promise.allSettled([json(new URL('current-field.json',base)),json(new URL('irl/TEF-PBL.json',base))]);
-      if(sources[0].status==='fulfilled')collect(sources[0].value,target,'Online');
-      if(sources[1].status==='fulfilled')collect(sources[1].value,target,'IRL');
+      const base=new URL('../../data/meta/release/',document.baseURI),target=new Map();
+      const manifest=await json(new URL('manifest.json',base));
+      const coreUrl=new URL(manifest.files.core.path,base);coreUrl.searchParams.set('release',manifest.release);
+      const core=await json(coreUrl);
+      collect(core?.online,target,'Online');
+      collect(core?.irl,target,'IRL');
       rows=[...target.values()].map(item=>({...item,sources:[...item.sources]})).sort((a,b)=>b.mentions-a.mentions||a.name.localeCompare(b.name));
       return rows;
     })();
