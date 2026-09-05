@@ -3,40 +3,22 @@
   const state = { custom: new Map(), touched: false, showAll: false };
   const pct = n => `${Number(n || 0).toFixed(1)}%`;
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[char]));
 
   function analysisMinPlayers() {
-    return Math.max(50, Number($f('prepMinPlayers')?.value || $f('minPlayers')?.value || 50));
+    return Math.max(50, Number($f('prepMinPlayers')?.value || 50));
   }
 
   function onlineFieldFromCache() {
-    if (!CACHE?.tournaments?.length) return [];
     const mode = $f('prepRecency')?.value || 'balanced';
     const minPlayers = analysisMinPlayers();
-    const tournaments = CACHE.tournaments.filter(t => Number(t.players || 0) >= minPlayers && (t.standings || []).length);
-    if (!tournaments.length) return [];
-    const newest = Math.max(...tournaments.map(t => new Date(t.date).getTime()).filter(Number.isFinite));
-    const counts = new Map();
-    let total = 0;
-    const halfLife = mode === 'high' ? 7 : mode === 'balanced' ? 18 : Infinity;
-    for (const t of tournaments) {
-      const age = Math.max(0, (newest - new Date(t.date).getTime()) / 86400000);
-      const weight = Number.isFinite(halfLife) ? Math.pow(0.5, age / halfLife) : 1;
-      for (const s of t.standings || []) {
-        const name = s?.deck?.name;
-        if (ignored(name)) continue;
-        counts.set(name, (counts.get(name) || 0) + weight);
-        total += weight;
-      }
-    }
-    const rows=[...counts.entries()].map(([name, value]) => ({ name, share: total ? value / total : 0, source: 'online' }));
+    const scope = window.MetaState?.get?.().onlineScope || '30';
+    const rows = window.MetaData?.fieldRows?.('online', { scope, minPlayers, recency:mode }) || [];
     return window.ArchetypeGroups?.groupRows?.(rows, 'share') || rows;
   }
 
   function irlField() {
-    const data = window.IRLLabs?.getData?.() || {};
-    const decks = (Array.isArray(data.decks) ? data.decks : []).filter(d => !ignored(d.name));
-    const total = decks.reduce((sum, d) => sum + Number(d.entries || 0), 0);
-    const rows=decks.map(d => ({ name: d.name, share: total ? Number(d.entries || 0) / total : Number(d.share || 0), source: 'irl' }));
+    const rows = window.MetaData?.fieldRows?.('irl') || [];
     return window.ArchetypeGroups?.groupRows?.(rows, 'share') || rows;
   }
 
@@ -302,9 +284,7 @@
   }
 
   function onlineMatchup(candidate, opponent) {
-    return window.DeckAggregate?.getMatchup?.(candidate, opponent)
-      || DATA?.matchups?.get(`${candidate}|||${opponent}`)
-      || null;
+    return window.MetaData?.matchup?.('online', candidate, opponent) || null;
   }
 
   function matchup(candidate, opponent, onlineFallback) {
@@ -318,7 +298,7 @@
       return valid.reduce((out,m)=>({a:candidate,b:opponent,wins:out.wins+Number(m.wins||0),losses:out.losses+Number(m.losses||0),ties:out.ties+Number(m.ties||0),games:out.games+Number(m.games||Number(m.wins||0)+Number(m.losses||0)+Number(m.ties||0))}),{wins:0,losses:0,ties:0,games:0});
     };
     const online = combine(candidateVariants.flatMap(a=>opponentVariants.map(b=>onlineMatchup(a,b))));
-    const irlRows = window.IRLLabs?.getData?.()?.matchups || [];
+    const irlRows = window.MetaData?.data?.('irl')?.matchups || [];
     const irl = combine(candidateVariants.flatMap(a=>opponentVariants.map(b=>irlRows.find(m => m.a === a && m.b === b && !ignored(m.a) && !ignored(m.b)) || null)));
     if (mode === 'irl') return irl || null;
     if (mode === 'combined') {
@@ -339,7 +319,7 @@
     const field = $f('fieldSource')?.value || 'online';
     const matchup = $f('matchupSource')?.value || 'online';
     const fieldLabels = { online: '50+ online field', irl: 'IRL Labs field', blend: `${$f('fieldBlend')?.value || 50}% IRL blend`, custom: 'custom field' };
-    const richOnline = window.DeckAggregate?.hasData?.();
+    const richOnline = !!window.MetaData?.data?.('online')?.matchups?.length;
     const matchLabels = {
       online: richOnline ? 'all-event Limitless matchups' : 'online tournament matchups',
       irl: 'IRL matchups',

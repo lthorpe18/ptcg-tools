@@ -3,7 +3,7 @@
   const pct = n => Number.isFinite(n) ? `${n.toFixed(1)}%` : '—';
   const pp = n => Number.isFinite(n) ? `${n >= 0 ? '+' : ''}${n.toFixed(2)} pp` : '—';
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
-  let autoMatchupsRequested = false;
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[char]));
   let quickDeckName = '';
   let fieldExpanded = false;
   let addDeckOpen = false;
@@ -24,35 +24,33 @@
     el.value = d.toISOString().slice(0, 10);
   }
 
-  function arch(standing) { return standing?.deck?.name || 'Unknown'; }
-
   function eligibleTournaments() {
-    if (!CACHE?.tournaments?.length || CACHE.format !== 'TEF-PBL') return [];
     const minPlayers = Math.max(50, Number($p('prepMinPlayers')?.value || 50));
-    return CACHE.tournaments.filter(t => Number(t.players || 0) >= minPlayers && (t.standings || []).length);
+    const scope = window.MetaState?.get?.().onlineScope || '30';
+    return (window.MetaData?.onlineTournaments?.(scope, minPlayers) || []).filter(t => Array.isArray(t.archetypes));
   }
 
   function aggregateCandidateStats(tournaments) {
     const map = new Map();
     for (const t of tournaments) {
-      for (const s of t.standings || []) {
-        const name = arch(s);
+      for (const deck of t.archetypes || []) {
+        const name = deck?.name;
         if (ignored(name)) continue;
         if (!map.has(name)) map.set(name, { name, entries: 0, wins: 0, losses: 0, ties: 0 });
         const row = map.get(name);
-        row.entries++;
-        row.wins += Number(s.record?.wins || 0);
-        row.losses += Number(s.record?.losses || 0);
-        row.ties += Number(s.record?.ties || 0);
+        row.entries += Number(deck.entries || 0);
+        row.wins += Number(deck.wins || 0);
+        row.losses += Number(deck.losses || 0);
+        row.ties += Number(deck.ties || 0);
       }
     }
 
-    for (const d of window.DeckAggregate?.getData?.()?.decks || []) {
+    for (const d of window.MetaData?.data?.('online')?.decks || []) {
       if (ignored(d.name) || map.has(d.name)) continue;
       map.set(d.name, { name: d.name, entries: 0, wins: 0, losses: 0, ties: 0 });
     }
 
-    const irlDecks = window.IRLLabs?.getData?.()?.decks || [];
+    const irlDecks = window.MetaData?.data?.('irl')?.decks || [];
     if (($p('matchupSource')?.value || 'online') !== 'online') {
       for (const d of irlDecks) {
         if (ignored(d.name)) continue;
@@ -71,7 +69,7 @@
 
   function matchupEstimate(candidate, opponent) {
     if (ignored(candidate) || ignored(opponent)) return { estimate: null, games: 0, known: false, observed: null };
-    const m = window.PrepField?.getMatchup?.(candidate, opponent) || DATA?.matchups?.get(`${candidate}|||${opponent}`);
+    const m = window.PrepField?.getMatchup?.(candidate, opponent);
     const decisive = m ? Number(m.wins || 0) + Number(m.losses || 0) : 0;
     const games = m ? Number(m.games || decisive) : 0;
     if (!m || !decisive) return { estimate: null, games, known: false, observed: null };
@@ -327,7 +325,7 @@
         renderPrep();
         return;
       }
-      const item = window.SavedMetas?.save?.(name, field, CACHE?.format || '');
+      const item = window.SavedMetas?.save?.(name, field, 'TEF-PBL');
       if (!item) {
         savedMetaMessage = 'This browser could not save the meta.';
         savedMetaMessageType = 'error';
@@ -408,7 +406,7 @@
     if (!fieldTarget || !resultsTarget || !checkTarget) return;
 
     window.PrepField?.render?.();
-    if (!CACHE?.tournaments?.length || CACHE.format !== 'TEF-PBL') {
+    if (!eligibleTournaments().length) {
       fieldTarget.innerHTML = '<div class="play-empty">Loading the current competitive field…</div>';
       resultsTarget.innerHTML = '<div class="play-empty">Loading recommendations…</div>';
       checkTarget.innerHTML = '';
@@ -425,27 +423,26 @@
     window.SearchableDecks?.upgrade?.();
   }
 
-  function activate() {
+  async function activate() {
     renderPrep();
-    if (window.DeckAggregate?.hasData?.()) return;
-    window.MetaLive?.loadMatchupPairings?.().then(renderPrep);
+    const source = $p('matchupSource')?.value || 'online';
+    const keys = ['onlineHistory'];
+    if (source === 'online' || source === 'combined') keys.push('onlineMatchups');
+    if (source === 'irl' || source === 'combined') keys.push('irlMatchups');
+    try { await window.MetaData?.ensure?.(keys); }
+    catch (error) { console.warn('What Should I Play evidence is unavailable.', error); }
+    renderPrep();
   }
 
   function handleMetaUpdated() {
-    renderPrep();
-    const prepIsActive = document.querySelector('[data-tab="prep"]')?.classList.contains('active');
-    if (prepIsActive && !window.DeckAggregate?.hasData?.() && !autoMatchupsRequested && CACHE?.format === 'TEF-PBL' && CACHE?.tournaments?.length && !(DATA?.matches > 0)) {
-      autoMatchupsRequested = true;
-      window.MetaLive?.loadMatchupPairings?.().then(renderPrep);
-    }
+    if (document.querySelector('[data-tab="prep"]')?.classList.contains('active')) activate();
   }
 
   initDate();
   ['prepRecency', 'prepEvidence', 'prepMinCoverage', 'prepMinEntries', 'prepMinPlayers', 'prepDate'].forEach(id => $p(id)?.addEventListener('change', renderPrep));
-  document.querySelector('[data-tab="prep"]')?.addEventListener('click', activate);
-  window.addEventListener('meta:updated', handleMetaUpdated);
+  ['matchupSource', 'playMatchupSource'].forEach(id => $p(id)?.addEventListener('change', activate));
+  window.addEventListener('meta:data-changed', handleMetaUpdated);
   window.addEventListener('field:updated', renderPrep);
-  window.addEventListener('irl:updated', renderPrep);
-  window.addEventListener('deckagg:updated', renderPrep);
   window.addEventListener('savedmetas:updated', renderPrep);
+  window.MetaPrep = { activate, render:renderPrep };
 })();

@@ -1,4 +1,5 @@
 (() => {
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[char]));
   const TARGETS = '#archSelect, #quickDeckSelect, #fieldAddSelect, #matchupDeckSelect, select.deck-searchable';
 
   function optionRows(select) {

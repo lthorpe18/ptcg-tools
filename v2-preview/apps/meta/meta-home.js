@@ -111,9 +111,6 @@
   $('currentMetaMore')?.addEventListener('click', () => { state.showAll=!state.showAll; renderCurrent(); });
   const currentIsActive = () => window.MetaRouter?.get?.().view === 'current' || (!window.MetaRouter && !$('currentMetaPage')?.classList.contains('hidden'));
   window.addEventListener('meta:data-changed', () => { if (currentIsActive()) { state.showAll=false; state.expanded.clear(); renderCurrent(); } });
-  window.addEventListener('meta:updated', () => { if (currentIsActive()) renderCurrent(); });
-  window.addEventListener('irl:updated', () => { if (currentIsActive()) renderCurrent(); });
-  window.addEventListener('online:updated', () => { if (currentIsActive() && state.source === 'blend') renderCurrent(); });
   window.addEventListener('decksprites:updated', () => { if (currentIsActive()) renderCurrent(); });
 
   window.MetaHome = { render:renderCurrent };

@@ -68,7 +68,7 @@
 
   function renderActive() {
     if (route.view === 'current') window.MetaHome?.render?.();
-    if (route.view === 'prep') window.dispatchEvent(new CustomEvent('field:updated'));
+    if (route.view === 'prep') window.MetaPrep?.activate?.();
     if (route.view === 'matchups') window.MetaExplore?.renderMatchups?.();
     if (route.view === 'decks') window.MetaExplore?.renderDeckExplorer?.();
     if (route.view === 'detail' && route.detail) window.MetaExplore?.showDetail?.(route.detail);

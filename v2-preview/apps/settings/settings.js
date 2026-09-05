@@ -12,6 +12,7 @@
       (scope?.decks||[]).forEach(d=>{if(d?.name)set.add(d.name)});
       (scope?.matchups||[]).forEach(m=>{if(m?.a)set.add(m.a);if(m?.b)set.add(m.b)});
     });
+    Object.values(data?.scopes||{}).forEach(scope=>(scope?.decks||[]).forEach(d=>{if(d?.name)set.add(d.name)}));
     (data?.decks||[]).forEach(d=>{if(d?.name)set.add(d.name)});
     (data?.events||[]).forEach(event=>{
       (event?.decks||event?.archetypes||[]).forEach(d=>{if(d?.name)set.add(d.name)});
@@ -21,8 +22,16 @@
 
   async function loadNames(){
     const set=new Set(Object.keys(window.DeckSprites?.defaults||{}));
-    const urls=['../../data/meta/current-field.json','../../data/meta/irl/TEF-PBL.json'];
-    await Promise.all(urls.map(async url=>{try{const r=await fetch(url,{cache:'no-store'});if(r.ok)collectFromData(await r.json(),set)}catch(_){}}));
+    try{
+      const base=new URL('../../data/meta/release/',location.href);
+      const manifestResponse=await fetch(new URL('manifest.json',base),{cache:'no-store'});
+      if(manifestResponse.ok){
+        const manifest=await manifestResponse.json();
+        const coreUrl=new URL(manifest.files.core.path,base);coreUrl.searchParams.set('release',manifest.release);
+        const coreResponse=await fetch(coreUrl);
+        if(coreResponse.ok)collectFromData(await coreResponse.json(),set);
+      }
+    }catch(_){}
     names=[...set].filter(Boolean).sort((a,b)=>a.localeCompare(b));
   }
 

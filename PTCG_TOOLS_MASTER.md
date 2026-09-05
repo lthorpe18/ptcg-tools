@@ -313,6 +313,16 @@ Current shared direction/components include:
 
 `MetaBlendedField` owns the current dynamic IRL/Online weighting policy described in Home architecture. Feature surfaces should consume it rather than recreate the formula.
 
+### 7.8 Meta ingestion and delivery
+
+Shared Meta evidence follows one central pipeline:
+
+`Limitless sources → scheduled repository ingestion → canonical data/meta archives → validated browser release → Home/Meta`
+
+The browser release is content-addressed and split into core, history, matchup and result payloads. Home and ordinary Current Meta use the small core; heavier evidence loads only for the views that require it. The browser validates and caches release files locally and retains last-known-good data. It does not scan or download tournaments from Limitless during normal use.
+
+At the current product scale, generated shared JSON on GitHub Pages is intentional. Supabase remains private account persistence (`user_snapshots`), not the public Meta warehouse. Revisit managed shared-data storage only when scale, querying, access control or operational needs justify it.
+
 ---
 
 ## 8. Accounts, persistence and Settings

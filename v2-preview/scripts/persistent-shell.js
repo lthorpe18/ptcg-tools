@@ -213,19 +213,8 @@
     activate(section,requested,'none');
   });
 
-  function warm(section,delay){
-    setTimeout(()=>{
-      if(!loaded.has(section))loadFrame(section);
-    },delay);
-  }
-
   const params=new URLSearchParams(location.search);
   const initial=params.get('section')||'home';
   const initialRoute=validRoute(initial,params.get('route'));
   if(initial!=='home')activate(initial,initialRoute,'replace');else history.replaceState({section:'home',childUrl:null},'',shellUrlFor('home',null));
-
-  warm('meta',250);
-  warm('decks',900);
-  warm('compete',1550);
-  warm('tools',2200);
 })();

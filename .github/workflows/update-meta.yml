@@ -22,18 +22,18 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - name: Build incremental field and scoped matchups
         run: node scripts/build-current-field.mjs
-      - name: Mirror compact field into preview
-        run: |
-          mkdir -p v2-preview/data/meta
-          cp data/meta/current-field.json v2-preview/data/meta/current-field.json
+      - name: Build validated browser release
+        run: node scripts/build-meta-release.mjs
       - name: Commit meta data if changed
         run: |
-          git add data/meta/current-field.json data/meta/online-events v2-preview/data/meta/current-field.json
+          git add data/meta/current-field.json data/meta/online-events data/meta/online-results v2-preview/data/meta/release
           if git diff --cached --quiet; then
             echo "No meta changes"
             exit 0
@@ -41,4 +41,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Refresh incremental Limitless meta data"
+          git pull --rebase
           git push

@@ -74,10 +74,19 @@ Locked high-level hierarchy:
 ## Evidence context
 Evidence context confirms the current state; it is not another settings layer. It must be derived from the same `MetaData` request used by the rendered content.
 
-## Compatibility boundaries
-Some older analysis code still consumes `CACHE`, `DATA`, `DeckAggregate` and `IRLLabs`. `meta-core.js` is the only permitted compatibility boundary for keeping those consumers aligned while they are incrementally migrated.
+## Data release boundary
 
-Do not create new wrappers around these globals elsewhere.
+Browsers never ingest Limitless tournament data directly. Scheduled GitHub Actions update the canonical source archives under `data/meta/`, then `scripts/build-meta-release.mjs` publishes one content-addressed browser release under `v2-preview/data/meta/release/`.
+
+The release consists of a small manifest and purpose-specific files:
+
+- `core.json`: source metadata, precomputed Online scopes, IRL event/field data and records links;
+- Online history, matchup and result files;
+- IRL matchup and result files.
+
+`meta-release-loader.js` is the sole browser owner of release discovery, checksum validation and last-known-good Cache Storage. It activates a new release only after its core has been validated. `meta-core.js` reads that release and lazy-loads history/matchups/results only when the active view needs them.
+
+Do not restore `CACHE`, `DATA`, `DeckAggregate`, `IRLLabs` or browser-to-Limitless compatibility globals. Shared public evidence is a generated GitHub Pages asset; Supabase remains the store for private per-account state.
 
 ## Retired layers
 Do not recreate or re-add these superseded implementations:
@@ -92,6 +101,12 @@ Do not recreate or re-add these superseded implementations:
 - `meta-results-v2.js`
 - `meta-table.js`
 - `perf-shell/shell.js`
+- `app.js`
+- `meta-engine.js`
+- `limitless.js`
+- `live.js`
+- `deck-aggregate.js`
+- `irl-labs.js`
 
 ## Deployment rule
 Whenever behavior or styling changes, bump the relevant JS/CSS query version in `index.html`. Do not rely on the HTML URL query alone to invalidate iOS/PWA subresource caches.
