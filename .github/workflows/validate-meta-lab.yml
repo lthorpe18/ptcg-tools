@@ -7,11 +7,15 @@ on:
       - 'v2-preview/apps/meta/**'
       - 'v2-preview/scripts/persistent-shell.js'
       - 'v2-preview/apps/_shared/meta-blend.js'
+      - 'v2-preview/apps/_shared/meta-field.js'
+      - 'v2-preview/apps/_shared/recommendation-engine.js'
       - 'v2-preview/data/meta/release/**'
       - 'scripts/build-meta-release.mjs'
       - 'v2-preview/index.html'
       - 'tests/meta-navigation.test.js'
       - 'tests/meta-release.test.mjs'
+      - 'tests/recommendation-engine.test.js'
+      - 'tests/wsip-integration.test.js'
       - '.github/workflows/validate-meta-lab.yml'
   pull_request:
   workflow_dispatch:
@@ -35,6 +39,8 @@ jobs:
               node --check "$file"
             done
           done
+          node --check v2-preview/apps/_shared/meta-field.js
+          node --check v2-preview/apps/_shared/recommendation-engine.js
       - name: Check required V2 Meta hooks
         run: |
           node - <<'NODE'
@@ -42,13 +48,14 @@ jobs:
           const html = fs.readFileSync('v2-preview/apps/meta/index.html', 'utf8');
           const requiredIds = [
             'currentMetaPage','currentWindow','currentGroupingToggle',
-            'prep','playFieldSource','playMatchupSource','fieldSource','matchupSource',
+            'prep','playFieldSource','playMatchupSource','playSourceContext',
+            'prepFieldOverview','prepResults','prepCompare','prepDecide','fieldEditor',
             'matchups','matchupPageSource','decks','deckPageSource','deckDetail'
           ];
           const missing = requiredIds.filter(id => !html.includes(`id="${id}"`));
           if (missing.length) throw new Error(`Missing V2 Meta hooks: ${missing.join(', ')}`);
 
-          const requiredScripts = ['meta-release-loader.js','meta-core.js','meta-controls.js','meta-home.js','meta-explorer-v3.js','meta-source-context.js','meta-router.js'];
+          const requiredScripts = ['meta-field.js','meta-release-loader.js','meta-core.js','meta-blend.js','recommendation-engine.js','meta-controls.js','prep.js','meta-home.js','meta-explorer-v3.js','meta-source-context.js','meta-router.js'];
           const absentScripts = requiredScripts.filter(name => !html.includes(name));
           if (absentScripts.length) throw new Error(`Missing unified Meta scripts: ${absentScripts.join(', ')}`);
 
@@ -73,4 +80,4 @@ jobs:
           console.log('Validated Meta state/data/control ownership');
           NODE
       - name: Test Meta navigation contract
-        run: node --test tests/meta-navigation.test.js tests/meta-release.test.mjs
+        run: node --test tests/meta-navigation.test.js tests/meta-release.test.mjs tests/recommendation-engine.test.js tests/wsip-integration.test.js
