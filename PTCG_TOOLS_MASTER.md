@@ -1,7 +1,7 @@
 # PTCG Tools — Master Product & Design Document
 
 **Status:** Current product source of truth  
-**Date:** 4 September 2026  
+**Date:** 5 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`
@@ -159,6 +159,8 @@ The production shell keeps the five core areas mounted after first load. Routine
 
 Home is a child view of this shell. The persistent shell owns the single bottom navigation layer; child Home links must route through the shell rather than recursively loading the full shell inside the Home frame.
 
+The accepted shell boundary remains **Home · Meta · Decks · Compete · Tools**, with Settings app-level. Already-loaded areas remain mounted and unopened areas load on demand.
+
 ### 5.2 OAuth exception
 
 Google OAuth deliberately escapes child views and navigates top-level, then returns to PTCG Tools.
@@ -186,7 +188,7 @@ Home is a **derived competitive dashboard, not a directory and not a source of t
 The current accepted single-screen iPhone hierarchy is:
 
 1. **Blended Meta** hero;
-2. **My Deck | Next Event** side-by-side personal row;
+2. **Decks | Events** side-by-side personal row;
 3. **Card Search | Cut / ID | Playtest** quick actions;
 4. **What should I play?** full-width entry card;
 5. persistent **Home · Meta · Decks · Compete · Tools** bottom navigation.
@@ -217,6 +219,8 @@ The compact control is **Variant grouping — Off / On**:
 
 Grouping is presentation only and does not change exact-variant matchup/detail identity or What Should I Play semantics.
 
+The **hero card opens Meta main**. Variant grouping remains an independent embedded control and must not trigger that navigation when operated.
+
 ### 6.2 Home sprite treatment
 
 Home still uses canonical `DeckSprites` identity and Settings overrides.
@@ -225,27 +229,42 @@ The hero may use `DeckSprites.slugs()` / `DeckSprites.url()` directly for a purp
 
 ### 6.3 Personal row
 
-**My Deck** currently derives the most recently edited saved deck from `PTCGDeckStore` and displays canonical deck/archetype sprites plus compact edit context.
+The **Decks** card derives the most recently edited saved deck from `PTCGDeckStore` and displays canonical deck/archetype sprites plus compact edit context.
 
-**Next Event** derives the nearest current/future incomplete `attending` `UserEventParticipation`. When no suitable next event exists, a shared Season summary may be used as fallback.
+Its accepted navigation split is:
 
-The whole My Deck and Next Event cards are tap targets. Do not add redundant `Open deck` / `View event` buttons inside them.
+- Decks heading/card background → Decks main;
+- Recently edited deck preview → that exact Deck by stable Deck ID.
+
+The **Events** card derives the nearest current/future incomplete `attending` `UserEventParticipation`. When no suitable next event exists, a shared Season summary may be used as fallback.
+
+Its accepted navigation split is:
+
+- Events heading/card background → My Tournaments;
+- Next tournament preview → that exact tournament by canonical `participation` route;
+- Season fallback preview may route to Season.
+
+These nested exact-item targets must remain independently tappable; do not suppress their pointer events or collapse them into the parent-card route.
 
 ### 6.4 Quick actions and recommendation entry
 
 Locked quick actions:
 
-- Card Search → Decks-owned Card Search;
-- Cut / ID → Tools-owned Cut / ID;
-- Playtest → Decks-owned Mobile Playtest.
+- Card Search → direct Decks-owned Card Search entry;
+- Cut / ID → direct Tools-owned Cut / ID calculator entry;
+- Playtest → Decks-owned deck picker, then launch Mobile Playtest using the selected Deck working list through the existing Playtest launch contract.
+
+Home does not own deck selection or Playtest state.
 
 The lower What Should I Play card is a launcher into the existing Meta recommendation flow; Home owns no recommendation calculations.
 
 ### 6.5 Home state/performance rule
 
-Reuse warmed/shared state and engines. Do not add duplicate Home-specific fetches, stores, blend/grouping engines or reload/cache hacks.
+Reuse warmed/shared state and engines. Do not add duplicate Home-specific fetches, stores, blend/grouping engines, Playtest state or reload/cache hacks.
 
-The current Home redesign is accepted for this product stage. Further Home work is polish/bugfix only unless deliberately reopened by the roadmap.
+The current Home redesign and navigation semantics are accepted for this product stage. The bounded Navigation / Home consistency pass was accepted on iPhone against implementation baseline `62854a094feece32fe2d1756bd8896fe1d73dd6b`.
+
+Further Home work is polish/bugfix only unless deliberately reopened by the roadmap.
 
 See `HOME_ARCHITECTURE.md`.
 
@@ -713,7 +732,7 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 
 ---
 
-## 14. Current roadmap status — 4 September 2026
+## 14. Current roadmap status — 5 September 2026
 
 ### Completed / substantially established
 
@@ -726,8 +745,10 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - Expected Fields;
 - shared dynamic `MetaBlendedField` current-field model;
 - **Home dashboard redesign accepted for the current product stage**;
-- single-screen iPhone Home hierarchy with Blended Meta, My Deck / Next Event, quick actions and What Should I Play;
+- single-screen iPhone Home hierarchy with Blended Meta, Decks / Events, quick actions and What Should I Play;
+- accepted Home navigation split for top-level cards vs exact Deck/tournament previews;
 - Home Variant grouping Off/On presentation and proportional top-five Meta bars;
+- direct Home entries for Card Search, Cut / ID and Playtest deck selection;
 - Deck working-list/version/hash foundation;
 - Decks peer workspace model: My Decks / Training Log / Card Search;
 - shared TCGdex-backed Card Catalog and exact-print mapping;
@@ -758,20 +779,22 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 
 ### Active status
 
-**Collection / physical readiness is the current major product milestone.**
+**Collection / physical readiness remains the next major product milestone, preceded by the current bounded Settings review and Tools review.**
 
-The bounded Home product-surface pass is complete/accepted for now. Home should not remain an active roadmap thread unless a concrete regression or usability blocker appears.
+The Home, Meta and Navigation/Shell passes are complete/accepted for now. They should not remain active roadmap threads unless a concrete regression or usability blocker appears.
 
-The Card Search/Card Images pass is considered functionally established and documented. The small cleanup items above should not expand into another Decks redesign and should only interrupt Collection for a genuine regression or identity/data blocker.
+The Card Search/Card Images pass is considered functionally established and documented. The small cleanup items above should not expand into another Decks redesign and should only interrupt the bounded review sequence or Collection for a genuine regression or identity/data blocker.
 
 Tournament Day and Season remain closed for the current stage.
 
-### Recommended next major milestones
+### Recommended near-term sequence
 
-1. **Collection / physical readiness** — exact owned quantities, gameplay equivalence where appropriate, loose inventory, allocations across multiple built decks, required/owned/allocated state and missing/shopping requirements, all built on existing exact-card infrastructure.
-2. **Learning loop** — personal tournament/matchup/practice analytics with explicit evidence provenance.
-3. **Development Cleanup / Release Hardening** — repository-wide removal of temporary scaffolding, stale routes, duplicate engines and obsolete compatibility layers before calling the broader app stable/public-ready.
-4. **Community/public expansion when useful** — privacy/export/delete, centralized ingestion and operational observability as required by actual usage.
+1. **Settings review** — bounded product-surface/ownership cleanup.
+2. **Tools review** — bounded standalone-utility review/polish.
+3. **Collection / physical readiness** — exact owned quantities, gameplay equivalence where appropriate, loose inventory, allocations across multiple built decks, required/owned/allocated state and missing/shopping requirements, all built on existing exact-card infrastructure.
+4. **Learning loop** — personal tournament/matchup/practice analytics with explicit evidence provenance.
+5. **Development Cleanup / Release Hardening** — repository-wide removal of temporary scaffolding, stale routes, duplicate engines and obsolete compatibility layers before calling the broader app stable/public-ready.
+6. **Community/public expansion when useful** — privacy/export/delete, centralized ingestion and operational observability as required by actual usage.
 
 Performance is not a dedicated next milestone unless a material regression appears.
 
@@ -809,6 +832,7 @@ PTCG Tools is successful when:
 - account-owned state follows the user across devices;
 - Home is useful competitive context, not a launcher;
 - Home remains a derived dashboard over shared state rather than a second business-logic layer;
+- Home contextual cards can route both to their owning area and to exact derived items without ambiguous tap behavior;
 - the current-field blend has one shared formula and clear evidence semantics;
 - Meta communicates evidence scope correctly;
 - exact variants interlink consistently;
