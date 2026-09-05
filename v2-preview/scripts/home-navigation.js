@@ -49,9 +49,8 @@
     const preview=document.getElementById('competePreview');
     if(!preview)return;
     const participation=nextParticipation();
-    const href=participation?.id
-      ?`./apps/events/tournament-day.html?participation=${encodeURIComponent(participation.id)}`
-      :'./apps/events/?view=tournaments';
+    if(!participation?.id)return;
+    const href=`./apps/events/tournament-day.html?participation=${encodeURIComponent(participation.id)}`;
     if(preview.getAttribute('href')!==href)preview.setAttribute('href',href);
   }
 
