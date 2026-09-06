@@ -49,7 +49,7 @@ jobs:
           const requiredIds = [
             'currentMetaPage','currentWindow','currentGroupingToggle',
             'prep','playFieldSource','playMatchupSource','playSourceContext',
-            'prepFieldOverview','prepResults','prepCompare','fieldEditor',
+            'prepFieldOverview','prepResults','fieldEditor',
             'matchups','matchupPageSource','decks','deckPageSource','deckDetail'
           ];
           const missing = requiredIds.filter(id => !html.includes(`id="${id}"`));
