@@ -46,3 +46,14 @@ test('WSIP never mutates planned or used deck state', () => {
   assert.doesNotMatch(wsip,/plannedDeckRef|usedDeckRef|updateParticipation/);
   assert.match(read('v2-preview/apps/events/prep.js'),/function savePlan/);
 });
+
+test('WSIP polish observers cannot self-trigger field-label mutation loops', () => {
+  const polish=read('v2-preview/apps/meta/wsip-polish.js');
+  const reset=read('v2-preview/apps/meta/wsip-reset-polish.js');
+  const observerBody=polish.match(/const observer = new MutationObserver\(([\s\S]*?)\);\s*observer\.observe\(document\.body/);
+  assert.ok(observerBody,'WSIP body observer contract is present');
+  assert.doesNotMatch(observerBody[1],/syncTopFieldControl\s*\(/,'body mutation observer must not rewrite the field selector it observes');
+  assert.match(polish,/node\.textContent !== text/,'field/compare text writes must be idempotent');
+  assert.match(reset,/button\.textContent !== text/,'reset observer text writes must be idempotent');
+  assert.match(reset,/button\.title !== title/,'reset observer title writes must be idempotent');
+});
