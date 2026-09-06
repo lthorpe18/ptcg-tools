@@ -12,5 +12,11 @@ if(data.events.length&&!data.decks.length)throw new Error('IRL events present bu
 for(const event of data.events){
   if(Number(event.players||0)>=50&&(!Array.isArray(event.decks)||!event.decks.length))throw new Error(`IRL event ${event.id} has no deck field`);
   if(!Array.isArray(event.results))throw new Error(`IRL event ${event.id} has no results array`);
+  if(typeof event.day1FieldComplete!=='boolean')throw new Error(`IRL event ${event.id} has no explicit Day 1 field completeness marker`);
+  const knownEntries=(event.decks||[]).reduce((sum,row)=>sum+Number(row.entries||0),0);
+  const unclassifiedEntries=Number(event.unclassifiedEntries||0);
+  const accounted=knownEntries+unclassifiedEntries;
+  if(Number(event.day1FieldEntries||0)!==accounted)throw new Error(`IRL event ${event.id} Day 1 field count is inconsistent (${event.day1FieldEntries} vs ${accounted})`);
+  if(event.day1FieldComplete&&accounted!==Number(event.players||0))throw new Error(`IRL event ${event.id} marked complete with ${accounted}/${event.players||0} Day 1 entries`);
 }
 console.log(`Validated ${formats.irl.id}: ${data.events.length} events, ${data.decks.length} decks, ${data.matchups.length} matchups, ${data.results.length} results`);
