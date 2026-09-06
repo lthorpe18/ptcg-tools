@@ -1,9 +1,14 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { loadPublishedConfig, resolveCurrentFormats } from './lib/format-config.mjs';
 
 const BASE = 'https://labs.limitlesstcg.com';
-const FORMAT = 'TEF-PBL';
-const FORMAT_START = new Date('2026-07-17T00:00:00Z').getTime();
+const runtimeConfig = await loadPublishedConfig();
+const resolvedFormats = resolveCurrentFormats(runtimeConfig, new Date());
+if (!resolvedFormats.irl) throw new Error('No current IRL Standard format can be resolved');
+const currentFormat = resolvedFormats.irl;
+const FORMAT = currentFormat.id;
+const FORMAT_START = new Date(`${currentFormat.startDate}T00:00:00Z`).getTime();
 const OUTPUT = path.join('data', 'meta', 'irl', `${FORMAT}.json`);
 const MAX_EVENTS_TO_PROBE = 16;
 const MAX_DECKS_FOR_MATCHUPS = 35;
@@ -30,20 +35,24 @@ function eventIds(home) {
   return [...ids].sort((a,b) => Number(b) - Number(a)).slice(0, MAX_EVENTS_TO_PROBE);
 }
 
-function parseDate(html) {
+function parseDateRange(html) {
   const text = clean(html);
   const m = text.match(/([A-Z][a-z]+)\s+(\d{1,2})(?:–(\d{1,2}))?,\s+(20\d{2})/);
-  if (!m) return null;
+  if (!m) return { date:null, endDate:null };
   const month = new Date(`${m[1]} 1, 2000`).getMonth();
-  if (!Number.isFinite(month)) return null;
-  return new Date(Date.UTC(Number(m[4]), month, Number(m[2]))).toISOString();
+  if (!Number.isFinite(month)) return { date:null, endDate:null };
+  const year = Number(m[4]), startDay = Number(m[2]), endDay = Number(m[3] || m[2]);
+  return {
+    date:new Date(Date.UTC(year, month, startDay)).toISOString(),
+    endDate:new Date(Date.UTC(year, month, endDay)).toISOString(),
+  };
 }
 
 function parseEventMeta(html, id) {
   const text = clean(html);
   const title = clean((html.match(/<title>(.*?)<\/title>/is) || [,''])[1]).replace(/^Decks:\s*/i,'').replace(/\s*[–-]\s*Limitless Labs.*$/i,'');
   const players = Number((text.match(/([\d,]+)\s+players/i) || [,'0'])[1].replace(/,/g,''));
-  return { id, name: title || `Labs ${id}`, date: parseDate(html), players, url: `${BASE}/${id}/decks` };
+  return { id, name: title || `Labs ${id}`, ...parseDateRange(html), players, url: `${BASE}/${id}/decks` };
 }
 
 function parseRecord(cells) {
@@ -156,6 +165,7 @@ function parseMatchups(html, candidate) {
 }
 
 async function main() {
+  console.log(`Resolved IRL format ${FORMAT} from registry v${runtimeConfig.formatRegistryVersion} (${runtimeConfig.source}); legal ${currentFormat.startDate}.`);
   const home = await get(`${BASE}/`);
   const ids = eventIds(home);
   const events = [];
@@ -224,11 +234,12 @@ async function main() {
   }
 
   const payload = {
-    schemaVersion: 4,
+    schemaVersion: 5,
     source: 'Limitless Labs',
     sourceUrl: BASE,
     format: FORMAT,
     formatStart: new Date(FORMAT_START).toISOString(),
+    formatConfig:{ registryVersion:runtimeConfig.formatRegistryVersion, source:runtimeConfig.source, irl:currentFormat },
     generatedAt: new Date().toISOString(),
     events: events.sort((a,b)=>new Date(b.date)-new Date(a.date)),
     decks: [...deckAgg.values()].sort((a,b)=>b.entries-a.entries),
