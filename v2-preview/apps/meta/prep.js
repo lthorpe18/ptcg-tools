@@ -6,7 +6,7 @@
   const rate = value => Number.isFinite(value) ? `≈${Math.round(value)}%` : '—';
   const detailRate = value => Number.isFinite(value) ? `${value.toFixed(1)}%` : '—';
   const pp = value => `${value >= 0 ? '+' : ''}${Number(value || 0).toFixed(1)} pp`;
-  const state = { compare:new Set(), selectedSavedId:'', saveOpen:false, addOpen:false, expandedField:false, loading:null };
+  const state = { compare:new Set(), selectedSavedId:'', saveOpen:false, addOpen:false, expandedField:false, showMoreRecommendations:false, loading:null };
 
   function sprite(name, size=40) { return window.DeckSprites?.html?.(name,{ size }) || ''; }
   function matchupSource() { return $('playMatchupSource')?.value || 'combined'; }
@@ -77,28 +77,36 @@
 
   function evidenceBadge(row) { return `<span class="wsip-evidence ${row.evidenceLevel}">${esc(row.evidenceLabel)}</span>`; }
 
+  function matchupTriplet(title, rows, tone) {
+    return `<section class="wsip-matchup-triplet ${tone}"><h4>${esc(title)}</h4>${rows.length ? rows.map(item => `<div>${sprite(item.opponent,24)}<span><b>${esc(item.opponent)}</b><small>${item.decisiveGames} decisive games · ${pct(item.share)} of field</small></span><strong>${detailRate(item.estimate)}</strong></div>`).join('') : '<p>No decisive matchup evidence.</p>'}</section>`;
+  }
+
   function driverHtml(row) {
-    const helpers=row.helpers || [], hurts=row.hurts || [];
+    const known=(row.matchups || []).filter(item => item.known);
+    const best=known.slice().sort((a,b) => b.estimate-a.estimate || b.decisiveGames-a.decisiveGames).slice(0,3);
+    const worst=known.slice().sort((a,b) => a.estimate-b.estimate || b.decisiveGames-a.decisiveGames).slice(0,3);
     return `<div class="wsip-why">
-      <div class="wsip-driver-group"><h4>Helps</h4>${helpers.length ? helpers.map(item => `<div>${sprite(item.opponent,26)}<span><b>${esc(item.opponent)}</b><small>${pct(item.share)} of field · ${item.decisiveGames} decisive games</small></span><strong>${detailRate(item.estimate)} <i>${pp(item.contribution)}</i></strong></div>`).join('') : '<p>No material positive driver in covered matchups.</p>'}</div>
-      <div class="wsip-driver-group hurts"><h4>Hurts</h4>${hurts.length ? hurts.map(item => `<div>${sprite(item.opponent,26)}<span><b>${esc(item.opponent)}</b><small>${pct(item.share)} of field · ${item.decisiveGames} decisive games</small></span><strong>${detailRate(item.estimate)} <i>${pp(item.contribution)}</i></strong></div>`).join('') : '<p>No material negative driver in covered matchups.</p>'}</div>
+      <div class="wsip-triplet-grid">${matchupTriplet('Best against',best,'best')}${matchupTriplet('Worst against',worst,'worst')}</div>
       <div class="wsip-risk-list">${row.unknownShare > 0.005 ? `<span>${pct(row.unknownShare)} of the field has no decisive H2H evidence.</span>` : ''}${row.polarised ? '<span>Polarised: meaningful winning and losing exposure.</span>' : ''}${row.sourceDisagreement ? `<span>Online and IRL estimates differ by ${row.sourceGap.toFixed(1)} points.</span>` : ''}</div>
-      <details><summary>Field matchup detail</summary><div class="wsip-matchup-list">${row.matchups.slice().sort((a,b)=>b.share-a.share).map(item => `<div class="${item.known?'':'unknown'}"><span><b>${esc(item.opponent)}</b><small>${pct(item.share)} of field · ${item.known ? `${item.decisiveGames} decisive games` : 'no decisive evidence'}</small></span><strong>${item.known ? detailRate(item.estimate) : 'Unknown'}</strong></div>`).join('')}</div><p class="advanced-method">Rates use a 12-game neutral prior. The expected rate is calculated only over covered field share; unknown matchups are not treated as 50%.</p></details>
+      <details class="full-matchup-detail"><summary>Full field matchup detail</summary><div class="wsip-matchup-list">${row.matchups.slice().sort((a,b)=>b.share-a.share).map(item => `<div class="${item.known?'':'unknown'}"><span><b>${esc(item.opponent)}</b><small>${pct(item.share)} of field · ${item.known ? `${item.decisiveGames} decisive games` : 'no decisive evidence'}</small></span><strong>${item.known ? detailRate(item.estimate) : 'Unknown'}</strong></div>`).join('')}</div><p class="advanced-method">Rates use a 12-game neutral prior. The expected rate is calculated only over covered field share; unknown matchups are not treated as 50%.</p></details>
     </div>`;
   }
 
-  function recommendationCard(row, model) {
+  function recommendationCard(row, model, options = {}) {
     const selected=state.compare.has(row.name);
-    const sourceSplit=row.sourceDisagreement ? ` · source split ${detailRate(row.sourceProfiles.online.estimate)} Online / ${detailRate(row.sourceProfiles.irl.estimate)} IRL` : '';
-    const rankLabel=model.closeCall && row.rank <= 2 ? '≈' : `#${row.rank}`;
-    const separation=row.rank === 1 && Number.isFinite(model.gap) ? (model.closeCall ? ' · effectively tied with #2' : ` · ${model.gap.toFixed(1)} point lead`) : row.rank > 1 ? ` · ${row.gapFromLeader.toFixed(1)} points behind leader` : '';
-    return `<article class="recommendation-card ${row.rank===1?'winner':''}">
-      <div class="rec-rank">${rankLabel}</div><div class="rec-sprite">${sprite(row.name,50)}</div>
-      <div class="rec-main"><h3>${esc(row.name)}</h3><p>${row.helpers[0] ? `Best lift: ${esc(row.helpers[0].opponent)}` : 'No single positive driver dominates'}${row.hurts[0] ? ` · risk: ${esc(row.hurts[0].opponent)}` : ''}</p><div class="rec-meta">${evidenceBadge(row)}<span>${pct(row.coverage)} coverage · ${pct(row.evidenceQuality)} sample quality</span></div></div>
-      <div class="rec-score"><b>${rate(row.expectedWR)}</b><span>covered-field estimate${esc(separation)}</span></div>
-      <div class="rec-actions"><button type="button" class="btn" data-toggle-compare="${esc(row.name)}">${selected?'Remove':'Compare'}</button><button type="button" class="btn" data-open-deck="${esc(row.name)}">Open exact variant</button></div>
-      <details class="rec-why"><summary>3 · Why this deck?</summary>${driverHtml(row)}</details>
-      ${sourceSplit ? `<p class="wsip-source-split">${esc(sourceSplit.replace(/^ · /,''))}</p>` : ''}
+    const decisionReady=row.decisionReady !== false;
+    const displayRank=options.displayRank ?? row.rank ?? null;
+    const rankLabel=displayRank ? (model.closeCall && row.rank && row.rank <= 2 ? '≈' : `#${displayRank}`) : '•';
+    const separation=row.rank === 1 && Number.isFinite(model.gap) ? (model.closeCall ? 'Effectively tied with #2' : `+${model.gap.toFixed(1)} vs next`) : row.rank > 1 ? `${row.gapFromLeader.toFixed(1)} behind leader` : '';
+    const best=row.matchups?.filter(item=>item.known).slice().sort((a,b)=>b.estimate-a.estimate)[0];
+    const worst=row.matchups?.filter(item=>item.known).slice().sort((a,b)=>a.estimate-b.estimate)[0];
+    return `<article class="recommendation-card ${row.rank===1?'winner':''} ${decisionReady?'':'lower-evidence'}" data-open-deck-card="${esc(row.name)}" role="link" tabindex="0" aria-label="Open ${esc(row.name)} exact variant">
+      <div class="rec-rank">${rankLabel}</div>
+      <div class="rec-sprite">${sprite(row.name,38)}</div>
+      <div class="rec-main"><h3>${esc(row.name)}</h3><p>${best ? `Best: ${esc(best.opponent)}` : 'No decisive positive matchup'}${worst ? ` · Risk: ${esc(worst.opponent)}` : ''}</p><div class="rec-meta">${evidenceBadge(row)}<span>${pct(row.coverage)} field covered</span></div></div>
+      <div class="rec-score"><b>${rate(row.expectedWR)}</b>${separation ? `<span>${esc(separation)}</span>` : ''}</div>
+      <div class="rec-actions"><button type="button" class="compare-toggle ${selected?'is-selected':''}" data-toggle-compare="${esc(row.name)}" aria-pressed="${selected?'true':'false'}"><span class="compare-check" aria-hidden="true">${selected?'✓':''}</span>Compare</button><span class="rec-open-hint">Tap card for exact variant ›</span></div>
+      <details class="rec-why"><summary>Why this deck?</summary>${driverHtml(row)}</details>
     </article>`;
   }
 
@@ -112,31 +120,42 @@
       insufficient:['Insufficient evidence','No exact variant has enough covered matchup evidence for a useful recommendation.'],
     };
     const message=messages[model.state] || messages.insufficient;
-    const primary=model.ranked.slice(0,3);
-    const weak=model.lowerEvidence.slice(0,4);
+    const primary=model.ranked.slice(0,5);
+    const extras=[...model.ranked.slice(5),...model.lowerEvidence];
+    const fallback=!primary.length ? model.lowerEvidence.slice(0,5) : [];
+    const initial=primary.length ? primary : fallback;
+    const remaining=primary.length ? extras : model.lowerEvidence.slice(5);
+    const shown=state.showMoreRecommendations ? [...initial,...remaining] : initial;
+    const cards=shown.map((row,index) => recommendationCard(row,model,{ displayRank:row.rank || (row.decisionReady ? index+1 : null) })).join('');
+    const compareNote=state.compare.size===1 ? '<p class="compare-selection-note">1 selected · choose one more deck to compare.</p>' : state.compare.size>=2 ? `<p class="compare-selection-note ready">${state.compare.size} selected · comparison shown below.</p>` : '';
     return `<div class="wsip-decision-state ${model.state}"><b>${message[0]}</b><span>${message[1]}</span></div>
-      ${primary.length ? `<div class="recommendation-list">${primary.map(row => recommendationCard(row,model)).join('')}</div>` : ''}
-      ${weak.length ? `<details class="evidence-watch" ${primary.length?'':'open'}><summary>${primary.length?'Promising variants with weaker evidence':'Evidence-limited variants'}</summary><div class="watch-grid">${weak.map(row => `<div class="watch-card">${sprite(row.name,32)}<span><b>${esc(row.name)}</b><small>${rate(row.expectedWR)} · ${pct(row.coverage)} coverage · ${esc(row.evidenceLabel)}</small></span></div>`).join('')}</div></details>` : ''}`;
+      ${cards ? `<div class="recommendation-list">${cards}</div>` : ''}
+      ${remaining.length ? `<button class="show-more-recommendations" type="button" data-show-more-recommendations>${state.showMoreRecommendations ? 'Show fewer options' : `Show ${Math.min(5,remaining.length)} more option${Math.min(5,remaining.length)===1?'':'s'}${remaining.length>5?` · ${remaining.length} available`:''}`}</button>` : ''}
+      ${compareNote}`;
   }
 
   function syncCompare(model) {
-    const eligible=model.ranked.slice(0,3);
-    const valid=new Set(eligible.map(row => row.name));
+    const valid=new Set((model.all || []).map(row => row.name));
     for (const name of [...state.compare]) if (!valid.has(name)) state.compare.delete(name);
-    if (!state.compare.size) eligible.slice(0,Math.min(3,eligible.length)).forEach(row => state.compare.add(row.name));
   }
 
   function compareHtml(model) {
-    const eligible=model.ranked.slice(0,3);
-    const rows=eligible.filter(row => state.compare.has(row.name));
-    if (rows.length < 2) return '<div class="play-empty">At least two decision-ready variants are needed for a useful comparison.</div>';
-    return `<div class="wsip-compare-grid">${rows.map(row => `<article><div class="compare-title">${sprite(row.name,36)}<b>${esc(row.name)}</b></div><dl><div><dt>Estimate</dt><dd>${rate(row.expectedWR)}</dd></div><div><dt>Evidence</dt><dd>${esc(row.evidenceLabel.replace(' evidence',''))}</dd></div><div><dt>Unknown field</dt><dd>${pct(row.unknownShare)}</dd></div><div><dt>Bad exposure</dt><dd>${pct(row.badExposure)}</dd></div><div><dt>Favourable exposure</dt><dd>${pct(row.favourableExposure)}</dd></div><div><dt>Profile</dt><dd>${row.polarised?'Polarised':'Balanced'}</dd></div></dl></article>`).join('')}</div>`;
-  }
-
-  function decideHtml(model) {
-    const rows=model.ranked.slice(0,3);
-    if (!rows.length) return '<p class="play-empty">Build more evidence before committing a deck choice.</p>';
-    return `<p>Open an exact variant to inspect its results and H2H evidence. To use one for an event, make the choice explicitly in that event’s Prep workspace.</p><div class="wsip-decide-actions">${rows.map(row => `<button class="btn" type="button" data-open-deck="${esc(row.name)}">${esc(row.name)}</button>`).join('')}<a class="btn primary" href="../events/">Open Events</a></div>`;
+    const byName=new Map((model.all || []).map(row => [row.name,row]));
+    const rows=[...state.compare].map(name => byName.get(name)).filter(Boolean).slice(0,3);
+    if (rows.length < 2) return '';
+    const bestEstimate=Math.max(...rows.map(row => row.expectedWR));
+    const edge=row => row.helpers?.[0] || row.matchups?.filter(item=>item.known).slice().sort((a,b)=>b.estimate-a.estimate)[0];
+    const risk=row => row.hurts?.[0] || row.matchups?.filter(item=>item.known).slice().sort((a,b)=>a.estimate-b.estimate)[0];
+    const cellMatch=item => item ? `<span class="compare-matchup-name">${esc(item.opponent)}</span><small>${detailRate(item.estimate)}</small>` : '—';
+    return `<div class="wsip-compare-table-wrap"><table class="wsip-compare-table"><thead><tr><th scope="col">Metric</th>${rows.map(row => `<th scope="col"><div class="compare-deck-head"><button type="button" class="compare-deck-open" data-open-deck="${esc(row.name)}">${sprite(row.name,28)}<b>${esc(row.name)}</b></button><button type="button" class="compare-remove" data-toggle-compare="${esc(row.name)}" aria-label="Remove ${esc(row.name)} from comparison">×</button></div></th>`).join('')}</tr></thead><tbody>
+      <tr><th scope="row">Estimate</th>${rows.map(row => `<td class="${Math.abs(row.expectedWR-bestEstimate)<0.01?'compare-best':''}">${rate(row.expectedWR)}</td>`).join('')}</tr>
+      <tr><th scope="row">Evidence</th>${rows.map(row => `<td>${esc(row.evidenceLabel.replace(' evidence',''))}</td>`).join('')}</tr>
+      <tr><th scope="row">Best field edge</th>${rows.map(row => `<td>${cellMatch(edge(row))}</td>`).join('')}</tr>
+      <tr><th scope="row">Biggest risk</th>${rows.map(row => `<td>${cellMatch(risk(row))}</td>`).join('')}</tr>
+      <tr><th scope="row">Favourable field</th>${rows.map(row => `<td>${pct(row.favourableExposure)}</td>`).join('')}</tr>
+      <tr><th scope="row">Bad field</th>${rows.map(row => `<td>${pct(row.badExposure)}</td>`).join('')}</tr>
+      <tr><th scope="row">Unknown field</th>${rows.map(row => `<td>${pct(row.unknownShare)}</td>`).join('')}</tr>
+    </tbody></table></div>`;
   }
 
   function bindField() {
@@ -158,29 +177,45 @@
   }
 
   function bindResults(model) {
-    document.querySelectorAll('[data-toggle-compare]').forEach(button => button.addEventListener('click', () => {
+    document.querySelectorAll('[data-toggle-compare]').forEach(button => button.addEventListener('click', event => {
+      event.stopPropagation();
       const name=button.dataset.toggleCompare;
       if (state.compare.has(name)) state.compare.delete(name);
       else if (state.compare.size < 3) state.compare.add(name);
       render();
     }));
-    document.querySelectorAll('[data-open-deck]').forEach(button => button.addEventListener('click', () => window.MetaRouter?.openDetail?.(button.dataset.openDeck,'online','prep')));
+    document.querySelectorAll('[data-open-deck]').forEach(button => button.addEventListener('click', event => {
+      event.stopPropagation();
+      window.MetaRouter?.openDetail?.(button.dataset.openDeck,'online','prep');
+    }));
+    document.querySelectorAll('[data-open-deck-card]').forEach(card => {
+      const open=event => {
+        if (event.target.closest?.('button,a,summary,details,input,select,label')) return;
+        window.MetaRouter?.openDetail?.(card.dataset.openDeckCard,'online','prep');
+      };
+      card.addEventListener('click',open);
+      card.addEventListener('keydown',event => {
+        if ((event.key==='Enter' || event.key===' ') && !event.target.closest?.('button,a,summary,details,input,select,label')) { event.preventDefault(); window.MetaRouter?.openDetail?.(card.dataset.openDeckCard,'online','prep'); }
+      });
+    });
+    document.querySelector('[data-show-more-recommendations]')?.addEventListener('click', () => { state.showMoreRecommendations=!state.showMoreRecommendations; render(); });
     if ($('advancedSettingsSummary')) $('advancedSettingsSummary').textContent=`12-game neutral prior · ${matchupSource()==='combined'?'Online + IRL':matchupSource()} H2H · unknowns remain unknown`;
   }
 
   function render() {
-    const fieldTarget=$('prepFieldOverview'), resultsTarget=$('prepResults'), compareTarget=$('prepCompare'), decideTarget=$('prepDecide');
-    if (!fieldTarget || !resultsTarget || !compareTarget || !decideTarget) return;
+    const fieldTarget=$('prepFieldOverview'), resultsTarget=$('prepResults'), compareTarget=$('prepCompare');
+    if (!fieldTarget || !resultsTarget || !compareTarget) return;
     window.PrepField?.render?.();
     const model=buildModel();
     syncCompare(model);
     fieldTarget.innerHTML=fieldHtml();
     resultsTarget.innerHTML=recommendationHtml(model);
     compareTarget.innerHTML=compareHtml(model);
-    decideTarget.innerHTML=decideHtml(model);
+    compareTarget.closest('.compare-section')?.classList.toggle('hidden',state.compare.size < 2);
     bindField();
     bindResults(model);
     window.SearchableDecks?.upgrade?.();
+    window.dispatchEvent(new CustomEvent('wsip:rendered'));
   }
 
   async function activate() {
