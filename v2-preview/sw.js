@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v22';
+const CACHE_NAME = 'ptcg-tools-v23';
 const CORE = [
   './',
   './home-content.html',
@@ -8,9 +8,9 @@ const CORE = [
   './apps/tools/',
   './apps/settings/',
   './perf-shell/shell.css?v=2',
-  './scripts/persistent-shell.js?v=5',
+  './scripts/persistent-shell.js?v=6',
   './apps/_shared/app-shell.css',
-  './apps/_shared/app-shell.js?v=7',
+  './apps/_shared/app-shell.js?v=8',
   './apps/_shared/auth-ui.css?v=1',
   './apps/_shared/auth-ui.js?v=4',
   './apps/_shared/cloud-sync.js?v=6',
@@ -22,6 +22,7 @@ const CORE = [
   './apps/_shared/recommendation-engine.js?v=1',
   './apps/_shared/storage.js?v=6',
   './apps/_shared/match-store.js?v=2',
+  './apps/meta/meta-release-loader.js?v=2',
   './apps/meta/wsip-polish.css?v=2',
   './apps/meta/wsip-polish.js?v=2',
   './apps/meta/wsip-reset-polish.js?v=1',
@@ -53,7 +54,7 @@ function canonicalNavigationRequest(request) {
   const url = new URL(request.url);
   url.search = '';
   url.hash = '';
-  return new Request(url.href, { method: 'GET', headers: { accept: 'text/html' } });
+  return new Request(url.href, { method: 'GET', headers: { accept:'text/html' } });
 }
 
 async function networkFirstNavigation(request) {
@@ -91,7 +92,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(networkFirstNavigation(request));
     return;
   }
-  const isStatic = ['script', 'style', 'image', 'font', 'manifest'].includes(request.destination);
+  const isStatic = ['script','style','image','font','manifest'].includes(request.destination);
   const isGeneratedData = url.pathname.includes('/data/') && url.pathname.endsWith('.json');
   if (isStatic || isGeneratedData) event.respondWith(staleWhileRevalidate(request));
 });
