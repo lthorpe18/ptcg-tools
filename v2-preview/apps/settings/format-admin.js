@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
-  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let state=null,isAdmin=false,performance=null,registryDraft=null,formulaDraft=null;
   const pct=v=>`${(100*Number(v||0)).toFixed(1)}%`,ppDay=v=>`${(100*Number(v||0)).toFixed(2)}pp/day`;
   function ensureSections(){if($('sharedConfigSection'))return;const page=document.querySelector('.settings-page'),data=document.querySelector('[aria-labelledby="dataHeading"]');if(!page)return;const section=document.createElement('section');section.id='sharedConfigSection';section.className='settings-section';section.innerHTML='<div class="settings-section-head"><span class="settings-kicker">Shared configuration</span><h2>Formats & Blended model</h2><p>Published legality dates and the live Blended formula are common across Meta, What Should I Play, Event Prep and future legality checks.</p></div><div class="shared-config-card app-card"><div id="sharedConfigStatus">Loading shared configuration…</div><div id="formatAdminEditor" class="admin-config-editor"></div><div id="formulaAdminEditor" class="admin-config-editor"></div><p id="adminConfigMessage" class="admin-config-message" aria-live="polite"></p></div>';page.insertBefore(section,data||null)}
