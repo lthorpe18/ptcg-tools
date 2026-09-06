@@ -31,6 +31,7 @@ function majorEvents(events){return (events||[]).filter(event=>event?.scope==='m
 function majorGroups(events){const map=new Map();for(const event of majorEvents(events)){const key=isoWeekKey(event.startDate),rows=map.get(key)||[];rows.push(event);map.set(key,rows)}return [...map.entries()].map(([weekKey,rows])=>{rows.sort((a,b)=>eventStartRank(a)-eventStartRank(b));const unknownTimeZoneEvents=rows.filter(event=>!eventTimeZone(event));const earliest=rows[0],startDate=String(earliest.startDate).slice(0,10),endDate=rows.reduce((max,event)=>String(event.endDate||event.startDate).slice(0,10)>max?String(event.endDate||event.startDate).slice(0,10):max,startDate);return{weekKey,events:rows,startDate,endDate,timeZone:unknownTimeZoneEvents.length?null:eventTimeZone(earliest),unknownTimeZoneEvents:unknownTimeZoneEvents.map(event=>event.name||event.city||event.id||'Unknown Major')}}).sort((a,b)=>a.startDate.localeCompare(b.startDate))}
 function latestWeekend(events){const valid=[...(events||[])].filter(event=>event?.date).sort((a,b)=>new Date(b.date)-new Date(a.date));if(!valid.length)return[];const key=isoWeekKey(valid[0].date);return valid.filter(event=>isoWeekKey(event.date)===key)}
 function aggregateEvents(events){const rows=[];for(const event of events||[])for(const deck of event.decks||event.archetypes||[])rows.push({name:deck.name,share:Number(deck.entries||0)});return normaliseField(rows)}
+function aggregateActualEvents(events){const rows=[];for(const event of events||[]){for(const deck of event.decks||event.archetypes||[])rows.push({name:deck.name,share:Number(deck.entries||0)});const unknown=Number(event.unclassifiedEntries||0);if(unknown>0)rows.push({name:'Unknown',share:unknown})}return normaliseField(rows,{includeUnclassified:true})}
 function coreOnlineField(core){return normaliseField((core?.online?.scopes?.['since-major']?.decks||[]).map(deck=>({name:deck.name,share:Number(deck.share||0)})))}
 function chooseIrlInput(core){const onlineFormat=core?.config?.onlineFormat?.id||core?.online?.format||core?.format,currentFormat=core?.irl?.format,current=latestWeekend(core?.irl?.events||[]);if(current.length&&currentFormat===onlineFormat)return{kind:'current-format-major',formatId:currentFormat,events:current};if(current.length&&currentFormat!==onlineFormat)return{kind:'previous-format-prior',formatId:currentFormat,events:current};const previous=core?.irl?.previous,prior=latestWeekend(previous?.events||[]);if(prior.length)return{kind:'previous-format-prior',formatId:previous?.format||null,events:prior};return{kind:'none',formatId:null,events:[]}}
 function majorFinalDate(core,events){const cutoff=new Date(core?.online?.majorWeekend?.cutoff).getTime();if(Number.isFinite(cutoff))return new Date(cutoff-DAY).toISOString().slice(0,10);const latest=Math.max(...(events||[]).map(event=>new Date(event.endDate||event.date).getTime()).filter(Number.isFinite));return Number.isFinite(latest)?new Date(latest).toISOString().slice(0,10):null}
@@ -56,22 +57,29 @@ async function main(){
       startDate:group.startDate,endDate:group.endDate,timeZone:group.timeZone,capturedAt:now.toISOString(),formulaVersion:config.liveFormula.versionKey,formula:{...config.liveFormula},
       daysSinceMajor:prediction.daysSinceMajor,majorFinalDate:prediction.majorFinalDate,transitionState:prediction.transitionState,previousFormatCap:Number(config.liveFormula.previousFormatCap??0.25),
       weights:prediction.weights,onlineInput:prediction.onlineInput,irlInput:prediction.irlInput,predictedField:prediction.predictedField,irlFormat:prediction.irlFormat,
-      actualField:null,actualPlayers:null,evaluatedAt:null,accuracy:null,diagnostics:null
+      actualField:null,actualPlayers:null,actualFieldEntries:null,actualFieldComplete:false,evaluatedAt:null,accuracy:null,diagnostics:null
     };
     snapshots.push(snapshot);byKey.set(key,snapshot);console.log(`Captured ${key}: ${(100*snapshot.weights.irl).toFixed(1)}% IRL / ${(100*snapshot.weights.online).toFixed(1)}% Online`);
   }
 
   for(const snapshot of snapshots){
-    if(snapshot.actualField?.length||!snapshot.timeZone)continue;
+    if(snapshot.actualFieldComplete===true||!snapshot.timeZone)continue;
     if(String(snapshot.endDate||'')>=localParts(now,snapshot.timeZone).date)continue;
     const irl=await readJson(path.join(root,'data','meta','irl',`${snapshot.formatId}.json`),null);
     if(!irl)continue;
     const actualEvents=(irl.events||[]).filter(event=>isoWeekKey(event.date)===snapshot.weekKey);
     if(actualEvents.length<Number(snapshot.scheduledMajorCount||1))continue;
-    const actualField=aggregateEvents(actualEvents);
+    const incomplete=actualEvents.filter(event=>event.day1FieldComplete!==true);
+    if(incomplete.length){console.log(`Waiting to evaluate ${snapshot.key}: ${incomplete.map(event=>event.name||event.id).join(', ')} Day 1 field not complete.`);continue}
+    const actualPlayers=actualEvents.reduce((sum,event)=>sum+Number(event.players||0),0);
+    const actualFieldEntries=actualEvents.reduce((sum,event)=>sum+Number(event.day1FieldEntries||0),0);
+    if(!actualPlayers||actualFieldEntries!==actualPlayers){console.log(`Waiting to evaluate ${snapshot.key}: accounted field ${actualFieldEntries}/${actualPlayers}.`);continue}
+    const actualField=aggregateActualEvents(actualEvents);
     if(!actualField.length)continue;
     snapshot.actualField=actualField;
-    snapshot.actualPlayers=actualEvents.reduce((sum,event)=>sum+Number(event.players||0),0);
+    snapshot.actualPlayers=actualPlayers;
+    snapshot.actualFieldEntries=actualFieldEntries;
+    snapshot.actualFieldComplete=true;
     snapshot.actualMajorNames=actualEvents.map(event=>event.name);
     snapshot.evaluatedAt=now.toISOString();
     snapshot.accuracy=distributionAccuracy(snapshot.predictedField,actualField);
@@ -80,7 +88,7 @@ async function main(){
   }
 
   snapshots.sort((a,b)=>String(a.startDate).localeCompare(String(b.startDate)));
-  const completed=snapshots.filter(row=>row.actualField?.length);
+  const completed=snapshots.filter(row=>row.actualFieldComplete===true&&row.actualField?.length);
   const fit=fitBestFormula(completed,config.liveFormula);
   const latestCompleted=[...completed].sort((a,b)=>String(b.evaluatedAt).localeCompare(String(a.evaluatedAt)))[0]||null;
   const output={
