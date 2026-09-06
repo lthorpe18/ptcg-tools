@@ -13,7 +13,7 @@ test('Home, Meta and Event Prep load the shared field definitions before consume
   assert.ok(home.indexOf('_shared/meta-field.js') < home.indexOf('archetype-groups.js'));
   assert.ok(home.indexOf('_shared/meta-field.js') < home.indexOf('_shared/meta-blend.js'));
   assert.ok(meta.indexOf('_shared/meta-field.js') < meta.indexOf('archetype-groups.js'));
-  assert.ok(meta.indexOf('_shared/recommendation-engine.js') < meta.indexOf('prep.js?v=8'));
+  assert.ok(meta.indexOf('_shared/recommendation-engine.js') < meta.indexOf('prep.js?v=9'));
   assert.ok(prep.indexOf('_shared/meta-field.js') < prep.indexOf('meta/saved-metas.js'));
   assert.ok(prep.indexOf('_shared/recommendation-engine.js') < prep.indexOf('./prep.js'));
   assert.ok(prep.indexOf('meta-release-loader.js') < prep.indexOf('./prep.js'));
@@ -47,13 +47,32 @@ test('WSIP never mutates planned or used deck state', () => {
   assert.match(read('v2-preview/apps/events/prep.js'),/function savePlan/);
 });
 
-test('WSIP polish observers cannot self-trigger field-label mutation loops', () => {
+test('WSIP polish has no body-wide mutation observer feedback loop', () => {
   const polish=read('v2-preview/apps/meta/wsip-polish.js');
   const reset=read('v2-preview/apps/meta/wsip-reset-polish.js');
-  const observerBody=polish.match(/const observer = new MutationObserver\(([\s\S]*?)\);\s*observer\.observe\(document\.body/);
-  assert.ok(observerBody,'WSIP body observer contract is present');
-  assert.doesNotMatch(observerBody[1],/syncTopFieldControl\s*\(/,'body mutation observer must not rewrite the field selector it observes');
-  assert.match(polish,/node\.textContent !== text/,'field/compare text writes must be idempotent');
-  assert.match(reset,/button\.textContent !== text/,'reset observer text writes must be idempotent');
-  assert.match(reset,/button\.title !== title/,'reset observer title writes must be idempotent');
+  assert.doesNotMatch(polish,/observe\(document\.body/);
+  assert.doesNotMatch(reset,/observe\(document\.body/);
+  assert.match(polish,/wsip:rendered/);
+  assert.match(reset,/wsip:rendered/);
+});
+
+test('WSIP recommendations open exact variants directly and expose matchup extremes', () => {
+  const html=read('v2-preview/apps/meta/index.html');
+  const wsip=read('v2-preview/apps/meta/prep.js');
+  assert.doesNotMatch(html,/id="prepDecide"|>Decide</);
+  assert.doesNotMatch(wsip,/function decideHtml/);
+  assert.match(wsip,/data-open-deck-card/);
+  assert.match(wsip,/Best against/);
+  assert.match(wsip,/Worst against/);
+  assert.match(wsip,/data-show-more-recommendations/);
+});
+
+test('WSIP comparison is explicit opt-in rather than auto-selecting the leaders', () => {
+  const html=read('v2-preview/apps/meta/index.html');
+  const wsip=read('v2-preview/apps/meta/prep.js');
+  assert.match(html,/compare-section hidden/);
+  assert.doesNotMatch(wsip,/eligible\.slice\(0,Math\.min\(3,eligible\.length\)\)\.forEach/);
+  assert.match(wsip,/state\.compare\.size < 2/);
+  assert.match(wsip,/Best field edge/);
+  assert.match(wsip,/Biggest risk/);
 });
