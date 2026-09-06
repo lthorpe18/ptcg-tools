@@ -7,13 +7,21 @@
     $('prep')?.classList.toggle('wsip-loading', !!active);
   }
 
+  function setText(node, text) {
+    if (node && node.textContent !== text) node.textContent = text;
+  }
+
+  function setAttr(node, name, value) {
+    if (node && node.getAttribute(name) !== value) node.setAttribute(name, value);
+  }
+
   function polishCompareButtons(root = document) {
     root.querySelectorAll?.('[data-toggle-compare]').forEach(button => {
       const selected = button.textContent.trim().toLowerCase() === 'remove' || button.getAttribute('aria-pressed') === 'true';
-      button.textContent = 'Compare';
+      setText(button, 'Compare');
       button.classList.toggle('is-selected', selected);
-      button.setAttribute('aria-pressed', selected ? 'true' : 'false');
-      button.setAttribute('aria-label', `${selected ? 'Remove from' : 'Add to'} comparison: ${button.dataset.toggleCompare || ''}`);
+      setAttr(button, 'aria-pressed', selected ? 'true' : 'false');
+      setAttr(button, 'aria-label', `${selected ? 'Remove from' : 'Add to'} comparison: ${button.dataset.toggleCompare || ''}`);
     });
   }
 
@@ -43,10 +51,11 @@
     if (!select) return;
     const expected = select.querySelector('option[value="expected"]');
     const name = savedFieldName();
-    if (expected) expected.textContent = name ? `Saved · ${name}` : 'Saved Expected Field';
+    const expectedLabel = name ? `Saved · ${name}` : 'Saved Expected Field';
+    setText(expected, expectedLabel);
     const active = select.value === 'expected' && !!name;
     select.closest('label')?.classList.toggle('custom-field-active', active);
-    select.setAttribute('aria-label', active ? `Field: saved expected field ${name}` : 'Field source');
+    setAttr(select, 'aria-label', active ? `Field: saved expected field ${name}` : 'Field source');
   }
 
   function installSavedFieldAutoLoad() {
@@ -68,6 +77,7 @@
       }
       queueMicrotask(syncTopFieldControl);
     });
+    window.addEventListener('savedmetas:updated', () => queueMicrotask(syncTopFieldControl));
   }
 
   function installLoadingGuard() {
@@ -143,12 +153,13 @@
     polishCompareButtons();
     syncTopFieldControl();
     const observer = new MutationObserver(mutations => {
+      let compareMayHaveChanged = false;
       for (const mutation of mutations) for (const node of mutation.addedNodes) {
         if (node.nodeType !== 1) continue;
         polishCompareButtons(node);
+        if (node.matches?.('#prepCompare,.wsip-compare-grid,[data-toggle-compare]') || node.querySelector?.('#prepCompare,.wsip-compare-grid,[data-toggle-compare]')) compareMayHaveChanged = true;
       }
-      buildCompareTable();
-      syncTopFieldControl();
+      if (compareMayHaveChanged) buildCompareTable();
     });
     observer.observe(document.body, { childList:true, subtree:true });
   }
