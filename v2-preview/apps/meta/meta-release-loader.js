@@ -6,6 +6,7 @@
   const MANIFEST_URL = new URL('manifest.json', BASE);
   const CACHE_NAME = 'ptcg-meta-release-v1';
   const ACTIVE_KEY = 'ptcg:meta-release:active';
+  const CORE_LKG_KEY = 'ptcg:meta-release:core-lkg';
   const memory = new Map();
   let activeManifest = null;
   let core = null;
@@ -16,6 +17,14 @@
   const emit = (type, detail = {}) => window.dispatchEvent(new CustomEvent(type, { detail }));
   const cacheAvailable = () => typeof caches !== 'undefined';
 
+  function validManifest(value) {
+    return value?.schemaVersion === 1 && typeof value.release === 'string' && value.release.length >= 8 && value.files?.core?.path;
+  }
+
+  function validCore(value) {
+    return value?.schemaVersion === 1 && typeof value.release === 'string' && value.release.length >= 8 && value.online?.scopes && value.irl;
+  }
+
   function readActiveManifest() {
     try {
       const value = JSON.parse(localStorage.getItem(ACTIVE_KEY) || 'null');
@@ -23,8 +32,16 @@
     } catch { return null; }
   }
 
-  function validManifest(value) {
-    return value?.schemaVersion === 1 && typeof value.release === 'string' && value.release.length >= 8 && value.files?.core?.path;
+  function readCoreLkg() {
+    try {
+      const value = JSON.parse(localStorage.getItem(CORE_LKG_KEY) || 'null');
+      return validCore(value) ? value : null;
+    } catch { return null; }
+  }
+
+  function storeCoreLkg(payload) {
+    if (!validCore(payload)) return;
+    try { localStorage.setItem(CORE_LKG_KEY, JSON.stringify(payload)); } catch {}
   }
 
   function cacheKey(manifest, key) {
@@ -106,11 +123,14 @@
   }
 
   function activate(manifest, payload, source) {
-    activeManifest = manifest;
+    activeManifest = manifest || activeManifest;
     core = payload;
-    try { localStorage.setItem(ACTIVE_KEY, JSON.stringify(manifest)); } catch {}
+    if (manifest) {
+      try { localStorage.setItem(ACTIVE_KEY, JSON.stringify(manifest)); } catch {}
+    }
+    storeCoreLkg(payload);
     settleReady(payload);
-    emit('meta:release-core', { release:manifest.release, source });
+    emit('meta:release-core', { release:payload.release, source });
   }
 
   async function prune(keep) {
@@ -126,11 +146,11 @@
   async function refresh() {
     const previous = activeManifest;
     const manifest = await fetchManifest();
-    if (previous?.release === manifest.release && core) {
+    if (previous?.release === manifest.release && core?.release === manifest.release) {
       emit('meta:release-current', { release:manifest.release });
       return core;
     }
-    const payload = await loadFile('core', manifest);
+    const payload = await loadFile('core', manifest, { network:core?.release === manifest.release ? false : undefined });
     activate(manifest, payload, previous ? 'updated' : 'network');
     await prune(new Set([manifest.release, previous?.release].filter(Boolean)));
     return payload;
@@ -138,7 +158,16 @@
 
   async function bootstrap() {
     const cachedManifest = readActiveManifest();
-    if (cachedManifest) {
+    const lkg = readCoreLkg();
+
+    // Render the previously accepted field immediately. This deliberately does
+    // not wait for CacheStorage or network, which can be slow/cold in iOS PWAs.
+    if (lkg) {
+      if (cachedManifest?.release === lkg.release) activeManifest = cachedManifest;
+      activate(activeManifest, lkg, 'local-lkg');
+    }
+
+    if (cachedManifest && core?.release !== cachedManifest.release) {
       try {
         const payload = await loadFile('core', cachedManifest);
         activate(cachedManifest, payload, 'cache');
@@ -146,6 +175,7 @@
         console.warn('Cached Meta release is unavailable.', error);
       }
     }
+
     try {
       await refresh();
     } catch (error) {
