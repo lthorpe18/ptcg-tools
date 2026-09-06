@@ -5,8 +5,7 @@
   const pct = value => `${(100 * Number(value || 0)).toFixed(0)}%`;
   const rate = value => Number.isFinite(value) ? `≈${Math.round(value)}%` : '—';
   const detailRate = value => Number.isFinite(value) ? `${value.toFixed(1)}%` : '—';
-  const pp = value => `${value >= 0 ? '+' : ''}${Number(value || 0).toFixed(1)} pp`;
-  const state = { compare:new Set(), selectedSavedId:'', saveOpen:false, addOpen:false, expandedField:false, showMoreRecommendations:false, loading:null };
+  const state = { selectedSavedId:'', saveOpen:false, addOpen:false, expandedField:false, recommendationLimit:5, loading:null };
 
   function sprite(name, size=40) { return window.DeckSprites?.html?.(name,{ size }) || ''; }
   function matchupSource() { return $('playMatchupSource')?.value || 'combined'; }
@@ -78,7 +77,7 @@
   function evidenceBadge(row) { return `<span class="wsip-evidence ${row.evidenceLevel}">${esc(row.evidenceLabel)}</span>`; }
 
   function matchupTriplet(title, rows, tone) {
-    return `<section class="wsip-matchup-triplet ${tone}"><h4>${esc(title)}</h4>${rows.length ? rows.map(item => `<div>${sprite(item.opponent,24)}<span><b>${esc(item.opponent)}</b><small>${item.decisiveGames} decisive games · ${pct(item.share)} of field</small></span><strong>${detailRate(item.estimate)}</strong></div>`).join('') : '<p>No decisive matchup evidence.</p>'}</section>`;
+    return `<section class="wsip-matchup-triplet ${tone}"><h4>${esc(title)}</h4>${rows.length ? rows.map(item => `<div>${sprite(item.opponent,22)}<span><b>${esc(item.opponent)}</b><small>${item.decisiveGames} decisive games · ${pct(item.share)} of field</small></span><strong>${detailRate(item.estimate)}</strong></div>`).join('') : '<p>No decisive matchup evidence.</p>'}</section>`;
   }
 
   function driverHtml(row) {
@@ -93,7 +92,6 @@
   }
 
   function recommendationCard(row, model, options = {}) {
-    const selected=state.compare.has(row.name);
     const decisionReady=row.decisionReady !== false;
     const displayRank=options.displayRank ?? row.rank ?? null;
     const rankLabel=displayRank ? (model.closeCall && row.rank && row.rank <= 2 ? '≈' : `#${displayRank}`) : '•';
@@ -103,9 +101,8 @@
     return `<article class="recommendation-card ${row.rank===1?'winner':''} ${decisionReady?'':'lower-evidence'}" data-open-deck-card="${esc(row.name)}" role="link" tabindex="0" aria-label="Open ${esc(row.name)} exact variant">
       <div class="rec-rank">${rankLabel}</div>
       <div class="rec-sprite">${sprite(row.name,38)}</div>
-      <div class="rec-main"><h3>${esc(row.name)}</h3><p>${best ? `Best: ${esc(best.opponent)}` : 'No decisive positive matchup'}${worst ? ` · Risk: ${esc(worst.opponent)}` : ''}</p><div class="rec-meta">${evidenceBadge(row)}<span>${pct(row.coverage)} field covered</span></div></div>
+      <div class="rec-main"><h3>${esc(row.name)}</h3><p>${best ? `Best: ${esc(best.opponent)}` : 'No decisive positive matchup'}${worst ? ` · Risk: ${esc(worst.opponent)}` : ''}</p><div class="rec-meta">${evidenceBadge(row)}<span>H2H evidence against ${pct(row.coverage)} of field</span></div></div>
       <div class="rec-score"><b>${rate(row.expectedWR)}</b>${separation ? `<span>${esc(separation)}</span>` : ''}</div>
-      <div class="rec-actions"><button type="button" class="compare-toggle ${selected?'is-selected':''}" data-toggle-compare="${esc(row.name)}" aria-pressed="${selected?'true':'false'}"><span class="compare-check" aria-hidden="true">${selected?'✓':''}</span>Compare</button><span class="rec-open-hint">Tap card for exact variant ›</span></div>
       <details class="rec-why"><summary>Why this deck?</summary>${driverHtml(row)}</details>
     </article>`;
   }
@@ -120,42 +117,14 @@
       insufficient:['Insufficient evidence','No exact variant has enough covered matchup evidence for a useful recommendation.'],
     };
     const message=messages[model.state] || messages.insufficient;
-    const primary=model.ranked.slice(0,5);
-    const extras=[...model.ranked.slice(5),...model.lowerEvidence];
-    const fallback=!primary.length ? model.lowerEvidence.slice(0,5) : [];
-    const initial=primary.length ? primary : fallback;
-    const remaining=primary.length ? extras : model.lowerEvidence.slice(5);
-    const shown=state.showMoreRecommendations ? [...initial,...remaining] : initial;
+    const recommendations=[...model.ranked,...model.lowerEvidence];
+    const shown=recommendations.slice(0,state.recommendationLimit);
+    const remaining=Math.max(0,recommendations.length-shown.length);
     const cards=shown.map((row,index) => recommendationCard(row,model,{ displayRank:row.rank || (row.decisionReady ? index+1 : null) })).join('');
-    const compareNote=state.compare.size===1 ? '<p class="compare-selection-note">1 selected · choose one more deck to compare.</p>' : state.compare.size>=2 ? `<p class="compare-selection-note ready">${state.compare.size} selected · comparison shown below.</p>` : '';
+    const next=Math.min(5,remaining);
     return `<div class="wsip-decision-state ${model.state}"><b>${message[0]}</b><span>${message[1]}</span></div>
       ${cards ? `<div class="recommendation-list">${cards}</div>` : ''}
-      ${remaining.length ? `<button class="show-more-recommendations" type="button" data-show-more-recommendations>${state.showMoreRecommendations ? 'Show fewer options' : `Show ${Math.min(5,remaining.length)} more option${Math.min(5,remaining.length)===1?'':'s'}${remaining.length>5?` · ${remaining.length} available`:''}`}</button>` : ''}
-      ${compareNote}`;
-  }
-
-  function syncCompare(model) {
-    const valid=new Set((model.all || []).map(row => row.name));
-    for (const name of [...state.compare]) if (!valid.has(name)) state.compare.delete(name);
-  }
-
-  function compareHtml(model) {
-    const byName=new Map((model.all || []).map(row => [row.name,row]));
-    const rows=[...state.compare].map(name => byName.get(name)).filter(Boolean).slice(0,3);
-    if (rows.length < 2) return '';
-    const bestEstimate=Math.max(...rows.map(row => row.expectedWR));
-    const edge=row => row.helpers?.[0] || row.matchups?.filter(item=>item.known).slice().sort((a,b)=>b.estimate-a.estimate)[0];
-    const risk=row => row.hurts?.[0] || row.matchups?.filter(item=>item.known).slice().sort((a,b)=>a.estimate-b.estimate)[0];
-    const cellMatch=item => item ? `<span class="compare-matchup-name">${esc(item.opponent)}</span><small>${detailRate(item.estimate)}</small>` : '—';
-    return `<div class="wsip-compare-table-wrap"><table class="wsip-compare-table"><thead><tr><th scope="col">Metric</th>${rows.map(row => `<th scope="col"><div class="compare-deck-head"><button type="button" class="compare-deck-open" data-open-deck="${esc(row.name)}">${sprite(row.name,28)}<b>${esc(row.name)}</b></button><button type="button" class="compare-remove" data-toggle-compare="${esc(row.name)}" aria-label="Remove ${esc(row.name)} from comparison">×</button></div></th>`).join('')}</tr></thead><tbody>
-      <tr><th scope="row">Estimate</th>${rows.map(row => `<td class="${Math.abs(row.expectedWR-bestEstimate)<0.01?'compare-best':''}">${rate(row.expectedWR)}</td>`).join('')}</tr>
-      <tr><th scope="row">Evidence</th>${rows.map(row => `<td>${esc(row.evidenceLabel.replace(' evidence',''))}</td>`).join('')}</tr>
-      <tr><th scope="row">Best field edge</th>${rows.map(row => `<td>${cellMatch(edge(row))}</td>`).join('')}</tr>
-      <tr><th scope="row">Biggest risk</th>${rows.map(row => `<td>${cellMatch(risk(row))}</td>`).join('')}</tr>
-      <tr><th scope="row">Favourable field</th>${rows.map(row => `<td>${pct(row.favourableExposure)}</td>`).join('')}</tr>
-      <tr><th scope="row">Bad field</th>${rows.map(row => `<td>${pct(row.badExposure)}</td>`).join('')}</tr>
-      <tr><th scope="row">Unknown field</th>${rows.map(row => `<td>${pct(row.unknownShare)}</td>`).join('')}</tr>
-    </tbody></table></div>`;
+      ${remaining ? `<button class="show-more-recommendations" type="button" data-show-more-recommendations>Show ${next} more deck${next===1?'':'s'}</button>` : ''}`;
   }
 
   function bindField() {
@@ -176,18 +145,7 @@
     });
   }
 
-  function bindResults(model) {
-    document.querySelectorAll('[data-toggle-compare]').forEach(button => button.addEventListener('click', event => {
-      event.stopPropagation();
-      const name=button.dataset.toggleCompare;
-      if (state.compare.has(name)) state.compare.delete(name);
-      else if (state.compare.size < 3) state.compare.add(name);
-      render();
-    }));
-    document.querySelectorAll('[data-open-deck]').forEach(button => button.addEventListener('click', event => {
-      event.stopPropagation();
-      window.MetaRouter?.openDetail?.(button.dataset.openDeck,'online','prep');
-    }));
+  function bindResults() {
     document.querySelectorAll('[data-open-deck-card]').forEach(card => {
       const open=event => {
         if (event.target.closest?.('button,a,summary,details,input,select,label')) return;
@@ -195,25 +153,28 @@
       };
       card.addEventListener('click',open);
       card.addEventListener('keydown',event => {
-        if ((event.key==='Enter' || event.key===' ') && !event.target.closest?.('button,a,summary,details,input,select,label')) { event.preventDefault(); window.MetaRouter?.openDetail?.(card.dataset.openDeckCard,'online','prep'); }
+        if ((event.key==='Enter' || event.key===' ') && !event.target.closest?.('button,a,summary,details,input,select,label')) {
+          event.preventDefault();
+          window.MetaRouter?.openDetail?.(card.dataset.openDeckCard,'online','prep');
+        }
       });
     });
-    document.querySelector('[data-show-more-recommendations]')?.addEventListener('click', () => { state.showMoreRecommendations=!state.showMoreRecommendations; render(); });
+    document.querySelector('[data-show-more-recommendations]')?.addEventListener('click', () => {
+      state.recommendationLimit += 5;
+      render();
+    });
     if ($('advancedSettingsSummary')) $('advancedSettingsSummary').textContent=`12-game neutral prior · ${matchupSource()==='combined'?'Online + IRL':matchupSource()} H2H · unknowns remain unknown`;
   }
 
   function render() {
-    const fieldTarget=$('prepFieldOverview'), resultsTarget=$('prepResults'), compareTarget=$('prepCompare');
-    if (!fieldTarget || !resultsTarget || !compareTarget) return;
+    const fieldTarget=$('prepFieldOverview'), resultsTarget=$('prepResults');
+    if (!fieldTarget || !resultsTarget) return;
     window.PrepField?.render?.();
     const model=buildModel();
-    syncCompare(model);
     fieldTarget.innerHTML=fieldHtml();
     resultsTarget.innerHTML=recommendationHtml(model);
-    compareTarget.innerHTML=compareHtml(model);
-    compareTarget.closest('.compare-section')?.classList.toggle('hidden',state.compare.size < 2);
     bindField();
-    bindResults(model);
+    bindResults();
     window.SearchableDecks?.upgrade?.();
     window.dispatchEvent(new CustomEvent('wsip:rendered'));
   }
@@ -225,8 +186,8 @@
     render();
   }
 
-  $('playMatchupSource')?.addEventListener('change', activate);
-  window.addEventListener('field:updated', render);
+  $('playMatchupSource')?.addEventListener('change', () => { state.recommendationLimit=5; activate(); });
+  window.addEventListener('field:updated', () => { state.recommendationLimit=5; render(); });
   window.addEventListener('savedmetas:updated', render);
   window.addEventListener('meta:data-changed', () => { if (!$('prep')?.classList.contains('hidden')) render(); });
   window.MetaPrep={ activate, render };
