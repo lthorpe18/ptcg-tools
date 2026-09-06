@@ -5,7 +5,7 @@
   const BASE = new URL('../../data/meta/release/', scriptBase);
   const MANIFEST_URL = new URL('manifest.json', BASE);
   const CORE_URL = new URL('core.json', BASE);
-  const CACHE_NAME = 'ptcg-meta-release-v1';
+  const CACHE_NAME = 'ptcg-meta-release-v2';
   const ACTIVE_KEY = 'ptcg:meta-release:active';
   const CORE_LKG_KEY = 'ptcg:meta-release:core-lkg';
   const KNOWN_FILES = {
@@ -19,15 +19,20 @@
   const readyPromise = new Promise(resolve => { readyResolve = resolve; });
   let readySettled = false;
 
+  if (!window.PTCGFormatRuntime && !document.querySelector('script[data-format-runtime]')) {
+    const script=document.createElement('script');script.src=new URL('../_shared/format-runtime.js?v=1',scriptBase).href;script.async=false;script.dataset.formatRuntime='1';document.head.appendChild(script);
+  }
+
   const emit = (type, detail = {}) => window.dispatchEvent(new CustomEvent(type, { detail }));
   const cacheAvailable = () => typeof caches !== 'undefined';
+  const coreVersionOk = value => value?.schemaVersion === 1 || value?.schemaVersion === 2;
 
   function validManifest(value) {
     return value?.schemaVersion === 1 && typeof value.release === 'string' && value.release.length >= 8 && value.files?.core?.path;
   }
 
   function validCore(value) {
-    return value?.schemaVersion === 1 && typeof value.release === 'string' && value.release.length >= 8 && value.online?.scopes && value.irl;
+    return coreVersionOk(value) && typeof value.release === 'string' && value.release.length >= 8 && value.online?.scopes && value.irl;
   }
 
   function syntheticManifest(payload) {
@@ -73,7 +78,8 @@
     const actual = expected ? await sha256(text) : '';
     if (expected && actual && expected !== actual) throw new Error(`Meta ${key} checksum mismatch`);
     const payload = JSON.parse(text);
-    if (payload?.schemaVersion !== 1 || payload?.release !== manifest.release || payload?.format !== manifest.format) {
+    const versionOk = key === 'core' ? coreVersionOk(payload) : payload?.schemaVersion === 1;
+    if (!versionOk || payload?.release !== manifest.release || payload?.format !== manifest.format) {
       throw new Error(`Meta ${key} does not belong to release ${manifest.release}`);
     }
     return payload;
