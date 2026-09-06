@@ -5,8 +5,10 @@
     const button = document.querySelector('[data-field-reset]');
     if (!button) return;
     const custom = source()?.value === 'expected';
-    button.textContent = custom ? '↩ Back to Blended' : '↻ Reset source';
-    button.title = custom ? 'Leave this saved Expected Field and return to the blended current field' : 'Reset edits to this field source';
+    const text = custom ? '↩ Back to Blended' : '↻ Reset source';
+    const title = custom ? 'Leave this saved Expected Field and return to the blended current field' : 'Reset edits to this field source';
+    if (button.textContent !== text) button.textContent = text;
+    if (button.title !== title) button.title = title;
   }
   document.addEventListener('click', event => {
     const button = event.target.closest?.('[data-field-reset]');
@@ -22,6 +24,7 @@
   document.addEventListener('change', event => {
     if (event.target?.id === 'playFieldSource' || event.target?.id === 'savedMetaSelect') queueMicrotask(sync);
   });
-  new MutationObserver(sync).observe(document.body, { childList:true, subtree:true });
+  window.addEventListener('savedmetas:updated', () => queueMicrotask(sync));
+  new MutationObserver(() => sync()).observe(document.body, { childList:true, subtree:true });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sync, { once:true }); else sync();
 })();
