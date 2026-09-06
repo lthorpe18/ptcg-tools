@@ -10,23 +10,25 @@ const OUTPUT=path.join(root,'v2-preview','data','meta','blended-performance.json
 const DAY=86400000;
 
 const CITY_TZ={
-  'san francisco':'America/Los_Angeles','anaheim':'America/Los_Angeles','los angeles':'America/Los_Angeles','las vegas':'America/Los_Angeles','portland':'America/Los_Angeles','seattle':'America/Los_Angeles','vancouver':'America/Vancouver',
+  'san francisco':'America/Los_Angeles','anaheim':'America/Los_Angeles','los angeles':'America/Los_Angeles','las vegas':'America/Los_Angeles','portland':'America/Los_Angeles','seattle':'America/Los_Angeles','vancouver':'America/Vancouver','san diego':'America/Los_Angeles',
   'baltimore':'America/New_York','new york':'America/New_York','orlando':'America/New_York','atlanta':'America/New_York','charlotte':'America/New_York','cleveland':'America/New_York','detroit':'America/Detroit','toronto':'America/Toronto','montreal':'America/Toronto',
-  'milwaukee':'America/Chicago','chicago':'America/Chicago','new orleans':'America/Chicago','dallas':'America/Chicago','fort worth':'America/Chicago','minneapolis':'America/Chicago','denver':'America/Denver','salt lake city':'America/Denver',
-  'frankfurt':'Europe/Berlin','stuttgart':'Europe/Berlin','dortmund':'Europe/Berlin','bremen':'Europe/Berlin','bochum':'Europe/Berlin','berlin':'Europe/Berlin','london':'Europe/London','birmingham':'Europe/London','liverpool':'Europe/London','utrecht':'Europe/Amsterdam','lille':'Europe/Paris','paris':'Europe/Paris','bologna':'Europe/Rome','madrid':'Europe/Madrid','barcelona':'Europe/Madrid','stockholm':'Europe/Stockholm','helsinki':'Europe/Helsinki',
-  'brisbane':'Australia/Brisbane','sydney':'Australia/Sydney','melbourne':'Australia/Melbourne','perth':'Australia/Perth','auckland':'Pacific/Auckland','tokyo':'Asia/Tokyo','osaka':'Asia/Tokyo','seoul':'Asia/Seoul','singapore':'Asia/Singapore','hong kong':'Asia/Hong_Kong','sao paulo':'America/Sao_Paulo','são paulo':'America/Sao_Paulo'
+  'milwaukee':'America/Chicago','chicago':'America/Chicago','new orleans':'America/Chicago','dallas':'America/Chicago','fort worth':'America/Chicago','minneapolis':'America/Chicago','denver':'America/Denver','salt lake city':'America/Denver','louisville':'America/Kentucky/Louisville',
+  'frankfurt':'Europe/Berlin','stuttgart':'Europe/Berlin','dortmund':'Europe/Berlin','bremen':'Europe/Berlin','bochum':'Europe/Berlin','berlin':'Europe/Berlin','london':'Europe/London','birmingham':'Europe/London','liverpool':'Europe/London','utrecht':'Europe/Amsterdam','lille':'Europe/Paris','paris':'Europe/Paris','nice':'Europe/Paris','bologna':'Europe/Rome','madrid':'Europe/Madrid','barcelona':'Europe/Madrid','stockholm':'Europe/Stockholm','helsinki':'Europe/Helsinki','gdansk':'Europe/Warsaw','gdańsk':'Europe/Warsaw','lisbon':'Europe/Lisbon','prague':'Europe/Prague',
+  'brisbane':'Australia/Brisbane','sydney':'Australia/Sydney','melbourne':'Australia/Melbourne','perth':'Australia/Perth','auckland':'Pacific/Auckland','tokyo':'Asia/Tokyo','osaka':'Asia/Tokyo','seoul':'Asia/Seoul','singapore':'Asia/Singapore','hong kong':'Asia/Hong_Kong',
+  'sao paulo':'America/Sao_Paulo','são paulo':'America/Sao_Paulo','rio de janeiro':'America/Sao_Paulo','recife':'America/Recife','porto alegre':'America/Sao_Paulo','buenos aires':'America/Argentina/Buenos_Aires','santiago':'America/Santiago','lima':'America/Lima','puebla':'America/Mexico_City','monterrey':'America/Monterrey','mérida':'America/Merida','merida':'America/Merida'
 };
-const COUNTRY_TZ={GB:'Europe/London',UK:'Europe/London',DE:'Europe/Berlin',FR:'Europe/Paris',IT:'Europe/Rome',ES:'Europe/Madrid',NL:'Europe/Amsterdam',SE:'Europe/Stockholm',FI:'Europe/Helsinki',JP:'Asia/Tokyo',KR:'Asia/Seoul',SG:'Asia/Singapore',NZ:'Pacific/Auckland',BR:'America/Sao_Paulo'};
+const COUNTRY_TZ={GB:'Europe/London',UK:'Europe/London',DE:'Europe/Berlin',FR:'Europe/Paris',IT:'Europe/Rome',ES:'Europe/Madrid',NL:'Europe/Amsterdam',SE:'Europe/Stockholm',FI:'Europe/Helsinki',JP:'Asia/Tokyo',KR:'Asia/Seoul',SG:'Asia/Singapore',NZ:'Pacific/Auckland'};
 
 async function readJson(file,fallback=null){try{return JSON.parse(await fs.readFile(file,'utf8'))}catch{return fallback}}
 function isoWeekKey(value){const d=new Date(`${String(value).slice(0,10)}T12:00:00Z`),u=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())),day=u.getUTCDay()||7;u.setUTCDate(u.getUTCDate()+4-day);const start=new Date(Date.UTC(u.getUTCFullYear(),0,1)),week=Math.ceil((((u-start)/DAY)+1)/7);return `${u.getUTCFullYear()}-W${String(week).padStart(2,'0')}`}
 function addDays(date,days){const d=new Date(`${date}T12:00:00Z`);d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
-function eventTimeZone(event){const explicit=event?.timeZone||event?.timezone;if(explicit)return explicit;const city=String(event?.city||'').trim().toLowerCase();if(CITY_TZ[city])return CITY_TZ[city];const country=String(event?.country||'').trim().toUpperCase();return COUNTRY_TZ[country]||'UTC'}
+function validTimeZone(value){const zone=String(value||'').trim();if(!zone)return null;try{new Intl.DateTimeFormat('en-GB',{timeZone:zone}).format(new Date());return zone}catch{return null}}
+function eventTimeZone(event){const explicit=validTimeZone(event?.timeZone||event?.timezone);if(explicit)return explicit;const city=String(event?.city||'').trim().toLowerCase();if(CITY_TZ[city])return CITY_TZ[city];const country=String(event?.country||'').trim().toUpperCase();return COUNTRY_TZ[country]||null}
 function localParts(date,timeZone){const parts=new Intl.DateTimeFormat('en-GB',{timeZone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hourCycle:'h23'}).formatToParts(date);const get=type=>parts.find(part=>part.type===type)?.value;return{date:`${get('year')}-${get('month')}-${get('day')}`,hour:Number(get('hour')||0)}}
 function tzOffsetMinutes(timeZone,date){const parts=new Intl.DateTimeFormat('en-US',{timeZone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(date);const get=type=>Number(parts.find(part=>part.type===type)?.value||0);const represented=Date.UTC(get('year'),get('month')-1,get('day'),get('hour'),get('minute'),get('second'));return Math.round((represented-date.getTime())/60000)}
-function eventStartRank(event){const date=String(event.startDate||event.date||'').slice(0,10),tz=eventTimeZone(event),noon=new Date(`${date}T12:00:00Z`),offset=tzOffsetMinutes(tz,noon);return new Date(`${date}T09:00:00Z`).getTime()-offset*60000}
+function eventStartRank(event){const date=String(event.startDate||event.date||'').slice(0,10),tz=eventTimeZone(event);if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!tz)return Number.POSITIVE_INFINITY;const noon=new Date(`${date}T12:00:00Z`),offset=tzOffsetMinutes(tz,noon);return new Date(`${date}T09:00:00Z`).getTime()-offset*60000}
 function majorEvents(events){return (events||[]).filter(event=>event?.scope==='major'&&event?.startDate).sort((a,b)=>eventStartRank(a)-eventStartRank(b))}
-function majorGroups(events){const map=new Map();for(const event of majorEvents(events)){const key=isoWeekKey(event.startDate),rows=map.get(key)||[];rows.push(event);map.set(key,rows)}return [...map.entries()].map(([weekKey,rows])=>{rows.sort((a,b)=>eventStartRank(a)-eventStartRank(b));const earliest=rows[0],startDate=String(earliest.startDate).slice(0,10),endDate=rows.reduce((max,event)=>String(event.endDate||event.startDate).slice(0,10)>max?String(event.endDate||event.startDate).slice(0,10):max,startDate);return{weekKey,events:rows,startDate,endDate,timeZone:eventTimeZone(earliest)}}).sort((a,b)=>a.startDate.localeCompare(b.startDate))}
+function majorGroups(events){const map=new Map();for(const event of majorEvents(events)){const key=isoWeekKey(event.startDate),rows=map.get(key)||[];rows.push(event);map.set(key,rows)}return [...map.entries()].map(([weekKey,rows])=>{rows.sort((a,b)=>eventStartRank(a)-eventStartRank(b));const unknownTimeZoneEvents=rows.filter(event=>!eventTimeZone(event));const earliest=rows[0],startDate=String(earliest.startDate).slice(0,10),endDate=rows.reduce((max,event)=>String(event.endDate||event.startDate).slice(0,10)>max?String(event.endDate||event.startDate).slice(0,10):max,startDate);return{weekKey,events:rows,startDate,endDate,timeZone:unknownTimeZoneEvents.length?null:eventTimeZone(earliest),unknownTimeZoneEvents:unknownTimeZoneEvents.map(event=>event.name||event.city||event.id||'Unknown Major')}}).sort((a,b)=>a.startDate.localeCompare(b.startDate))}
 function latestWeekend(events){const valid=[...(events||[])].filter(event=>event?.date).sort((a,b)=>new Date(b.date)-new Date(a.date));if(!valid.length)return[];const key=isoWeekKey(valid[0].date);return valid.filter(event=>isoWeekKey(event.date)===key)}
 function aggregateEvents(events){const rows=[];for(const event of events||[])for(const deck of event.decks||event.archetypes||[])rows.push({name:deck.name,share:Number(deck.entries||0)});return normaliseField(rows)}
 function coreOnlineField(core){return normaliseField((core?.online?.scopes?.['since-major']?.decks||[]).map(deck=>({name:deck.name,share:Number(deck.share||0)})))}
@@ -44,8 +46,9 @@ async function main(){
   for(const group of groups){
     const key=`${group.weekKey}:${formats.online?.id||core.format}`;
     if(byKey.has(key))continue;
+    if(!group.timeZone){console.log(`Skipping ${key}: Major timezone is unknown (${group.unknownTimeZoneEvents.join(', ')})`);continue}
     const local=localParts(now,group.timeZone),dayBefore=addDays(group.startDate,-1);
-    if(local.date!==dayBefore||local.hour<22)continue;
+    if(local.date!==dayBefore||local.hour<23)continue;
     const prediction=currentPrediction(core,config.liveFormula,now);
     if(!prediction.available){console.log(`Skipping ${key}: Blended unavailable (${prediction.reason})`);continue}
     const snapshot={
@@ -59,8 +62,8 @@ async function main(){
   }
 
   for(const snapshot of snapshots){
-    if(snapshot.actualField?.length)continue;
-    if(String(snapshot.endDate||'')>=localParts(now,snapshot.timeZone||'UTC').date)continue;
+    if(snapshot.actualField?.length||!snapshot.timeZone)continue;
+    if(String(snapshot.endDate||'')>=localParts(now,snapshot.timeZone).date)continue;
     const irl=await readJson(path.join(root,'data','meta','irl',`${snapshot.formatId}.json`),null);
     if(!irl)continue;
     const actualEvents=(irl.events||[]).filter(event=>isoWeekKey(event.date)===snapshot.weekKey);
