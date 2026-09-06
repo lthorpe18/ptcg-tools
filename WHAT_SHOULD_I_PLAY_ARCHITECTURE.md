@@ -1,16 +1,16 @@
 # What Should I Play architecture
 
-**Status:** Canonical bounded implementation
-**Date:** 5 September 2026
+**Status:** Canonical bounded implementation — accepted after iPhone validation  
+**Date:** 6 September 2026  
 **Owner:** Meta
 
 ## Product question
 
 What Should I Play (WSIP) helps a competitive player answer:
 
-> Given the field I expect, which exact deck variants are best positioned, why, how trustworthy is that conclusion, and what are the important trade-offs?
+> Given the field I expect, which exact deck variants are best positioned, why, and how trustworthy is that conclusion?
 
-It is decision support, not a deck selector. It never writes Deck state or silently sets `plannedDeckRef`.
+It is decision support, not a deck selector. It never writes Deck state or silently sets `plannedDeckRef` or `usedDeckRef`. Event-specific deck choice remains explicit in Event Prep.
 
 ## Shared field contract
 
@@ -34,6 +34,8 @@ The field sources are:
 | Saved Expected Field | An explicit, editable predicted field copied with provenance. |
 
 The default WSIP field for an observed source includes rows through at least 90% of source field share, then renormalises those selected rows for analysis. A saved Expected Field uses all explicitly saved rows. The UI shows how much of an observed source field the selection represents.
+
+Saved Expected Fields are first-class WSIP inputs. Selecting one applies it immediately. When a custom saved field is active, the top Field control must make that custom state obvious rather than misleadingly appearing to be Blended, Online or IRL. Returning to the normal source field must be explicit and clean.
 
 ## Matchup evidence
 
@@ -66,16 +68,16 @@ Each matchup contribution is:
 
 `contribution(c,o) = field share(o) / covered field share(c) × (adjusted WR(c,o) - 50%)`
 
-Positive and negative contributions drive the “Helps” and “Hurts” explanation. This distinguishes a large edge into a small deck from a modest edge into a high-share deck.
+Positive and negative contributions drive the explanatory evidence. This distinguishes a large edge into a small deck from a modest edge into a high-share deck.
 
 ## Uncertainty rule
 
-WSIP uses two plain measures:
+WSIP uses two deterministic measures:
 
 - **Coverage:** field share with at least one decisive H2H game.
 - **Sample quality:** full-field weighted `min(decisive games / 20, 1)` for each matchup. Unknown matchups contribute zero.
 
-Evidence categories are deterministic:
+Evidence categories are:
 
 | Category | Rule | May receive a rank? |
 |---|---|---|
@@ -84,7 +86,7 @@ Evidence categories are deterministic:
 | Weak | coverage ≥50% and quality ≥25%, but below Moderate | No; promising only |
 | Insufficient | coverage <50% or quality <25% | No; promising only |
 
-Decision-ready variants are ordered by covered-field estimate, then coverage, sample quality and exact name. Lower-evidence variants are shown separately and do not displace decision-ready recommendations.
+Decision-ready variants are ordered by covered-field estimate, then coverage, sample quality and exact name. Lower-evidence variants remain available but do not displace decision-ready recommendations.
 
 If the top two decision-ready estimates differ by less than 2 percentage points, the outcome is a **close call** and their ordering is not presented as meaningful. A **strong recommendation** requires strong evidence, a gap of at least 2 points and no material source disagreement.
 
@@ -94,13 +96,50 @@ These categories are product thresholds, not formal statistical confidence inter
 
 ## Accepted player flow
 
-1. **Field** — choose Blended, Online, IRL or a saved Expected Field; see provenance, exact variants and model shares; optionally make an explicit adjustment.
-2. **Candidates** — show at most three decision-ready exact variants, a rounded covered-field estimate and evidence quality. Evidence-limited variants are separated.
-3. **Why** — show largest positive and negative contributions, high-share matchup detail, unknown share, sample sizes, polarisation and source disagreement.
-4. **Compare** — compare up to three realistic candidates on estimate, evidence, unknown share, bad exposure, favourable exposure and profile shape.
-5. **Decide** — open exact-variant Meta detail or continue to Events. Any Event Prep leader and exact DeckVersion choice remains explicit.
+The accepted WSIP flow is intentionally simple:
 
-The primary layout is a one-column iPhone flow. It avoids a wide matchup matrix and does not place methodology ahead of the recommendation.
+1. **Field** — choose Blended, Online, IRL or a Saved Expected Field; inspect provenance, exact variants and model shares; optionally make an explicit adjustment.
+2. **Recommendations** — show the best-positioned exact variants, ranked where evidence is decision-ready. The first five are shown initially; **Show 5 more decks** reveals the next five at a time rather than expanding the entire candidate pool.
+3. **Inspect** — tapping the recommendation card itself opens that exact deck-variant page. There is no separate “Open exact variant” action.
+4. **Why this deck?** — expanding a recommendation shows the three best and three worst evidenced matchups, with opponent identity/sprites, adjusted rate, decisive-game count and field share. Polarisation, source disagreement and unknown evidence remain visible where relevant, with full field matchup detail available by progressive disclosure.
+
+The collapsed recommendation card prioritises:
+
+- rank / recommendation order;
+- canonical one- or two-Pokémon deck sprite identity;
+- exact variant name;
+- covered-field estimate;
+- evidence category;
+- wording such as **“H2H evidence against X% of field”** rather than ambiguous “field covered” language;
+- concise best-matchup and risk summary.
+
+The primary layout is a one-column iPhone flow. Two-sprite identities must always reserve enough width to avoid overlap in recommendation cards and matchup rows.
+
+## Explicitly removed UX
+
+The bounded September review deliberately removed two earlier concepts:
+
+- **Compare** — removed completely. It did not add enough decision value relative to the complexity and vertical space it consumed. There is no Compare button, Compare state, Compare table or hidden auto-selection behaviour in accepted WSIP.
+- **Decide** — removed completely. WSIP recommends and explains. Tapping a recommendation opens exact variant detail; event-specific selection belongs to Event Prep.
+
+Do not reintroduce either as default WSIP stages without a new product decision.
+
+## Exact deck detail handoff
+
+Exact deck-variant detail may be evaluated against:
+
+- Blended current field;
+- Online field;
+- IRL field;
+- actual named Saved Expected Fields.
+
+The chosen field must genuinely carry into WSIP. The selector must never be a dead/fake dropdown.
+
+## Event Prep boundary
+
+WSIP does not choose an event deck. Any attending event must expose an obvious Event Prep entry point, and Event Prep remains the place where the user explicitly chooses a planned exact deck/list for that event.
+
+Event Prep may consume the same `PTCGRecommendation` and Expected Field records, but it owns event-specific reactions, snapshots and planned-deck choice.
 
 ## Integration boundaries
 
@@ -108,6 +147,18 @@ The primary layout is a one-column iPhone flow. It avoids a wide matchup matrix 
 - **Meta** owns WSIP, source/scope evidence and Expected Fields.
 - **Event Prep** consumes the shared field and recommendation engines for its lightweight shortlist. It may store a user’s reaction but never silently sets a planned deck.
 - **Decks** owns saved deck and DeckVersion identity. Opening a variant from WSIP does not mutate Decks.
+
+## Runtime / rendering safety rule
+
+A September regression showed that cosmetic WSIP enhancement code can block the entire Meta child if it observes and mutates the same broad DOM subtree recursively.
+
+Accepted rule:
+
+- no body-wide self-triggering `MutationObserver` loops for WSIP polish;
+- render-dependent enhancements should use explicit render lifecycle events such as `wsip:rendered` or bounded/idempotent observers;
+- Meta startup/data-loader architecture must not be changed to compensate for a presentation-layer render loop.
+
+The regression was traced to self-triggering observers in the WSIP polish/reset helpers, reproduced in browser runtime, removed/fixed, and guarded by integration tests.
 
 ## Explicit deferrals
 
@@ -119,6 +170,17 @@ The primary layout is a one-column iPhone flow. It avoids a wide matchup matrix 
 - a large matchup analytics matrix;
 - new external evidence providers.
 
-## Tests
+## Tests and acceptance
 
-`tests/recommendation-engine.test.js` contains hand-checkable deterministic cases for normalisation, weighted contribution, missing data, coverage, order/near ties, exact-variant divergence, field overrides, sparse samples, polarisation, source disagreement and the current release data.
+Current relevant automated coverage includes:
+
+- recommendation-engine deterministic cases for normalisation, weighted contribution, missing data, coverage, order/near ties, exact-variant divergence, field overrides, sparse samples, polarisation, source disagreement and current release data;
+- Meta navigation/release/offline contracts;
+- WSIP direct exact-variant navigation;
+- best/worst matchup exposure;
+- no Compare surface or controls;
+- five-at-a-time recommendation paging;
+- two-sprite width protection;
+- no body-wide WSIP mutation-observer feedback loop.
+
+The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptance. The final WSIP interaction/presentation flow was then accepted through real iPhone Home Screen testing on 6 September 2026, including Meta startup recovery, recommendation cards, matchup expansion, incremental paging and the Saved Expected Field selector polish.
