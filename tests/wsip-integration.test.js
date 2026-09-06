@@ -13,7 +13,7 @@ test('Home, Meta and Event Prep load the shared field definitions before consume
   assert.ok(home.indexOf('_shared/meta-field.js') < home.indexOf('archetype-groups.js'));
   assert.ok(home.indexOf('_shared/meta-field.js') < home.indexOf('_shared/meta-blend.js'));
   assert.ok(meta.indexOf('_shared/meta-field.js') < meta.indexOf('archetype-groups.js'));
-  assert.ok(meta.indexOf('_shared/recommendation-engine.js') < meta.indexOf('prep.js?v=9'));
+  assert.ok(meta.indexOf('_shared/recommendation-engine.js') < meta.indexOf('prep.js?v=10'));
   assert.ok(prep.indexOf('_shared/meta-field.js') < prep.indexOf('meta/saved-metas.js'));
   assert.ok(prep.indexOf('_shared/recommendation-engine.js') < prep.indexOf('./prep.js'));
   assert.ok(prep.indexOf('meta-release-loader.js') < prep.indexOf('./prep.js'));
@@ -64,15 +64,26 @@ test('WSIP recommendations open exact variants directly and expose matchup extre
   assert.match(wsip,/data-open-deck-card/);
   assert.match(wsip,/Best against/);
   assert.match(wsip,/Worst against/);
-  assert.match(wsip,/data-show-more-recommendations/);
+  assert.match(wsip,/H2H evidence against/);
+  assert.doesNotMatch(wsip,/Tap card for exact variant/);
 });
 
-test('WSIP comparison is explicit opt-in rather than auto-selecting the leaders', () => {
+test('WSIP has no compare surface or controls', () => {
   const html=read('v2-preview/apps/meta/index.html');
   const wsip=read('v2-preview/apps/meta/prep.js');
-  assert.match(html,/compare-section hidden/);
-  assert.doesNotMatch(wsip,/eligible\.slice\(0,Math\.min\(3,eligible\.length\)\)\.forEach/);
-  assert.match(wsip,/state\.compare\.size < 2/);
-  assert.match(wsip,/Best field edge/);
-  assert.match(wsip,/Biggest risk/);
+  assert.doesNotMatch(html,/prepCompare|compare-section|Compare selected/);
+  assert.doesNotMatch(wsip,/data-toggle-compare|compareHtml|syncCompare|state\.compare/);
+});
+
+test('WSIP reveals recommendations five at a time', () => {
+  const wsip=read('v2-preview/apps/meta/prep.js');
+  assert.match(wsip,/recommendationLimit:5/);
+  assert.match(wsip,/slice\(0,state\.recommendationLimit\)/);
+  assert.match(wsip,/state\.recommendationLimit \+= 5/);
+  assert.match(wsip,/Show \$\{next\} more deck/);
+});
+
+test('WSIP matchup rows reserve enough width for two sprites', () => {
+  const css=read('v2-preview/apps/meta/wsip-polish.css');
+  assert.match(css,/grid-template-columns:54px minmax\(0,1fr\) auto/);
 });
