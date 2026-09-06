@@ -25,6 +25,6 @@
     if (event.target?.id === 'playFieldSource' || event.target?.id === 'savedMetaSelect') queueMicrotask(sync);
   });
   window.addEventListener('savedmetas:updated', () => queueMicrotask(sync));
-  new MutationObserver(() => sync()).observe(document.body, { childList:true, subtree:true });
+  window.addEventListener('wsip:rendered', sync);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sync, { once:true }); else sync();
 })();
