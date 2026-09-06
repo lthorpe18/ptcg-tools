@@ -5,6 +5,7 @@ import test from 'node:test';
 import vm from 'node:vm';
 import { resolveCurrentFormats, formatForEvent } from '../scripts/lib/format-config.mjs';
 import { distributionAccuracy, varianceDiagnostics, fitBestFormula } from '../scripts/lib/blended-model.mjs';
+import { buildRelease } from '../scripts/build-meta-release.mjs';
 
 const root=path.resolve(import.meta.dirname,'..');
 const read=relative=>fs.readFileSync(path.join(root,relative),'utf8');
@@ -21,6 +22,12 @@ function loadBlend(runtime=null){
   if(runtime)context.PTCGFormatRuntime={current:()=>runtime};
   vm.runInContext(read('v2-preview/apps/_shared/meta-blend.js'),context);
   return context.PTCGMetaBlend;
+}
+
+function loadMetaField(){
+  const context=vm.createContext({Date,Map,Math,Number,String,Array,Object,Set,console});
+  vm.runInContext(read('v2-preview/apps/_shared/meta-field.js'),context);
+  return context.PTCGMetaField;
 }
 
 function core({onlineFormat='TEF-PBL',irlFormat='TEF-PBL',rotation=false,onlineDecks=[{name:'Online A',share:60},{name:'Online B',share:40}],irlEvents=[{date:'2026-08-29',endDate:'2026-08-30',decks:[{name:'IRL A',entries:70},{name:'IRL B',entries:30}]}],cutoff='2026-08-31T00:00:00Z'}={}){
@@ -155,4 +162,61 @@ test('snapshot job only captures in the final local hour and never falls back to
   assert.match(script,/local\.hour<23/);
   assert.doesNotMatch(script,/group\.timeZone\s*\|\|\s*['"]UTC['"]/);
   assert.match(workflow,/cron:\s*['"]37 \* \* \* \*['"]/);
+});
+
+test('prepared Meta core embeds the set registry for offline event-date format resolution',()=>{
+  const runtimeConfig={source:'test',formatRegistryVersion:3,formatRegistryId:'registry',sets,liveFormula:{versionKey:'blended-v2'}};
+  const formats={online:{id:'TEF-PBL'},irl:{id:'TEF-PBL'},previousOnline:null,previousIrl:null};
+  const built=buildRelease({
+    online:{format:'TEF-PBL',generatedAt:'2026-09-06T00:00:00Z',tournaments:[],matchupScopes:{}},
+    irl:{format:'TEF-PBL',events:[],decks:[],matchups:[],results:[]},
+    deckAggregate:{decks:[],matchups:[],overview:{}},
+    onlineResults:{results:[]},runtimeConfig,formats,
+  });
+  assert.equal(built.files.core.schemaVersion,2);
+  assert.equal(built.files.core.config.registryVersion,3);
+  assert.deepEqual(built.files.core.config.sets.map(row=>row.setCode),sets.map(row=>row.setCode));
+  assert.equal(built.files.core.config.sets.at(-1).rotationLowerSetCode,'PBL');
+});
+
+test('shared shell loader uses stable data attributes and recognises the Meta-owned format runtime',()=>{
+  const shell=read('v2-preview/apps/_shared/app-shell.js');
+  assert.match(shell,/data-ptcg-loader/);
+  assert.match(shell,/data-ptcg-style/);
+  assert.match(shell,/script\[data-format-runtime\]/);
+  assert.match(shell,/script\.dataset\.formatRuntime='1'/);
+  assert.doesNotMatch(shell,/script\[data-\$\{key\}\]/);
+});
+
+test('Meta Blended addon loader is idempotent with camelCase keys',()=>{
+  const addon=read('v2-preview/apps/meta/blended-field.js');
+  assert.match(addon,/data-meta-addon/);
+  assert.match(addon,/script\.dataset\.metaAddon=key/);
+  assert.doesNotMatch(addon,/script\[data-\$\{key\}\]/);
+});
+
+test('historical formulas must create a new draft instead of direct reactivation',()=>{
+  const admin=read('v2-preview/apps/settings/format-admin.js');
+  assert.match(admin,/Draft from this/);
+  assert.match(admin,/data-draft-from/);
+  assert.match(admin,/createFormulaDraft/);
+  assert.doesNotMatch(admin,/data-reactivate|Reactivate this historical|reactivateFormula\(/);
+});
+
+test('Blended saved-field provenance retains format, formula and availability context',()=>{
+  const field=loadMetaField();
+  const resolved=field.resolve({source:'blend',meta:{},blended:{
+    available:false,reason:'Waiting for current-format evidence.',rows:[],weights:{irl:0,online:0},configuredWeights:{irl:.25,online:.75},
+    onlineScope:'since-major',irlScope:'latest-weekend',daysSinceMajor:2,majorDate:'2026-09-01',majorFinalDate:'2026-09-02',
+    formula:{versionKey:'blended-v4',irlStartWeight:.6},format:'PBL-NEW',irlFormat:'TEF-PBL',transitionState:'unavailable',earlyFormat:true,generatedAt:'2026-09-06T12:00:00Z',
+  }});
+  assert.equal(resolved.provenance.available,false);
+  assert.equal(resolved.provenance.unavailableReason,'Waiting for current-format evidence.');
+  assert.equal(resolved.provenance.formulaVersion,'blended-v4');
+  assert.equal(resolved.provenance.format,'PBL-NEW');
+  assert.equal(resolved.provenance.irlFormat,'TEF-PBL');
+  assert.equal(resolved.provenance.transitionState,'unavailable');
+  assert.equal(resolved.provenance.earlyFormat,true);
+  assert.equal(resolved.provenance.generatedAt,'2026-09-06T12:00:00Z');
+  assert.equal(resolved.provenance.configuredWeights.irl,.25);
 });

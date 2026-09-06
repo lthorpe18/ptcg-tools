@@ -72,6 +72,18 @@ function compactIrl(raw, format) {
   };
 }
 
+function compactSets(sets) {
+  return (sets || []).map(set => ({
+    setCode:set.setCode,
+    setTitle:set.setTitle,
+    releaseOrder:Number(set.releaseOrder || 0),
+    onlineLegalDate:set.onlineLegalDate || null,
+    irlLegalDate:set.irlLegalDate || null,
+    isRotationSet:!!set.isRotationSet,
+    rotationLowerSetCode:set.rotationLowerSetCode || null,
+  }));
+}
+
 export function buildRelease({ online, irl, deckAggregate, onlineResults, runtimeConfig = null, formats = null, previousIrl = null }) {
   const formatId = formats?.online?.id || online?.format || 'TEF-PBL';
   const configSummary = runtimeConfig ? {
@@ -79,6 +91,7 @@ export function buildRelease({ online, irl, deckAggregate, onlineResults, runtim
     registryVersion:Number(runtimeConfig.formatRegistryVersion || 0),
     registryId:runtimeConfig.formatRegistryId || null,
     formatPublishedAt:runtimeConfig.formatPublishedAt || null,
+    sets:compactSets(runtimeConfig.sets),
     onlineFormat:formats?.online || null,
     irlFormat:formats?.irl || null,
     previousOnlineFormat:formats?.previousOnline || null,
