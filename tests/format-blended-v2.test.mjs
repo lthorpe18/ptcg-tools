@@ -102,6 +102,16 @@ test('distribution accuracy is 100% minus total variation distance',()=>{
   assert.ok(Math.abs(distributionAccuracy(predicted,actual)-.95)<1e-12);
 });
 
+test('unclassified actual share stays in the accuracy denominator',()=>{
+  const predicted=[{name:'A',share:1}];
+  const actual=[{name:'A',share:.8},{name:'Unknown',share:.2}];
+  assert.ok(Math.abs(distributionAccuracy(predicted,actual)-.8)<1e-12);
+  const diagnostics=varianceDiagnostics(predicted,actual,{threshold:.01,limit:10});
+  const unknown=diagnostics.allMisses.find(row=>row.name==='Unknown');
+  assert.ok(unknown);
+  assert.ok(Math.abs(unknown.actualShare-.2)<1e-12);
+});
+
 test('diagnostics include any exact variant at or above the 1% threshold',()=>{
   const diagnostics=varianceDiagnostics(
     [{name:'A',share:.985},{name:'Tiny',share:.005},{name:'Predicted',share:.010}],
@@ -124,6 +134,18 @@ test('best-fit formula uses all completed observations and cannot score worse th
   assert.equal(fit.dataPoints,1);
   assert.ok(fit.bestAccuracy>=fit.liveAccuracy-1e-12);
   assert.ok(fit.bestFormula.irlFloor<=fit.bestFormula.irlStartWeight);
+});
+
+test('Major evaluation requires an explicit full Day 1 field marker',()=>{
+  const ingest=read('scripts/update-irl-labs.mjs');
+  const performance=read('scripts/update-blended-performance.mjs');
+  const validator=read('scripts/validate-current-irl.mjs');
+  assert.match(ingest,/day1FieldComplete\s*=\s*Number\(meta\.players/);
+  assert.match(ingest,/unclassifiedEntries/);
+  assert.match(performance,/event\.day1FieldComplete!==true/);
+  assert.match(performance,/actualFieldEntries!==actualPlayers/);
+  assert.match(performance,/actualFieldComplete=true/);
+  assert.match(validator,/explicit Day 1 field completeness marker/);
 });
 
 test('snapshot job only captures in the final local hour and never falls back to UTC',()=>{
