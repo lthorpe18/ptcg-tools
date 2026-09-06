@@ -6,10 +6,9 @@
     prep: 'prep',
     matchups: 'matchups',
     decks: 'decks',
-    performance: 'blendedPerformance',
     detail: 'deckDetail',
   };
-  const CHILD_VIEWS = new Set(['current', 'prep', 'matchups', 'decks', 'performance']);
+  const CHILD_VIEWS = new Set(['current', 'prep', 'matchups', 'decks']);
   const BASE_URL = new URL('./', location.href);
   let route = { view: 'current', detail: null };
 
@@ -35,7 +34,6 @@
       };
     }
     if (hash === 'what-should-i-play' || hash === 'play') return { view: 'prep', detail: null };
-    if (hash === 'model' || hash === 'prediction-performance') return { view: 'performance', detail: null };
     if (hash === 'overview' || hash === 'meta') return { view: 'current', detail: null };
     return { view: CHILD_VIEWS.has(hash) ? hash : 'current', detail: null };
   }
@@ -73,11 +71,9 @@
     if (route.view === 'prep') window.MetaPrep?.activate?.();
     if (route.view === 'matchups') window.MetaExplore?.renderMatchups?.();
     if (route.view === 'decks') window.MetaExplore?.renderDeckExplorer?.();
-    if (route.view === 'performance') window.MetaPerformance?.activate?.();
     if (route.view === 'detail' && route.detail) window.MetaExplore?.showDetail?.(route.detail);
     window.MetaControls?.sync?.();
     window.MetaContext?.render?.();
-    window.MetaBlendAvailability?.sync?.();
   }
 
   function apply(next, { scroll = true } = {}) {
@@ -133,6 +129,8 @@
     navigate(route.detail?.origin || 'current', { replace: true });
   }
 
+  // Source selection remains evidence state. Updating its serialized value
+  // replaces the current route projection without creating a navigation entry.
   function replaceDetailSource(source) {
     if (route.view !== 'detail' || !route.detail) return;
     route = { ...route, detail: { ...route.detail, source: source === 'irl' ? 'irl' : 'online' } };

@@ -7,11 +7,6 @@ on:
   push:
     paths:
       - 'scripts/build-current-field.mjs'
-      - 'scripts/build-meta-release.mjs'
-      - 'scripts/update-blended-performance.mjs'
-      - 'scripts/lib/format-config.mjs'
-      - 'scripts/lib/blended-model.mjs'
-      - 'v2-preview/data/meta/config-default.json'
       - '.github/workflows/update-meta.yml'
 
 permissions:
@@ -24,7 +19,7 @@ concurrency:
 jobs:
   archive:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -32,21 +27,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Build incremental current-format field and scoped matchups
+      - name: Build incremental field and scoped matchups
         run: node scripts/build-current-field.mjs
       - name: Build validated browser release
         run: node scripts/build-meta-release.mjs
-      - name: Update Blended prediction performance
-        run: node scripts/update-blended-performance.mjs
       - name: Commit meta data if changed
         run: |
-          git add data/meta/current-field.json data/meta/online-events data/meta/online-results v2-preview/data/meta/release v2-preview/data/meta/blended-performance.json
+          git add data/meta/current-field.json data/meta/online-events data/meta/online-results v2-preview/data/meta/release
           if git diff --cached --quiet; then
             echo "No meta changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Refresh current-format Limitless meta data"
+          git commit -m "Refresh incremental Limitless meta data"
           git pull --rebase
           git push

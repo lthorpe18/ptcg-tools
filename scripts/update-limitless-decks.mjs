@@ -1,18 +1,10 @@
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
-import { loadPublishedConfig, resolveCurrentFormats } from './lib/format-config.mjs';
 
 const BASE = 'https://play.limitlesstcg.com';
-const runtimeConfig = await loadPublishedConfig();
-const resolvedFormats = resolveCurrentFormats(runtimeConfig, new Date());
-if (!resolvedFormats.online) throw new Error('No current Online Standard format can be resolved');
-const currentFormat = resolvedFormats.online;
-const FORMAT_ID = currentFormat.id;
-const ROTATION = currentFormat.rotationYear;
-const SET = currentFormat.upperSetCode;
-const QUERY = `format=standard&rotation=${encodeURIComponent(ROTATION)}&set=${encodeURIComponent(SET)}`;
+const QUERY = 'format=standard&rotation=2026&set=PBL';
 const OVERVIEW_URL = `${BASE}/decks?${QUERY}`;
-const OUTPUT = `data/meta/decks/${FORMAT_ID}.json`;
+const OUTPUT = 'data/meta/decks/TEF-PBL.json';
 const MAX_DECKS = 80;
 const MIN_DECK_COUNT = 20;
 const CONCURRENCY = 2;
@@ -173,12 +165,11 @@ async function writeAtomic(payload) {
 
 async function main() {
   const previous = await readPrevious();
-  console.log(`Resolved Online format ${FORMAT_ID}; Limitless rotation=${ROTATION}, set=${SET}; config ${runtimeConfig.source} v${runtimeConfig.formatRegistryVersion}.`);
   console.log(`Reading ${OVERVIEW_URL}`);
   const overviewHtml = await fetchText(OVERVIEW_URL);
   const overview = parseOverview(overviewHtml);
 
-  if (overview.stats.tournaments < 1 || overview.stats.matches < 1 || overview.decks.length < 1) {
+  if (overview.stats.tournaments < 10 || overview.stats.matches < 1000 || overview.decks.length < 10) {
     throw new Error(`Overview validation failed: ${JSON.stringify({ stats: overview.stats, decks: overview.decks.length })}`);
   }
 
@@ -204,17 +195,16 @@ async function main() {
 
   const matchups = matchupPages.flat();
   const successfulPages = targets.length - failures;
-  const minimumSuccess = targets.length ? Math.max(1, Math.ceil(targets.length * 0.75)) : 0;
-  if (targets.length && (successfulPages < minimumSuccess || matchups.length < successfulPages)) {
+  const minimumSuccess = Math.max(8, Math.ceil(targets.length * 0.75));
+  if (successfulPages < minimumSuccess || matchups.length < successfulPages * 3) {
     throw new Error(`Matchup validation failed: ${successfulPages}/${targets.length} pages, ${matchups.length} rows`);
   }
 
   const payload = {
-    schemaVersion: 2,
+    schemaVersion: 1,
     generatedAt: new Date().toISOString(),
     previousGeneratedAt: previous?.data?.generatedAt || null,
-    source: 'limitless-decks', game: 'PTCG', format: FORMAT_ID, apiFormat: 'STANDARD', rotation: ROTATION, set: SET,
-    formatConfig:{ registryVersion:runtimeConfig.formatRegistryVersion, source:runtimeConfig.source, online:currentFormat },
+    source: 'limitless-decks', game: 'PTCG', format: 'TEF-PBL', apiFormat: 'STANDARD', rotation: 2026, set: 'PBL',
     sourceUrl: OVERVIEW_URL,
     overview: overview.stats,
     coverage: {

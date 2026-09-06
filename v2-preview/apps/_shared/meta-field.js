@@ -88,28 +88,13 @@
         label:expected.name || sourceDefinition(source).label,
       };
     } else {
-      const blended = options.blended || globalThis.MetaBlendedField?.current?.() || globalThis.PTCGMetaBlend?.currentFromMeta?.(meta, options) || { available:false, reason:'Meta data is unavailable.', rows:[], weights:{ irl:0, online:0 } };
+      const blended = options.blended || globalThis.MetaBlendedField?.current?.() || globalThis.PTCGMetaBlend?.currentFromMeta?.(meta, options) || { rows:[], weights:{ irl:0, online:0 } };
       rows = blended.rows || [];
       provenance = {
-        ...provenance,
-        scope:'shared-current-blend',
-        onlineScope:blended.onlineScope || 'since-major',
-        irlScope:blended.irlScope || 'latest-weekend',
-        weights:blended.weights || { irl:0, online:0 },
-        configuredWeights:blended.configuredWeights || blended.weights || { irl:0, online:0 },
-        daysSinceMajor:blended.daysSinceMajor ?? null,
-        majorDate:blended.majorDate || null,
-        majorFinalDate:blended.majorFinalDate || null,
-        available:blended.available !== false,
-        unavailableReason:blended.available === false ? (blended.reason || 'Blended unavailable') : null,
-        formulaVersion:blended.formula?.versionKey || null,
-        formula:blended.formula ? { ...blended.formula } : null,
-        format:blended.format || null,
-        irlFormat:blended.irlFormat || null,
-        transitionState:blended.transitionState || null,
-        earlyFormat:!!blended.earlyFormat,
-        generatedAt:blended.generatedAt || null,
-        label:blended.available === false ? `Blended unavailable — ${blended.reason || 'waiting for current-format evidence'}` : 'Blended current field',
+        ...provenance, scope:'shared-current-blend',
+        onlineScope:blended.onlineScope || 'since-major', irlScope:blended.irlScope || 'latest-weekend',
+        weights:blended.weights || { irl:0, online:0 }, daysSinceMajor:blended.daysSinceMajor ?? null,
+        majorDate:blended.majorDate || null, label:'Blended current field',
       };
     }
 

@@ -1,16 +1,16 @@
 # PTCG Tools — Roadmap Handoff — 5 September 2026
 
-**Status:** Current coordination handoff after the bounded What Should I Play rebuild and Format / Blended v2 implementation pass  
-**Updated:** 6 September 2026 — Format / Blended v2 implemented and targeted-validation green on feature branch; merge/deploy acceptance pending  
-**Companion to:** `PTCG_TOOLS_MASTER.md`, `FORMAT_AND_BLENDED_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`
+**Status:** Current coordination handoff after the bounded What Should I Play rebuild  
+**Updated:** 6 September 2026 — final WSIP iPhone acceptance recorded  
+**Companion to:** `PTCG_TOOLS_MASTER.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`
 
 ## 1. Current programme position
 
-The bounded September product-surface sequence preceding Collection is complete, with one bounded cross-app format/Blended architecture pass now implemented on `format-blended-v2-work` and awaiting final broader regression/deploy acceptance.
+The bounded September product-surface sequence preceding Collection is now complete.
 
 Accepted/closed for the current product stage:
 
-- Home / Menu core design;
+- Home / Menu;
 - Meta navigation;
 - Meta ingest/data-delivery architecture;
 - Navigation / Shell regression pass;
@@ -18,27 +18,17 @@ Accepted/closed for the current product stage:
 - Tools review;
 - What Should I Play review, bounded rebuild and final iPhone polish/acceptance.
 
-Implemented and targeted-validation green, but not yet production-accepted:
-
-- shared Online/IRL format registry/runtime;
-- Blended v2 transition-aware weighting;
-- automatic Major forecast snapshot/evaluation pipeline;
-- prediction-performance / formula-review surface;
-- Settings admin format/formula controls;
-- Event Prep date-format guard;
-- Home `Run tournament` shortcut and model-evidence badge.
-
 The persistent product shell remains:
 
 **Home · Meta · Decks · Compete · Tools**
 
 Settings remains app-level.
 
-The next major product milestone remains:
+The next active major milestone is now:
 
 > **Collection / physical readiness v1**
 
-Finish the bounded Format / Blended v2 merge/deploy verification first, then return to Collection. Do not reopen the recently accepted areas as broad feature programmes unless a concrete regression or genuine Collection dependency appears.
+Do not reopen the recently accepted areas as broad feature programmes unless a concrete regression or genuine Collection dependency appears.
 
 ---
 
@@ -92,46 +82,6 @@ A serious Meta startup regression encountered during this pass was traced to sel
 The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptance. Real iPhone Home Screen testing then accepted Meta startup, recommendation cards, matchup expansion, incremental paging and final Saved Expected Field selector polish.
 
 See `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md` for the durable source of truth.
-
-### 2.2 Format / Blended v2 — implemented, merge/deploy acceptance pending
-
-The bounded cross-app format/Blended pass is implemented on `format-blended-v2-work` and has passed targeted automated validation. It is not yet a production-acceptance statement.
-
-Durable rules now implemented:
-
-- one shared published set registry drives separate **current Online** and **current IRL** legal formats;
-- format IDs are inclusive legal set-code ranges, e.g. `TEF-PBL`;
-- normal set release advances the upper bound; rotation can also advance the lower bound;
-- live registry/formula configuration is Supabase-owned, draft/publish controlled and protected by RLS/admin allowlist;
-- global Blended always predicts the **current Online format**;
-- Blended consumes the canonical current-format Online field and latest Major-weekend IRL field rather than creating parallel evidence definitions;
-- mature current-format weighting remains 70% IRL at Major, decaying 2pp/day to a 30% floor;
-- before the first Major of a normal new-set format, only the immediately previous format's latest Major can contribute, capped at 25%;
-- rotation immediately forbids all prior-format IRL contribution;
-- if no usable IRL exists, valid Blended may be 100% current-format Online;
-- Blended is unavailable until at least one qualifying current-format 50+ Online tournament exists;
-- a prepared release from the wrong Online format is rejected rather than silently reused;
-- Event Prep resolves the format legal on the event date and disables suggested-field/recommendation analysis if the available Meta release belongs to another format;
-- the Home quick-action row now includes **Run tournament**, deep-linking to the isolated native Tools Tournament Manager.
-
-Prediction review implementation:
-
-- one pre-Major snapshot per grouped Major weekend;
-- capture only in the 23:00 local hour on the day before the earliest Day 1 start;
-- no UTC fallback when the required timezone cannot be established safely;
-- no valid observation is created when Blended itself is unavailable at the cutoff;
-- actual comparison uses the combined full Day 1 exact-variant field;
-- headline accuracy is `100% - total variation distance`;
-- diagnostics use predicted >=1% OR actual >=1% eligibility;
-- formula fitting compares live against one best-fit mature curve using all completed Major-weekend observations equally;
-- only start IRL weight, daily decay and IRL floor are fitted; transition policy remains fixed;
-- new evaluated evidence produces an admin review badge until opened.
-
-Settings now exposes admin-only **Formats & Blended model** controls for registry draft/publish, formula draft/publish, best-fit adoption and historical formula reactivation. Formula versions remain immutable.
-
-Targeted coverage includes format divergence, rotation, transition cap, mature decay, stale-format rejection, unavailable Blended, accuracy/diagnostics, formula fitting, snapshot timing/timezone safety and Event Prep cross-format guarding. `Validate Meta Lab` was green on commit `ca681a9c9799497ec55c0dfa7453bf56b4efad25` before this documentation update.
-
-See `FORMAT_AND_BLENDED_ARCHITECTURE.md` for the durable source of truth.
 
 ---
 
@@ -243,9 +193,9 @@ WSIP-specific cleanup should also be deferred unless it causes a real defect. Do
 
 ---
 
-## 5. Collection / physical readiness v1 — active next major milestone
+## 5. Collection / physical readiness v1 — active next milestone
 
-Begin Collection in a dedicated implementation workspace **after** the bounded Format / Blended v2 branch has completed broader regression, PR/merge and deploy verification.
+Begin Collection in a dedicated implementation workspace.
 
 ### 5.1 Core product question
 
@@ -263,8 +213,7 @@ Reuse:
 - exact card identity remains card name + set code + card number;
 - `PTCGCardCatalog` supplies shared metadata/search;
 - `PTCGCardImages` supplies artwork presentation;
-- exact immutable deck list/reference is the readiness input;
-- shared format runtime owns current/future Standard format interpretation rather than Collection creating another legality timeline.
+- exact immutable deck list/reference is the readiness input.
 
 ### 5.3 Collection ownership
 
@@ -306,11 +255,10 @@ Do not include in Collection v1:
 
 ## 6. Correct near-term sequence
 
-1. **Finish Format / Blended v2 integration** — broader regression, PR review/merge, deploy verification and real-device smoke test.
-2. **Collection / physical readiness v1** — next major product milestone.
-3. **Learn / personal analytics** — tournament/matchup/practice learning loop with explicit evidence provenance.
-4. **Development Cleanup / Release Hardening** — remove obsolete compatibility/enhancement layers, stale routes, duplicate engines and legacy surfaces before stable/public-ready release.
-5. **Community/public expansion** only when justified by actual usage.
+1. **Collection / physical readiness v1** — active next milestone.
+2. **Learn / personal analytics** — tournament/matchup/practice learning loop with explicit evidence provenance.
+3. **Development Cleanup / Release Hardening** — remove obsolete compatibility/enhancement layers, stale routes, duplicate engines and legacy surfaces before stable/public-ready release.
+4. **Community/public expansion** only when justified by actual usage.
 
 Performance is not a standalone milestone unless a material regression appears.
 
@@ -322,17 +270,16 @@ Before implementing Collection, inspect the latest repository and read:
 
 - `PTCG_TOOLS_MASTER.md`;
 - `ROADMAP_HANDOFF_2026-09-05.md`;
-- `FORMAT_AND_BLENDED_ARCHITECTURE.md`;
 - `CARD_SEARCH_ARCHITECTURE.md`;
 - `CARD_IMAGE_ARCHITECTURE.md`;
 - `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`;
 - relevant Deck / DeckVersion / listHash implementation;
 - current Deck working-list and saved-version UI;
-- Event Prep exact-list references and date-format guard;
+- Event Prep exact-list references;
 - Home architecture where future readiness summary may surface;
 - Settings/account persistence behavior.
 
-Audit current card identity and persistence paths before proposing Collection storage. Preserve one canonical exact-card identity, one canonical Deck/DeckVersion identity and the shared format runtime.
+Audit current card identity and persistence paths before proposing Collection storage. Preserve one canonical exact-card identity and one canonical Deck/DeckVersion identity.
 
 Start with the smallest coherent v1 data model and user workflow before implementation.
 
@@ -346,4 +293,4 @@ Use one dedicated implementation chat per bounded workstream.
 
 Current handoff:
 
-> **Format / Blended v2 implemented + targeted validation green → finish broader regression/merge/deploy verification → Collection / physical readiness v1.**
+> **Home + Meta + What Should I Play + Navigation + Settings + Tools accepted/closed → Collection / physical readiness v1.**

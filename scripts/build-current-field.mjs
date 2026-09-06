@@ -1,10 +1,12 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { loadPublishedConfig, resolveCurrentFormats } from './lib/format-config.mjs';
 
 const BASE = 'https://play.limitlesstcg.com/api';
 const GAME = 'PTCG';
 const FORMAT = 'STANDARD';
+const FORMAT_ID = 'TEF-PBL';
+const FORMAT_LABEL = 'TEF–PBL';
+const FORMAT_START = '2026-07-17T00:00:00Z';
 const MIN_PLAYERS = 50;
 const CONCURRENCY = 8;
 const PAGE_SIZE = 100;
@@ -13,23 +15,12 @@ const DAY = 86400000;
 const BOOTSTRAP_DAYS = 7;
 const RESULT_TOURNAMENTS = 36;
 
-const runtimeConfig = await loadPublishedConfig();
-const resolvedFormats = resolveCurrentFormats(runtimeConfig, new Date());
-if (!resolvedFormats.online) throw new Error('No current Online Standard format can be resolved');
-const onlineFormat = resolvedFormats.online;
-const FORMAT_ID = onlineFormat.id;
-const FORMAT_LABEL = onlineFormat.label;
-const FORMAT_START = `${onlineFormat.startDate}T00:00:00Z`;
-
 const root = process.cwd();
 const outputFile = path.join(root, 'data', 'meta', 'current-field.json');
 const archiveFile = path.join(root, 'data', 'meta', 'online-events', `${FORMAT_ID}.json`);
 const aggregateFile = path.join(root, 'data', 'meta', 'decks', `${FORMAT_ID}.json`);
+const irlFile = path.join(root, 'data', 'meta', 'irl', `${FORMAT_ID}.json`);
 const resultsFile = path.join(root, 'data', 'meta', 'online-results', `${FORMAT_ID}.json`);
-const irlFiles = [resolvedFormats.irl, resolvedFormats.previousIrl]
-  .filter(Boolean)
-  .filter((format, index, rows) => rows.findIndex(row => row.id === format.id) === index)
-  .map(format => ({ format, file:path.join(root, 'data', 'meta', 'irl', `${format.id}.json`) }));
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const standingsPromises = new Map();
 
@@ -114,7 +105,7 @@ function compactTournament(tournament, standings, pairings) {
     matchCount += 1;
     const add = (left, right, outcome) => {
       const key = `${left}|||${right}`;
-      const row = matchups.get(key) || { a:left, b:right, wins:0,losses:0,ties:0,games:0 };
+      const row = matchups.get(key) || { a:left, b:right, wins:0, losses:0, ties:0, games:0 };
       row.games += 1;
       row[outcome] += 1;
       matchups.set(key, row);
@@ -185,28 +176,15 @@ function endOfIsoWeek(value) {
 }
 
 async function latestMajorWeekend() {
-  const candidates = [];
-  for (const entry of irlFiles) {
-    const raw = await readJson(entry.file, { events:[] });
-    for (const event of raw?.events || []) {
-      if (!Number.isFinite(new Date(event.date).getTime())) continue;
-      candidates.push({ ...event, formatId:entry.format.id });
-    }
-  }
-  candidates.sort((a,b)=>new Date(b.date)-new Date(a.date));
-  if (!candidates.length) return null;
-  const latestWeek = isoWeekKey(candidates[0].date);
-  const weekend = candidates.filter(e => isoWeekKey(e.date) === latestWeek);
+  const raw = await readJson(irlFile, { events:[] });
+  const events = (raw?.events || []).filter(e => Number.isFinite(new Date(e.date).getTime())).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  if (!events.length) return null;
+  const latestWeek = isoWeekKey(events[0].date);
+  const weekend = events.filter(e => isoWeekKey(e.date) === latestWeek);
   const latestDate = Math.max(...weekend.map(e=>new Date(e.date).getTime()));
   const cutoff = endOfIsoWeek(latestDate);
   if (!Number.isFinite(cutoff)) return null;
-  return {
-    week:latestWeek,
-    cutoff,
-    cutoffIso:new Date(cutoff).toISOString(),
-    formatId:weekend[0]?.formatId || null,
-    events:weekend.map(e=>({id:String(e.id),name:e.name||'IRL major',date:e.date,formatId:e.formatId})),
-  };
+  return { week:latestWeek, cutoff, cutoffIso:new Date(cutoff).toISOString(), events:weekend.map(e=>({id:String(e.id),name:e.name||'IRL major',date:e.date})) };
 }
 
 function eventsForScope(events, scope, majorWeekend = null) {
@@ -246,12 +224,11 @@ function fullAggregateBucket(raw) {
 const [index, majorWeekend, previousField, previousArchive, fullAggregate, previousResults] = await Promise.all([
   tournamentIndex(), latestMajorWeekend(), readJson(outputFile, null), readJson(archiveFile, null), readJson(aggregateFile, null), readJson(resultsFile, { events:[] }),
 ]);
-console.log(`Resolved Online ${FORMAT_ID} (${FORMAT_START}); IRL ${resolvedFormats.irl?.id || 'unresolved'}; config ${runtimeConfig.source} v${runtimeConfig.formatRegistryVersion}.`);
 console.log(`Found ${index.length} qualifying ${FORMAT_ID} online tournaments.`);
 if (majorWeekend) console.log(`Post-major scope starts ${majorWeekend.cutoffIso} after ${majorWeekend.events.map(e=>e.name).join(' + ')}`);
 
 const archiveMap = new Map((previousArchive?.events || []).map(e => [String(e.id), e]));
-const previousFieldMap = new Map(previousField?.format === FORMAT_ID ? (previousField?.tournaments || []).map(e => [String(e.id), e]) : []);
+const previousFieldMap = new Map((previousField?.tournaments || []).map(e => [String(e.id), e]));
 const newestTs = Math.max(0, ...index.map(t=>new Date(t.date).getTime()).filter(Number.isFinite));
 
 const previousCoverage = new Date(previousArchive?.coverageStart || '').getTime();
@@ -264,6 +241,9 @@ const coverageStart = Number.isFinite(previousCoverage)
     ? inferredCoverage
     : bootstrapCoverage;
 
+// Bootstrap only the most recent 7 days. Once the archive exists, ingest every unseen
+// qualifying tournament from the original archive coverage start onward. This makes the
+// process append-only while still catching up safely after missed scheduled runs.
 const needDetailed = index.filter(t => {
   const id = String(t.id);
   if (archiveMap.has(id)) return false;
@@ -288,6 +268,8 @@ const fetched = await mapConcurrent(needDetailed, CONCURRENCY, async (tournament
 });
 for (const event of fetched.filter(Boolean)) archiveMap.set(String(event.id), event);
 
+// Preserve the existing compact field history. New detailed tournaments already contain
+// their standings, so only genuinely missing field-only tournaments need an extra request.
 const fieldMap = new Map(previousFieldMap);
 for (const event of archiveMap.values()) {
   if (!fieldMap.has(String(event.id))) {
@@ -329,7 +311,7 @@ const resultEvents = resultTargets.map(tournament => previousResultMap.get(Strin
 const indexIds = new Set(index.map(t=>String(t.id)));
 const fieldEvents = [...fieldMap.values()].filter(e=>indexIds.has(String(e.id))).sort((a,b)=>new Date(b.date)-new Date(a.date));
 const archivedEvents = [...archiveMap.values()].filter(e=>indexIds.has(String(e.id)) && new Date(e.date).getTime() >= coverageStart).sort((a,b)=>new Date(b.date)-new Date(a.date));
-if (!fieldEvents.length) throw new Error(`No compact Online field history available for ${FORMAT_ID}`);
+if (!fieldEvents.length) throw new Error('No compact Online field history available');
 
 const matchupScopes = {
   '14':matchupBucket(eventsForScope(archivedEvents,'14',majorWeekend)),
@@ -340,22 +322,21 @@ const matchupScopes = {
 
 const generatedAt = new Date().toISOString();
 const payload = {
-  schemaVersion:7, generatedAt, source:'play.limitlesstcg.com', format:FORMAT_ID, label:FORMAT_LABEL,
+  schemaVersion:6, generatedAt, source:'play.limitlesstcg.com', format:FORMAT_ID, label:FORMAT_LABEL,
   formatStart:FORMAT_START, minTournamentSize:MIN_PLAYERS, tournamentCount:fieldEvents.length,
-  formatConfig:{ registryVersion:runtimeConfig.formatRegistryVersion, source:runtimeConfig.source, online:onlineFormat, irl:resolvedFormats.irl || null },
   rollingMatchupCoverageStart:new Date(coverageStart).toISOString(),
-  majorWeekend:majorWeekend ? {week:majorWeekend.week,cutoff:majorWeekend.cutoffIso,formatId:majorWeekend.formatId,events:majorWeekend.events}:null,
+  majorWeekend:majorWeekend ? {week:majorWeekend.week,cutoff:majorWeekend.cutoffIso,events:majorWeekend.events}:null,
   matchupScopes, tournaments:fieldEvents,
 };
 const archivePayload = {
-  schemaVersion:3, generatedAt, format:FORMAT_ID, formatStart:FORMAT_START,
+  schemaVersion:2, generatedAt, format:FORMAT_ID, formatStart:FORMAT_START,
   minimumPlayers:MIN_PLAYERS, bootstrapDays:BOOTSTRAP_DAYS,
   coverageStart:new Date(coverageStart).toISOString(),
   note:'Append-only per-tournament matchup archive. Bootstrap begins with 7 days; daily refreshes add every unseen qualifying tournament from coverageStart onward.',
   events:archivedEvents,
 };
 const resultsPayload = {
-  schemaVersion:2,
+  schemaVersion:1,
   generatedAt,
   format:FORMAT_ID,
   tournamentLimit:RESULT_TOURNAMENTS,

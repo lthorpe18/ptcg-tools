@@ -69,7 +69,7 @@ test('release identity changes with source content even when timestamps do not',
 test('Home and Meta share one blended-field calculation',()=>{
   const context=vm.createContext({window:{},Date,Map,Math,Number,String,Array,Object,Set});
   vm.runInContext(read('v2-preview/apps/_shared/meta-blend.js'),context);
-  const result=context.PTCGMetaBlend.currentFromCore(data('v2-preview/data/meta/release/core.json'),{now:new Date('2026-09-05T12:00:00Z')});
+  const result=context.window.PTCGMetaBlend.currentFromCore(data('v2-preview/data/meta/release/core.json'),{now:new Date('2026-09-05T12:00:00Z')});
   assert.ok(result.rows.length>0);
   assert.ok(Math.abs(result.rows.reduce((sum,row)=>sum+row.share,0)-1)<1e-9);
   assert.ok(Math.abs(result.weights.irl+result.weights.online-1)<1e-9);
@@ -86,7 +86,7 @@ test('normal clients use prepared releases and no retired live ingestion layers'
   const shell=read('v2-preview/scripts/persistent-shell.js');
   for(const retired of ['app.js','meta-engine.js','limitless.js','live.js','deck-aggregate.js','irl-labs.js']) assert.doesNotMatch(html,new RegExp(`(?:src=["'][^"']*)?${retired.replace('.','\\.')}`));
   assert.match(html,/meta-release-loader\.js/);
-  assert.match(loader,/ptcg-meta-release-v2/);
+  assert.match(loader,/ptcg-meta-release-v1/);
   assert.match(loader,/checksum mismatch/);
   assert.match(loader,/last-known-good/);
   assert.doesNotMatch(shell,/setTimeout\([^)]*loadFrame|\bwarm\s*\(/s);
@@ -143,7 +143,7 @@ test('release loader starts from validated local data when offline',async()=>{
   })};
   const run=async online=>{
     const listeners=new Map();
-    const window={PTCGFormatRuntime:{},addEventListener(type,fn){const rows=listeners.get(type)||[];rows.push(fn);listeners.set(type,rows)},dispatchEvent(event){for(const fn of listeners.get(event.type)||[])fn(event)}};
+    const window={addEventListener(type,fn){const rows=listeners.get(type)||[];rows.push(fn);listeners.set(type,rows)},dispatchEvent(event){for(const fn of listeners.get(event.type)||[])fn(event)}};
     const fetch=async input=>{
       if(!online)throw new Error('offline');
       const url=String(input);
@@ -151,7 +151,7 @@ test('release loader starts from validated local data when offline',async()=>{
       if(url.includes('core.json'))return new Response(coreText,{status:200,headers:{'Content-Type':'application/json'}});
       throw new Error(`unexpected ${url}`);
     };
-    const context=vm.createContext({window,document:{currentScript:{src:'https://example.test/v2-preview/apps/meta/meta-release-loader.js?v=2'}},location:{href:'https://example.test/v2-preview/'},localStorage:{getItem:key=>local.get(key)||null,setItem:(key,value)=>local.set(key,value)},caches,fetch,URL,Response,TextEncoder,Uint8Array,CustomEvent:class CustomEvent{constructor(type,options={}){this.type=type;this.detail=options.detail}},crypto:webcrypto,console});
+    const context=vm.createContext({window,document:{currentScript:{src:'https://example.test/v2-preview/apps/meta/meta-release-loader.js?v=1'}},location:{href:'https://example.test/v2-preview/'},localStorage:{getItem:key=>local.get(key)||null,setItem:(key,value)=>local.set(key,value)},caches,fetch,URL,Response,TextEncoder,Uint8Array,CustomEvent:class CustomEvent{constructor(type,options={}){this.type=type;this.detail=options.detail}},crypto:webcrypto,console});
     vm.runInContext(read('v2-preview/apps/meta/meta-release-loader.js'),context);
     return {window,payload:await window.MetaRelease.ready()};
   };
