@@ -131,16 +131,18 @@
   }
 
   async function loadDirectCore() {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 5000);
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = controller ? setTimeout(() => controller.abort(), 5000) : null;
     try {
-      const response = await fetch(CORE_URL, { cache:'reload', headers:{ Accept:'application/json' }, signal:controller.signal });
+      const options = { cache:'reload', headers:{ Accept:'application/json' } };
+      if (controller) options.signal = controller.signal;
+      const response = await fetch(CORE_URL, options);
       if (!response.ok) throw new Error(`Meta core ${response.status}`);
       const payload = await response.json();
       if (!validCore(payload)) throw new Error('Invalid Meta core');
       return payload;
     } finally {
-      clearTimeout(timer);
+      if (timer) clearTimeout(timer);
     }
   }
 
@@ -199,6 +201,11 @@
       }
     }
 
+    const refreshPromise = refresh().catch(error => {
+      console.warn('Meta release refresh failed; retaining last-known-good data.', error);
+      return null;
+    });
+
     if (!core) {
       try {
         const payload = await loadDirectCore();
@@ -208,17 +215,15 @@
       }
     }
 
+    if (!core) await refreshPromise;
+
     if (!core) {
       settleReady(null);
       emit('meta:release-error', { message:'Meta data could not be loaded. Tap Refresh to retry.' });
+      return;
     }
 
-    try {
-      await refresh();
-    } catch (error) {
-      console.warn('Meta release refresh failed; retaining last-known-good data.', error);
-      if (!core) emit('meta:release-error', { message:error.message });
-    }
+    await refreshPromise;
   }
 
   window.MetaRelease = {
