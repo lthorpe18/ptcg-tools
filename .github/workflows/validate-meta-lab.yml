@@ -11,9 +11,13 @@ on:
       - 'v2-preview/apps/_shared/recommendation-engine.js'
       - 'v2-preview/data/meta/release/**'
       - 'scripts/build-meta-release.mjs'
+      - 'scripts/lib/format-config.mjs'
+      - 'scripts/lib/blended-model.mjs'
+      - 'scripts/update-blended-performance.mjs'
       - 'v2-preview/index.html'
       - 'tests/meta-navigation.test.js'
       - 'tests/meta-release.test.mjs'
+      - 'tests/format-blended-v2.test.mjs'
       - 'tests/recommendation-engine.test.js'
       - 'tests/wsip-integration.test.js'
       - '.github/workflows/validate-meta-lab.yml'
@@ -41,6 +45,8 @@ jobs:
           done
           node --check v2-preview/apps/_shared/meta-field.js
           node --check v2-preview/apps/_shared/recommendation-engine.js
+          node --check v2-preview/apps/_shared/meta-blend.js
+          node --check scripts/update-blended-performance.mjs
       - name: Check required V2 Meta hooks
         run: |
           node - <<'NODE'
@@ -79,5 +85,5 @@ jobs:
           if (!architecture.includes('Variant grouping is presentation-only')) throw new Error('Meta architecture document is missing grouping lock');
           console.log('Validated Meta state/data/control ownership');
           NODE
-      - name: Test Meta navigation contract
-        run: node --test tests/meta-navigation.test.js tests/meta-release.test.mjs tests/recommendation-engine.test.js tests/wsip-integration.test.js
+      - name: Test Meta and Blended contracts
+        run: node --test tests/meta-navigation.test.js tests/meta-release.test.mjs tests/format-blended-v2.test.mjs tests/recommendation-engine.test.js tests/wsip-integration.test.js
