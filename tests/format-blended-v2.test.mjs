@@ -83,7 +83,8 @@ test('Blended refuses a prepared Meta release from the wrong Online format',()=>
   const result=blend.currentFromCore(core({onlineFormat:'TEF-PBL',irlFormat:'TEF-PBL'}));
   assert.equal(result.available,false);
   assert.match(result.reason,/TEF-NEW/);
-  assert.deepEqual(result.rows,[]);
+  assert.equal(Array.isArray(result.rows),true);
+  assert.equal(result.rows.length,0);
   assert.equal(result.weights.irl,0);
   assert.equal(result.weights.online,0);
 });
