@@ -69,12 +69,39 @@ Canonical family metadata and field-row normalisation live in `../_shared/meta-f
 
 WSIP consumes the shared field vocabulary, `MetaData` evidence, `MetaBlendedField` and the DOM-free `PTCGRecommendation` engine. Event Prep consumes the same field/recommendation engines for its shortlist. Missing H2H evidence remains unknown, small samples use the documented neutral prior, and only variants meeting the shared coverage/sample-quality rules receive ranks.
 
-The accepted flow is field → candidates → why → compare → explicit action. See `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md` at the repository root for the scoring and uncertainty contract.
+The accepted flow is **Field → Recommendations → direct exact-variant inspection**.
+
+Accepted interaction rules:
+- Blended, Online, IRL and Saved Expected Field remain the field inputs;
+- selecting a Saved Expected Field applies it directly and the custom-field state is visibly distinct;
+- show five recommendations initially and reveal five more at a time;
+- the recommendation card itself opens exact variant detail;
+- the collapsed card shows the covered-field estimate, evidence category, concise best/risk summary and **“H2H evidence against X% of field”** wording;
+- expanding **Why this deck?** shows the three best and three worst evidenced matchups, with adjusted H2H rate, decisive-game count and expected field share;
+- full matchup/methodology detail remains behind progressive disclosure;
+- exact deck detail can evaluate against Blended, Online, IRL or actual named Saved Expected Fields and carry that field into WSIP;
+- one- and two-Pokémon sprite identities must reserve enough width to avoid overlap.
+
+**Compare is deliberately removed** from accepted WSIP. There is no Compare control, state or table. **Decide is deliberately removed** as a separate stage. WSIP recommends/explains; event-specific planned-deck choice remains explicit in Event Prep.
+
+See `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md` at the repository root for the scoring, uncertainty and full product contract.
+
+## WSIP rendering safety
+
+A September regression demonstrated that presentation-layer observers can freeze the whole Meta child even when the data/release architecture is healthy.
+
+Rules:
+- never use body-wide self-triggering `MutationObserver` loops for WSIP polish;
+- prefer explicit lifecycle events such as `wsip:rendered`;
+- if an observer is genuinely necessary, keep it bounded and idempotent;
+- do not alter Meta release/startup architecture merely to mask a presentation-layer render loop.
+
+The offending WSIP polish/reset observer loops were reproduced in browser runtime, removed/fixed and are now guarded by integration tests.
 
 ## Page hierarchy
 Locked high-level hierarchy:
 - Current Meta: purpose → source → scope → grouping → evidence summary → field → exploration
-- What Should I Play: back → purpose → field/H2H sources → field → candidates → why → compare → explicit action → progressive methodology
+- What Should I Play: back → purpose → field/H2H sources → field → recommendations → Why this deck? → progressive methodology
 - Matchups: back → purpose → source → scope → evidence summary → exact variant → matchup evidence → detail
 - Deck Explorer: back → purpose → source → scope → evidence summary → exact variants → detail
 - Deck Detail: back → identity → source → scope → headline stats → exact-variant evidence
@@ -125,20 +152,21 @@ Whenever behavior or styling changes, bump the relevant JS/CSS query version in 
 Before calling a Meta change complete, smoke-test:
 1. Current Meta Online, IRL and Blended switching
 2. variant grouping off/on and exact variant drill-down
-3. What Should I Play field/H2H source changes, Expected Field load/edit/save, recommendation explanations and compact comparison
+3. What Should I Play field/H2H source changes, Expected Field load/edit/save, direct card → exact variant navigation, Why this deck? best/worst matchups and five-at-a-time recommendation paging
 4. Matchups source/scope and deck detail drill-down
 5. Deck Explorer source/scope and deck detail drill-down
-6. Deck Detail source/scope, Data & performance collapse/expand, and Back
+6. Deck Detail source/scope, Data & performance collapse/expand, Expected Field handoff, and Back
 7. Current Meta back navigation and bottom app navigation
 8. Home → Meta and Home → What Should I Play through the persistent shell
 9. browser Back/Forward across Meta subviews and exact-variant detail
 10. reload/restore of a shell-routed Meta child view
+11. real iPhone/Home Screen startup when a change touches WSIP render lifecycle, service worker or Meta loading
 
-## Current acceptance state — 5 September 2026
+## Current acceptance state — 6 September 2026
 
-The Meta navigation and data-ingest/delivery architecture rework is **accepted and closed for the current product stage**.
+The Meta navigation and data-ingest/delivery architecture rework is **accepted and closed for the current product stage**, and the bounded WSIP rebuild/polish is also accepted.
 
-Acceptance includes successful real-iPhone testing after the architecture rework. The current implementation is considered the canonical Meta runtime/data-delivery model:
+Acceptance includes successful real-iPhone testing after the architecture rework and after the final WSIP changes. The current implementation is considered the canonical Meta runtime/data-delivery and WSIP interaction model:
 
 - one `meta-router.js` navigation owner;
 - one `MetaState` / `MetaData` / `MetaControls` evidence contract;
@@ -149,6 +177,11 @@ Acceptance includes successful real-iPhone testing after the architecture rework
 - lazy-loaded history/matchup/result evidence;
 - checksum validation and last-known-good local Cache Storage;
 - shared Home/Meta blend calculation;
-- on-demand top-level area loading rather than fixed startup warming of every area.
+- on-demand top-level area loading rather than fixed startup warming of every area;
+- WSIP Field → Recommendations → exact-variant inspection flow;
+- Saved Expected Field handoff and clear custom-field state;
+- best/worst matchup explanation and five-at-a-time paging;
+- no Compare stage and no Decide stage;
+- no body-wide self-triggering WSIP observer loops.
 
-Do not reopen Meta as a broad roadmap programme unless a concrete correctness, navigation, ingest or usability regression is found. Routine upstream data refreshes are maintenance, not a feature milestone.
+The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptance. Do not reopen Meta/WSIP as a broad roadmap programme unless a concrete correctness, navigation, ingest or usability regression is found. Routine upstream data refreshes are maintenance, not a feature milestone.
