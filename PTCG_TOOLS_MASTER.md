@@ -4,7 +4,7 @@
 **Date:** 6 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
-**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
+**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `FORMAT_AND_BLENDED_ARCHITECTURE.md`
 
 ## 1. Product vision
 
@@ -117,7 +117,7 @@ Before claiming a significant change complete:
 Personal competitive dashboard and contextual shortcuts.
 
 ### Meta
-Public competitive evidence, exact-variant analysis and Expected Fields.
+Public competitive evidence, exact-variant analysis, Expected Fields and Blended prediction-performance review.
 
 ### Decks
 Saved decks, working lists, immutable checkpoints/versions, Training Log, deck maths, Mobile Playtest, Card Search/Add Card and future physical-readiness integration.
@@ -129,7 +129,7 @@ Events, attendance, Event Prep, Tournament Day, real tournament results and Comp
 Small standalone competitive utilities: Cut / ID, the local organiser Tournament Manager and generic exact probability tools.
 
 ### Settings
-App-level account, preferences, deck-icon overrides and data controls. The current Settings review is accepted/closed for this product stage.
+App-level account, preferences, deck-icon overrides, data controls and authorised shared format/Blended model administration.
 
 ### Ownership locks
 
@@ -137,6 +137,7 @@ App-level account, preferences, deck-icon overrides and data controls. The curre
 - Card Search/Add Card belongs to Decks and is not a sixth top-level area or generic Tools utility.
 - Event finder belongs to Compete.
 - Meta modelling belongs to Meta.
+- Shared set/format resolution and Blended formula configuration are app-wide infrastructure, administered from Settings and consumed by Meta/Home/Compete rather than redefined feature-by-feature.
 - Expected Fields belong to Meta as one reusable account-owned model; Compete selects/adjusts/snapshots them for Prep.
 - Deck and DeckVersion identity belongs to Decks.
 - TCGdex is shared card metadata/search infrastructure, not a new card identity model.
@@ -187,30 +188,36 @@ See `PERFORMANCE_ARCHITECTURE.md`.
 
 Home is a **derived competitive dashboard, not a directory and not a source of truth**.
 
-The current accepted single-screen iPhone hierarchy is:
+The current single-screen iPhone hierarchy is:
 
 1. **Blended Meta** hero;
 2. **Decks | Events** side-by-side personal row;
-3. **Card Search | Cut / ID | Playtest** quick actions;
+3. **Card Search | Cut / ID | Playtest | Run tournament** quick actions;
 4. **What should I play?** full-width entry card;
 5. persistent **Home · Meta · Decks · Compete · Tools** bottom navigation.
 
+The first three Home actions were previously accepted on iPhone; `Run tournament` is implemented in the current Format / Blended v2 feature branch and still requires final merged/deployed mobile smoke acceptance.
+
 ### 6.1 Blended Meta
 
-Home consumes the shared `MetaBlendedField.current()` read model rather than implementing its own Meta aggregation.
+Home consumes the shared Blended read model rather than implementing its own Meta aggregation.
 
-The current-field blend is:
+The current format-aware `blended-v2` policy is:
 
-- **IRL:** latest IRL major weekend;
-- **Online:** 50+ player events since that major weekend.
+- global Blended always predicts the **current Online format**;
+- **Online:** the canonical current-format Online Meta field, already restricted to qualifying 50+ player events;
+- **IRL:** the latest relevant Major weekend only, with same-weekend Majors grouped;
+- after a current-format Major, `IRL weight = max(30%, 70% - 2 percentage points × days since the final day of that grouped Major weekend)`;
+- Online receives the remainder;
+- before the first Major of a normal new-set format, only the immediately previous format's latest Major may contribute, and its IRL weight is capped at 25%;
+- on rotation, previous-format IRL contribution becomes 0% immediately when the new rotation format becomes legal Online;
+- when no usable IRL prior exists, valid Blended may be 100% current-format Online;
+- Blended is unavailable until at least one qualifying current-format Online event exists;
+- a prepared Meta release from a different Online format is rejected rather than silently reused.
 
-Source weighting decays continuously with age of the latest major weekend:
+Therefore the mature curve still gives day 0 = 70/30, day 10 = 50/50 and day 20+ = 30/70, but those weights operate inside explicit format-transition rules rather than a source-availability fallback. Blended must never inflate stale previous-format evidence to 100% merely because another source is missing.
 
-`IRL weight = max(30%, 70% - 2 percentage points × days since major weekend)`
-
-`Online weight = 100% - IRL weight`
-
-Therefore day 0 is 70/30, day 10 is 50/50, and day 20+ floors at 30/70. If one evidence source is unavailable, the available source becomes 100%; if neither exists, Home shows an empty/loading-safe state rather than fabricated data.
+If a previously valid current-format Online ingest temporarily fails, the last successfully ingested **same-format** dataset may remain usable with visible last-updated status. A stale dataset from another format cannot.
 
 The hero shows the top five shares as genuinely proportional bars with percentages and canonical archetype sprites. Percentage labels adapt for short bars; below 5% the label moves above the bar rather than being forced inside.
 
@@ -222,6 +229,8 @@ The compact control is **Variant grouping — Off / On**:
 Grouping is presentation only and does not change exact-variant matchup/detail identity or What Should I Play semantics.
 
 The **hero card opens Meta main**. Variant grouping remains an independent embedded control and must not trigger that navigation when operated.
+
+When Blended is unavailable, Home shows the explicit unavailable reason rather than fabricating a field or silently switching source.
 
 ### 6.2 Home sprite treatment
 
@@ -254,9 +263,12 @@ Locked quick actions:
 
 - Card Search → direct Decks-owned Card Search entry;
 - Cut / ID → direct Tools-owned Cut / ID calculator entry;
-- Playtest → Decks-owned deck picker, then launch Mobile Playtest using the selected Deck working list through the existing Playtest launch contract.
+- Playtest → Decks-owned deck picker, then launch Mobile Playtest using the selected Deck working list through the existing Playtest launch contract;
+- Run tournament → direct Tools-owned native Tournament Manager entry.
 
-Home does not own deck selection or Playtest state.
+The `Run tournament` shortcut is only a route. Tournament Manager remains an isolated organiser sandbox and must not create Compete Events, `UserEventParticipation`, Tournament Day, canonical Match/Game or Season state.
+
+Home does not own deck selection, Playtest state or Tournament Manager state.
 
 The lower What Should I Play card is a launcher into the existing Meta recommendation flow; Home owns no recommendation calculations.
 
@@ -264,11 +276,11 @@ The lower What Should I Play card is a launcher into the existing Meta recommend
 
 Reuse warmed/shared state and engines. Do not add duplicate Home-specific fetches, stores, blend/grouping engines, Playtest state or reload/cache hacks.
 
-The current Home redesign and navigation semantics are accepted for this product stage. The bounded Navigation / Home consistency pass was accepted on iPhone against implementation baseline `62854a094feece32fe2d1756bd8896fe1d73dd6b`.
+The existing Home redesign and navigation semantics remain accepted for this product stage. The bounded Navigation / Home consistency pass was accepted on iPhone against implementation baseline `62854a094feece32fe2d1756bd8896fe1d73dd6b`.
 
-Further Home work is polish/bugfix only unless deliberately reopened by the roadmap.
+The Format / Blended v2 additions are implemented and targeted-test green but are not yet a merged/deployed mobile acceptance statement.
 
-See `HOME_ARCHITECTURE.md`.
+See `HOME_ARCHITECTURE.md` and `FORMAT_AND_BLENDED_ARCHITECTURE.md`.
 
 ---
 
@@ -277,6 +289,8 @@ See `HOME_ARCHITECTURE.md`.
 ### 7.1 Sources are evidence, not themes
 
 Online and IRL are distinct evidence sources. Source/scope controls must actually drive underlying evidence.
+
+Online-current and IRL-current formats are also distinct concepts. A new set can become legal Online before sanctioned IRL legality. The shared format registry/runtime owns those timelines for the whole app.
 
 ### 7.2 Online scopes
 
@@ -316,6 +330,8 @@ Saving copies current evidence into an editable prediction with provenance. It i
 
 Compete/Prep uses the same records, may make event-specific adjustments, and preserves an immutable Event Expected Field snapshot when finalised.
 
+Expected Field provenance must retain the format actually represented. Historical saved fields are not silently rewritten when the current format changes.
+
 ### 7.6 What Should I Play
 
 What Should I Play is an accepted exact-variant decision-support flow: **Field → Recommendations → direct exact-variant inspection**.
@@ -334,6 +350,8 @@ Missing matchups remain unknown. The displayed estimate is calculated only over 
 
 Saved Expected Fields apply directly when selected; custom-field state must be clearly visible. Exact deck detail can evaluate against Blended, Online, IRL or actual named Saved Expected Fields and carry that choice into WSIP.
 
+If Blended is unavailable under the shared current-format rules, WSIP must not silently switch the user to Online or IRL. The unavailable source remains explicit and the user chooses another valid source deliberately.
+
 **Compare has been removed completely** from accepted WSIP because it did not add enough decision value for its complexity/space. **Decide has also been removed completely**: WSIP recommends and explains, while event-specific planned-deck choice remains explicit in Event Prep.
 
 One- and two-Pokémon sprite identities must reserve enough width in cards and matchup rows. Presentation enhancement code must not use body-wide self-triggering `MutationObserver` loops; the September Meta startup regression was traced to exactly that WSIP polish failure mode and is now guarded by tests. Prefer explicit render lifecycle events such as `wsip:rendered` or bounded/idempotent observers.
@@ -348,7 +366,7 @@ Matchups are exact-variant to exact-variant evidence.
 
 Deck detail must distinguish field sample from head-to-head matchup sample. Do not substitute overall tournament counts for deck-specific samples.
 
-### 7.8 Shared Meta runtime
+### 7.8 Shared Meta and format runtime
 
 Current shared direction/components include:
 
@@ -356,11 +374,12 @@ Current shared direction/components include:
 - MetaData — evidence/data access;
 - MetaControls — shared source/scope behavior;
 - DeckSprites — canonical archetype presentation mapping/rendering;
-- MetaBlendedField — shared current-field blend used by Home and available to other surfaces that need the same semantics;
+- PTCGFormatRuntime — shared current Online/current IRL/event-date format resolution plus published formula/config access;
+- PTCGMetaBlend / MetaBlendedField — shared current-field blend used by Home/Meta/WSIP and other consumers requiring the same semantics;
 - PTCGMetaField — shared source vocabulary, field-share normalisation and family presentation definitions;
 - PTCGRecommendation — shared exact-variant WSIP/Event Prep decision engine.
 
-`MetaBlendedField` owns the current dynamic IRL/Online weighting policy described in Home architecture. Feature surfaces should consume it rather than recreate the formula.
+The shared Blended engine owns the current dynamic IRL/Online weighting policy. Feature surfaces consume it rather than recreating the formula. The live format registry and formula pointer are shared configuration, not page-local preferences.
 
 ### 7.9 Meta ingestion and delivery
 
@@ -370,7 +389,37 @@ Shared Meta evidence follows one central pipeline:
 
 The browser release is content-addressed and split into core, history, matchup and result payloads. Home and ordinary Current Meta use the small core; heavier evidence loads only for the views that require it. The browser validates and caches release files locally and retains last-known-good data. It does not scan or download tournaments from Limitless during normal use.
 
-At the current product scale, generated shared JSON on GitHub Pages is intentional. Supabase remains private account persistence (`user_snapshots`), not the public Meta warehouse. Revisit managed shared-data storage only when scale, querying, access control or operational needs justify it.
+The prepared release carries its format identity. If live published format configuration advances before matching evidence is prepared, the app recognises the new format but must mark Blended unavailable rather than relabel/reuse the older release.
+
+At the current product scale, generated shared evidence JSON on GitHub Pages remains intentional. Supabase is now used for two distinct purposes:
+
+- private account persistence such as `user_snapshots`;
+- small shared operational configuration for published format-registry versions, Blended formula versions/live pointer, admin authorization and review state.
+
+Supabase is still not the public Meta evidence warehouse. Revisit managed shared-data storage only when scale, querying, access control or operational needs justify it.
+
+### 7.10 Blended prediction performance
+
+The current Format / Blended v2 branch adds one immutable pre-Major forecast observation per grouped Major weekend when a valid Blended forecast exists.
+
+Snapshot rules:
+
+- capture during the **23:00 local hour** on the calendar day before the earliest Day 1 start;
+- use the earliest-starting Major's safely resolved local timezone;
+- do not fall back to UTC if the grouped weekend's required timezone cannot be established;
+- do not create a valid forecast observation when Blended is unavailable at the cutoff;
+- retain formula version, exact Online/IRL inputs, transition state, Major+N position, prescribed weights and predicted exact-variant field;
+- compare only once the combined full Day 1 field is complete.
+
+Headline accuracy is:
+
+`100% - 0.5 × Σ |predictedShare - actualShare|`
+
+This uses the union of exact variants. Deck-level diagnostics are only presentation-filtered and include a deck when Predicted >=1% OR Actual >=1%.
+
+Formula review fits one best alternative mature curve across all completed observations equally. Only starting IRL weight, daily decay and IRL floor are fitted; new-set/rotation transition policy remains fixed. Formula publication is always explicit admin action.
+
+See `FORMAT_AND_BLENDED_ARCHITECTURE.md`.
 
 ---
 
@@ -398,17 +447,36 @@ Local changes auto-sync; cross-device restoration has been tested successfully. 
 
 The account snapshot remains pragmatic while the product model evolves. Normalize domains only when concrete query/conflict/history/scale/collaboration needs justify it.
 
+Shared format/formula configuration is an explicit exception because it is public operational configuration with versioning/admin/RLS requirements, not user-owned snapshot state.
+
 ### 8.4 Settings → Deck icons
 
 Deck icon overrides are account-owned presentation preferences. All feature surfaces displaying archetype sprites should consume the shared `DeckSprites` mapping first.
 
-### 8.5 Settings current-stage acceptance
+### 8.5 Settings → Formats & Blended model
 
-The bounded Settings review is complete and accepted. Settings remains the app-level home for account/session presentation, global preferences, deck-icon overrides and app-level data controls. Feature-owned controls remain with their owning domains, and top-level shell sync remains the lifecycle owner rather than Settings.
+The current Format / Blended v2 branch adds an authorised app-level admin surface for shared competitive configuration.
 
-Further Settings work is bugfix/polish only unless a new app-level preference or data-management requirement genuinely belongs there.
+Published status is readable to normal users. Mutation is restricted by authenticated Supabase admin allowlist/RLS.
 
-See `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`.
+Admin workflow is draft/review → publish and includes:
+
+- set registry editing with Online and IRL legal dates;
+- explicit rotation-set/lower-bound definition;
+- immutable formula draft/publish;
+- best-fit formula adoption/editing;
+- warning when a proposed formula backtests worse than live;
+- reactivation of a historical immutable formula version.
+
+Publishing configuration must not require a GitHub deploy to become live. Prepared repository config remains fallback/seed, not the live owner.
+
+### 8.6 Settings current-stage acceptance
+
+The original bounded Settings review remains accepted. Settings remains the app-level home for account/session presentation, global preferences, deck-icon overrides, app-level data controls and authorised shared format/model administration.
+
+The new Formats & Blended model surface is implemented and targeted-test green but still requires merged/deployed product acceptance with the rest of the Format / Blended v2 pass.
+
+See `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md` and `FORMAT_AND_BLENDED_ARCHITECTURE.md`.
 
 ---
 
@@ -445,6 +513,8 @@ Deck name and archetype are separate concepts.
 - identical canonical lists reuse the matching checkpoint;
 - historical refs use `deckId + listHash`, plus `deckVersionId` where selected;
 - historical display snapshots survive later rename/deletion.
+
+Historical DeckVersions keep their historical format context where stored. Current legality is evaluated separately through shared legality/format infrastructure rather than rewriting old versions.
 
 ### 9.4 Card Search / Add Card
 
@@ -515,7 +585,8 @@ Reuse:
 - existing Deck/DeckVersion/listHash identity;
 - exact card name + set code + card number identity;
 - `PTCGCardCatalog` for shared metadata/search;
-- `PTCGCardImages` for artwork presentation.
+- `PTCGCardImages` for artwork presentation;
+- shared format runtime for any current/future Standard format interpretation.
 
 Collection owns private physical inventory/allocation state. Readiness is derived from an exact immutable DeckVersion/checkpoint/list reference rather than copied editable deck truth.
 
@@ -603,6 +674,10 @@ Normal journey:
 7. retain event/list/field evidence for later learning.
 
 Prep orchestrates Meta/Decks/evidence; it does not duplicate their ownership. Its lightweight candidate shortlist consumes the same `PTCGRecommendation` engine and shared blended-field definition as What Should I Play.
+
+Event Prep now also resolves the **IRL format legal on the event date** through the shared format runtime. If that event format differs from the available prepared Meta release format, Prep must not silently generate suggested-field or recommendation analysis from the wrong card pool. Those analytical surfaces are made explicitly unavailable until matching-format evidence exists. Personal exact-deck planning remains available because choosing a personal deck is a separate user-owned action.
+
+Event Expected Field snapshots retain the format/provenance actually used when captured.
 
 ### 11.5 Planned deck vs used deck
 
@@ -729,6 +804,8 @@ Tournament Manager is a native standalone organiser utility for running an indep
 
 Organiser tournament state stays local in its own IndexedDB `tournaments` store and never creates or synchronizes Compete Events, `UserEventParticipation`, Tournament Day, canonical Match/Game or Season records.
 
+Home may deep-link directly into Tournament Manager through `Run tournament`; this does not change ownership or persistence boundaries.
+
 ### 12.3 Odds
 
 Odds contains **Draw / Outs · Opening · Prizes** and uses shared exact hypergeometric/combinatoric maths from `v2-preview/apps/_shared/probability.js`.
@@ -764,7 +841,10 @@ Shared responsibilities include:
 - exact probability/combinatorics helper;
 - Season engine/versioned rules/config;
 - source/scope runtime where applicable;
-- shared current-field blend/read model where applicable.
+- shared set registry and Online/IRL/event-date format resolver;
+- immutable Blended formula versioning/live pointer and model-review state;
+- shared current-field blend/read model;
+- pre-Major forecast snapshot/accuracy/backtest pipeline.
 
 Domain logic remains separated among Meta, Decks, Compete, Collection and Tools.
 
@@ -777,6 +857,8 @@ Prefer:
 rather than every browser independently hitting upstream services.
 
 TCGdex card metadata/search is currently a direct browser runtime dependency. If public/release reliability, CORS, terms, schema stability or operational load later justify it, shared card metadata may move behind a PTCG Tools ingestion/cache layer without changing the canonical Deck/card identity model.
+
+Live format/formula configuration is a deliberately small Supabase-backed operational-config exception to repository-generated public evidence. Do not use that exception as a reason to move unrelated shared evidence into Supabase without a concrete need.
 
 ### Source adapters
 
@@ -798,7 +880,7 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - **What Should I Play final iPhone flow accepted: Field → Recommendations → direct exact-variant inspection, with Compare and Decide removed**;
 - shared `PTCGMetaField` / `PTCGRecommendation` architecture and final best/worst matchup explanation flow;
 - Expected Fields;
-- shared dynamic `MetaBlendedField` current-field model;
+- shared dynamic Blended current-field model;
 - **Home dashboard redesign accepted for the current product stage**;
 - single-screen iPhone Home hierarchy with Blended Meta, Decks / Events, quick actions and What Should I Play;
 - accepted Home navigation split for top-level cards vs exact Deck/tournament previews;
@@ -827,6 +909,20 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - native standalone Tournament Manager with Swiss, Top Cut, standings, saved-player convenience and round clock;
 - shared exact probability helper used by Draw / Outs, Opening and Prize odds.
 
+### Implemented on Format / Blended v2 feature branch; final merge/deploy acceptance pending
+
+- shared Supabase-backed set registry with separate Online and IRL legal timelines;
+- `PTCGFormatRuntime` current Online/current IRL/event-date resolver;
+- immutable `blended-v1` baseline plus transition-aware live `blended-v2`;
+- normal-set 25% previous-format IRL cap and immediate zero prior-format contribution at rotation;
+- stale/wrong-format prepared-release rejection and explicit Blended unavailable states;
+- exact-variant pre-Major prediction snapshot/Day 1 accuracy/backtest pipeline;
+- Prediction performance Meta surface and admin evidence-review badge;
+- Settings `Formats & Blended model` admin draft/publish controls;
+- Event Prep cross-format analytical guard;
+- Home `Run tournament` quick action;
+- targeted format/Blended/Event Prep test coverage, with `Validate Meta Lab` green at implementation-review commit `ca681a9c9799497ec55c0dfa7453bf56b4efad25` before documentation updates.
+
 ### Needs small cleanup, but does not block roadmap
 
 - move Card Search bootstrapping out of `deck-card-images.js` into a clearer Decks bootstrap/core path;
@@ -838,9 +934,11 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 
 ### Active status
 
-**Collection / physical readiness v1 is now the active major product milestone.**
+**Finish the bounded Format / Blended v2 integration, then return to Collection / physical readiness v1 as the next major product milestone.**
 
-The Home, Meta, What Should I Play, Navigation/Shell, Settings and Tools passes are complete/accepted for now. They should not remain active roadmap threads unless a concrete regression or genuine Collection dependency appears.
+The core Home, Meta, What Should I Play, Navigation/Shell, Settings and Tools passes remain accepted; the format/Blended additions do not reopen them as broad programmes.
+
+The remaining Format / Blended completion work is integration/release work: broader regression validation, PR review/merge, deploy verification and real-device smoke testing.
 
 The Card Search/Card Images pass is considered functionally established and documented. The small cleanup items above should not expand into another Decks redesign and should only interrupt Collection for a genuine regression or identity/data blocker.
 
@@ -848,10 +946,11 @@ Tournament Day and Season remain closed for the current stage.
 
 ### Recommended near-term sequence
 
-1. **Collection / physical readiness v1** — exact owned quantities, gameplay equivalence as a separate concept, loose inventory, allocations across multiple simultaneously built decks, required/owned/allocated/available/missing derived state and shopping requirements, all built on existing exact-card infrastructure.
-2. **Learning loop** — personal tournament/matchup/practice analytics with explicit evidence provenance.
-3. **Development Cleanup / Release Hardening** — repository-wide removal of temporary scaffolding, stale routes, duplicate engines and obsolete compatibility layers before calling the broader app stable/public-ready.
-4. **Community/public expansion when useful** — privacy/export/delete, centralized ingestion and operational observability as required by actual usage.
+1. **Finish Format / Blended v2 integration** — broader regression, PR review/merge, deploy verification and real-device smoke test.
+2. **Collection / physical readiness v1** — exact owned quantities, gameplay equivalence as a separate concept, loose inventory, allocations across multiple simultaneously built decks, required/owned/allocated/available/missing derived state and shopping requirements, all built on existing exact-card infrastructure and shared format definitions.
+3. **Learning loop** — personal tournament/matchup/practice analytics with explicit evidence provenance.
+4. **Development Cleanup / Release Hardening** — repository-wide removal of temporary scaffolding, stale routes, duplicate engines and obsolete compatibility layers before calling the broader app stable/public-ready.
+5. **Community/public expansion when useful** — privacy/export/delete, centralized ingestion and operational observability as required by actual usage.
 
 Performance is not a dedicated next milestone unless a material regression appears.
 
@@ -890,21 +989,26 @@ PTCG Tools is successful when:
 - Home is useful competitive context, not a launcher;
 - Home remains a derived dashboard over shared state rather than a second business-logic layer;
 - Home contextual cards can route both to their owning area and to exact derived items without ambiguous tap behavior;
-- the current-field blend has one shared formula and clear evidence semantics;
+- the app has one shared, published definition of current Online format, current IRL format and event-date format;
+- the current-field blend has one shared versioned formula and clear evidence/transition semantics;
+- new-set and rotation transitions never silently relabel or over-weight stale previous-format evidence;
+- Blended unavailable states are explicit and consumers never silently switch field source;
 - Meta communicates evidence scope correctly;
+- prediction snapshots can be reproduced from retained exact inputs and compared honestly with complete Day 1 fields;
 - What Should I Play turns a chosen field into a small, evidence-aware exact-variant recommendation list, reveals more options progressively, explains best/worst matchups and opens exact variant detail without duplicating event-specific deck choice;
 - exact variants interlink consistently;
 - Decks supports My Decks, Training Log, Card Search, editing/versioning/analysis/playtest without duplicate identities;
 - Card Search discovers exact printings without introducing a second card/deck identity system;
 - exact card artwork is consistent across features because one shared resolver owns provider/fallback choice;
 - an Attending event moves naturally through Prep → Tournament Day → Completion → Season;
+- Event Prep never analyses an event using Meta evidence from a different legal format without making that mismatch explicit;
 - Tournament Day begins without unnecessary setup while retaining exact played-deck identity;
 - round capture is fast enough for real tournament use on iPhone;
 - Season correctly preserves historical CP/ruleset identity and BFL semantics;
 - configured archetype sprites look the same everywhere because one shared mapping owns them;
 - physical readiness can answer “can I build this?” without double counting;
 - Cut / ID answers deterministic questions before probabilistic ones;
-- standalone organiser tournaments remain isolated from personal Compete evidence;
+- standalone organiser tournaments remain isolated from personal Compete evidence even when launched directly from Home;
 - advanced methodology remains available without dominating routine use;
 - future scale does not require every browser to hammer upstream providers independently.
 
