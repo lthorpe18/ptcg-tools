@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v27';
+const CACHE_NAME = 'ptcg-tools-v28';
 const CORE = [
   './',
   './home-content.html',
@@ -23,8 +23,8 @@ const CORE = [
   './apps/_shared/storage.js?v=6',
   './apps/_shared/match-store.js?v=2',
   './apps/meta/meta-release-loader.js?v=4',
-  './apps/meta/prep.js?v=9',
-  './apps/meta/wsip-polish.css?v=4',
+  './apps/meta/prep.js?v=10',
+  './apps/meta/wsip-polish.css?v=5',
   './apps/meta/wsip-polish.js?v=4',
   './apps/meta/wsip-reset-polish.js?v=3',
   './apps/events/prep-link.js?v=4',
