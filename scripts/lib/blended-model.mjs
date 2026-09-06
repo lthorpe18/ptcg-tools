@@ -1,11 +1,16 @@
 const clamp=(min,max,value)=>Math.min(max,Math.max(min,Number(value)||0));
+const isUnclassified=name=>['other','unknown'].includes(String(name||'').trim().toLowerCase());
 
-export function normaliseField(rows){
+export function normaliseField(rows,{includeUnclassified=false}={}){
   const map=new Map();
   for(const row of rows||[]){
-    const name=String(row?.name||'').trim();
+    let name=String(row?.name||'').trim();
     const share=Math.max(0,Number(row?.share||0));
-    if(!name||name==='Other'||name==='Unknown'||!share)continue;
+    if(!name||!share)continue;
+    if(isUnclassified(name)){
+      if(!includeUnclassified)continue;
+      name='Unknown';
+    }
     map.set(name,(map.get(name)||0)+share);
   }
   const total=[...map.values()].reduce((sum,value)=>sum+value,0);
@@ -43,7 +48,7 @@ export function blendFields(irlRows,onlineRows,weights){
 
 export function distributionAccuracy(predictedRows,actualRows){
   const predicted=new Map(normaliseField(predictedRows).map(row=>[row.name,row.share]));
-  const actual=new Map(normaliseField(actualRows).map(row=>[row.name,row.share]));
+  const actual=new Map(normaliseField(actualRows,{includeUnclassified:true}).map(row=>[row.name,row.share]));
   const names=new Set([...predicted.keys(),...actual.keys()]);
   const absoluteError=[...names].reduce((sum,name)=>sum+Math.abs((predicted.get(name)||0)-(actual.get(name)||0)),0);
   return clamp(0,1,1-0.5*absoluteError);
@@ -51,7 +56,7 @@ export function distributionAccuracy(predictedRows,actualRows){
 
 export function varianceDiagnostics(predictedRows,actualRows,{threshold=0.01,limit=5}={}){
   const predicted=new Map(normaliseField(predictedRows).map(row=>[row.name,row.share]));
-  const actual=new Map(normaliseField(actualRows).map(row=>[row.name,row.share]));
+  const actual=new Map(normaliseField(actualRows,{includeUnclassified:true}).map(row=>[row.name,row.share]));
   const rows=[...new Set([...predicted.keys(),...actual.keys()])].map(name=>{
     const predictedShare=predicted.get(name)||0,actualShare=actual.get(name)||0,variance=actualShare-predictedShare;
     return{name,predictedShare,actualShare,variance,absoluteVariance:Math.abs(variance)};
