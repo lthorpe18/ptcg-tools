@@ -9,7 +9,7 @@
   };
 
   function addStyle(){if(document.querySelector('link[data-blended-performance-style]'))return;const link=document.createElement('link');link.rel='stylesheet';link.href='./blended-performance.css?v=1';link.dataset.blendedPerformanceStyle='1';document.head.appendChild(link)}
-  function addScript(src,key){if(document.querySelector(`script[data-${key}]`))return;const script=document.createElement('script');script.src=src;script.async=false;script.dataset[key]='1';document.head.appendChild(script)}
+  function addScript(src,key){const selector=`script[data-meta-addon="${key}"]`;if(document.querySelector(selector))return;const script=document.createElement('script');script.src=src;script.async=false;script.dataset.metaAddon=key;document.head.appendChild(script)}
   function addSurface(){
     const grid=document.querySelector('.meta-explore-grid');
     if(grid&&!grid.querySelector('[data-meta-route="performance"]')){const button=document.createElement('button');button.className='meta-explore-card';button.type='button';button.dataset.metaRoute='performance';button.innerHTML='<b>Prediction performance</b><span>See forecast accuracy and Blended formula evidence.</span>';grid.appendChild(button)}
