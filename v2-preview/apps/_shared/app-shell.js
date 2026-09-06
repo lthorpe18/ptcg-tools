@@ -35,6 +35,10 @@
     navigator.serviceWorker.register(swUrl.href,{scope:new URL(`${root}/`,window.location.href).pathname}).catch(error=>console.warn('PTCG app cache unavailable',error));
   }
 
+  if(embedded){
+    try{window.parent.postMessage({type:'ptcg:shell-ready',section:active},window.location.origin)}catch{}
+  }
+
   // Authentication and cloud reconciliation are owned by the persistent
   // top-level shell. Child feature views must never start their own sync loop.
   registerServiceWorker();
