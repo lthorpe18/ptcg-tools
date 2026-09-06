@@ -16,6 +16,7 @@ const MAX_DECKS_FOR_RESULTS = 60;
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const clean = s => String(s || '').replace(/<[^>]*>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+const isUnclassifiedDeck = name => ['other','unknown'].includes(String(name || '').trim().toLowerCase());
 
 async function get(url) {
   let last;
@@ -89,7 +90,7 @@ function parseDeckRows(html, eventId) {
     });
   }
   const dedup = new Map();
-  for (const row of rows) if (row.name && row.name !== 'Other') dedup.set(row.name, row);
+  for (const row of rows) if (row.name) dedup.set(row.name, row);
   return [...dedup.values()].sort((a,b) => b.entries - a.entries);
 }
 
@@ -179,11 +180,18 @@ async function main() {
     const ts = meta.date ? new Date(meta.date).getTime() : NaN;
     if (!Number.isFinite(ts) || ts < FORMAT_START) continue;
 
-    const decks = parseDeckRows(html, id);
-    if (meta.players >= 50 && /\/decks\//.test(html) && !decks.length) {
+    const parsedDecks = parseDeckRows(html, id);
+    if (meta.players >= 50 && /\/decks\//.test(html) && !parsedDecks.length) {
       throw new Error(`Labs event ${id} has a populated metagame page but parsed zero decks`);
     }
+    const decks = parsedDecks.filter(row => !isUnclassifiedDeck(row.name));
+    const unclassifiedEntries = parsedDecks.filter(row => isUnclassifiedDeck(row.name)).reduce((sum,row) => sum + Number(row.entries || 0), 0);
+    const day1FieldEntries = parsedDecks.reduce((sum,row) => sum + Number(row.entries || 0), 0);
+    const day1FieldComplete = Number(meta.players || 0) > 0 && day1FieldEntries === Number(meta.players);
 
+    meta.day1FieldEntries = day1FieldEntries;
+    meta.day1FieldComplete = day1FieldComplete;
+    meta.unclassifiedEntries = unclassifiedEntries;
     meta.decks = decks.map(d => ({
       name: d.name,
       entries: d.entries,
@@ -196,6 +204,8 @@ async function main() {
     }));
     meta.results = [];
     events.push(meta);
+
+    if (!day1FieldComplete) console.log(`IRL event ${id} field incomplete: ${day1FieldEntries}/${meta.players || 0} Day 1 entries accounted for.`);
 
     for (const d of decks) {
       const row = deckAgg.get(d.name) || { name: d.name, entries: 0, wins: 0, losses: 0, ties: 0 };
