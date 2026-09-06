@@ -42,29 +42,36 @@ function normaliseOrganiserLabels(){
     const next=displayName(node.textContent);if(next&&next!==node.textContent)node.textContent=next;
   });
 }
+function participationForCard(card){
+  const id=card?.dataset?.eventId;if(!id||!window.PTCGStorage)return null;
+  const direct=window.PTCGStorage.getParticipation?.(id);if(direct)return direct;
+  const rows=window.PTCGStorage.load?.().eventParticipations||[];
+  return rows.find(row=>row?.eventId===id||row?.eventSnapshot?.id===id||`${row?.source||''}:${row?.sourceId||''}`===id)||null;
+}
 function enhance(){
   normaliseOrganiserLabels();
   document.querySelectorAll('.event-card').forEach(card=>{
-    if(card.querySelector('[data-prep-link]'))return;
-    const id=card.dataset.eventId;
-    if(!id||!window.PTCGStorage)return;
-    const participation=window.PTCGStorage.getParticipation(id);
-    if(!participation||participation.attendanceStatus!=='attending')return;
+    const existing=card.querySelector('[data-prep-link]');
+    const participation=participationForCard(card);
+    const attending=participation?.attendanceStatus==='attending';
+    if(!attending){existing?.remove();return;}
     const actions=card.querySelector('.event-actions');if(!actions)return;
-    const link=document.createElement('a');
+    const link=existing||document.createElement('a');
     link.dataset.prepLink='true';
     link.className='primary-link prep-entry-link';
     link.href=`./prep.html?participation=${encodeURIComponent(participation.id)}`;
-    link.textContent='Prep';
-    const more=actions.querySelector('.more-button');actions.insertBefore(link,more||null);
+    link.textContent='Event Prep';
+    link.setAttribute('aria-label',`Open Event Prep for ${card.querySelector('h2')?.textContent?.trim()||'this event'}`);
+    if(!existing){const more=actions.querySelector('.more-button');actions.insertBefore(link,more||null);}
     actions.classList.add('has-prep');
   });
 }
 migrateLegacyOrganisers();
 const target=document.getElementById('eventList');
-if(target)new MutationObserver(enhance).observe(target,{childList:true,subtree:true,characterData:true});
+if(target)new MutationObserver(()=>requestAnimationFrame(enhance)).observe(target,{childList:true,subtree:true,characterData:true});
 const organisers=document.getElementById('yourVenuesList');
 if(organisers)new MutationObserver(normaliseOrganiserLabels).observe(organisers,{childList:true,subtree:true,characterData:true});
 window.addEventListener('ptcg:local-change',()=>setTimeout(enhance,0));
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance,{once:true});else enhance();
+window.addEventListener('storage',()=>setTimeout(enhance,0));
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(enhance,0),{once:true});else setTimeout(enhance,0);
 })();
