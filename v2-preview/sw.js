@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v23';
+const CACHE_NAME = 'ptcg-tools-v24';
 const CORE = [
   './',
   './home-content.html',
@@ -22,7 +22,7 @@ const CORE = [
   './apps/_shared/recommendation-engine.js?v=1',
   './apps/_shared/storage.js?v=6',
   './apps/_shared/match-store.js?v=2',
-  './apps/meta/meta-release-loader.js?v=2',
+  './apps/meta/meta-release-loader.js?v=3',
   './apps/meta/wsip-polish.css?v=2',
   './apps/meta/wsip-polish.js?v=2',
   './apps/meta/wsip-reset-polish.js?v=1',
@@ -30,6 +30,8 @@ const CORE = [
   './apps/events/prep-entry-polish.js?v=2',
   './apps/decklists/ptcgl-log-parser.js?v=1',
   './apps/decklists/training.js?v=2',
+  './data/meta/release/manifest.json',
+  './data/meta/release/core.json',
   './assets/apple-touch-icon.png',
   './manifest.webmanifest'
 ];
