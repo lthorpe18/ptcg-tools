@@ -1,6 +1,7 @@
 # PTCG Tools — Roadmap Handoff — 5 September 2026
 
-**Status:** Current coordination handoff after the bounded What Should I Play rebuild
+**Status:** Current coordination handoff after the bounded What Should I Play rebuild  
+**Updated:** 6 September 2026 — final WSIP iPhone acceptance recorded  
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`
 
 ## 1. Current programme position
@@ -15,7 +16,7 @@ Accepted/closed for the current product stage:
 - Navigation / Shell regression pass;
 - Settings review;
 - Tools review;
-- What Should I Play review and bounded rebuild.
+- What Should I Play review, bounded rebuild and final iPhone polish/acceptance.
 
 The persistent product shell remains:
 
@@ -41,6 +42,7 @@ Current-stage accepted or substantially established foundations include:
 - Home single-screen derived dashboard and accepted contextual deep-link semantics;
 - Meta source/scope, exact-variant, Expected Field, navigation and ingest/delivery architecture;
 - shared exact-variant field vocabulary and What Should I Play recommendation engine used by Meta and Event Prep;
+- final WSIP flow of **Field → Recommendations → direct exact-variant inspection**, with Compare and Decide deliberately removed;
 - Deck / DeckVersion / `listHash` identity foundation;
 - Decks workspace: My Decks / Training Log / Card Search;
 - shared Card Catalog / exact-print mapping;
@@ -54,6 +56,32 @@ Current-stage accepted or substantially established foundations include:
 - Google authentication and cross-device account snapshot persistence;
 - Settings account/preferences/deck-icon surface;
 - Tools area: Cut / ID · Tournament · Odds.
+
+### 2.1 What Should I Play — final accepted state
+
+The final bounded WSIP pass is accepted after repeated real-iPhone testing.
+
+Accepted behaviour:
+
+- shared `PTCGMetaField` remains the one field vocabulary/normalisation layer for Home, Meta, WSIP and Event Prep;
+- shared `PTCGRecommendation` remains the one exact-variant recommendation engine for Meta WSIP and Event Prep;
+- Blended / Online / IRL / Saved Expected Field semantics remain common across the app;
+- Saved Expected Fields apply directly when selected and custom-field state is clearly identifiable;
+- exact deck detail can evaluate against Blended, Online, IRL or actual named Saved Expected Fields and hand that field into WSIP;
+- recommendations show five initially and reveal **five more at a time**;
+- recommendation cards are themselves the route to exact deck-variant detail;
+- expanded **Why this deck?** shows the three best and three worst evidenced matchups, including field share, decisive-game sample and adjusted H2H rate;
+- recommendation evidence wording is explicit, e.g. **“H2H evidence against X% of field”**;
+- one- and two-Pokémon sprite identities reserve enough width on iPhone;
+- Compare is removed completely;
+- the separate Decide stage is removed completely;
+- event-specific deck choice remains explicit in Event Prep rather than being silently written by WSIP.
+
+A serious Meta startup regression encountered during this pass was traced to self-triggering WSIP `MutationObserver` feedback loops, not the Meta release/data architecture. The loops were reproduced in browser runtime, removed/fixed, and guarded by integration tests. Presentation enhancement code must not use body-wide self-triggering observers; explicit render lifecycle events such as `wsip:rendered` are preferred.
+
+The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptance. Real iPhone Home Screen testing then accepted Meta startup, recommendation cards, matchup expansion, incremental paging and final Saved Expected Field selector polish.
+
+See `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md` for the durable source of truth.
 
 ---
 
@@ -161,6 +189,8 @@ Known cleanup remains, but none should interrupt Collection without a real defec
 - legacy `v2-preview/apps/swiss` should eventually be retired once native Tournament Manager parity is considered sufficient;
 - routine Meta upstream refreshes/release generation are maintenance, not roadmap milestones.
 
+WSIP-specific cleanup should also be deferred unless it causes a real defect. Do not reintroduce Compare/Decide or broad observer-based polish during cleanup.
+
 ---
 
 ## 5. Collection / physical readiness v1 — active next milestone
@@ -263,4 +293,4 @@ Use one dedicated implementation chat per bounded workstream.
 
 Current handoff:
 
-> **Home + Meta + Navigation + Settings + Tools accepted/closed → Collection / physical readiness v1.**
+> **Home + Meta + What Should I Play + Navigation + Settings + Tools accepted/closed → Collection / physical readiness v1.**
