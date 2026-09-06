@@ -44,7 +44,7 @@
 
   if(active==='home')withFormatRuntime(()=>addScript('scripts/home-format-tools.js?v=1','homeFormatTools'));
   if(active==='settings')withFormatRuntime(()=>{addStyle('apps/settings/format-admin.css?v=1','formatAdminStyle');addScript('apps/settings/format-admin.js?v=1','formatAdmin')});
-  if(active==='compete'&&document.getElementById('eventMeta'))withFormatRuntime(()=>addScript('apps/events/event-format-context.js?v=1','eventFormatContext'));
+  if(active==='compete'&&document.getElementById('eventMeta'))withFormatRuntime(()=>{addScript('apps/events/event-format-context.js?v=2','eventFormatContext');addScript('apps/events/prep-format-guard.js?v=1','prepFormatGuard')});
 
   // Authentication and cloud reconciliation are owned by the persistent
   // top-level shell. Child feature views must never start their own sync loop.
