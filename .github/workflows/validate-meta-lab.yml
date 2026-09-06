@@ -6,9 +6,12 @@ on:
       - 'apps/meta/**'
       - 'v2-preview/apps/meta/**'
       - 'v2-preview/scripts/persistent-shell.js'
+      - 'v2-preview/apps/_shared/app-shell.js'
       - 'v2-preview/apps/_shared/meta-blend.js'
       - 'v2-preview/apps/_shared/meta-field.js'
       - 'v2-preview/apps/_shared/recommendation-engine.js'
+      - 'v2-preview/apps/events/event-format-context.js'
+      - 'v2-preview/apps/events/prep-format-guard.js'
       - 'v2-preview/data/meta/release/**'
       - 'scripts/build-meta-release.mjs'
       - 'scripts/lib/format-config.mjs'
@@ -43,9 +46,12 @@ jobs:
               node --check "$file"
             done
           done
+          node --check v2-preview/apps/_shared/app-shell.js
           node --check v2-preview/apps/_shared/meta-field.js
           node --check v2-preview/apps/_shared/recommendation-engine.js
           node --check v2-preview/apps/_shared/meta-blend.js
+          node --check v2-preview/apps/events/event-format-context.js
+          node --check v2-preview/apps/events/prep-format-guard.js
           node --check scripts/update-blended-performance.mjs
       - name: Check required V2 Meta hooks
         run: |
@@ -70,6 +76,18 @@ jobs:
           if (reintroduced.length) throw new Error(`Retired Meta runtime layers reintroduced: ${reintroduced.join(', ')}`);
 
           console.log('Validated unified V2 Meta runtime contract');
+          NODE
+      - name: Check Event Prep format guard
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const shell = fs.readFileSync('v2-preview/apps/_shared/app-shell.js', 'utf8');
+          const guard = fs.readFileSync('v2-preview/apps/events/prep-format-guard.js', 'utf8');
+          if (!shell.includes('prep-format-guard.js')) throw new Error('Event Prep format guard is not loaded by the shell');
+          for (const token of ['eventFormat.id===prepared','looksRight','candidateRows','eventFormatMismatch']) {
+            if (!guard.includes(token)) throw new Error(`Event Prep format guard missing ${token}`);
+          }
+          console.log('Validated Event Prep cross-format protection');
           NODE
       - name: Check Meta architecture contract
         run: |
