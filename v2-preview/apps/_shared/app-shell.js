@@ -34,10 +34,17 @@
     const swUrl=new URL(`${root}/sw.js`,window.location.href);
     navigator.serviceWorker.register(swUrl.href,{scope:new URL(`${root}/`,window.location.href).pathname}).catch(error=>console.warn('PTCG app cache unavailable',error));
   }
+  function addStyle(path,key){if(document.querySelector(`link[data-${key}]`))return;const link=document.createElement('link');link.rel='stylesheet';link.href=new URL(`${root}/${path}`,location.href).href;link.dataset[key]='1';document.head.appendChild(link)}
+  function addScript(path,key,onload){const existing=document.querySelector(`script[data-${key}]`);if(existing){if(onload)existing.addEventListener('load',onload,{once:true});return existing}const script=document.createElement('script');script.src=new URL(`${root}/${path}`,location.href).href;script.async=false;script.dataset[key]='1';if(onload)script.addEventListener('load',onload,{once:true});document.head.appendChild(script);return script}
+  function withFormatRuntime(callback){if(window.PTCGFormatRuntime){callback?.();return}addScript('apps/_shared/format-runtime.js?v=1','formatRuntime',callback)}
 
   if(embedded){
     try{window.parent.postMessage({type:'ptcg:shell-ready',section:active},window.location.origin)}catch{}
   }
+
+  if(active==='home')withFormatRuntime(()=>addScript('scripts/home-format-tools.js?v=1','homeFormatTools'));
+  if(active==='settings')withFormatRuntime(()=>{addStyle('apps/settings/format-admin.css?v=1','formatAdminStyle');addScript('apps/settings/format-admin.js?v=1','formatAdmin')});
+  if(active==='compete'&&document.getElementById('eventMeta'))withFormatRuntime(()=>addScript('apps/events/event-format-context.js?v=1','eventFormatContext'));
 
   // Authentication and cloud reconciliation are owned by the persistent
   // top-level shell. Child feature views must never start their own sync loop.
