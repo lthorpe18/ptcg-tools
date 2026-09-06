@@ -23,7 +23,7 @@
       "upperReleaseOrder": 16
     }
   },
-  "generatedAt": "2026-09-06T16:47:28.592Z",
+  "generatedAt": "2026-09-06T18:11:10.949Z",
   "events": [
     {
       "id": "0071",
@@ -32,6 +32,9 @@
       "endDate": "2026-08-30T00:00:00.000Z",
       "players": 797,
       "url": "https://labs.limitlesstcg.com/0071/decks",
+      "day1FieldEntries": 797,
+      "day1FieldComplete": true,
+      "unclassifiedEntries": 5,
       "decks": [
         {
           "name": "Dragapult",
