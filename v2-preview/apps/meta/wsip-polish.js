@@ -15,32 +15,6 @@
     if (node && node.getAttribute(name) !== value) node.setAttribute(name, value);
   }
 
-  function polishCompareButtons(root = document) {
-    root.querySelectorAll?.('[data-toggle-compare]').forEach(button => {
-      const selected = button.textContent.trim().toLowerCase() === 'remove' || button.getAttribute('aria-pressed') === 'true';
-      setText(button, 'Compare');
-      button.classList.toggle('is-selected', selected);
-      setAttr(button, 'aria-pressed', selected ? 'true' : 'false');
-      setAttr(button, 'aria-label', `${selected ? 'Remove from' : 'Add to'} comparison: ${button.dataset.toggleCompare || ''}`);
-    });
-  }
-
-  function buildCompareTable() {
-    const host = $('prepCompare');
-    const grid = host?.querySelector('.wsip-compare-grid');
-    if (!grid || grid.dataset.tablePolished === 'true') return;
-    const cards = [...grid.querySelectorAll(':scope > article')];
-    if (cards.length < 2) return;
-    const decks = cards.map(card => ({
-      title: card.querySelector('.compare-title b')?.textContent?.trim() || 'Deck',
-      sprite: card.querySelector('.compare-title .deck-sprite-stack,.compare-title .deck-sprite')?.outerHTML || '',
-      values: new Map([...card.querySelectorAll('dl > div')].map(row => [row.querySelector('dt')?.textContent?.trim() || '', row.querySelector('dd')?.textContent?.trim() || '—']))
-    }));
-    const metrics = ['Estimate','Evidence','Unknown field','Bad exposure','Favourable exposure','Profile'];
-    grid.dataset.tablePolished = 'true';
-    grid.innerHTML = `<div class="wsip-compare-table-wrap"><table class="wsip-compare-table"><thead><tr><th scope="col">Metric</th>${decks.map(deck => `<th scope="col"><span class="compare-deck-head">${deck.sprite}<b>${deck.title}</b></span></th>`).join('')}</tr></thead><tbody>${metrics.map(metric => `<tr><th scope="row">${metric}</th>${decks.map(deck => `<td>${deck.values.get(metric) || '—'}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-  }
-
   function savedFieldName() {
     const selected = $('savedMetaSelect')?.value;
     return selected ? window.SavedMetas?.get?.(selected)?.name || '' : '';
@@ -89,8 +63,6 @@
         return await original.apply(this, args);
       } finally {
         setLoading(false);
-        polishCompareButtons();
-        buildCompareTable();
         syncTopFieldControl();
       }
     };
@@ -150,18 +122,8 @@
     installLoadingGuard();
     installSavedFieldAutoLoad();
     installDeckDetailFieldLens();
-    polishCompareButtons();
     syncTopFieldControl();
-    const observer = new MutationObserver(mutations => {
-      let compareMayHaveChanged = false;
-      for (const mutation of mutations) for (const node of mutation.addedNodes) {
-        if (node.nodeType !== 1) continue;
-        polishCompareButtons(node);
-        if (node.matches?.('#prepCompare,.wsip-compare-grid,[data-toggle-compare]') || node.querySelector?.('#prepCompare,.wsip-compare-grid,[data-toggle-compare]')) compareMayHaveChanged = true;
-      }
-      if (compareMayHaveChanged) buildCompareTable();
-    });
-    observer.observe(document.body, { childList:true, subtree:true });
+    window.addEventListener('wsip:rendered', syncTopFieldControl);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true });
