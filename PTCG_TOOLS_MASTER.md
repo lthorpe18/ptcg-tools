@@ -1,10 +1,10 @@
 # PTCG Tools — Master Product & Design Document
 
 **Status:** Current product source of truth  
-**Date:** 5 September 2026  
+**Date:** 6 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
-**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`
+**Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
 ## 1. Product vision
 
@@ -318,11 +318,27 @@ Compete/Prep uses the same records, may make event-specific adjustments, and pre
 
 ### 7.6 What Should I Play
 
-What Should I Play is a staged exact-variant decision flow: **field → candidates → why → compare → explicit action**.
+What Should I Play is an accepted exact-variant decision-support flow: **Field → Recommendations → direct exact-variant inspection**.
 
-Shared `PTCGMetaField` owns field-source vocabulary, fraction/percentage semantics, row normalisation and canonical family presentation metadata. Shared `PTCGRecommendation` owns matchup retrieval, small-sample adjustment, expected-performance calculation, evidence quality, ranking, close-call handling and contribution explanations. Meta WSIP and Event Prep consume these engines; Home only launches WSIP.
+Shared `PTCGMetaField` owns field-source vocabulary, fraction/percentage semantics, row normalisation and canonical family presentation metadata. Shared `PTCGRecommendation` owns matchup retrieval, small-sample adjustment, expected-performance calculation, evidence quality, ranking, close-call handling and contribution/explanation data. Meta WSIP and Event Prep consume these engines; Home only launches WSIP.
 
-Missing matchups remain unknown. The displayed estimate is explicitly calculated over covered field share, while unknown share and sample quality are shown beside it. Only decision-ready exact variants receive ranks, and recommendations within 2 percentage points are presented as a close call rather than a precise ordering.
+The accepted iPhone flow is deliberately compact:
+
+- choose Blended, Online, IRL or a Saved Expected Field;
+- show five recommendations initially and reveal five more at a time;
+- tap the recommendation card itself to open exact variant detail;
+- expand **Why this deck?** to see the three best and three worst evidenced matchups, including adjusted H2H rate, decisive-game count and expected field share;
+- retain full matchup/method detail behind progressive disclosure.
+
+Missing matchups remain unknown. The displayed estimate is calculated only over field share with decisive H2H evidence. Recommendation cards describe this explicitly as **“H2H evidence against X% of field”**. Only decision-ready exact variants receive ranks, and recommendations within 2 percentage points are presented as a close call rather than a precise meaningful gap.
+
+Saved Expected Fields apply directly when selected; custom-field state must be clearly visible. Exact deck detail can evaluate against Blended, Online, IRL or actual named Saved Expected Fields and carry that choice into WSIP.
+
+**Compare has been removed completely** from accepted WSIP because it did not add enough decision value for its complexity/space. **Decide has also been removed completely**: WSIP recommends and explains, while event-specific planned-deck choice remains explicit in Event Prep.
+
+One- and two-Pokémon sprite identities must reserve enough width in cards and matchup rows. Presentation enhancement code must not use body-wide self-triggering `MutationObserver` loops; the September Meta startup regression was traced to exactly that WSIP polish failure mode and is now guarded by tests. Prefer explicit render lifecycle events such as `wsip:rendered` or bounded/idempotent observers.
+
+The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptance, followed by real iPhone Home Screen acceptance of Meta startup, recommendation cards, matchup expansion, incremental paging and Saved Expected Field selector polish.
 
 See `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`.
 
@@ -768,7 +784,7 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 
 ---
 
-## 14. Current roadmap status — 5 September 2026
+## 14. Current roadmap status — 6 September 2026
 
 ### Completed / substantially established
 
@@ -779,7 +795,8 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 - Google authentication and cross-device account persistence;
 - **Settings review accepted/closed for the current product stage**;
 - Meta source/scope architecture and exact-variant analysis;
-- What Should I Play staged decision flow and shared recommendation engine;
+- **What Should I Play final iPhone flow accepted: Field → Recommendations → direct exact-variant inspection, with Compare and Decide removed**;
+- shared `PTCGMetaField` / `PTCGRecommendation` architecture and final best/worst matchup explanation flow;
 - Expected Fields;
 - shared dynamic `MetaBlendedField` current-field model;
 - **Home dashboard redesign accepted for the current product stage**;
@@ -875,6 +892,7 @@ PTCG Tools is successful when:
 - Home contextual cards can route both to their owning area and to exact derived items without ambiguous tap behavior;
 - the current-field blend has one shared formula and clear evidence semantics;
 - Meta communicates evidence scope correctly;
+- What Should I Play turns a chosen field into a small, evidence-aware exact-variant recommendation list, reveals more options progressively, explains best/worst matchups and opens exact variant detail without duplicating event-specific deck choice;
 - exact variants interlink consistently;
 - Decks supports My Decks, Training Log, Card Search, editing/versioning/analysis/playtest without duplicate identities;
 - Card Search discovers exact printings without introducing a second card/deck identity system;
