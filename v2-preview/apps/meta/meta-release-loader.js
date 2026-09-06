@@ -4,9 +4,14 @@
   const scriptBase = new URL('./', document.currentScript?.src || location.href);
   const BASE = new URL('../../data/meta/release/', scriptBase);
   const MANIFEST_URL = new URL('manifest.json', BASE);
+  const CORE_URL = new URL('core.json', BASE);
   const CACHE_NAME = 'ptcg-meta-release-v1';
   const ACTIVE_KEY = 'ptcg:meta-release:active';
   const CORE_LKG_KEY = 'ptcg:meta-release:core-lkg';
+  const KNOWN_FILES = {
+    core:'core.json', onlineHistory:'online-history.json', onlineMatchups:'online-matchups.json', onlineResults:'online-results.json',
+    irlMatchups:'irl-matchups.json', irlResults:'irl-results.json',
+  };
   const memory = new Map();
   let activeManifest = null;
   let core = null;
@@ -23,6 +28,12 @@
 
   function validCore(value) {
     return value?.schemaVersion === 1 && typeof value.release === 'string' && value.release.length >= 8 && value.online?.scopes && value.irl;
+  }
+
+  function syntheticManifest(payload) {
+    const files = {};
+    for (const [key,path] of Object.entries(KNOWN_FILES)) files[key] = { path };
+    return { schemaVersion:1, release:payload.release, format:payload.format, files };
   }
 
   function readActiveManifest() {
@@ -74,10 +85,11 @@
     return response ? response.text() : null;
   }
 
-  async function networkText(manifest, key) {
-    const url = new URL(manifest.files[key].path, BASE);
+  async function freshText(path) {
+    const url = new URL(path, BASE);
+    url.searchParams.set('_pt', Date.now().toString());
     const response = await fetch(url, { cache:'no-store', headers:{ Accept:'application/json' } });
-    if (!response.ok) throw new Error(`Meta ${key} ${response.status}`);
+    if (!response.ok) throw new Error(`Meta ${path} ${response.status}`);
     return response.text();
   }
 
@@ -101,7 +113,7 @@
         console.warn(`Cached Meta ${key} is invalid; replacing it.`, error);
       }
     }
-    const text = await networkText(manifest, key);
+    const text = await freshText(manifest.files[key].path);
     const payload = await decode(text, manifest, key);
     await storeText(manifest, key, text);
     memory.set(memoryKey, payload);
@@ -109,11 +121,27 @@
   }
 
   async function fetchManifest() {
-    const response = await fetch(MANIFEST_URL, { cache:'no-store', headers:{ Accept:'application/json' } });
+    const url = new URL(MANIFEST_URL);
+    url.searchParams.set('_pt', Date.now().toString());
+    const response = await fetch(url, { cache:'no-store', headers:{ Accept:'application/json' } });
     if (!response.ok) throw new Error(`Meta manifest ${response.status}`);
     const manifest = await response.json();
     if (!validManifest(manifest)) throw new Error('Invalid Meta release manifest');
     return manifest;
+  }
+
+  async function loadDirectCore() {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 5000);
+    try {
+      const response = await fetch(CORE_URL, { cache:'reload', headers:{ Accept:'application/json' }, signal:controller.signal });
+      if (!response.ok) throw new Error(`Meta core ${response.status}`);
+      const payload = await response.json();
+      if (!validCore(payload)) throw new Error('Invalid Meta core');
+      return payload;
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
   function settleReady(value) {
@@ -123,11 +151,9 @@
   }
 
   function activate(manifest, payload, source) {
-    activeManifest = manifest || activeManifest;
+    activeManifest = validManifest(manifest) ? manifest : syntheticManifest(payload);
     core = payload;
-    if (manifest) {
-      try { localStorage.setItem(ACTIVE_KEY, JSON.stringify(manifest)); } catch {}
-    }
+    try { localStorage.setItem(ACTIVE_KEY, JSON.stringify(activeManifest)); } catch {}
     storeCoreLkg(payload);
     settleReady(payload);
     emit('meta:release-core', { release:payload.release, source });
@@ -147,10 +173,12 @@
     const previous = activeManifest;
     const manifest = await fetchManifest();
     if (previous?.release === manifest.release && core?.release === manifest.release) {
+      activeManifest = manifest;
+      try { localStorage.setItem(ACTIVE_KEY, JSON.stringify(manifest)); } catch {}
       emit('meta:release-current', { release:manifest.release });
       return core;
     }
-    const payload = await loadFile('core', manifest, { network:core?.release === manifest.release ? false : undefined });
+    const payload = await loadFile('core', manifest, { network:true });
     activate(manifest, payload, previous ? 'updated' : 'network');
     await prune(new Set([manifest.release, previous?.release].filter(Boolean)));
     return payload;
@@ -160,14 +188,9 @@
     const cachedManifest = readActiveManifest();
     const lkg = readCoreLkg();
 
-    // Render the previously accepted field immediately. This deliberately does
-    // not wait for CacheStorage or network, which can be slow/cold in iOS PWAs.
-    if (lkg) {
-      if (cachedManifest?.release === lkg.release) activeManifest = cachedManifest;
-      activate(activeManifest, lkg, 'local-lkg');
-    }
+    if (lkg) activate(cachedManifest?.release === lkg.release ? cachedManifest : syntheticManifest(lkg), lkg, 'local-lkg');
 
-    if (cachedManifest && core?.release !== cachedManifest.release) {
+    if (!core && cachedManifest) {
       try {
         const payload = await loadFile('core', cachedManifest);
         activate(cachedManifest, payload, 'cache');
@@ -176,14 +199,25 @@
       }
     }
 
+    if (!core) {
+      try {
+        const payload = await loadDirectCore();
+        activate(syntheticManifest(payload), payload, 'direct-core');
+      } catch (error) {
+        console.warn('Direct Meta core startup failed.', error);
+      }
+    }
+
+    if (!core) {
+      settleReady(null);
+      emit('meta:release-error', { message:'Meta data could not be loaded. Tap Refresh to retry.' });
+    }
+
     try {
       await refresh();
     } catch (error) {
       console.warn('Meta release refresh failed; retaining last-known-good data.', error);
-      if (!core) {
-        settleReady(null);
-        emit('meta:release-error', { message:error.message });
-      }
+      if (!core) emit('meta:release-error', { message:error.message });
     }
   }
 
