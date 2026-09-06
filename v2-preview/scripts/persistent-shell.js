@@ -191,9 +191,17 @@
   for(const item of nav)item.addEventListener('click',()=>activate(item.dataset.target,null,'push'));
 
   window.addEventListener('message',event=>{
-    if(event.origin!==window.location.origin||event.data?.type!=='ptcg:shell-navigate')return;
+    if(event.origin!==window.location.origin)return;
     const frame=frames.find(candidate=>candidate.contentWindow===event.source);
     if(!frame)return;
+    if(event.data?.type==='ptcg:shell-ready'){
+      loaded.add(frame.dataset.section);
+      delete frame.dataset.loading;
+      installChildBridge(frame);
+      if(frame.dataset.section===active)hideStatus();
+      return;
+    }
+    if(event.data?.type!=='ptcg:shell-navigate')return;
     const section=frame.dataset.section;
     const childUrl=validRoute(section,event.data.url);
     if(!childUrl||section!==active)return;
