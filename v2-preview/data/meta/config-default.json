@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "formatRegistryVersion": 2,
+  "sets": [
+    {"setCode":"TEF","setTitle":"Temporal Forces","releaseOrder":1,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"TWM","setTitle":"Twilight Masquerade","releaseOrder":2,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"SFA","setTitle":"Shrouded Fable","releaseOrder":3,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"SCR","setTitle":"Stellar Crown","releaseOrder":4,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"SSP","setTitle":"Surging Sparks","releaseOrder":5,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"PRE","setTitle":"Prismatic Evolutions","releaseOrder":6,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"JTG","setTitle":"Journey Together","releaseOrder":7,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"DRI","setTitle":"Destined Rivals","releaseOrder":8,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"BLK","setTitle":"Black Bolt","releaseOrder":9,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"WHT","setTitle":"White Flare","releaseOrder":10,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"MEG","setTitle":"Mega Evolution","releaseOrder":11,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"PFL","setTitle":"Phantasmal Flames","releaseOrder":12,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"ASC","setTitle":"Ascended Heroes","releaseOrder":13,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"POR","setTitle":"Perfect Order","releaseOrder":14,"onlineLegalDate":"2026-03-26","irlLegalDate":"2026-04-10","isRotationSet":true,"rotationLowerSetCode":"TEF"},
+    {"setCode":"CRI","setTitle":"Chaos Rising","releaseOrder":15,"onlineLegalDate":"2026-05-21","irlLegalDate":"2026-06-05","isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"PBL","setTitle":"Pitch Black","releaseOrder":16,"onlineLegalDate":"2026-07-16","irlLegalDate":"2026-07-31","isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"30C","setTitle":"30th Celebration","releaseOrder":17,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null},
+    {"setCode":"DLR","setTitle":"Delta Reign","releaseOrder":18,"onlineLegalDate":null,"irlLegalDate":null,"isRotationSet":false,"rotationLowerSetCode":null}
+  ],
+  "liveFormula": {
+    "versionKey":"blended-v2",
+    "versionNumber":2,
+    "irlStartWeight":0.70,
+    "irlDecayPerDay":0.02,
+    "irlFloor":0.30,
+    "previousFormatCap":0.25,
+    "transitionPolicy":"format-aware-v2"
+  }
+}

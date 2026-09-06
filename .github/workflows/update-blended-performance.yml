@@ -1,0 +1,58 @@
+name: Update Blended Prediction Performance
+
+on:
+  schedule:
+    - cron: '37 * * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/update-blended-performance.mjs'
+      - 'scripts/lib/blended-model.mjs'
+      - 'scripts/lib/format-config.mjs'
+      - 'v2-preview/data/meta/config-default.json'
+      - '.github/workflows/update-blended-performance.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blended-prediction-performance
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preserve current history for no-op detection
+        run: cp v2-preview/data/meta/blended-performance.json /tmp/blended-performance-before.json
+      - name: Capture or evaluate Major prediction
+        run: node scripts/update-blended-performance.mjs
+      - name: Suppress timestamp-only changes
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const before=JSON.parse(fs.readFileSync('/tmp/blended-performance-before.json','utf8'));
+          const after=JSON.parse(fs.readFileSync('v2-preview/data/meta/blended-performance.json','utf8'));
+          delete before.generatedAt;
+          delete after.generatedAt;
+          if(JSON.stringify(before)===JSON.stringify(after)) fs.copyFileSync('/tmp/blended-performance-before.json','v2-preview/data/meta/blended-performance.json');
+          NODE
+      - name: Publish performance history if changed
+        run: |
+          if git diff --quiet -- v2-preview/data/meta/blended-performance.json; then
+            echo "No new Blended prediction evidence"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v2-preview/data/meta/blended-performance.json
+          git commit -m "Update Blended prediction performance"
+          git pull --rebase
+          git push

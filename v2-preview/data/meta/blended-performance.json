@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-06T18:12:38.544Z",
+  "liveFormulaVersion": "blended-v2",
+  "formatRegistryVersion": 2,
+  "latestEvaluationKey": null,
+  "fit": {
+    "dataPoints": 0,
+    "liveAccuracy": null,
+    "bestAccuracy": null,
+    "improvement": null,
+    "liveFormula": {
+      "id": "ce104288-54d9-409d-ba98-1049488f2b21",
+      "versionKey": "blended-v2",
+      "versionNumber": 2,
+      "irlStartWeight": 0.7,
+      "irlDecayPerDay": 0.02,
+      "irlFloor": 0.3,
+      "previousFormatCap": 0.25,
+      "transitionPolicy": "format-aware-v2",
+      "status": "published",
+      "notes": "Format-aware transition policy: previous-format Major capped at 25%; zero prior-format weighting after first current-format Major; zero prior-format weighting immediately on Online rotation."
+    },
+    "bestFormula": {
+      "id": "ce104288-54d9-409d-ba98-1049488f2b21",
+      "versionKey": "blended-v2",
+      "versionNumber": 2,
+      "irlStartWeight": 0.7,
+      "irlDecayPerDay": 0.02,
+      "irlFloor": 0.3,
+      "previousFormatCap": 0.25,
+      "transitionPolicy": "format-aware-v2",
+      "status": "published",
+      "notes": "Format-aware transition policy: previous-format Major capped at 25%; zero prior-format weighting after first current-format Major; zero prior-format weighting immediately on Online rotation."
+    }
+  },
+  "snapshots": []
+}

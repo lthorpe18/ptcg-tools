@@ -2,13 +2,16 @@ import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadPublishedConfig, resolveCurrentFormats } from './lib/format-config.mjs';
 
-const FORMAT = 'TEF-PBL';
 const SCOPES = ['14', '30', 'since-major', 'all'];
 const root = process.cwd();
 const outputDir = path.join(root, 'v2-preview', 'data', 'meta', 'release');
 
-const readJson = async file => JSON.parse(await fs.readFile(file, 'utf8'));
+const readJson = async (file, fallback = null) => {
+  try { return JSON.parse(await fs.readFile(file, 'utf8')); }
+  catch { return fallback; }
+};
 const ignored = name => !name || name === 'Other' || name === 'Unknown';
 const json = value => JSON.stringify(value);
 const digest = value => crypto.createHash('sha256').update(json(value)).digest('hex');
@@ -53,11 +56,43 @@ function eventSummary(event) {
   return { id:String(event.id), name:event.name || '', date:event.date, players:Number(event.players || 0) };
 }
 
-export function buildRelease({ online, irl, deckAggregate, onlineResults }) {
+function compactIrl(raw, format) {
+  const events = (raw?.events || []).map(event => {
+    const { results, matchups, ...core } = event;
+    return core;
+  });
+  return {
+    format:format?.id || raw?.format || null,
+    generatedAt:raw?.generatedAt || null,
+    source:raw?.source || null,
+    sourceUrl:raw?.sourceUrl || '',
+    events,
+    decks:Array.isArray(raw?.decks) ? raw.decks : [],
+    note:raw?.note || '',
+  };
+}
+
+export function buildRelease({ online, irl, deckAggregate, onlineResults, runtimeConfig = null, formats = null, previousIrl = null }) {
+  const formatId = formats?.online?.id || online?.format || 'TEF-PBL';
+  const configSummary = runtimeConfig ? {
+    source:runtimeConfig.source,
+    registryVersion:Number(runtimeConfig.formatRegistryVersion || 0),
+    registryId:runtimeConfig.formatRegistryId || null,
+    formatPublishedAt:runtimeConfig.formatPublishedAt || null,
+    onlineFormat:formats?.online || null,
+    irlFormat:formats?.irl || null,
+    previousOnlineFormat:formats?.previousOnline || null,
+    previousIrlFormat:formats?.previousIrl || null,
+    formula:runtimeConfig.liveFormula || null,
+    formulaActivatedAt:runtimeConfig.formulaActivatedAt || null,
+  } : null;
   const versionSeed = {
-    schemaVersion:1,
+    schemaVersion:2,
+    format:formatId,
+    config:configSummary ? digest(configSummary) : null,
     online:digest(online),
     irl:digest(irl),
+    previousIrl:digest(previousIrl),
     deckAggregate:digest(deckAggregate),
     onlineResults:digest(onlineResults),
   };
@@ -68,14 +103,13 @@ export function buildRelease({ online, irl, deckAggregate, onlineResults }) {
     onlineScopes[scope] = { ...aggregateField(events), events:events.map(eventSummary) };
   }
 
-  const irlEvents = (irl.events || []).map(event => {
-    const { results, matchups, ...core } = event;
-    return core;
-  });
+  const currentIrl = compactIrl(irl || {}, formats?.irl || null);
+  const priorIrl = previousIrl ? compactIrl(previousIrl, formats?.previousIrl || null) : null;
   const files = {
     core:{
-      schemaVersion:1, release, format:FORMAT,
+      schemaVersion:2, release, format:formatId, config:configSummary,
       online:{
+        format:formats?.online?.id || online?.format || formatId,
         generatedAt:online.generatedAt,
         label:online.label,
         formatStart:online.formatStart,
@@ -83,23 +117,16 @@ export function buildRelease({ online, irl, deckAggregate, onlineResults }) {
         majorWeekend:online.majorWeekend || null,
         scopes:onlineScopes,
         records:{
-          rotation:deckAggregate.rotation || 2026,
-          set:deckAggregate.set || 'PBL',
-          decks:(deckAggregate.decks || []).map(deck => ({ name:deck.name, slug:deck.slug || '' })),
+          rotation:deckAggregate?.rotation || formats?.online?.rotationYear || 2026,
+          set:deckAggregate?.set || formats?.online?.upperSetCode || 'PBL',
+          decks:(deckAggregate?.decks || []).map(deck => ({ name:deck.name, slug:deck.slug || '' })),
         },
       },
-      irl:{
-        generatedAt:irl.generatedAt,
-        source:irl.source,
-        sourceUrl:irl.sourceUrl,
-        events:irlEvents,
-        decks:Array.isArray(irl.decks) ? irl.decks : [],
-        note:irl.note || '',
-      },
+      irl:{ ...currentIrl, previous:priorIrl },
     },
-    onlineHistory:{ schemaVersion:1, release, format:FORMAT, tournaments:online.tournaments || [] },
+    onlineHistory:{ schemaVersion:2, release, format:formatId, tournaments:online.tournaments || [] },
     onlineMatchups:{
-      schemaVersion:1, release, format:FORMAT,
+      schemaVersion:2, release, format:formatId,
       scopes:{
         ...online.matchupScopes,
         all:{
@@ -108,9 +135,9 @@ export function buildRelease({ online, irl, deckAggregate, onlineResults }) {
         },
       },
     },
-    onlineResults:{ schemaVersion:1, release, format:FORMAT, results:onlineResults.results || (onlineResults.events || []).flatMap(event => event.results || []) },
-    irlMatchups:{ schemaVersion:1, release, format:FORMAT, matchups:irl.matchups || [] },
-    irlResults:{ schemaVersion:1, release, format:FORMAT, results:irl.results || [] },
+    onlineResults:{ schemaVersion:2, release, format:formatId, results:onlineResults.results || (onlineResults.events || []).flatMap(event => event.results || []) },
+    irlMatchups:{ schemaVersion:2, release, format:formatId, irlFormat:currentIrl.format, matchups:irl?.matchups || [] },
+    irlResults:{ schemaVersion:2, release, format:formatId, irlFormat:currentIrl.format, results:irl?.results || [] },
   };
 
   const names = {
@@ -121,10 +148,10 @@ export function buildRelease({ online, irl, deckAggregate, onlineResults }) {
   for (const [key, value] of Object.entries(files)) {
     manifestFiles[key] = { path:names[key], sha256:digest(value), bytes:Buffer.byteLength(json(value)) };
   }
-  const sourceTimes = [online.generatedAt, irl.generatedAt, deckAggregate.generatedAt, onlineResults.generatedAt]
+  const sourceTimes = [online.generatedAt, irl?.generatedAt, deckAggregate?.generatedAt, onlineResults?.generatedAt]
     .map(value => new Date(value).getTime()).filter(Number.isFinite);
   const manifest = {
-    schemaVersion:1, release, format:FORMAT,
+    schemaVersion:1, release, format:formatId,
     generatedAt:new Date(sourceTimes.length ? Math.max(...sourceTimes) : 0).toISOString(),
     files:manifestFiles,
   };
@@ -132,18 +159,25 @@ export function buildRelease({ online, irl, deckAggregate, onlineResults }) {
 }
 
 async function main() {
-  const [online, irl, deckAggregate, onlineResults] = await Promise.all([
+  const runtimeConfig = await loadPublishedConfig();
+  const formats = resolveCurrentFormats(runtimeConfig, new Date());
+  if (!formats.online || !formats.irl) throw new Error('Unable to resolve current Online/IRL formats');
+  const [online, irl, previousIrl, deckAggregate, onlineResults] = await Promise.all([
     readJson(path.join(root, 'data', 'meta', 'current-field.json')),
-    readJson(path.join(root, 'data', 'meta', 'irl', `${FORMAT}.json`)),
-    readJson(path.join(root, 'data', 'meta', 'decks', `${FORMAT}.json`)),
-    readJson(path.join(root, 'data', 'meta', 'online-results', `${FORMAT}.json`)).catch(() => ({ generatedAt:'', results:[] })),
+    readJson(path.join(root, 'data', 'meta', 'irl', `${formats.irl.id}.json`), { generatedAt:null, format:formats.irl.id, events:[], decks:[], matchups:[], results:[] }),
+    formats.previousIrl && formats.previousIrl.id !== formats.irl.id
+      ? readJson(path.join(root, 'data', 'meta', 'irl', `${formats.previousIrl.id}.json`), null)
+      : Promise.resolve(null),
+    readJson(path.join(root, 'data', 'meta', 'decks', `${formats.online.id}.json`), { generatedAt:null, format:formats.online.id, decks:[], matchups:[], overview:{} }),
+    readJson(path.join(root, 'data', 'meta', 'online-results', `${formats.online.id}.json`), { generatedAt:'', results:[] }),
   ]);
-  const release = buildRelease({ online, irl, deckAggregate, onlineResults });
+  if (!online) throw new Error(`Current Online field is missing for ${formats.online.id}`);
+  const built = buildRelease({ online, irl, previousIrl, deckAggregate, onlineResults, runtimeConfig, formats });
   await fs.mkdir(outputDir, { recursive:true });
-  await Promise.all(Object.entries(release.files).map(([key, value]) => fs.writeFile(path.join(outputDir, release.names[key]), json(value))));
-  await fs.writeFile(path.join(outputDir, 'manifest.json'), json(release.manifest));
-  console.log(`Built Meta release ${release.manifest.release}`);
-  for (const [key, file] of Object.entries(release.manifest.files)) console.log(`${key}: ${file.bytes} bytes`);
+  await Promise.all(Object.entries(built.files).map(([key, value]) => fs.writeFile(path.join(outputDir, built.names[key]), json(value))));
+  await fs.writeFile(path.join(outputDir, 'manifest.json'), json(built.manifest));
+  console.log(`Built Meta release ${built.manifest.release} · Online ${formats.online.id} · IRL ${formats.irl.id} · ${runtimeConfig.liveFormula.versionKey}`);
+  for (const [key, file] of Object.entries(built.manifest.files)) console.log(`${key}: ${file.bytes} bytes`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) main();

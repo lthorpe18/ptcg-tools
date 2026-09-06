@@ -1,17 +1,40 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "source": "Limitless Labs",
   "sourceUrl": "https://labs.limitlesstcg.com",
   "format": "TEF-PBL",
-  "formatStart": "2026-07-17T00:00:00.000Z",
-  "generatedAt": "2026-09-06T09:39:27.182Z",
+  "formatStart": "2026-07-31T00:00:00.000Z",
+  "formatConfig": {
+    "registryVersion": 2,
+    "source": "supabase",
+    "irl": {
+      "id": "TEF-PBL",
+      "label": "TEF–PBL",
+      "lowerSetCode": "TEF",
+      "upperSetCode": "PBL",
+      "upperSetTitle": "Pitch Black",
+      "startDate": "2026-07-31",
+      "channel": "irl",
+      "isRotationStart": false,
+      "rotationSetCode": "POR",
+      "rotationLowerSetCode": "TEF",
+      "rotationYear": 2026,
+      "lowerReleaseOrder": 1,
+      "upperReleaseOrder": 16
+    }
+  },
+  "generatedAt": "2026-09-06T18:12:36.705Z",
   "events": [
     {
       "id": "0071",
       "name": "World Championship San Francisco",
       "date": "2026-08-28T00:00:00.000Z",
+      "endDate": "2026-08-30T00:00:00.000Z",
       "players": 797,
       "url": "https://labs.limitlesstcg.com/0071/decks",
+      "day1FieldEntries": 797,
+      "day1FieldComplete": true,
+      "unclassifiedEntries": 5,
       "decks": [
         {
           "name": "Dragapult",

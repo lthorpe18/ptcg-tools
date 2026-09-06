@@ -4,6 +4,12 @@ on:
   push:
     paths:
       - 'scripts/update-irl-labs.mjs'
+      - 'scripts/validate-current-irl.mjs'
+      - 'scripts/build-meta-release.mjs'
+      - 'scripts/update-blended-performance.mjs'
+      - 'scripts/lib/format-config.mjs'
+      - 'scripts/lib/blended-model.mjs'
+      - 'v2-preview/data/meta/config-default.json'
       - '.github/workflows/update-irl-labs.yml'
   schedule:
     - cron: '41 5 * * *'
@@ -19,7 +25,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,31 +35,21 @@ jobs:
           node-version: '22'
       - name: Read Limitless Labs current-format majors
         run: node scripts/update-irl-labs.mjs
-      - name: Validate IRL dataset
-        run: |
-          node - <<'NODE'
-          const fs=require('fs');
-          const p='data/meta/irl/TEF-PBL.json';
-          const d=JSON.parse(fs.readFileSync(p,'utf8'));
-          if(!Array.isArray(d.events)||!Array.isArray(d.decks)||!Array.isArray(d.matchups)||!Array.isArray(d.results)) throw new Error('Invalid IRL dataset shape');
-          if(d.events.length && !d.decks.length) throw new Error('IRL events present but field data empty');
-          for(const e of d.events){
-            if(Number(e.players||0)>=50 && (!Array.isArray(e.decks)||!e.decks.length)) throw new Error(`IRL event ${e.id} has no deck field`);
-            if(!Array.isArray(e.results)) throw new Error(`IRL event ${e.id} has no results array`);
-          }
-          console.log(`Validated ${d.events.length} events, ${d.decks.length} decks, ${d.matchups.length} matchups, ${d.results.length} results`);
-          NODE
+      - name: Validate current-format IRL dataset
+        run: node scripts/validate-current-irl.mjs
       - name: Build validated browser release
         run: node scripts/build-meta-release.mjs
+      - name: Evaluate completed Major predictions
+        run: node scripts/update-blended-performance.mjs
       - name: Publish IRL dataset
         run: |
-          if git diff --quiet -- data/meta/irl v2-preview/data/meta/release; then
+          if git diff --quiet -- data/meta/irl v2-preview/data/meta/release v2-preview/data/meta/blended-performance.json; then
             echo "IRL dataset unchanged"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/meta/irl v2-preview/data/meta/release
-          git commit -m "Update Limitless Labs IRL meta"
+          git add data/meta/irl v2-preview/data/meta/release v2-preview/data/meta/blended-performance.json
+          git commit -m "Update current-format Limitless Labs IRL meta"
           git pull --rebase
           git push
