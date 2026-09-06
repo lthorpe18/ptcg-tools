@@ -209,7 +209,9 @@
     if (!core) {
       try {
         const payload = await loadDirectCore();
-        activate(syntheticManifest(payload), payload, 'direct-core');
+        const manifest = syntheticManifest(payload);
+        await storeText(manifest, 'core', JSON.stringify(payload));
+        activate(manifest, payload, 'direct-core');
       } catch (error) {
         console.warn('Direct Meta core startup failed.', error);
       }
