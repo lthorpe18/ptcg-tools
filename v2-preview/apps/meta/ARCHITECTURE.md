@@ -32,12 +32,18 @@ Controls do not own navigation and must not intercept generic clicks.
 ### Blended Current Meta
 Current Meta also exposes a **Blended** presentation alongside Online and IRL.
 
-Blended must consume `MetaBlendedField.current()` directly, using the same policy as the Home hero:
+Blended is PTCG Tools' best estimate of the genuine competitive field at a hypothetical major-quality tournament today or tomorrow. Online and IRL are evidence sources, not the target identity of the prediction.
+
+Blended must consume the shared prediction directly, using the same policy as the Home hero. When Online and IRL share a legal format, there is one current prediction using:
 - IRL = latest IRL major weekend;
 - Online = 50+ player events since that major weekend;
 - IRL weight starts at 70%, decays by 2 percentage points per day and floors at 30%;
 - Online receives the remaining weight;
-- if only one source is available, that source becomes 100%.
+- at least one compatible 50+ player Online event is required, and one is sufficient.
+
+During an Online/IRL legality split, Current Meta exposes separate format-labelled options such as **Blended (TEF-PBL)** and **Blended (MEG-PBL)**. The current IRL-format prediction freezes its Online evidence at the Online format-change boundary but may continue to update from newer compatible IRL tournaments. The current Online-format prediction uses qualifying current-format Online evidence plus only compatible/predictive IRL evidence. No prediction silently substitutes IRL-only or incompatible evidence when its minimum Online evidence is absent.
+
+Home defaults to the current Online-format prediction and displays its format in the page-level format chip. Event Prep automatically selects the prediction compatible with the event's date and legal format, with explicit user override.
 
 Blended is a current-field presentation, not a third matchup/detail evidence source. Exact-variant drill-down remains Online/IRL and must not invent blended matchup evidence or blended deck-detail statistics.
 
@@ -72,7 +78,7 @@ WSIP consumes the shared field vocabulary, `MetaData` evidence, `MetaBlendedFiel
 The accepted flow is **Field → Recommendations → direct exact-variant inspection**.
 
 Accepted interaction rules:
-- Blended, Online, IRL and Saved Expected Field remain the field inputs;
+- available format-labelled Blended predictions, Online, IRL and Saved Expected Field remain the field inputs;
 - selecting a Saved Expected Field applies it directly and the custom-field state is visibly distinct;
 - show five recommendations initially and reveal five more at a time;
 - the recommendation card itself opens exact variant detail;
