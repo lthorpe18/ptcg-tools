@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v28';
+const CACHE_NAME = 'ptcg-tools-v29';
 const CORE = [
   './',
   './home-content.html',
@@ -14,6 +14,8 @@ const CORE = [
   './apps/_shared/auth-ui.css?v=1',
   './apps/_shared/auth-ui.js?v=4',
   './apps/_shared/cloud-sync.js?v=6',
+  './apps/_shared/format-registry-core.js?v=1',
+  './apps/_shared/format-registry-runtime.js?v=1',
   './apps/_shared/deckParser.js?v=2',
   './apps/_shared/deck-store.js?v=5',
   './apps/_shared/archetype-catalog.js?v=2',
