@@ -7,6 +7,16 @@
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
+## Accepted Format/Blended recovery specification — 7 September 2026
+
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. The specification is approved; replacement implementation has not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
+
+The next implementation task is **Checkpoint 1: Format/Rotation foundation only**, with no visible Home/Meta behaviour changes. Do not restore PR #4/#5 or repeat the full forensic review.
+
+Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
+
+Keep analysis concise. Essential format/status stays inline; **How this is calculated** reveals actual weights, dates, tournaments and transition rule; one shared methodology page records assumptions, formula version and changes. Saved fields retain the assumptions used at capture. This explanation is required UX, not the deferred fitting/admin subsystem.
+
 ## 1. Product vision
 
 PTCG Tools is a **personal-first, public-ready** competitive Pokémon TCG companion covering the full loop:

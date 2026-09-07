@@ -1,6 +1,6 @@
 # PTCG Tools — Roadmap Handoff — 7 September 2026
 
-**Status:** Current coordination handoff after rollback and baseline stabilization
+**Status:** Forensic/specification checkpoint complete and product decisions accepted; next: Checkpoint 1 foundation only
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-05.md`
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `HOME_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
 
@@ -42,19 +42,21 @@ Settled-format weighting remains:
 - IRL floors at 30%;
 - Online receives the remaining weight.
 
-Transition weighting must preserve the previously agreed principles: previous-format IRL evidence may contribute at no more than 25% before the first current-format major, becomes 0% after that major, and becomes 0% immediately where rotation makes it incompatible. Exact interaction between those rules and the newly locked dual-prediction case must be made explicit in the forensic/specification checkpoint before implementation.
+The five transition decisions are now accepted in `FORMAT_BLENDED_V2_SPECIFICATION.md`:
 
-## 3. Immediate next checkpoint — forensic review only
+1. Retain the pre-split frozen Online pool when a newer compatible old-format IRL major replaces the IRL input; explicitly retain its original dates.
+2. Freeze old-format weights at the Online boundary; a newer compatible old-format major resets them to 70/30, then freezes them again.
+3. Outside that exception, a new accepted same-format major resets the Online window; Blended is unavailable until one qualifying post-major Online event exists.
+4. Permit explicit mismatched Saved/Edited Field overrides in Prep, visibly retaining mismatch and provenance.
+5. Eligible immediately preceding non-rotation IRL contributes exactly 25% until the first target-format IRL major finishes; thereafter prior-format contribution is 0%. Rotation-incompatible evidence is immediately 0%; no usable IRL means 100% Online.
 
-Review PRs #4 and #5 to establish:
+Explanation UX is also accepted: concise inline format/status, a How this is calculated drill-in for actual evidence/weights, and one shared methodology page for assumptions/version/history. Saved fields retain captured assumptions. See the canonical specification for exact windows and acceptance cases.
 
-- the user requirements they attempted to deliver;
-- the parts that behaved correctly;
-- the causes of loading, navigation, responsiveness and persistent-shell failures;
-- incorrect or incomplete set, format, legality, rotation and Blended assumptions;
-- reusable tests or isolated ideas, without restoring either PR wholesale.
+## 3. Immediate next checkpoint — Format/Rotation foundation only
 
-Output a clean, user-readable Format/Rotation and Blended Meta v2 specification plus a bounded implementation plan. Do not implement during this checkpoint. Stop after presenting the specification for user approval.
+The read-only forensic review is complete and the subsequent product decisions are accepted. `FORMAT_BLENDED_V2_SPECIFICATION.md` records the verdict, confirmed versus inferred evidence, non-reuse list and full product contract. No replacement application implementation has begun.
+
+Use a separate development chat for Checkpoint 1: one shared date/format resolver and representative deterministic tests, with a reviewable result report. Read current repository instructions and architecture first. Do not repeat the entire forensic investigation, restore the failed PRs, implement Blended, integrate visible Home/Meta changes, redesign navigation, build admin/fitting UI, or begin Collection. Stop after foundation acceptance; do not continue to Checkpoint 2.
 
 ## 4. Format and rotation recovery
 
@@ -93,6 +95,9 @@ Implement in separate, finishable checkpoints:
 6. **Exact deck detail** — preserve compatible field selection and evaluation.
 7. **Saved Expected Fields** — retain named format and evidence provenance.
 8. **Event Prep** — select the event-compatible prediction automatically and preserve it when preparation is locked.
+9. **Full desktop, 390px and real-iPhone acceptance** — verify the complete story on a pinned release.
+
+Each checkpoint has explicit outcomes, exclusions, automated cases, browser checks and a hard stop in `FORMAT_BLENDED_V2_SPECIFICATION.md`.
 
 After every checkpoint, verify Online, IRL, Blended and global navigation before continuing. Deck legality, Collection and broader card-legality expansion are not part of this recovery.
 
@@ -130,4 +135,4 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next chat is the **failed-PR forensic review and specification checkpoint only**.
+The next chat is **Checkpoint 1 — Format/Rotation foundation only**. Specification approval does not authorize automatically proceeding through later checkpoints.
