@@ -1,7 +1,7 @@
 # PTCG Tools — Master Product & Design Document
 
 **Status:** Current product source of truth  
-**Date:** 6 September 2026  
+**Date:** 7 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
@@ -147,7 +147,7 @@ App-level account, preferences, deck-icon overrides and data controls. The curre
 - Cut / ID engine/standalone utility belongs to Tools and is contextually exposed in Tournament Day.
 - Tournament Manager is a standalone organiser utility. Its local tournaments never create Compete Events, `UserEventParticipation`, Tournament Day, canonical Match/Game or Season records.
 - Generic Draw / Outs, Opening and Prize probability helpers belong to Tools; deck-specific consistency analysis remains Decks-owned.
-- Collection is cross-cutting, connected to Decks, Prep and Home, and must reuse the existing exact-card/Card Catalog/Card Images foundation.
+- Collection is cross-cutting, connected to Decks, Prep and Home, and must reuse the existing exact-card/Card Catalog/Card Images foundation. It is a deferred future product area and must not become an active milestone until the user explicitly reopens it after the rest of the app is at a level they are very happy with.
 - Competitive seasons / CP / BFL belong to Compete.
 - Home owns no competitive business logic; it consumes shared Meta, Deck, Event, Season and Tools state and routes into the owning feature.
 
@@ -502,13 +502,17 @@ Real PTCGL/in-person results use shared Match/Game evidence. Playtest observatio
 
 ---
 
-## 10. Collection / physical readiness
+## 10. Collection / physical readiness — deferred future milestone
 
-Current major milestone requirement:
+Collection / physical readiness remains a planned part of PTCG Tools, but it is **not an active development milestone**.
+
+> Do not start Collection implementation until the user explicitly reopens it after they are very happy with the rest of the application — including stability, navigation, performance, current feature quality and the remaining Meta/Format work.
+
+Its future product requirement remains:
 
 > Maintain exact owned quantities and allocations so the user can immediately see what must be bought, moved or freed up for a saved exact deck list.
 
-Collection must build on the existing exact-card infrastructure rather than inventing another card database or printing identity.
+When eventually implemented, Collection must build on the existing exact-card infrastructure rather than inventing another card database or printing identity.
 
 Reuse:
 
@@ -517,11 +521,11 @@ Reuse:
 - `PTCGCardCatalog` for shared metadata/search;
 - `PTCGCardImages` for artwork presentation.
 
-Collection owns private physical inventory/allocation state. Readiness is derived from an exact immutable DeckVersion/checkpoint/list reference rather than copied editable deck truth.
+Collection will own private physical inventory/allocation state. Readiness should be derived from an exact immutable DeckVersion/checkpoint/list reference rather than copied editable deck truth.
 
-The Collection model must support exact printing/card identity where relevant, gameplay equivalence as a separate concept, loose inventory, deck allocations, multiple simultaneously built decks, no accidental double allocation, required vs owned vs allocated vs available vs missing, and derived missing/shopping requirements.
+The eventual Collection model should support exact printing/card identity where relevant, gameplay equivalence as a separate concept, loose inventory, deck allocations, multiple simultaneously built decks, no accidental double allocation, required vs owned vs allocated vs available vs missing, and derived missing/shopping requirements.
 
-Collection connects to Decks, Prep and Home. For v1, prefer the existing account snapshot persistence architecture unless a concrete query/conflict/history/scale requirement justifies normalization.
+Collection is expected eventually to connect to Decks, Prep and Home. This is future architecture only; no current feature should add Collection-specific UI, state or dependencies merely to prepare for it unless a present-day shared foundation is independently justified.
 
 ---
 
@@ -784,7 +788,7 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 
 ---
 
-## 14. Current roadmap status — 6 September 2026
+## 14. Current roadmap status — 7 September 2026
 
 ### Completed / substantially established
 
@@ -838,22 +842,23 @@ Long-term normalized entities include Tournament, TournamentResult, Decklist, Ma
 
 ### Active status
 
-**Collection / physical readiness v1 is now the active major product milestone.**
+**Collection / physical readiness is deferred and is not part of the current active roadmap.** It should be implemented only when the user explicitly chooses to return to it after becoming very happy with the rest of the app.
 
-The Home, Meta, What Should I Play, Navigation/Shell, Settings and Tools passes are complete/accepted for now. They should not remain active roadmap threads unless a concrete regression or genuine Collection dependency appears.
+The immediate programme priority is to finish and stabilise the existing application before adding another major product domain. In particular, the failed Format Registry / Blended Meta v2 rollout must be safely reimplemented and accepted, followed by whole-app architecture/performance review and any high-value stabilization work it identifies.
 
-The Card Search/Card Images pass is considered functionally established and documented. The small cleanup items above should not expand into another Decks redesign and should only interrupt Collection for a genuine regression or identity/data blocker.
-
-Tournament Day and Season remain closed for the current stage.
+The Home, core Meta/WSIP baseline, Navigation/Shell, Settings, Tools, Tournament Day and Season passes remain complete/accepted for their current stage unless a concrete regression is found.
 
 ### Recommended near-term sequence
 
-1. **Collection / physical readiness v1** — exact owned quantities, gameplay equivalence as a separate concept, loose inventory, allocations across multiple simultaneously built decks, required/owned/allocated/available/missing derived state and shopping requirements, all built on existing exact-card infrastructure.
-2. **Learning loop** — personal tournament/matchup/practice analytics with explicit evidence provenance.
-3. **Development Cleanup / Release Hardening** — repository-wide removal of temporary scaffolding, stale routes, duplicate engines and obsolete compatibility layers before calling the broader app stable/public-ready.
-4. **Community/public expansion when useful** — privacy/export/delete, centralized ingestion and operational observability as required by actual usage.
+1. **Format Registry / Blended Meta v2 recovery and reimplementation** — rebuild from the accepted rolled-back baseline in bounded slices, with browser testing at each boundary and real-iPhone acceptance before merge.
+2. **Whole-app architecture/performance/stability review** — use high-capability review tooling to inspect runtime ownership, shell lifecycle, caching, data delivery, duplicate loaders/state, service-worker behaviour and maintainability; implement only prioritised findings in bounded passes.
+3. **Finish/polish existing product areas** — address genuine regressions, usability issues and remaining high-value work across the already-established app until the user considers the overall application genuinely satisfactory.
+4. **Learning loop and other existing-domain enhancements when deliberately prioritised** — personal tournament/matchup/practice analytics and other improvements that strengthen current domains without forcing a new Collection dependency.
+5. **Collection / physical readiness v1 — deferred** — only after explicit user decision to reopen it. At that point implement exact owned quantities, gameplay equivalence, loose inventory, allocations, required/owned/allocated/available/missing derived state and shopping requirements on the existing exact-card foundation.
+6. **Development Cleanup / Release Hardening** — formal repository-wide cleanup before calling the broader app stable/public-ready; this may be brought earlier if the architecture audit shows that cleanup is needed for stability.
+7. **Community/public expansion when useful** — privacy/export/delete, centralized ingestion and operational observability as required by actual usage.
 
-Performance is not a dedicated next milestone unless a material regression appears.
+Performance/stability work is now an explicit priority because recent real-device regression demonstrated that automated feature tests alone are insufficient to establish runtime acceptance.
 
 ---
 
@@ -902,7 +907,7 @@ PTCG Tools is successful when:
 - round capture is fast enough for real tournament use on iPhone;
 - Season correctly preserves historical CP/ruleset identity and BFL semantics;
 - configured archetype sprites look the same everywhere because one shared mapping owns them;
-- physical readiness can answer “can I build this?” without double counting;
+- future physical readiness can answer “can I build this?” without double counting when Collection is eventually implemented;
 - Cut / ID answers deterministic questions before probabilistic ones;
 - standalone organiser tournaments remain isolated from personal Compete evidence;
 - advanced methodology remains available without dominating routine use;
