@@ -124,7 +124,9 @@
 
   function activate(section,url,historyMode='push'){
     if(!frameBySection.has(section))return;
-    const requested=validRoute(section,url)||routes.get(section)||currentFrameUrl(section);
+    // Tools updates its own URL when switching tabs; preserve that mounted state on return.
+    const retained=section==='tools'&&loaded.has(section)?currentFrameUrl(section):null;
+    const requested=validRoute(section,url)||retained||routes.get(section)||currentFrameUrl(section);
     if(requested)routes.set(section,requested);
     loadFrame(section,requested);
     active=section;
