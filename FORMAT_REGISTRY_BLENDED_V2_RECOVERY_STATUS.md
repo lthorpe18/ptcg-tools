@@ -1,7 +1,7 @@
 # Format Registry / Blended Meta v2 recovery status
 
 **Branch:** `format-registry-blended-v2-recovery`  
-**Programme status:** Checkpoints 1–2 complete; Checkpoint 3 next
+**Programme status:** Checkpoints 1–3 complete; Checkpoint 4 next
 **Last updated:** 7 September 2026
 
 This document is the durable checkpoint log for the recovery programme. Each
@@ -248,3 +248,111 @@ pattern before writing replacement feature code.
 owner, synchronous prepared fallback, bounded live refresh, lifecycle/events,
 failure states, Event Prep contract and automation access path. Audit the
 existing Supabase objects before committing that design.
+
+## Checkpoint 3 — Design the replacement architecture
+
+The committed design is
+`FORMAT_REGISTRY_BLENDED_V2_REPLACEMENT_DESIGN.md`. It is explicitly marked as
+an implementation-pending recovery design so it cannot be mistaken for current
+production behaviour.
+
+### Inspected
+
+- Accepted top-level `index.html`, `persistent-shell.js`, shared `app-shell.js`,
+  service-worker cache rules and the Meta, Event Prep and Settings dependency
+  order.
+- Current Supabase changelog and Row Level Security guidance, including the
+  2026 Data API exposure change, invoker-view behaviour, explicit role policies,
+  least-privilege grants and indexed `auth.uid()` policy patterns.
+- Live `PTCG Tools V2 Auth` project and migration history, including migration
+  `20260906163159_add_format_and_blended_config`.
+- All six surviving PTCG configuration/admin tables, their columns, constraints,
+  foreign keys, indexes, RLS flags, policies, effective anonymous visibility,
+  table/sequence grants, functions, triggers and current version rows.
+- Supabase security and performance advisors.
+- The original database migration statement retained by Supabase; no equivalent
+  migration file survives in the rolled-back repository.
+
+### Supabase audit result
+
+- All six tables have RLS enabled. Admin writes are policy-gated through the
+  `ptcg_admins` allowlist; review state is owner-scoped; anonymous effective
+  reads see published configuration but not admin/review rows.
+- Registry versions 1 and 2 are published. Version 2 is the usable latest row
+  and adds the missing Chaos Rising Online/IRL legality dates.
+- Formula versions `blended-v1` and `blended-v2` are published; the singleton
+  live pointer references v2. One activation audit row exists.
+- The security advisor found no RLS/table vulnerability. It separately warns
+  that leaked-password protection is disabled for Auth; that project-level
+  account hardening is outside this feature checkpoint and remains outstanding.
+- The base-table grants violate least privilege: `anon`, `authenticated` and
+  `service_role` currently hold all table privileges, and `anon` has sequence
+  usage. RLS blocks row operations exposed through the Data API, but does not
+  govern `TRUNCATE`; the grants must be narrowed.
+- All three admin RPCs still grant execute to PUBLIC/anon through PostgreSQL's
+  default function privilege, even though their bodies perform an admin check.
+- Draft update policies allow an admin to change a draft's payload while also
+  setting it to published, bypassing the intended publish RPC. There is no
+  trigger protecting published rows from owner/service mutation.
+- `activate_blended_formula` permits direct reactivation of an old published
+  formula, contrary to the locked “Draft from this -> new version -> publish”
+  workflow.
+- Public base-table reads unnecessarily expose creator/activator UUIDs and the
+  full activation audit. The replacement will expose one safe atomic config
+  document instead.
+- The performance advisor identified six unindexed foreign keys across the
+  registry/formula/live/activation tables. These are not a present scale issue,
+  but retained access paths will receive appropriate indexes in the hardening
+  migration.
+
+### Design decisions
+
+- Reuse the surviving tables, valid registry v2 data, formula history, live v2
+  pointer, admin allowlist and owner review state. Do not delete or recreate the
+  schema blindly.
+- Add a forward-only hardening migration: least-privilege grants, narrow RPC
+  execution, immutable published rows, draft-only direct editing, locked v2
+  policy fields, safe atomic public-config RPC, removal of historical formula
+  reactivation and useful foreign-key indexes.
+- Use one top-window format runtime owner in the persistent shell; embedded
+  consumers use a facade, while a directly opened page creates one standalone
+  owner. Initialization and refresh are deduplicated.
+- Install a prepared registry synchronously, optionally promote a strictly
+  validated newer last-known-good snapshot, then perform one non-blocking,
+  timeout-bounded live refresh. Remote failure retains usable state and always
+  settles.
+- Share one DOM-free UMD format core between browser consumers and Node
+  prediction automation. All consumers resolve Online, IRL and event-date
+  formats through that core.
+- Integrate Event Prep mismatch handling into its render/state flow and leave
+  deck planning active. No mutation guard or whole-page observer is allowed.
+- Preserve the shell structure and make asset version changes atomic across
+  HTML and service-worker references.
+
+### Tested
+
+- Read-only catalog queries confirmed RLS flags, policies, grants, function
+  definitions, constraints, indexes and the absence of feature triggers/views.
+- An effective `anon` role query confirmed visibility of two published registry
+  versions, two published formulas, one live pointer and one activation, while
+  admin and review rows remained hidden.
+- Supabase security/performance advisors completed successfully.
+- No application or database mutation was made during this design checkpoint.
+
+### Changes and issues
+
+- Added `FORMAT_REGISTRY_BLENDED_V2_REPLACEMENT_DESIGN.md`.
+- Updated this durable checkpoint log.
+- Database hardening is deliberately deferred to the version-controlled
+  forward migration in Checkpoint 4.
+- Leaked-password protection remains disabled and must be reviewed before final
+  release, independently of the format runtime.
+- True iPhone-sized and real-device acceptance gates remain open.
+
+### Next checkpoint
+
+**Checkpoint 4 — Implement the shared format registry only.** Add the shared
+resolver/prepared snapshot, single-owner non-blocking runtime, version-controlled
+Supabase hardening/public-config migration, targeted runtime tests and repeated
+five-area browser regression testing. Do not add Blended calculation behaviour
+in this checkpoint.
