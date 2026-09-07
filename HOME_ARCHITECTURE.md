@@ -42,7 +42,7 @@ Do not reintroduce broad Meta/Decks/Compete/Tools directory cards. The persisten
 
 ### 3.1 Purpose
 
-The Home hero gives a compact current-field read rather than duplicating the full Meta page.
+The Home hero gives a compact read of **PTCG Tools' best estimate of the genuine competitive field at a hypothetical major-quality tournament today or tomorrow**, rather than duplicating the full Meta page. Online and IRL are evidence sources; Blended is the prediction derived from them.
 
 It shows the top five decks as a proportional bar chart with:
 
@@ -56,9 +56,9 @@ The **hero card itself opens Meta main**. The Variant grouping control is an emb
 
 ### 3.2 Canonical blended-field model
 
-Home consumes the shared Meta read model `MetaBlendedField.current()`.
+Home consumes the shared Blended prediction model. It defaults to the prediction for the **current Online format**, and the format chip at the top of the page must make the displayed format unmistakable.
 
-The blend uses:
+When Online and IRL share the same legal format, there is one current Blended prediction. Its settled-format blend uses:
 
 - **IRL:** latest IRL major weekend;
 - **Online:** events with at least 50 players since that major weekend.
@@ -79,11 +79,17 @@ Therefore:
 
 The age reference is the most recent date in the latest IRL major weekend.
 
-Fallback behavior:
+A Blended prediction requires at least one compatible Online tournament with 50+ players. One qualifying tournament is sufficient. If none exists, that format's Blended prediction is unavailable rather than substituting IRL-only or incompatible evidence.
 
-- if Online evidence is unavailable, available IRL evidence becomes 100%;
-- if IRL evidence is unavailable, available Online evidence becomes 100%;
-- if neither exists, Home shows an empty/loading-safe state rather than fabricated data.
+When Online and IRL temporarily have different legal formats, the app has separate format-labelled predictions, for example **Blended (TEF-PBL)** and **Blended (MEG-PBL)**:
+
+- the Online-format prediction uses qualifying current-format Online evidence and only compatible/predictive IRL evidence;
+- the IRL-format prediction uses the latest compatible IRL major evidence and compatible Online evidence gathered after that major only until the Online legality change;
+- the old-format Online contribution freezes at the Online format boundary;
+- a new compatible IRL tournament may continue to update the old-format prediction;
+- when formats align again, the normal current experience returns to one Blended prediction.
+
+The Home default remains the current Online-format prediction during a split. Meta exposes the other current format-labelled prediction separately.
 
 Home must not implement a second blend formula.
 
