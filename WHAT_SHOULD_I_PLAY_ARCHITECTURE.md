@@ -28,14 +28,14 @@ The field sources are:
 
 | Source | Meaning |
 |---|---|
-| Blended current field | The app-wide `MetaBlendedField` policy: latest IRL majors weekend plus Online 50+ player events since that major, with time-decayed weights. |
+| Blended prediction | PTCG Tools' best estimate of the genuine competitive field at a hypothetical major-quality tournament today or tomorrow in the labelled format. There is normally one current prediction; during an Online/IRL legality split there may be separate format-labelled Blended predictions. |
 | Online | Exact-variant field share from the current shared `MetaState` Online scope. |
 | IRL | Exact-variant field share from the current shared `MetaState` IRL scope. |
 | Saved Expected Field | An explicit, editable predicted field copied with provenance. |
 
 The default WSIP field for an observed source includes rows through at least 90% of source field share, then renormalises those selected rows for analysis. A saved Expected Field uses all explicitly saved rows. The UI shows how much of an observed source field the selection represents.
 
-Saved Expected Fields are first-class WSIP inputs. Selecting one applies it immediately. When a custom saved field is active, the top Field control must make that custom state obvious rather than misleadingly appearing to be Blended, Online or IRL. Returning to the normal source field must be explicit and clean.
+Saved Expected Fields are first-class WSIP inputs. Selecting one applies it immediately. When a custom saved field is active, the top Field control must make that custom state obvious rather than misleadingly appearing to be Blended, Online or IRL. Returning to the normal source field must be explicit and clean. A Saved Expected Field copied from Blended retains the exact format-labelled prediction and evidence provenance from which it was created.
 
 ## Matchup evidence
 
@@ -98,7 +98,7 @@ These categories are product thresholds, not formal statistical confidence inter
 
 The accepted WSIP flow is intentionally simple:
 
-1. **Field** — choose Blended, Online, IRL or a Saved Expected Field; inspect provenance, exact variants and model shares; optionally make an explicit adjustment.
+1. **Field** — choose an available format-labelled Blended prediction, Online, IRL or a Saved Expected Field; inspect target format, provenance, exact variants and model shares; optionally make an explicit adjustment.
 2. **Recommendations** — show the best-positioned exact variants, ranked where evidence is decision-ready. The first five are shown initially; **Show 5 more decks** reveals the next five at a time rather than expanding the entire candidate pool.
 3. **Inspect** — tapping the recommendation card itself opens that exact deck-variant page. There is no separate “Open exact variant” action.
 4. **Why this deck?** — expanding a recommendation shows the three best and three worst evidenced matchups, with opponent identity/sprites, adjusted rate, decisive-game count and field share. Polarisation, source disagreement and unknown evidence remain visible where relevant, with full field matchup detail available by progressive disclosure.
@@ -128,7 +128,7 @@ Do not reintroduce either as default WSIP stages without a new product decision.
 
 Exact deck-variant detail may be evaluated against:
 
-- Blended current field;
+- an available format-labelled Blended prediction;
 - Online field;
 - IRL field;
 - actual named Saved Expected Fields.
@@ -139,7 +139,7 @@ The chosen field must genuinely carry into WSIP. The selector must never be a de
 
 WSIP does not choose an event deck. Any attending event must expose an obvious Event Prep entry point, and Event Prep remains the place where the user explicitly chooses a planned exact deck/list for that event.
 
-Event Prep may consume the same `PTCGRecommendation` and Expected Field records, but it owns event-specific reactions, snapshots and planned-deck choice.
+Event Prep may consume the same `PTCGRecommendation` and Expected Field records, but it owns event-specific reactions, snapshots and planned-deck choice. It automatically selects the Blended prediction compatible with the event's date and legal format while allowing an explicit user override.
 
 ## Integration boundaries
 
