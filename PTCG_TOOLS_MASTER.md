@@ -4,6 +4,7 @@
 **Date:** 7 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
+**Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
 ## 1. Product vision
@@ -197,9 +198,11 @@ The current accepted single-screen iPhone hierarchy is:
 
 ### 6.1 Blended Meta
 
-Home consumes the shared `MetaBlendedField.current()` read model rather than implementing its own Meta aggregation.
+Blended Meta is **PTCG Tools' best estimate of the genuine competitive field at a hypothetical major-quality tournament taking place today or tomorrow**. Online and IRL are evidence sources; Blended is the app's prediction derived from them. It is useful as the general starting point for exploration and preparation. A local or event-specific prediction will usually be better represented by an edited and Saved Expected Field.
 
-The current-field blend is:
+Home consumes the shared Blended prediction rather than implementing its own Meta aggregation. Its default is the prediction for the **current Online format**, and the existing format chip at the top of the page must make the displayed format unmistakable.
+
+When Online and IRL share the same legal format, there is one current Blended prediction. Its settled-format evidence and weighting are:
 
 - **IRL:** latest IRL major weekend;
 - **Online:** 50+ player events since that major weekend.
@@ -210,7 +213,19 @@ Source weighting decays continuously with age of the latest major weekend:
 
 `Online weight = 100% - IRL weight`
 
-Therefore day 0 is 70/30, day 10 is 50/50, and day 20+ floors at 30/70. If one evidence source is unavailable, the available source becomes 100%; if neither exists, Home shows an empty/loading-safe state rather than fabricated data.
+Therefore day 0 is 70/30, day 10 is 50/50, and day 20+ floors at 30/70.
+
+A Blended prediction requires at least one compatible Online tournament with 50+ players. One qualifying tournament is sufficient. Without it, that format's Blended prediction is unavailable; IRL-only or incompatible evidence must not be silently substituted.
+
+When Online and IRL are temporarily playing different formats, the app may have **two current Blended predictions**, labelled by format, for example **Blended (TEF-PBL)** and **Blended (MEG-PBL)**:
+
+- the current Online-format prediction uses qualifying Online evidence from that format plus only IRL evidence that remains meaningfully predictive under the transition rules;
+- the current IRL-format prediction uses the latest compatible IRL major evidence plus compatible Online evidence after that major and only up to the point the new format became legal Online;
+- the old-format Online contribution freezes at that Online legality boundary;
+- the old-format prediction may continue to update if a new compatible IRL tournament occurs;
+- when the formats align again, the normal current experience returns to one Blended prediction.
+
+Event Prep automatically selects the prediction compatible with the event's date and legal format, while still allowing the user to choose another field. Saved Expected Fields retain the selected prediction's format and evidence provenance.
 
 The hero shows the top five shares as genuinely proportional bars with percentages and canonical archetype sprites. Percentage labels adapt for short bars; below 5% the label moves above the bar rather than being forced inside.
 
@@ -360,9 +375,24 @@ Current shared direction/components include:
 - PTCGMetaField — shared source vocabulary, field-share normalisation and family presentation definitions;
 - PTCGRecommendation — shared exact-variant WSIP/Event Prep decision engine.
 
-`MetaBlendedField` owns the current dynamic IRL/Online weighting policy described in Home architecture. Feature surfaces should consume it rather than recreate the formula.
+`MetaBlendedField` owns format-labelled current-tournament predictions and the dynamic IRL/Online weighting policy described in Home architecture. It may expose one current prediction when formats align or separate Online-format and IRL-format predictions during a legality split. Feature surfaces should consume it rather than recreate the formula.
 
-### 7.9 Meta ingestion and delivery
+### 7.9 Format and rotation contract — recovery target
+
+The failed Format Registry / Blended Meta v2 rollout remains rolled back. The accepted product requirement to be safely reimplemented is one app-wide answer, for any relevant date, to:
+
+- which sets have been released;
+- which sets are legal Online and IRL;
+- the current Online and IRL formats;
+- whether rotation has occurred in either environment;
+- the lowest legal regulation mark or set boundary;
+- the next known format change.
+
+Online and IRL legality may differ. A new set becoming legal Online must not automatically change IRL evidence, and rotation must be represented distinctly from an ordinary set release. Future announced sets without confirmed legality dates and missing/incomplete information must produce explicit unknown/unavailable states rather than guessed dates or formats.
+
+This recovery first serves Meta, Blended, Home, WSIP, exact deck detail, Saved Expected Fields and Event Prep. Future Deck legality, Collection and broader card-legality work may consume the same answers later but are not part of the recovery implementation.
+
+### 7.10 Meta ingestion and delivery
 
 Shared Meta evidence follows one central pipeline:
 
