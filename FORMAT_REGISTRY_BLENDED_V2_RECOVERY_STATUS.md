@@ -1,7 +1,7 @@
 # Format Registry / Blended Meta v2 recovery status
 
 **Branch:** `format-registry-blended-v2-recovery`  
-**Programme status:** Checkpoints 1–3 complete; Checkpoint 4 next
+**Programme status:** Checkpoints 1–4 complete; Checkpoint 5 next
 **Last updated:** 7 September 2026
 
 This document is the durable checkpoint log for the recovery programme. Each
@@ -356,3 +356,128 @@ resolver/prepared snapshot, single-owner non-blocking runtime, version-controlle
 Supabase hardening/public-config migration, targeted runtime tests and repeated
 five-area browser regression testing. Do not add Blended calculation behaviour
 in this checkpoint.
+
+## Checkpoint 4 — Implement the shared format registry only
+
+### Inspected
+
+- Script order and cache references in the persistent shell, Meta, Event Prep,
+  Settings and service worker.
+- Existing Supabase publish functions, RLS policies and effective grants after
+  each forward migration.
+- Live public RPC output under the effective `anon` database role.
+- Supabase migration history plus security and performance advisor results after
+  schema changes.
+- The deployed accepted shell after the database grant changes.
+
+### Changed
+
+- Added `v2-preview/apps/_shared/format-registry-core.js`, a DOM-free UMD core
+  shared by browser and Node. It contains the validated prepared registry v2,
+  strict calendar-date handling and one Online/IRL/event-date resolver.
+- Added `v2-preview/apps/_shared/format-registry-runtime.js`. The top window is
+  the sole persistent-shell owner; embedded Meta/Event Prep/Settings documents
+  use a facade; directly opened documents create one standalone owner.
+- Startup is synchronously usable from prepared or newer validated LKG state.
+  One deduplicated background request has a four-second abort deadline, always
+  settles, atomically accepts only valid non-older data, and retries after a
+  later online signal without disabling any shell control.
+- Added explicit `subscribe()` plus `ptcg:format-state-changed`; no polling,
+  script injection, interval or mutation observer was added.
+- Declared core/runtime scripts statically in the owner and future consumer
+  documents. Core remains `v=1`; the corrected runtime is `v=2` everywhere,
+  including the service-worker core. Cache generation is now v29.
+- Added three repository migrations matching live Supabase migration versions:
+  - `20260907094754_harden_format_registry_access.sql`;
+  - `20260907094935_make_format_registry_rpc_invoker.sql`;
+  - `20260907095032_split_format_registry_read_policies.sql`.
+- Removed all browser-role base-table privileges and re-granted only required
+  operations. Anonymous `TRUNCATE`, writes, sequence access and admin-RPC
+  execution are gone.
+- Added strict registry JSON validation, immutable-published-row enforcement,
+  a draft-only direct update policy, a transaction-safe allowlisted publish RPC,
+  safe column-level anonymous reads and an invoker `get_ptcg_format_registry()`
+  RPC returning only the highest published registry.
+- Split published and admin read policies so the anonymous RPC never needs
+  access to `ptcg_admins`.
+- Added `tests/format-registry.test.js` with executable core and runtime
+  lifecycle coverage. No Blended v2 calculation or feature behavior was added.
+
+### Tested
+
+Automated command:
+
+```text
+node --test tests/format-registry.test.js tests/meta-navigation.test.js tests/meta-release.test.mjs tests/recommendation-engine.test.js tests/wsip-integration.test.js tests/season-engine.test.js
+```
+
+Result: **49 passed, 0 failed**. The expected offline Meta-release fixture still
+logs its deliberate fallback warning.
+
+New coverage executes:
+
+- Online/IRL release-day boundaries and a future rotation lower-bound change;
+- malformed dates, duplicate sets and invalid rotation references;
+- synchronous prepared resolution;
+- repeated initialization with one owner/listener set;
+- concurrent refresh deduplication;
+- a forever-pending request aborting and settling to usable degraded state;
+- immediate online retry after network failure;
+- valid/corrupt last-known-good handling;
+- same-version integrity-conflict rejection without partial mutation;
+- embedded facade versus standalone ownership;
+- exact static asset versions and absence of dynamic injection/observers.
+
+Supabase verification confirmed:
+
+- migrations `20260907094754`, `20260907094935` and `20260907095032` applied;
+- effective anon RPC returns schema 1, registry v2 and all 18 sets;
+- anon has no table-level select/write/truncate and no admin RPC execution;
+- anon has only four safe registry column grants needed by the invoker RPC;
+- published/admin reads are separate RLS policies;
+- the JSON shape constraint and immutable trigger are installed;
+- the avoidable public security-definer warning was removed.
+
+Browser interaction on the deployed accepted shell, after database hardening,
+repeated Home / Meta / Decks / Compete / Tools navigation and Online / IRL /
+Blended changes. The run finished with Meta as the single active view, all five
+frames mounted, no `data-loading` frame, hidden shell status and no captured
+warning/error logs.
+
+The cloud browser blocked the immutable feature-branch CDN URL with
+`ERR_BLOCKED_BY_CLIENT`, and it cannot reach the local server. Therefore the
+exact branch HTML/runtime could not receive a genuine browser pass at this
+checkpoint. This is recorded as a verification limitation, not a pass. The
+owner/facade, timeout and retry paths were executed in VM tests, and the exact
+candidate must receive full browser coverage when an accessible preview exists;
+Checkpoint 11 remains the mandatory pre-PR browser/mobile gate.
+
+### Commits
+
+- `ed6f86bd214b2645fd171313a715c1fe83b3d9b0` — registry core/runtime,
+  migrations, declarations and initial tests.
+- `038e5db66129f1f73ce44df07a15404f47136926` — failure retry isolation,
+  runtime `v=2` asset bump and strengthened tests.
+
+### Outstanding issues
+
+- The authenticated format publish RPC intentionally uses tightly scoped
+  `SECURITY DEFINER` rights with an explicit `auth.uid()` allowlist check and
+  empty search path. The advisor flags any externally executable definer RPC;
+  this expected warning must remain documented and re-reviewed with Admin work.
+- Five unindexed foreign-key advisor notices remain on Blended tables; their
+  schema is handled with the Blended/admin checkpoints rather than expanding
+  this registry-only implementation.
+- Historical formula reactivation and formula draft/publish hardening remain for
+  the Blended/admin schema checkpoint; no current rolled-back UI calls them.
+- Leaked-password protection remains disabled at the Supabase Auth project
+  level and is an independent final-release security review item.
+- Exact-candidate browser, iPhone-sized and real-iPhone gates remain open.
+
+### Next checkpoint
+
+**Checkpoint 5 — Implement Blended v2 core.** Build a DOM-free calculation/state
+engine over the shared registry, retain the locked Online-target, qualification,
+transition, rotation, Online-only and provenance rules, harden the formula
+schema contract required by that engine, and add full unit/integration coverage
+before touching Meta or WSIP UI.
