@@ -134,6 +134,22 @@ test('a forever-pending refresh aborts and settles to usable degraded state', as
   assert.equal(harness.window.PTCGFormatRegistry.resolveFormat({channel:'irl',date:'2026-09-07'}).formatId,'TEF-PBL');
 });
 
+test('an online signal can retry immediately after a failed refresh', async () => {
+  let online = false, calls = 0;
+  const harness = runtimeHarness({fetch:async()=>{
+    calls += 1;
+    if (!online) throw new Error('offline');
+    return {ok:true,json:async()=>core.preparedConfig()};
+  }});
+  await harness.window.PTCGFormatRegistry.refresh();
+  assert.equal(harness.window.PTCGFormatRegistry.getState().phase,'degraded');
+  online = true;
+  for (const listener of harness.eventHandlers.get('online') || []) listener();
+  await new Promise(resolve=>setTimeout(resolve,0));
+  assert.equal(calls,2);
+  assert.equal(harness.window.PTCGFormatRegistry.getState().phase,'live');
+});
+
 test('offline startup promotes only a valid newer last-known-good snapshot', () => {
   const config = clone(core.preparedConfig());
   config.registry.versionNumber = 3;
@@ -186,10 +202,12 @@ test('format assets are static, versioned and present in the service-worker core
   const serviceWorker = read('v2-preview/sw.js');
   for (const html of [ownerHtml,metaHtml,prepHtml,settingsHtml]) {
     assert.match(html,/format-registry-core\.js\?v=1/);
-    assert.match(html,/format-registry-runtime\.js\?v=1/);
-    assert.ok(html.indexOf('format-registry-core.js?v=1')<html.indexOf('format-registry-runtime.js?v=1'));
+    assert.match(html,/format-registry-runtime\.js\?v=2/);
+    assert.ok(html.indexOf('format-registry-core.js?v=1')<html.indexOf('format-registry-runtime.js?v=2'));
+    assert.equal((html.match(/format-registry-core\.js/g)||[]).length,1);
+    assert.equal((html.match(/format-registry-runtime\.js/g)||[]).length,1);
   }
   assert.match(serviceWorker,/format-registry-core\.js\?v=1/);
-  assert.match(serviceWorker,/format-registry-runtime\.js\?v=1/);
+  assert.match(serviceWorker,/format-registry-runtime\.js\?v=2/);
   assert.doesNotMatch(runtimeSource,/createElement\(['"]script|MutationObserver|setInterval/);
 });

@@ -61,7 +61,7 @@
 
   function emit(next){
     state=snapshot(next);
-    for(const listener of [...listeners]){try{listener(state)}catch(error){setTimeout(()=>{throw error},0)}}
+    for(const listener of [...listeners]){try{listener(state)}catch(error){console.error('Format registry subscriber failed',error)}}
     try{global.dispatchEvent(new CustomEvent('ptcg:format-state-changed',{detail:state}))}catch{}
   }
 
@@ -100,6 +100,7 @@
         try{global.localStorage.setItem(CACHE_KEY,JSON.stringify({config,fingerprint:nextFingerprint,confirmedAt:checkedAt}))}catch{}
         emit({phase:'live',source:'live',registryVersion:config.registry.versionNumber,registry:config.registry,checkedAt,lastLiveAt:checkedAt,errorCode:null,fingerprint:nextFingerprint});
       }catch(error){
+        lastAttemptAt=0;
         emit({...state,phase:'degraded',checkedAt:nowIso(),errorCode:errorCode(error,timedOut)});
       }finally{
         clearTimeout(timer);
