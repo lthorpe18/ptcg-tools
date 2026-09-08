@@ -1,12 +1,18 @@
 # PTCG Tools — Roadmap Handoff — 7 September 2026
 
-**Status:** Checkpoint 1 and Compete navigation repair accepted; next proposed: Checkpoint 2 Meta Online/IRL, awaiting authorization
+**Status:** Checkpoint 1 and Compete navigation repair accepted; Checkpoint 2 Meta Online/IRL implemented for review; browser acceptance pending
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-05.md`
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `HOME_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
 
+## Checkpoint 2 implementation review — 8 September 2026
+
+Checkpoint 2 is implemented on the review branch, not accepted, merged or deployed. See `META_FORMATS_CHECKPOINT_2.md` for source-format handling, retained archives, the representative calendar table and the manual browser script. All 90 automated tests pass, including every actual release payload through online/cached loading and synthetic split/ingestion cases. The cloud browser could not provide usable page access; desktop/390px/iPhone acceptance remains outstanding. Checkpoint 3 is not authorized or started.
+
+Home and Event Prep only receive the shared-loader version update needed for schema compatibility. Deferred Prep entry/styling/usefulness feedback stays deferred. Preserve PR #7's owner-accepted navigation repair.
+
 ## Checkpoint 1 acceptance update — 8 September 2026
 
-Checkpoint 1 is complete and accepted. PR #6 merged at `14fe13b`; the subsequent Compete navigation fix, PR #7, merged at `94bc077`. The owner confirmed all six post-fix navigation checks passed on 8 September (Compete entry with an attending event, cross-area navigation, Compete views, Prep entry/return and reload). Automated validation passed 71 tests after the repair, including three regressions that fail on the original scripts; GitHub validation also passed. The agent reproduced the original freeze but could not complete its own post-fix browser run; device acceptance is owner-reported, with no deployed SHA independently captured. Browser Back remains explicitly non-blocking. Checkpoint 2 has not begun.
+Checkpoint 1 is complete and accepted. PR #6 merged at `14fe13b`; the subsequent Compete navigation fix, PR #7, merged at `94bc077`. The owner confirmed all six post-fix navigation checks passed on 8 September (Compete entry with an attending event, cross-area navigation, Compete views, Prep entry/return and reload). Automated validation passed 71 tests after the repair, including three regressions that fail on the original scripts; GitHub validation also passed. The agent reproduced the original freeze but could not complete its own post-fix browser run; device acceptance is owner-reported, with no deployed SHA independently captured. Browser Back remains explicitly non-blocking. Checkpoint 2 is now implemented for review; see the update above.
 
 The owner supplies set data manually; no scraping/admin UI is required. `data/formats/maintained-calendar.json` records the 8 September baseline H–J / TEF–PBL, then 30C Online legality on 15 September and IRL legality on 24 September. 30C release date, next rotation and later releases remain unknown. A rotation can be attached to its set and applies on each environment's legality date, independently of release. Unknown historical/card-level inventories do not block this maintained current-format context; they must not be presented as complete legal-set lists.
 
@@ -70,7 +76,7 @@ Explanation UX is also accepted: concise inline format/status, a How this is cal
 
 ## 3. Immediate next checkpoint — Meta Online/IRL only
 
-The next proposed implementation task is **Checkpoint 2: Meta Online/IRL only**, pending explicit owner authorization. Use the shared foundation for independent source formats, event classification, retained archives and scoped evidence. Verify every actual release payload online and cached, source/label agreement, source switching, detail and reload. No new Blended or Home/WSIP/Prep integration, navigation redesign, admin/fitting tools or Collection. Preserve PR #7 and subsequent fixes; stop after Checkpoint 2 review. Do not restore PR #4/#5 or repeat the full forensic review.
+The owner authorized **Checkpoint 2: Meta Online/IRL only**. Its implementation is now awaiting review and browser acceptance; see `META_FORMATS_CHECKPOINT_2.md`. Use the shared foundation for independent source formats, event classification, retained archives and scoped evidence. Verify every actual release payload online and cached, source/label agreement, source switching, detail and reload. No new Blended or Home/WSIP/Prep integration, navigation redesign, admin/fitting tools or Collection. Preserve PR #7 and subsequent fixes; stop after Checkpoint 2 review. Do not restore PR #4/#5 or repeat the full forensic review.
 
 The foundation and navigation repair are accepted; do not repeat them. Follow Checkpoint 2 automated and browser gates in `FORMAT_BLENDED_V2_SPECIFICATION.md`. For 15–23 September the maintained calendar admits 30C Online while IRL remains TEF–PBL; data must reflect actual played formats, never mere relabelling. Unknown or incompatible evidence stays explicit.
 
@@ -151,4 +157,4 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next proposed chat is **Checkpoint 2 — Meta Online/IRL only**, awaiting explicit authorization. Specification approval does not authorize automatically proceeding through later checkpoints.
+The next action is **Checkpoint 2 review and outstanding browser acceptance only**. Do not begin Checkpoint 3 without explicit authorization. Specification approval does not authorize automatically proceeding through later checkpoints.

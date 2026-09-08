@@ -23,17 +23,21 @@
   const cacheAvailable = () => typeof caches !== 'undefined';
 
   function validManifest(value) {
-    return value?.schemaVersion === 1 && typeof value.release === 'string' && value.release.length >= 8 && value.files?.core?.path;
+    return [1,2].includes(value?.schemaVersion) && typeof value.release === 'string' && value.release.length >= 8 && value.files?.core?.path && Object.entries(value.files).every(([key,file])=>typeof file.path==='string' && !file.path.includes('..') && !/^(?:[a-z]+:|\/)/i.test(file.path) && (value.schemaVersion===1 || key==='core' || (['online','irl'].includes(file.environment) && typeof file.format==='string')));
   }
 
   function validCore(value) {
-    return value?.schemaVersion === 1 && typeof value.release === 'string' && value.release.length >= 8 && value.online?.scopes && value.irl;
+    return [1,2].includes(value?.schemaVersion) && typeof value.release === 'string' && value.release.length >= 8 && value.online?.scopes && value.irl && (value.schemaVersion===1 || ['online','irl'].every(env=>value[env]?.format && value[env].format===value.formats?.[env]));
   }
 
   function syntheticManifest(payload) {
     const files = {};
     for (const [key,path] of Object.entries(KNOWN_FILES)) files[key] = { path };
-    return { schemaVersion:1, release:payload.release, format:payload.format, files };
+    for(const env of ['online','irl']) {
+      for(const [key,file] of Object.entries(files)) if(key.startsWith(env))Object.assign(file,{environment:env,format:payload[env]?.format || payload.format});
+      for(const [format,entry] of Object.entries(payload.archives?.[env] || {}))for(const kind of (env==='online'?['Core','History','Matchups','Results']:['Core','Matchups','Results']))files[entry.payloadPrefix+kind]={path:`archives/${env}/${format}/${kind.toLowerCase()}.json`,environment:env,format};
+    }
+    return { schemaVersion:payload.schemaVersion, release:payload.release, format:payload.format, formats:payload.formats, files };
   }
 
   function readActiveManifest() {
@@ -73,9 +77,11 @@
     const actual = expected ? await sha256(text) : '';
     if (expected && actual && expected !== actual) throw new Error(`Meta ${key} checksum mismatch`);
     const payload = JSON.parse(text);
-    if (payload?.schemaVersion !== 1 || payload?.release !== manifest.release || payload?.format !== manifest.format) {
+    const expectedFormat = key === 'core' ? manifest.format : (manifest.files[key].format ?? manifest.format);
+    if (payload?.schemaVersion !== manifest.schemaVersion || payload?.release !== manifest.release || payload?.format !== expectedFormat) {
       throw new Error(`Meta ${key} does not belong to release ${manifest.release}`);
     }
+    if(key==='core' && (!validCore(payload) || (manifest.schemaVersion===2 && ['online','irl'].some(env=>payload.formats?.[env]!==manifest.formats?.[env] || payload[env]?.format!==manifest.formats?.[env]))))throw new Error('Meta source format mismatch');
     return payload;
   }
 
@@ -85,10 +91,17 @@
     return response ? response.text() : null;
   }
 
+  async function boundedFetch(url,options) {
+    const controller=new AbortController();
+    let timer;
+    try {return await Promise.race([fetch(url,{...options,signal:controller.signal}).then(async response=>new Response(await response.text(),{status:response.status,headers:response.headers})),new Promise((_,reject)=>{timer=setTimeout(()=>{controller.abort();reject(new Error('Meta request timed out'))},8000)})]);}
+    finally {clearTimeout(timer);}
+  }
+
   async function freshText(path) {
     const url = new URL(path, BASE);
     url.searchParams.set('_pt', Date.now().toString());
-    const response = await fetch(url, { cache:'no-store', headers:{ Accept:'application/json' } });
+    const response = await boundedFetch(url, { cache:'no-store', headers:{ Accept:'application/json' } });
     if (!response.ok) throw new Error(`Meta ${path} ${response.status}`);
     return response.text();
   }
@@ -123,7 +136,7 @@
   async function fetchManifest() {
     const url = new URL(MANIFEST_URL);
     url.searchParams.set('_pt', Date.now().toString());
-    const response = await fetch(url, { cache:'no-store', headers:{ Accept:'application/json' } });
+    const response = await boundedFetch(url, { cache:'no-store', headers:{ Accept:'application/json' } });
     if (!response.ok) throw new Error(`Meta manifest ${response.status}`);
     const manifest = await response.json();
     if (!validManifest(manifest)) throw new Error('Invalid Meta release manifest');
@@ -131,19 +144,11 @@
   }
 
   async function loadDirectCore() {
-    const controller = typeof AbortController === 'function' ? new AbortController() : null;
-    const timer = controller ? setTimeout(() => controller.abort(), 5000) : null;
-    try {
-      const options = { cache:'reload', headers:{ Accept:'application/json' } };
-      if (controller) options.signal = controller.signal;
-      const response = await fetch(CORE_URL, options);
-      if (!response.ok) throw new Error(`Meta core ${response.status}`);
-      const payload = await response.json();
-      if (!validCore(payload)) throw new Error('Invalid Meta core');
-      return payload;
-    } finally {
-      if (timer) clearTimeout(timer);
-    }
+    const response=await boundedFetch(CORE_URL,{cache:'reload',headers:{Accept:'application/json'}});
+    if(!response.ok)throw new Error(`Meta core ${response.status}`);
+    const payload=await response.json();
+    if(!validCore(payload))throw new Error('Invalid Meta core');
+    return payload;
   }
 
   function settleReady(value) {

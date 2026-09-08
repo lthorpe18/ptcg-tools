@@ -14,14 +14,14 @@ const digest=text=>crypto.createHash('sha256').update(text).digest('hex');
 
 test('browser release is complete, internally consistent and content addressed',()=>{
   const manifest=data('v2-preview/data/meta/release/manifest.json');
-  assert.equal(manifest.schemaVersion,1);
+  assert.equal(manifest.schemaVersion,2);
   assert.equal(manifest.format,'TEF-PBL');
   assert.deepEqual(Object.keys(manifest.files).sort(),['core','irlMatchups','irlResults','onlineHistory','onlineMatchups','onlineResults'].sort());
-  for(const file of Object.values(manifest.files)){
+  for(const [key,file] of Object.entries(manifest.files)){
     const text=read(`v2-preview/data/meta/release/${file.path}`);
     const payload=JSON.parse(text);
     assert.equal(payload.release,manifest.release);
-    assert.equal(payload.format,manifest.format);
+    assert.equal(payload.format,key==='core'?manifest.format:file.format);
     assert.equal(Buffer.byteLength(text),file.bytes);
     assert.equal(digest(text),file.sha256);
   }
@@ -57,12 +57,13 @@ test('precomputed Online scopes retain exact-variant field semantics',()=>{
 });
 
 test('release identity changes with source content even when timestamps do not',()=>{
-  const online={generatedAt:'2026-01-01T00:00:00Z',majorWeekend:null,tournaments:[],matchupScopes:{all:{matchups:[]}}};
-  const irl={generatedAt:'2026-01-01T00:00:00Z',events:[],decks:[],matchups:[],results:[]};
-  const deckAggregate={generatedAt:'2026-01-01T00:00:00Z',decks:[],matchups:[],overview:{}};
-  const onlineResults={generatedAt:'2026-01-01T00:00:00Z',results:[]};
+  const online=data('data/meta/current-field.json');
+  const irl=data('data/meta/irl/TEF-PBL.json');
+  const deckAggregate=data('data/meta/decks/TEF-PBL.json');
+  const onlineResults=data('data/meta/online-results/TEF-PBL.json');
   const first=buildRelease({online,irl,deckAggregate,onlineResults}).manifest.release;
-  const second=buildRelease({online:{...online,label:'changed'},irl,deckAggregate,onlineResults}).manifest.release;
+  const corrected=structuredClone(online);corrected.tournaments[0].archetypes[0].entries+=1;
+  const second=buildRelease({online:corrected,irl,deckAggregate,onlineResults}).manifest.release;
   assert.notEqual(first,second);
 });
 
@@ -151,7 +152,7 @@ test('release loader starts from validated local data when offline',async()=>{
       if(url.includes('core.json'))return new Response(coreText,{status:200,headers:{'Content-Type':'application/json'}});
       throw new Error(`unexpected ${url}`);
     };
-    const context=vm.createContext({window,document:{currentScript:{src:'https://example.test/v2-preview/apps/meta/meta-release-loader.js?v=1'}},location:{href:'https://example.test/v2-preview/'},localStorage:{getItem:key=>local.get(key)||null,setItem:(key,value)=>local.set(key,value)},caches,fetch,URL,Response,TextEncoder,Uint8Array,CustomEvent:class CustomEvent{constructor(type,options={}){this.type=type;this.detail=options.detail}},crypto:webcrypto,console});
+    const context=vm.createContext({window,document:{currentScript:{src:'https://example.test/v2-preview/apps/meta/meta-release-loader.js?v=1'}},location:{href:'https://example.test/v2-preview/'},localStorage:{getItem:key=>local.get(key)||null,setItem:(key,value)=>local.set(key,value)},caches,fetch,URL,Response,TextEncoder,Uint8Array,CustomEvent:class CustomEvent{constructor(type,options={}){this.type=type;this.detail=options.detail}},crypto:webcrypto,console,AbortController,setTimeout,clearTimeout});
     vm.runInContext(read('v2-preview/apps/meta/meta-release-loader.js'),context);
     return {window,payload:await window.MetaRelease.ready()};
   };

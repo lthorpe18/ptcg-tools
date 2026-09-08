@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'scripts/update-irl-labs.mjs'
+      - 'scripts/meta-format-contract.mjs'
+      - 'data/formats/maintained-calendar.json'
       - '.github/workflows/update-irl-labs.yml'
   schedule:
     - cron: '41 5 * * *'
@@ -33,7 +35,9 @@ jobs:
         run: |
           node - <<'NODE'
           const fs=require('fs');
-          const p='data/meta/irl/TEF-PBL.json';
+          const {execFileSync}=require('child_process');
+          const format=execFileSync('node',['--input-type=module','-e',"import {ingestionContext} from './scripts/meta-format-contract.mjs';console.log(ingestionContext('irl').format)"],{encoding:'utf8'}).trim();
+          const p=`data/meta/irl/${format}.json`;
           const d=JSON.parse(fs.readFileSync(p,'utf8'));
           if(!Array.isArray(d.events)||!Array.isArray(d.decks)||!Array.isArray(d.matchups)||!Array.isArray(d.results)) throw new Error('Invalid IRL dataset shape');
           if(d.events.length && !d.decks.length) throw new Error('IRL events present but field data empty');
@@ -47,13 +51,13 @@ jobs:
         run: node scripts/build-meta-release.mjs
       - name: Publish IRL dataset
         run: |
-          if git diff --quiet -- data/meta/irl v2-preview/data/meta/release; then
+          if git diff --quiet -- data/meta/irl data/meta/online-fields v2-preview/data/meta/release; then
             echo "IRL dataset unchanged"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/meta/irl v2-preview/data/meta/release
+          git add data/meta/irl data/meta/online-fields v2-preview/data/meta/release
           git commit -m "Update Limitless Labs IRL meta"
           git pull --rebase
           git push

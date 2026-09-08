@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const FORMAT = 'TEF-PBL';
+import { calendar, resolver, formatAt, validateDataset } from './meta-format-contract.mjs';
 const SCOPES = ['14', '30', 'since-major', 'all'];
 const root = process.cwd();
 const outputDir = path.join(root, 'v2-preview', 'data', 'meta', 'release');
@@ -50,100 +50,105 @@ export function aggregateField(events) {
 }
 
 function eventSummary(event) {
-  return { id:String(event.id), name:event.name || '', date:event.date, players:Number(event.players || 0) };
+  return { id:String(event.id), name:event.name || '', date:event.date, players:Number(event.players || 0), format:event.format, formatBasis:event.formatEvidence?.basis };
 }
 
-export function buildRelease({ online, irl, deckAggregate, onlineResults }) {
-  const versionSeed = {
-    schemaVersion:1,
-    online:digest(online),
-    irl:digest(irl),
-    deckAggregate:digest(deckAggregate),
-    onlineResults:digest(onlineResults),
-  };
-  const release = digest(versionSeed).slice(0, 20);
-  const onlineScopes = {};
-  for (const scope of SCOPES) {
-    const events = eventsForScope(online, scope);
-    onlineScopes[scope] = { ...aggregateField(events), events:events.map(eventSummary) };
+function sourcePackage(environment, inputs, rules) {
+  const raw = environment === 'online' ? inputs.online : inputs.irl;
+  const format = raw?.format;
+  if (!/^[A-Z0-9+-]+$/.test(format || '')) throw new Error('Missing or unsafe source format');
+  const events = validateDataset(raw, environment, format, rules);
+  if (environment === 'online') {
+    const {deckAggregate, onlineResults} = inputs;
+    validateDataset(deckAggregate,'online',format,rules);
+    const resultEvents = validateDataset(onlineResults,'online',format,rules);
+    if(deckAggregate.set && !format.endsWith('-'+deckAggregate.set))throw new Error('Aggregate set disagrees with format');
+    for(const event of raw.majorWeekend?.events || [])validateDataset({format,events:[event]},'irl',format,rules);
+    const scopes = {};
+    const online = {...raw,tournaments:events};
+    for (const scope of SCOPES) {
+      const selected = eventsForScope(online,scope);
+      scopes[scope] = {...aggregateField(selected),events:selected.map(eventSummary)};
+    }
+    const results = onlineResults.results || resultEvents.flatMap(event=>event.results || []);
+    const dates = new Map(events.map(event=>[String(event.id),String(event.date).slice(0,10)]));
+    if(results.some(row=>dates.get(String(row.eventId))!==String(row.date).slice(0,10)))throw new Error('Online result date disagrees with event');
+    const ids = new Set(events.map(event=>String(event.id)));
+    if (results.some(row=>!ids.has(String(row.eventId)))) throw new Error('Online result outside field event inventory');
+    return {format, core:{format,generatedAt:raw.generatedAt,label:format.replaceAll('-','–'),formatStart:raw.formatStart,minTournamentSize:raw.minTournamentSize,majorWeekend:raw.majorWeekend || null,scopes,records:{rotation:deckAggregate.rotation,set:deckAggregate.set,decks:(deckAggregate.decks||[]).map(({name,slug})=>({name,slug:slug||''}))}},
+      payloads:{History:{tournaments:events},Matchups:{scopes:{...raw.matchupScopes,all:{overview:{events:Number(deckAggregate.overview?.tournaments || 0),matches:Number(deckAggregate.overview?.matches || 0)},matchups:deckAggregate.matchups || []}}},Results:{results}}};
   }
-
-  const irlEvents = (irl.events || []).map(event => {
-    const { results, matchups, ...core } = event;
-    return core;
-  });
-  const files = {
-    core:{
-      schemaVersion:1, release, format:FORMAT,
-      online:{
-        generatedAt:online.generatedAt,
-        label:online.label,
-        formatStart:online.formatStart,
-        minTournamentSize:online.minTournamentSize,
-        majorWeekend:online.majorWeekend || null,
-        scopes:onlineScopes,
-        records:{
-          rotation:deckAggregate.rotation || 2026,
-          set:deckAggregate.set || 'PBL',
-          decks:(deckAggregate.decks || []).map(deck => ({ name:deck.name, slug:deck.slug || '' })),
-        },
-      },
-      irl:{
-        generatedAt:irl.generatedAt,
-        source:irl.source,
-        sourceUrl:irl.sourceUrl,
-        events:irlEvents,
-        decks:Array.isArray(irl.decks) ? irl.decks : [],
-        note:irl.note || '',
-      },
-    },
-    onlineHistory:{ schemaVersion:1, release, format:FORMAT, tournaments:online.tournaments || [] },
-    onlineMatchups:{
-      schemaVersion:1, release, format:FORMAT,
-      scopes:{
-        ...online.matchupScopes,
-        all:{
-          overview:{ events:Number(deckAggregate?.overview?.tournaments || online.matchupScopes?.all?.overview?.events || 0), matches:Number(deckAggregate?.overview?.matches || online.matchupScopes?.all?.overview?.matches || 0) },
-          matchups:Array.isArray(deckAggregate?.matchups) ? deckAggregate.matchups : (online.matchupScopes?.all?.matchups || []),
-        },
-      },
-    },
-    onlineResults:{ schemaVersion:1, release, format:FORMAT, results:onlineResults.results || (onlineResults.events || []).flatMap(event => event.results || []) },
-    irlMatchups:{ schemaVersion:1, release, format:FORMAT, matchups:irl.matchups || [] },
-    irlResults:{ schemaVersion:1, release, format:FORMAT, results:irl.results || [] },
-  };
-
-  const names = {
-    core:'core.json', onlineHistory:'online-history.json', onlineMatchups:'online-matchups.json',
-    onlineResults:'online-results.json', irlMatchups:'irl-matchups.json', irlResults:'irl-results.json',
-  };
-  const manifestFiles = {};
-  for (const [key, value] of Object.entries(files)) {
-    manifestFiles[key] = { path:names[key], sha256:digest(value), bytes:Buffer.byteLength(json(value)) };
-  }
-  const sourceTimes = [online.generatedAt, irl.generatedAt, deckAggregate.generatedAt, onlineResults.generatedAt]
-    .map(value => new Date(value).getTime()).filter(Number.isFinite);
-  const manifest = {
-    schemaVersion:1, release, format:FORMAT,
-    generatedAt:new Date(sourceTimes.length ? Math.max(...sourceTimes) : 0).toISOString(),
-    files:manifestFiles,
-  };
-  return { manifest, files, names };
+  const ids = new Set(events.map(event=>String(event.id)));
+  if ((raw.results || []).some(row=>!ids.has(String(row.eventId)))) throw new Error('IRL result outside field event inventory');
+  return {format,core:{format,generatedAt:raw.generatedAt,source:raw.source,sourceUrl:raw.sourceUrl,events:events.map(({results,matchups,...event})=>event),decks:raw.decks||[],note:raw.note||''},payloads:{Matchups:{matchups:raw.matchups||[],events:events.filter(e=>Array.isArray(e.matchups)).map(e=>({id:e.id,matchups:e.matchups}))},Results:{results:raw.results||[]}}};
 }
 
+export function buildRelease({online,irl,deckAggregate,onlineResults,archives=[],asOf,registry=calendar}) {
+  const rules = registry === calendar ? resolver : (newResolver(registry));
+  const date = asOf || [online.generatedAt,irl.generatedAt].filter(Boolean).sort().at(-1)?.slice(0,10);
+  if (!date) throw new Error('Explicit release date or source timestamps required');
+  const currentFormats = Object.fromEntries(['online','irl'].map(env=>[env,formatAt(date,env,rules)]));
+  const selected = {online:sourcePackage('online',{online,deckAggregate,onlineResults},rules),irl:sourcePackage('irl',{irl},rules)};
+  const archived = archives.map(item=>({environment:item.environment,...sourcePackage(item.environment,item,rules)}));
+  const seed = {schemaVersion:2,selected,archived,currentFormats,registry,asOf:date};
+  const release = digest(seed).slice(0,20);
+  const formats = Object.fromEntries(Object.entries(selected).map(([env,pkg])=>[env,pkg.format]));
+  const format = formats.online === formats.irl ? formats.online : null;
+  const files = {}, names = {}, manifestFiles = {};
+  function add(key,name,value,environment=null,sourceFormat=null) {
+    files[key] = {schemaVersion:2,release,format:sourceFormat,...value};
+    names[key] = name;
+    manifestFiles[key] = {path:name,sha256:digest(files[key]),bytes:Buffer.byteLength(json(files[key])),environment,format:sourceFormat};
+  }
+  const core = {formats,currentFormats,formatDate:date,calendarRevision:rules.revision,online:selected.online.core,irl:selected.irl.core,archives:{online:{},irl:{}}};
+  for (const env of ['online','irl']) for (const [kind,payload] of Object.entries(selected[env].payloads)) add(env+kind,`${env}-${kind.toLowerCase()}.json`,payload,env,formats[env]);
+  for (const pkg of archived) {
+    const env=pkg.environment;
+    if (pkg.format === formats[env]) continue;
+    const prefix=`archive:${env}:${pkg.format}:`;
+    core.archives[env][pkg.format]={format:pkg.format,generatedAt:pkg.core.generatedAt,payloadPrefix:prefix,coreKey:prefix+'Core'};
+    add(prefix+'Core',`archives/${env}/${pkg.format}/core.json`,pkg.core,env,pkg.format);
+    for (const [kind,payload] of Object.entries(pkg.payloads)) add(prefix+kind,`archives/${env}/${pkg.format}/${kind.toLowerCase()}.json`,payload,env,pkg.format);
+  }
+  add('core','core.json',core,null,format);
+  const sourceTimes=[online.generatedAt,irl.generatedAt,deckAggregate.generatedAt,onlineResults.generatedAt].map(value=>new Date(value).getTime()).filter(Number.isFinite);
+  const manifest={schemaVersion:2,release,format,formats,formatDate:date,generatedAt:new Date(sourceTimes.length?Math.max(...sourceTimes):0).toISOString(),files:manifestFiles};
+  return {manifest,files,names};
+}
+
+// Keep the resolver shared with Checkpoint 1, including synthetic test registries.
+import formatResolver from '../v2-preview/apps/_shared/format-resolver.js';
+const newResolver = registry => formatResolver.create(registry);
+
+async function optional(file,fallback) {
+  try { return await readJson(file); } catch(error) { if(error.code==='ENOENT')return fallback; throw error; }
+}
 async function main() {
-  const [online, irl, deckAggregate, onlineResults] = await Promise.all([
-    readJson(path.join(root, 'data', 'meta', 'current-field.json')),
-    readJson(path.join(root, 'data', 'meta', 'irl', `${FORMAT}.json`)),
-    readJson(path.join(root, 'data', 'meta', 'decks', `${FORMAT}.json`)),
-    readJson(path.join(root, 'data', 'meta', 'online-results', `${FORMAT}.json`)).catch(() => ({ generatedAt:'', results:[] })),
-  ]);
-  const release = buildRelease({ online, irl, deckAggregate, onlineResults });
-  await fs.mkdir(outputDir, { recursive:true });
-  await Promise.all(Object.entries(release.files).map(([key, value]) => fs.writeFile(path.join(outputDir, release.names[key]), json(value))));
-  await fs.writeFile(path.join(outputDir, 'manifest.json'), json(release.manifest));
-  console.log(`Built Meta release ${release.manifest.release}`);
-  for (const [key, file] of Object.entries(release.manifest.files)) console.log(`${key}: ${file.bytes} bytes`);
+  const date = process.env.META_AS_OF || new Date().toISOString().slice(0,10);
+  const current = Object.fromEntries(['online','irl'].map(env=>{const context=formatAt(date,env);return [env,context?.contextId?context.label:null]}));
+  if (!current.online || !current.irl) throw new Error('Unknown current format; retaining published release');
+  const latest = await readJson(path.join(root,'data/meta/current-field.json'));
+  // Preserve the complete source package before a transition or later ingest replaces it.
+  const fieldsDir=path.join(root,'data/meta/online-fields');
+  await fs.mkdir(fieldsDir,{recursive:true});
+  const stored=await optional(path.join(fieldsDir,`${latest.format}.json`),null);
+  if(!stored || String(latest.generatedAt)>String(stored.generatedAt))await fs.writeFile(path.join(fieldsDir,`${latest.format}.json`),json(latest));
+  async function onlineInput(format) {
+    const online=await optional(path.join(fieldsDir,`${format}.json`),{format,generatedAt:null,tournaments:[],matchupScopes:{},minTournamentSize:50});
+    const deckAggregate=await optional(path.join(root,`data/meta/decks/${format}.json`),{format,decks:[],matchups:[]});
+    const onlineResults=await optional(path.join(root,`data/meta/online-results/${format}.json`),{format,events:[]});
+    return {online,deckAggregate,onlineResults};
+  }
+  async function irlInput(format) {return {irl:await optional(path.join(root,`data/meta/irl/${format}.json`),{format,generatedAt:null,events:[],decks:[],results:[],matchups:[],note:'No evidence yet for this format.'})};}
+  const archives=[];
+  for(const file of await fs.readdir(fieldsDir))if(file.endsWith('.json')&&file!==`${current.online}.json`)archives.push({environment:'online',...await onlineInput(file.slice(0,-5))});
+  for(const file of await fs.readdir(path.join(root,'data/meta/irl')))if(file.endsWith('.json')&&file!==`${current.irl}.json`)archives.push({environment:'irl',...await irlInput(file.slice(0,-5))});
+  const built=buildRelease({...await onlineInput(current.online),...await irlInput(current.irl),archives,asOf:date});
+  await fs.mkdir(outputDir,{recursive:true});
+  for(const [key,value] of Object.entries(built.files)) {
+    const target=path.join(outputDir,built.names[key]);await fs.mkdir(path.dirname(target),{recursive:true});await fs.writeFile(target,json(value));
+  }
+  await fs.writeFile(path.join(outputDir,'manifest.json'),json(built.manifest));
+  console.log(`Built Meta release ${built.manifest.release}: Online ${current.online}, IRL ${current.irl}; ${archives.length} retained source archives`);
 }
-
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) main();
+if(process.argv[1]&&path.resolve(process.argv[1])===path.resolve(fileURLToPath(import.meta.url)))main();

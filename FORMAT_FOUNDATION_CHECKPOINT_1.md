@@ -1,6 +1,6 @@
 # Checkpoint 1 — Format/Rotation foundation review
 
-**Status: Checkpoint 1 merged and accepted; PR #6 `14fe13b`, subsequent navigation repair PR #7 `94bc077`. Owner confirmed all six navigation retest steps pass. Checkpoint 2 has not begun.**
+**Status: Checkpoint 1 merged and accepted; PR #6 `14fe13b`, subsequent navigation repair PR #7 `94bc077`. Owner confirmed all six navigation retest steps pass. For subsequent Checkpoint 2 status, see `META_FORMATS_CHECKPOINT_2.md`.**
 
 Latest preserved main: `30e669a` (8 September data refresh). Accepted specification: `df51755`, amended by the user's 8 September instructions below. No applicable `AGENTS.md` exists in this checkout. No failed PR was restored/cherry-picked and no existing application script, HTML, CSS, service worker or source payload was edited.
 

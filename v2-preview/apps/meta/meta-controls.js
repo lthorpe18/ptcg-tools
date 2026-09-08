@@ -39,25 +39,50 @@
     setOptions($(`${prefix}Scope`),source === 'irl' ? window.MetaState.irlScopes() : window.MetaState.onlineScopes(),source === 'irl' ? state.irlScope : state.onlineScope);
   }
 
+  function activeSource() {
+    const route=window.MetaRouter?.get?.();
+    if(route?.view==='detail')return route.detail?.source || 'online';
+    if(route?.view==='matchups')return $('matchupPageSource')?.value || 'online';
+    if(route?.view==='decks')return $('deckPageSource')?.value || 'online';
+    if(route?.view==='prep')return null;
+    return document.querySelector('[data-current-source].active')?.dataset.currentSource || 'online';
+  }
+  function syncFormat(requestedSource) {
+    const source=requestedSource || activeSource(),label=$('metaFormatLabel'),control=$('metaFormatControl');
+    if(!label || !control)return;
+    const single=['online','irl'].includes(source);
+    const selected=single?window.MetaData.sourceFormat(source):null;
+    const options=single?window.MetaState.formatOptions(source):[];
+    control.hidden=!single || options.length<2;
+    const current=single?window.MetaData.currentFormat(source):null;
+    label.textContent=single ? `${source==='online'?'Online':'IRL'} · ${selected || 'Unknown format'}${current?.label && current.label!==selected?' · archived':''}` : 'Standard · source formats';
+    if(single)setOptions($('metaFormatSelect'),options.map(value=>({value,label:value+(current?.label===value?' · current':' · archived')})),selected);
+  }
+  $('metaFormatSelect')?.addEventListener('change',event=>{
+    window.MetaState.setFormat(activeSource(),event.target.value);
+    window.MetaRouter?.syncEvidenceRoute?.();
+  });
+
   function sync() {
+    syncFormat();
     const active=document.querySelector('[data-current-source].active')?.dataset.currentSource || 'online';
     syncLandingOptions(active);
     if (!$('matchups')?.classList.contains('hidden')) ensureScopedControl('matchupPageSource','.single-source-control','matchupPage');
     if (!$('decks')?.classList.contains('hidden')) ensureScopedControl('deckPageSource','.single-source-control','deckPage');
   }
 
-  document.querySelectorAll('[data-current-source]').forEach(button => button.addEventListener('click', () => syncLandingOptions(button.dataset.currentSource)));
+  document.querySelectorAll('[data-current-source]').forEach(button => button.addEventListener('click', () => {syncLandingOptions(button.dataset.currentSource);syncFormat(button.dataset.currentSource)}));
   $('currentWindow')?.addEventListener('change', event => {
     const source=document.querySelector('[data-current-source].active')?.dataset.currentSource || 'online';
     source === 'irl' ? window.MetaState.setIrlScope(event.target.value) : window.MetaState.setOnlineScope(event.target.value);
   });
   $('matchupPageSource')?.addEventListener('change',sync);
   $('deckPageSource')?.addEventListener('change',sync);
-  window.addEventListener('meta:data-changed',sync);
+  window.addEventListener('meta:data-changed',event=>{sync();if(['format','archive-core'].includes(event.detail?.reason) && window.MetaRouter?.get?.().view==='detail')window.MetaExplore?.renderDetail?.()});
   document.addEventListener('click',event => { if (event.target.closest('[data-meta-route]')) setTimeout(sync,0); });
 
   const style=document.createElement('style');
-  style.textContent='.meta-scope-control{display:grid;gap:4px;min-width:0;color:#667085;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;flex:1}.meta-scope-control select{appearance:auto;width:100%;min-height:42px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;padding:0 10px;color:#101828;font:inherit;font-size:13px;font-weight:700;box-sizing:border-box}.single-source-control{flex-wrap:wrap}@media(max-width:600px){.single-source-control{display:grid!important;grid-template-columns:1fr}}';
+  style.textContent='#metaFormatControl[hidden]{display:none!important}#metaFormatControl{margin:8px 16px;max-width:360px}' + '.meta-scope-control{display:grid;gap:4px;min-width:0;color:#667085;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;flex:1}.meta-scope-control select{appearance:auto;width:100%;min-height:42px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;padding:0 10px;color:#101828;font:inherit;font-size:13px;font-weight:700;box-sizing:border-box}.single-source-control{flex-wrap:wrap}@media(max-width:600px){.single-source-control{display:grid!important;grid-template-columns:1fr}}';
   document.head.appendChild(style);
   window.MetaControls={ sync };
   setTimeout(sync,0);
