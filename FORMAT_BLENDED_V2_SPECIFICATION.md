@@ -216,4 +216,6 @@ Broader prediction accuracy/fitting/version-administration work is deferred, not
 
 ## 9. Immediate handoff
 
-Checkpoints 1–4 are merged and owner-tested. Checkpoint 4's concise-Home follow-up removes the Home methodology link while retaining the visible current split; its suite passes 102 tests. Detailed methodology remains in Meta. See `HOME_CHECKPOINT_4.md`. Do not begin WSIP/Checkpoint 5, later consumers, deferred Prep UX work or Collection without explicit authorization.
+Checkpoints 1–4 are merged and owner-tested. Checkpoint 4's concise-Home follow-up removes the Home methodology link while retaining the visible current split; its suite passes 103 tests. Detailed methodology remains in Meta. See `HOME_CHECKPOINT_4.md`. Do not begin WSIP/Checkpoint 5, later consumers, deferred Prep UX work or Collection without explicit authorization.
+
+Checkpoint 4 follow-up: the Home hero now explicitly requests Blended on cold and mounted Meta. The owner subsequently reported this handoff failure; device retest of the correction remains pending. PR #12 includes both the handoff correction and Home methodology-link removal. On 8 September the owner authorized merging this follow-up and proceeding to Checkpoint 5.

@@ -6,7 +6,7 @@
 
 ## Checkpoint 4 acceptance — 8 September 2026
 
-Checkpoint 4 is merged and passed the owner's iPhone script; see `HOME_CHECKPOINT_4.md`. Home consumes Meta's canonical current Online-target prediction with target/share/weight/revision parity, loads the required retained IRL transition prior, shows the concise format and current IRL/Online split, refuses cross-format fallback and refreshes release state on warm return. The owner requested removal of the methodology link from Home; detailed calculation remains in Meta. The accepted Home layout is otherwise unchanged. The concise-Home follow-up suite passes 102 tests. Checkpoint 5 has not begun.
+Checkpoint 4 is merged and passed the owner's iPhone script; see `HOME_CHECKPOINT_4.md`. Home consumes Meta's canonical current Online-target prediction with target/share/weight/revision parity, loads the required retained IRL transition prior, shows the concise format and current IRL/Online split, refuses cross-format fallback and refreshes release state on warm return. The owner requested removal of the methodology link from Home; detailed calculation remains in Meta. The accepted Home layout is otherwise unchanged. The concise-Home follow-up suite passes 103 tests. Checkpoint 5 has not begun.
 
 ## Checkpoint 3 acceptance — 8 September 2026
 
@@ -166,3 +166,5 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
 The next action is review and deployment of the concise-Home follow-up, then explicit authorization before Checkpoint 5. Do not begin later checkpoints automatically.
+
+Checkpoint 4 follow-up: the Home hero now explicitly requests Blended on cold and mounted Meta. The owner subsequently reported this handoff failure; device retest of the correction remains pending. PR #12 includes both the handoff correction and Home methodology-link removal. On 8 September the owner authorized merging this follow-up and proceeding to Checkpoint 5.

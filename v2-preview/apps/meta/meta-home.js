@@ -138,12 +138,13 @@
     }));
   }
 
-  document.querySelectorAll('[data-current-source]').forEach(btn => btn.addEventListener('click', () => {
-    const requested = btn.dataset.currentSource;
+  function setSource(requested) {
     state.source = requested === 'irl' ? 'irl' : requested === 'blend' ? 'blend' : 'online';
     state.showAll=false; state.expanded.clear(); renderCurrent();
-    if(state.source==='blend')window.MetaBlendedField?.ensure?.().then(renderCurrent).catch(()=>renderCurrent());
-  }));
+    window.MetaControls?.sync?.();
+    if(state.source==='blend') window.MetaBlendedField?.ensure?.().then(() => { renderCurrent(); window.MetaControls?.sync?.(); }).catch(()=>renderCurrent());
+  }
+  document.querySelectorAll('[data-current-source]').forEach(btn => btn.addEventListener('click', () => setSource(btn.dataset.currentSource)));
   $('blendTargetSelect')?.addEventListener('change',event=>{window.MetaBlendedField?.select?.(event.target.value);state.showAll=false;state.expanded.clear();renderCurrent()});
   $('currentGroupingToggle')?.addEventListener('change', e => { state.grouping=e.currentTarget.checked?'families':'variants'; state.expanded.clear(); renderCurrent(); });
   $('currentMetaSearch')?.addEventListener('input', e => { state.query=e.currentTarget.value || ''; state.expanded.clear(); renderCurrent(); });
@@ -153,6 +154,6 @@
   window.addEventListener('meta:blend-target-changed', () => { if (currentIsActive() && state.source==='blend') renderCurrent(); });
   window.addEventListener('decksprites:updated', () => { if (currentIsActive()) renderCurrent(); });
 
-  window.MetaHome = { render:renderCurrent };
+  window.MetaHome = { render:renderCurrent, setSource };
   renderCurrent();
 })();

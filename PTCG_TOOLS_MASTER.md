@@ -9,7 +9,7 @@
 
 ## Checkpoint 4 acceptance — 8 September 2026
 
-Checkpoint 4 is merged and passed owner iPhone testing; see `HOME_CHECKPOINT_4.md`. Home consumes the same current Online-target Blended prediction as Meta, including identical target, rows, weights and evidence revision; it loads the required retained IRL prior, shows the concise format and current IRL/Online split, explicitly renders unavailable states and refreshes shared release state on warm return. At the owner's request, Home does not link to methodology; the detailed explanation remains in Meta. The existing Home layout and navigation hierarchy are unchanged. The concise-Home follow-up suite passes 102 tests. Checkpoint 5 has not begun.
+Checkpoint 4 is merged and passed owner iPhone testing; see `HOME_CHECKPOINT_4.md`. Home consumes the same current Online-target Blended prediction as Meta, including identical target, rows, weights and evidence revision; it loads the required retained IRL prior, shows the concise format and current IRL/Online split, explicitly renders unavailable states and refreshes shared release state on warm return. At the owner's request, Home does not link to methodology; the detailed explanation remains in Meta. The existing Home layout and navigation hierarchy are unchanged. The concise-Home follow-up suite passes 103 tests. Checkpoint 5 has not begun.
 
 ## Checkpoint 3 acceptance — 8 September 2026
 
@@ -984,3 +984,5 @@ PTCG Tools is successful when:
 - future scale does not require every browser to hammer upstream providers independently.
 
 ---
+
+Checkpoint 4 follow-up: the Home hero now explicitly requests Blended on cold and mounted Meta. The owner subsequently reported this handoff failure; device retest of the correction remains pending. PR #12 includes both the handoff correction and Home methodology-link removal. On 8 September the owner authorized merging this follow-up and proceeding to Checkpoint 5.
