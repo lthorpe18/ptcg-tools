@@ -202,6 +202,12 @@
     });
   }
 
+  function onlineTarget(evidence, options = {}) {
+    const format=contextLabel(evidence?.currentFormats?.online);
+    const rows=predictions(evidence,options);
+    return rows.find(row=>row.format===format) || unavailable(format,format?'A prediction for the current Online format is unavailable.':'Format information is unavailable.',null,isoDay(options.now || evidence?.asOf || new Date().toISOString()),'format-unavailable');
+  }
+
   // Compatibility for Home and consumers migrated in later checkpoints.
   function result(irlRows, onlineRows, events, options = {}) {
     const dates=eventRows(events).map(event=>isoDay(event?.date)).filter(Boolean).sort().reverse();
@@ -222,7 +228,7 @@
   }
 
   window.PTCGMetaBlend = {
-    predictions, currentFromMeta, currentFromCore, mergeRows, weightsForDays,
+    predictions, onlineTarget, currentFromMeta, currentFromCore, mergeRows, weightsForDays,
     policy:{ version:VERSION, irlMax:IRL_MAX, irlMin:IRL_MIN, irlDecayPerDay:IRL_DECAY_PER_DAY, minOnlinePlayers:MIN_ONLINE_PLAYERS },
   };
 })();

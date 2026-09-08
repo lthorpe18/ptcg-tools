@@ -1,16 +1,20 @@
 # PTCG Tools — Roadmap Handoff — 7 September 2026
 
-**Status:** Checkpoints 1 and 2 merged; Checkpoint 3 Blended Meta v2 implemented for review; browser/device acceptance pending
+**Status:** Checkpoints 1–3 merged and accepted; Checkpoint 4 Home integration implemented for review; owner iPhone acceptance pending
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-05.md`
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `HOME_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
 
-## Checkpoint 3 implementation review — 8 September 2026
+## Checkpoint 4 implementation review — 8 September 2026
 
-Checkpoint 3 is implemented for review; see `BLENDED_V2_CHECKPOINT_3.md`. It adds single/dual target predictions, P1–P3/P5 transition calculation, provenance, unavailable states, target switching and the shared methodology explanation to Meta. P4 remains an Event Prep consumer rule for Checkpoint 8. The suite passes 99 tests, including the current real release and synthetic transition matrix. The supported cloud browser rejects the local preview before load, so desktop/390px and owner iPhone acceptance remain pending. Checkpoint 4 has not begun.
+Checkpoint 4 is implemented for review; see `HOME_CHECKPOINT_4.md`. Home now consumes Meta's canonical current Online-target prediction with target/share/weight/revision parity, loads the required retained IRL transition prior, shows concise format/status/methodology context, refuses cross-format fallback and refreshes release state on warm return. The accepted Home layout is unchanged. The suite passes 101 tests. Browser automation is unavailable in the current environment, so owner iPhone acceptance is pending. Checkpoint 5 has not begun.
+
+## Checkpoint 3 acceptance — 8 September 2026
+
+Checkpoint 3 is accepted and merged through PR #9 (`431c7e9`) and its concise explanation follow-up PR #10 (`77f12fc`). The owner confirmed the deployed iPhone result after the stale mounted Meta document was refreshed. Single/dual targets, P1–P3/P5 calculation, unavailable states, provenance and shared explanation are now the accepted Meta baseline. P4 remains an Event Prep consumer rule for Checkpoint 8.
 
 ## Checkpoint 2 implementation review — 8 September 2026
 
-Checkpoint 2 is implemented on the review branch, not accepted, merged or deployed. See `META_FORMATS_CHECKPOINT_2.md` for source-format handling, retained archives, the representative calendar table and the manual browser script. All 90 automated tests pass, including every actual release payload through online/cached loading and synthetic split/ingestion cases. The cloud browser could not provide usable page access; desktop/390px/iPhone acceptance remains outstanding. Checkpoint 3 is not authorized or started.
+Checkpoint 2 merged in PR #8 at `80bf40b`. Its 90-test implementation gate passed. Later Checkpoint 3 device testing covered repeated source switching and navigation, although the original standalone browser script was not separately recorded as a complete pass.
 
 Home and Event Prep only receive the shared-loader version update needed for schema compatibility. Deferred Prep entry/styling/usefulness feedback stays deferred. Preserve PR #7's owner-accepted navigation repair.
 
@@ -161,4 +165,4 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next action is **Checkpoint 2 review and outstanding browser acceptance only**. Do not begin Checkpoint 3 without explicit authorization. Specification approval does not authorize automatically proceeding through later checkpoints.
+The next action is **Checkpoint 4 owner iPhone review only** using `HOME_CHECKPOINT_4.md`. Do not begin Checkpoint 5 without explicit authorization. Specification approval does not authorize automatically proceeding through later checkpoints.

@@ -53,6 +53,13 @@ test('ordinary split exposes two targets, freezes old evidence and gives new for
   const next=predictions[0],old=predictions[1];
   assert.equal(next.rule,'ordinary-set-transition-prior');weightsAre(next.weights,.25,.75);
   assert.equal(old.rule,'frozen-old-format');assert.equal(old.frozen,true);assert.equal(old.evidence.online.frozenAt,'2030-02-01');assert.equal(old.evidence.online.through,'2030-01-29');
+  assert.deepEqual(Blend.onlineTarget(evidence,{now:'2030-02-10'}),next);
+});
+
+test('Online-target selection never substitutes another available format', () => {
+  const evidence={currentFormats:{online:newContext,irl:oldContext},online:{OLD:online('OLD',[event('old-online','2030-01-29')])},irl:{OLD:irl('OLD',[event('major','2030-01-25',800)],oldContext)}};
+  const result=Blend.onlineTarget(evidence,{now:'2030-02-10'});
+  assert.equal(result.format,'NEW');assert.equal(result.available,false);assert.equal(result.rule,'minimum-online-evidence');
 });
 
 test('a newer old-format major resets that frozen prediction to 70/30 without replacing its Online pool', () => {

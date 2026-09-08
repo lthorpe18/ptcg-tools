@@ -101,9 +101,17 @@ Validated release files use a dedicated Cache Storage cache. The active manifest
 
 Normal browsers must not call Limitless tournament APIs. They read prepared GitHub Pages assets; Supabase is not the shared Meta warehouse at the present scale.
 
-### Checkpoint 2 release compatibility (review pending)
+### Checkpoint 2 release compatibility (merged)
 
-Schema 2 labels Online and IRL independently and validates each payload against its manifest source format. Historical format packages remain published; archived cores and heavy evidence load on demand instead of growing the startup core. Network deadlines include response-body reads. Stale asynchronous evidence and startup callbacks cannot replace a newly selected format/release. Home and Event Prep loader URLs are bumped only for schema compatibility. Browser acceptance is still pending; see `META_FORMATS_CHECKPOINT_2.md`.
+Schema 2 labels Online and IRL independently and validates each payload against its manifest source format. Historical format packages remain published; archived cores and heavy evidence load on demand instead of growing the startup core. Network deadlines include response-body reads. Stale asynchronous evidence and startup callbacks cannot replace a newly selected format/release. Checkpoint 2 merged in PR #8; see `META_FORMATS_CHECKPOINT_2.md`.
+
+### Checkpoint 4 Home release freshness (review pending)
+
+Home consumes the canonical current Online-target calculation from the same prepared release as Meta. It loads only retained IRL archive cores required for the eligible transition prior; heavy matchup/result payloads remain deferred. Prediction loads carry a generation token so an older asynchronous release cannot repaint Home after a newer release arrives.
+
+The persistent shell sends a lightweight activation message when an already-mounted Home frame becomes active. Home responds by asking the shared release loader to check the manifest; it does not reload the page, rebuild a second store or call upstream tournament APIs. This closes the warm-return stale-chart gap while preserving mounted-area performance.
+
+Checkpoint 4 also bumps the Home document/static asset references and service-worker cache generation to `ptcg-tools-v29`. This is required because an iPhone can resume a mounted child document across a deployment; data or versioned scripts alone must not create a mixed old-HTML/new-runtime page.
 
 ### 4.3 Query-string cache behavior
 

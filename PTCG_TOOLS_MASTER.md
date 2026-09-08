@@ -7,13 +7,17 @@
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
-## Checkpoint 3 implementation review — 8 September 2026
+## Checkpoint 4 implementation review — 8 September 2026
 
-Blended Meta v2 is implemented for review in `BLENDED_V2_CHECKPOINT_3.md`. The implementation provides single/dual format targets, accepted transition weighting, explicit unavailable states, complete live provenance and the shared methodology explanation inside Meta only. The automated suite passes 99 tests. The current pinned TEF–PBL release resolves to 52% IRL / 48% Online. Cloud-browser access to the local preview is blocked, so desktop/390px and owner iPhone acceptance remain pending. Nothing in this checkpoint integrates Home, WSIP, exact detail, Saved Fields or Event Prep; Checkpoint 4 has not begun.
+Checkpoint 4 is implemented for review in `HOME_CHECKPOINT_4.md`. Home now consumes the same current Online-target Blended prediction as Meta, including identical target, rows, weights and evidence revision; it loads the required retained IRL prior, shows concise format/status/methodology context, explicitly renders unavailable states and refreshes shared release state on warm return. The existing Home layout and navigation hierarchy are unchanged. The full suite passes 101 tests. Local browser automation is unavailable, so owner iPhone acceptance remains pending. Checkpoint 5 has not begun.
+
+## Checkpoint 3 acceptance — 8 September 2026
+
+Checkpoint 3 is accepted and merged. PR #9 merged at `431c7e9`; the owner then requested a concise calculation panel, and PR #10 merged at `77f12fc`. The deployed iPhone flow was confirmed after resolving an old-mounted-HTML cache mismatch. Meta provides single/dual format targets, accepted transition weighting, explicit unavailable states, provenance and the shared methodology explanation. The current pinned TEF–PBL release resolves to 52% IRL / 48% Online. The accepted panel shows the actual deck-share equation and weight calculation, summarises Online evidence rather than listing every tournament and hides internal revision identifiers. Nothing in Checkpoint 3 integrates WSIP, exact detail, Saved Fields or Event Prep.
 
 ## Checkpoint 2 implementation review — 8 September 2026
 
-Checkpoint 2 is implemented on the review branch, not accepted, merged or deployed. See `META_FORMATS_CHECKPOINT_2.md` for source-format handling, retained archives, the representative calendar table and the manual browser script. All 90 automated tests pass, including every actual release payload through online/cached loading and synthetic split/ingestion cases. The cloud browser could not provide usable page access; desktop/390px/iPhone acceptance remains outstanding. Checkpoint 3 is not authorized or started.
+Checkpoint 2 merged in PR #8 at `80bf40b`. See `META_FORMATS_CHECKPOINT_2.md` for source-format handling, retained archives and the representative calendar table. Its 90-test implementation gate passed; later Checkpoint 3 device testing exercised repeated Online/IRL/Blended switching and navigation. The original standalone browser gate was not independently recorded as a complete pass.
 
 Home and Event Prep only receive the shared-loader version update needed for schema compatibility. Deferred Prep entry/styling/usefulness feedback stays deferred. Preserve PR #7's owner-accepted navigation repair.
 

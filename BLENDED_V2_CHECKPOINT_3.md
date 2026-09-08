@@ -1,6 +1,6 @@
 # Checkpoint 3 — Blended Meta v2
 
-**Status:** Implemented for review. Automated validation passes. Cloud-browser desktop/390px acceptance is blocked because the browser rejects local preview URLs. Not merged or deployed. Checkpoint 4 has not begun.
+**Status:** Accepted and merged on 8 September 2026. PR #9 merged at `431c7e9`; concise explanation follow-up PR #10 merged at `77f12fc`. Checkpoint 4 is tracked separately in `HOME_CHECKPOINT_4.md`.
 
 Built from `origin/main` at `72bbd66`, including merged Checkpoint 2 (`80bf40b`) and the subsequent scheduled Meta refresh.
 
@@ -57,7 +57,7 @@ The local QA server started successfully, but the supported cloud browser reject
 
 1. Reload the app, open **Meta**, and switch **Online → IRL → Blended → Online → Blended**. Every tap should respond and the header label should match the selected source.
 2. On **Blended**, confirm one TEF–PBL prediction is shown with **52% IRL / 48% Online** and a populated deck field.
-3. Expand **How this is calculated**. Confirm it names the target format, both weights, World Championship San Francisco, Online tournament evidence, formula version and evidence revision.
+3. Expand **How this is calculated**. Confirm it shows the actual deck-share formula and 52/48 weight calculation, names World Championship San Francisco and summarises the qualifying Online event count/date window without listing every event or exposing internal revision identifiers.
 4. Open **Read the shared Blended methodology**. Confirm the minimum-evidence, settled-format and transition explanations load; return to Meta.
 5. Toggle **Variant grouping** off/on, search for a deck, and expand/close the full field. Confirm the page remains responsive.
 6. Open a deck row, return using in-app navigation, then switch **Online → IRL → Blended** again.
