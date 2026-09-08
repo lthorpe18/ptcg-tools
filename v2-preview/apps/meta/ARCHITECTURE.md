@@ -2,7 +2,7 @@
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. The specification is approved. Checkpoint 1 is merged and accepted; PR #7 navigation repair also passed the owner's six-step retest. See `FORMAT_FOUNDATION_CHECKPOINT_1.md` and `COMPETE_NAVIGATION_FIX_2026-09-08.md`. Checkpoint 2 is implemented for review; browser acceptance is outstanding. See `META_FORMATS_CHECKPOINT_2.md`. Checkpoint 3 and later consumer work have not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. Checkpoints 1 and 2 are merged. Checkpoint 3 is implemented for review in `BLENDED_V2_CHECKPOINT_3.md`; browser/device acceptance is outstanding. Checkpoint 4 and later consumer work have not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
 
 The owner authorized **Checkpoint 2: Meta Online/IRL only**; the next action is its review and browser acceptance. Use the shared foundation for independent source formats, event classification, retained archives and scoped evidence. Verify every actual release payload online and cached, source/label agreement, source switching, detail and reload. No new Blended or Home/WSIP/Prep integration, navigation redesign, admin/fitting tools or Collection. Preserve PR #7 and subsequent fixes; stop after Checkpoint 2 review. Do not restore PR #4/#5 or repeat the full forensic review.
 

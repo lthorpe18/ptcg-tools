@@ -17,8 +17,14 @@
     if(!unavailableSources.has(key))unavailableSources.set(key,{format:selected,unavailable:true,scopes:{},events:[],note:'Requested format evidence is unavailable'});
     return unavailableSources.get(key);
   }
-  async function ensureFormat(env) {
-    const entry=core?.archives?.[env]?.[state[env+'Format']];
+  function sourceCoreFor(env,format) {
+    const current=core?.[env],selected=format || current?.format || core?.format;
+    if(selected===(current?.format || core?.format))return current;
+    const entry=core?.archives?.[env]?.[selected];
+    return archiveCores.get(release+':'+env+':'+selected) || (entry?.coreKey ? null : entry) || null;
+  }
+  async function loadArchive(env,format) {
+    const entry=core?.archives?.[env]?.[format];
     if(!entry?.coreKey)return;
     const requestedRelease=release,key=release+':'+env+':'+entry.format;
     if(archiveCores.has(key))return archiveCores.get(key);
@@ -26,12 +32,26 @@
       const request=window.MetaRelease.load(entry.coreKey).then(payload=>{
         if(payload.release!==requestedRelease || payload.format!==entry.format)throw new Error('Archive core identity mismatch');
         const data={...payload,payloadPrefix:entry.payloadPrefix};archiveCores.set(key,data);
-        if(release===requestedRelease && state[env+'Format']===entry.format)emit('archive-core');
+        if(release===requestedRelease)emit('archive-core');
         return data;
       }).finally(()=>archiveLoading.delete(key));
       archiveLoading.set(key,request);
     }
     return archiveLoading.get(key);
+  }
+  async function ensureFormat(env) {return loadArchive(env,state[env+'Format']);}
+  async function ensureBlendEvidence() {
+    const jobs=[];
+    for(const env of ['online','irl'])for(const format of Object.keys(core?.archives?.[env] || {}))jobs.push(loadArchive(env,format));
+    await Promise.all(jobs);
+  }
+  function blendEvidence() {
+    const packages={online:{},irl:{}};
+    for(const env of ['online','irl'])for(const format of formatOptions(env)) {
+      const value=sourceCoreFor(env,format);
+      if(value)packages[env][format]=value;
+    }
+    return {asOf:core?.formatDate,splitDate:core?.splitDate || null,currentFormats:core?.currentFormats || {},calendarRevision:core?.calendarRevision,...packages};
   }
   function requestSelectedArchives() {
     for(const env of ['online','irl'])ensureFormat(env).catch(error=>{console.warn('Meta archive unavailable',error);emit('archive-error')});
@@ -283,7 +303,7 @@
   }
 
   window.MetaState = { setFormat, formatOptions, get:() => ({ ...state }), onlineScopes:() => ONLINE_SCOPES.map(option => ({ ...option })), irlScopes:() => irlScopeOptions().map(option => ({ ...option })), setOnlineScope, setIrlScope };
-  window.MetaData = { sourceFormat:env=>sourceCore(env)?.format || core?.format || null, currentFormat:env=>core?.currentFormats?.[env] || null, ready:() => window.MetaRelease.ready(), ensure, isLoaded:key => !!lazy[key], refresh:() => window.MetaRelease.refresh(), data, onlineData, irlData, fieldRows, matchup, context, onlineTournaments:selectedOnlineEvents, irlEvents:selectedIrlEvents, recordsUrl, release:() => release };
+  window.MetaData = { sourceFormat:env=>sourceCore(env)?.format || core?.format || null, currentFormat:env=>core?.currentFormats?.[env] || null, ready:() => window.MetaRelease.ready(), ensure, ensureBlendEvidence, blendEvidence, isLoaded:key => !!lazy[key], refresh:() => window.MetaRelease.refresh(), data, onlineData, irlData, fieldRows, matchup, context, onlineTournaments:selectedOnlineEvents, irlEvents:selectedIrlEvents, recordsUrl, release:() => release };
   window.MetaIRLScope = { get:() => state.irlScope, set:value => setIrlScope(value), options:irlScopeOptions, selectedEvents:selectedIrlEvents, selectedDecks:() => irlData().decks, selectedMatchups:() => irlData().matchups };
 
   window.addEventListener('meta:release-core', event => applyCore(window.MetaRelease.core(), event.detail?.source || 'core'));

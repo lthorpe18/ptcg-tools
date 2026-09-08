@@ -1,8 +1,12 @@
 # PTCG Tools — Roadmap Handoff — 7 September 2026
 
-**Status:** Checkpoint 1 and Compete navigation repair accepted; Checkpoint 2 Meta Online/IRL implemented for review; browser acceptance pending
+**Status:** Checkpoints 1 and 2 merged; Checkpoint 3 Blended Meta v2 implemented for review; browser/device acceptance pending
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-05.md`
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `HOME_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
+
+## Checkpoint 3 implementation review — 8 September 2026
+
+Checkpoint 3 is implemented for review; see `BLENDED_V2_CHECKPOINT_3.md`. It adds single/dual target predictions, P1–P3/P5 transition calculation, provenance, unavailable states, target switching and the shared methodology explanation to Meta. P4 remains an Event Prep consumer rule for Checkpoint 8. The suite passes 99 tests, including the current real release and synthetic transition matrix. The supported cloud browser rejects the local preview before load, so desktop/390px and owner iPhone acceptance remain pending. Checkpoint 4 has not begun.
 
 ## Checkpoint 2 implementation review — 8 September 2026
 

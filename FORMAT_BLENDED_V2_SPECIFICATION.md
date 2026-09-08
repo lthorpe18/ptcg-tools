@@ -1,6 +1,6 @@
 # Format/Rotation and Blended Meta v2 — Accepted Recovery Specification
 
-**Status:** Product specification accepted on 7 September 2026. Checkpoint 1 is merged and accepted. Checkpoint 2 is implemented for review with automated validation; browser acceptance is pending. See `FORMAT_FOUNDATION_CHECKPOINT_1.md` and `META_FORMATS_CHECKPOINT_2.md`. Checkpoint 3 has not begun.
+**Status:** Product specification accepted on 7 September 2026. Checkpoints 1 and 2 are merged. Checkpoint 3 is implemented for review with automated validation; browser/device acceptance is pending. See `FORMAT_FOUNDATION_CHECKPOINT_1.md`, `META_FORMATS_CHECKPOINT_2.md` and `BLENDED_V2_CHECKPOINT_3.md`. Checkpoint 4 has not begun.
 **Source review:** main `eb7809c5724f687c15d2d99b7af1f1f7b5365365`.
 **Companions:** PTCG_TOOLS_MASTER.md; ROADMAP_HANDOFF_2026-09-07.md; HOME_ARCHITECTURE.md; WHAT_SHOULD_I_PLAY_ARCHITECTURE.md; v2-preview/apps/meta/ARCHITECTURE.md; PERFORMANCE_ARCHITECTURE.md.
 
