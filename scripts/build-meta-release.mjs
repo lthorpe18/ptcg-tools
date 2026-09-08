@@ -90,6 +90,19 @@ export function buildRelease({online,irl,deckAggregate,onlineResults,archives=[]
   const currentFormats = Object.fromEntries(['online','irl'].map(env=>[env,formatAt(date,env,rules)]));
   const selected = {online:sourcePackage('online',{online,deckAggregate,onlineResults},rules),irl:sourcePackage('irl',{irl},rules)};
   const archived = archives.map(item=>({environment:item.environment,...sourcePackage(item.environment,item,rules)}));
+  function evidenceContext(pkg,environment) {
+    const currentMatch=Object.values(currentFormats).find(context=>context?.label===pkg.format);
+    if(currentMatch)return currentMatch;
+    const dates=(environment==='online'?(pkg.core.scopes?.all?.events||[]):(pkg.core.events||[])).map(event=>event.date).filter(Boolean).sort().reverse();
+    const baseline=registry.baseline?.asOf;
+    if(baseline)dates.push(baseline);
+    for(const eventDate of dates) {
+      const context=formatAt(eventDate,environment,rules);
+      if(context?.contextId && context.label===pkg.format)return context;
+    }
+    return null;
+  }
+  for(const pkg of archived)pkg.core.formatContext=evidenceContext(pkg,pkg.environment);
   const seed = {schemaVersion:2,selected,archived,currentFormats,registry,asOf:date};
   const release = digest(seed).slice(0,20);
   const formats = Object.fromEntries(Object.entries(selected).map(([env,pkg])=>[env,pkg.format]));
@@ -100,13 +113,14 @@ export function buildRelease({online,irl,deckAggregate,onlineResults,archives=[]
     names[key] = name;
     manifestFiles[key] = {path:name,sha256:digest(files[key]),bytes:Buffer.byteLength(json(files[key])),environment,format:sourceFormat};
   }
-  const core = {formats,currentFormats,formatDate:date,calendarRevision:rules.revision,online:selected.online.core,irl:selected.irl.core,archives:{online:{},irl:{}}};
+  const splitDate=format ? null : (registry.sets || []).flatMap(set=>[set.legality?.online?.value]).filter(value=>value && value<=date).sort().at(-1) || null;
+  const core = {formats,currentFormats,...(splitDate?{splitDate}:{}),formatDate:date,calendarRevision:rules.revision,online:selected.online.core,irl:selected.irl.core,archives:{online:{},irl:{}}};
   for (const env of ['online','irl']) for (const [kind,payload] of Object.entries(selected[env].payloads)) add(env+kind,`${env}-${kind.toLowerCase()}.json`,payload,env,formats[env]);
   for (const pkg of archived) {
     const env=pkg.environment;
     if (pkg.format === formats[env]) continue;
     const prefix=`archive:${env}:${pkg.format}:`;
-    core.archives[env][pkg.format]={format:pkg.format,generatedAt:pkg.core.generatedAt,payloadPrefix:prefix,coreKey:prefix+'Core'};
+    core.archives[env][pkg.format]={format:pkg.format,generatedAt:pkg.core.generatedAt,formatContext:pkg.core.formatContext,payloadPrefix:prefix,coreKey:prefix+'Core'};
     add(prefix+'Core',`archives/${env}/${pkg.format}/core.json`,pkg.core,env,pkg.format);
     for (const [kind,payload] of Object.entries(pkg.payloads)) add(prefix+kind,`archives/${env}/${pkg.format}/${kind.toLowerCase()}.json`,payload,env,pkg.format);
   }

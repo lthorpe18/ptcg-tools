@@ -51,6 +51,12 @@
     const source=requestedSource || activeSource(),label=$('metaFormatLabel'),control=$('metaFormatControl');
     if(!label || !control)return;
     const single=['online','irl'].includes(source);
+    if(source==='blend') {
+      const prediction=window.MetaBlendedField?.selected?.();
+      control.hidden=true;
+      label.textContent=`Blended · ${prediction?.format || 'Unknown format'}${prediction?.available===false?' · unavailable':''}`;
+      return;
+    }
     const selected=single?window.MetaData.sourceFormat(source):null;
     const options=single?window.MetaState.formatOptions(source):[];
     control.hidden=!single || options.length<2;
@@ -79,6 +85,7 @@
   $('matchupPageSource')?.addEventListener('change',sync);
   $('deckPageSource')?.addEventListener('change',sync);
   window.addEventListener('meta:data-changed',event=>{sync();if(['format','archive-core'].includes(event.detail?.reason) && window.MetaRouter?.get?.().view==='detail')window.MetaExplore?.renderDetail?.()});
+  window.addEventListener('meta:blend-target-changed',sync);
   document.addEventListener('click',event => { if (event.target.closest('[data-meta-route]')) setTimeout(sync,0); });
 
   const style=document.createElement('style');

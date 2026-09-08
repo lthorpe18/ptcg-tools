@@ -48,6 +48,7 @@ test('builder rejects mismatched source aggregate and event declarations',()=>{
 });
 test('split release retains old Online evidence separately and does not relabel IRL',()=>{
  const r=splitRelease();assert.equal(r.files.core.online.format,'TEF-30C');assert.equal(r.files.core.irl.format,'TEF-PBL');assert.equal(r.manifest.format,null);
+ assert.equal(r.files.core.splitDate,'2030-02-01');assert.equal(r.files.core.archives.online['TEF-PBL'].formatContext.label,'TEF-PBL');
  assert.equal(r.files['archive:online:TEF-PBL:History'].tournaments[0].id,'synthetic-old');
  assert.equal(r.files.onlineHistory.tournaments[0].id,'synthetic-online');
  assert.equal(r.files.core.currentFormats.irl.label,'TEF-PBL');

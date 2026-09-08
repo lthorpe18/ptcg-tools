@@ -7,7 +7,7 @@
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
 
   function blendedRows() {
-    const result = window.MetaBlendedField?.current?.();
+    const result = window.MetaBlendedField?.selected?.();
     return (result?.rows || [])
       .filter(d => !ignored(d.name))
       .map(d => ({
@@ -70,11 +70,31 @@
   }
 
   function blendedContextHtml() {
-    const result = window.MetaBlendedField?.current?.() || {};
+    const result = window.MetaBlendedField?.selected?.() || {};
+    if (!result.available) return `<div><b>—</b><span>IRL weight</span></div><div><b>—</b><span>Online weight</span></div><div class="wide"><b>${esc(result.format || 'Unknown format')} · unavailable</b><span>${esc(result.reason || 'Compatible evidence is unavailable.')}</span></div>`;
     const irl = Math.round(100 * Number(result.weights?.irl || 0));
     const online = Math.round(100 * Number(result.weights?.online || 0));
     const major = result.majorDate ? `Major weekend ${result.majorDate}` : 'Latest major weekend';
-    return `<div><b>${irl}%</b><span>IRL weight</span></div><div><b>${online}%</b><span>Online weight</span></div><div class="wide"><b>Blended current field</b><span>${esc(major)} · Online since major · 50+ players</span></div>`;
+    return `<div><b>${irl}%</b><span>IRL weight</span></div><div><b>${online}%</b><span>Online weight</span></div><div class="wide"><b>${esc(result.format)} · ${esc(result.status)}</b><span>${esc(major)} · 50+ player Online evidence</span></div>`;
+  }
+
+  function evidenceHtml(item) {
+    if (!item) return '<li>No compatible evidence used.</li>';
+    const events=(item.events || []).map(event=>`${esc(event.name)}${event.date?` (${esc(event.date)})`:''}`).join(', ');
+    return `<li><b>${item.source==='irl'?'IRL':'Online'} · ${esc(item.format || 'unknown')}</b> — ${Number(item.eventCount||0).toLocaleString()} tournament${Number(item.eventCount||0)===1?'':'s'}${item.from?` · ${esc(item.from)}${item.through&&item.through!==item.from?` to ${esc(item.through)}`:''}`:''}${events?`<br><span>${events}</span>`:''}</li>`;
+  }
+
+  function renderBlendControls() {
+    const predictions=window.MetaBlendedField?.predictions?.() || [], result=window.MetaBlendedField?.selected?.() || {};
+    const control=$('blendTargetControl'),select=$('blendTargetSelect'),method=$('blendMethod');
+    if(control)control.hidden=state.source!=='blend' || predictions.length<2;
+    if(select) {
+      const html=predictions.map(item=>`<option value="${esc(item.format)}">${esc(item.format)}${item.available?'':' · unavailable'}</option>`).join('');
+      if(select.innerHTML!==html)select.innerHTML=html;
+      select.value=result.format || '';
+    }
+    if(method)method.hidden=state.source!=='blend';
+    if($('blendMethodBody')) $('blendMethodBody').innerHTML=`<p><b>${esc(result.status || 'Unavailable')}</b>${result.reason?` — ${esc(result.reason)}`:''}</p>${result.available?`<p>This prediction uses <b>${Math.round(100*Number(result.weights?.irl||0))}% IRL</b> and <b>${Math.round(100*Number(result.weights?.online||0))}% Online</b>. Rule: ${esc(String(result.rule||'').replaceAll('-',' '))}.</p>`:''}<ul>${evidenceHtml(result.evidence?.irl)}${evidenceHtml(result.evidence?.online)}</ul><p class="blend-version">Method ${esc(result.version || window.MetaBlendedField?.policy?.version || '')} · Evidence revision ${esc(result.revision || 'not available')}</p><a href="../_shared/blended-methodology.html" target="_blank" rel="noopener">Read the shared Blended methodology</a>`;
   }
 
   function renderCurrent() {
@@ -82,6 +102,7 @@
     if ($('currentGroupingToggle')) $('currentGroupingToggle').checked = state.grouping === 'families';
     if ($('currentMetaSearch') && $('currentMetaSearch').value !== state.query) $('currentMetaSearch').value = state.query;
     if ($('currentWindow')) $('currentWindow').hidden = state.source === 'blend';
+    renderBlendControls();
     const all = rows();
     const shown = state.query ? all : (state.showAll ? all : all.slice(0,8));
     if (state.source === 'blend') {
@@ -105,12 +126,15 @@
     const requested = btn.dataset.currentSource;
     state.source = requested === 'irl' ? 'irl' : requested === 'blend' ? 'blend' : 'online';
     state.showAll=false; state.expanded.clear(); renderCurrent();
+    if(state.source==='blend')window.MetaBlendedField?.ensure?.().then(renderCurrent).catch(()=>renderCurrent());
   }));
+  $('blendTargetSelect')?.addEventListener('change',event=>{window.MetaBlendedField?.select?.(event.target.value);state.showAll=false;state.expanded.clear();renderCurrent()});
   $('currentGroupingToggle')?.addEventListener('change', e => { state.grouping=e.currentTarget.checked?'families':'variants'; state.expanded.clear(); renderCurrent(); });
   $('currentMetaSearch')?.addEventListener('input', e => { state.query=e.currentTarget.value || ''; state.expanded.clear(); renderCurrent(); });
   $('currentMetaMore')?.addEventListener('click', () => { state.showAll=!state.showAll; renderCurrent(); });
   const currentIsActive = () => window.MetaRouter?.get?.().view === 'current' || (!window.MetaRouter && !$('currentMetaPage')?.classList.contains('hidden'));
   window.addEventListener('meta:data-changed', () => { if (currentIsActive()) { state.showAll=false; state.expanded.clear(); renderCurrent(); } });
+  window.addEventListener('meta:blend-target-changed', () => { if (currentIsActive() && state.source==='blend') renderCurrent(); });
   window.addEventListener('decksprites:updated', () => { if (currentIsActive()) renderCurrent(); });
 
   window.MetaHome = { render:renderCurrent };

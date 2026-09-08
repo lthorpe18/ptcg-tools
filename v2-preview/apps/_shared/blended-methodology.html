@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8fb">
+  <title>Blended methodology · PTCG Tools</title>
+  <link rel="stylesheet" href="app-shell.css?v=2">
+  <style>
+    body{margin:0;background:#f7f8fb;color:#101828;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.method{max-width:720px;margin:0 auto;padding:24px 18px 48px}.method>a{color:#175cd3;font-size:13px;font-weight:800;text-decoration:none}.method h1{font-size:26px;line-height:1.1;margin:20px 0 6px}.method .lede{margin:0 0 18px;color:#475467;line-height:1.5}.method section{margin:12px 0;padding:16px;border:1px solid #e4e7ec;border-radius:14px;background:#fff}.method h2{font-size:16px;margin:0 0 8px}.method p,.method li{font-size:13px;line-height:1.55}.method ul{padding-left:20px}.method .version{color:#667085;font-size:11px}
+  </style>
+</head>
+<body>
+  <main class="method">
+    <a href="../meta/">← Meta</a>
+    <h1>How Blended is calculated</h1>
+    <p class="lede">Blended estimates the field at a major-quality tournament today or tomorrow in the format named on the prediction. Online and IRL are evidence sources; they are not silently mixed across incompatible formats.</p>
+    <section><h2>Minimum evidence</h2><p>A prediction needs results from at least one compatible Online tournament with 50 or more players. One tournament is sufficient. Without it, that format is shown as unavailable rather than replaced by IRL-only or another-format evidence.</p></section>
+    <section><h2>Settled format</h2><p>The latest compatible IRL major weekend starts at 70% weight. Its weight falls by two percentage points per day after the weekend, stopping at 30%. Online receives the remainder and uses qualifying tournaments after that major weekend. A newly accepted major resets that Online window, so the prediction waits for a qualifying post-major Online result.</p></section>
+    <section><h2>Set transitions</h2><p>Before the first major in an ordinary new-set format, eligible immediately preceding IRL evidence contributes 25% and new-format Online contributes 75%. After rotation, incompatible old IRL contributes 0%. During an Online/IRL split, the old-format Online pool and its weights freeze at the Online boundary; a newer old-format major resets that old prediction to 70% IRL and 30% frozen Online.</p></section>
+    <section><h2>Reproducibility</h2><p>Each prediction records its target format, actual weights, evidence tournaments and dates, frozen status, rule, formula version and evidence revision. Later Saved Expected Field and Event Prep checkpoints will preserve those details in captured snapshots.</p><p class="version">Current formula: blended-v2.1 · Accepted policy decisions P1–P5 · 8 September 2026</p></section>
+  </main>
+</body>
+</html>

@@ -7,6 +7,10 @@
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
+## Checkpoint 3 implementation review — 8 September 2026
+
+Blended Meta v2 is implemented for review in `BLENDED_V2_CHECKPOINT_3.md`. The implementation provides single/dual format targets, accepted transition weighting, explicit unavailable states, complete live provenance and the shared methodology explanation inside Meta only. The automated suite passes 99 tests. The current pinned TEF–PBL release resolves to 52% IRL / 48% Online. Cloud-browser access to the local preview is blocked, so desktop/390px and owner iPhone acceptance remain pending. Nothing in this checkpoint integrates Home, WSIP, exact detail, Saved Fields or Event Prep; Checkpoint 4 has not begun.
+
 ## Checkpoint 2 implementation review — 8 September 2026
 
 Checkpoint 2 is implemented on the review branch, not accepted, merged or deployed. See `META_FORMATS_CHECKPOINT_2.md` for source-format handling, retained archives, the representative calendar table and the manual browser script. All 90 automated tests pass, including every actual release payload through online/cached loading and synthetic split/ingestion cases. The cloud browser could not provide usable page access; desktop/390px/iPhone acceptance remains outstanding. Checkpoint 3 is not authorized or started.
