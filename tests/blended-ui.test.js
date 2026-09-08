@@ -18,7 +18,7 @@ test('Meta Blended switches targets and changes an unavailable target to availab
   const buttons=['online','irl','blend'].map(source=>{const item=element();item.dataset.currentSource=source;if(source==='online')item.classList.toggle('active',true);return item});
   const listeners=new Map();
   let available=false,selected='NEW';
-  const makePrediction=format=>({version:'blended-v2.1',format,available:format==='OLD'||available,status:format==='OLD'?'Frozen':'Unavailable',reason:format==='OLD'||available?null:'Waiting for evidence',rule:'synthetic',rows:format==='OLD'||available?[{name:'A',share:1}]:[],weights:format==='OLD'?{irl:.5,online:.5}:available?{irl:.25,online:.75}:{irl:0,online:0},evidence:{online:{source:'online',format,eventCount:1,events:[]},irl:null}});
+  const makePrediction=format=>({version:'blended-v2.1',revision:'internal-revision',format,available:format==='OLD'||available,status:format==='OLD'?'Frozen':'Unavailable',reason:format==='OLD'||available?null:'Waiting for evidence',rule:format==='OLD'?'settled-format':'synthetic',daysSinceMajor:format==='OLD'?10:null,rows:format==='OLD'||available?[{name:'A',share:1}]:[],weights:format==='OLD'?{irl:.5,online:.5}:available?{irl:.25,online:.75}:{irl:0,online:0},evidence:{online:{source:'online',format,eventCount:36,from:'2030-01-02',through:'2030-01-10',events:[{name:'Hidden Online Event'}]},irl:format==='OLD'?{source:'irl',format,eventCount:1,from:'2030-01-01',through:'2030-01-01',events:[{name:'Visible IRL Major'}]}:null}});
   const context={
     window:null,document:{getElementById:id=>ids[id]||null,querySelectorAll:selector=>selector==='[data-current-source]'?buttons:[],querySelector:()=>null},
     CustomEvent:class CustomEvent{constructor(type,options={}){this.type=type;this.detail=options.detail}},
@@ -41,4 +41,9 @@ test('Meta Blended switches targets and changes an unavailable target to availab
   assert.match(ids.currentMetaStats.innerHTML,/25%/);assert.match(ids.currentMetaList.innerHTML,/Blended current-field share/);
   ids.blendTargetSelect.value='OLD';ids.blendTargetSelect.fire('change');
   assert.match(ids.currentMetaStats.innerHTML,/OLD · Frozen/);assert.equal(ids.blendTargetSelect.value,'OLD');
+  assert.match(ids.blendMethodBody.innerHTML,/Each deck's predicted share = <b>50% × its IRL share \+ 50% × its Online share/);
+  assert.match(ids.blendMethodBody.innerHTML,/70% − 2% × 10 days/);
+  assert.match(ids.blendMethodBody.innerHTML,/36 qualifying 50\+ player tournaments/);
+  assert.match(ids.blendMethodBody.innerHTML,/Visible IRL Major/);
+  assert.doesNotMatch(ids.blendMethodBody.innerHTML,/Hidden Online Event|internal-revision|Evidence revision/);
 });

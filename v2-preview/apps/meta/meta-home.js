@@ -80,8 +80,24 @@
 
   function evidenceHtml(item) {
     if (!item) return '<li>No compatible evidence used.</li>';
-    const events=(item.events || []).map(event=>`${esc(event.name)}${event.date?` (${esc(event.date)})`:''}`).join(', ');
-    return `<li><b>${item.source==='irl'?'IRL':'Online'} · ${esc(item.format || 'unknown')}</b> — ${Number(item.eventCount||0).toLocaleString()} tournament${Number(item.eventCount||0)===1?'':'s'}${item.from?` · ${esc(item.from)}${item.through&&item.through!==item.from?` to ${esc(item.through)}`:''}`:''}${events?`<br><span>${events}</span>`:''}</li>`;
+    const count=Number(item.eventCount||0),label=item.source==='irl'?'IRL':'Online';
+    const dates=item.from?`${esc(item.from)}${item.through&&item.through!==item.from?` to ${esc(item.through)}`:''}`:'';
+    const eventNames=item.source==='irl'?(item.events||[]).map(event=>esc(event.name)).filter(Boolean).join(', '):'';
+    const qualifier=item.source==='online'?' qualifying 50+ player':'';
+    return `<li><b>${label} · ${esc(item.format || 'unknown')}</b> — ${count.toLocaleString()}${qualifier} tournament${count===1?'':'s'}${dates?` · ${dates}`:''}${eventNames?`<br><span>${eventNames}</span>`:''}</li>`;
+  }
+
+  function formulaHtml(result) {
+    if (!result.available) return '';
+    const irl=Math.round(100*Number(result.weights?.irl||0)),online=Math.round(100*Number(result.weights?.online||0));
+    let weightRule;
+    if (result.rule==='settled-format'||result.rule==='frozen-old-format') {
+      const days=Math.max(0,Number(result.daysSinceMajor||0));
+      weightRule=`IRL weight = max(30%, 70% − 2% × ${days} day${days===1?'':'s'}) = <b>${irl}%</b>. Online receives the remaining <b>${online}%</b>.`;
+    } else if (result.rule==='new-old-format-major') weightRule=`A newer compatible old-format major fixes this prediction at <b>${irl}% IRL / ${online}% Online</b>.`;
+    else if (result.rule==='ordinary-set-transition-prior') weightRule=`Before the first major in this ordinary new-set format, the accepted split is <b>${irl}% preceding-format IRL / ${online}% current-format Online</b>.`;
+    else weightRule=`Only compatible Online evidence is currently used, giving <b>${irl}% IRL / ${online}% Online</b>.`;
+    return `<p><b>Current formula</b><br>Each deck's predicted share = <b>${irl}% × its IRL share + ${online}% × its Online share</b>.</p><p>${weightRule}</p>`;
   }
 
   function renderBlendControls() {
@@ -94,7 +110,7 @@
       select.value=result.format || '';
     }
     if(method)method.hidden=state.source!=='blend';
-    if($('blendMethodBody')) $('blendMethodBody').innerHTML=`<p><b>${esc(result.status || 'Unavailable')}</b>${result.reason?` — ${esc(result.reason)}`:''}</p>${result.available?`<p>This prediction uses <b>${Math.round(100*Number(result.weights?.irl||0))}% IRL</b> and <b>${Math.round(100*Number(result.weights?.online||0))}% Online</b>. Rule: ${esc(String(result.rule||'').replaceAll('-',' '))}.</p>`:''}<ul>${evidenceHtml(result.evidence?.irl)}${evidenceHtml(result.evidence?.online)}</ul><p class="blend-version">Method ${esc(result.version || window.MetaBlendedField?.policy?.version || '')} · Evidence revision ${esc(result.revision || 'not available')}</p><a href="../_shared/blended-methodology.html" target="_blank" rel="noopener">Read the shared Blended methodology</a>`;
+    if($('blendMethodBody')) $('blendMethodBody').innerHTML=`<p><b>${esc(result.status || 'Unavailable')}</b>${result.reason?` — ${esc(result.reason)}`:''}</p>${formulaHtml(result)}<ul>${evidenceHtml(result.evidence?.irl)}${evidenceHtml(result.evidence?.online)}</ul><a href="../_shared/blended-methodology.html" target="_blank" rel="noopener">Read the shared Blended methodology</a>`;
   }
 
   function renderCurrent() {
