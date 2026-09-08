@@ -153,17 +153,25 @@
     control.addEventListener('click', () => navigate(control.dataset.metaRoute));
   });
 
+  function applyExternal(input, options) {
+    const next=parse(input);
+    apply(next, options);
+    // currentSource is a one-use entry instruction. Clean it after use so a
+    // later warm return does not overwrite the source the user chose in Meta.
+    if(next.currentSource)writeRoute(route,'replace');
+  }
+
   window.addEventListener('message', event => {
     if (event.origin !== location.origin || event.source !== window.parent || event.data?.type !== 'ptcg:shell-apply-route') return;
-    apply(parse(event.data.url));
+    applyExternal(event.data.url);
   });
 
   if (!embedded()) {
-    const applyLocation = () => apply(parse(location.href));
+    const applyLocation = () => applyExternal(location.href);
     window.addEventListener('popstate', applyLocation);
     window.addEventListener('hashchange', applyLocation);
   }
 
   window.MetaRouter = { syncEvidenceRoute:()=>writeRoute(route,'replace'), get, parse, urlFor, apply, navigate, openDetail, closeDetail, replaceDetailSource };
-  apply(parse(location.href), { scroll: false });
+  applyExternal(location.href, { scroll: false });
 })();
