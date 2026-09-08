@@ -74,6 +74,12 @@
   }
   function hideStatus(){if(status)status.hidden=true}
 
+  function notifyActive(section){
+    const frame=frameBySection.get(section);
+    if(!frame?.contentWindow||!loaded.has(section))return;
+    try{frame.contentWindow.postMessage({type:'ptcg:shell-activated',section},window.location.origin)}catch{}
+  }
+
   function restoreHomeFrame(){
     const frame=frameBySection.get('home');
     if(!frame)return;
@@ -137,6 +143,7 @@
       if(on)item.setAttribute('aria-current','page');else item.removeAttribute('aria-current');
     }
     if(!loaded.has(section))showStatus(`Loading ${label(section)}…`);else hideStatus();
+    notifyActive(section);
     if(historyMode!=='none'){
       const childUrl=requested||currentFrameUrl(section);
       const state={section,childUrl:childUrl||null};
@@ -187,6 +194,7 @@
       installChildBridge(frame);
       if(frame.dataset.section==='meta'&&routes.has('meta'))sendFrameRoute(frame,routes.get('meta'));
       if(frame.dataset.section===active)hideStatus();
+      if(frame.dataset.section===active)notifyActive(active);
     });
   }
 

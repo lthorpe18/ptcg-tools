@@ -1,14 +1,14 @@
 # PTCG Tools — Home Architecture
 
-**Status:** Current implemented Home source of truth  
-**Date:** 5 September 2026  
+**Status:** Checkpoint 4 implementation ready for owner review
+**Date:** 8 September 2026
 **Scope:** `v2-preview/` Home/dashboard only
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. The specification is approved. Checkpoint 1 is merged and accepted; PR #7 navigation repair also passed the owner's six-step retest. See `FORMAT_FOUNDATION_CHECKPOINT_1.md` and `COMPETE_NAVIGATION_FIX_2026-09-08.md`. Checkpoint 2 is implemented for review; browser acceptance is outstanding. See `META_FORMATS_CHECKPOINT_2.md`. Checkpoint 3 and later consumer work have not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract and checkpoint gates. Checkpoints 1–3 are merged and accepted. Checkpoint 4 is implemented for review in `HOME_CHECKPOINT_4.md`; owner iPhone acceptance is pending. Checkpoint 5 and later consumers have not begun.
 
-The owner authorized **Checkpoint 2: Meta Online/IRL only**; the next action is its review and browser acceptance. Use the shared foundation for independent source formats, event classification, retained archives and scoped evidence. Verify every actual release payload online and cached, source/label agreement, source switching, detail and reload. No new Blended or Home/WSIP/Prep integration, navigation redesign, admin/fitting tools or Collection. Preserve PR #7 and subsequent fixes; stop after Checkpoint 2 review. Do not restore PR #4/#5 or repeat the full forensic review.
+Checkpoint 4 replaces Home's legacy compatibility calculation with the canonical current Online-target prediction used by Meta. It preserves the accepted dashboard layout, grouping and navigation while adding the existing format chip, concise status/methodology link, explicit unavailable state and warm-return freshness. No WSIP, exact detail, Saved Field or Event Prep migration is included.
 
 Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
 
@@ -293,4 +293,4 @@ The Home navigation regression/consistency pass was accepted on iPhone against i
 
 Further Home work is polish/bugfix only unless the roadmap deliberately reopens the product surface.
 
-Collection / physical readiness remains deferred. The next task is the bounded Format/Rotation foundation described in the current roadmap and accepted recovery specification.
+Collection / physical readiness remains deferred. The next action is Checkpoint 4 owner iPhone review; do not begin Checkpoint 5 without explicit authorization.

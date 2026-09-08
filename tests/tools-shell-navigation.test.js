@@ -10,12 +10,13 @@ function harness() {
   const listeners = {};
   const historyCalls = [];
   const replacements = [];
+  const messages = [];
   const frames = ['home', 'meta', 'tools'].map(section => {
     const child = { href: 'about:blank', replace(url) { replacements.push(url); this.href = url; } };
     const frame = {
       dataset: { section, src: section === 'home' ? './home-content.html' : `./apps/${section}/` },
       classList: { toggle() {} },
-      contentWindow: { location: child, postMessage() {} },
+      contentWindow: { location: child, postMessage(message) { messages.push({section,message}); } },
       contentDocument: null,
       listeners: {},
       addEventListener(type, fn) { this.listeners[type] = fn; },
@@ -39,10 +40,11 @@ function harness() {
   });
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../v2-preview/scripts/persistent-shell.js'), 'utf8'), context);
   const tools = frames.find(frame => frame.dataset.section === 'tools');
+  const home = frames.find(frame => frame.dataset.section === 'home');
   const click = section => nav.find(item => item.dataset.target === section).click();
   click('tools');
   tools.listeners.load();
-  return { tools, click, listeners, replacements, historyCalls };
+  return { tools, home, click, listeners, replacements, historyCalls, messages };
 }
 
 test('returning to mounted Tools retains each latest tab without navigation', () => {
@@ -56,6 +58,16 @@ test('returning to mounted Tools retains each latest tab without navigation', ()
     assert.equal(h.tools.contentWindow.location.href.endsWith(`#${tab}`), true);
   }
   assert.deepEqual(h.replacements, []);
+});
+
+test('returning to mounted Home asks it to refresh derived release state', () => {
+  const h=harness();
+  const homeMessages=()=>h.messages.filter(item=>item.section==='home'&&item.message.type==='ptcg:shell-activated');
+  h.click('home');
+  h.home.listeners.load();
+  assert.equal(homeMessages().length,1);
+  h.click('meta');h.click('home');
+  assert.equal(homeMessages().length,2);
 });
 
 test('an explicit history route still overrides the current Tools tab', () => {

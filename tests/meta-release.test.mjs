@@ -67,17 +67,24 @@ test('release identity changes with source content even when timestamps do not',
   assert.notEqual(first,second);
 });
 
-test('Home and Meta share one blended-field calculation',()=>{
+test('Home and Meta share the canonical Online-target Blended calculation',()=>{
   const context=vm.createContext({window:{},Date,Map,Math,Number,String,Array,Object,Set});
   vm.runInContext(read('v2-preview/apps/_shared/meta-blend.js'),context);
-  const result=context.window.PTCGMetaBlend.currentFromCore(data('v2-preview/data/meta/release/core.json'),{now:new Date('2026-09-05T12:00:00Z')});
+  const core=data('v2-preview/data/meta/release/core.json');
+  const evidence={asOf:core.formatDate,currentFormats:core.currentFormats,calendarRevision:core.calendarRevision,online:{[core.online.format]:core.online},irl:{[core.irl.format]:core.irl}};
+  const result=context.window.PTCGMetaBlend.onlineTarget(evidence);
+  const metaResult=context.window.PTCGMetaBlend.predictions(evidence).find(row=>row.format===core.currentFormats.online.label);
+  assert.deepEqual(result,metaResult);
   assert.ok(result.rows.length>0);
   assert.ok(Math.abs(result.rows.reduce((sum,row)=>sum+row.share,0)-1)<1e-9);
   assert.ok(Math.abs(result.weights.irl+result.weights.online-1)<1e-9);
   const wrapper=read('v2-preview/apps/meta/blended-field.js');
   const home=read('v2-preview/scripts/home.js');
   assert.match(wrapper,/PTCGMetaBlend/);
-  assert.match(home,/model\.currentFromCore/);
+  assert.match(home,/model\.onlineTarget/);
+  assert.doesNotMatch(home,/model\.currentFromCore/);
+  assert.match(home,/renderMetaUnavailable/);
+  assert.match(home,/request!==metaLoadId/);
   assert.doesNotMatch(home,/contentWindow|parentMetaFrame/);
 });
 

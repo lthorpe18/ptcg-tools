@@ -4,6 +4,9 @@
   const DAY=86400000;
   const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[c]));
   let metaCore=null;
+  let metaPrediction=null;
+  let metaLoadId=0;
+  let metaRefresh=null;
 
   function safeDate(snapshot){
     if(!snapshot||typeof snapshot!=='object')return null;
@@ -114,16 +117,40 @@
     return false;
   }
 
+  function renderMetaUnavailable(reason){
+    const el=document.getElementById('blendedMetaPreview');
+    if(!el)return false;
+    el.innerHTML=`<div class="home-meta-unavailable"><strong>Blended unavailable</strong><span>${esc(reason||'Compatible prediction evidence is unavailable.')}</span></div>`;
+    return false;
+  }
+
+  function renderMetaContext(){
+    const result=metaPrediction,format=result?.format||metaCore?.currentFormats?.online?.label||metaCore?.online?.format||null;
+    const pill=document.getElementById('formatPill'),pillText=pill?.querySelector('span:last-child');
+    if(pillText)pillText.textContent=`Blended${format?` · ${format}`:''}${result?.available===false?' · unavailable':''}`;
+    const status=document.getElementById('homeBlendStatus')?.querySelector('span');
+    if(status){
+      if(!result)status.textContent='Loading current prediction…';
+      else if(!result.available)status.textContent=`Unavailable · ${result.reason||'Compatible prediction evidence is unavailable.'}`;
+      else{
+        const labels={'Current blended prediction':'Current','Online evidence and weights frozen':'Frozen','Online evidence frozen · weights reset 70/30':'Frozen','Early format · previous-format IRL prior':'Early format','Early rotated format · Online evidence only':'Early format','Online evidence only':'Online only'};
+        status.textContent=`${labels[result.status]||result.status||'Current'} · ${Math.round(100*Number(result.weights?.irl||0))}% IRL · ${Math.round(100*Number(result.weights?.online||0))}% Online`;
+      }
+    }
+    const hero=document.querySelector('.home-meta-hero');
+    if(hero)hero.setAttribute('aria-label',`Open Meta${format?` for Blended ${format}`:''}`);
+  }
+
   function renderMetaPreview(){
     const el=document.getElementById('blendedMetaPreview');
     if(!el)return false;
-    const model=window.PTCGMetaBlend;
-    if(!model?.currentFromCore||!metaCore)return renderMetaLoading();
+    renderMetaContext();
+    if(!metaPrediction)return renderMetaLoading();
+    if(!metaPrediction.available)return renderMetaUnavailable(metaPrediction.reason);
 
     try{
-      const result=model.currentFromCore(metaCore);
-      const rows=presentationRows(result?.rows||[]).slice(0,5);
-      if(!rows.length)return renderMetaLoading();
+      const rows=presentationRows(metaPrediction.rows||[]).slice(0,5);
+      if(!rows.length)return renderMetaUnavailable('No predicted deck shares are available.');
       const maxShare=Math.max(...rows.map(row=>Number(row.share)||0),0.001);
       el.innerHTML=rows.map(row=>{
         const share=Number(row.share)||0;
@@ -145,13 +172,41 @@
     document.querySelectorAll('input[name="homeVariantGrouping"]').forEach(input=>input.addEventListener('change',renderMetaPreview));
   }
 
+  function blendEvidence(core,archiveIrl=[]){
+    const online={},irl={};
+    if(core?.online?.format)online[core.online.format]=core.online;
+    if(core?.irl?.format)irl[core.irl.format]=core.irl;
+    for(const item of archiveIrl)if(item?.format)irl[item.format]=item;
+    return {asOf:core?.formatDate,splitDate:core?.splitDate||null,currentFormats:core?.currentFormats||{},calendarRevision:core?.calendarRevision,online,irl};
+  }
+
+  async function predictionForCore(core){
+    const model=window.PTCGMetaBlend;
+    if(!model?.onlineTarget)throw new Error('Shared Blended model is unavailable');
+    const entries=Object.values(core?.archives?.irl||{}).filter(entry=>entry?.coreKey);
+    const archives=await Promise.all(entries.map(entry=>window.MetaRelease.load(entry.coreKey)));
+    return model.onlineTarget(blendEvidence(core,archives));
+  }
+
   function bindMetaRuntime(){
     const apply=()=>{
-      metaCore=window.MetaRelease?.core?.()||metaCore;
+      const core=window.MetaRelease?.core?.()||metaCore;
+      if(!core)return renderMetaPreview();
+      const request=++metaLoadId;
+      metaCore=core;metaPrediction=null;
       renderMetaPreview();
+      predictionForCore(core).then(result=>{
+        if(request!==metaLoadId)return;
+        metaPrediction=result;renderMetaPreview();
+      }).catch(error=>{
+        if(request!==metaLoadId)return;
+        console.warn('Home Blended prediction unavailable',error);
+        metaPrediction={format:core?.currentFormats?.online?.label||core?.online?.format||null,available:false,reason:'Required Blended evidence could not be loaded.',rows:[],weights:{irl:0,online:0}};
+        renderMetaPreview();
+      });
     };
     window.addEventListener('meta:release-core',apply);
-    window.MetaRelease?.ready?.().then(payload=>{metaCore=payload||metaCore;renderMetaPreview()});
+    window.MetaRelease?.ready?.().then(apply).catch(apply);
     apply();
   }
 
@@ -221,6 +276,10 @@
   bindGroupingControl();
   bindMetaRuntime();
   renderHome();
+  window.addEventListener('message',event=>{
+    if(event.origin!==location.origin||event.source!==window.parent||event.data?.type!=='ptcg:shell-activated'||event.data.section!=='home')return;
+    if(!metaRefresh)metaRefresh=window.MetaRelease?.refresh?.().catch(error=>console.warn('Home Meta refresh unavailable',error)).finally(()=>{metaRefresh=null});
+  });
   window.addEventListener('storage',renderHome);
   window.addEventListener('ptcg:local-change',renderHome);
   window.addEventListener('decksprites:updated',()=>{renderDeckPreview();renderMetaPreview()});
