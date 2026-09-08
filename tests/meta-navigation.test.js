@@ -26,6 +26,7 @@ function routerHarness(initial = 'https://example.test/ptcg-tools/v2-preview/app
   const location = { href: initial, origin: new URL(initial).origin };
   const historyCalls = [];
   const parentMessages = [];
+  const selectedSources = [];
   const updateLocation = value => { location.href = new URL(value, location.href).href; };
   const document = {
     body: { dataset: {} },
@@ -34,7 +35,7 @@ function routerHarness(initial = 'https://example.test/ptcg-tools/v2-preview/app
   };
   const window = {
     parent: null,
-    MetaHome: { render() {} },
+    MetaHome: { render() {}, setSource(source) { selectedSources.push(source); } },
     MetaExplore: { renderDeckExplorer() {}, renderMatchups() {}, showDetail() {} },
     MetaControls: { sync() {} },
     MetaContext: { render() {} },
@@ -55,7 +56,7 @@ function routerHarness(initial = 'https://example.test/ptcg-tools/v2-preview/app
     },
   });
   vm.runInContext(read('v2-preview/apps/meta/meta-router.js'), context);
-  return { router:window.MetaRouter, elements, document, historyCalls, parentMessages, location };
+  return { router:window.MetaRouter, elements, document, historyCalls, parentMessages, location, selectedSources };
 }
 
 function activeViews(harness) {
@@ -142,3 +143,16 @@ test('deck-detail matchup rows reserve the full two-sprite identity width', () =
   assert.match(css, /\.matchup-opponent>\.deck-sprite-stack,\.matchup-opponent>\.deck-sprite\{flex:0 0 68px;min-width:68px;max-width:68px;overflow:visible\}/);
   assert.match(html, /meta-explorer-v2\.css\?v=8/);
 });
+
+ test('Home hero selects Blended on cold and already-mounted Meta routes', () => {
+  const home=read('v2-preview/home-content.html');
+  const href=home.match(/data-home-href="([^"]*currentSource=blend[^"]*)"/)[1];
+  const url=new URL(href,'https://example.test/ptcg-tools/v2-preview/home-content.html').href;
+  const cold=routerHarness(url);
+  assert.deepEqual(cold.selectedSources,['blend']);
+  const warm=routerHarness();
+  warm.router.navigate('decks',{history:false});
+  warm.router.apply(warm.router.parse(url));
+  assert.equal(warm.router.get().view,'current');
+  assert.deepEqual(warm.selectedSources,['blend']);
+ });

@@ -1,14 +1,14 @@
 # PTCG Tools — Home Architecture
 
-**Status:** Checkpoint 4 implementation ready for owner review
+**Status:** Checkpoint 4 accepted; concise-Home follow-up implemented for review
 **Date:** 8 September 2026
 **Scope:** `v2-preview/` Home/dashboard only
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract and checkpoint gates. Checkpoints 1–3 are merged and accepted. Checkpoint 4 is implemented for review in `HOME_CHECKPOINT_4.md`; owner iPhone acceptance is pending. Checkpoint 5 and later consumers have not begun.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract and checkpoint gates. Checkpoints 1–4 are merged and owner-tested; the final concise-Home follow-up is implemented for review in `HOME_CHECKPOINT_4.md`. Checkpoint 5 and later consumers have not begun.
 
-Checkpoint 4 replaces Home's legacy compatibility calculation with the canonical current Online-target prediction used by Meta. It preserves the accepted dashboard layout, grouping and navigation while adding the existing format chip, concise status/methodology link, explicit unavailable state and warm-return freshness. No WSIP, exact detail, Saved Field or Event Prep migration is included.
+Checkpoint 4 replaces Home's legacy compatibility calculation with the canonical current Online-target prediction used by Meta. It preserves the accepted dashboard layout, grouping and navigation while adding the existing format chip, concise visible split, explicit unavailable state and warm-return freshness. Detailed methodology remains in Meta and is deliberately not linked from Home. No WSIP, exact detail, Saved Field or Event Prep migration is included.
 
 Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
 

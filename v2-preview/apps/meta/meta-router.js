@@ -35,8 +35,9 @@
       };
     }
     if (hash === 'what-should-i-play' || hash === 'play') return { view: 'prep', detail: null };
-    if (hash === 'overview' || hash === 'meta') return { view: 'current', detail: null };
-    return { view: CHILD_VIEWS.has(hash) ? hash : 'current', detail: null };
+    const currentSource = ['online','irl','blend'].includes(url.searchParams.get('currentSource')) ? url.searchParams.get('currentSource') : null;
+    if (hash === 'overview' || hash === 'meta') return { view: 'current', detail: null, currentSource };
+    return { view: CHILD_VIEWS.has(hash) ? hash : 'current', detail: null, currentSource };
   }
 
   function urlFor(next) {
@@ -89,6 +90,7 @@
       } : null,
     };
     if (route.view === 'detail' && !route.detail.deckName) route = { view: 'current', detail: null };
+    if (route.view === 'current' && next.currentSource) window.MetaHome?.setSource?.(next.currentSource);
     setExclusiveView(route.view);
     renderActive();
     if (scroll) window.scrollTo({ top: 0, behavior: 'instant' });
