@@ -25,7 +25,7 @@ Both rows are derived from the same prepared release and shared calculation. The
 
 ## Validation
 
-`node --test tests/*.test.js tests/*.test.mjs`: **103/103 pass** after the concise-Home follow-up.
+`node --test tests/*.test.js tests/*.test.mjs`: **103/103 pass** after the concise-Home and hero-handoff follow-ups.
 
 Coverage includes:
 
@@ -46,7 +46,7 @@ The local QA server starts successfully, but the required `agent-browser` execut
 
 ## Owner acceptance
 
-The owner passed cold load, target/weight/share parity, grouping and warm navigation, then reported that the Home hero opened Online rather than Blended. The follow-up adds an explicit Blended route for both cold and mounted Meta, covered by a behavioural router regression. Device retest of that correction remains pending. The other requested change was to remove the methodology link from Home while retaining the visible current split. Meta keeps the detailed **How this is calculated** explanation.
+The owner passed cold load, target/weight/share parity, grouping and warm navigation, then reported that the Home hero opened Online rather than Blended. The follow-up adds an explicit one-use Blended entry instruction for both cold and mounted Meta, then cleans it so later user source choices are preserved. This is covered by a behavioural router regression; device retest remains pending. The other requested change was to remove the methodology link from Home while retaining the visible current split. Meta keeps the detailed **How this is calculated** explanation.
 
 The unavailable and future TEF–30C split cases are automated because production does not yet contain qualifying 30C results. Stop after Checkpoint 4 review; do not begin Checkpoint 5 without explicit authorization.
 

@@ -144,12 +144,14 @@ test('deck-detail matchup rows reserve the full two-sprite identity width', () =
   assert.match(html, /meta-explorer-v2\.css\?v=8/);
 });
 
- test('Home hero selects Blended on cold and already-mounted Meta routes', () => {
+test('Home hero selects Blended once on cold and already-mounted Meta routes', () => {
   const home=read('v2-preview/home-content.html');
   const href=home.match(/data-home-href="([^"]*currentSource=blend[^"]*)"/)[1];
   const url=new URL(href,'https://example.test/ptcg-tools/v2-preview/home-content.html').href;
   const cold=routerHarness(url);
   assert.deepEqual(cold.selectedSources,['blend']);
+  assert.equal(cold.historyCalls.at(-1).mode,'replace');
+  assert.doesNotMatch(cold.location.href,/currentSource/);
   const warm=routerHarness();
   warm.router.navigate('decks',{history:false});
   warm.router.apply(warm.router.parse(url));

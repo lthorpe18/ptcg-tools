@@ -10,6 +10,8 @@ See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract and 
 
 Checkpoint 4 replaces Home's legacy compatibility calculation with the canonical current Online-target prediction used by Meta. It preserves the accepted dashboard layout, grouping and navigation while adding the existing format chip, concise visible split, explicit unavailable state and warm-return freshness. Detailed methodology remains in Meta and is deliberately not linked from Home. No WSIP, exact detail, Saved Field or Event Prep migration is included.
 
+The Blended hero carries a one-use `currentSource=blend` entry instruction. Meta consumes it on cold or mounted entry and immediately restores its canonical clean route, so later user source choices are not reset on warm return.
+
 Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
 
 Keep analysis concise. Essential format/status stays inline; **How this is calculated** reveals actual weights, dates, tournaments and transition rule; one shared methodology page records assumptions, formula version and changes. Saved fields retain the assumptions used at capture. This explanation is required UX, not the deferred fitting/admin subsystem.
