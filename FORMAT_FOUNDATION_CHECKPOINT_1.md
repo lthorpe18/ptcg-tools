@@ -1,66 +1,103 @@
 # Checkpoint 1 — Format/Rotation foundation review
 
-Status: **implementation prepared; acceptance incomplete**. No merge, deployment, UI integration or Checkpoint 2 work.
+**Status: current-calendar implementation and automated validation complete; review-ready with one pre-existing browser Back failure recorded. Not merged or deployed. Checkpoint 2 has not begun.**
 
-Base: `f6c59c8` on latest main, including accepted specification `df51755` and the subsequent data refresh. No applicable `AGENTS.md` exists in this checkout. The requested specification, master, roadmap, performance, Home, WSIP and Meta architecture documents were read. PRs #4/#5 were neither restored nor cherry-picked.
+Latest preserved main: `30e669a` (8 September data refresh). Accepted specification: `df51755`, amended by the user's 8 September instructions below. No applicable `AGENTS.md` exists in this checkout. No failed PR was restored/cherry-picked and no existing application script, HTML, CSS, service worker or source payload was edited.
 
-## Changes
+## Agreed simplification — 8 September
 
-- `v2-preview/apps/_shared/format-resolver.js`: one synchronous, DOM-free resolver for explicit calendar dates and environments. No fetches, readiness promise, implicit clock, observers, storage writes or consumer initialization.
-- `data/formats/verified-seed.json`: separately sourced, deliberately partial real evidence pack. Does **not** claim complete production formats.
-- `tests/fixtures/format-synthetic.json`: explicitly invented 2030 universe for deterministic acceptance; never loaded by the app.
-- `tests/format-resolver.test.js`: behavioural acceptance tests.
-- `scripts/report-format-foundation.mjs`: reproduces the representative table below.
+The owner will maintain infrequent set/rotation facts manually. No scraping, automatic date derivation, administration interface or exhaustive card-legality system is required.
 
-No existing application JS, HTML, CSS, service worker, data payload or navigation was changed. The new module is opt-in and no production entrypoint loads it. Existing visible behaviour is therefore structurally unchanged, but this is not a substitute for the outstanding browser gate.
+The current calendar is `data/formats/maintained-calendar.json`, explicitly **user-maintained**, not independently verified:
 
-## Contract
+- current Standard: H–J, earliest set TEF, latest PBL;
+- 30C Online legality: 15 September 2026;
+- 30C IRL legality: 24 September 2026;
+- 30C release date, next rotation and releases after 30C: unknown.
+
+The baseline is asserted as of 8 September, not the invented start of this format. Unknown historical dates and the exhaustive set roster remain unknown. Completing that history is no longer treated as a blocker to using the owner-supplied current format context. A list containing only TEF/PBL must never be advertised as the complete legal-set roster.
+
+For a later rotation set, record `rotation: {lowestMark, regulationMarks, earliestSet}` on the set. Rotation applies independently at that set's Online/IRL legality dates. `earliestSet` can remain absent if only the new lower mark is known. Release remains a separate date; rotation can therefore occur without a tabletop release that day. The ordinary 30C entry has `rotation: null`.
+
+## Shared API and boundaries
+
+`v2-preview/apps/_shared/format-resolver.js` remains the one opt-in, synchronous, DOM-free owner. It has no fetches, implicit clock, observers, storage mutations or production consumers.
 
 ```js
 const Format = require('./v2-preview/apps/_shared/format-resolver.js');
-const resolver = Format.create(registry);
-const result = resolver.resolve('2030-03-01');
-const eventResult = resolver.resolveEvent({date: '2030-03-01', environment: 'irl'});
+const calendar = require('./data/formats/maintained-calendar.json');
+const resolver = Format.create(calendar);
+const answer = resolver.resolve('2026-09-15');
+const event = resolver.resolveEvent({date: '2026-09-15', environment: 'irl'});
 ```
 
-A classic browser script exposes the same API as `PTCGFormat`. No loader or consumer integration is supplied in this checkpoint. Callers must supply a registry explicitly. `validate(registry)` returns schema errors; `create` rejects invalid registries. Missing evidence is valid input, not a startup exception.
+For the maintained calendar, each environment exposes:
 
-Dates must be valid, strict `YYYY-MM-DD` strings. A date denotes the applicable environment/event calendar day, inclusive, independent of the viewer's timezone. Timestamps and `Date` objects are rejected rather than silently converted. This API does **not** answer intraday Live availability; the verified 17 July 2025 Live source specifies 10:00 PDT, retained in provenance. A later consumer needing intraday resolution must not describe the day-level result as midnight activation.
+- `formatContext`: the maintained label, stable `contextId`, regulation range, baseline reference, additions, latest sets, source and unknowns;
+- `maintainedBoundary`: lowest mark and earliest set;
+- `scheduledSets`: explicit environment admission states/dates;
+- `nextScheduledChange`: next known dated additions/rotation, retaining simultaneous changes and undated-order blockers;
+- `nextRotation`: the next scheduled rotation, or explicit unknown.
 
-Release is tabletop release, independent of Online admission, IRL admission and rotation. No release-offset or calendar-year rotation fallback exists. The one derived Perfect Order IRL seed date is recorded explicitly with its qualifying regular booster-release evidence and the separately sourced two-week policy. That arithmetic is not runtime policy for other sets, especially special sets.
+Use `formatContext.contextId` for the maintained calendar identity. It is independent of environment and effective date once both environments have adopted the same changes. It identifies the maintained format context, **not** an exhaustive enumerated card pool. Compact labels are never individual-card/deck legality proof.
 
-Each environment returns:
+The lower-level explicit registry API is retained for independently verified historical evidence and synthetic tests. Its `format.id` remains null when exhaustive catalog/exception information is absent; `legalSets`/`releasedSets` enumerate registered facts only. Do not confuse these lower-level coverage flags with the known owner-maintained boundary. In particular, an empty `releasedSets` in the maintained seed means no exact release facts supplied, not that no sets have been released.
 
-- the last recorded applicable rotation and, separately, a trusted boundary (null outside verified chronology coverage);
-- legal, illegal and unknown registered sets, with reasons and admission status;
-- the legal regulation-mark portion of mixed-mark sets;
-- an exact canonical pool identity only when catalog, timeline, marks and exception information are complete;
-- the next dated legality/rotation changes, grouped for simultaneous changes, with ordering uncertainty and blockers.
+`data/formats/verified-seed.json` remains an optional partial historical evidence pack, not the current calendar. `tests/fixtures/format-synthetic.json` is an invented universe, not factual seed data. No production entrypoint loads any of these assets yet.
 
-A lower mark is not inferred from the first set row. An explicit `boundary.setIds` can alternatively define the complete permitted set pool when no mark is supplied; it is an explicit membership list, not a first-set shorthand. A mark-based boundary uses separately recorded set marks. These are set/pool-level results; older equivalent printings and individual deck legality are not adjudicated here.
+Dates use strict, inclusive `YYYY-MM-DD` event/environment calendar days. Viewer timezone cannot change them. Timestamps/Date objects and missing event dates are rejected instead of using today. This is day-level, not intraday Live availability. Results are deeply frozen and retain revision/provenance; later edits do not rewrite captured results. Saved-field integration remains a later checkpoint.
 
-Format identity includes scope, lower boundary, permitted set/mark portions and versioned exception identifiers. It excludes environment, query date, display shorthand and metadata revision: equal permitted pools in Online/IRL receive the same identity. Exception identifiers must refer to an exhaustive verified policy set before declaring their fact confirmed. A null exception fact is not equivalent to a confirmed empty list.
+## Validation
 
-Coverage has inclusive `from`/`through` bounds. Catalog completeness means all relevant sets, not just all rows that happen to be registered. Unknown chronology never silently becomes today's format. Future/undated announced sets can retain an established present identity within explicit complete coverage, while their legality remains unknown and the ordering of future changes is qualified. An unconfirmed rotation prevents a complete identity. A future dated change beyond coverage is not necessarily next.
+`node --test tests/*.test.js tests/*.test.mjs`: **68/68 pass** (28 foundation cases, 40 existing). `git diff --check` passes. An expected offline warning comes from an existing deliberate failure fixture.
 
-Inputs are copied at resolver creation; outputs are deeply frozen, include registry revision and fixture kind, and can be serialized as independent values. This proves resolver immutability only; Saved Expected Field/locked snapshot integration remains a later checkpoint.
+Cases cover independent release/admission/rotation, before/at/after boundaries, simultaneous additions, rotation without release, missing dates/history/boundaries, explicit event/first-major dates, four-timezone parity, immutable results, schema/source validation, the actual maintained 30C transition, synthetic set-linked rotation and unknown next rotation. No weights or Blended implementation was added.
 
-## Verification and blockers
+Browser checks ran against the local checkout including latest main. Dependency-free `package.json` QA commands and `tests/browser/serve.cjs` preserve the working static preview setup: `npm run dev` serves the checkout, `npm test` runs the tests, and `npm run report:format` prints the report. No installation or production build is introduced. In Work, use the supervised preview with this checkout as its root, not a wrapper root or symlink. `tests/browser/format-foundation.html` provides a reproducible 1100px/390px sizing wrapper, actual shell reload button and clearly synthetic attending-event fixture. It must run only on a fresh local test origin/profile, never a signed-in production session.
 
-`node --test tests/*.test.js tests/*.test.mjs`: **61/61 pass**, comprising 21 new cases and 40 existing cases. The expected offline-loader warning is from an existing deliberate failure fixture. No production failure was observed by these tests.
+| Check | Result |
+|---|---|
+| Home fresh load and populated chart, desktop/390px | Pass |
+| Online → IRL → Blended repeated source changes, desktop/390px | Pass; distinct data renders |
+| Home ↔ mounted Meta, retained deck detail | Pass |
+| Exact-deck detail entry and shell deep reload, desktop/390px | Pass |
+| Browser Forward and direct top-level deep reload | Pass |
+| Attending-event Prep loads field, shortlist and plan controls, desktop/390px | Pass using synthetic fixture |
+| Prep Adjust controls, leave/return, 390px deep reload | Pass |
+| Browser Back from first exact-detail route to bare Meta route | **Existing failure**, described below |
+| Actual iPhone/Home Screen | Not tested; no new visible UI to accept in this checkpoint |
 
-New coverage: independent release/Online/IRL legality; before/at/after both legality and rotation boundaries; rotation without release; simultaneous additions; mixed marks and exception identity; missing dates/history/marks/catalog/lower boundary; announced undated sets and rotations; next-change ordering; explicit event and first-major date; invalid dates; UTC/London/Los Angeles/Kiritimati parity; immutable snapshots; source/schema rejection; browser-global execution without browser services.
+### Existing navigation finding — separate bounded fix
 
-**Browser gate: blocked, not passed.** The local browser runner failed during startup. The supported cloud-browser preview could load a temporary wrapper, but application navigation was blocked; the static checkout was outside that wrapper's restricted preview filesystem. No working Home/Meta/Prep page was reached, and no browser responsiveness, source-switching, Back/Forward, deep reload, desktop or 390px acceptance is claimed. The wrapper is outside the repository and is not part of the change. No actual iPhone testing occurred. A supported preview setup for this static repository is required to finish this gate.
+On the app opened directly (not just inside the sizing wrapper): Home → Meta → Dragapult detail; wait for the serialized detail URL; browser Back. The URL returns to `?section=meta`, but the Dragapult detail remains visible instead of Current Meta. Forward and reloading the fully serialized detail URL work. The same initial symptom also appeared in the 390px/desktop wrapper.
 
-**Real-data coverage: incomplete, not production-ready.** Official indexed sources verified two rotation announcements and three expansions' release/Online facts. Complete official page/PDF retrieval was unavailable for several sources. The seed deliberately leaves set regulation-mark inventories, exhaustive exception policy, BLK/WHT IRL dates, other sets/promos, older history and later chronology unconfirmed. It cannot generate a complete real format identity, including for 8 September 2026. Full seed coverage is required before this foundation can supply current production consumers; no TEF-PBL or other inferred identity is substituted. This is outstanding foundation data work, not authorization to start Checkpoint 2.
+The current shell's popstate handler has no explicit child route in the bare Meta history entry and falls back to its retained latest route. This is consistent with the observed failure. The shell/router files are byte-identical to latest main, and the new resolver is not loaded by the app. This is not caused by the foundation. No navigation fix is included because this checkpoint preserves visible application behaviour.
 
-Stop here. Review the implementation, complete real-data verification and the browser gate before marking Checkpoint 1 accepted. Do not continue into Meta, Blended, Home, WSIP, Prep integration or Collection.
+The browser gate is therefore **not an all-green application acceptance**. The infrastructure block from the first session is resolved. The only observed functional browser failure is recorded for a separate small navigation task; it must not be hidden by the automated test count.
 
-## Representative date results
+## Review and next action
 
-Run `node scripts/report-format-foundation.mjs`. “Released” below lists **registered rows only**, never all released Pokémon sets. `?` is an explicitly unknown complete legal pool. Real rows retain confirmed admission dates even where marks/exception gaps prevent full legality classification.
+Review this isolated foundation and the maintained calendar results. The unknown 30C release date is a legitimate explicit unknown, not a reason to guess or scrape. The user may supply it later.
 
+No PR merge, deployment or Checkpoint 2 is implied. Resolve or explicitly disposition the existing Back finding before declaring every browser acceptance case passed. Stop at Checkpoint 1; no Home/Meta integration, Blended, administration/fitting, individual deck legality or Collection work was performed.
+
+## Reproducible date report
+
+Run `node scripts/report-format-foundation.mjs`. Its first table is the current user-maintained calendar. The second is historical/synthetic acceptance evidence and must not override the maintained calendar.
+## User-maintained current calendar
+Dates supplied by the project owner; not independently verified. Unknown release/history data remain unknown.
+| Date | Online format | IRL format | Lowest mark / set | Next Online / IRL scheduled change | 30C release |
+|---|---|---|---|---|---|
+| 2026-09-08 | TEF-PBL | TEF-PBL | H / TEF | 2026-09-15 / 2026-09-24 | Unknown |
+| 2026-09-14 | TEF-PBL | TEF-PBL | H / TEF | 2026-09-15 / 2026-09-24 | Unknown |
+| 2026-09-15 | TEF-30C | TEF-PBL | H / TEF | Unknown / 2026-09-24 | Unknown |
+| 2026-09-23 | TEF-30C | TEF-PBL | H / TEF | Unknown / 2026-09-24 | Unknown |
+| 2026-09-24 | TEF-30C | TEF-30C | H / TEF | Unknown / Unknown | Unknown |
+| 2026-09-25 | TEF-30C | TEF-30C | H / TEF | Unknown / Unknown | Unknown |
+
+Next rotation: unknown. Releases after 30C: unknown. H–J remains the maintained regulation range.
+
+## Historical evidence and synthetic acceptance fixtures
 | Date | Case | Released (registered only) | Online lower mark / legal sets | IRL lower mark / legal sets | Full identities | Next Online / IRL change |
 |---|---|---|---|---|---|---|
 | 2025-07-17 | Real simultaneous Online admission | None | G / ? (incomplete) | G / ? (incomplete) | Unknown/incomplete | 2026-03-26 (order uncertain) / 2026-04-10 (order uncertain) |
@@ -76,14 +113,3 @@ Run `node scripts/report-format-foundation.mjs`. “Released” below lists **re
 | 2030-02-15 | SYNTHETIC both adopt | OLD, BASE, A, B | G / OLD, BASE, A, B | G / OLD, BASE, A, B | Known, same | 2030-03-01 / 2030-03-15 |
 | 2030-03-01 | SYNTHETIC rotation without release | OLD, BASE, A, B | H / BASE, A, B | G / OLD, BASE, A, B | Known, different | none known / 2030-03-15 |
 | 2030-03-15 | SYNTHETIC IRL catches up | OLD, BASE, A, B | H / BASE, A, B | H / BASE, A, B | Known, same | none known / none known |
-
-## Seed sources
-
-Source references, verification date, confirmation status, date convention and retrieval limitations are retained per fact in the seed. The factual sources are:
-
-- [2025 rotation](https://www.pokemon.com/us/news/2025-pokemon-tcg-standard-format-rotation-announcement)
-- [2026 rotation](https://www.pokemon.com/uk/news/2026-pokemon-tcg-standard-format-rotation-announcement)
-- [Perfect Order announcement](https://press.pokemon.com/en/MEDIA-ALERT-Pokemon-Trading-Card-Game-Mega-EvolutionPerfect-Order-Laun)
-- [2026 product legality update](https://community.pokemon.com/en-us/discussion/22216/pokemon-tcg-product-legality-update)
-- [Black Bolt/White Flare product showcase](https://www.pokemon.com/uk/news/pokemon-tcg-scarlet-violet-black-bolt-and-white-flare-product-showcase)
-- [Black Bolt/White Flare on Live](https://www.pokemon.com/us/news/battle-with-pokemon-tcg-scarlet-violet-black-bolt-and-white-flare-on-pokemon-tcg-live)

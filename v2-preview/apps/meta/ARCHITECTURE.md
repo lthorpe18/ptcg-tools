@@ -2,7 +2,7 @@
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. The specification is approved; replacement implementation has not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. The specification is approved. Checkpoint 1 now has an isolated implementation and validation report in `FORMAT_FOUNDATION_CHECKPOINT_1.md`; later consumer checkpoints have not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
 
 The next implementation task is **Checkpoint 1: Format/Rotation foundation only**, with no visible Home/Meta behaviour changes. Do not restore PR #4/#5 or repeat the full forensic review.
 

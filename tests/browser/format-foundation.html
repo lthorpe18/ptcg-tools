@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Checkpoint 1 browser regression harness</title>
+<style>body{margin:8px;font:16px sans-serif}iframe{display:block;border:1px solid #ccc;height:844px}button,a{margin:4px}</style>
+<p>Local test harness only. Use a fresh browser origin/profile, never a signed-in production session.</p>
+<a href="?width=1100">Desktop 1100px</a><a href="?width=390">Mobile 390px</a>
+<button id="reload">Reload app at current route</button>
+<button id="prep">Open synthetic attending event Prep</button>
+<iframe id="app" title="Regression app"></iframe>
+<script src="../../v2-preview/apps/_shared/storage.js"></script>
+<script>
+const frame=document.getElementById('app');
+frame.style.width=new URLSearchParams(location.search).get('width')==='390'?'390px':'1100px';
+frame.src='../../v2-preview/';
+document.getElementById('reload').onclick=()=>frame.contentWindow.location.reload();
+document.getElementById('prep').onclick=()=>{
+  const record=PTCGStorage.setEventStatus({id:'synthetic-checkpoint-1',source:'synthetic-browser-fixture',sourceId:'checkpoint-1',name:'SYNTHETIC Checkpoint 1 QA event',startDate:'2030-02-20',type:'League Cup',city:'Synthetic'},'attending');
+  const prep=new URL('../../v2-preview/apps/events/prep.html',location.href);prep.searchParams.set('participation',record.id);
+  const shell=new URL('../../v2-preview/',location.href);shell.searchParams.set('section','compete');shell.searchParams.set('route',prep.pathname+prep.search);
+  frame.src=shell.href;
+};
+</script>

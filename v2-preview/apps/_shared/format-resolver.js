@@ -30,10 +30,17 @@
     const check = (condition, message) => { if (!condition) errors.push(message); };
     if (!registry || typeof registry !== 'object') return ['Registry must be an object'];
     check(registry.schemaVersion === VERSION, 'Unsupported schemaVersion');
-    check(['verified-seed', 'synthetic'].includes(registry.kind), 'Missing fixture kind');
+    check(['verified-seed', 'user-maintained', 'synthetic'].includes(registry.kind), 'Missing fixture kind');
     check(typeof registry.revision === 'string' && !!registry.revision, 'Missing revision');
     check(typeof registry.scope === 'string' && !!registry.scope, 'Missing scope');
     const sources = registry.sources || {};
+    if (registry.baseline) {
+      const b = registry.baseline;
+      check(registry.kind === 'user-maintained' || registry.kind === 'synthetic', 'Baseline must identify maintained or synthetic provenance');
+      check(!!dateOnly(b.asOf) && !!b.id && !!sources[b.source], 'Invalid maintained baseline');
+      check(Array.isArray(b.regulationMarks) && b.regulationMarks.length > 0 && b.regulationMarks.every(m => /^[A-Z]$/.test(m)), 'Invalid baseline marks');
+      check(!!b.earliestSet && Array.isArray(b.latestSets) && b.latestSets.length > 0, 'Missing maintained set boundaries');
+    }
     function fact(f, path, isDate = false) {
       check(!!f && ['confirmed', 'announced', 'unknown'].includes(f.status), path + ': invalid status');
       if (!f) return;
@@ -61,6 +68,12 @@
       fact(set.marks, set.id + '.marks');
       if (confirmed(set.marks)) check(Array.isArray(set.marks.value) && set.marks.value.length > 0 && set.marks.value.every(m => /^[A-Z]$/.test(m)), set.id + ': invalid marks');
       for (const env of ENVIRONMENTS) fact(set.legality?.[env], set.id + '.' + env, true);
+      if (set.rotation) {
+        check(!!registry.baseline, set.id + ': set-linked rotation requires a baseline');
+        check(/^[A-Z]$/.test(set.rotation.lowestMark || ''), set.id + ': rotation needs lowest mark');
+        check(Array.isArray(set.rotation.regulationMarks) && set.rotation.regulationMarks.length > 0 &&
+          set.rotation.regulationMarks.every(m => /^[A-Z]$/.test(m) && m >= set.rotation.lowestMark), set.id + ': invalid rotation marks');
+      }
     }
     for (const env of ENVIRONMENTS) {
       coverage(registry.coverage?.[env], env);
@@ -93,6 +106,39 @@
     const errors = validate(input);
     if (errors.length) throw new TypeError(errors.join('\n'));
     const registry = freeze(clone(input));
+    // A maintained baseline records an asserted current format, not invented
+    // release/legality dates for every historical set. The same resolver projects
+    // new set admissions and optional rotation from the supplied environment dates.
+    function maintainedFormat(day, env) {
+      const b = registry.baseline;
+      if (!b || day < b.asOf) return null;
+      const changes = registry.sets.filter(s => effective(s.legality[env], day))
+        .sort((a, z) => a.legality[env].value.localeCompare(z.legality[env].value) || a.id.localeCompare(z.id));
+      let marks = [...b.regulationMarks].sort(), earliestSet = b.earliestSet;
+      let rotation = null;
+      for (const s of changes) if (s.rotation) {
+        marks = [...s.rotation.regulationMarks].sort();
+        earliestSet = s.rotation.earliestSet || null;
+        rotation = {setId: s.id, effectiveDate: s.legality[env].value, lowestMark: s.rotation.lowestMark};
+      }
+      const latestDate = changes.at(-1)?.legality[env].value;
+      const latestSets = latestDate ? changes.filter(s => s.legality[env].value === latestDate).map(s => s.id) : [...b.latestSets];
+      const unresolved = registry.sets.filter(s => !confirmed(s.legality[env]) &&
+        !(confirmed(s.release) && s.release.value > day) && (day > b.asOf || s.release.status !== 'announced'));
+      const identity = {scope: registry.scope, baseline: b.id, marks, earliestSet,
+        additions: changes.map(s => s.id).sort(), rotation};
+      // Environment and its effective date must not split identical adopted pools.
+      if (identity.rotation) identity.rotation = {...rotation, effectiveDate: undefined};
+      return {contextId: unresolved.length ? null : 'maintained-v1:' + JSON.stringify(identity),
+        status: unresolved.length ? 'incomplete' : 'known', basis: registry.kind,
+        label: (earliestSet || '?') + '-' + [...latestSets].sort().join('+'),
+        regulationMarks: marks, earliestSet, latestSets, rotation,
+        baselineId: b.id, baselineAsOf: b.asOf, source: b.source,
+        addedSetIds: changes.map(s => s.id), catalogComplete: false,
+        unknowns: ['Historical set roster and release dates are not supplied',
+          'No guarantee of unannounced future changes; this is the maintained schedule',
+          ...unresolved.map(s => s.id + ': legality unknown')]};
+    }
     function resolve(day) {
       if (!dateOnly(day)) return freeze({status: 'unknown', date: null, reason: 'A valid YYYY-MM-DD event/calendar date is required; today is never substituted.'});
       const events = [];
@@ -127,6 +173,7 @@
         for (const set of registry.sets) {
           const admission = set.legality[env];
           change('legality', set.id, env, admission);
+          if (set.rotation) change('rotation', set.id, env, admission);
           if (!confirmed(admission)) undated.push({type: 'legality', id: set.id, fact: admission});
           let state, reason, legalMarks = [];
           if (!confirmed(admission)) { state = 'unknown'; reason = 'legality-date-unknown'; }
@@ -181,9 +228,26 @@
       }
       const releaseBlockers = registry.sets.filter(s => !confirmed(s.release)).map(s => ({type: 'release', id: s.id, fact: s.release}));
       if (!inCoverage(registry.coverage.catalog, day)) releaseBlockers.push({type: 'coverage'});
+      for (const env of ENVIRONMENTS) {
+        const context = maintainedFormat(day, env);
+        if (context) {
+          environments[env].formatContext = context;
+          // A maintained legal boundary is useful even when exhaustive card/mark
+          // inventories are absent. Keep that separate from the full pool ID above.
+          environments[env].maintainedBoundary = {lowestMark: context.rotation?.lowestMark || context.regulationMarks[0], earliestSet: context.earliestSet};
+          environments[env].scheduledSets = registry.sets.map(s => ({id: s.id,
+            status: !confirmed(s.legality[env]) ? 'unknown' : effective(s.legality[env], day) ? 'admitted' : 'not-yet-admitted',
+            date: s.legality[env].value, rotation: s.rotation || null}));
+          const scheduled = events.filter(e => e.environment === env);
+          environments[env].nextScheduledChange = next(scheduled, environments[env].undatedChanges);
+          environments[env].nextRotation = next(scheduled.filter(e => e.type === 'rotation'),
+            registry.sets.filter(s => s.rotation && !confirmed(s.legality[env])).map(s => ({type: 'rotation', id: s.id})));
+          environments[env].nextRotation.status = environments[env].nextRotation.date ? 'scheduled' : 'unknown';
+        }
+      }
       const result = {status: Object.values(environments).every(e => e.status === 'known') ? 'known' : 'incomplete',
         date: day, convention: 'calendar-day-inclusive', registryRevision: registry.revision, fixtureKind: registry.kind,
-        scope: registry.scope, coverage: registry.coverage, sources: registry.sources, sets,
+        scope: registry.scope, coverage: registry.coverage, sources: registry.sources, unknowns: registry.unknowns || [], sets,
         releasedSets: sets.filter(s => s.release === 'released').map(s => s.id),
         environments, nextRelease: next(events.filter(row => row.type === 'release'), releaseBlockers)};
       return freeze(result);
@@ -192,7 +256,8 @@
       if (!ENVIRONMENTS.includes(event?.environment)) return freeze({status: 'unknown', reason: 'Explicit online or irl environment required'});
       const result = resolve(event.date);
       return result.date ? freeze({date: result.date, environment: event.environment,
-        registryRevision: result.registryRevision, fixtureKind: result.fixtureKind, ...result.environments[event.environment]}) : result;
+        registryRevision: result.registryRevision, fixtureKind: result.fixtureKind, scope: result.scope,
+        sources: result.sources, unknowns: result.unknowns, ...result.environments[event.environment]}) : result;
     }
     return Object.freeze({resolve, resolveEvent, revision: registry.revision});
   }

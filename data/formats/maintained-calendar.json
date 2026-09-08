@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "kind": "user-maintained",
+  "revision": "user-calendar-2026-09-08.1",
+  "scope": "tpci-international-standard",
+  "sources": {
+    "user-2026-09-08": {
+      "title": "Project owner supplied current format and 30C legality dates on 8 September 2026",
+      "authority": "user-maintained",
+      "note": "Not independently verified. Current H–J; TEF through PBL. 30C Online 15 September, IRL 24 September. Later sets and rotation unknown."
+    }
+  },
+  "baseline": {
+    "id": "standard-h-j-tef-pbl",
+    "asOf": "2026-09-08",
+    "regulationMarks": ["H", "I", "J"],
+    "earliestSet": "TEF",
+    "latestSets": ["PBL"],
+    "source": "user-2026-09-08"
+  },
+  "coverage": {
+    "catalog": {"complete": false, "note": "Maintained format boundaries; exhaustive historical set roster/release dates not supplied."},
+    "online": {"complete": false, "note": "Current baseline and known additions only; no historical rotation date inferred."},
+    "irl": {"complete": false, "note": "Current baseline and known additions only; no historical rotation date inferred."}
+  },
+  "sets": [
+    {
+      "id": "30C",
+      "name": "30th Celebration",
+      "release": {"value": null, "status": "announced", "sources": ["user-2026-09-08"], "convention": "calendar-day-inclusive", "note": "Release date not supplied; never copied from a legality date."},
+      "marks": {"value": null, "status": "unknown", "sources": [], "note": "Card-level mark inventory not supplied; ordinary addition retains the maintained rotation boundary."},
+      "legality": {
+        "online": {"value": "2026-09-15", "status": "confirmed", "sources": ["user-2026-09-08"], "convention": "calendar-day-inclusive"},
+        "irl": {"value": "2026-09-24", "status": "confirmed", "sources": ["user-2026-09-08"], "convention": "calendar-day-inclusive"}
+      },
+      "rotation": null
+    }
+  ],
+  "rotations": {"online": [], "irl": []},
+  "unknowns": ["30C release date", "Next rotation date and lower boundary", "Set releases after 30C"]
+}

@@ -3,6 +3,17 @@ const require=createRequire(import.meta.url);
 const {create}=require('../v2-preview/apps/_shared/format-resolver.js');
 const seed=require('../data/formats/verified-seed.json');
 const synthetic=require('../tests/fixtures/format-synthetic.json');
+const maintained=require('../data/formats/maintained-calendar.json');
+console.log('## User-maintained current calendar');
+console.log('Dates supplied by the project owner; not independently verified. Unknown release/history data remain unknown.');
+console.log('| Date | Online format | IRL format | Lowest mark / set | Next Online / IRL scheduled change | 30C release |');
+console.log('|---|---|---|---|---|---|');
+for(const date of ['2026-09-08','2026-09-14','2026-09-15','2026-09-23','2026-09-24','2026-09-25']) {
+  const r=create(maintained).resolve(date), o=r.environments.online, i=r.environments.irl;
+  console.log(`| ${date} | ${o.formatContext.label} | ${i.formatContext.label} | ${o.maintainedBoundary.lowestMark} / ${o.maintainedBoundary.earliestSet} | ${o.nextScheduledChange.date||'Unknown'} / ${i.nextScheduledChange.date||'Unknown'} | Unknown |`);
+}
+console.log('\nNext rotation: unknown. Releases after 30C: unknown. H–J remains the maintained regulation range.\n');
+console.log('## Historical evidence and synthetic acceptance fixtures');
 const cases=[
   [seed,'2025-07-17','Real simultaneous Online admission'],
   [seed,'2025-07-18','Real simultaneous tabletop release'],

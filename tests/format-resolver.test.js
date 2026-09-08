@@ -168,3 +168,68 @@ test('first-major date uses environment/date rules without tournament-type infer
   assert.equal(r.boundary.lowestMark,'H');
   assert.equal(r.format.id,resolver.resolve('2030-03-15').environments.irl.format.id);
 });
+
+const maintained = require('../data/formats/maintained-calendar.json');
+test('user-maintained calendar resolves the actual 30C boundary dates independently', () => {
+  const resolver = engine.create(maintained);
+  for (const [date,online,irl] of [['2026-09-08','TEF-PBL','TEF-PBL'],['2026-09-14','TEF-PBL','TEF-PBL'],['2026-09-15','TEF-30C','TEF-PBL'],['2026-09-16','TEF-30C','TEF-PBL'],['2026-09-23','TEF-30C','TEF-PBL'],['2026-09-24','TEF-30C','TEF-30C'],['2026-09-25','TEF-30C','TEF-30C']]) {
+    const r=resolver.resolve(date), o=r.environments.online, i=r.environments.irl;
+    assert.equal(o.formatContext.label,online); assert.equal(i.formatContext.label,irl);
+    assert.deepEqual(o.formatContext.regulationMarks,['H','I','J']);
+    assert.equal(o.maintainedBoundary.earliestSet,'TEF');
+    assert.equal(o.formatContext.contextId===i.formatContext.contextId,online===irl);
+    assert.equal(r.sets[0].release,'announced'); assert.deepEqual(r.releasedSets,[]);
+    assert.equal(r.fixtureKind,'user-maintained');
+  }
+});
+test('maintained context keeps its coverage limits and next known dates honest', () => {
+  const resolver=engine.create(maintained);
+  assert.equal(resolver.resolve('2026-09-07').environments.online.formatContext,undefined);
+  const r=resolver.resolve('2026-09-08');
+  assert.equal(r.environments.online.nextScheduledChange.date,'2026-09-15');
+  assert.equal(r.environments.irl.nextScheduledChange.date,'2026-09-24');
+  assert.equal(r.environments.online.formatContext.catalogComplete,false);
+  assert.equal(r.environments.online.format.id,null);
+  assert.equal(resolver.resolve('2026-09-25').environments.online.nextScheduledChange.certainty,'none-known');
+  assert.equal(resolver.resolve('2026-09-25').environments.online.formatContext.rotation,null);
+});
+test('SYNTHETIC linked rotation follows each environment legality, never release date', () => {
+  const input=copy(maintained); input.kind='synthetic'; input.revision='synthetic-linked-rotation';
+  input.sets[0].rotation={lowestMark:'I',regulationMarks:['I','J'],earliestSet:'SYNTHETIC-NEW-LOWER'};
+  const resolver=engine.create(input), split=resolver.resolve('2026-09-15');
+  assert.equal(split.environments.online.maintainedBoundary.lowestMark,'I');
+  assert.equal(split.environments.irl.maintainedBoundary.lowestMark,'H');
+  assert.equal(split.environments.online.formatContext.earliestSet,'SYNTHETIC-NEW-LOWER');
+  assert.equal(resolver.resolve('2026-09-24').environments.online.formatContext.contextId,resolver.resolve('2026-09-24').environments.irl.formatContext.contextId);
+  assert.deepEqual(resolver.resolve('2026-09-14').environments.online.nextScheduledChange.changes.map(c=>c.type),['legality','rotation']);
+});
+test('maintained simultaneous additions and missing legality dates are retained', () => {
+  const input=copy(maintained); input.kind='synthetic';
+  input.sets.push({...copy(input.sets[0]),id:'SYNTHETIC-TWIN'});
+  const r=engine.create(input).resolve('2026-09-15');
+  assert.deepEqual(r.environments.online.formatContext.latestSets,['30C','SYNTHETIC-TWIN']);
+  input.sets[1].legality.online={value:null,status:'unknown',sources:[],convention:'calendar-day-inclusive'};
+  assert.equal(engine.create(input).resolve('2026-09-08').environments.online.nextScheduledChange.certainty,'ordering-unknown');
+});
+test('maintained results cannot be rewritten by later seed edits', () => {
+  const input=copy(maintained), resolver=engine.create(input), r=resolver.resolve('2026-09-15');
+  input.sets[0].legality.online.value='2026-09-30';
+  assert.equal(r.environments.online.formatContext.label,'TEF-30C');
+  assert.deepEqual(resolver.resolve('2026-09-15'),r);
+  assert.throws(()=>r.environments.online.formatContext.latestSets.push('OTHER'),TypeError);
+});
+test('an undated maintained addition blocks future format certainty, not the asserted baseline', () => {
+  const input=copy(maintained);input.kind='synthetic';
+  const unknown=copy(input.sets[0]);unknown.id='UNDATED';
+  for(const env of ['online','irl']) unknown.legality[env]={value:null,status:'unknown',sources:[],convention:'calendar-day-inclusive'};
+  input.sets.push(unknown);
+  const resolver=engine.create(input);
+  assert.equal(resolver.resolve('2026-09-08').environments.online.formatContext.status,'known');
+  assert.equal(resolver.resolve('2026-09-16').environments.online.formatContext.contextId,null);
+});
+test('unknown next rotation and release remain explicit in maintained results', () => {
+  const r=engine.create(maintained).resolve('2026-09-24');
+  assert.equal(r.environments.irl.nextRotation.status,'unknown');
+  assert.equal(r.environments.irl.nextRotation.date,null);
+  assert.ok(r.unknowns.includes('30C release date'));
+});

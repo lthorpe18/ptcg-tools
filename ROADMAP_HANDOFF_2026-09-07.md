@@ -6,7 +6,9 @@
 
 ## Checkpoint 1 review update — 8 September 2026
 
-The standalone Format/Rotation resolver is prepared for review in `FORMAT_FOUNDATION_CHECKPOINT_1.md`. Automated cases pass; real seed coverage and the browser regression gate remain incomplete. Checkpoint 1 is **not yet accepted**. Existing application behaviour is unchanged and the foundation has no UI consumers. Finish these foundation gates before requesting any subsequent checkpoint; Checkpoint 2 has not begun.
+The current-calendar foundation is implemented and reviewed in `FORMAT_FOUNDATION_CHECKPOINT_1.md`; 68 automated tests pass. Desktop/390px Home, source switching, deep reload and synthetic Event Prep checks ran successfully, with an existing browser Back defect separately recorded. It is review-ready, not merged/deployed or fully browser-accepted. Checkpoint 2 has not begun.
+
+The owner supplies set data manually; no scraping/admin UI is required. `data/formats/maintained-calendar.json` records the 8 September baseline H–J / TEF–PBL, then 30C Online legality on 15 September and IRL legality on 24 September. 30C release date, next rotation and later releases remain unknown. A rotation can be attached to its set and applies on each environment's legality date, independently of release. Unknown historical/card-level inventories do not block this maintained current-format context; they must not be presented as complete legal-set lists.
 
 ## 1. Current programme position
 
@@ -58,7 +60,7 @@ Explanation UX is also accepted: concise inline format/status, a How this is cal
 
 ## 3. Immediate next checkpoint — Format/Rotation foundation only
 
-The read-only forensic review is complete and the subsequent product decisions are accepted. `FORMAT_BLENDED_V2_SPECIFICATION.md` records the verdict, confirmed versus inferred evidence, non-reuse list and full product contract. No replacement application implementation has begun.
+The read-only forensic review is complete and the subsequent product decisions are accepted. `FORMAT_BLENDED_V2_SPECIFICATION.md` records the verdict, confirmed versus inferred evidence, non-reuse list and full product contract. The isolated Checkpoint 1 implementation is now reviewable; later consumer implementation has not begun. See the 8 September update above.
 
 Use a separate development chat for Checkpoint 1: one shared date/format resolver and representative deterministic tests, with a reviewable result report. Read current repository instructions and architecture first. Do not repeat the entire forensic investigation, restore the failed PRs, implement Blended, integrate visible Home/Meta changes, redesign navigation, build admin/fitting UI, or begin Collection. Stop after foundation acceptance; do not continue to Checkpoint 2.
 

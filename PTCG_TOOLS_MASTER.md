@@ -9,11 +9,13 @@
 
 ## Checkpoint 1 review update — 8 September 2026
 
-The standalone Format/Rotation resolver is prepared for review in `FORMAT_FOUNDATION_CHECKPOINT_1.md`. Automated cases pass; real seed coverage and the browser regression gate remain incomplete. Checkpoint 1 is **not yet accepted**. Existing application behaviour is unchanged and the foundation has no UI consumers. Finish these foundation gates before requesting any subsequent checkpoint; Checkpoint 2 has not begun.
+The current-calendar foundation is implemented and reviewed in `FORMAT_FOUNDATION_CHECKPOINT_1.md`; 68 automated tests pass. Desktop/390px Home, source switching, deep reload and synthetic Event Prep checks ran successfully, with an existing browser Back defect separately recorded. It is review-ready, not merged/deployed or fully browser-accepted. Checkpoint 2 has not begun.
+
+The owner supplies set data manually; no scraping/admin UI is required. `data/formats/maintained-calendar.json` records the 8 September baseline H–J / TEF–PBL, then 30C Online legality on 15 September and IRL legality on 24 September. 30C release date, next rotation and later releases remain unknown. A rotation can be attached to its set and applies on each environment's legality date, independently of release. Unknown historical/card-level inventories do not block this maintained current-format context; they must not be presented as complete legal-set lists.
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. The specification is approved; replacement implementation has not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. The specification is approved. Checkpoint 1 now has an isolated implementation and validation report in `FORMAT_FOUNDATION_CHECKPOINT_1.md`; later consumer checkpoints have not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
 
 The next implementation task is **Checkpoint 1: Format/Rotation foundation only**, with no visible Home/Meta behaviour changes. Do not restore PR #4/#5 or repeat the full forensic review.
 
