@@ -1,6 +1,6 @@
 # Format/Rotation and Blended Meta v2 — Accepted Recovery Specification
 
-**Status:** Product specification accepted on 7 September 2026. Checkpoints 1–3 are merged and accepted. Checkpoint 4 is implemented for review with automated validation; owner iPhone acceptance is pending. See `FORMAT_FOUNDATION_CHECKPOINT_1.md`, `META_FORMATS_CHECKPOINT_2.md`, `BLENDED_V2_CHECKPOINT_3.md` and `HOME_CHECKPOINT_4.md`. Checkpoint 5 has not begun.
+**Status:** Product specification accepted on 7 September 2026. Checkpoints 1–4 are merged and owner-tested; Checkpoint 4's concise-Home follow-up is implemented for review. See `FORMAT_FOUNDATION_CHECKPOINT_1.md`, `META_FORMATS_CHECKPOINT_2.md`, `BLENDED_V2_CHECKPOINT_3.md` and `HOME_CHECKPOINT_4.md`. Checkpoint 5 has not begun.
 **Source review:** main `eb7809c5724f687c15d2d99b7af1f1f7b5365365`.
 **Companions:** PTCG_TOOLS_MASTER.md; ROADMAP_HANDOFF_2026-09-07.md; HOME_ARCHITECTURE.md; WHAT_SHOULD_I_PLAY_ARCHITECTURE.md; v2-preview/apps/meta/ARCHITECTURE.md; PERFORMANCE_ARCHITECTURE.md.
 
@@ -216,4 +216,4 @@ Broader prediction accuracy/fitting/version-administration work is deferred, not
 
 ## 9. Immediate handoff
 
-Checkpoints 1–3 are merged and accepted. Checkpoint 4 Home integration is implemented for review with 101 passing automated tests; see `HOME_CHECKPOINT_4.md`. Browser automation is unavailable in the current environment, so the immediate action is the bounded owner iPhone test. Stop after Checkpoint 4 review. Do not begin WSIP/Checkpoint 5, later consumers, deferred Prep UX work or Collection without explicit authorization.
+Checkpoints 1–4 are merged and owner-tested. Checkpoint 4's concise-Home follow-up removes the Home methodology link while retaining the visible current split; its suite passes 102 tests. Detailed methodology remains in Meta. See `HOME_CHECKPOINT_4.md`. Do not begin WSIP/Checkpoint 5, later consumers, deferred Prep UX work or Collection without explicit authorization.

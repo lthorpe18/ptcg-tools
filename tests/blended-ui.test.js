@@ -13,6 +13,12 @@ function element(id='') {
   };
 }
 
+test('Home keeps the current Blended split concise without a methodology link',()=>{
+  const home=fs.readFileSync(path.join(root,'v2-preview/home-content.html'),'utf8');
+  assert.match(home,/id="homeBlendStatus"><span>Loading current prediction…<\/span><\/p>/);
+  assert.doesNotMatch(home,/How this is calculated|blended-methodology\.html/);
+});
+
 test('Meta Blended switches targets and changes an unavailable target to available without reinitialising',async()=>{
   const ids=Object.fromEntries(['currentGroupingToggle','currentMetaSearch','currentWindow','blendTargetControl','blendTargetSelect','blendMethod','blendMethodBody','currentMetaStats','currentMetaList','currentMetaMore'].map(id=>[id,element(id)]));
   const buttons=['online','irl','blend'].map(source=>{const item=element();item.dataset.currentSource=source;if(source==='online')item.classList.toggle('active',true);return item});

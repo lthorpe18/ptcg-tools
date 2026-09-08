@@ -1,12 +1,12 @@
 # PTCG Tools — Roadmap Handoff — 7 September 2026
 
-**Status:** Checkpoints 1–3 merged and accepted; Checkpoint 4 Home integration implemented for review; owner iPhone acceptance pending
+**Status:** Checkpoints 1–4 merged and owner-tested; concise-Home follow-up implemented for review; Checkpoint 5 not begun
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-05.md`
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `HOME_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
 
-## Checkpoint 4 implementation review — 8 September 2026
+## Checkpoint 4 acceptance — 8 September 2026
 
-Checkpoint 4 is implemented for review; see `HOME_CHECKPOINT_4.md`. Home now consumes Meta's canonical current Online-target prediction with target/share/weight/revision parity, loads the required retained IRL transition prior, shows concise format/status/methodology context, refuses cross-format fallback and refreshes release state on warm return. The accepted Home layout is unchanged. The suite passes 101 tests. Browser automation is unavailable in the current environment, so owner iPhone acceptance is pending. Checkpoint 5 has not begun.
+Checkpoint 4 is merged and passed the owner's iPhone script; see `HOME_CHECKPOINT_4.md`. Home consumes Meta's canonical current Online-target prediction with target/share/weight/revision parity, loads the required retained IRL transition prior, shows the concise format and current IRL/Online split, refuses cross-format fallback and refreshes release state on warm return. The owner requested removal of the methodology link from Home; detailed calculation remains in Meta. The accepted Home layout is otherwise unchanged. The concise-Home follow-up suite passes 102 tests. Checkpoint 5 has not begun.
 
 ## Checkpoint 3 acceptance — 8 September 2026
 
@@ -165,4 +165,4 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next action is **Checkpoint 4 owner iPhone review only** using `HOME_CHECKPOINT_4.md`. Do not begin Checkpoint 5 without explicit authorization. Specification approval does not authorize automatically proceeding through later checkpoints.
+The next action is review and deployment of the concise-Home follow-up, then explicit authorization before Checkpoint 5. Do not begin later checkpoints automatically.

@@ -7,9 +7,9 @@
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
-## Checkpoint 4 implementation review — 8 September 2026
+## Checkpoint 4 acceptance — 8 September 2026
 
-Checkpoint 4 is implemented for review in `HOME_CHECKPOINT_4.md`. Home now consumes the same current Online-target Blended prediction as Meta, including identical target, rows, weights and evidence revision; it loads the required retained IRL prior, shows concise format/status/methodology context, explicitly renders unavailable states and refreshes shared release state on warm return. The existing Home layout and navigation hierarchy are unchanged. The full suite passes 101 tests. Local browser automation is unavailable, so owner iPhone acceptance remains pending. Checkpoint 5 has not begun.
+Checkpoint 4 is merged and passed owner iPhone testing; see `HOME_CHECKPOINT_4.md`. Home consumes the same current Online-target Blended prediction as Meta, including identical target, rows, weights and evidence revision; it loads the required retained IRL prior, shows the concise format and current IRL/Online split, explicitly renders unavailable states and refreshes shared release state on warm return. At the owner's request, Home does not link to methodology; the detailed explanation remains in Meta. The existing Home layout and navigation hierarchy are unchanged. The concise-Home follow-up suite passes 102 tests. Checkpoint 5 has not begun.
 
 ## Checkpoint 3 acceptance — 8 September 2026
 
