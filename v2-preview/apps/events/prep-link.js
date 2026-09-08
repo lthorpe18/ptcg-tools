@@ -54,13 +54,13 @@ function enhance(){
     const existing=card.querySelector('[data-prep-link]');
     const participation=participationForCard(card);
     const attending=participation?.attendanceStatus==='attending';
-    if(!attending){existing?.remove();return;}
+    if(!attending){existing?.remove();card.querySelector('.event-actions')?.classList.remove('has-prep');return;}
     const actions=card.querySelector('.event-actions');if(!actions)return;
     const link=existing||document.createElement('a');
     link.dataset.prepLink='true';
-    link.className='primary-link prep-entry-link';
+    link.classList.add('primary-link','prep-entry-link','prep-entry-prominent');
     link.href=`./prep.html?participation=${encodeURIComponent(participation.id)}`;
-    link.textContent='Event Prep';
+    if(link.textContent!=='Event Prep')link.textContent='Event Prep';
     link.setAttribute('aria-label',`Open Event Prep for ${card.querySelector('h2')?.textContent?.trim()||'this event'}`);
     if(!existing){const more=actions.querySelector('.more-button');actions.insertBefore(link,more||null);}
     actions.classList.add('has-prep');
@@ -68,10 +68,15 @@ function enhance(){
 }
 migrateLegacyOrganisers();
 const target=document.getElementById('eventList');
-if(target)new MutationObserver(()=>requestAnimationFrame(enhance)).observe(target,{childList:true,subtree:true,characterData:true});
+// Coalesce notifications and avoid rewriting unchanged text: our own link insertion
+// causes one follow-up pass, which must settle without another DOM mutation.
+let scheduled=false;
+function scheduleEnhance(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;enhance()})}
+if(target)new MutationObserver(scheduleEnhance).observe(target,{childList:true,subtree:true,characterData:true});
 const organisers=document.getElementById('yourVenuesList');
 if(organisers)new MutationObserver(normaliseOrganiserLabels).observe(organisers,{childList:true,subtree:true,characterData:true});
-window.addEventListener('ptcg:local-change',()=>setTimeout(enhance,0));
-window.addEventListener('storage',()=>setTimeout(enhance,0));
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(enhance,0),{once:true});else setTimeout(enhance,0);
+window.addEventListener('ptcg:local-change',scheduleEnhance);
+window.addEventListener('storage',scheduleEnhance);
+window.addEventListener('pageshow',scheduleEnhance);
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scheduleEnhance,{once:true});else scheduleEnhance();
 })();
