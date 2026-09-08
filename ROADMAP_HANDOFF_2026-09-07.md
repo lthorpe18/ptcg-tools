@@ -4,6 +4,10 @@
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-05.md`
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `HOME_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
 
+## Checkpoint 1 review update — 8 September 2026
+
+The standalone Format/Rotation resolver is prepared for review in `FORMAT_FOUNDATION_CHECKPOINT_1.md`. Automated cases pass; real seed coverage and the browser regression gate remain incomplete. Checkpoint 1 is **not yet accepted**. Existing application behaviour is unchanged and the foundation has no UI consumers. Finish these foundation gates before requesting any subsequent checkpoint; Checkpoint 2 has not begun.
+
 ## 1. Current programme position
 
 The failed Format Registry / Blended Meta v2 rollout was rolled back. PR #4 and PR #5 are evidence for forensic review, not code to restore or continue wholesale.

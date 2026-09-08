@@ -7,6 +7,10 @@
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
+## Checkpoint 1 review update — 8 September 2026
+
+The standalone Format/Rotation resolver is prepared for review in `FORMAT_FOUNDATION_CHECKPOINT_1.md`. Automated cases pass; real seed coverage and the browser regression gate remain incomplete. Checkpoint 1 is **not yet accepted**. Existing application behaviour is unchanged and the foundation has no UI consumers. Finish these foundation gates before requesting any subsequent checkpoint; Checkpoint 2 has not begun.
+
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
 See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. The specification is approved; replacement implementation has not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
