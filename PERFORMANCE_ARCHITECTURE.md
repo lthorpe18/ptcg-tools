@@ -101,6 +101,10 @@ Validated release files use a dedicated Cache Storage cache. The active manifest
 
 Normal browsers must not call Limitless tournament APIs. They read prepared GitHub Pages assets; Supabase is not the shared Meta warehouse at the present scale.
 
+### Checkpoint 2 release compatibility (review pending)
+
+Schema 2 labels Online and IRL independently and validates each payload against its manifest source format. Historical format packages remain published; archived cores and heavy evidence load on demand instead of growing the startup core. Network deadlines include response-body reads. Stale asynchronous evidence and startup callbacks cannot replace a newly selected format/release. Home and Event Prep loader URLs are bumped only for schema compatibility. Browser acceptance is still pending; see `META_FORMATS_CHECKPOINT_2.md`.
+
 ### 4.3 Query-string cache behavior
 
 Historic development links such as `?build=YYYY...` were used to try to force fresh Tournament Day loads. They became dangerous because different entry points could pin different application generations, and the older service worker normalized navigation cache keys anyway.

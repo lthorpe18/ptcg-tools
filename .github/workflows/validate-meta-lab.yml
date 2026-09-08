@@ -11,6 +11,11 @@ on:
       - 'v2-preview/apps/_shared/recommendation-engine.js'
       - 'v2-preview/data/meta/release/**'
       - 'scripts/build-meta-release.mjs'
+      - 'scripts/meta-format-contract.mjs'
+      - 'scripts/update-online-formats.mjs'
+      - 'data/formats/**'
+      - 'tests/meta-formats.test.mjs'
+      - 'tests/meta-ingest.test.mjs'
       - 'v2-preview/index.html'
       - 'tests/meta-navigation.test.js'
       - 'tests/meta-release.test.mjs'
@@ -80,4 +85,4 @@ jobs:
           console.log('Validated Meta state/data/control ownership');
           NODE
       - name: Test Meta navigation contract
-        run: node --test tests/meta-navigation.test.js tests/meta-release.test.mjs tests/recommendation-engine.test.js tests/wsip-integration.test.js
+        run: node --test tests/*.test.js tests/*.test.mjs

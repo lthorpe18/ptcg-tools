@@ -1,6 +1,6 @@
 # Format/Rotation and Blended Meta v2 — Accepted Recovery Specification
 
-**Status:** Product specification accepted on 7 September 2026. Checkpoint 1 has a reviewable isolated implementation; see `FORMAT_FOUNDATION_CHECKPOINT_1.md` for validation and the existing browser Back finding. Later checkpoints have not begun.
+**Status:** Product specification accepted on 7 September 2026. Checkpoint 1 is merged and accepted. Checkpoint 2 is implemented for review with automated validation; browser acceptance is pending. See `FORMAT_FOUNDATION_CHECKPOINT_1.md` and `META_FORMATS_CHECKPOINT_2.md`. Checkpoint 3 has not begun.
 **Source review:** main `eb7809c5724f687c15d2d99b7af1f1f7b5365365`.
 **Companions:** PTCG_TOOLS_MASTER.md; ROADMAP_HANDOFF_2026-09-07.md; HOME_ARCHITECTURE.md; WHAT_SHOULD_I_PLAY_ARCHITECTURE.md; v2-preview/apps/meta/ARCHITECTURE.md; PERFORMANCE_ARCHITECTURE.md.
 
@@ -216,4 +216,4 @@ Broader prediction accuracy/fitting/version-administration work is deferred, not
 
 ## 9. Immediate handoff
 
-Checkpoint 1 is complete and accepted (PR #6), including the separately merged and owner-tested Compete navigation repair (PR #7). The next proposed task is Checkpoint 2 ONLY, pending explicit owner authorization. Read current repository instructions and master/roadmap/feature/performance documents first. Follow section 7 acceptance cases and stop after Checkpoint 2. Do not begin Blended, integrate other consumers or absorb deferred Prep UX work. Collection remains deferred.
+Checkpoint 1 is complete and accepted (PR #6), including the separately merged and owner-tested Compete navigation repair (PR #7). The owner authorized Checkpoint 2 ONLY. Implementation and 90 automated tests are ready for review; browser acceptance remains pending due to unavailable cloud browser control. See `META_FORMATS_CHECKPOINT_2.md`. Read current repository instructions and master/roadmap/feature/performance documents first. Follow section 7 acceptance cases and stop after Checkpoint 2. Do not begin Blended, integrate other consumers or absorb deferred Prep UX work. Collection remains deferred.

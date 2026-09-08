@@ -26,10 +26,11 @@
 <header class="app-shell-header meta-v2-header">
   <a class="app-shell-brand" href="../../" aria-label="PTCG Tools home"><span class="app-shell-mark" aria-hidden="true">◈</span><span class="app-shell-brand-copy"><strong>Meta</strong><small>Current field & competitive analysis</small></span></a>
   <div class="app-shell-header-actions">
-    <span class="format-context app-context-pill"><span class="app-live-dot"></span><span>TEF–PBL · Standard</span></span>
+    <span class="format-context app-context-pill"><span class="app-live-dot"></span><span id="metaFormatLabel">Standard · loading format</span></span>
     <button id="refresh" class="btn header-refresh" aria-label="Check for updated Meta data"><span class="refresh-icon">↻</span><span class="refresh-label">Refresh</span></button>
   </div>
 </header>
+  <label id="metaFormatControl" class="meta-scope-control" hidden><span>Evidence format</span><select id="metaFormatSelect" aria-label="Evidence format"></select></label>
 
 <main class="wrap">
   <section id="currentMetaPage" class="meta-home">
@@ -113,13 +114,13 @@
 <script src="../_shared/meta-field.js?v=1"></script>
 <script src="saved-metas.js?v=3"></script>
 <script src="archetype-groups.js?v=3"></script>
-<script src="meta-release-loader.js?v=4"></script>
-<script src="meta-core.js?v=7"></script>
+<script src="meta-release-loader.js?v=5"></script>
+<script src="meta-core.js?v=8"></script>
 <script src="../_shared/meta-blend.js?v=2"></script>
 <script src="blended-field.js?v=2"></script>
 <script src="../_shared/recommendation-engine.js?v=1"></script>
 <script src="field-builder.js?v=8"></script>
-<script src="meta-controls.js?v=8"></script>
+<script src="meta-controls.js?v=9"></script>
 <script src="prep.js?v=10"></script>
 <script src="wsip-polish.js?v=4"></script>
 <script src="wsip-reset-polish.js?v=3"></script>
@@ -127,7 +128,7 @@
 <script src="searchable-decks.js?v=7"></script>
 <script src="meta-explorer-v3.js?v=3"></script>
 <script src="meta-source-context.js?v=7"></script>
-<script src="meta-router.js?v=1"></script>
+<script src="meta-router.js?v=2"></script>
 <script src="../_shared/app-shell.js?v=8"></script>
 </body>
 </html>

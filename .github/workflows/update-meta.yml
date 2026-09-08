@@ -7,6 +7,9 @@ on:
   push:
     paths:
       - 'scripts/build-current-field.mjs'
+      - 'scripts/update-online-formats.mjs'
+      - 'scripts/meta-format-contract.mjs'
+      - 'data/formats/maintained-calendar.json'
       - '.github/workflows/update-meta.yml'
 
 permissions:
@@ -28,12 +31,12 @@ jobs:
         with:
           node-version: '22'
       - name: Build incremental field and scoped matchups
-        run: node scripts/build-current-field.mjs
+        run: node scripts/update-online-formats.mjs
       - name: Build validated browser release
         run: node scripts/build-meta-release.mjs
       - name: Commit meta data if changed
         run: |
-          git add data/meta/current-field.json data/meta/online-events data/meta/online-results v2-preview/data/meta/release
+          git add data/meta/current-field.json data/meta/online-events data/meta/online-results data/meta/online-fields v2-preview/data/meta/release
           if git diff --cached --quiet; then
             echo "No meta changes"
             exit 0

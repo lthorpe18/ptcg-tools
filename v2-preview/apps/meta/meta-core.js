@@ -7,7 +7,47 @@
     { value:'since-major', label:'Since last major weekend' },
     { value:'all', label:'All in format' },
   ];
-  const state = { onlineScope:'30', irlScope:'latest-weekend' };
+  const state = { onlineScope:'30', irlScope:'latest-weekend', onlineFormat:null, irlFormat:null };
+  const unavailableSources=new Map(), archiveCores=new Map(), archiveLoading=new Map();
+  function sourceCore(env) {
+    const selected=state[env+'Format'],current=core?.[env];
+    if(!selected || selected===(current?.format || core?.format))return current;
+    if(core?.archives?.[env]?.[selected])return archiveCores.get(release+':'+env+':'+selected) || core.archives[env][selected];
+    const key=env+':'+selected;
+    if(!unavailableSources.has(key))unavailableSources.set(key,{format:selected,unavailable:true,scopes:{},events:[],note:'Requested format evidence is unavailable'});
+    return unavailableSources.get(key);
+  }
+  async function ensureFormat(env) {
+    const entry=core?.archives?.[env]?.[state[env+'Format']];
+    if(!entry?.coreKey)return;
+    const requestedRelease=release,key=release+':'+env+':'+entry.format;
+    if(archiveCores.has(key))return archiveCores.get(key);
+    if(!archiveLoading.has(key)) {
+      const request=window.MetaRelease.load(entry.coreKey).then(payload=>{
+        if(payload.release!==requestedRelease || payload.format!==entry.format)throw new Error('Archive core identity mismatch');
+        const data={...payload,payloadPrefix:entry.payloadPrefix};archiveCores.set(key,data);
+        if(release===requestedRelease && state[env+'Format']===entry.format)emit('archive-core');
+        return data;
+      }).finally(()=>archiveLoading.delete(key));
+      archiveLoading.set(key,request);
+    }
+    return archiveLoading.get(key);
+  }
+  function requestSelectedArchives() {
+    for(const env of ['online','irl'])ensureFormat(env).catch(error=>{console.warn('Meta archive unavailable',error);emit('archive-error')});
+  }
+  function formatOptions(env) {return [...new Set([core?.[env]?.format || core?.format,...Object.keys(core?.archives?.[env] || {})].filter(Boolean))];}
+  function setFormat(env,value) {
+    if(!['online','irl'].includes(env))return;
+    if(value && !/^[A-Z0-9+-]+$/.test(value))return;
+    if(state[env+'Format']===value)return;
+    state[env+'Format']=value || null;
+    for(const key of Object.keys(lazy))if(key.startsWith(env))lazy[key]=null;
+    loading.clear();
+    if(env==='irl')state.irlScope='latest-weekend';
+    emit('format');
+    requestSelectedArchives();
+  }
   const lazy = { onlineHistory:null, onlineMatchups:null, onlineResults:null, irlMatchups:null, irlResults:null };
   const loading = new Map();
   let core = null;
@@ -30,6 +70,7 @@
     const allowed = new Set(irlScopeOptions().map(option => option.value));
     if (!allowed.has(state.irlScope)) state.irlScope = 'latest-weekend';
     emit(reason);
+    requestSelectedArchives();
   }
 
   function prepVisible() {
@@ -63,7 +104,7 @@
   }
 
   function validIrlEvents() {
-    return [...(core?.irl?.events || [])]
+    return [...(sourceCore('irl')?.events || [])]
       .filter(event => Array.isArray(event.decks) && event.decks.length && Number.isFinite(new Date(event.date).getTime()))
       .sort((a, b) => new Date(b.date) - new Date(a.date));
   }
@@ -121,11 +162,11 @@
 
   function selectedOnlineEvents(scope = state.onlineScope, minPlayers = 50) {
     const history = lazy.onlineHistory?.tournaments;
-    if (!Array.isArray(history)) return core?.online?.scopes?.[scope]?.events || [];
+    if (!Array.isArray(history)) return sourceCore('online')?.scopes?.[scope]?.events || [];
     const events = history.filter(event => Number(event.players || 0) >= Number(minPlayers || 0));
     if (scope === 'all') return events;
     if (scope === 'since-major') {
-      const cutoff = new Date(core?.online?.majorWeekend?.cutoff).getTime();
+      const cutoff = new Date(sourceCore('online')?.majorWeekend?.cutoff).getTime();
       return Number.isFinite(cutoff) ? events.filter(event => new Date(event.date).getTime() >= cutoff) : [];
     }
     const newest = Math.max(0, ...events.map(event => new Date(event.date).getTime()).filter(Number.isFinite));
@@ -134,28 +175,33 @@
   }
 
   function onlineData(scope = state.onlineScope, minPlayers = 50) {
-    const standard = core?.online?.scopes?.[scope] || { events:[], decks:[], overview:{ events:0, entries:0 } };
+    const standard = sourceCore('online')?.scopes?.[scope] || { events:[], decks:[], overview:{ events:0, entries:0 } };
     const selected = Number(minPlayers) === 50 || !lazy.onlineHistory ? standard : selectedOnlineEvents(scope, minPlayers);
     const field = Array.isArray(selected) ? { ...aggregateDecks(selected), events:selected } : selected;
-    const matchup = lazy.onlineMatchups?.scopes?.[scope] || { overview:{}, matchups:[] };
+    const matchup = (Number(minPlayers)===50 ? lazy.onlineMatchups?.scopes?.[scope] : null) || { overview:{}, matchups:[] };
     const ids = new Set((field.events || []).map(event => String(event.id)));
-    const results = (lazy.onlineResults?.results || []).filter(result => !ids.size || ids.has(String(result.eventId)));
+    const results = (lazy.onlineResults?.results || []).filter(result => ids.has(String(result.eventId)));
     return {
-      source:'online', scope, events:field.events || [], decks:field.decks || [], matchups:matchup.matchups || [], results,
+      source:'online', format:sourceCore('online')?.format || core?.format, scope, events:field.events || [], decks:field.decks || [], matchups:matchup.matchups || [], results,
       matchupScope:scope, matchupScoped:!!lazy.onlineMatchups,
       overview:{ ...(field.overview || {}), matches:Number(matchup.overview?.matches || 0) },
-      generatedAt:core?.online?.generatedAt || null,
+      generatedAt:sourceCore('online')?.generatedAt || null,
     };
+  }
+
+  function aggregateMatchups(rows) {
+    const map=new Map();for(const row of rows){const key=JSON.stringify([row.a,row.b]);const current=map.get(key)||{a:row.a,b:row.b,wins:0,losses:0,ties:0,games:0};for(const n of ['wins','losses','ties','games'])current[n]+=Number(row[n]||0);map.set(key,current)}return [...map.values()];
   }
 
   function irlData(scope = state.irlScope) {
     const events = selectedIrlEvents(scope);
     const field = aggregateDecks(events);
     const useRootMatchups = scope === 'all-irl' || validIrlEvents().length === 1;
-    const matchups = useRootMatchups ? (lazy.irlMatchups?.matchups || []) : [];
+    const scopedMatchups=(lazy.irlMatchups?.events || []).filter(row=>events.some(event=>String(event.id)===String(row.id)));
+    const matchups = !events.length ? [] : useRootMatchups ? (lazy.irlMatchups?.matchups || []) : aggregateMatchups(scopedMatchups.flatMap(row=>row.matchups || []));
     const ids = new Set(events.map(event => String(event.id)));
-    const results = (lazy.irlResults?.results || []).filter(result => !ids.size || ids.has(String(result.eventId)));
-    return { source:'irl', scope, events, decks:field.decks, matchups, results, overview:field.overview, generatedAt:core?.irl?.generatedAt || null, sourceUrl:core?.irl?.sourceUrl || '', note:core?.irl?.note || '' };
+    const results = (lazy.irlResults?.results || []).filter(result => ids.has(String(result.eventId)));
+    return { source:'irl', format:sourceCore('irl')?.format || core?.format, scope, events, decks:field.decks, matchups, results, overview:field.overview, generatedAt:sourceCore('irl')?.generatedAt || null, sourceUrl:sourceCore('irl')?.sourceUrl || '', note:sourceCore('irl')?.note || '' };
   }
 
   function data(source, options = {}) {
@@ -196,41 +242,53 @@
       const scope = options.scope || state.onlineScope;
       const label = ONLINE_SCOPES.find(option => option.value === scope)?.label || 'Last 30 days';
       let detail = scoped.generatedAt ? `Updated ${new Date(scoped.generatedAt).toLocaleDateString([], { day:'numeric', month:'short' })}` : 'Loading online data';
-      if (scope === 'since-major' && core?.online?.majorWeekend?.events?.length) detail = `After ${core.online.majorWeekend.events.map(event => event.name).join(' + ')}`;
-      return { source, scope, events:Number(scoped.overview.events || 0), entries:Number(scoped.overview.entries || 0), label:`${label} online data · 50+ player tournaments`, detail };
+      if (scope === 'since-major' && sourceCore('online')?.majorWeekend?.events?.length) detail = `After ${sourceCore('online').majorWeekend.events.map(event => event.name).join(' + ')}`;
+      return { source, format:scoped.format, scope, events:Number(scoped.overview.events || 0), entries:Number(scoped.overview.entries || 0), label:`${scoped.format || 'Unknown format'} · ${label} online data · 50+ player tournaments`, detail };
     }
     const events = scoped.events || [];
     let label = 'Latest IRL majors weekend';
     if (scoped.scope === 'all-irl') label = 'All IRL majors this format';
     if (String(scoped.scope).startsWith('event:') && events[0]) label = events[0].name || 'IRL tournament';
     if (scoped.scope === 'latest-weekend' && events.length === 1) label = events[0].name || label;
-    return { source, scope:scoped.scope, events:events.length, entries:Number(scoped.overview.entries || 0), label, detail:events.length ? events.map(event => new Date(event.date).toLocaleDateString([], { day:'numeric', month:'short' })).join(' · ') : 'No IRL events in this scope' };
+    return { source, format:scoped.format, scope:scoped.scope, events:events.length, entries:Number(scoped.overview.entries || 0), label:`${scoped.format || 'Unknown format'} · ${label}`, detail:events.length ? events.map(event => new Date(event.date).toLocaleDateString([], { day:'numeric', month:'short' })).join(' · ') : 'No IRL events in this scope' };
   }
 
   async function ensure(keys) {
     const requested = Array.isArray(keys) ? keys : [keys];
+    await Promise.all([...new Set(requested.map(key=>key.startsWith('online')?'online':'irl'))].map(ensureFormat));
     await Promise.all(requested.map(key => {
       if (!Object.prototype.hasOwnProperty.call(lazy, key)) throw new Error(`Unknown Meta evidence: ${key}`);
       if (lazy[key]) return lazy[key];
-      if (!loading.has(key)) loading.set(key, window.MetaRelease.load(key).then(payload => { lazy[key] = payload; loading.delete(key); emit(`loaded:${key}`); return payload; }).catch(error => { loading.delete(key); throw error; }));
+      if (!loading.has(key)) {
+        const env=key.startsWith('online')?'online':'irl', selected=sourceCore(env), requestedRelease=release;
+        if(selected?.unavailable) {lazy[key]={release,format:selected.format,scopes:{},results:[],matchups:[],tournaments:[]};return lazy[key];}
+        const fileKey=selected?.payloadPrefix ? selected.payloadPrefix+key.slice(env.length) : key;
+        const request=window.MetaRelease.load(fileKey).then(payload=>{
+          if(release!==requestedRelease || sourceCore(env)!==selected)return payload;
+          if(payload.release && payload.release!==release)throw new Error('Stale Meta evidence response');
+          if(payload.format && payload.format!==(selected?.format || core?.format))throw new Error('Wrong-format Meta evidence response');
+          lazy[key]=payload;if(loading.get(key)===request)loading.delete(key);emit(`loaded:${key}`);return payload;
+        }).catch(error=>{if(loading.get(key)===request)loading.delete(key);throw error});
+        loading.set(key,request);
+      }
       return loading.get(key);
     }));
   }
 
   function recordsUrl(name) {
-    const records = core?.online?.records;
+    const records = sourceCore('online')?.records;
     const deck = records?.decks?.find(item => item.name === name);
     if (!deck?.slug) return '';
     return `https://play.limitlesstcg.com/decks/${encodeURIComponent(deck.slug)}?format=standard&rotation=${encodeURIComponent(records.rotation || 2026)}&set=${encodeURIComponent(records.set || 'PBL')}`;
   }
 
-  window.MetaState = { get:() => ({ ...state }), onlineScopes:() => ONLINE_SCOPES.map(option => ({ ...option })), irlScopes:() => irlScopeOptions().map(option => ({ ...option })), setOnlineScope, setIrlScope };
-  window.MetaData = { ready:() => window.MetaRelease.ready(), ensure, isLoaded:key => !!lazy[key], refresh:() => window.MetaRelease.refresh(), data, onlineData, irlData, fieldRows, matchup, context, onlineTournaments:selectedOnlineEvents, irlEvents:selectedIrlEvents, recordsUrl, release:() => release };
+  window.MetaState = { setFormat, formatOptions, get:() => ({ ...state }), onlineScopes:() => ONLINE_SCOPES.map(option => ({ ...option })), irlScopes:() => irlScopeOptions().map(option => ({ ...option })), setOnlineScope, setIrlScope };
+  window.MetaData = { sourceFormat:env=>sourceCore(env)?.format || core?.format || null, currentFormat:env=>core?.currentFormats?.[env] || null, ready:() => window.MetaRelease.ready(), ensure, isLoaded:key => !!lazy[key], refresh:() => window.MetaRelease.refresh(), data, onlineData, irlData, fieldRows, matchup, context, onlineTournaments:selectedOnlineEvents, irlEvents:selectedIrlEvents, recordsUrl, release:() => release };
   window.MetaIRLScope = { get:() => state.irlScope, set:value => setIrlScope(value), options:irlScopeOptions, selectedEvents:selectedIrlEvents, selectedDecks:() => irlData().decks, selectedMatchups:() => irlData().matchups };
 
   window.addEventListener('meta:release-core', event => applyCore(window.MetaRelease.core(), event.detail?.source || 'core'));
   applyCore(window.MetaRelease.core(), 'cached-core');
-  window.MetaRelease.ready().then(payload => applyCore(payload, 'ready-core'));
+  window.MetaRelease.ready().then(() => applyCore(window.MetaRelease.core(), 'ready-core'));
 
   const refresh = document.getElementById('refresh');
   if (refresh) refresh.addEventListener('click', async () => {

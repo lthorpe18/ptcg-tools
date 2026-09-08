@@ -2,8 +2,10 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const BASE = 'https://labs.limitlesstcg.com';
-const FORMAT = 'TEF-PBL';
-const FORMAT_START = new Date('2026-07-17T00:00:00Z').getTime();
+import { ingestionContext, classifyEvent, validateDataset } from './meta-format-contract.mjs';
+const ingest=ingestionContext('irl');
+const FORMAT=ingest.format;
+const FORMAT_START=new Date(ingest.queryStart+'T00:00:00Z').getTime();
 const OUTPUT = path.join('data', 'meta', 'irl', `${FORMAT}.json`);
 const MAX_EVENTS_TO_PROBE = 16;
 const MAX_DECKS_FOR_MATCHUPS = 35;
@@ -184,7 +186,9 @@ async function main() {
       winRate: d.winRate,
       url: `${BASE}/${id}/decks/${d.slug}`,
     }));
+    Object.assign(meta,classifyEvent(meta,'irl',FORMAT));
     meta.results = [];
+    meta.matchups = [];
     events.push(meta);
 
     for (const d of decks) {
@@ -212,6 +216,7 @@ async function main() {
       await sleep(80);
       const mh = await get(`${BASE}/${id}/decks/${d.slug}/matchups`);
       for (const m of parseMatchups(mh, d.name)) {
+        meta.matchups.push(m);
         const key = `${m.a}|||${m.b}`;
         const row = matchupAgg.get(key) || { a: m.a, b: m.b, games: 0, wins: 0, losses: 0, ties: 0 };
         row.games += m.games;
@@ -223,6 +228,18 @@ async function main() {
     }
   }
 
+  let previous=null;
+  try {previous=JSON.parse(await fs.readFile(OUTPUT,'utf8'));}catch(error){if(error.code!=='ENOENT')throw error;}
+  if(previous)validateDataset(previous,'irl',FORMAT);
+  if(previous?.events?.length===1 && !Array.isArray(previous.events[0].matchups))previous.events[0].matchups=previous.matchups || [];
+  if(!events.length && previous?.events?.length) {console.log('No newly discoverable IRL events; retaining existing evidence and freshness');return;}
+  const foundIds=new Set(events.map(event=>String(event.id)));
+  for(const event of previous?.events || [])if(!foundIds.has(String(event.id))) {
+    events.push(event);
+    for(const d of event.decks || []){const row=deckAgg.get(d.name)||{name:d.name,entries:0,wins:0,losses:0,ties:0};for(const key of ['entries','wins','losses','ties'])row[key]+=Number(d[key]||0);deckAgg.set(d.name,row);}
+    allResults.push(...(event.results || []));
+    for(const m of event.matchups || []){const key=`${m.a}|||${m.b}`,row=matchupAgg.get(key)||{a:m.a,b:m.b,games:0,wins:0,losses:0,ties:0};for(const n of ['games','wins','losses','ties'])row[n]+=Number(m[n]||0);matchupAgg.set(key,row);}
+  }
   const payload = {
     schemaVersion: 4,
     source: 'Limitless Labs',

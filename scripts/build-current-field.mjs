@@ -4,9 +4,13 @@ import path from 'node:path';
 const BASE = 'https://play.limitlesstcg.com/api';
 const GAME = 'PTCG';
 const FORMAT = 'STANDARD';
-const FORMAT_ID = 'TEF-PBL';
-const FORMAT_LABEL = 'TEF–PBL';
-const FORMAT_START = '2026-07-17T00:00:00Z';
+import { ingestionContext, ingestionJobs, classifyEvent } from './meta-format-contract.mjs';
+const currentIngest=ingestionContext('online');
+const ingest=process.env.META_INGEST_FORMAT ? ingestionJobs('online').find(job=>job.format===process.env.META_INGEST_FORMAT) : currentIngest;
+if(!ingest)throw new Error('Unsupported ingestion format job');
+const FORMAT_ID=ingest.format;
+const FORMAT_LABEL=FORMAT_ID.replaceAll('-','–');
+const FORMAT_START=ingest.queryStart+'T00:00:00Z';
 const MIN_PLAYERS = 50;
 const CONCURRENCY = 8;
 const PAGE_SIZE = 100;
@@ -17,6 +21,7 @@ const RESULT_TOURNAMENTS = 36;
 
 const root = process.cwd();
 const outputFile = path.join(root, 'data', 'meta', 'current-field.json');
+const fieldArchiveFile = path.join(root,'data/meta/online-fields',`${FORMAT_ID}.json`);
 const archiveFile = path.join(root, 'data', 'meta', 'online-events', `${FORMAT_ID}.json`);
 const aggregateFile = path.join(root, 'data', 'meta', 'decks', `${FORMAT_ID}.json`);
 const irlFile = path.join(root, 'data', 'meta', 'irl', `${FORMAT_ID}.json`);
@@ -74,7 +79,7 @@ async function tournamentIndex() {
   return [...unique.values()]
     .filter(t => {
       const ts = new Date(t.date).getTime();
-      return Number.isFinite(ts) && ts >= cutoff && Number(t.players || 0) >= MIN_PLAYERS;
+      return Number.isFinite(ts) && ts >= cutoff && (!ingest.queryEnd || ts < new Date(ingest.queryEnd+'T00:00:00Z').getTime()) && Number(t.players || 0) >= MIN_PLAYERS;
     })
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
@@ -215,14 +220,23 @@ function matchupBucket(events) {
 }
 
 function fullAggregateBucket(raw) {
+  if(raw && raw.format!==FORMAT_ID)throw new Error('Aggregate format mismatch');
   return {
     overview:{ events:Number(raw?.overview?.tournaments||0), matches:Number(raw?.overview?.matches||0) },
     matchups:Array.isArray(raw?.matchups) ? raw.matchups : [],
   };
 }
 
+// Preserve the previous format's full compact history before the current pointer changes.
+const previousPointer=await readJson(outputFile,null);
+await fs.mkdir(path.dirname(fieldArchiveFile),{recursive:true});
+if(previousPointer?.format) {
+  const target=path.join(root,'data/meta/online-fields',`${previousPointer.format}.json`);
+  const archived=await readJson(target,null);
+  if(!archived || String(previousPointer.generatedAt)>String(archived.generatedAt))await fs.writeFile(target,JSON.stringify(previousPointer));
+}
 const [index, majorWeekend, previousField, previousArchive, fullAggregate, previousResults] = await Promise.all([
-  tournamentIndex(), latestMajorWeekend(), readJson(outputFile, null), readJson(archiveFile, null), readJson(aggregateFile, null), readJson(resultsFile, { events:[] }),
+  tournamentIndex(), latestMajorWeekend(), readJson(fieldArchiveFile, null), readJson(archiveFile, null), readJson(aggregateFile, null), readJson(resultsFile, { events:[] }),
 ]);
 console.log(`Found ${index.length} qualifying ${FORMAT_ID} online tournaments.`);
 if (majorWeekend) console.log(`Post-major scope starts ${majorWeekend.cutoffIso} after ${majorWeekend.events.map(e=>e.name).join(' + ')}`);
@@ -308,10 +322,9 @@ const fetchedResults = await mapConcurrent(missingResults, CONCURRENCY, async to
 for (const event of fetchedResults.filter(Boolean)) previousResultMap.set(String(event.id), event);
 const resultEvents = resultTargets.map(tournament => previousResultMap.get(String(tournament.id))).filter(Boolean);
 
-const indexIds = new Set(index.map(t=>String(t.id)));
-const fieldEvents = [...fieldMap.values()].filter(e=>indexIds.has(String(e.id))).sort((a,b)=>new Date(b.date)-new Date(a.date));
-const archivedEvents = [...archiveMap.values()].filter(e=>indexIds.has(String(e.id)) && new Date(e.date).getTime() >= coverageStart).sort((a,b)=>new Date(b.date)-new Date(a.date));
-if (!fieldEvents.length) throw new Error('No compact Online field history available');
+const fieldEvents = [...fieldMap.values()].filter(e=>new Date(e.date).getTime()>=new Date(FORMAT_START).getTime()).sort((a,b)=>new Date(b.date)-new Date(a.date));
+const archivedEvents = [...archiveMap.values()].filter(e=>new Date(e.date).getTime() >= coverageStart).sort((a,b)=>new Date(b.date)-new Date(a.date));
+if (!fieldEvents.length && index.length) throw new Error('Qualifying tournaments found but no usable Online field history; retaining last-known-good data');
 
 const matchupScopes = {
   '14':matchupBucket(eventsForScope(archivedEvents,'14',majorWeekend)),
@@ -326,7 +339,7 @@ const payload = {
   formatStart:FORMAT_START, minTournamentSize:MIN_PLAYERS, tournamentCount:fieldEvents.length,
   rollingMatchupCoverageStart:new Date(coverageStart).toISOString(),
   majorWeekend:majorWeekend ? {week:majorWeekend.week,cutoff:majorWeekend.cutoffIso,events:majorWeekend.events}:null,
-  matchupScopes, tournaments:fieldEvents,
+  matchupScopes, tournaments:fieldEvents.map(event=>classifyEvent(event,'online',FORMAT_ID)),
 };
 const archivePayload = {
   schemaVersion:2, generatedAt, format:FORMAT_ID, formatStart:FORMAT_START,
@@ -348,7 +361,8 @@ await fs.mkdir(path.dirname(outputFile),{recursive:true});
 await fs.mkdir(path.dirname(archiveFile),{recursive:true});
 await fs.mkdir(path.dirname(resultsFile),{recursive:true});
 await Promise.all([
-  fs.writeFile(outputFile,JSON.stringify(payload)),
+  ...(FORMAT_ID===currentIngest.format ? [fs.writeFile(outputFile,JSON.stringify(payload))] : []),
+  fs.writeFile(fieldArchiveFile,JSON.stringify(payload)),
   fs.writeFile(archiveFile,JSON.stringify(archivePayload)),
   fs.writeFile(resultsFile,JSON.stringify(resultsPayload)),
 ]);

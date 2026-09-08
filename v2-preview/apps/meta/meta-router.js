@@ -22,6 +22,7 @@
 
   function parse(input = location.href) {
     const url = new URL(input, location.href);
+    for(const env of ['online','irl'])window.MetaState?.setFormat?.(env,url.searchParams.get(env+'Format'));
     const hash = String(url.hash || '').replace(/^#/, '').toLowerCase();
     if (hash === 'detail' && url.searchParams.get('deck')) {
       return {
@@ -40,6 +41,7 @@
 
   function urlFor(next) {
     const url = new URL(BASE_URL.href);
+    for(const env of ['online','irl']) {const selected=window.MetaState?.get?.()[env+'Format'];if(selected)url.searchParams.set(env+'Format',selected);}
     if (next.view === 'detail' && next.detail?.deckName) {
       url.searchParams.set('deck', next.detail.deckName);
       url.searchParams.set('source', next.detail.source === 'irl' ? 'irl' : 'online');
@@ -135,6 +137,7 @@
     if (route.view !== 'detail' || !route.detail) return;
     route = { ...route, detail: { ...route.detail, source: source === 'irl' ? 'irl' : 'online' } };
     writeRoute(route, 'replace');
+    window.MetaControls?.sync?.();
   }
 
   function get() {
@@ -159,6 +162,6 @@
     window.addEventListener('hashchange', applyLocation);
   }
 
-  window.MetaRouter = { get, parse, urlFor, apply, navigate, openDetail, closeDetail, replaceDetailSource };
+  window.MetaRouter = { syncEvidenceRoute:()=>writeRoute(route,'replace'), get, parse, urlFor, apply, navigate, openDetail, closeDetail, replaceDetailSource };
   apply(parse(location.href), { scroll: false });
 })();

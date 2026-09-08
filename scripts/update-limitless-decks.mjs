@@ -2,9 +2,17 @@ import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
 const BASE = 'https://play.limitlesstcg.com';
-const QUERY = 'format=standard&rotation=2026&set=PBL';
+import { ingestionContext, verifyAggregateQuery } from './meta-format-contract.mjs';
+const ingest=ingestionContext('online');
+// Limitless rotation is an API season parameter, not a regulation-mark rule.
+// Keep the existing source parameter until an explicit mapping is supplied.
+if(ingest.context.rotation)throw new Error('Supply Limitless API rotation mapping before ingesting a rotated format');
+const API_ROTATION=2026;
+if(ingest.context.latestSets.length!==1)throw new Error('Supply an API set mapping for simultaneous additions');
+const API_SET=ingest.context.latestSets[0];
+const QUERY = `format=standard&rotation=${API_ROTATION}&set=${encodeURIComponent(API_SET)}`;
 const OVERVIEW_URL = `${BASE}/decks?${QUERY}`;
-const OUTPUT = 'data/meta/decks/TEF-PBL.json';
+const OUTPUT = `data/meta/decks/${ingest.format}.json`;
 const MAX_DECKS = 80;
 const MIN_DECK_COUNT = 20;
 const CONCURRENCY = 2;
@@ -167,6 +175,7 @@ async function main() {
   const previous = await readPrevious();
   console.log(`Reading ${OVERVIEW_URL}`);
   const overviewHtml = await fetchText(OVERVIEW_URL);
+  const queryEvidence=verifyAggregateQuery(overviewHtml,{format:ingest.format,set:API_SET,rotation:API_ROTATION});
   const overview = parseOverview(overviewHtml);
 
   if (overview.stats.tournaments < 10 || overview.stats.matches < 1000 || overview.decks.length < 10) {
@@ -204,8 +213,8 @@ async function main() {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
     previousGeneratedAt: previous?.data?.generatedAt || null,
-    source: 'limitless-decks', game: 'PTCG', format: 'TEF-PBL', apiFormat: 'STANDARD', rotation: 2026, set: 'PBL',
-    sourceUrl: OVERVIEW_URL,
+    source: 'limitless-decks', game: 'PTCG', format: ingest.format, apiFormat: 'STANDARD', rotation: API_ROTATION, set: API_SET,
+    sourceUrl: OVERVIEW_URL, queryEvidence,
     overview: overview.stats,
     coverage: {
       namedDecks: overview.decks.length,
