@@ -1,6 +1,6 @@
 # Checkpoint 1 — Format/Rotation foundation review
 
-**Status: current-calendar implementation and automated validation complete; review-ready with one pre-existing browser Back failure recorded. Not merged or deployed. Checkpoint 2 has not begun.**
+**Status: Checkpoint 1 accepted. Implementation and automated validation complete; the owner accepted the pre-existing browser Back failure as non-blocking on 8 September and authorized merging PR #6. Deployment is not verified. Checkpoint 2 has not begun.**
 
 Latest preserved main: `30e669a` (8 September data refresh). Accepted specification: `df51755`, amended by the user's 8 September instructions below. No applicable `AGENTS.md` exists in this checkout. No failed PR was restored/cherry-picked and no existing application script, HTML, CSS, service worker or source payload was edited.
 
@@ -73,13 +73,13 @@ On the app opened directly (not just inside the sizing wrapper): Home → Meta �
 
 The current shell's popstate handler has no explicit child route in the bare Meta history entry and falls back to its retained latest route. This is consistent with the observed failure. The shell/router files are byte-identical to latest main, and the new resolver is not loaded by the app. This is not caused by the foundation. No navigation fix is included because this checkpoint preserves visible application behaviour.
 
-The browser gate is therefore **not an all-green application acceptance**. The infrastructure block from the first session is resolved. The only observed functional browser failure is recorded for a separate small navigation task; it must not be hidden by the automated test count.
+The owner explicitly accepted this existing browser Back issue as non-blocking on 8 September: passing in-app navigation is sufficient for Checkpoint 1. The failure remains recorded; it is not claimed as a passing test. No navigation fix is required for this checkpoint.
 
 ## Review and next action
 
 Review this isolated foundation and the maintained calendar results. The unknown 30C release date is a legitimate explicit unknown, not a reason to guess or scrape. The user may supply it later.
 
-No PR merge, deployment or Checkpoint 2 is implied. Resolve or explicitly disposition the existing Back finding before declaring every browser acceptance case passed. Stop at Checkpoint 1; no Home/Meta integration, Blended, administration/fitting, individual deck legality or Collection work was performed.
+The owner authorized merging PR #6 after accepting the Back finding as non-blocking. Deployment is not verified. Stop at Checkpoint 1; no Home/Meta integration, Blended, administration/fitting, individual deck legality or Collection work was performed.
 
 ## Reproducible date report
 
