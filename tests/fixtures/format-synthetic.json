@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "kind": "synthetic",
+  "revision": "synthetic-foundation-1",
+  "scope": "synthetic-standard",
+  "sources": {
+    "synthetic-only": {
+      "title": "INVENTED acceptance fixture; not Pok\u00e9mon dates or rules",
+      "url": null
+    }
+  },
+  "coverage": {
+    "catalog": {
+      "complete": true,
+      "from": "2030-01-01",
+      "through": "2030-12-31",
+      "note": "Synthetic complete universe only"
+    },
+    "online": {
+      "complete": true,
+      "from": "2030-01-01",
+      "through": "2030-12-31",
+      "note": "Synthetic complete universe only"
+    },
+    "irl": {
+      "complete": true,
+      "from": "2030-01-01",
+      "through": "2030-12-31",
+      "note": "Synthetic complete universe only"
+    }
+  },
+  "sets": [
+    {
+      "id": "OLD",
+      "name": "Synthetic old set",
+      "release": {
+        "value": "2029-01-01",
+        "status": "confirmed",
+        "sources": [
+          "synthetic-only"
+        ],
+        "convention": "calendar-day-inclusive"
+      },
+      "legality": {
+        "online": {
+          "value": "2029-01-01",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "irl": {
+          "value": "2029-01-01",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        }
+      },
+      "marks": {
+        "value": [
+          "G"
+        ],
+        "status": "confirmed",
+        "sources": [
+          "synthetic-only"
+        ]
+      }
+    },
+    {
+      "id": "BASE",
+      "name": "Synthetic base set",
+      "release": {
+        "value": "2029-06-01",
+        "status": "confirmed",
+        "sources": [
+          "synthetic-only"
+        ],
+        "convention": "calendar-day-inclusive"
+      },
+      "legality": {
+        "online": {
+          "value": "2029-06-01",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "irl": {
+          "value": "2029-06-01",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        }
+      },
+      "marks": {
+        "value": [
+          "H"
+        ],
+        "status": "confirmed",
+        "sources": [
+          "synthetic-only"
+        ]
+      }
+    },
+    {
+      "id": "A",
+      "name": "Synthetic addition A",
+      "release": {
+        "value": "2030-02-02",
+        "status": "confirmed",
+        "sources": [
+          "synthetic-only"
+        ],
+        "convention": "calendar-day-inclusive"
+      },
+      "legality": {
+        "online": {
+          "value": "2030-02-01",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "irl": {
+          "value": "2030-02-15",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        }
+      },
+      "marks": {
+        "value": [
+          "I"
+        ],
+        "status": "confirmed",
+        "sources": [
+          "synthetic-only"
+        ]
+      }
+    },
+    {
+      "id": "B",
+      "name": "Synthetic simultaneous B",
+      "release": {
+        "value": "2030-02-02",
+        "status": "confirmed",
+        "sources": [
+          "synthetic-only"
+        ],
+        "convention": "calendar-day-inclusive"
+      },
+      "legality": {
+        "online": {
+          "value": "2030-02-01",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "irl": {
+          "value": "2030-02-15",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        }
+      },
+      "marks": {
+        "value": [
+          "I"
+        ],
+        "status": "confirmed",
+        "sources": [
+          "synthetic-only"
+        ]
+      }
+    }
+  ],
+  "rotations": {
+    "online": [
+      {
+        "id": "synthetic-g",
+        "effective": {
+          "value": "2030-01-01",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "boundary": {
+          "value": {
+            "lowestMark": "G"
+          },
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ]
+        },
+        "exceptions": {
+          "value": [],
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ]
+        }
+      },
+      {
+        "id": "synthetic-h",
+        "effective": {
+          "value": "2030-03-01",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "boundary": {
+          "value": {
+            "lowestMark": "H"
+          },
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ]
+        },
+        "exceptions": {
+          "value": [],
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ]
+        }
+      }
+    ],
+    "irl": [
+      {
+        "id": "synthetic-g",
+        "effective": {
+          "value": "2030-01-01",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "boundary": {
+          "value": {
+            "lowestMark": "G"
+          },
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ]
+        },
+        "exceptions": {
+          "value": [],
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ]
+        }
+      },
+      {
+        "id": "synthetic-h",
+        "effective": {
+          "value": "2030-03-15",
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "boundary": {
+          "value": {
+            "lowestMark": "H"
+          },
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ]
+        },
+        "exceptions": {
+          "value": [],
+          "status": "confirmed",
+          "sources": [
+            "synthetic-only"
+          ]
+        }
+      }
+    ]
+  }
+}

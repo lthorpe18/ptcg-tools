@@ -1,10 +1,18 @@
 # Format/Rotation and Blended Meta v2 — Accepted Recovery Specification
 
-**Status:** Product specification accepted on 7 September 2026. Replacement implementation has NOT begun.
+**Status:** Product specification accepted on 7 September 2026. Checkpoint 1 has a reviewable isolated implementation; see `FORMAT_FOUNDATION_CHECKPOINT_1.md` for validation and the existing browser Back finding. Later checkpoints have not begun.
 **Source review:** main `eb7809c5724f687c15d2d99b7af1f1f7b5365365`.
 **Companions:** PTCG_TOOLS_MASTER.md; ROADMAP_HANDOFF_2026-09-07.md; HOME_ARCHITECTURE.md; WHAT_SHOULD_I_PLAY_ARCHITECTURE.md; v2-preview/apps/meta/ARCHITECTURE.md; PERFORMANCE_ARCHITECTURE.md.
 
 This document records the forensic findings, all five subsequently approved product decisions, explanation UX, and bounded implementation gates. It supersedes provisional transition language in the failed PRs. Product acceptance is not code, deployment or real-device acceptance.
+
+## Owner clarification — 8 September 2026
+
+For Checkpoint 1, the owner will supply and maintain infrequent set facts manually. Do not require automatic scraping or an admin UI. Use the current user-maintained format baseline and explicit Online/IRL legality dates; preserve unknown release dates/history rather than guessing. The current seed is H–J / TEF–PBL as of 8 September; 30C is legal Online on 15 September and IRL on 24 September. Its release date, next rotation and later sets are unknown.
+
+A rotation may be attached to its set record with the new lower mark/set boundary. Apply it independently at that set's Online/IRL legality dates; keep the operations distinct from release and ordinary set addition. This replaces the earlier blanket rejection of a rotation set flag, while retaining the ban on guessed dates, calendar-year fallbacks or rotation inferred merely from release. A separate rotation-date override is unnecessary without a real exception.
+
+The baseline is a maintained format context, not an exhaustive card/printing inventory. Do not block the current-calendar foundation on unrelated historical/card-level completeness, and do not claim complete legal-set enumeration or individual deck legality. See `FORMAT_FOUNDATION_CHECKPOINT_1.md` for implementation, current results and the separate existing browser Back finding. All later checkpoint boundaries and P1–P5 remain unchanged.
 
 ## 1. Forensic verdict and starting point
 
@@ -196,7 +204,7 @@ Do not restore/cherry-pick PR #4 or #5, or copy:
 - prep-format-guard.js observer/DOM blocking and incomplete recovery;
 - format-runtime.js unbounded readiness/per-document ownership and mixed live/precomputed state;
 - incompatible builder/loader schema handling or unvalidated format relabelling;
-- rotation-as-set-flag logic, inferred first-row lower bound or calendar-year rotation fallback;
+- rotation inferred from release alone, inferred first-row lower bound or calendar-year rotation fallback (explicit set-linked rotation on independently supplied legality dates is allowed by the 8 September clarification);
 - single Online-target blend, arbitrary different-format prior selection, newest-set rotation check, or one major cutoff across targets;
 - blended-availability.js and home-format-tools.js corrective renderer overlays;
 - hardcoded TEF-PBL saves or provenance-field-only tests as end-to-end proof;

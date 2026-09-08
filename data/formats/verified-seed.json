@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 1,
+  "kind": "verified-seed",
+  "revision": "tpci-foundation-seed-2026-09-08.1",
+  "scope": "tpci-international-standard",
+  "sources": {
+    "rotation-2025": {
+      "title": "2025 Standard rotation announcement",
+      "url": "https://www.pokemon.com/us/news/2025-pokemon-tcg-standard-format-rotation-announcement",
+      "verifiedOn": "2026-09-08",
+      "evidence": "Official indexed text confirms 27 March Online, 11 April IRL, G and later; older equivalent printings may remain usable."
+    },
+    "rotation-2026": {
+      "title": "2026 Standard rotation announcement",
+      "url": "https://www.pokemon.com/uk/news/2026-pokemon-tcg-standard-format-rotation-announcement",
+      "verifiedOn": "2026-09-08",
+      "evidence": "Official indexed text confirms 26 March Online, 10 April IRL, removal of G and H/I/J remaining."
+    },
+    "perfect-order": {
+      "title": "Perfect Order launch announcement",
+      "url": "https://press.pokemon.com/en/MEDIA-ALERT-Pokemon-Trading-Card-Game-Mega-EvolutionPerfect-Order-Laun",
+      "verifiedOn": "2026-09-08",
+      "evidence": "Official indexed announcement: tabletop 27 March 2026; digital 26 March 2026. Full page fetch denied."
+    },
+    "product-legality-2026": {
+      "title": "Pokémon TCG Product Legality Update",
+      "url": "https://community.pokemon.com/en-us/discussion/22216/pokemon-tcg-product-legality-update",
+      "verifiedOn": "2026-09-08",
+      "evidence": "Official announcement: two weeks after first qualifying booster product; different qualifying products for special sets. No runtime date inference."
+    },
+    "black-white-release": {
+      "title": "Black Bolt and White Flare product showcase",
+      "url": "https://www.pokemon.com/uk/news/pokemon-tcg-scarlet-violet-black-bolt-and-white-flare-product-showcase",
+      "verifiedOn": "2026-09-08",
+      "evidence": "Official indexed text: both expansions release 18 July 2025."
+    },
+    "black-white-live": {
+      "title": "Black Bolt and White Flare on Pokémon TCG Live",
+      "url": "https://www.pokemon.com/us/news/battle-with-pokemon-tcg-scarlet-violet-black-bolt-and-white-flare-on-pokemon-tcg-live",
+      "verifiedOn": "2026-09-08",
+      "evidence": "Official indexed text: 17 July 2025, 10:00 a.m. PDT. Resolver is calendar-day granularity, not intraday availability."
+    }
+  },
+  "coverage": {
+    "catalog": {
+      "complete": false,
+      "from": null,
+      "through": null,
+      "note": "Deliberately partial verified evidence pack: three expansions, not a complete Standard card pool. Set marks, promos, exceptions and full history require verification before consumer use."
+    },
+    "online": {
+      "complete": true,
+      "from": "2025-03-27",
+      "through": "2026-04-10",
+      "note": "Bounded rotation chronology only, not a claim of full set coverage."
+    },
+    "irl": {
+      "complete": true,
+      "from": "2025-04-11",
+      "through": "2026-04-10",
+      "note": "Bounded rotation chronology only, not a claim of full set coverage."
+    }
+  },
+  "sets": [
+    {
+      "id": "BLK",
+      "name": "Scarlet & Violet—Black Bolt",
+      "release": {
+        "value": "2025-07-18",
+        "status": "confirmed",
+        "sources": [
+          "black-white-release"
+        ],
+        "convention": "calendar-day-inclusive"
+      },
+      "legality": {
+        "online": {
+          "value": "2025-07-17",
+          "status": "confirmed",
+          "sources": [
+            "black-white-live"
+          ],
+          "convention": "calendar-day-inclusive",
+          "note": "Day-level convention; announced activation was 10:00 PDT, not midnight worldwide."
+        },
+        "irl": {
+          "value": null,
+          "status": "unknown",
+          "sources": [],
+          "convention": "calendar-day-inclusive",
+          "note": "Not independently verified in this seed; no automatic release-offset fallback."
+        }
+      },
+      "marks": {
+        "value": null,
+        "status": "unknown",
+        "sources": []
+      }
+    },
+    {
+      "id": "WHT",
+      "name": "Scarlet & Violet—White Flare",
+      "release": {
+        "value": "2025-07-18",
+        "status": "confirmed",
+        "sources": [
+          "black-white-release"
+        ],
+        "convention": "calendar-day-inclusive"
+      },
+      "legality": {
+        "online": {
+          "value": "2025-07-17",
+          "status": "confirmed",
+          "sources": [
+            "black-white-live"
+          ],
+          "convention": "calendar-day-inclusive",
+          "note": "Day-level convention; announced activation was 10:00 PDT, not midnight worldwide."
+        },
+        "irl": {
+          "value": null,
+          "status": "unknown",
+          "sources": [],
+          "convention": "calendar-day-inclusive",
+          "note": "Not independently verified in this seed; no automatic release-offset fallback."
+        }
+      },
+      "marks": {
+        "value": null,
+        "status": "unknown",
+        "sources": []
+      }
+    },
+    {
+      "id": "POR",
+      "name": "Mega Evolution—Perfect Order",
+      "release": {
+        "value": "2026-03-27",
+        "status": "confirmed",
+        "sources": [
+          "perfect-order"
+        ],
+        "convention": "calendar-day-inclusive"
+      },
+      "legality": {
+        "online": {
+          "value": "2026-03-26",
+          "status": "confirmed",
+          "sources": [
+            "perfect-order"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "irl": {
+          "value": "2026-04-10",
+          "status": "confirmed",
+          "sources": [
+            "perfect-order",
+            "product-legality-2026"
+          ],
+          "convention": "calendar-day-inclusive",
+          "note": "Derived seed fact: first regular booster release 27 March plus the separately verified two-week rule = 10 April. Not derived from rotation."
+        }
+      },
+      "marks": {
+        "value": null,
+        "status": "unknown",
+        "sources": []
+      }
+    }
+  ],
+  "rotations": {
+    "online": [
+      {
+        "id": "standard-g-2025",
+        "effective": {
+          "value": "2025-03-27",
+          "status": "confirmed",
+          "sources": [
+            "rotation-2025"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "boundary": {
+          "value": {
+            "lowestMark": "G"
+          },
+          "status": "confirmed",
+          "sources": [
+            "rotation-2025"
+          ]
+        },
+        "exceptions": {
+          "value": null,
+          "status": "unknown",
+          "sources": [],
+          "note": "Older equivalent printings exist; exhaustive exception identities are not yet verified. This seed must not produce a complete pool identity."
+        }
+      },
+      {
+        "id": "standard-h-2026",
+        "effective": {
+          "value": "2026-03-26",
+          "status": "confirmed",
+          "sources": [
+            "rotation-2026"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "boundary": {
+          "value": {
+            "lowestMark": "H"
+          },
+          "status": "confirmed",
+          "sources": [
+            "rotation-2026"
+          ]
+        },
+        "exceptions": {
+          "value": null,
+          "status": "unknown",
+          "sources": [],
+          "note": "Older equivalent printings exist; exhaustive exception identities are not yet verified. This seed must not produce a complete pool identity."
+        }
+      }
+    ],
+    "irl": [
+      {
+        "id": "standard-g-2025",
+        "effective": {
+          "value": "2025-04-11",
+          "status": "confirmed",
+          "sources": [
+            "rotation-2025"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "boundary": {
+          "value": {
+            "lowestMark": "G"
+          },
+          "status": "confirmed",
+          "sources": [
+            "rotation-2025"
+          ]
+        },
+        "exceptions": {
+          "value": null,
+          "status": "unknown",
+          "sources": [],
+          "note": "Older equivalent printings exist; exhaustive exception identities are not yet verified. This seed must not produce a complete pool identity."
+        }
+      },
+      {
+        "id": "standard-h-2026",
+        "effective": {
+          "value": "2026-04-10",
+          "status": "confirmed",
+          "sources": [
+            "rotation-2026"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "boundary": {
+          "value": {
+            "lowestMark": "H"
+          },
+          "status": "confirmed",
+          "sources": [
+            "rotation-2026"
+          ]
+        },
+        "exceptions": {
+          "value": null,
+          "status": "unknown",
+          "sources": [],
+          "note": "Older equivalent printings exist; exhaustive exception identities are not yet verified. This seed must not produce a complete pool identity."
+        }
+      }
+    ]
+  }
+}
