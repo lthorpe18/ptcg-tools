@@ -1,6 +1,6 @@
 # Checkpoint 1 — Format/Rotation foundation review
 
-**Status: Checkpoint 1 accepted. Implementation and automated validation complete; the owner accepted the pre-existing browser Back failure as non-blocking on 8 September and authorized merging PR #6. Deployment is not verified. Checkpoint 2 has not begun.**
+**Status: Checkpoint 1 merged and accepted; PR #6 `14fe13b`, subsequent navigation repair PR #7 `94bc077`. Owner confirmed all six navigation retest steps pass. Checkpoint 2 has not begun.**
 
 Latest preserved main: `30e669a` (8 September data refresh). Accepted specification: `df51755`, amended by the user's 8 September instructions below. No applicable `AGENTS.md` exists in this checkout. No failed PR was restored/cherry-picked and no existing application script, HTML, CSS, service worker or source payload was edited.
 
@@ -79,7 +79,7 @@ The owner explicitly accepted this existing browser Back issue as non-blocking o
 
 Review this isolated foundation and the maintained calendar results. The unknown 30C release date is a legitimate explicit unknown, not a reason to guess or scrape. The user may supply it later.
 
-The owner authorized merging PR #6 after accepting the Back finding as non-blocking. Deployment is not verified. Stop at Checkpoint 1; no Home/Meta integration, Blended, administration/fitting, individual deck legality or Collection work was performed.
+PR #6 is merged. A subsequent Compete freeze was repaired in PR #7; the owner confirmed all six navigation retest steps passed on 8 September. See `COMPETE_NAVIGATION_FIX_2026-09-08.md` for that separate repair and deferred feedback. No exact deployed SHA was independently captured. Stop at Checkpoint 1; no Home/Meta integration, Blended, administration/fitting, individual deck legality or Collection work was performed.
 
 ## Reproducible date report
 

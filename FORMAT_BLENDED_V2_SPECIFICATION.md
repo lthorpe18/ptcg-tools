@@ -216,4 +216,4 @@ Broader prediction accuracy/fitting/version-administration work is deferred, not
 
 ## 9. Immediate handoff
 
-The next chat implements Checkpoint 1 ONLY. Read this specification and current master/roadmap/feature/performance documents first. Do not repeat the whole forensic audit unless a specific missing foundation fact requires it. Do not begin Checkpoint 2 or change visible Meta/Home behaviour. Collection remains deferred.
+Checkpoint 1 is complete and accepted (PR #6), including the separately merged and owner-tested Compete navigation repair (PR #7). The next proposed task is Checkpoint 2 ONLY, pending explicit owner authorization. Read current repository instructions and master/roadmap/feature/performance documents first. Follow section 7 acceptance cases and stop after Checkpoint 2. Do not begin Blended, integrate other consumers or absorb deferred Prep UX work. Collection remains deferred.

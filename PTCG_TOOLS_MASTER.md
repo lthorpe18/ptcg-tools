@@ -1,23 +1,33 @@
 # PTCG Tools — Master Product & Design Document
 
 **Status:** Current product source of truth  
-**Date:** 7 September 2026  
+**Date:** 8 September 2026
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
-## Checkpoint 1 review update — 8 September 2026
+## Checkpoint 1 acceptance update — 8 September 2026
 
-The current-calendar foundation is implemented and reviewed in `FORMAT_FOUNDATION_CHECKPOINT_1.md`; 68 automated tests pass. Desktop/390px Home, source switching, deep reload and synthetic Event Prep checks ran successfully, with an existing browser Back defect separately recorded. The owner accepted the existing browser Back issue as non-blocking on 8 September because in-app navigation passes, and authorized merging PR #6. Checkpoint 1 is accepted; deployment is not verified. Checkpoint 2 has not begun.
+Checkpoint 1 is complete and accepted. PR #6 merged at `14fe13b`; the subsequent Compete navigation fix, PR #7, merged at `94bc077`. The owner confirmed all six post-fix navigation checks passed on 8 September (Compete entry with an attending event, cross-area navigation, Compete views, Prep entry/return and reload). Automated validation passed 71 tests after the repair, including three regressions that fail on the original scripts; GitHub validation also passed. The agent reproduced the original freeze but could not complete its own post-fix browser run; device acceptance is owner-reported, with no deployed SHA independently captured. Browser Back remains explicitly non-blocking. Checkpoint 2 has not begun.
 
 The owner supplies set data manually; no scraping/admin UI is required. `data/formats/maintained-calendar.json` records the 8 September baseline H–J / TEF–PBL, then 30C Online legality on 15 September and IRL legality on 24 September. 30C release date, next rotation and later releases remain unknown. A rotation can be attached to its set and applies on each environment's legality date, independently of release. Unknown historical/card-level inventories do not block this maintained current-format context; they must not be presented as complete legal-set lists.
+
+### Deferred Event Prep feedback — non-blocking
+
+The owner reported and supplied screenshots of these issues after navigation acceptance:
+- Prep links are available on Nearby/Majors cards but missing from My Tournaments; provide a consistent entry there in a later bounded pass.
+- Event-card actions need compact styling: the oversized Prep button crowds/clips other actions and pushes the overflow control onto another row.
+- The bottom Prep actions collide and have inconsistent styling; tidy the Plan this version / Open Tournament Day controls.
+- Review the value of Event Prep alongside Meta and Tournament Day. Keep Event Prep; the owner explicitly requested no deletion for now.
+
+These are deferred, not acceptance blockers or additions to Checkpoint 2's scope.
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
 See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. The specification is approved. Checkpoint 1 now has an isolated implementation and validation report in `FORMAT_FOUNDATION_CHECKPOINT_1.md`; later consumer checkpoints have not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
 
-The next implementation task is **Checkpoint 1: Format/Rotation foundation only**, with no visible Home/Meta behaviour changes. Do not restore PR #4/#5 or repeat the full forensic review.
+The next proposed implementation task is **Checkpoint 2: Meta Online/IRL only**, pending explicit owner authorization. Use the shared foundation for independent source formats, event classification, retained archives and scoped evidence. Verify every actual release payload online and cached, source/label agreement, source switching, detail and reload. No new Blended or Home/WSIP/Prep integration, navigation redesign, admin/fitting tools or Collection. Preserve PR #7 and subsequent fixes; stop after Checkpoint 2 review. Do not restore PR #4/#5 or repeat the full forensic review.
 
 Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
 

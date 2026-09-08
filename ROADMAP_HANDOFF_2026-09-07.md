@@ -1,14 +1,24 @@
 # PTCG Tools — Roadmap Handoff — 7 September 2026
 
-**Status:** Forensic/specification checkpoint complete and product decisions accepted; next: Checkpoint 1 foundation only
+**Status:** Checkpoint 1 and Compete navigation repair accepted; next proposed: Checkpoint 2 Meta Online/IRL, awaiting authorization
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-05.md`
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `HOME_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
 
-## Checkpoint 1 review update — 8 September 2026
+## Checkpoint 1 acceptance update — 8 September 2026
 
-The current-calendar foundation is implemented and reviewed in `FORMAT_FOUNDATION_CHECKPOINT_1.md`; 68 automated tests pass. Desktop/390px Home, source switching, deep reload and synthetic Event Prep checks ran successfully, with an existing browser Back defect separately recorded. The owner accepted the existing browser Back issue as non-blocking on 8 September because in-app navigation passes, and authorized merging PR #6. Checkpoint 1 is accepted; deployment is not verified. Checkpoint 2 has not begun.
+Checkpoint 1 is complete and accepted. PR #6 merged at `14fe13b`; the subsequent Compete navigation fix, PR #7, merged at `94bc077`. The owner confirmed all six post-fix navigation checks passed on 8 September (Compete entry with an attending event, cross-area navigation, Compete views, Prep entry/return and reload). Automated validation passed 71 tests after the repair, including three regressions that fail on the original scripts; GitHub validation also passed. The agent reproduced the original freeze but could not complete its own post-fix browser run; device acceptance is owner-reported, with no deployed SHA independently captured. Browser Back remains explicitly non-blocking. Checkpoint 2 has not begun.
 
 The owner supplies set data manually; no scraping/admin UI is required. `data/formats/maintained-calendar.json` records the 8 September baseline H–J / TEF–PBL, then 30C Online legality on 15 September and IRL legality on 24 September. 30C release date, next rotation and later releases remain unknown. A rotation can be attached to its set and applies on each environment's legality date, independently of release. Unknown historical/card-level inventories do not block this maintained current-format context; they must not be presented as complete legal-set lists.
+
+### Deferred Event Prep feedback — non-blocking
+
+The owner reported and supplied screenshots of these issues after navigation acceptance:
+- Prep links are available on Nearby/Majors cards but missing from My Tournaments; provide a consistent entry there in a later bounded pass.
+- Event-card actions need compact styling: the oversized Prep button crowds/clips other actions and pushes the overflow control onto another row.
+- The bottom Prep actions collide and have inconsistent styling; tidy the Plan this version / Open Tournament Day controls.
+- Review the value of Event Prep alongside Meta and Tournament Day. Keep Event Prep; the owner explicitly requested no deletion for now.
+
+These are deferred, not acceptance blockers or additions to Checkpoint 2's scope.
 
 ## 1. Current programme position
 
@@ -58,11 +68,11 @@ The five transition decisions are now accepted in `FORMAT_BLENDED_V2_SPECIFICATI
 
 Explanation UX is also accepted: concise inline format/status, a How this is calculated drill-in for actual evidence/weights, and one shared methodology page for assumptions/version/history. Saved fields retain captured assumptions. See the canonical specification for exact windows and acceptance cases.
 
-## 3. Immediate next checkpoint — Format/Rotation foundation only
+## 3. Immediate next checkpoint — Meta Online/IRL only
 
-The read-only forensic review is complete and the subsequent product decisions are accepted. `FORMAT_BLENDED_V2_SPECIFICATION.md` records the verdict, confirmed versus inferred evidence, non-reuse list and full product contract. The isolated Checkpoint 1 implementation is now reviewable; later consumer implementation has not begun. See the 8 September update above.
+The next proposed implementation task is **Checkpoint 2: Meta Online/IRL only**, pending explicit owner authorization. Use the shared foundation for independent source formats, event classification, retained archives and scoped evidence. Verify every actual release payload online and cached, source/label agreement, source switching, detail and reload. No new Blended or Home/WSIP/Prep integration, navigation redesign, admin/fitting tools or Collection. Preserve PR #7 and subsequent fixes; stop after Checkpoint 2 review. Do not restore PR #4/#5 or repeat the full forensic review.
 
-Use a separate development chat for Checkpoint 1: one shared date/format resolver and representative deterministic tests, with a reviewable result report. Read current repository instructions and architecture first. Do not repeat the entire forensic investigation, restore the failed PRs, implement Blended, integrate visible Home/Meta changes, redesign navigation, build admin/fitting UI, or begin Collection. Stop after foundation acceptance; do not continue to Checkpoint 2.
+The foundation and navigation repair are accepted; do not repeat them. Follow Checkpoint 2 automated and browser gates in `FORMAT_BLENDED_V2_SPECIFICATION.md`. For 15–23 September the maintained calendar admits 30C Online while IRL remains TEF–PBL; data must reflect actual played formats, never mere relabelling. Unknown or incompatible evidence stays explicit.
 
 ## 4. Format and rotation recovery
 
@@ -141,4 +151,4 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next chat is **Checkpoint 1 — Format/Rotation foundation only**. Specification approval does not authorize automatically proceeding through later checkpoints.
+The next proposed chat is **Checkpoint 2 — Meta Online/IRL only**, awaiting explicit authorization. Specification approval does not authorize automatically proceeding through later checkpoints.
