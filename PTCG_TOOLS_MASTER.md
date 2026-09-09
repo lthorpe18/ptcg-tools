@@ -1,15 +1,15 @@
 # PTCG Tools — Master Product & Design Document
 
 **Status:** Current product source of truth  
-**Date:** 8 September 2026
+**Date:** 9 September 2026
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
-## Checkpoints 7–8 — 9 September 2026
+## Format/Rotation and Blended Meta v2 accepted — 9 September 2026
 
-Checkpoints 1–7 are merged and accepted. Checkpoint 7 merged in PR #16 (`6421d06c`); the owner passed all six device steps. Checkpoint 8 Event Prep integration is implemented for review in `EVENT_PREP_CHECKPOINT_8.md`; 128 automated tests pass. Browser access to the local preview is blocked before page load, so Checkpoint 8 desktop/390px/iPhone acceptance remains pending. Checkpoint 9 has not started.
+Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`); the owner passed all six Event Prep device steps. Checkpoint 9's 128-test, deployed-desktop and six-step installed-iPhone/offline-resume gates all passed. Home, Meta, WSIP, Saved Expected Fields, exact deck detail and Event Prep now share the accepted format-aware prediction and persistence contract. The recovery programme is closed; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
 ## Checkpoint 5 accepted — 9 September 2026
 
@@ -672,7 +672,7 @@ Past attending records without completion become Incomplete/Needs completion rat
 
 ### 11.4 Event Prep
 
-Event Prep v1 is implemented. Checkpoint 8 integrates event-date format selection, explicit mismatched-field overrides and immutable field/exact-version locks; implementation is awaiting review and device acceptance. See `EVENT_PREP_CHECKPOINT_8.md`.
+Event Prep v1 is implemented and owner-accepted. Checkpoint 8 integrates event-date format selection, explicit mismatched-field overrides and immutable field/exact-version locks; it merged in PR #17 (`9e3453e`) and passed all six owner device checks. See `EVENT_PREP_CHECKPOINT_8.md`.
 
 Normal journey:
 
