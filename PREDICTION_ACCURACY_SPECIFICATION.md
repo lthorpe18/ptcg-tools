@@ -1,8 +1,8 @@
 # Prediction Accuracy & Formula Fitting — Specification
 
-**Status:** Checkpoint 1 specification/data audit complete for review — 9 September 2026  
+**Status:** Checkpoint 1 accepted; Checkpoint 2 implemented for review — 9 September 2026
 **Previous programme:** Format/Rotation and Blended Meta v2 accepted through Checkpoint 9  
-**Next checkpoint:** Immutable prediction snapshots
+**Next checkpoint:** Accuracy engine after Checkpoint 2 review
 
 ## 1. Purpose and location
 
@@ -64,11 +64,11 @@ Current history is **not** sufficient for an honest Worlds backtest. Repository 
 
 ## 8. Delivery checkpoints
 
-1. **Specification/data audit — complete for review.**
-2. **Immutable snapshots:** append-only forecast archive and index in scheduled release builds.
+1. **Specification/data audit — accepted and merged in PR #19.**
+2. **Immutable snapshots — implemented for review:** append-only forecast archive and index in scheduled release builds; see `PREDICTION_ACCURACY_CHECKPOINT_2.md`.
 3. **Accuracy engine:** eligible-event matching, data-quality guards, scoring and revisions.
 4. **Meta UI:** latest score, trend, event history and predicted-versus-actual detail.
 5. **Formula fitting/versioning:** candidate replay, held-out comparison, draft/publish/rollback.
 6. **Connected acceptance:** scheduled pipeline, failure states, desktop/iPhone and documentation.
 
-Checkpoint 2 must not add the UI or fitting engine. Stop after verifying that a published prediction snapshot cannot be rewritten and can reproduce the live prediction exactly.
+Checkpoint 2 adds no UI or fitting engine. Its committed snapshot reproduces the live prediction exactly, and the archive rejects any attempt to rewrite an existing snapshot.

@@ -13,7 +13,7 @@ Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17
 
 ## Prediction accuracy programme — 9 September 2026
 
-Checkpoint 1 specification/data audit is complete for review in `PREDICTION_ACCURACY_SPECIFICATION.md`. Locked direction: Meta-owned accuracy page; IRL majors only; latest valid pre-Day-1 prediction; Field accuracy plus supporting MAE; exact variants predicted or actual above 1%; immutable inputs/snapshots and versioned formula fitting. Existing history cannot honestly score Worlds because retained prediction history begins after the event. Checkpoint 2 must begin append-only snapshots before the next eligible major.
+Checkpoint 1 is accepted and merged in PR #19 (`309e630`). Checkpoint 2 is implemented for review in `PREDICTION_ACCURACY_CHECKPOINT_2.md`: scheduled builds now create content-addressed, append-only snapshots containing the exact prediction, source inputs, formula and provenance. The first honest snapshot is dated 9 September, so Worlds remains unscored. Checkpoint 3—the accuracy engine—has not started.
 
 ## Checkpoint 5 accepted — 9 September 2026
 

@@ -7,6 +7,7 @@ on:
   push:
     paths:
       - 'scripts/build-current-field.mjs'
+      - 'scripts/prediction-snapshots.mjs'
       - 'scripts/update-online-formats.mjs'
       - 'scripts/meta-format-contract.mjs'
       - 'data/formats/maintained-calendar.json'
@@ -36,7 +37,7 @@ jobs:
         run: node scripts/build-meta-release.mjs
       - name: Commit meta data if changed
         run: |
-          git add data/meta/current-field.json data/meta/online-events data/meta/online-results data/meta/online-fields v2-preview/data/meta/release
+          git add data/meta/current-field.json data/meta/online-events data/meta/online-results data/meta/online-fields data/meta/prediction-snapshots v2-preview/data/meta/release
           if git diff --cached --quiet; then
             echo "No meta changes"
             exit 0
