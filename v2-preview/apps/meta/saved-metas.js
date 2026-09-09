@@ -52,16 +52,20 @@
 
     const rows = read();
     const now = new Date().toISOString();
-    const existing = rows.find(row => row.name.toLowerCase() === cleanName.toLowerCase());
+    const targetFormat = String(format || '');
+    if (provenance?.targetFormat && provenance.targetFormat !== targetFormat) return null;
+    const existing = rows.find(row => row.name.toLowerCase() === cleanName.toLowerCase() && String(row.format || '') === targetFormat);
     const item = existing || {
       id: `meta-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
       createdAt: now,
     };
     item.name = cleanName;
     item.field = clean;
-    item.format = String(format || '');
-    if (provenance !== undefined) item.provenance = cleanProvenance(provenance);
-    else if (!Object.prototype.hasOwnProperty.call(item, 'provenance')) item.provenance = null;
+    item.format = targetFormat;
+    item.schemaVersion = 2;
+    // A replacement without provenance must never inherit the old calculation.
+    item.provenance = cleanProvenance(provenance);
+    item.capturedAt = now;
     item.updatedAt = now;
 
     if (!existing) rows.push(item);
@@ -76,5 +80,16 @@
     return write(next);
   }
 
-  window.SavedMetas = { list, get, save, remove, cleanField };
+  function label(item) { return `${item.name} · ${item.format || 'Unknown format'}`; }
+
+  function editorState(item) {
+    const editor = item?.provenance?.editor;
+    if (!editor || !Array.isArray(editor.rows)) return null;
+    const selected = cleanField(editor.rows.filter(row => row.included));
+    const expected = cleanField(item.field);
+    if (selected.length !== expected.length || selected.some(row => !expected.some(other => other.name === row.name && Math.abs(other.share-row.share) < 1e-10))) return null;
+    return cleanProvenance(editor);
+  }
+
+  window.SavedMetas = { list, get, save, remove, cleanField, label, editorState };
 })();

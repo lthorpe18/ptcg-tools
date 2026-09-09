@@ -9,7 +9,7 @@
 
 ## Checkpoint 6 — 9 September 2026
 
-Checkpoint 6 is implemented in `EXACT_DETAIL_CHECKPOINT_6.md` and authorized for merge/device testing. Exact detail preserves the selected variant, field snapshot, target format and H2H context across source changes, reload and WSIP return. Predicted-field evaluation is separate from observed statistics. All 116 tests pass; local browser access is blocked before page load, so owner visual acceptance remains pending. Checkpoint 7 has not started.
+Checkpoint 6 is merged/deployed through PR #15 (`e27a914`) and accepted: the owner passed all six device steps. Checkpoint 7 saved-field persistence is implemented for review in `SAVED_FIELDS_CHECKPOINT_7.md`; 120 automated tests pass. Browser access to the local preview is blocked before page load; desktop/390px/iPhone acceptance remains pending. Checkpoint 8 has not started.
 
 ## Checkpoint 5 accepted — 9 September 2026
 
@@ -927,6 +927,8 @@ The immediate programme priority is to finish and stabilise the existing applica
 The Home, core Meta/WSIP baseline, Navigation/Shell, Settings, Tools, Tournament Day and Season passes remain complete/accepted for their current stage unless a concrete regression is found.
 
 ### Recommended near-term sequence
+
+**Owner update — 9 September 2026:** Finish Format/Blended Checkpoints 7–9 → prediction accuracy/fitting (separate specification/review) → a bounded UI/UX consistency pass based on the owner’s real-use findings → Collection only when explicitly reopened. This ordering supersedes the older generic sequence below. No fitting, broad UI/UX redesign or Collection is included in Checkpoint 7. Necessary regression fixes remain allowed as they arise.
 
 1. **Format Registry / Blended Meta v2 recovery and reimplementation** — rebuild from the accepted rolled-back baseline in bounded slices, with browser testing at each boundary and real-iPhone acceptance before merge.
 2. **Whole-app architecture/performance/stability review** — use high-capability review tooling to inspect runtime ownership, shell lifecycle, caching, data delivery, duplicate loaders/state, service-worker behaviour and maintainability; implement only prioritised findings in bounded passes.

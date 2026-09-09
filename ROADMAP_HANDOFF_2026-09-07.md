@@ -1,12 +1,12 @@
 # PTCG Tools — Roadmap Handoff — 7 September 2026
 
-**Status:** Checkpoints 1–4 and Home follow-ups merged; Checkpoint 5 accepted; Checkpoint 6 implemented and authorized for merge/testing
+**Status:** Checkpoints 1–6 merged and accepted; Checkpoint 7 implemented for review
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-05.md`
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `HOME_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
 
 ## Checkpoint 6 — 9 September 2026
 
-Checkpoint 6 is implemented in `EXACT_DETAIL_CHECKPOINT_6.md` and authorized for merge/device testing. Exact detail preserves the selected variant, field snapshot, target format and H2H context across source changes, reload and WSIP return. Predicted-field evaluation is separate from observed statistics. All 116 tests pass; local browser access is blocked before page load, so owner visual acceptance remains pending. Checkpoint 7 has not started.
+Checkpoint 6 is merged/deployed through PR #15 (`e27a914`) and accepted: the owner passed all six device steps. Checkpoint 7 saved-field persistence is implemented for review in `SAVED_FIELDS_CHECKPOINT_7.md`; 120 automated tests pass. Browser access to the local preview is blocked before page load; desktop/390px/iPhone acceptance remains pending. Checkpoint 8 has not started.
 
 ## Checkpoint 5 accepted — 9 September 2026
 
@@ -162,6 +162,8 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 ## 7. Subsequent programme order
 
+**Owner update — 9 September 2026:** Finish Format/Blended Checkpoints 7–9 → prediction accuracy/fitting (separate specification/review) → a bounded UI/UX consistency pass based on the owner’s real-use findings → Collection only when explicitly reopened. This ordering supersedes the older generic sequence below. No fitting, broad UI/UX redesign or Collection is included in Checkpoint 7. Necessary regression fixes remain allowed as they arise.
+
 1. **Whole-app stability and consistency review** — judge navigation, repeated-use responsiveness, loading/failure clarity, cross-feature consistency, cache freshness and unfinished/duplicated experiences. Turn only confirmed worthwhile findings into bounded fixes.
 2. **Finish existing product areas** — genuine defects first, incomplete core workflows second, significant usability improvements third and cosmetic polish last.
 3. **Learning/personal performance analysis** — only when deliberately prioritised.
@@ -173,6 +175,6 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next action is the authorized Checkpoint 6 merge and owner test in `EXACT_DETAIL_CHECKPOINT_6.md`. Do not begin Checkpoint 7 automatically.
+The next action is Checkpoint 7 review and device acceptance using `SAVED_FIELDS_CHECKPOINT_7.md`. Do not begin Checkpoint 8 automatically.
 
 Checkpoint 4 follow-up: the Home hero now explicitly requests Blended on cold and mounted Meta. The owner subsequently reported this handoff failure; device retest of the correction remains pending. PR #12 includes both the handoff correction and Home methodology-link removal. On 8 September the owner authorized merging this follow-up and proceeding to Checkpoint 5.

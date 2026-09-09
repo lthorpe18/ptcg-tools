@@ -83,7 +83,7 @@
       rows = expected.field || expected.rows || options.rows || [];
       provenance = {
         ...(expected.provenance || {}),
-        type:'expected-field', identity:'exact-variant', source,
+        type:'expected-field', identity:expected.provenance?.identity || 'unknown', originSource:expected.provenance?.originSource || expected.provenance?.source || null, source,
         expectedFieldId:expected.id || null,
         label:expected.name || sourceDefinition(source).label,
       };

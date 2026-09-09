@@ -1,6 +1,6 @@
 # Format/Rotation and Blended Meta v2 — Accepted Recovery Specification
 
-**Status:** Checkpoints 1–5 merged and accepted. Checkpoint 6 is implemented and authorized for merge/device testing; see `EXACT_DETAIL_CHECKPOINT_6.md`. Checkpoint 7 has not started.
+**Status:** Checkpoints 1–6 merged and accepted. Checkpoint 7 implemented for review; see `SAVED_FIELDS_CHECKPOINT_7.md`. Checkpoint 8 has not started.
 **Source review:** main `eb7809c5724f687c15d2d99b7af1f1f7b5365365`.
 **Companions:** PTCG_TOOLS_MASTER.md; ROADMAP_HANDOFF_2026-09-07.md; HOME_ARCHITECTURE.md; WHAT_SHOULD_I_PLAY_ARCHITECTURE.md; v2-preview/apps/meta/ARCHITECTURE.md; PERFORMANCE_ARCHITECTURE.md.
 
@@ -216,6 +216,6 @@ Broader prediction accuracy/fitting/version-administration work is deferred, not
 
 ## 9. Immediate handoff
 
-Checkpoint 6 is implemented in `EXACT_DETAIL_CHECKPOINT_6.md` and authorized for merge/device testing. Exact detail preserves the selected variant, field snapshot, target format and H2H context across source changes, reload and WSIP return. Predicted-field evaluation is separate from observed statistics. All 116 tests pass; local browser access is blocked before page load, so owner visual acceptance remains pending. Checkpoint 7 has not started.
+Checkpoint 6 is merged/deployed through PR #15 (`e27a914`) and accepted: the owner passed all six device steps. Checkpoint 7 saved-field persistence is implemented for review in `SAVED_FIELDS_CHECKPOINT_7.md`; 120 automated tests pass. Browser access to the local preview is blocked before page load; desktop/390px/iPhone acceptance remains pending. Checkpoint 8 has not started.
 
-Checkpoint 5 passed the owner’s six tests; prediction-date advancement is confirmed, so no daily-refresh investigation is outstanding. The owner explicitly requested implementation and merge of Checkpoint 6. Stop after its device acceptance before Checkpoint 7.
+Checkpoint 5 passed the owner’s six tests; prediction-date advancement is confirmed, so no daily-refresh investigation is outstanding. The owner accepted Checkpoint 6 and authorized Checkpoint 7. Stop after Checkpoint 7 review; Checkpoint 8 needs its own bounded task.
