@@ -2,7 +2,7 @@
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted contract. Checkpoints 1–5 are merged and accepted; the owner confirmed all six Checkpoint 5 checks and advanced prediction date. Checkpoints 1–7 are merged and accepted. Checkpoint 7 merged in PR #16 (`6421d06c`); the owner passed all six device steps. Checkpoint 8 Event Prep integration is implemented for review in `EVENT_PREP_CHECKPOINT_8.md`; 128 automated tests pass. Browser access to the local preview is blocked before page load, so Checkpoint 8 desktop/390px/iPhone acceptance remains pending. Checkpoint 9 has not started.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted contract. Checkpoints 1–8 are merged and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`) and passed all six owner device checks. Checkpoint 9's automated and deployed-desktop gates pass; final installed-iPhone and offline/foreground acceptance remains pending in `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
 Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
 
@@ -210,4 +210,4 @@ The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptan
 
 ## Checkpoint 8 Event Prep consumer
 
-`events/prep-field.js` resolves the event date through `PTCGFormat`, selects the matching canonical prediction, records explicit field-format overrides and creates independent lock copies. `events/prep.js` uses `MetaWSIPSource.inputs` and explicit-format H2H loading; it never uses the compatibility blend or saved-name heuristics. Event snapshots and exact deck-version locks are owned by participation persistence. See `EVENT_PREP_CHECKPOINT_8.md` for the pending device gate.
+`events/prep-field.js` resolves the event date through `PTCGFormat`, selects the matching canonical prediction, records explicit field-format overrides and creates independent lock copies. `events/prep.js` uses `MetaWSIPSource.inputs` and explicit-format H2H loading; it never uses the compatibility blend or saved-name heuristics. Event snapshots and exact deck-version locks are owned by participation persistence. The owner accepted the device gate after PR #17; see `EVENT_PREP_CHECKPOINT_8.md`.

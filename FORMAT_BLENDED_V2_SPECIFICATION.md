@@ -1,6 +1,6 @@
 # Format/Rotation and Blended Meta v2 — Accepted Recovery Specification
 
-**Status:** Checkpoints 1–7 merged and accepted. Checkpoint 8 implemented for review; see `EVENT_PREP_CHECKPOINT_8.md`. Checkpoint 9 has not started.
+**Status:** Checkpoints 1–8 merged and owner-accepted. Checkpoint 9 full connected acceptance is in progress; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 **Source review:** main `eb7809c5724f687c15d2d99b7af1f1f7b5365365`.
 **Companions:** PTCG_TOOLS_MASTER.md; ROADMAP_HANDOFF_2026-09-07.md; HOME_ARCHITECTURE.md; WHAT_SHOULD_I_PLAY_ARCHITECTURE.md; v2-preview/apps/meta/ARCHITECTURE.md; PERFORMANCE_ARCHITECTURE.md.
 
@@ -216,6 +216,6 @@ Broader prediction accuracy/fitting/version-administration work is deferred, not
 
 ## 9. Immediate handoff
 
-Checkpoints 1–7 are merged and accepted. Checkpoint 7 merged in PR #16 (`6421d06c`); the owner passed all six device steps. Checkpoint 8 Event Prep integration is implemented for review in `EVENT_PREP_CHECKPOINT_8.md`; 128 automated tests pass. Browser access to the local preview is blocked before page load, so Checkpoint 8 desktop/390px/iPhone acceptance remains pending. Checkpoint 9 has not started.
+Checkpoints 1–8 are merged and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`) and passed all six owner device checks. Checkpoint 9's 128-test and deployed-desktop gates pass; installed-iPhone and offline/foreground acceptance remain pending in `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
-Checkpoint 5 passed the owner’s six tests; prediction-date advancement is confirmed, so no daily-refresh investigation is outstanding. The owner accepted Checkpoint 7 and authorized Checkpoint 8. Stop after Checkpoint 8 review; Checkpoint 9 needs its own bounded task.
+Checkpoint 5 passed the owner’s six tests; prediction-date advancement is confirmed, so no daily-refresh investigation is outstanding. The owner accepted Checkpoints 7 and 8 and authorized Checkpoint 9. Stop after the Checkpoint 9 owner gate; do not begin prediction fitting automatically.

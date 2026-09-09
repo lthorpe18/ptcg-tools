@@ -1,6 +1,6 @@
 # Checkpoint 8 — Event Prep integration
 
-Status: Implemented for review; unmerged. Checkpoints 1–7 are merged and owner-accepted. Checkpoint 7 was accepted after PR #16 (`6421d06c`) and all six device steps passed. Checkpoint 9 has not started.
+Status: Merged and owner-accepted. PR #17 merged as `9e3453e`; all six owner device checks passed on 9 September 2026. Checkpoint 9 full connected acceptance is in progress; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
 ## Behaviour
 
@@ -33,4 +33,4 @@ If no mismatched saved field is available, the override scenario has automated c
 
 ## Remaining programme
 
-Checkpoint 8 review/device acceptance → Checkpoint 9 full connected acceptance → separate prediction accuracy/fitting work → owner-led UI/UX consistency pass → Collection only when explicitly reopened.
+Checkpoint 9 full connected acceptance → separate prediction accuracy/fitting work → owner-led UI/UX consistency pass → Collection only when explicitly reopened.
