@@ -17,8 +17,10 @@ const engine=()=>loadBlendEngine(path.join(root,'v2-preview/apps/_shared/meta-bl
 
 test('committed snapshot reproduces the live release prediction and retains pre-blend inputs',async()=>{
   const index=await data('data/meta/prediction-snapshots/index.json');
-  const stored=await data(`data/meta/prediction-snapshots/snapshots/${index.publications.at(-1).snapshotId}.json`);
   const generated=makeSnapshots(await fixture(),await engine())[0];
+  const publication=index.publications.find(row=>row.snapshotId===generated.snapshotId);
+  assert.ok(publication);
+  const stored=await data(`data/meta/prediction-snapshots/snapshots/${publication.snapshotId}.json`);
   assert.deepEqual(stored,generated);
   assert.equal(stored.targetFormat,'TEF-PBL');
   assert.equal(stored.available,true);
