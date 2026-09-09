@@ -10,7 +10,7 @@ Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17
 
 ## Prediction accuracy programme
 
-Checkpoint 1 specification/data audit is complete for review in `PREDICTION_ACCURACY_SPECIFICATION.md`. The next bounded task is immutable prediction snapshots. No honest pre-Worlds forecast exists in retained history, so scoring starts with the next eligible IRL major after snapshot capture begins.
+Checkpoint 1 is accepted and merged in PR #19 (`309e630`). Checkpoint 2's immutable scheduled snapshot archive is implemented for review; see `PREDICTION_ACCURACY_CHECKPOINT_2.md`. No honest pre-Worlds forecast exists, so scoring starts with the next eligible IRL major after 9 September snapshot capture. Checkpoint 3 has not started.
 
 ## Checkpoint 5 accepted — 9 September 2026
 
@@ -179,6 +179,6 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next action is Prediction Accuracy Checkpoint 2: immutable snapshots. After the six accuracy checkpoints comes the owner-led UI/UX consistency pass, then Collection only when explicitly reopened. Do not start Checkpoint 2 automatically.
+The next action after Checkpoint 2 review is Prediction Accuracy Checkpoint 3: the eligible-major accuracy engine. After all six accuracy checkpoints comes the owner-led UI/UX consistency pass, then Collection only when explicitly reopened. Do not start Checkpoint 3 automatically.
 
 Checkpoint 4 follow-up: the Home hero now explicitly requests Blended on cold and mounted Meta. The owner subsequently reported this handoff failure; device retest of the correction remains pending. PR #12 includes both the handoff correction and Home methodology-link removal. On 8 September the owner authorized merging this follow-up and proceeding to Checkpoint 5.

@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { calendar, resolver, formatAt, validateDataset } from './meta-format-contract.mjs';
+import { archiveSnapshots, loadBlendEngine } from './prediction-snapshots.mjs';
 const SCOPES = ['14', '30', 'since-major', 'all'];
 const root = process.cwd();
 const outputDir = path.join(root, 'v2-preview', 'data', 'meta', 'release');
@@ -163,6 +164,8 @@ async function main() {
     const target=path.join(outputDir,built.names[key]);await fs.mkdir(path.dirname(target),{recursive:true});await fs.writeFile(target,json(value));
   }
   await fs.writeFile(path.join(outputDir,'manifest.json'),json(built.manifest));
-  console.log(`Built Meta release ${built.manifest.release}: Online ${current.online}, IRL ${current.irl}; ${archives.length} retained source archives`);
+  const blend=await loadBlendEngine(path.join(root,'v2-preview/apps/_shared/meta-blend.js'));
+  const snapshots=await archiveSnapshots({built,blend,directory:path.join(root,'data/meta/prediction-snapshots'),publishedAt:process.env.META_PUBLISHED_AT || new Date().toISOString()});
+  console.log(`Built Meta release ${built.manifest.release}: Online ${current.online}, IRL ${current.irl}; ${archives.length} retained source archives; ${snapshots.length} prediction snapshot(s)`);
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===path.resolve(fileURLToPath(import.meta.url)))main();
