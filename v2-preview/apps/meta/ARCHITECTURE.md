@@ -2,7 +2,7 @@
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted contract. Checkpoints 1–8 are merged and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`) and passed all six owner device checks. Checkpoint 9's automated and deployed-desktop gates pass; final installed-iPhone and offline/foreground acceptance remains pending in `FORMAT_BLENDED_CHECKPOINT_9.md`.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted contract. Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`) and passed all six Event Prep device checks. Checkpoint 9's 128-test, deployed-desktop and installed-iPhone/offline-resume gates all passed. The recovery programme is closed; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
 Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
 

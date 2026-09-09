@@ -1,12 +1,12 @@
 # PTCG Tools — Roadmap Handoff — 7 September 2026
 
-**Status:** Checkpoints 1–8 merged and owner-accepted; Checkpoint 9 final connected acceptance in progress
+**Status:** Format/Rotation and Blended Meta v2 recovery complete; Checkpoints 1–9 owner-accepted
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-05.md`
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `HOME_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
 
-## Checkpoint 9 — 9 September 2026
+## Format/Blended programme closure — 9 September 2026
 
-Checkpoints 1–8 are merged and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`) and passed all six owner device checks. Checkpoint 9 is the final connected acceptance gate; 128 automated tests and the deployed desktop workflow pass. Final installed-iPhone and offline/foreground checks remain pending in `FORMAT_BLENDED_CHECKPOINT_9.md`.
+Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`) and passed all six Event Prep device checks. Checkpoint 9's 128 automated tests, deployed desktop workflow and final six-step installed-iPhone/offline-resume gate all passed. The recovery programme is closed; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
 ## Checkpoint 5 accepted — 9 September 2026
 
@@ -175,6 +175,6 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next action is the six-step owner iPhone/offline gate in `FORMAT_BLENDED_CHECKPOINT_9.md`. After it passes, record acceptance and close the Format/Rotation and Blended Meta v2 recovery programme before starting the separate prediction accuracy/fitting specification.
+The next programme is a separate prediction accuracy/fitting specification and review. After that comes the owner-led UI/UX consistency pass, then Collection only when explicitly reopened. Do not start prediction fitting automatically.
 
 Checkpoint 4 follow-up: the Home hero now explicitly requests Blended on cold and mounted Meta. The owner subsequently reported this handoff failure; device retest of the correction remains pending. PR #12 includes both the handoff correction and Home methodology-link removal. On 8 September the owner authorized merging this follow-up and proceeding to Checkpoint 5.

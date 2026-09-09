@@ -7,9 +7,9 @@
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
-## Checkpoint 9 full connected acceptance — 9 September 2026
+## Format/Rotation and Blended Meta v2 accepted — 9 September 2026
 
-Checkpoints 1–8 are merged and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`); the owner passed all six device steps. Checkpoint 9 is the final connected acceptance gate in `FORMAT_BLENDED_CHECKPOINT_9.md`. All 128 automated tests pass, and the deployed desktop flow passed Home/Meta/WSIP parity, edited Saved Expected Field → exact detail → reload/return, current/future Event Prep resolution and mounted navigation without application console errors. Final installed-iPhone and offline/foreground acceptance remains pending.
+Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`); the owner passed all six Event Prep device steps. Checkpoint 9's 128-test, deployed-desktop and six-step installed-iPhone/offline-resume gates all passed. Home, Meta, WSIP, Saved Expected Fields, exact deck detail and Event Prep now share the accepted format-aware prediction and persistence contract. The recovery programme is closed; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
 ## Checkpoint 5 accepted — 9 September 2026
 
