@@ -23,6 +23,8 @@
       sourceId,
       scope:event.scope||null,
       type:event.type||null,
+      format:event.format||null,
+      environment:event.environment||null,
       name:event.name||null,
       venue:event.venue||null,
       startDate:event.startDate||event.date||null,

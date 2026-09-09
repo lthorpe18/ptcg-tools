@@ -1,6 +1,6 @@
 # Checkpoint 7 — Saved Expected Fields
 
-Status: Implemented for review, not merged. Checkpoints 1–6 are accepted. Checkpoint 8 has not started.
+Status: Merged in PR #16 (`6421d06c`) and accepted. The owner passed all six device steps. Checkpoint 8 follows in `EVENT_PREP_CHECKPOINT_8.md`.
 
 ## Changes
 
@@ -14,7 +14,7 @@ Editor metadata is used only when its selected rows match the stored composition
 
 120/120 Node tests pass. New behavioural coverage checks dual-format round trips, formula/evidence metadata, immutable saved copies, editor exclusion/coverage restoration, ancestry, detail selection/return, legacy unknowns, conflicting formats, stale-provenance removal, corrupt editor fallback and the existing workspace snapshot/restore path using an in-memory IndexedDB stand-in. Real release provenance is saved and restored byte-for-byte through JSON.
 
-The browser-control workflow connected but local preview navigation returned net::ERR_BLOCKED_BY_CLIENT before page load. Desktop, 390px and actual iPhone checks are pending. No live sign-in or cross-device sync acceptance is claimed.
+The browser-control workflow connected but local preview navigation returned net::ERR_BLOCKED_BY_CLIENT before page load. Subsequent owner testing passed all six iPhone steps; automated desktop/390px verification remains unavailable. No live sign-in or cross-device sync acceptance is claimed.
 
 ## Device test (after merge and deployment)
 
@@ -25,4 +25,4 @@ The browser-control workflow connected but local preview navigation returned net
 5. Fully close/reopen the app and reopen the saved field. If using account sync on another device, check that the saved name, format and composition restore there too. Existing older fields should remain listed; missing format should explicitly say Unknown format.
 6. Navigate Home → Meta → Compete → Meta and repeat saved selection/detail return. Check that controls remain responsive and readable on iPhone.
 
-Stop for owner acceptance. Do not begin Checkpoint 8 automatically.
+Owner acceptance is complete. The owner subsequently authorized Checkpoint 8.

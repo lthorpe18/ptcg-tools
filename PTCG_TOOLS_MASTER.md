@@ -7,9 +7,9 @@
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
-## Checkpoint 6 — 9 September 2026
+## Checkpoints 7–8 — 9 September 2026
 
-Checkpoint 6 is merged/deployed through PR #15 (`e27a914`) and accepted: the owner passed all six device steps. Checkpoint 7 saved-field persistence is implemented for review in `SAVED_FIELDS_CHECKPOINT_7.md`; 120 automated tests pass. Browser access to the local preview is blocked before page load; desktop/390px/iPhone acceptance remains pending. Checkpoint 8 has not started.
+Checkpoints 1–7 are merged and accepted. Checkpoint 7 merged in PR #16 (`6421d06c`); the owner passed all six device steps. Checkpoint 8 Event Prep integration is implemented for review in `EVENT_PREP_CHECKPOINT_8.md`; 128 automated tests pass. Browser access to the local preview is blocked before page load, so Checkpoint 8 desktop/390px/iPhone acceptance remains pending. Checkpoint 9 has not started.
 
 ## Checkpoint 5 accepted — 9 September 2026
 
@@ -672,7 +672,7 @@ Past attending records without completion become Incomplete/Needs completion rat
 
 ### 11.4 Event Prep
 
-Event Prep v1 is implemented.
+Event Prep v1 is implemented. Checkpoint 8 integrates event-date format selection, explicit mismatched-field overrides and immutable field/exact-version locks; implementation is awaiting review and device acceptance. See `EVENT_PREP_CHECKPOINT_8.md`.
 
 Normal journey:
 
