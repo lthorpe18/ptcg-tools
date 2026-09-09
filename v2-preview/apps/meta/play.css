@@ -6,3 +6,5 @@
 .recommendation-card{grid-template-areas:'rank sprite main score' '. actions actions actions' 'why why why why' '. split split split'}.rec-actions{grid-area:actions}.wsip-source-split{grid-area:split}
 @media(max-width:600px){.recommendation-card{grid-template-areas:'rank sprite main' '. . score' 'actions actions actions' 'why why why' 'split split split'}.rec-score{grid-area:score}}
 @media(max-width:420px){.child-source-row{grid-template-columns:1fr}}
+
+#playFieldFormatControl[hidden]{display:none!important}

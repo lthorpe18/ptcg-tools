@@ -7,9 +7,13 @@
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
 **Companion architecture docs:** `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `CARD_IMAGE_ARCHITECTURE.md`, `CARD_SEARCH_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOOLS_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
-## Checkpoint 4 acceptance — 8 September 2026
+## Checkpoint 5 implementation review — 9 September 2026
 
-Checkpoint 4 is merged and passed owner iPhone testing; see `HOME_CHECKPOINT_4.md`. Home consumes the same current Online-target Blended prediction as Meta, including identical target, rows, weights and evidence revision; it loads the required retained IRL prior, shows the concise format and current IRL/Online split, explicitly renders unavailable states and refreshes shared release state on warm return. At the owner's request, Home does not link to methodology; the detailed explanation remains in Meta. The existing Home layout and navigation hierarchy are unchanged. The concise-Home follow-up suite passes 103 tests. Checkpoint 5 has not begun.
+Checkpoint 5 is implemented for review in `WSIP_CHECKPOINT_5.md`: WSIP consumes the selected canonical Blended or observed format field, loads compatible H2H without changing browsing selections, preserves unknown matchups and existing ranking/coverage, and offers bounded retry recovery. The full suite passes 110 tests. Browser navigation to the local preview was blocked before loading; desktop/390px and owner iPhone acceptance remain pending. Checkpoint 6 has not started.
+
+## Checkpoint 4 follow-ups merged
+
+PR #12 merged at `1f0dace3` and PR #13 at `8ae4ccb`. Home retains its current split without a methodology link. The hero explicitly selects Blended, consuming the entry instruction once so subsequent user choices survive ordinary warm return. Device retest of these corrections remains pending; see `HOME_CHECKPOINT_4.md`. The original owner testing passed cold load, shares/weights, grouping and navigation before the handoff defect was reported.
 
 ## Checkpoint 3 acceptance — 8 September 2026
 

@@ -82,6 +82,8 @@
     if (!payload) return;
     if (core === payload) return;
     if (release && release !== payload.release) {
+      formatEvidence.clear();
+      formatRequests.clear();
       for (const key of Object.keys(lazy)) lazy[key] = null;
       loading.clear();
     }
@@ -123,8 +125,8 @@
     return `${year}-W${String(week).padStart(2, '0')}`;
   }
 
-  function validIrlEvents() {
-    return [...(sourceCore('irl')?.events || [])]
+  function validIrlEvents(source = sourceCore('irl')) {
+    return [...(source?.events || [])]
       .filter(event => Array.isArray(event.decks) && event.decks.length && Number.isFinite(new Date(event.date).getTime()))
       .sort((a, b) => new Date(b.date) - new Date(a.date));
   }
@@ -137,8 +139,8 @@
     ];
   }
 
-  function selectedIrlEvents(scope = state.irlScope) {
-    const events = validIrlEvents();
+  function selectedIrlEvents(scope = state.irlScope, source = sourceCore('irl')) {
+    const events = validIrlEvents(source);
     if (!events.length) return [];
     if (scope === 'all-irl') return events;
     if (String(scope).startsWith('event:')) return events.filter(event => String(event.id) === String(scope).slice(6));
@@ -194,18 +196,18 @@
     return events.filter(event => new Date(event.date).getTime() >= cutoff);
   }
 
-  function onlineData(scope = state.onlineScope, minPlayers = 50) {
-    const standard = sourceCore('online')?.scopes?.[scope] || { events:[], decks:[], overview:{ events:0, entries:0 } };
-    const selected = Number(minPlayers) === 50 || !lazy.onlineHistory ? standard : selectedOnlineEvents(scope, minPlayers);
+  function onlineData(scope = state.onlineScope, minPlayers = 50, source = sourceCore('online'), evidence = lazy) {
+    const standard = source?.scopes?.[scope] || { events:[], decks:[], overview:{ events:0, entries:0 } };
+    const selected = Number(minPlayers) === 50 || !evidence.onlineHistory ? standard : selectedOnlineEvents(scope, minPlayers);
     const field = Array.isArray(selected) ? { ...aggregateDecks(selected), events:selected } : selected;
-    const matchup = (Number(minPlayers)===50 ? lazy.onlineMatchups?.scopes?.[scope] : null) || { overview:{}, matchups:[] };
+    const matchup = (Number(minPlayers)===50 ? evidence.onlineMatchups?.scopes?.[scope] : null) || { overview:{}, matchups:[] };
     const ids = new Set((field.events || []).map(event => String(event.id)));
-    const results = (lazy.onlineResults?.results || []).filter(result => ids.has(String(result.eventId)));
+    const results = (evidence.onlineResults?.results || []).filter(result => ids.has(String(result.eventId)));
     return {
-      source:'online', format:sourceCore('online')?.format || core?.format, scope, events:field.events || [], decks:field.decks || [], matchups:matchup.matchups || [], results,
-      matchupScope:scope, matchupScoped:!!lazy.onlineMatchups,
+      source:'online', format:source?.format || core?.format, scope, events:field.events || [], decks:field.decks || [], matchups:matchup.matchups || [], results,
+      matchupScope:scope, matchupScoped:!!evidence.onlineMatchups,
       overview:{ ...(field.overview || {}), matches:Number(matchup.overview?.matches || 0) },
-      generatedAt:sourceCore('online')?.generatedAt || null,
+      generatedAt:source?.generatedAt || null,
     };
   }
 
@@ -213,15 +215,15 @@
     const map=new Map();for(const row of rows){const key=JSON.stringify([row.a,row.b]);const current=map.get(key)||{a:row.a,b:row.b,wins:0,losses:0,ties:0,games:0};for(const n of ['wins','losses','ties','games'])current[n]+=Number(row[n]||0);map.set(key,current)}return [...map.values()];
   }
 
-  function irlData(scope = state.irlScope) {
-    const events = selectedIrlEvents(scope);
+  function irlData(scope = state.irlScope, source = sourceCore('irl'), evidence = lazy) {
+    const events = selectedIrlEvents(scope, source);
     const field = aggregateDecks(events);
-    const useRootMatchups = scope === 'all-irl' || validIrlEvents().length === 1;
-    const scopedMatchups=(lazy.irlMatchups?.events || []).filter(row=>events.some(event=>String(event.id)===String(row.id)));
-    const matchups = !events.length ? [] : useRootMatchups ? (lazy.irlMatchups?.matchups || []) : aggregateMatchups(scopedMatchups.flatMap(row=>row.matchups || []));
+    const useRootMatchups = scope === 'all-irl' || validIrlEvents(source).length === 1;
+    const scopedMatchups=(evidence.irlMatchups?.events || []).filter(row=>events.some(event=>String(event.id)===String(row.id)));
+    const matchups = !events.length ? [] : useRootMatchups ? (evidence.irlMatchups?.matchups || []) : aggregateMatchups(scopedMatchups.flatMap(row=>row.matchups || []));
     const ids = new Set(events.map(event => String(event.id)));
-    const results = (lazy.irlResults?.results || []).filter(result => ids.has(String(result.eventId)));
-    return { source:'irl', format:sourceCore('irl')?.format || core?.format, scope, events, decks:field.decks, matchups, results, overview:field.overview, generatedAt:sourceCore('irl')?.generatedAt || null, sourceUrl:sourceCore('irl')?.sourceUrl || '', note:sourceCore('irl')?.note || '' };
+    const results = (evidence.irlResults?.results || []).filter(result => ids.has(String(result.eventId)));
+    return { source:'irl', format:source?.format || core?.format, scope, events, decks:field.decks, matchups, results, overview:field.overview, generatedAt:source?.generatedAt || null, sourceUrl:source?.sourceUrl || '', note:source?.note || '' };
   }
 
   function data(source, options = {}) {
@@ -295,6 +297,38 @@
     }));
   }
 
+  // Explicit-format consumers must not mutate the browsing selections or borrow their lazy payloads.
+  const formatEvidence = new Map(), formatRequests = new Map();
+  const evidenceKey = (env, format) => JSON.stringify([release, env, format]);
+  function dataForFormat(env, format, options = {}) {
+    const source = sourceCoreFor(env, format);
+    if (!format || !source || source.format !== format) return { format, decks:[], matchups:[], events:[], unavailable:true };
+    const evidence = formatEvidence.get(evidenceKey(env, format)) || {};
+    return env === 'irl' ? irlData(options.scope || 'all-irl', source, evidence)
+      : onlineData(options.scope || state.onlineScope, 50, source, evidence);
+  }
+  async function ensureForFormat(env, format) {
+    if (!['online','irl'].includes(env) || !format) return;
+    const requestedRelease = release;
+    await loadArchive(env, format);
+    if (release !== requestedRelease) return;
+    const source = sourceCoreFor(env, format);
+    if (!source || source.format !== format) return;
+    const key = evidenceKey(env, format), payloadKey = env + 'Matchups';
+    if (formatEvidence.has(key)) return;
+    if (!formatRequests.has(key)) {
+      const fileKey = source.payloadPrefix ? source.payloadPrefix + 'Matchups' : payloadKey;
+      const request = window.MetaRelease.load(fileKey).then(payload => {
+        if (payload.release !== requestedRelease || payload.format !== format) throw new Error('Wrong-format WSIP matchup evidence');
+        if (release !== requestedRelease) return;
+        formatEvidence.set(key, { [payloadKey]:payload });
+        emit('format-matchups');
+      }).finally(() => formatRequests.delete(key));
+      formatRequests.set(key, request);
+    }
+    return formatRequests.get(key);
+  }
+
   function recordsUrl(name) {
     const records = sourceCore('online')?.records;
     const deck = records?.decks?.find(item => item.name === name);
@@ -303,7 +337,7 @@
   }
 
   window.MetaState = { setFormat, formatOptions, get:() => ({ ...state }), onlineScopes:() => ONLINE_SCOPES.map(option => ({ ...option })), irlScopes:() => irlScopeOptions().map(option => ({ ...option })), setOnlineScope, setIrlScope };
-  window.MetaData = { sourceFormat:env=>sourceCore(env)?.format || core?.format || null, currentFormat:env=>core?.currentFormats?.[env] || null, ready:() => window.MetaRelease.ready(), ensure, ensureBlendEvidence, blendEvidence, isLoaded:key => !!lazy[key], refresh:() => window.MetaRelease.refresh(), data, onlineData, irlData, fieldRows, matchup, context, onlineTournaments:selectedOnlineEvents, irlEvents:selectedIrlEvents, recordsUrl, release:() => release };
+  window.MetaData = { sourceFormat:env=>sourceCore(env)?.format || core?.format || null, currentFormat:env=>core?.currentFormats?.[env] || null, ready:() => window.MetaRelease.ready(), ensure, ensureForFormat, dataForFormat, ensureBlendEvidence, blendEvidence, isLoaded:key => !!lazy[key], refresh:() => window.MetaRelease.refresh(), data, onlineData, irlData, fieldRows, matchup, context, onlineTournaments:selectedOnlineEvents, irlEvents:selectedIrlEvents, recordsUrl, release:() => release };
   window.MetaIRLScope = { get:() => state.irlScope, set:value => setIrlScope(value), options:irlScopeOptions, selectedEvents:selectedIrlEvents, selectedDecks:() => irlData().decks, selectedMatchups:() => irlData().matchups };
 
   window.addEventListener('meta:release-core', event => applyCore(window.MetaRelease.core(), event.detail?.source || 'core'));

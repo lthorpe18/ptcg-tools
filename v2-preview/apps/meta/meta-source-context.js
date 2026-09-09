@@ -40,21 +40,11 @@
     if ($('prep')?.classList.contains('hidden')) return;
     const slot = $('playSourceContext');
     if (!slot) return;
-    const field = $('playFieldSource')?.value || 'blend';
+    const definition = window.PrepField?.definition?.() || {};
+    const format = definition.format || definition.provenance?.targetFormat;
     const matchup = $('playMatchupSource')?.value || 'combined';
-    const fieldContext = field === 'irl'
-      ? window.MetaData.context('irl')
-      : field === 'blend'
-        ? { events:0, entries:0, label:window.PrepField?.sourceLabel?.() || 'Blended current field', detail:'Online since the last major · latest IRL majors weekend' }
-        : field === 'expected'
-          ? { events:0, entries:0, label:window.PrepField?.sourceLabel?.() || 'Saved Expected Field', detail:'Explicit predicted field · exact-variant shares are editable below' }
-          : window.MetaData.context('online');
-    const matchupContext = matchup === 'irl'
-      ? window.MetaData.context('irl', { scope:'all-irl' })
-      : matchup === 'combined'
-        ? combinedContext('matchup')
-        : window.MetaData.context('online');
-    slot.innerHTML = `<div><b>Field</b><span>${esc(fieldContext.label)} · ${esc(fieldContext.detail || '')}</span></div><div><b>H2H</b><span>${esc(matchupContext.label)} · ${esc(matchupContext.detail || '')}</span></div>`;
+    const label = matchup === 'combined' ? 'Online + IRL' : matchup === 'irl' ? 'IRL' : 'Online';
+    slot.innerHTML = `<div><b>Field</b><span>${esc(window.PrepField?.sourceLabel?.() || 'Expected field')}${definition.reason ? ` · ${esc(definition.reason)}` : ''}</span></div><div><b>H2H</b><span>${esc(label)} · ${esc(format || 'Unknown format')} · compatible evidence only</span></div>`;
   }
 
   function clearDetailContext() {

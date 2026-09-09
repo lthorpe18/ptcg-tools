@@ -8,7 +8,7 @@
   function source() { return $('playFieldSource')?.value || 'blend'; }
 
   function resolveDefinition() {
-    return window.PTCGMetaField?.resolve?.({ source:source(), expectedField:state.expectedField }) || { source:source(), rows:[], provenance:{} };
+    return window.MetaWSIPSource?.resolve?.({ source:source(), expectedField:state.expectedField }) || { source:source(), rows:[], provenance:{} };
   }
 
   function resetFromDefinition() {
@@ -55,7 +55,8 @@
     const definition=ensure();
     if (definition.source === 'blend') {
       const weights=definition.provenance?.weights || {};
-      return `Blended current field · ${Math.round(100 * Number(weights.online || 0))}% Online / ${Math.round(100 * Number(weights.irl || 0))}% IRL`;
+      if (definition.available === false) return `Blended · ${definition.format || 'Unknown format'} · unavailable`;
+      return `Blended · ${definition.format || 'Unknown format'} · ${Math.round(100 * Number(weights.online || 0))}% Online / ${Math.round(100 * Number(weights.irl || 0))}% IRL`;
     }
     return definition.provenance?.label || definition.definition?.label || 'Expected field';
   }
@@ -128,9 +129,11 @@
     $('fieldAll')?.addEventListener('click', () => { ensure(); for (const row of state.rows.values()) row.included=true; state.touched=true; renderEditor(); notify(); });
     $('fieldNone')?.addEventListener('click', () => { ensure(); for (const row of state.rows.values()) row.included=false; state.touched=true; renderEditor(); notify(); });
     $('fieldShowAll')?.addEventListener('click', () => { state.showAll=!state.showAll; renderEditor(); });
-    window.addEventListener('meta:data-changed', () => { if (!state.touched && source() !== 'expected') { resetFromDefinition(); renderEditor(); notify(); } });
+    const refresh = () => { if (source() !== 'expected' && (!state.touched || resolveDefinition().format !== state.definition?.format || resolveDefinition().available !== state.definition?.available)) { resetFromDefinition(); renderEditor(); notify(); } };
+    window.addEventListener('meta:data-changed', refresh);
+    window.addEventListener('meta:blend-target-changed', refresh);
   }
 
-  window.PrepField={ getField, getChipRows, getAllRows:allRows, getOriginalCoverage:originalCoverage, snapshot, provenance, sourceLabel, applyExpectedField, applyComposition, render:renderEditor, toggle, add, setIncluded, reset };
+  window.PrepField={ definition:ensure, getField, getChipRows, getAllRows:allRows, getOriginalCoverage:originalCoverage, snapshot, provenance, sourceLabel, applyExpectedField, applyComposition, render:renderEditor, toggle, add, setIncluded, reset };
   bind();
 })();

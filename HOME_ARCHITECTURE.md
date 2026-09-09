@@ -1,12 +1,12 @@
 # PTCG Tools — Home Architecture
 
-**Status:** Checkpoint 4 accepted; concise-Home follow-up implemented for review
+**Status:** Checkpoint 4 and Home follow-ups PR #12/#13 merged; corrected handoff device retest pending
 **Date:** 8 September 2026
 **Scope:** `v2-preview/` Home/dashboard only
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract and checkpoint gates. Checkpoints 1–4 are merged and owner-tested; the final concise-Home follow-up is implemented for review in `HOME_CHECKPOINT_4.md`. Checkpoint 5 and later consumers have not begun.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract and checkpoint gates. Checkpoints 1–4 are merged and owner-tested; the final concise-Home follow-up is implemented for review in `HOME_CHECKPOINT_4.md`. Checkpoint 5 is implemented for review in `WSIP_CHECKPOINT_5.md`; later consumers have not begun.
 
 Checkpoint 4 replaces Home's legacy compatibility calculation with the canonical current Online-target prediction used by Meta. It preserves the accepted dashboard layout, grouping and navigation while adding the existing format chip, concise visible split, explicit unavailable state and warm-return freshness. Detailed methodology remains in Meta and is deliberately not linked from Home. No WSIP, exact detail, Saved Field or Event Prep migration is included.
 
