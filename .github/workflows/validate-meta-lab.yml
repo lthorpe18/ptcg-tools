@@ -5,6 +5,9 @@ on:
     paths:
       - 'apps/meta/**'
       - 'v2-preview/apps/meta/**'
+      - 'v2-preview/apps/events/prep*'
+      - 'v2-preview/apps/_shared/storage.js'
+      - 'tests/event-prep.test.js'
       - 'v2-preview/scripts/persistent-shell.js'
       - 'v2-preview/apps/_shared/meta-blend.js'
       - 'v2-preview/apps/_shared/meta-field.js'
@@ -44,6 +47,8 @@ jobs:
               node --check "$file"
             done
           done
+          node --check v2-preview/apps/events/prep.js
+          node --check v2-preview/apps/events/prep-field.js
           node --check v2-preview/apps/_shared/meta-field.js
           node --check v2-preview/apps/_shared/recommendation-engine.js
       - name: Check required V2 Meta hooks

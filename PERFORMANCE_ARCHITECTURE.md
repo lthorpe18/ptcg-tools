@@ -282,3 +282,7 @@ WSIP reuses the canonical prediction and recommendation engines. Matchup request
 ## Checkpoint 6 detail ownership
 
 Exact-detail routes carry immutable same-tab field context IDs. The router restores fields only when entering WSIP with a different context, avoiding repeated mounted-return overwrites. Detail observed scopes do not mutate browsing or field evaluation scope. Result/H2H payloads are cached separately by release/source/format; callbacks check active exact variant/context/source. Six new integrated scenarios bring the suite to 116 passing tests. Visual acceptance is pending because local browser navigation is blocked.
+
+## Checkpoint 8 Event Prep consumption
+
+Prep reuses the existing release loader, Meta core, canonical Blended prediction and explicit-format WSIP evidence APIs. It loads the maintained calendar once with an eight-second request timeout and validated local fallback. Missing evidence does not block personal deck planning. Field switches and retries render within the same document; request generations reject delayed obsolete results. Release updates may refresh untouched automatic suggestions but never overwrite saved choices, unsaved edits or locked snapshots. No new shell/navigation ownership or event ingestion is introduced.

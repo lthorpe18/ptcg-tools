@@ -8,7 +8,7 @@
   <title>Event Prep · PTCG Tools</title>
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
-  <link rel="stylesheet" href="./prep.css?v=3">
+  <link rel="stylesheet" href="./prep.css?v=4">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="compete">
   <header class="app-shell-header">
@@ -35,6 +35,8 @@
           <select id="savedFieldSelect" aria-label="Expected field baseline"></select>
         </div>
 
+        <p id="eventFormat" class="evidence-line"></p>
+        <label id="overrideControl" class="override-control hidden"><input id="fieldOverride" type="checkbox"><span id="overrideText"></span></label>
         <div id="fieldSummary" class="field-summary"></div>
         <div class="field-actions"><button id="looksRight" type="button" class="primary-button">Looks right</button><button id="toggleAdjust" type="button" class="secondary-button">Adjust</button></div>
 
@@ -49,6 +51,7 @@
       <section class="prep-card app-card" aria-labelledby="optionsTitle">
         <div class="prep-card-head"><div><span class="step-label">2 · Deck options</span><h2 id="optionsTitle">What looks good here?</h2></div></div>
         <p id="candidateEvidence" class="evidence-line">Loading matchup evidence…</p>
+        <button id="retryEvidence" type="button" class="secondary-button hidden">Retry evidence</button>
         <div id="candidateRows" class="candidate-list"></div>
       </section>
 
@@ -64,6 +67,7 @@
         </div>
         <button id="playtestPlan" type="button" class="secondary-button full-button" hidden>▶ Playtest planned list</button>
       </section>
+      <section class="prep-card app-card"><h2>Lock your preparation</h2><p id="lockStatus" class="evidence-line">Set the field and plan an exact deck version to lock both.</p><button id="lockPrep" type="button" class="primary-button full-button">Lock field and deck version</button><button id="unlockPrep" type="button" class="secondary-button full-button hidden">Unlock to revise</button></section>
     </div>
   </main>
 
@@ -78,7 +82,12 @@
   <script src="../_shared/recommendation-engine.js?v=1"></script>
   <script src="../meta/meta-release-loader.js?v=5"></script>
   <script src="../meta/saved-metas.js?v=4"></script>
-  <script src="./prep.js?v=5"></script>
+  <script src="../_shared/format-resolver.js?v=1"></script>
+  <script src="../meta/meta-core.js?v=5"></script>
+  <script src="../meta/blended-field.js?v=2"></script>
+  <script src="../meta/wsip-source.js?v=1"></script>
+  <script src="./prep-field.js?v=1"></script>
+  <script src="./prep.js?v=6"></script>
   <script src="./prep-playtest.js?v=1"></script>
   <script src="./prep-tournament.js?v=3"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
