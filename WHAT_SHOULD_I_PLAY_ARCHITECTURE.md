@@ -6,7 +6,7 @@
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract. Checkpoints 1–4 and Home follow-ups are merged. Checkpoint 5 is implemented for review in `WSIP_CHECKPOINT_5.md`: WSIP consumes the selected canonical Blended or observed format field, loads compatible H2H without changing browsing selections, preserves unknown matchups and existing ranking/coverage, and offers bounded retry recovery. The full suite passes 110 tests. Browser navigation to the local preview was blocked before loading; desktop/390px and owner iPhone acceptance remain pending. Checkpoint 6 has not started.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted contract. Checkpoints 1–5 are merged and accepted; the owner confirmed all six Checkpoint 5 checks and advanced prediction date. Checkpoint 6 is implemented in `EXACT_DETAIL_CHECKPOINT_6.md` and authorized for merge/device testing. Exact detail preserves the selected variant, field snapshot, target format and H2H context across source changes, reload and WSIP return. Predicted-field evaluation is separate from observed statistics. All 116 tests pass; local browser access is blocked before page load, so owner visual acceptance remains pending. Checkpoint 7 has not started.
 
 Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
 
@@ -196,3 +196,7 @@ The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptan
 ## Checkpoint 5 implementation contract
 
 `MetaWSIPSource` selects a canonical prediction or observed format field. `MetaData.dataForFormat` and `ensureForFormat` read compatible source packages without changing browsing selections. Combined evidence pools only records in the selected target format; a previous-format IRL prior is prediction evidence only. Request/cache identities include release, source and format. Unavailable fields yield no recommendations; failed requests show Retry. Existing ranking and coverage rules remain unchanged. Complete saved-field migration is Checkpoint 7 and exact-detail handoff is Checkpoint 6.
+
+## Checkpoint 6 navigation context
+
+`detail-field.js` captures immutable field navigation snapshots in same-tab session storage. The router alone serializes their IDs with exact variants and restores them into WSIP. Unknown/missing snapshots are explicit, never live-field substitutions. Detail offers working field/format/H2H selectors using the shared engine; observed source statistics and scope remain separate. Complete saved-field persistence remains Checkpoint 7.

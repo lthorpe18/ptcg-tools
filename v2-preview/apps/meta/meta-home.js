@@ -154,6 +154,6 @@
   window.addEventListener('meta:blend-target-changed', () => { if (currentIsActive() && state.source==='blend') renderCurrent(); });
   window.addEventListener('decksprites:updated', () => { if (currentIsActive()) renderCurrent(); });
 
-  window.MetaHome = { render:renderCurrent, setSource };
+  window.MetaHome = { render:renderCurrent, setSource, selection:()=>({source:state.source}) };
   renderCurrent();
 })();

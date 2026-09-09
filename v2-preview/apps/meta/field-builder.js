@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const state = { rows:new Map(), touched:false, showAll:false, expectedField:null, definition:null };
+  const state = { rows:new Map(), touched:false, showAll:false, expectedField:null, definition:null, restored:false };
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[char]));
   const pct = value => `${(100 * Number(value || 0)).toFixed(1)}%`;
 
@@ -12,6 +12,7 @@
   }
 
   function resetFromDefinition() {
+    state.restored=false;
     state.definition=resolveDefinition();
     const selection=(state.definition.source === 'expected' || state.definition.source === 'custom')
       ? { rows:state.definition.rows }
@@ -129,11 +130,23 @@
     $('fieldAll')?.addEventListener('click', () => { ensure(); for (const row of state.rows.values()) row.included=true; state.touched=true; renderEditor(); notify(); });
     $('fieldNone')?.addEventListener('click', () => { ensure(); for (const row of state.rows.values()) row.included=false; state.touched=true; renderEditor(); notify(); });
     $('fieldShowAll')?.addEventListener('click', () => { state.showAll=!state.showAll; renderEditor(); });
-    const refresh = () => { if (source() !== 'expected' && (!state.touched || resolveDefinition().format !== state.definition?.format || resolveDefinition().available !== state.definition?.available)) { resetFromDefinition(); renderEditor(); notify(); } };
+    const refresh = () => { if (!state.restored && source() !== 'expected' && (!state.touched || resolveDefinition().format !== state.definition?.format || resolveDefinition().available !== state.definition?.available)) { resetFromDefinition(); renderEditor(); notify(); } };
     window.addEventListener('meta:data-changed', refresh);
     window.addEventListener('meta:blend-target-changed', refresh);
   }
 
-  window.PrepField={ definition:ensure, getField, getChipRows, getAllRows:allRows, getOriginalCoverage:originalCoverage, snapshot, provenance, sourceLabel, applyExpectedField, applyComposition, render:renderEditor, toggle, add, setIncluded, reset };
+  function capture() {
+    ensure();
+    return JSON.parse(JSON.stringify({ source:source(), definition:state.definition, rows:[...state.rows.values()], touched:state.touched, showAll:state.showAll, expectedField:state.expectedField }));
+  }
+  function restore(snapshot) {
+    if (!snapshot?.definition || !Array.isArray(snapshot.rows)) return false;
+    const copy=JSON.parse(JSON.stringify(snapshot));
+    state.definition=copy.definition; state.rows=new Map(copy.rows.map(row=>[row.name,row]));
+    state.touched=!!copy.touched; state.showAll=!!copy.showAll; state.expectedField=copy.expectedField || null; state.restored=true;
+    if ($('playFieldSource')) $('playFieldSource').value=copy.source;
+    renderEditor(); notify(); return true;
+  }
+  window.PrepField={ capture, restore, definition:ensure, getField, getChipRows, getAllRows:allRows, getOriginalCoverage:originalCoverage, snapshot, provenance, sourceLabel, applyExpectedField, applyComposition, render:renderEditor, toggle, add, setIncluded, reset };
   bind();
 })();

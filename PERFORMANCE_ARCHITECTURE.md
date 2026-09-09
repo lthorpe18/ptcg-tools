@@ -278,3 +278,7 @@ See `TOURNAMENT_DAY_ARCHITECTURE.md` for the current Compete implementation cont
 ## Checkpoint 5 — Explicit-format WSIP requests
 
 WSIP reuses the canonical prediction and recommendation engines. Matchup requests are cached/deduplicated by release, environment and target format without mutating browsing selections. Generation guards prevent late target completion from replacing active status; stale-release payloads are discarded. Failed loads have an explicit retry. Persistent listeners are bound once. Seven behavioural scenarios, including repeated switches and failure recovery, pass within the 110-test suite. Local browser access is blocked; visual acceptance remains pending in `WSIP_CHECKPOINT_5.md`.
+
+## Checkpoint 6 detail ownership
+
+Exact-detail routes carry immutable same-tab field context IDs. The router restores fields only when entering WSIP with a different context, avoiding repeated mounted-return overwrites. Detail observed scopes do not mutate browsing or field evaluation scope. Result/H2H payloads are cached separately by release/source/format; callbacks check active exact variant/context/source. Six new integrated scenarios bring the suite to 116 passing tests. Visual acceptance is pending because local browser navigation is blocked.

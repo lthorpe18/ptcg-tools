@@ -11,6 +11,7 @@
   const CHILD_VIEWS = new Set(['current', 'prep', 'matchups', 'decks']);
   const BASE_URL = new URL('./', location.href);
   let route = { view: 'current', detail: null };
+  let restoredFieldContext=null;
 
   function cleanView(value, fallback = 'current') {
     return Object.prototype.hasOwnProperty.call(VIEW_IDS, value) ? value : fallback;
@@ -31,22 +32,27 @@
           deckName: url.searchParams.get('deck'),
           source: url.searchParams.get('source') === 'irl' ? 'irl' : 'online',
           origin: cleanOrigin(url.searchParams.get('from')),
+          fieldContext: url.searchParams.get('fieldContext') || null,
+          observedScope:url.searchParams.get('scope') || null,
         },
       };
     }
-    if (hash === 'what-should-i-play' || hash === 'play') return { view: 'prep', detail: null };
+    if (hash === 'what-should-i-play' || hash === 'play') return { view: 'prep', detail: null, fieldContext:url.searchParams.get('fieldContext') || null };
     const currentSource = ['online','irl','blend'].includes(url.searchParams.get('currentSource')) ? url.searchParams.get('currentSource') : null;
-    if (hash === 'overview' || hash === 'meta') return { view: 'current', detail: null, currentSource };
-    return { view: CHILD_VIEWS.has(hash) ? hash : 'current', detail: null, currentSource };
+    if (hash === 'overview' || hash === 'meta') return { view: 'current', detail: null, currentSource, fieldContext:url.searchParams.get('fieldContext') || null };
+    return { view: CHILD_VIEWS.has(hash) ? hash : 'current', detail: null, currentSource, fieldContext:url.searchParams.get('fieldContext') || null };
   }
 
   function urlFor(next) {
     const url = new URL(BASE_URL.href);
     for(const env of ['online','irl']) {const selected=window.MetaState?.get?.()[env+'Format'];if(selected)url.searchParams.set(env+'Format',selected);}
+    const fieldContext=next.detail?.fieldContext || next.fieldContext;
+    if(fieldContext)url.searchParams.set('fieldContext',fieldContext);
     if (next.view === 'detail' && next.detail?.deckName) {
       url.searchParams.set('deck', next.detail.deckName);
       url.searchParams.set('source', next.detail.source === 'irl' ? 'irl' : 'online');
       url.searchParams.set('from', cleanOrigin(next.detail.origin));
+      if(next.detail.observedScope)url.searchParams.set('scope',next.detail.observedScope);
       url.hash = 'detail';
       return url;
     }
@@ -83,15 +89,19 @@
     const view = cleanView(next?.view);
     route = {
       view,
+      fieldContext:next.fieldContext || null,
       detail: view === 'detail' ? {
         deckName: String(next?.detail?.deckName || ''),
         source: next?.detail?.source === 'irl' ? 'irl' : 'online',
         origin: cleanOrigin(next?.detail?.origin),
+        fieldContext:next?.detail?.fieldContext || null,
+        observedScope:next?.detail?.observedScope || null,
       } : null,
     };
     if (route.view === 'detail' && !route.detail.deckName) route = { view: 'current', detail: null };
     if (route.view === 'current' && next.currentSource) window.MetaHome?.setSource?.(next.currentSource);
     setExclusiveView(route.view);
+    if(route.view==='prep' && route.fieldContext && restoredFieldContext!==route.fieldContext) {restoredFieldContext=route.fieldContext;window.MetaDetailField?.restore?.(route.fieldContext);}
     renderActive();
     if (scroll) window.scrollTo({ top: 0, behavior: 'instant' });
     return get();
@@ -115,36 +125,53 @@
   }
 
   function navigate(view, options = {}) {
-    const next = { view: cleanView(view), detail: null };
+    const next = { view: cleanView(view), detail: null, fieldContext:options.fieldContext || null };
     apply(next, options);
     if (options.history !== false) writeRoute(next, options.replace ? 'replace' : 'push');
   }
 
-  function openDetail(deckName, source = 'online', origin = route.view) {
+  function openDetail(deckName, source = 'online', origin = route.view, fieldContext = null) {
+    if (!fieldContext && window.MetaDetailField) {
+      const landing=window.MetaHome?.selection?.();
+      fieldContext=origin==='prep'?window.MetaDetailField.capture():route.view==='detail'?route.detail.fieldContext:window.MetaDetailField.create(origin==='current'&&landing?.source==='blend'?'blend':source,origin==='current'&&landing?.source==='blend'?window.MetaBlendedField?.selected?.()?.format:window.MetaData?.sourceFormat?.(source));
+    }
     const next = {
       view: 'detail',
-      detail: { deckName, source: source === 'irl' ? 'irl' : 'online', origin: cleanOrigin(origin) },
+      detail: { deckName, source: source === 'irl' ? 'irl' : 'online', origin: cleanOrigin(origin), fieldContext },
     };
     apply(next);
     writeRoute(next, 'push');
   }
 
   function closeDetail() {
-    navigate(route.detail?.origin || 'current', { replace: true });
+    navigate(route.detail?.origin || 'current', { replace: true, fieldContext:route.detail?.origin==='prep'?route.detail.fieldContext:null });
   }
 
   // Source selection remains evidence state. Updating its serialized value
   // replaces the current route projection without creating a navigation entry.
   function replaceDetailSource(source) {
     if (route.view !== 'detail' || !route.detail) return;
-    route = { ...route, detail: { ...route.detail, source: source === 'irl' ? 'irl' : 'online' } };
+    route = { ...route, detail: { ...route.detail, source: source === 'irl' ? 'irl' : 'online', observedScope:null } };
     writeRoute(route, 'replace');
     window.MetaControls?.sync?.();
   }
 
+  function replaceDetailScope(observedScope) {
+    if(route.view!=='detail')return;
+    route={...route,detail:{...route.detail,observedScope}};writeRoute(route,'replace');
+  }
+  function setFieldContext(fieldContext) {
+    if(route.view!=='detail')return;
+    apply({...route,detail:{...route.detail,fieldContext}},{scroll:false});
+    writeRoute(route,'replace');
+  }
+  function detailToWSIP() {
+    if(route.view==='detail')navigate('prep',{fieldContext:route.detail.fieldContext});
+  }
   function get() {
     return {
       view: route.view,
+      fieldContext:route.fieldContext || null,
       detail: route.detail ? { ...route.detail } : null,
     };
   }
@@ -172,6 +199,6 @@
     window.addEventListener('hashchange', applyLocation);
   }
 
-  window.MetaRouter = { syncEvidenceRoute:()=>writeRoute(route,'replace'), get, parse, urlFor, apply, navigate, openDetail, closeDetail, replaceDetailSource };
+  window.MetaRouter = { syncEvidenceRoute:()=>writeRoute(route,'replace'), get, parse, urlFor, apply, navigate, replaceDetailScope, setFieldContext, detailToWSIP, openDetail, closeDetail, replaceDetailSource };
   applyExternal(location.href, { scroll: false });
 })();

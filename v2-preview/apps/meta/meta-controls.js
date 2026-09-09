@@ -50,6 +50,10 @@
   function syncFormat(requestedSource) {
     const source=requestedSource || activeSource(),label=$('metaFormatLabel'),control=$('metaFormatControl');
     if(!label || !control)return;
+    if(window.MetaRouter?.get?.().view==='detail'){
+      const selected=window.MetaDetailField?.get?.(window.MetaRouter.get().detail.fieldContext)?.definition;
+      control.hidden=true;label.textContent=`Exact variant · ${selected?.format || 'Unknown format'}`;return;
+    }
     const single=['online','irl'].includes(source);
     if(source==='blend') {
       const prediction=window.MetaBlendedField?.selected?.();

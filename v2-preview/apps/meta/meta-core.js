@@ -307,26 +307,35 @@
     return env === 'irl' ? irlData(options.scope || 'all-irl', source, evidence)
       : onlineData(options.scope || state.onlineScope, 50, source, evidence);
   }
-  async function ensureForFormat(env, format) {
+  async function ensureForFormat(env, format, results = false) {
     if (!['online','irl'].includes(env) || !format) return;
     const requestedRelease = release;
     await loadArchive(env, format);
     if (release !== requestedRelease) return;
     const source = sourceCoreFor(env, format);
     if (!source || source.format !== format) return;
-    const key = evidenceKey(env, format), payloadKey = env + 'Matchups';
-    if (formatEvidence.has(key)) return;
-    if (!formatRequests.has(key)) {
-      const fileKey = source.payloadPrefix ? source.payloadPrefix + 'Matchups' : payloadKey;
-      const request = window.MetaRelease.load(fileKey).then(payload => {
-        if (payload.release !== requestedRelease || payload.format !== format) throw new Error('Wrong-format WSIP matchup evidence');
-        if (release !== requestedRelease) return;
-        formatEvidence.set(key, { [payloadKey]:payload });
-        emit('format-matchups');
-      }).finally(() => formatRequests.delete(key));
-      formatRequests.set(key, request);
-    }
-    return formatRequests.get(key);
+    const key = evidenceKey(env, format);
+    await Promise.all((results ? ['Matchups','Results'] : ['Matchups']).map(suffix => {
+      const payloadKey = env + suffix, requestKey = key + suffix;
+      if (formatEvidence.get(key)?.[payloadKey]) return;
+      if (!formatRequests.has(requestKey)) {
+        const fileKey = source.payloadPrefix ? source.payloadPrefix + suffix : payloadKey;
+        const request = window.MetaRelease.load(fileKey).then(payload => {
+          if (payload.release !== requestedRelease || payload.format !== format) throw new Error('Wrong-format detail/WSIP evidence');
+          if (release !== requestedRelease) return;
+          formatEvidence.set(key, { ...formatEvidence.get(key), [payloadKey]:payload });
+          emit('format-evidence');
+        }).finally(() => formatRequests.delete(requestKey));
+        formatRequests.set(requestKey, request);
+      }
+      return formatRequests.get(requestKey);
+    }));
+  }
+  function isFormatLoaded(env, format, results = false) {
+    if (!format) return true;
+    if (!sourceCoreFor(env, format)) return !core?.archives?.[env]?.[format];
+    const evidence = formatEvidence.get(evidenceKey(env, format));
+    return !!evidence?.[env+'Matchups'] && (!results || !!evidence?.[env+'Results']);
   }
 
   function recordsUrl(name) {
@@ -337,7 +346,7 @@
   }
 
   window.MetaState = { setFormat, formatOptions, get:() => ({ ...state }), onlineScopes:() => ONLINE_SCOPES.map(option => ({ ...option })), irlScopes:() => irlScopeOptions().map(option => ({ ...option })), setOnlineScope, setIrlScope };
-  window.MetaData = { sourceFormat:env=>sourceCore(env)?.format || core?.format || null, currentFormat:env=>core?.currentFormats?.[env] || null, ready:() => window.MetaRelease.ready(), ensure, ensureForFormat, dataForFormat, ensureBlendEvidence, blendEvidence, isLoaded:key => !!lazy[key], refresh:() => window.MetaRelease.refresh(), data, onlineData, irlData, fieldRows, matchup, context, onlineTournaments:selectedOnlineEvents, irlEvents:selectedIrlEvents, recordsUrl, release:() => release };
+  window.MetaData = { sourceFormat:env=>sourceCore(env)?.format || core?.format || null, currentFormat:env=>core?.currentFormats?.[env] || null, ready:() => window.MetaRelease.ready(), ensure, ensureForFormat, isFormatLoaded, dataForFormat, ensureBlendEvidence, blendEvidence, isLoaded:key => !!lazy[key], refresh:() => window.MetaRelease.refresh(), data, onlineData, irlData, fieldRows, matchup, context, onlineTournaments:selectedOnlineEvents, irlEvents:selectedIrlEvents, recordsUrl, release:() => release };
   window.MetaIRLScope = { get:() => state.irlScope, set:value => setIrlScope(value), options:irlScopeOptions, selectedEvents:selectedIrlEvents, selectedDecks:() => irlData().decks, selectedMatchups:() => irlData().matchups };
 
   window.addEventListener('meta:release-core', event => applyCore(window.MetaRelease.core(), event.detail?.source || 'core'));

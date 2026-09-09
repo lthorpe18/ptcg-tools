@@ -11,12 +11,12 @@ function element(id) {
   return {id,value:'',innerHTML:'',hidden:false,textContent:'',dataset:{},disabled:false,
     classList:{contains:key=>classes.has(key),toggle:(key,on)=>on?classes.add(key):classes.delete(key)},
     addEventListener(type,fn) { listeners.set(type,[...(listeners.get(type)||[]),fn]); },
-    fire(type) { for(const fn of listeners.get(type)||[])fn({target:this,currentTarget:this}); },
-    querySelectorAll:()=>[],querySelector:()=>null, listeners,
+    fire(type,event={}) { for(const fn of listeners.get(type)||[])fn({target:this,currentTarget:this,...event}); },
+    querySelectorAll:()=>[],querySelector:()=>null, setAttribute(name){if(name==='inert')this.inert=true},removeAttribute(name){if(name==='inert')this.inert=false}, listeners,
   };
 }
-function harness({loadOverride,real=false}={}) {
-  const ids=Object.fromEntries(['playFieldSource','playMatchupSource','playFieldFormat','playFieldFormatControl','prep','prepFieldOverview','prepResults','fieldEditor','fieldCoverage','advancedSettingsSummary'].map(id=>[id,element(id)]));
+function harness({loadOverride,real=false,detail=false,storage=new Map()}={}) {
+  const ids=Object.fromEntries(['playFieldSource','playMatchupSource','playFieldFormat','playFieldFormatControl','prep','prepFieldOverview','prepResults','fieldEditor','fieldCoverage','advancedSettingsSummary','detailFieldPanel','deckDetailHead','deckDetailBody','deckDetail','currentMetaPage','decks','matchups'].map(id=>[id,element(id)]));
   ids.playFieldSource.value='blend';ids.playMatchupSource.value='combined';
   const listeners=new Map(),calls=[];
   const deck = (name,share) => ({name,share,entries:share,wins:20,losses:10,ties:0});
@@ -26,13 +26,16 @@ function harness({loadOverride,real=false}={}) {
   let core={release:'r1',format:'NEW',currentFormats:{online:{label:'NEW'},irl:{label:'OLD'}},online:{format:'NEW',scopes:scopes([deck('B',100)])},irl:{format:'OLD',events:[{id:'old-major',date:'2030-01-01',decks:[deck('A',100),deck('C',0),deck('D',0)]}]},archives:{online:{OLD:{format:'OLD',payloadPrefix:'archive:online:OLD:',scopes:scopes([deck('A',100)])}},irl:{}}};
   const matchups = rows => ({release:'r1',format:'NEW',scopes:Object.fromEntries(['14','30','all','since-major'].map(key=>[key,{matchups:rows}]))});
   let files={onlineMatchups:matchups([matchup('C','B'),matchup('D','B',20,80)]),irlMatchups:{release:'r1',format:'OLD',matchups:[matchup('C','A',20,80),matchup('D','A')]},'archive:online:OLD:Matchups':{...matchups([matchup('C','A',20,80),matchup('D','A')]),format:'OLD'}};
+  files.onlineResults={release:'r1',format:'NEW',results:[]};files.irlResults={release:'r1',format:'OLD',results:[]};files['archive:online:OLD:Results']={release:'r1',format:'OLD',results:[]};
   if(real) {
     const manifest=JSON.parse(read('v2-preview/data/meta/release/manifest.json'));
     files=Object.fromEntries(Object.entries(manifest.files).map(([key,value])=>[key,JSON.parse(read('v2-preview/data/meta/release/'+value.path))]));
     core=files.core;
   }
-  const context={document:{getElementById:id=>ids[id]||null,querySelectorAll:()=>[],querySelector:()=>null},console,Promise,Date,Set,Map,CustomEvent:class{constructor(type,{detail}={}){this.type=type;this.detail=detail}}};
-  context.window=context;
+  const context={document:{body:{dataset:{}},addEventListener:()=>{},getElementById:id=>ids[id]||null,querySelectorAll:()=>[],querySelector:()=>null},console,Promise,Date,Set,Map,URL,setTimeout,clearTimeout,requestAnimationFrame:fn=>fn(),sessionStorage:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,value)},CustomEvent:class{constructor(type,{detail}={}){this.type=type;this.detail=detail}}};
+  context.window=context;context.parent=context;context.scrollTo=()=>{};context.scrollY=0;
+  context.location={href:'https://test.invalid/v2-preview/apps/meta/',origin:'https://test.invalid'};
+  context.history={pushState:(state,title,url)=>{context.location.href=String(url)},replaceState:(state,title,url)=>{context.location.href=String(url)}};
   context.addEventListener=(key,fn)=>listeners.set(key,[...(listeners.get(key)||[]),fn]);
   context.dispatchEvent=event=>{for(const fn of listeners.get(event.type)||[])fn(event)};
   context.MetaRelease={core:()=>core,ready:()=>Promise.resolve(core),load:async key=>{calls.push(key);return loadOverride?loadOverride(key,files[key]):files[key]}};
@@ -43,11 +46,12 @@ function harness({loadOverride,real=false}={}) {
   if(real)for(const file of ['_shared/meta-blend.js','meta/blended-field.js'])vm.runInContext(read('v2-preview/apps/'+file),sandbox);
   else context.MetaBlendedField={predictions:()=>Object.values(predictions),selected:()=>predictions.NEW,ensure:async()=>{}};
   for(const file of ['wsip-source.js','field-builder.js','prep.js'])vm.runInContext(read('v2-preview/apps/meta/'+file),sandbox);
+  if(detail) for(const file of ['detail-field.js','meta-explorer-v3.js','meta-router.js'])vm.runInContext(read('v2-preview/apps/meta/'+file),sandbox);
   function choose(source,format) {
     ids.playFieldSource.value=source;ids.playFieldSource.fire('change');
     if(format){ids.playFieldFormat.value=format;ids.playFieldFormat.fire('change');}
   }
-  return {context,ids,listeners,calls,predictions,files,choose,replace:value=>{core=value;context.dispatchEvent({type:'meta:release-core'})},get core(){return core}};
+  return {context,ids,listeners,calls,predictions,files,choose,storage,replace:value=>{core=value;context.dispatchEvent({type:'meta:release-core'})},get core(){return core}};
 }
 
 test('WSIP changes recommendations with the canonical target and excludes the old-format IRL prior from H2H',async()=>{
@@ -136,4 +140,88 @@ test('real release WSIP uses the same canonical prediction and recommendation en
   assert.ok(expected.ranked.length>5);
   assert.equal((h.ids.prepResults.innerHTML.match(/data-open-deck-card=/g)||[]).length,5);
   assert.match(h.ids.prepResults.innerHTML,/Why this deck\?/);assert.match(h.ids.prepResults.innerHTML,/Unknown/);
+});
+
+
+test('exact detail preserves the edited WSIP field and restores it on in-app return',async()=>{
+  const h=harness({detail:true}),w=h.context;
+  h.predictions.NEW.rows=[{name:'B',share:.6},{name:'Unseen',share:.4}];
+  w.MetaRouter.navigate('prep');await w.MetaPrep.activate();await tick();
+  w.PrepField.setIncluded('Unseen',false);
+  const original=JSON.stringify(w.PrepField.capture()),estimate=w.MetaPrep.buildModel().all.find(row=>row.name==='C').expectedWR;
+  w.MetaRouter.openDetail('C','online','prep');await tick();await tick();
+  const entry=w.MetaRouter.get().detail;
+  assert.ok(entry.fieldContext);assert.equal(entry.deckName,'C');
+  assert.equal(w.MetaDetailField.analyse(entry.fieldContext,'C').row.expectedWR,estimate);
+  assert.match(h.ids.detailFieldPanel.innerHTML,/edited field/);
+  assert.match(h.ids.deckDetailBody.innerHTML,/Observed data/);
+  w.MetaRouter.replaceDetailSource('irl');w.MetaExplore.showDetail(w.MetaRouter.get().detail);await tick();
+  assert.equal(w.MetaRouter.get().detail.fieldContext,entry.fieldContext);
+  assert.match(h.ids.deckDetailBody.innerHTML,/not present/); // No NEW-format IRL package exists.
+  w.MetaRouter.closeDetail();await tick();
+  assert.equal(w.MetaRouter.get().view,'prep');
+  const restored=w.PrepField.capture();delete restored.definition.onlineScope;
+  assert.equal(JSON.stringify(restored),original);
+});
+
+test('detail reload and history restoration retain exact identity, format and saved-field snapshot',async()=>{
+  const h=harness({detail:true}),w=h.context;
+  w.MetaRouter.navigate('prep');w.PrepField.applyExpectedField({id:'saved-1',name:'Cup plan',format:'OLD',field:[{name:'A',share:1}]});
+  await w.MetaPrep.activate();w.MetaRouter.openDetail('D','irl','prep');await tick();
+  const url=w.location.href,id=w.MetaRouter.get().detail.fieldContext;
+  const reloaded=harness({detail:true,storage:h.storage});reloaded.context.location.href=url;
+  reloaded.context.dispatchEvent({type:'popstate'});await tick();await tick();
+  assert.equal(reloaded.context.MetaRouter.get().detail.deckName,'D');
+  assert.equal(reloaded.context.MetaDetailField.get(id).definition.format,'OLD');
+  assert.match(reloaded.ids.detailFieldPanel.innerHTML,/Cup plan/);
+  reloaded.context.MetaRouter.detailToWSIP();await tick();
+  assert.equal(reloaded.context.PrepField.definition().provenance.expectedFieldId,'saved-1');
+  assert.equal(reloaded.context.PrepField.getField()[0].name,'A');
+  reloaded.context.location.href=url;reloaded.context.dispatchEvent({type:'popstate'});await tick();
+  assert.equal(reloaded.context.document.body.dataset.metaActiveView,'detail');
+  assert.equal(reloaded.ids.prep.hidden,true);assert.equal(reloaded.ids.currentMetaPage.hidden,true);
+});
+
+test('detail field changes affect evaluation, survive source changes, and hand back to WSIP',async()=>{
+  const h=harness({detail:true}),w=h.context;
+  w.MetaRouter.openDetail('C','online','decks');await tick();await tick();
+  assert.equal(w.MetaDetailField.get(w.MetaRouter.get().detail.fieldContext).definition.format,'NEW');
+  h.ids.detailFieldPanel.fire('change',{target:{id:'detailFieldFormat',value:'OLD'}});await tick();await tick();
+  const old=w.MetaRouter.get().detail.fieldContext;
+  assert.ok(w.MetaDetailField.analyse(old,'C').row.expectedWR<50);
+  w.MetaRouter.replaceDetailScope('all');assert.match(w.location.href,/scope=all/);
+  w.MetaRouter.replaceDetailSource('irl');assert.equal(w.MetaRouter.get().detail.fieldContext,old);
+  w.MetaRouter.detailToWSIP();await tick();assert.equal(w.PrepField.definition().format,'OLD');
+  assert.equal(w.MetaPrep.buildModel().ranked[0].name,'D');
+});
+
+test('missing detail snapshots never substitute a live field and unknown matchups remain explicit',async()=>{
+  const h=harness({detail:true}),w=h.context;
+  w.MetaRouter.openDetail('C','online','prep','missing-context');await tick();
+  assert.equal(w.MetaDetailField.analyse('missing-context','C').model.field.length,0);
+  assert.match(h.ids.detailFieldPanel.innerHTML,/snapshot is unavailable/);
+  h.predictions.NEW.rows=[{name:'B',share:.6},{name:'Unseen',share:.4}];
+  w.MetaRouter.setFieldContext(w.MetaDetailField.create('blend','NEW'));await tick();await tick();
+  assert.match(h.ids.detailFieldPanel.innerHTML,/Unseen/);assert.match(h.ids.detailFieldPanel.innerHTML,/Unknown/);
+});
+
+
+test('direct detail links initialise a format field without activating sibling views',async()=>{
+  const h=harness({detail:true}),w=h.context;
+  w.location.href='https://test.invalid/v2-preview/apps/meta/?deck=C&source=online#detail';
+  w.dispatchEvent({type:'popstate'});await tick();await tick();
+  const route=w.MetaRouter.get();assert.equal(route.view,'detail');assert.equal(route.detail.deckName,'C');
+  assert.ok(route.detail.fieldContext);assert.equal(w.MetaDetailField.get(route.detail.fieldContext).definition.format,'NEW');
+  assert.equal(h.ids.prep.hidden,true);assert.equal(h.ids.matchups.hidden,true);assert.equal(h.ids.decks.hidden,true);
+});
+
+test('delayed observed results cannot replace a newer exact variant and field',async()=>{
+  let deliver;
+  const h=harness({detail:true,loadOverride:(key,payload)=>key==='onlineResults'?new Promise(resolve=>{deliver=()=>resolve(payload)}):Promise.resolve(payload)}),w=h.context;
+  w.MetaRouter.openDetail('C','online','decks');await tick();
+  const old=w.MetaDetailField.create('blend','OLD');w.MetaRouter.openDetail('D','irl','prep',old);await tick();await tick();
+  deliver();await tick();
+  assert.equal(w.MetaRouter.get().detail.deckName,'D');assert.equal(w.MetaRouter.get().detail.fieldContext,old);
+  assert.match(h.ids.deckDetailHead.innerHTML,/<h1>D<\/h1>/);
+  assert.match(h.ids.detailFieldPanel.innerHTML,/OLD/);assert.match(h.ids.deckDetailBody.innerHTML,/Observed data/);
 });

@@ -9,28 +9,35 @@
       return /^https?:$/.test(url.protocol) ? url.href : '';
     } catch { return ''; }
   };
-  const pct = value => Number.isFinite(Number(value)) ? `${Number(value).toFixed(1)}%` : '—';
+  const pct = value => value != null && Number.isFinite(Number(value)) ? `${Number(value).toFixed(1)}%` : '—';
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
 
   const detail = {
     name:'',
     source:'online',
     origin:'current',
+    fieldContext:null,
+    initializing:null,
+    scope:'30',
     renderTimer:0,
   };
   let matchupDeck = '';
 
-  const sourceData = source => window.MetaData?.data?.(source) || {decks:[],matchups:[],events:[],overview:{}};
+  const inDetail = () => window.MetaRouter?.get?.().view === 'detail';
+  const detailFormat = () => window.MetaDetailField?.get?.(detail.fieldContext)?.definition?.format || null;
+  const sourceData = source => (inDetail()?window.MetaData?.dataForFormat?.(source,detailFormat(),{scope:detail.scope}):window.MetaData?.data?.(source)) || {decks:[],matchups:[],events:[],overview:{}};
   const evidenceKeys = (source, results = false) => source === 'irl'
     ? ['irlMatchups', ...(results ? ['irlResults'] : [])]
     : ['onlineMatchups', ...(results ? ['onlineResults'] : [])];
 
   function evidenceReady(source, results = false) {
+    if(inDetail())return window.MetaData?.isFormatLoaded?.(source,detailFormat(),results);
     return evidenceKeys(source, results).every(key => window.MetaData?.isLoaded?.(key));
   }
 
   function loadEvidence(source, results, callback) {
-    window.MetaData?.ensure?.(evidenceKeys(source, results)).then(() => callback(null)).catch(error => {
+    const request=inDetail()?window.MetaData.ensureForFormat(source,detailFormat(),results):window.MetaData.ensure(evidenceKeys(source,results));
+    request.then(() => callback(null)).catch(error => {
       console.warn(`Could not load ${source} Meta evidence.`, error);
       callback(error);
     });
@@ -44,7 +51,7 @@
       const wins = Number(d.wins||0), losses = Number(d.losses||0), ties = Number(d.ties||0);
       const decisive = wins + losses;
       const share = Number.isFinite(Number(d.share)) ? Number(d.share) : total ? 100*entries/total : 0;
-      const winRate = Number.isFinite(Number(d.winRate)) ? Number(d.winRate) : decisive ? 100*wins/decisive : null;
+      const winRate = d.winRate != null && Number.isFinite(Number(d.winRate)) ? Number(d.winRate) : decisive ? 100*wins/decisive : null;
       return {...d,entries,wins,losses,ties,share,winRate};
     }).sort((a,b)=>b.entries-a.entries || b.share-a.share);
   }
@@ -73,14 +80,14 @@
 
   function scopeOptions(source) {
     const state=window.MetaState?.get?.() || {};
-    const options=source==='irl' ? (window.MetaState?.irlScopes?.() || []) : (window.MetaState?.onlineScopes?.() || []);
-    const selected=source==='irl' ? state.irlScope : state.onlineScope;
+    const options=source==='irl' ? (inDetail()?[{value:'latest-weekend',label:'Latest IRL weekend'},{value:'all-irl',label:'All IRL in format'},...(window.MetaData.dataForFormat('irl',detailFormat(),{scope:'all-irl'}).events||[]).map(event=>({value:'event:'+event.id,label:event.name,event:true}))]:(window.MetaState?.irlScopes?.() || [])) : (window.MetaState?.onlineScopes?.() || []);
+    const selected=inDetail()?detail.scope:source==='irl' ? state.irlScope : state.onlineScope;
     const normal=options.filter(o=>!o.event).map(o=>`<option value="${esc(o.value)}" ${o.value===selected?'selected':''}>${esc(o.label)}</option>`).join('');
     const events=options.filter(o=>o.event).map(o=>`<option value="${esc(o.value)}" ${o.value===selected?'selected':''}>${esc(o.label)}</option>`).join('');
     return normal + (events ? `<optgroup label="Individual tournaments">${events}</optgroup>` : '');
   }
 
-  function context(source) { return window.MetaData?.context?.(source) || {}; }
+  function context(source) { return inDetail()?{label:`${source==='irl'?'IRL':'Online'} · ${detailFormat() || 'Unknown format'} · ${detail.scope || ''}`}:(window.MetaData?.context?.(source) || {}); }
 
   function recentResults(name,source) {
     const data=sourceData(source);
@@ -110,15 +117,28 @@
   }
 
   function renderDetail() {
-    if (!detail.name) return;
+    if (!detail.name || !inDetail()) return;
+    if(!detail.fieldContext) {
+      $('deckDetailHead').textContent=detail.name;
+      $('deckDetailBody').textContent='Loading selected format…';
+      if(!detail.initializing) {
+        const name=detail.name;
+        detail.initializing=window.MetaData.ready().then(()=>window.MetaBlendedField.ensure()).then(()=>{
+          if(inDetail() && detail.name===name && !detail.fieldContext)window.MetaRouter.setFieldContext(window.MetaDetailField.create(detail.source,window.MetaData.sourceFormat(detail.source)));
+        }).catch(()=>{if(inDetail()&&detail.name===name)$('deckDetailBody').textContent='Format evidence could not load. Please refresh to retry.'}).finally(()=>{detail.initializing=null;if(inDetail() && detail.name!==name && !detail.fieldContext)renderDetail()});
+      }
+      return;
+    }
+    window.MetaDetailField?.render?.();
     if (!evidenceReady(detail.source, true)) {
-      const source = detail.source;
+      const source = detail.source, contextId=detail.fieldContext, name=detail.name;
       const sourceLabel = source === 'irl' ? 'IRL' : 'Online';
       $('deckDetailHead').innerHTML=`<div class="detail-heading-row"><div class="detail-title">${sprite(detail.name,52)}<div><div class="eyebrow">${sourceLabel} DECK</div><h1>${esc(detail.name)}</h1><p>Exact variant detail</p></div></div></div>`;
       $('deckDetailBody').innerHTML='<div class="meta-empty">Loading field, matchup and result evidence…</div>';
       loadEvidence(source, true, error => {
+        if(!inDetail() || detail.fieldContext!==contextId || detail.name!==name || detail.source!==source)return;
         if (error) {
-          $('deckDetailBody').innerHTML='<div class="meta-empty">Detailed evidence could not be loaded. Your last field snapshot remains available.</div>';
+          $('deckDetailBody').innerHTML='<div class="meta-empty">Observed evidence could not load. The selected-field evaluation remains separate above. Please retry.</div><button type="button" id="detailObservedRetry" class="text-button">Retry observed evidence</button>';
           return;
         }
         if (detail.name && detail.source === source && window.MetaRouter?.get?.().view === 'detail') renderDetail();
@@ -134,17 +154,17 @@
     const ctx=context(detail.source);
     const currentScope=ctx.label || sourceLabel;
     const referenceScope=detail.source==='irl'?'latest-weekend':'since-major';
-    const ref=(window.MetaData?.data?.(detail.source,{scope:referenceScope})?.decks||[]).find(d=>d.name===detail.name);
+    const ref=(window.MetaData?.dataForFormat?.(detail.source,detailFormat(),{scope:referenceScope})?.decks||[]).find(d=>d.name===detail.name);
     const currentShare=ref && Number.isFinite(Number(ref.share)) ? pct(ref.share) : '—';
     const currentShareLabel=detail.source==='irl'?'Latest IRL weekend':'Since last major';
 
-    $('deckDetailHead').innerHTML=`<div class="detail-heading-row"><div class="detail-title">${sprite(detail.name,52)}<div><div class="eyebrow">${sourceLabel} DECK</div><h1>${esc(detail.name)}</h1><p>${family?`${esc(family.name)} family · exact variant`:'Exact variant detail'}</p></div></div><div class="detail-current-share"><span>Current share</span><b>${currentShare}</b><small>${esc(currentShareLabel)}</small></div></div>`;
+    $('deckDetailHead').innerHTML=`<div class="detail-heading-row"><div class="detail-title">${sprite(detail.name,52)}<div><div class="eyebrow">${sourceLabel} DECK</div><h1>${esc(detail.name)}</h1><p>${family?`${esc(family.name)} family · exact variant`:'Exact variant detail'}</p></div></div><div class="detail-current-share"><span>Observed share</span><b>${currentShare}</b><small>${esc(currentShareLabel)}</small></div></div>`;
 
     const scopeControl=`<label id="deckDetailScopeWrap" class="meta-scope-control detail-scope-control"><span>${sourceLabel} scope</span><select id="deckDetailScope">${scopeOptions(detail.source)}</select></label>`;
     const sourceControl=`<div class="detail-source"><button type="button" data-detail-source="online" class="${detail.source==='online'?'active':''}">Online</button><button type="button" data-detail-source="irl" class="${detail.source==='irl'?'active':''}">IRL</button></div>`;
 
     if (!row) {
-      $('deckDetailBody').innerHTML=`<details id="deckDetailEvidence" class="detail-data-panel" ${previousOpen?'open':''}><summary><span><b>Data & performance</b><small>${sourceLabel} · selected scope</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls">${sourceControl}${scopeControl}</div><div class="meta-empty">This exact variant is not present in the selected ${sourceLabel} source and scope.</div></div></details>`;
+      $('deckDetailBody').innerHTML=`<details id="deckDetailEvidence" class="detail-data-panel" ${previousOpen?'open':''}><summary><span><b>Observed data & performance</b><small>${sourceLabel} · selected scope</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls">${sourceControl}${scopeControl}</div><div class="meta-empty">This exact variant is not present in the selected ${sourceLabel} source and scope.</div></div></details>`;
       bindDetailControls();
       requestAnimationFrame(()=>window.scrollTo(0,scrollY));
       return;
@@ -155,7 +175,7 @@
     const results=recentResults(detail.name,detail.source);
     const resultsHtml=results.length?`<section id="deckRecentResults" class="detail-section deck-recent-results"><div class="section-row"><h2>Recent results</h2><span>${esc(currentScope)} · sorted by placement</span></div><div class="result-card-list">${results.map(r=>resultCard(r,detail.source)).join('')}</div></section>`:'';
 
-    $('deckDetailBody').innerHTML=`<details id="deckDetailEvidence" class="detail-data-panel" ${previousOpen?'open':''}><summary><span><b>Data & performance</b><small>${esc(currentScope)} · ${row.entries.toLocaleString()} deck entries · ${pct(row.winRate)} WR</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls">${sourceControl}${scopeControl}</div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Field performance</b><small>This exact variant within the selected field</small></div><div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Deck entries</span></div><div><b>${pct(row.share)}</b><span>Field share</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div><div class="detail-sample-strip"><span>Field sample</span><b>${row.entries.toLocaleString()} deck entries across ${eventCount.toLocaleString()} ${eventCount===1?'event':'events'}</b></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Matchup evidence</b><small>Head-to-head games involving this exact variant</small></div><div class="detail-sample-strip matchup-sample"><span>Matchup sample</span><b>${games.toLocaleString()} games involving ${esc(detail.name)}</b></div></div></div></details><section class="detail-section detail-matchups"><div class="section-row"><h2>Matchups</h2><span>${esc(currentScope)}</span></div><label class="deck-list-search"><span class="search-glyph">⌕</span><input id="detailMatchupSearch" type="search" autocomplete="off" placeholder="Filter matchups" aria-label="Filter matchups"></label>${matchupCards(detail.name,detail.source)}</section>${resultsHtml}`;
+    $('deckDetailBody').innerHTML=`<details id="deckDetailEvidence" class="detail-data-panel" ${previousOpen?'open':''}><summary><span><b>Observed data & performance</b><small>${esc(currentScope)} · ${row.entries.toLocaleString()} deck entries · ${pct(row.winRate)} WR</small></span><span class="detail-panel-chevron">⌄</span></summary><div class="detail-data-body"><div id="deckDetailControlsHost" class="detail-evidence-controls">${sourceControl}${scopeControl}</div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Field performance</b><small>This exact variant in observed tournaments</small></div><div class="detail-stats"><div><b>${row.entries.toLocaleString()}</b><span>Deck entries</span></div><div><b>${pct(row.share)}</b><span>Field share</span></div><div><b>${pct(row.winRate)}</b><span>Win rate</span></div></div><div class="detail-sample-strip"><span>Field sample</span><b>${row.entries.toLocaleString()} deck entries across ${eventCount.toLocaleString()} ${eventCount===1?'event':'events'}</b></div></div><div class="detail-evidence-block"><div class="detail-evidence-block-title"><b>Matchup evidence</b><small>Head-to-head games involving this exact variant</small></div><div class="detail-sample-strip matchup-sample"><span>Matchup sample</span><b>${games.toLocaleString()} games involving ${esc(detail.name)}</b></div></div></div></details><section class="detail-section detail-matchups"><div class="section-row"><h2>Matchups</h2><span>${esc(currentScope)}</span></div><label class="deck-list-search"><span class="search-glyph">⌕</span><input id="detailMatchupSearch" type="search" autocomplete="off" placeholder="Filter matchups" aria-label="Filter matchups"></label>${matchupCards(detail.name,detail.source)}</section>${resultsHtml}`;
     bindDetailControls();
     const search=$('detailMatchupSearch');
     search?.addEventListener('input',()=>{
@@ -173,8 +193,7 @@
   function bindDetailControls() {
     $('deckDetailScope')?.addEventListener('change',event=>{
       const value=event.currentTarget.value;
-      if (detail.source==='irl') window.MetaState?.setIrlScope?.(value,'detail-scope');
-      else window.MetaState?.setOnlineScope?.(value,'detail-scope');
+      detail.scope=value;window.MetaRouter?.replaceDetailScope?.(value);
       scheduleDetailRender();
     },{once:true});
   }
@@ -184,6 +203,8 @@
     detail.name=next.deckName;
     detail.source=next.source==='irl'?'irl':'online';
     detail.origin=next.origin || 'current';
+    detail.fieldContext=next.fieldContext || null;
+    detail.scope=next.observedScope || (detail.source==='irl'?'latest-weekend':'30');
     renderDetail();
   }
 
@@ -227,11 +248,13 @@
       window.MetaRouter?.closeDetail?.();
       return;
     }
+    if(event.target.closest('#detailObservedRetry')){event.preventDefault();if(inDetail())renderDetail();return;}
     const sourceButton=event.target.closest('#deckDetail [data-detail-source]');
     if (sourceButton) {
       event.preventDefault();
       event.stopPropagation();
       detail.source=sourceButton.dataset.detailSource==='irl'?'irl':'online';
+      detail.scope=detail.source==='irl'?'latest-weekend':'30';
       renderDetail();
       window.MetaRouter?.replaceDetailSource?.(detail.source);
       return;
