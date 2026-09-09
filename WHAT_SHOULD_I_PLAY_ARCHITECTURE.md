@@ -6,7 +6,7 @@
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted contract. Checkpoints 1–5 are merged and accepted; the owner confirmed all six Checkpoint 5 checks and advanced prediction date. Checkpoint 6 is implemented in `EXACT_DETAIL_CHECKPOINT_6.md` and authorized for merge/device testing. Exact detail preserves the selected variant, field snapshot, target format and H2H context across source changes, reload and WSIP return. Predicted-field evaluation is separate from observed statistics. All 116 tests pass; local browser access is blocked before page load, so owner visual acceptance remains pending. Checkpoint 7 has not started.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted contract. Checkpoints 1–5 are merged and accepted; the owner confirmed all six Checkpoint 5 checks and advanced prediction date. Checkpoint 6 is merged/deployed through PR #15 (`e27a914`) and accepted: the owner passed all six device steps. Checkpoint 7 saved-field persistence is implemented for review in `SAVED_FIELDS_CHECKPOINT_7.md`; 120 automated tests pass. Browser access to the local preview is blocked before page load; desktop/390px/iPhone acceptance remains pending. Checkpoint 8 has not started.
 
 Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
 
@@ -199,4 +199,4 @@ The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptan
 
 ## Checkpoint 6 navigation context
 
-`detail-field.js` captures immutable field navigation snapshots in same-tab session storage. The router alone serializes their IDs with exact variants and restores them into WSIP. Unknown/missing snapshots are explicit, never live-field substitutions. Detail offers working field/format/H2H selectors using the shared engine; observed source statistics and scope remain separate. Complete saved-field persistence remains Checkpoint 7.
+`detail-field.js` captures immutable field navigation snapshots in same-tab session storage. The router alone serializes their IDs with exact variants and restores them into WSIP. Unknown/missing snapshots are explicit, never live-field substitutions. Detail offers working field/format/H2H selectors using the shared engine; observed source statistics and scope remain separate. Checkpoint 7 preserves full saved provenance and editor state through the existing storage/sync contract; see `SAVED_FIELDS_CHECKPOINT_7.md`.

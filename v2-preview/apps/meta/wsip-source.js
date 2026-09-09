@@ -23,7 +23,7 @@
     if (value === 'expected' || value === 'custom') {
       const result = window.PTCGMetaField.resolve(options);
       const format = options.expectedField?.provenance?.targetFormat || options.expectedField?.provenance?.format || options.expectedField?.format || null;
-      return { ...result, format, available:!!result.rows.length, reason:format ? '' : 'This saved field has no recorded format; compatible H2H is unknown.', provenance:{ ...result.provenance, targetFormat:format } };
+      return { ...result, format, available:!!result.rows.length, reason:format ? '' : 'This saved field has no recorded format; compatible H2H is unknown.', provenance:{ ...result.provenance, targetFormat:format, label:`${options.expectedField?.name || 'Saved field'} · ${format || 'Unknown format'}` } };
     }
     const format = options.format || target(value);
     if (value === 'blend') {
@@ -38,7 +38,7 @@
     const scope = value === 'irl' ? state.irlScope || 'latest-weekend' : state.onlineScope || '30';
     const data = window.MetaData?.dataForFormat?.(value, format, { scope }) || {};
     const rows = window.PTCGMetaField.normalizeRows((data.decks || []).map(row => ({ name:row.name, share:Number(row.share || 0) / 100 })));
-    return { source:value, format, available:rows.length > 0, rows, reason:rows.length ? '' : 'No field evidence is available for this format and scope.', provenance:{ type:'meta-field', identity:'exact-variant', source:value, targetFormat:format, scope, label:`${value === 'irl' ? 'IRL' : 'Online'} · ${format || 'Unknown format'}`, evidenceRevision:window.MetaData?.release?.() } };
+    return { source:value, format, available:rows.length > 0, rows, reason:rows.length ? '' : 'No field evidence is available for this format and scope.', provenance:{ type:'meta-field', identity:'exact-variant', source:value, targetFormat:format, scope, label:`${value === 'irl' ? 'IRL' : 'Online'} · ${format || 'Unknown format'}`, evidenceRevision:window.MetaData?.release?.(), evidence:{ [value]:{ format, events:(data.events || []).map(event=>({id:event.id || event.tournamentId || null,name:event.name || null,date:event.date || event.startDate || null})), scope } } } };
   }
   function inputs(definition, matchupSource = 'combined') {
     const evidence = { online:[], irl:[] }, candidates = new Map();

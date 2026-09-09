@@ -24,6 +24,8 @@
       included:selectedNames.has(row.name), defaultIncluded:selectedNames.has(row.name), pinned:false,
     });
     state.touched=false;
+    const editor=state.definition.source === 'expected' ? window.SavedMetas?.editorState?.(state.expectedField) : null;
+    if (editor) { state.rows=new Map(editor.rows.map(row=>[row.name,row])); state.touched=!!editor.touched; }
     state.showAll=false;
   }
 
@@ -49,7 +51,7 @@
 
   function provenance() {
     const definition=ensure();
-    return { ...(definition.provenance || {}), identity:'exact-variant', selectedCoverage:originalCoverage(), fieldRows:snapshot().length };
+    return JSON.parse(JSON.stringify({ ...(definition.provenance || {}), identity:definition.provenance?.identity || 'unknown', selectedCoverage:originalCoverage(), fieldRows:snapshot().length, editor:{ rows:[...state.rows.values()], touched:state.touched }, ancestry:state.expectedField?.id ? [...(state.expectedField.provenance?.ancestry || []), { id:state.expectedField.id, capturedAt:state.expectedField.capturedAt || state.expectedField.updatedAt, format:state.expectedField.format || null }] : [] }));
   }
 
   function sourceLabel() {

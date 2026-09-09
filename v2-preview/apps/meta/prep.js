@@ -52,8 +52,8 @@
     const available=all.filter(row => !row.included);
     const saved=window.SavedMetas?.list?.() || [];
     const snapshot=window.PrepField?.snapshot?.() || [];
-    const matched=saved.find(item => compositionsEqual(item.field,snapshot));
-    if (matched && !state.selectedSavedId) state.selectedSavedId=matched.id;
+    const savedId=window.PrepField?.definition?.()?.provenance?.expectedFieldId;
+    if (savedId && saved.some(item=>item.id===savedId)) state.selectedSavedId=savedId;
     const selected=saved.find(item => item.id === state.selectedSavedId);
     const provenance=window.PrepField?.provenance?.() || {};
     const legacy=selected ? (window.PTCGMetaField?.legacyAmbiguities?.(selected.field,selected.provenance) || []) : [];
@@ -62,7 +62,7 @@
       <div class="play-field-chips">${shown.map(row => `<button type="button" class="play-field-chip" data-field-toggle="${esc(row.name)}">${sprite(row.name,28)}<span class="chip-name">${esc(row.name)}</span><span class="chip-share">${pct(row.modelShare)}</span><span class="chip-action">×</span></button>`).join('')}</div>
       ${chips.length > 7 ? `<button class="text-action" type="button" data-field-expand>${state.expandedField ? 'Show less' : `Show all ${chips.length}`}</button>` : ''}
       <div class="field-inline-actions"><button type="button" class="text-action" data-add-deck>＋ Add variant</button><button type="button" class="text-action" data-save-field>♡ Save Expected Field</button><button type="button" class="text-action reset" data-field-reset>↻ Reset source</button></div>
-      ${saved.length ? `<div class="saved-meta-bar"><label><span>Saved Expected Field</span><select id="savedMetaSelect"><option value="">Choose…</option>${saved.map(item => `<option value="${esc(item.id)}" ${item.id===state.selectedSavedId?'selected':''}>${esc(item.name)}</option>`).join('')}</select></label><button class="btn" type="button" data-load-saved ${selected?'':'disabled'}>Use field</button></div>` : ''}
+      ${saved.length ? `<div class="saved-meta-bar"><label><span>Saved Expected Field</span><select id="savedMetaSelect"><option value="">Choose…</option>${saved.map(item => `<option value="${esc(item.id)}" ${item.id===state.selectedSavedId?'selected':''}>${esc(window.SavedMetas.label?.(item) || item.name)}</option>`).join('')}</select></label><button class="btn" type="button" data-load-saved ${selected?'':'disabled'}>Use field</button></div>` : ''}
       ${legacy.length ? `<p class="wsip-warning">Review this legacy field: ${esc(legacy.join(', '))} may be a family label. WSIP will not silently expand it into variants.</p>` : ''}
       ${state.addOpen ? `<label class="field-add-row">Add exact variant<select id="fieldAddSelect" class="deck-searchable"><option value="">Search variants…</option>${available.map(row => `<option value="${esc(row.name)}">${esc(row.name)}</option>`).join('')}</select></label>` : ''}
       ${state.saveOpen ? `<form id="saveFieldForm" class="save-meta-form"><label><span>Expected Field name</span><input id="saveFieldName" maxlength="50" required placeholder="e.g. Saturday League"></label><button class="btn primary" type="submit">Save</button><button class="btn" type="button" data-cancel-save>Cancel</button></form>` : ''}

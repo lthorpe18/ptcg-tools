@@ -39,13 +39,13 @@ function harness({loadOverride,real=false,detail=false,storage=new Map()}={}) {
   context.addEventListener=(key,fn)=>listeners.set(key,[...(listeners.get(key)||[]),fn]);
   context.dispatchEvent=event=>{for(const fn of listeners.get(event.type)||[])fn(event)};
   context.MetaRelease={core:()=>core,ready:()=>Promise.resolve(core),load:async key=>{calls.push(key);return loadOverride?loadOverride(key,files[key]):files[key]}};
-  context.SavedMetas={list:()=>[]};
+  context.localStorage={getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,value)};
   const sandbox=vm.createContext(context);
   for(const file of ['_shared/meta-field.js','_shared/recommendation-engine.js','meta/meta-core.js'])vm.runInContext(read('v2-preview/apps/'+file),sandbox);
   const predictions={NEW:{format:'NEW',available:true,rows:[{name:'B',share:1}],weights:{online:.75,irl:.25},evidence:{irl:{format:'OLD'}},revision:'synthetic-new'},OLD:{format:'OLD',available:true,rows:[{name:'A',share:1}],weights:{online:.3,irl:.7},revision:'synthetic-old'}};
   if(real)for(const file of ['_shared/meta-blend.js','meta/blended-field.js'])vm.runInContext(read('v2-preview/apps/'+file),sandbox);
   else context.MetaBlendedField={predictions:()=>Object.values(predictions),selected:()=>predictions.NEW,ensure:async()=>{}};
-  for(const file of ['wsip-source.js','field-builder.js','prep.js'])vm.runInContext(read('v2-preview/apps/meta/'+file),sandbox);
+  for(const file of ['saved-metas.js','wsip-source.js','field-builder.js','prep.js'])vm.runInContext(read('v2-preview/apps/meta/'+file),sandbox);
   if(detail) for(const file of ['detail-field.js','meta-explorer-v3.js','meta-router.js'])vm.runInContext(read('v2-preview/apps/meta/'+file),sandbox);
   function choose(source,format) {
     ids.playFieldSource.value=source;ids.playFieldSource.fire('change');
@@ -224,4 +224,75 @@ test('delayed observed results cannot replace a newer exact variant and field',a
   assert.equal(w.MetaRouter.get().detail.deckName,'D');assert.equal(w.MetaRouter.get().detail.fieldContext,old);
   assert.match(h.ids.deckDetailHead.innerHTML,/<h1>D<\/h1>/);
   assert.match(h.ids.detailFieldPanel.innerHTML,/OLD/);assert.match(h.ids.deckDetailBody.innerHTML,/Observed data/);
+});
+
+
+test('saved fields round-trip both targets, full provenance and editor exclusions after a later release', async()=>{
+  const h=harness({detail:true}),w=h.context;await w.MetaPrep.activate();await tick();
+  for(const format of ['OLD','NEW']){
+    h.predictions[format].rows=[{name:'A',share:.6},{name:'B',share:.4}];
+    Object.assign(h.predictions[format],{version:'formula-1',asOf:'2030-01-02',frozen:format==='OLD',evidence:{online:{format,events:[{id:'event-1'}],window:{from:'2030-01-01',to:'2030-01-02'}}}});
+    h.choose('blend',format);w.PrepField.setIncluded('B',false);
+    const before=w.PrepField.provenance();
+    const saved=w.SavedMetas.save('Cup plan',w.PrepField.snapshot(),format,before);
+    assert.ok(saved.capturedAt);assert.equal(saved.schemaVersion,2);
+    before.weights.online=0;h.predictions[format].weights.online=0;
+    const reloaded=harness({storage:h.storage,detail:true}),r=reloaded.context;
+    const copy=r.SavedMetas.get(saved.id);
+    assert.equal(copy.provenance.version,'formula-1');assert.notEqual(copy.provenance.weights.online,0);
+    assert.equal(JSON.stringify(copy.provenance.evidence),JSON.stringify(saved.provenance.evidence));
+    assert.equal(copy.provenance.frozen,format==='OLD');
+    r.PrepField.applyExpectedField(copy);
+    assert.equal(r.PrepField.definition().format,format);
+    assert.equal(r.PrepField.capture().touched,true);
+    assert.equal(r.PrepField.getAllRows().find(row=>row.name==='B').included,false);
+    assert.equal(r.PrepField.getOriginalCoverage(),.6);
+    const context=r.MetaDetailField.create('expected',null,saved.id);
+    assert.equal(r.MetaDetailField.get(context).touched,true);
+    assert.equal(r.MetaDetailField.get(context).rows.find(row=>row.name==='B').included,false);
+    r.MetaDetailField.restore(context);
+    r.PrepField.setIncluded('B',true);
+    assert.equal(r.SavedMetas.get(saved.id).field.length,1);
+    const child=r.SavedMetas.save('Adjusted cup',r.PrepField.snapshot(),format,r.PrepField.provenance());
+    assert.equal(child.provenance.ancestry.at(-1).id,saved.id);
+    assert.equal(child.provenance.originSource,'blend');
+  }
+  const copies=w.SavedMetas.list().filter(row=>row.name==='Cup plan');
+  assert.equal(copies.length,2);assert.notEqual(copies[0].id,copies[1].id);
+  assert.notEqual(w.SavedMetas.label(copies[0]),w.SavedMetas.label(copies[1]));
+});
+
+test('legacy save never invents format, identity or calculation; replacement clears stale provenance',()=>{
+  const h=harness(),w=h.context;
+  h.storage.set('ptcg-tools.meta-lab.saved-metas.v1',JSON.stringify([{id:'legacy',name:'Legacy',field:[{name:'Dragapult',share:1}]}]));
+  w.PrepField.applyExpectedField(w.SavedMetas.get('legacy'));
+  assert.equal(w.PrepField.definition().format,null);
+  assert.equal(w.PrepField.provenance().identity,'unknown');
+  assert.equal(w.MetaWSIPSource.inputs(w.PrepField.definition()).candidates.length,0);
+  assert.match(w.PrepField.sourceLabel(),/Unknown format/);
+  const first=w.SavedMetas.save('test',[{name:'A',share:1}],'OLD',{targetFormat:'OLD',weights:{online:1}});
+  assert.equal(w.SavedMetas.save('test',[{name:'A',share:1}],'NEW',{targetFormat:'OLD'}),null);
+  const second=w.SavedMetas.save('test',[{name:'B',share:1}],'OLD');
+  assert.equal(second.id,first.id);assert.equal(second.provenance,null);
+});
+
+test('invalid stored editor state cannot replace actual saved composition',()=>{
+  const w=harness().context;
+  const saved=w.SavedMetas.save('plan',[{name:'A',share:1}],'OLD',{editor:{rows:[{name:'B',share:1,included:true}]}});
+  w.PrepField.applyExpectedField(saved);
+  assert.equal(w.PrepField.snapshot()[0].name,'A');
+});
+
+test('existing workspace snapshot and account restoration retain full saved-field records',async()=>{
+  const h=harness({real:true}),w=h.context;await w.MetaPrep.activate();await tick();
+  const provenance=w.PrepField.provenance();
+  const saved=w.SavedMetas.save('Account plan',w.PrepField.snapshot(),w.PrepField.definition().format,provenance);
+  assert.equal(JSON.stringify(saved.provenance),JSON.stringify(provenance));
+  w.document.readyState='loading';w.localStorage.removeItem=key=>h.storage.delete(key);
+  w.indexedDB={open(){const request={};queueMicrotask(()=>{request.result={transaction(){const tx={objectStore:()=>({clear(){},put(){},getAll(){const req={result:[]};queueMicrotask(()=>req.onsuccess());return req;}})};queueMicrotask(()=>tx.oncomplete?.());return tx;}};request.onsuccess();});return request;}};
+  vm.runInContext(read('v2-preview/apps/_shared/shared-sync.js'),vm.createContext(w));
+  const exported=await w.PTCGSharedSync.localSnapshot();
+  h.storage.delete('ptcg-tools.meta-lab.saved-metas.v1');
+  await w.PTCGSharedSync.restoreLocal(JSON.parse(JSON.stringify(exported)));
+  assert.equal(JSON.stringify(w.SavedMetas.get(saved.id)),JSON.stringify(saved));
 });

@@ -25,7 +25,10 @@
   function create(source, format, savedId) {
     const expectedField=savedId?window.SavedMetas?.get?.(savedId):null;
     const definition=window.MetaWSIPSource.resolve({source,format,expectedField});
-    return save(fromDefinition(definition,expectedField));
+    const snapshot=fromDefinition(definition,expectedField);
+    const editor=window.SavedMetas?.editorState?.(expectedField);
+    if(editor){snapshot.rows=editor.rows;snapshot.touched=!!editor.touched;}
+    return save(snapshot);
   }
   function capture() {
     return save({...window.PrepField.capture(),matchupSource:document.getElementById('playMatchupSource')?.value || 'combined',onlineScope:window.MetaState?.get?.().onlineScope || '30'});
@@ -64,7 +67,7 @@
     if(format && !formats.some(row=>row.format===format))formats.push({format,available:true});
     const saved=window.SavedMetas?.list?.() || [];
     if(snapshot.expectedField?.id && !saved.some(row=>row.id===snapshot.expectedField.id))saved.push(snapshot.expectedField);
-    const options=[['blend','Blended'],['online','Online field'],['irl','IRL field'],...saved.map(row=>['saved:'+row.id,row.name])];
+    const options=[['blend','Blended'],['online','Online field'],['irl','IRL field'],...saved.map(row=>['saved:'+row.id,window.SavedMetas.label?.(row) || row.name])];
     if(!options.some(([value])=>value===source))options.push([source,'Selected field']);
     const controls=`<div class="child-source-row"><label>Field<select id="detailFieldSource">${options.map(([value,label])=>`<option value="${esc(value)}" ${value===source?'selected':''} ${value==='blend'&&!predictions.some(row=>row.available)?'disabled':''}>${esc(label)}</option>`).join('')}</select></label><label>Format<select id="detailFieldFormat" ${['expected','custom'].includes(snapshot.source)?'disabled':''}>${formats.length?formats.map(row=>`<option value="${esc(row.format)}" ${row.format===format?'selected':''} ${row.available?'':'disabled'}>${esc(row.format)}${row.available?'':' · unavailable'}</option>`).join(''):'<option>Unknown format</option>'}</select></label><label>Evaluation H2H<select id="detailFieldH2H">${[['combined','Online + IRL'],['online','Online only'],['irl','IRL only']].map(([value,label])=>`<option value="${value}" ${value===snapshot.matchupSource?'selected':''}>${label}</option>`).join('')}</select></label></div>`;
     const {row}=analyse(id,next.deckName);

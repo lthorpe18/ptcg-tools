@@ -1,6 +1,6 @@
 # Checkpoint 6 — Exact variant and selected field
 
-**Status:** Implemented on 9 September 2026; owner explicitly authorized merge for device testing. Device acceptance pending. Checkpoint 7 has not started.
+**Status:** Merged and deployed through PR #15 (`e27a914`); owner passed all six device checks. Checkpoint 6 accepted. Checkpoint 7 subsequently authorized.
 **Base:** main `c05a1af1212c57d14534795a048886583ec840ff`, including the 9 September data refresh.
 
 ## Outcome
