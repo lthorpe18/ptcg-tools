@@ -11,6 +11,10 @@
 
 Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`); the owner passed all six Event Prep device steps. Checkpoint 9's 128-test, deployed-desktop and six-step installed-iPhone/offline-resume gates all passed. Home, Meta, WSIP, Saved Expected Fields, exact deck detail and Event Prep now share the accepted format-aware prediction and persistence contract. The recovery programme is closed; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
+## Prediction accuracy programme — 9 September 2026
+
+Checkpoint 1 specification/data audit is complete for review in `PREDICTION_ACCURACY_SPECIFICATION.md`. Locked direction: Meta-owned accuracy page; IRL majors only; latest valid pre-Day-1 prediction; Field accuracy plus supporting MAE; exact variants predicted or actual above 1%; immutable inputs/snapshots and versioned formula fitting. Existing history cannot honestly score Worlds because retained prediction history begins after the event. Checkpoint 2 must begin append-only snapshots before the next eligible major.
+
 ## Checkpoint 5 accepted — 9 September 2026
 
 PR #14 merged at `4380f8c`. The owner passed all six device checks and confirmed Home, Meta and WSIP agree on the correct Blended calculation. The prediction date has also advanced; the earlier daily-refresh concern is closed for now, as requested.

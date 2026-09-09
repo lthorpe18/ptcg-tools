@@ -8,6 +8,10 @@
 
 Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`) and passed all six Event Prep device checks. Checkpoint 9's 128 automated tests, deployed desktop workflow and final six-step installed-iPhone/offline-resume gate all passed. The recovery programme is closed; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
+## Prediction accuracy programme
+
+Checkpoint 1 specification/data audit is complete for review in `PREDICTION_ACCURACY_SPECIFICATION.md`. The next bounded task is immutable prediction snapshots. No honest pre-Worlds forecast exists in retained history, so scoring starts with the next eligible IRL major after snapshot capture begins.
+
 ## Checkpoint 5 accepted — 9 September 2026
 
 PR #14 merged at `4380f8c`. The owner passed all six device checks and confirmed Home, Meta and WSIP agree on the correct Blended calculation. The prediction date has also advanced; the earlier daily-refresh concern is closed for now, as requested.
@@ -175,6 +179,6 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next programme is a separate prediction accuracy/fitting specification and review. After that comes the owner-led UI/UX consistency pass, then Collection only when explicitly reopened. Do not start prediction fitting automatically.
+The next action is Prediction Accuracy Checkpoint 2: immutable snapshots. After the six accuracy checkpoints comes the owner-led UI/UX consistency pass, then Collection only when explicitly reopened. Do not start Checkpoint 2 automatically.
 
 Checkpoint 4 follow-up: the Home hero now explicitly requests Blended on cold and mounted Meta. The owner subsequently reported this handoff failure; device retest of the correction remains pending. PR #12 includes both the handoff correction and Home methodology-link removal. On 8 September the owner authorized merging this follow-up and proceeding to Checkpoint 5.
