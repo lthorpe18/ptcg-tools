@@ -25,7 +25,7 @@
       const format = options.expectedField?.provenance?.targetFormat || options.expectedField?.provenance?.format || options.expectedField?.format || null;
       return { ...result, format, available:!!result.rows.length, reason:format ? '' : 'This saved field has no recorded format; compatible H2H is unknown.', provenance:{ ...result.provenance, targetFormat:format } };
     }
-    const format = target(value);
+    const format = options.format || target(value);
     if (value === 'blend') {
       const result = predictions().find(row => row.format === format);
       return {
@@ -46,7 +46,7 @@
     if (!format || definition?.available === false) return { evidence, candidates:[] };
     const current = window.MetaState?.get?.() || {};
     for (const env of ['online','irl']) {
-      const data = window.MetaData?.dataForFormat?.(env, format, { scope:env === 'irl' ? 'all-irl' : current.onlineScope || '30' });
+      const data = window.MetaData?.dataForFormat?.(env, format, { scope:env === 'irl' ? 'all-irl' : definition?.onlineScope || current.onlineScope || '30' });
       if (data?.format !== format || data.unavailable) continue;
       if (matchupSource === 'combined' || matchupSource === env) evidence[env] = (data.matchups || []).filter(row => !row.format || row.format === format);
       for (const row of data.decks || []) {

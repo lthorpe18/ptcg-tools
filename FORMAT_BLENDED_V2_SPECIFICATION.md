@@ -1,6 +1,6 @@
 # Format/Rotation and Blended Meta v2 — Accepted Recovery Specification
 
-**Status:** Accepted specification. Checkpoints 1–4 and Home follow-ups PR #12/#13 are merged. Checkpoint 5 is implemented for review; see `WSIP_CHECKPOINT_5.md`. Browser/device acceptance pending. Checkpoint 6 has not started.
+**Status:** Checkpoints 1–5 merged and accepted. Checkpoint 6 is implemented and authorized for merge/device testing; see `EXACT_DETAIL_CHECKPOINT_6.md`. Checkpoint 7 has not started.
 **Source review:** main `eb7809c5724f687c15d2d99b7af1f1f7b5365365`.
 **Companions:** PTCG_TOOLS_MASTER.md; ROADMAP_HANDOFF_2026-09-07.md; HOME_ARCHITECTURE.md; WHAT_SHOULD_I_PLAY_ARCHITECTURE.md; v2-preview/apps/meta/ARCHITECTURE.md; PERFORMANCE_ARCHITECTURE.md.
 
@@ -216,6 +216,6 @@ Broader prediction accuracy/fitting/version-administration work is deferred, not
 
 ## 9. Immediate handoff
 
-Checkpoint 5 is implemented for review in `WSIP_CHECKPOINT_5.md`: WSIP consumes the selected canonical Blended or observed format field, loads compatible H2H without changing browsing selections, preserves unknown matchups and existing ranking/coverage, and offers bounded retry recovery. The full suite passes 110 tests. Browser navigation to the local preview was blocked before loading; desktop/390px and owner iPhone acceptance remain pending. Checkpoint 6 has not started.
+Checkpoint 6 is implemented in `EXACT_DETAIL_CHECKPOINT_6.md` and authorized for merge/device testing. Exact detail preserves the selected variant, field snapshot, target format and H2H context across source changes, reload and WSIP return. Predicted-field evaluation is separate from observed statistics. All 116 tests pass; local browser access is blocked before page load, so owner visual acceptance remains pending. Checkpoint 7 has not started.
 
-The owner explicitly authorized the Home follow-up merge and bounded Checkpoint 5 work on 8 September. Preserve PR #13’s one-use Home route. Stop after Checkpoint 5 review; no automatic continuation to Checkpoint 6, Saved Fields, Event Prep or Collection.
+Checkpoint 5 passed the owner’s six tests; prediction-date advancement is confirmed, so no daily-refresh investigation is outstanding. The owner explicitly requested implementation and merge of Checkpoint 6. Stop after its device acceptance before Checkpoint 7.

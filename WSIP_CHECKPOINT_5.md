@@ -1,6 +1,6 @@
 # Checkpoint 5 — Format-aware What Should I Play
 
-**Status:** Implemented for review on 9 September 2026. 110 automated tests pass. Browser/device acceptance pending. Checkpoint 6 has not started.
+**Status:** Merged in PR #14 at `4380f8c` and owner-accepted on 9 September 2026. All six device tests passed; Home/Meta/WSIP calculation agreement and advanced prediction date are confirmed. Checkpoint 6 is now implemented in `EXACT_DETAIL_CHECKPOINT_6.md`.
 **Base:** main `8ae4ccbb16d1a4db7554b7443a420bc45fa853c2`, including merged PRs #12 and #13.
 
 ## Outcome

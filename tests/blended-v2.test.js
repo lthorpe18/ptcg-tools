@@ -99,6 +99,7 @@ test('the committed release produces one available TEF-PBL prediction with repro
   const core=JSON.parse(fs.readFileSync(path.join(root,'v2-preview/data/meta/release/core.json'),'utf8'));
   const results=Blend.predictions({asOf:core.formatDate,currentFormats:core.currentFormats,calendarRevision:core.calendarRevision,online:{[core.online.format]:core.online},irl:{[core.irl.format]:core.irl}});
   assert.equal(results.length,1);assert.equal(results[0].format,'TEF-PBL');assert.equal(results[0].available,true);
-  assert.equal(results[0].rule,'settled-format');weightsAre(results[0].weights,.52,.48);
+  assert.equal(results[0].rule,'settled-format');const days=Math.floor((Date.parse(core.formatDate)-Date.parse(results[0].majorDate))/86400000);
+  const expectedIrl=Math.max(.3,.7-.02*days);weightsAre(results[0].weights,expectedIrl,1-expectedIrl);
   assert.ok(results[0].evidence.online.eventCount>0);assert.equal(results[0].evidence.irl.events[0].name,'World Championship San Francisco');
 });

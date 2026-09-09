@@ -103,7 +103,7 @@ test('detail routes parse exact identity, evidence source and origin', () => {
   const parsed = harness.router.parse('/ptcg-tools/v2-preview/apps/meta/?deck=Charizard+ex&source=irl&from=matchups#detail');
   assert.equal(parsed.view, 'detail');
   assert.deepEqual(JSON.parse(JSON.stringify(parsed.detail)), {
-    deckName:'Charizard ex', source:'irl', origin:'matchups',
+    deckName:'Charizard ex', source:'irl', origin:'matchups', fieldContext:null, observedScope:null,
   });
 });
 
