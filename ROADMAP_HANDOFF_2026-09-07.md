@@ -1,12 +1,16 @@
 # PTCG Tools — Roadmap Handoff — 7 September 2026
 
-**Status:** Checkpoints 1–4 merged and owner-tested; concise-Home follow-up implemented for review; Checkpoint 5 not begun
+**Status:** Checkpoints 1–4 and Home follow-ups merged; Checkpoint 5 implemented for review; device acceptance pending
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-05.md`
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `HOME_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `v2-preview/apps/meta/ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
 
-## Checkpoint 4 acceptance — 8 September 2026
+## Checkpoint 5 implementation review — 9 September 2026
 
-Checkpoint 4 is merged and passed the owner's iPhone script; see `HOME_CHECKPOINT_4.md`. Home consumes Meta's canonical current Online-target prediction with target/share/weight/revision parity, loads the required retained IRL transition prior, shows the concise format and current IRL/Online split, refuses cross-format fallback and refreshes release state on warm return. The owner requested removal of the methodology link from Home; detailed calculation remains in Meta. The accepted Home layout is otherwise unchanged. The concise-Home follow-up suite passes 103 tests. Checkpoint 5 has not begun.
+Checkpoint 5 is implemented for review in `WSIP_CHECKPOINT_5.md`: WSIP consumes the selected canonical Blended or observed format field, loads compatible H2H without changing browsing selections, preserves unknown matchups and existing ranking/coverage, and offers bounded retry recovery. The full suite passes 110 tests. Browser navigation to the local preview was blocked before loading; desktop/390px and owner iPhone acceptance remain pending. Checkpoint 6 has not started.
+
+## Checkpoint 4 follow-ups merged
+
+PR #12 merged at `1f0dace3` and PR #13 at `8ae4ccb`. Home retains its current split without a methodology link. The hero explicitly selects Blended, consuming the entry instruction once so subsequent user choices survive ordinary warm return. Device retest of these corrections remains pending; see `HOME_CHECKPOINT_4.md`. The original owner testing passed cold load, shares/weights, grouping and navigation before the handoff defect was reported.
 
 ## Checkpoint 3 acceptance — 8 September 2026
 
@@ -165,6 +169,6 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next action is review and deployment of the concise-Home follow-up, then explicit authorization before Checkpoint 5. Do not begin later checkpoints automatically.
+The next action is Checkpoint 5 review and, after merge/deployment, the owner script in `WSIP_CHECKPOINT_5.md`. Do not begin Checkpoint 6 automatically.
 
 Checkpoint 4 follow-up: the Home hero now explicitly requests Blended on cold and mounted Meta. The owner subsequently reported this handoff failure; device retest of the correction remains pending. PR #12 includes both the handoff correction and Home methodology-link removal. On 8 September the owner authorized merging this follow-up and proceeding to Checkpoint 5.

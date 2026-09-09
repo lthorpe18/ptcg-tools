@@ -6,9 +6,7 @@
 
 ## Accepted Format/Blended recovery specification — 7 September 2026
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract, forensic evidence, P1–P5 decisions, scenario matrix, explanation UX and checkpoint gates. The specification is approved. Checkpoint 1 is merged and accepted; PR #7 navigation repair also passed the owner's six-step retest. See `FORMAT_FOUNDATION_CHECKPOINT_1.md` and `COMPETE_NAVIGATION_FIX_2026-09-08.md`. Checkpoint 2 is implemented for review; browser acceptance is outstanding. See `META_FORMATS_CHECKPOINT_2.md`. Checkpoint 3 and later consumer work have not begun. Its explicit frozen-window exceptions govern the earlier general descriptions below.
-
-The owner authorized **Checkpoint 2: Meta Online/IRL only**; the next action is its review and browser acceptance. Use the shared foundation for independent source formats, event classification, retained archives and scoped evidence. Verify every actual release payload online and cached, source/label agreement, source switching, detail and reload. No new Blended or Home/WSIP/Prep integration, navigation redesign, admin/fitting tools or Collection. Preserve PR #7 and subsequent fixes; stop after Checkpoint 2 review. Do not restore PR #4/#5 or repeat the full forensic review.
+See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted recovery contract. Checkpoints 1–4 and Home follow-ups are merged. Checkpoint 5 is implemented for review in `WSIP_CHECKPOINT_5.md`: WSIP consumes the selected canonical Blended or observed format field, loads compatible H2H without changing browsing selections, preserves unknown matchups and existing ranking/coverage, and offers bounded retry recovery. The full suite passes 110 tests. Browser navigation to the local preview was blocked before loading; desktop/390px and owner iPhone acceptance remain pending. Checkpoint 6 has not started.
 
 Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
 
@@ -194,3 +192,7 @@ Current relevant automated coverage includes:
 - no body-wide WSIP mutation-observer feedback loop.
 
 The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptance. The final WSIP interaction/presentation flow was then accepted through real iPhone Home Screen testing on 6 September 2026, including Meta startup recovery, recommendation cards, matchup expansion, incremental paging and the Saved Expected Field selector polish.
+
+## Checkpoint 5 implementation contract
+
+`MetaWSIPSource` selects a canonical prediction or observed format field. `MetaData.dataForFormat` and `ensureForFormat` read compatible source packages without changing browsing selections. Combined evidence pools only records in the selected target format; a previous-format IRL prior is prediction evidence only. Request/cache identities include release, source and format. Unavailable fields yield no recommendations; failed requests show Retry. Existing ranking and coverage rules remain unchanged. Complete saved-field migration is Checkpoint 7 and exact-detail handoff is Checkpoint 6.

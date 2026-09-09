@@ -13,7 +13,7 @@ test('Home, Meta and Event Prep load the shared field definitions before consume
   assert.ok(home.indexOf('_shared/meta-field.js') < home.indexOf('archetype-groups.js'));
   assert.ok(home.indexOf('_shared/meta-field.js') < home.indexOf('_shared/meta-blend.js'));
   assert.ok(meta.indexOf('_shared/meta-field.js') < meta.indexOf('archetype-groups.js'));
-  assert.ok(meta.indexOf('_shared/recommendation-engine.js') < meta.indexOf('prep.js?v=10'));
+  assert.ok(meta.indexOf('_shared/recommendation-engine.js') < meta.indexOf('prep.js?v=11'));
   assert.ok(prep.indexOf('_shared/meta-field.js') < prep.indexOf('meta/saved-metas.js'));
   assert.ok(prep.indexOf('_shared/recommendation-engine.js') < prep.indexOf('./prep.js'));
   assert.ok(prep.indexOf('meta-release-loader.js') < prep.indexOf('./prep.js'));

@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="collapsible.css" />
   <link rel="stylesheet" href="chips.css" />
   <link rel="stylesheet" href="searchable-decks.css?v=4" />
-  <link rel="stylesheet" href="play.css?v=8" />
+  <link rel="stylesheet" href="play.css?v=cp5-8" />
   <link rel="stylesheet" href="wsip-polish.css?v=5" />
   <link rel="stylesheet" href="sprite-polish.css?v=3" />
   <link rel="stylesheet" href="saved-metas.css?v=2" />
@@ -66,6 +66,7 @@
       <div class="meta-child-title"><div><div class="eyebrow">META EXPLORER</div><h1>What should I play?</h1><p>Choose an exact variant for the field you expect.</p></div></div>
       <div class="child-source-row">
         <label>Field<select id="playFieldSource"><option value="blend" selected>Blended current field</option><option value="online">Online field</option><option value="irl">IRL field</option><option value="expected">Saved Expected Field</option></select></label>
+        <label id="playFieldFormatControl">Format<select id="playFieldFormat" aria-label="Field format"></select></label>
         <label>H2H evidence<select id="playMatchupSource"><option value="combined" selected>Online + IRL</option><option value="online">Online only</option><option value="irl">IRL only</option></select></label>
       </div>
       <div id="playSourceContext" class="play-source-context"></div>
@@ -81,8 +82,9 @@
           <div class="advanced-head"><div><div class="eyebrow">EXPECTED FIELD</div><h3>Fine-tune exact-variant shares</h3></div></div>
           <div class="field-actions"><button id="fieldAll" class="btn" type="button">All</button><button id="fieldNone" class="btn" type="button">None</button><button id="fieldReset" class="btn" type="button">Reset</button><button id="fieldShowAll" class="btn" type="button">Show all</button><span id="fieldCoverage" class="muted"></span></div>
           <div id="fieldEditor" class="field-editor"><div class="prep-empty">Waiting for meta data…</div></div>
-          <p class="advanced-method">Field percentages are expected entry share and are normalised to 100% for analysis. Online and IRL are evidence sources. Blended uses the app-wide current-field policy: latest IRL majors weekend plus Online since the last major, with the IRL weight decaying over time. H2H rates use a 12-game neutral prior. Missing matchups remain unknown and the displayed estimate covers only field share with decisive evidence.</p>
+          <p class="advanced-method">Field percentages are expected entry share and are normalised to 100% for analysis. Online and IRL are evidence sources. Blended uses the selected format’s shared prediction. Only compatible H2H evidence contributes. H2H rates use a 12-game neutral prior. Missing matchups remain unknown and the displayed estimate covers only field share with decisive evidence.</p>
         </div>
+          <p class="advanced-method"><a href="../_shared/blended-methodology.html" target="_blank" rel="noopener">How Blended is calculated</a></p>
       </details>
     </div>
   </section>
@@ -117,19 +119,20 @@
 <script src="saved-metas.js?v=3"></script>
 <script src="archetype-groups.js?v=3"></script>
 <script src="meta-release-loader.js?v=5"></script>
-<script src="meta-core.js?v=8"></script>
+<script src="meta-core.js?v=9"></script>
 <script src="../_shared/meta-blend.js?v=4"></script>
 <script src="blended-field.js?v=3"></script>
 <script src="../_shared/recommendation-engine.js?v=1"></script>
-<script src="field-builder.js?v=8"></script>
+<script src="wsip-source.js?v=1"></script>
+<script src="field-builder.js?v=9"></script>
 <script src="meta-controls.js?v=9"></script>
-<script src="prep.js?v=10"></script>
+<script src="prep.js?v=11"></script>
 <script src="wsip-polish.js?v=4"></script>
 <script src="wsip-reset-polish.js?v=3"></script>
 <script src="meta-home.js?v=15"></script>
 <script src="searchable-decks.js?v=7"></script>
 <script src="meta-explorer-v3.js?v=3"></script>
-<script src="meta-source-context.js?v=7"></script>
+<script src="meta-source-context.js?v=8"></script>
 <script src="meta-router.js?v=3"></script>
 <script src="../_shared/app-shell.js?v=8"></script>
 </body>

@@ -274,3 +274,7 @@ Product work should continue through:
 **Analyse → Build & Test → Prepare → Compete → Learn**
 
 See `TOURNAMENT_DAY_ARCHITECTURE.md` for the current Compete implementation contract, `PLAYTEST_ARCHITECTURE.md` for Mobile Playtest and `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md` for account/public-ready boundaries.
+
+## Checkpoint 5 — Explicit-format WSIP requests
+
+WSIP reuses the canonical prediction and recommendation engines. Matchup requests are cached/deduplicated by release, environment and target format without mutating browsing selections. Generation guards prevent late target completion from replacing active status; stale-release payloads are discarded. Failed loads have an explicit retry. Persistent listeners are bound once. Seven behavioural scenarios, including repeated switches and failure recovery, pass within the 110-test suite. Local browser access is blocked; visual acceptance remains pending in `WSIP_CHECKPOINT_5.md`.

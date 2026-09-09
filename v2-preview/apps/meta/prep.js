@@ -5,42 +5,37 @@
   const pct = value => `${(100 * Number(value || 0)).toFixed(0)}%`;
   const rate = value => Number.isFinite(value) ? `≈${Math.round(value)}%` : '—';
   const detailRate = value => Number.isFinite(value) ? `${value.toFixed(1)}%` : '—';
-  const state = { selectedSavedId:'', saveOpen:false, addOpen:false, expandedField:false, recommendationLimit:5, loading:null };
+  const state = { selectedSavedId:'', saveOpen:false, addOpen:false, expandedField:false, recommendationLimit:5, loading:null, loadKey:null, loadError:null, generation:0 };
 
   function sprite(name, size=40) { return window.DeckSprites?.html?.(name,{ size }) || ''; }
   function matchupSource() { return $('playMatchupSource')?.value || 'combined'; }
 
-  function candidatePool() {
-    const current=window.MetaState?.get?.() || {};
-    const defaults=window.PTCGRecommendation?.DEFAULTS || {};
-    const map=new Map();
-    const add=(rows, source) => {
-      for (const row of rows || []) {
-        if (!window.PTCGMetaField?.isUsableName?.(row.name)) continue;
-        const item=map.get(row.name) || { name:row.name, entries:0, onlineEntries:0, irlEntries:0 };
-        const entries=Number(row.entries || 0);
-        item.entries += entries;
-        item[`${source}Entries`] += entries;
-        map.set(row.name,item);
-      }
-    };
-    add(window.MetaData?.data?.('online',{ scope:current.onlineScope || defaults.onlineScope, minPlayers:50 })?.decks,'online');
-    add(window.MetaData?.data?.('irl',{ scope:defaults.irlScope })?.decks,'irl');
-    return [...map.values()];
-  }
-
   function buildModel() {
-    const current=window.MetaState?.get?.() || {};
-    const defaults=window.PTCGRecommendation?.DEFAULTS || {};
+    const definition = window.PrepField?.definition?.();
+    const inputs = window.MetaWSIPSource?.inputs?.(definition, matchupSource()) || { candidates:[], evidence:{} };
     return window.PTCGRecommendation?.analyse?.({
-      fieldRows:window.PrepField?.getField?.() || [],
-      candidates:candidatePool(),
-      evidence:{
-        online:window.MetaData?.data?.('online',{ scope:current.onlineScope || defaults.onlineScope, minPlayers:50 })?.matchups || [],
-        irl:window.MetaData?.data?.('irl',{ scope:defaults.irlScope })?.matchups || [],
-      },
+      fieldRows:definition?.available === false ? [] : window.PrepField?.getField?.() || [],
+      ...inputs,
       matchupSource:matchupSource(),
     }) || { field:[], ranked:[], lowerEvidence:[], all:[], state:'insufficient' };
+  }
+
+  function syncFormats() {
+    const source = window.MetaWSIPSource.source(), options = window.MetaWSIPSource.formats();
+    const control = $('playFieldFormatControl'), select = $('playFieldFormat');
+    if (control) control.hidden = source === 'expected' || source === 'custom';
+    if (!select) return;
+    const target = window.PrepField?.definition?.()?.format;
+    const choices = options.slice();
+    if (target && !choices.some(row => row.format === target)) choices.push({format:target,available:false});
+    const html = choices.map(row => `<option value="${esc(row.format)}" ${row.available ? '' : 'disabled'}>${esc(row.format)}${row.available ? '' : ' · unavailable'}</option>`).join('');
+    if (select.innerHTML !== html) select.innerHTML = html;
+    select.value = target || '';
+    const blendOption = $('playFieldSource')?.querySelector('option[value="blend"]');
+    if (blendOption) {
+      blendOption.disabled = !window.MetaWSIPSource.formats('blend').some(row => row.available);
+      blendOption.textContent = blendOption.disabled ? 'Blended current field · unavailable' : 'Blended current field';
+    }
   }
 
   function compositionsEqual(a,b) {
@@ -108,6 +103,10 @@
   }
 
   function recommendationHtml(model) {
+    const definition = window.PrepField?.definition?.();
+    if (definition?.available === false) return `<div class="play-empty"><b>${esc(definition.format || 'Selected field')} · unavailable</b><span>${esc(definition.reason)}</span><button type="button" data-retry-wsip>Retry evidence</button></div>`;
+    if (state.loadError) return '<div class="play-empty"><b>Compatible evidence could not load</b><span>Retry to analyse this field.</span><button type="button" data-retry-wsip>Retry evidence</button></div>';
+    if (state.loading) return '<div class="play-empty">Loading compatible matchup evidence…</div>';
     if (!model.field.length) return '<div class="play-empty"><b>No field selected</b><span>Choose a field source or saved Expected Field.</span></div>';
     const messages={
       strong:['Strong recommendation','The leader has strong evidence and a meaningful edge over the next option.'],
@@ -140,7 +139,7 @@
     $('fieldAddSelect')?.addEventListener('change', event => { if (event.target.value) { window.PrepField?.add?.(event.target.value); state.addOpen=false; } });
     $('saveFieldForm')?.addEventListener('submit', event => {
       event.preventDefault();
-      const item=window.SavedMetas?.save?.($('saveFieldName')?.value,window.PrepField?.snapshot?.(),'TEF-PBL',window.PrepField?.provenance?.());
+      const item=window.SavedMetas?.save?.($('saveFieldName')?.value,window.PrepField?.snapshot?.(),window.PrepField?.definition?.()?.format || null,window.PrepField?.provenance?.());
       if (item) { state.selectedSavedId=item.id; state.saveOpen=false; render(); }
     });
   }
@@ -170,25 +169,47 @@
     const fieldTarget=$('prepFieldOverview'), resultsTarget=$('prepResults');
     if (!fieldTarget || !resultsTarget) return;
     window.PrepField?.render?.();
+    syncFormats();
     const model=buildModel();
     fieldTarget.innerHTML=fieldHtml();
     resultsTarget.innerHTML=recommendationHtml(model);
     bindField();
     bindResults();
+    document.querySelector('[data-retry-wsip]')?.addEventListener('click', () => activate(true));
+    window.MetaContext?.renderPrep?.();
     window.SearchableDecks?.upgrade?.();
     window.dispatchEvent(new CustomEvent('wsip:rendered'));
   }
 
-  async function activate() {
+  async function activate(force = false) {
+    const definition = window.PrepField?.definition?.();
+    const format = definition?.format || definition?.provenance?.targetFormat;
+    const key = JSON.stringify([window.MetaData?.release?.(), format, matchupSource()]);
+    if (!force && state.loadKey === key) { render(); return state.loading; }
+    const generation = ++state.generation;
+    state.loadKey = key;
+    state.loadError = null;
+    const environments = matchupSource() === 'combined' ? ['online','irl'] : [matchupSource()];
+    const request = Promise.all([
+      window.MetaBlendedField?.ensure?.(),
+      ...environments.map(env => window.MetaData?.ensureForFormat?.(env, format)),
+    ]);
+    state.loading = request;
     render();
-    if (!state.loading) state.loading=window.MetaData?.ensure?.(['onlineHistory','onlineMatchups','irlMatchups']).catch(error => console.warn('WSIP evidence unavailable.',error)).finally(() => { state.loading=null; });
-    await state.loading;
-    render();
+    try { await request; }
+    catch (error) { if (generation === state.generation) state.loadError = error; }
+    finally {
+      if (generation === state.generation) { state.loading = null; render(); }
+    }
   }
 
+  const active = () => !$('prep')?.classList.contains('hidden');
+  $('playFieldFormat')?.addEventListener('change', event => {
+    if (window.MetaWSIPSource.select(event.target.value)) window.PrepField.reset();
+  });
   $('playMatchupSource')?.addEventListener('change', () => { state.recommendationLimit=5; activate(); });
-  window.addEventListener('field:updated', () => { state.recommendationLimit=5; render(); });
-  window.addEventListener('savedmetas:updated', render);
-  window.addEventListener('meta:data-changed', () => { if (!$('prep')?.classList.contains('hidden')) render(); });
-  window.MetaPrep={ activate, render };
+  window.addEventListener('field:updated', () => { state.recommendationLimit=5; if (active()) activate(); });
+  window.addEventListener('savedmetas:updated', () => { if (active()) render(); });
+  window.addEventListener('meta:data-changed', () => { if (active()) activate(); });
+  window.MetaPrep={ activate, render, buildModel };
 })();
