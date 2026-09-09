@@ -1,6 +1,6 @@
 # Prediction Accuracy — Checkpoint 2
 
-**Status:** Implemented for review — 9 September 2026
+**Status:** Accepted and merged in PR #20 (`741b5d9`) — 9 September 2026
 **Scope:** Immutable prediction snapshots only
 
 ## Delivered
