@@ -13,7 +13,7 @@ Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17
 
 ## Prediction accuracy programme — 9 September 2026
 
-Checkpoint 1 is accepted and merged in PR #19 (`309e630`). Checkpoint 2 is implemented for review in `PREDICTION_ACCURACY_CHECKPOINT_2.md`: scheduled builds now create content-addressed, append-only snapshots containing the exact prediction, source inputs, formula and provenance. The first honest snapshot is dated 9 September, so Worlds remains unscored. Checkpoint 3—the accuracy engine—has not started.
+Checkpoints 1–2 are accepted and merged through PR #20 (`741b5d9`). Checkpoint 3 is implemented for review in `PREDICTION_ACCURACY_CHECKPOINT_3.md`: scheduled builds now create immutable major actuals, enforce the exact-format/pre-Day-1/95%-coverage gates, and store Field accuracy, MAE and variance revisions. Worlds is correctly retained but unscored because snapshot history starts after Day 1. Checkpoint 4—the Meta UI—has not started.
 
 ## Checkpoint 5 accepted — 9 September 2026
 

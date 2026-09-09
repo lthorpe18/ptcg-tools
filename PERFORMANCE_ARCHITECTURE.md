@@ -103,6 +103,8 @@ Normal browsers must not call Limitless tournament APIs. They read prepared GitH
 
 Prediction releases also write a repository-backed immutable archive. Snapshot files are content-addressed and never rewritten; a small index records each successful publication time. This archive is pipeline evidence for later accuracy scoring and is not loaded by normal Home/Meta startup.
 
+The scheduled accuracy engine reads that archive and IRL major fields, then writes content-addressed actual/evaluation revisions. Its index remains separate from the startup release, so Home and routine Meta use pay no payload or calculation cost until the Prediction accuracy UI explicitly requests it.
+
 ### Checkpoint 2 release compatibility (merged)
 
 Schema 2 labels Online and IRL independently and validates each payload against its manifest source format. Historical format packages remain published; archived cores and heavy evidence load on demand instead of growing the startup core. Network deadlines include response-body reads. Stale asynchronous evidence and startup callbacks cannot replace a newly selected format/release. Checkpoint 2 merged in PR #8; see `META_FORMATS_CHECKPOINT_2.md`.

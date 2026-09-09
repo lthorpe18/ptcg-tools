@@ -2,9 +2,11 @@ name: Update IRL Meta
 
 on:
   push:
+    branches: [main]
     paths:
       - 'scripts/update-irl-labs.mjs'
       - 'scripts/prediction-snapshots.mjs'
+      - 'scripts/prediction-accuracy.mjs'
       - 'scripts/meta-format-contract.mjs'
       - 'data/formats/maintained-calendar.json'
       - '.github/workflows/update-irl-labs.yml'
@@ -50,15 +52,17 @@ jobs:
           NODE
       - name: Build validated browser release
         run: node scripts/build-meta-release.mjs
+      - name: Build prediction accuracy records
+        run: node scripts/prediction-accuracy.mjs
       - name: Publish IRL dataset
         run: |
-          if git diff --quiet -- data/meta/irl data/meta/online-fields data/meta/prediction-snapshots v2-preview/data/meta/release; then
+          if git diff --quiet -- data/meta/irl data/meta/online-fields data/meta/prediction-snapshots data/meta/prediction-accuracy v2-preview/data/meta/release; then
             echo "IRL dataset unchanged"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/meta/irl data/meta/online-fields data/meta/prediction-snapshots v2-preview/data/meta/release
+          git add data/meta/irl data/meta/online-fields data/meta/prediction-snapshots data/meta/prediction-accuracy v2-preview/data/meta/release
           git commit -m "Update Limitless Labs IRL meta"
           git pull --rebase
           git push
