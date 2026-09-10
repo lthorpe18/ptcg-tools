@@ -13,7 +13,7 @@ function routerHarness(initial = 'https://example.test/ptcg-tools/v2-preview/app
     toggle(name, force) { force ? this.values.add(name) : this.values.delete(name); }
     contains(name) { return this.values.has(name); }
   }
-  const ids = ['currentMetaPage', 'prep', 'matchups', 'decks', 'deckDetail'];
+  const ids = ['currentMetaPage', 'prep', 'matchups', 'decks', 'accuracy', 'deckDetail'];
   const elements = Object.fromEntries(ids.map((id, index) => [id, {
     id,
     classList: new Classes(index ? ['hidden'] : []),
@@ -65,7 +65,7 @@ function activeViews(harness) {
 
 test('MetaRouter makes every Meta route mutually exclusive', () => {
   const harness = routerHarness();
-  for (const view of ['current', 'prep', 'matchups', 'decks']) {
+  for (const view of ['current', 'prep', 'matchups', 'decks', 'accuracy']) {
     harness.router.navigate(view, { history:false });
     assert.equal(harness.document.body.dataset.metaActiveView, view);
     assert.deepEqual(activeViews(harness).map(element => element.id), [view === 'current' ? 'currentMetaPage' : view]);

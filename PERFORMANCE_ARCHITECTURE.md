@@ -105,6 +105,8 @@ Prediction releases also write a repository-backed immutable archive. Snapshot f
 
 The scheduled accuracy engine reads that archive and IRL major fields, then writes content-addressed actual/evaluation revisions. Its index remains separate from the startup release, so Home and routine Meta use pay no payload or calculation cost until the Prediction accuracy UI explicitly requests it.
 
+Prediction Accuracy preserves that boundary in the browser: the route loads its small index only on activation and loads referenced actual/evaluation revisions on demand. Requests bypass a potentially stale service-worker copy so a newly scored major appears without changing the normal Meta release or startup path.
+
 ### Checkpoint 2 release compatibility (merged)
 
 Schema 2 labels Online and IRL independently and validates each payload against its manifest source format. Historical format packages remain published; archived cores and heavy evidence load on demand instead of growing the startup core. Network deadlines include response-body reads. Stale asynchronous evidence and startup callbacks cannot replace a newly selected format/release. Checkpoint 2 merged in PR #8; see `META_FORMATS_CHECKPOINT_2.md`.

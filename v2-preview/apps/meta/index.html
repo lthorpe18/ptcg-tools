@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="meta-explorer-layout.css?v=1" />
   <link rel="stylesheet" href="meta-detail.css?v=1" />
   <link rel="stylesheet" href="meta-source-context.css?v=1" />
+  <link rel="stylesheet" href="prediction-accuracy.css?v=1" />
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="meta" data-meta-active-view="current">
 <header class="app-shell-header meta-v2-header">
@@ -56,6 +57,7 @@
         <button class="meta-explore-card" type="button" data-meta-route="prep" data-tab="prep"><b>What should I play?</b><span>Model decks into the field you expect.</span></button>
         <button class="meta-explore-card" type="button" data-meta-route="matchups"><b>Matchups</b><span>Explore head-to-head evidence.</span></button>
         <button class="meta-explore-card" type="button" data-meta-route="decks"><b>Deck Explorer</b><span>Browse exact variants and performance.</span></button>
+        <button class="meta-explore-card" type="button" data-meta-route="accuracy"><b>Prediction accuracy</b><span>See how forecasts performed at IRL majors.</span></button>
       </div>
     </section>
   </section>
@@ -107,6 +109,14 @@
     <div id="deckExplorerList" class="deck-explorer-list"><div class="meta-empty">Loading deck data…</div></div>
   </section>
 
+  <section id="accuracy" class="meta-child accuracy-page hidden" hidden inert>
+    <header class="meta-child-header">
+      <button class="meta-back" type="button" data-meta-route="current">← Current meta</button>
+      <div class="meta-child-title"><div><div class="eyebrow">FORECAST REVIEW</div><h1>Prediction accuracy</h1><p>How closely frozen predictions matched eligible IRL major fields.</p></div></div>
+    </header>
+    <div id="accuracyContent"><div class="meta-empty">Loading prediction history…</div></div>
+  </section>
+
   <section id="deckDetail" class="meta-child deck-detail hidden" hidden inert>
     <header class="meta-child-header"><button class="meta-back" id="deckDetailBack" type="button">← Back</button><div id="deckDetailHead"></div></header>
     <div id="detailFieldPanel"></div><div id="deckDetailBody"></div>
@@ -125,7 +135,7 @@
 <script src="../_shared/recommendation-engine.js?v=1"></script>
 <script src="wsip-source.js?v=3"></script>
 <script src="field-builder.js?v=11"></script>
-<script src="meta-controls.js?v=10"></script>
+<script src="meta-controls.js?v=11"></script>
 <script src="prep.js?v=12"></script>
 <script src="wsip-polish.js?v=4"></script>
 <script src="wsip-reset-polish.js?v=3"></script>
@@ -134,7 +144,8 @@
 <script src="meta-explorer-v3.js?v=4"></script>
 <script src="meta-source-context.js?v=8"></script>
 <script src="detail-field.js?v=2"></script>
-<script src="meta-router.js?v=4"></script>
+<script src="prediction-accuracy.js?v=1"></script>
+<script src="meta-router.js?v=5"></script>
 <script src="../_shared/app-shell.js?v=8"></script>
 </body>
 </html>

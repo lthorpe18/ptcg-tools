@@ -66,12 +66,12 @@ jobs:
             'currentMetaPage','currentWindow','currentGroupingToggle',
             'prep','playFieldSource','playMatchupSource','playSourceContext',
             'prepFieldOverview','prepResults','fieldEditor',
-            'matchups','matchupPageSource','decks','deckPageSource','deckDetail'
+            'matchups','matchupPageSource','decks','deckPageSource','accuracy','accuracyContent','deckDetail'
           ];
           const missing = requiredIds.filter(id => !html.includes(`id="${id}"`));
           if (missing.length) throw new Error(`Missing V2 Meta hooks: ${missing.join(', ')}`);
 
-          const requiredScripts = ['meta-field.js','meta-release-loader.js','meta-core.js','meta-blend.js','recommendation-engine.js','meta-controls.js','prep.js','meta-home.js','meta-explorer-v3.js','meta-source-context.js','meta-router.js'];
+          const requiredScripts = ['meta-field.js','meta-release-loader.js','meta-core.js','meta-blend.js','recommendation-engine.js','meta-controls.js','prep.js','meta-home.js','meta-explorer-v3.js','meta-source-context.js','prediction-accuracy.js','meta-router.js'];
           const absentScripts = requiredScripts.filter(name => !html.includes(name));
           if (absentScripts.length) throw new Error(`Missing unified Meta scripts: ${absentScripts.join(', ')}`);
 

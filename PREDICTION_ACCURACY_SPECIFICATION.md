@@ -1,8 +1,8 @@
 # Prediction Accuracy & Formula Fitting — Specification
 
-**Status:** Checkpoints 1–2 accepted; Checkpoint 3 implemented for review — 9 September 2026
+**Status:** Checkpoints 1–3 accepted; Checkpoint 4 implemented for review — 10 September 2026
 **Previous programme:** Format/Rotation and Blended Meta v2 accepted through Checkpoint 9  
-**Next checkpoint:** Meta UI after Checkpoint 3 review
+**Next checkpoint:** Formula fitting/versioning after Checkpoint 4 review
 
 ## 1. Purpose and location
 
@@ -66,9 +66,9 @@ Current history is **not** sufficient for an honest Worlds backtest. Repository 
 
 1. **Specification/data audit — accepted and merged in PR #19.**
 2. **Immutable snapshots — accepted and merged in PR #20:** append-only forecast archive and index in scheduled release builds; see `PREDICTION_ACCURACY_CHECKPOINT_2.md`.
-3. **Accuracy engine — implemented for review:** eligible-event matching, data-quality guards, scoring and revisions; see `PREDICTION_ACCURACY_CHECKPOINT_3.md`.
-4. **Meta UI:** latest score, trend, event history and predicted-versus-actual detail.
+3. **Accuracy engine — accepted and merged in PR #21:** eligible-event matching, data-quality guards, scoring and revisions; see `PREDICTION_ACCURACY_CHECKPOINT_3.md`.
+4. **Meta UI — implemented for review:** latest score, trend, event history and predicted-versus-actual detail; see `PREDICTION_ACCURACY_CHECKPOINT_4.md`.
 5. **Formula fitting/versioning:** candidate replay, held-out comparison, draft/publish/rollback.
 6. **Connected acceptance:** scheduled pipeline, failure states, desktop/iPhone and documentation.
 
-Checkpoint 3 adds no UI or fitting engine. Worlds is retained but correctly unscored because no eligible pre-Day-1 snapshot exists.
+Checkpoint 4 adds no fitting controls. Worlds is retained and shown honestly as unscored because no eligible pre-Day-1 snapshot exists.

@@ -1,7 +1,7 @@
 # PTCG Tools — Master Product & Design Document
 
 **Status:** Current product source of truth  
-**Date:** 9 September 2026
+**Date:** 10 September 2026
 **Repository:** `lthorpe18/ptcg-tools`  
 **Public app:** `https://lthorpe18.github.io/ptcg-tools/`  
 **Current roadmap handoff:** `ROADMAP_HANDOFF_2026-09-07.md`
@@ -11,9 +11,9 @@
 
 Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`); the owner passed all six Event Prep device steps. Checkpoint 9's 128-test, deployed-desktop and six-step installed-iPhone/offline-resume gates all passed. Home, Meta, WSIP, Saved Expected Fields, exact deck detail and Event Prep now share the accepted format-aware prediction and persistence contract. The recovery programme is closed; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
-## Prediction accuracy programme — 9 September 2026
+## Prediction accuracy programme — 10 September 2026
 
-Checkpoints 1–2 are accepted and merged through PR #20 (`741b5d9`). Checkpoint 3 is implemented for review in `PREDICTION_ACCURACY_CHECKPOINT_3.md`: scheduled builds now create immutable major actuals, enforce the exact-format/pre-Day-1/95%-coverage gates, and store Field accuracy, MAE and variance revisions. Worlds is correctly retained but unscored because snapshot history starts after Day 1. Checkpoint 4—the Meta UI—has not started.
+Checkpoints 1–3 are accepted and merged through PR #21 (`e543e13`). Checkpoint 4 is implemented for review in `PREDICTION_ACCURACY_CHECKPOINT_4.md`: Meta now exposes the latest score, trend, eligible-major history and predicted-versus-actual event detail without adding the deferred fitting controls. Worlds is shown honestly as unscored because snapshot history starts after Day 1.
 
 ## Checkpoint 5 accepted — 9 September 2026
 
