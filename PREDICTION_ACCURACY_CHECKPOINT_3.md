@@ -1,6 +1,6 @@
 # Prediction Accuracy — Checkpoint 3
 
-**Status:** Implemented for review — 9 September 2026
+**Status:** Accepted and merged in PR #21 (`e543e13`) — 10 September 2026
 **Scope:** Eligible-major accuracy engine only
 
 ## Delivered
@@ -19,4 +19,4 @@ World Championship San Francisco is retained as an eligible actual field: 792 of
 
 Validation: 137/137 automated tests pass, including cutoff, format, coverage, scoring, revision and immutability cases.
 
-No accuracy UI or formula fitting is included. Checkpoint 4 is the Meta Prediction accuracy interface.
+No accuracy UI or formula fitting is included. The owner authorised Checkpoint 4 after merge.

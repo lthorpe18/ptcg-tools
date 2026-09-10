@@ -10,7 +10,7 @@ Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17
 
 ## Prediction accuracy programme
 
-Checkpoints 1–2 are accepted and merged through PR #20 (`741b5d9`). Checkpoint 3's eligible-major accuracy engine is implemented for review; see `PREDICTION_ACCURACY_CHECKPOINT_3.md`. Worlds remains correctly unscored, so the first score will be the next compatible IRL major with a pre-Day-1 snapshot. Checkpoint 4 has not started.
+Checkpoints 1–3 are accepted and merged through PR #21 (`e543e13`). Checkpoint 4's Meta accuracy interface is implemented for review; see `PREDICTION_ACCURACY_CHECKPOINT_4.md`. Worlds remains correctly unscored, so the first score will be the next compatible IRL major with a pre-Day-1 snapshot. Checkpoint 5 has not started.
 
 ## Checkpoint 5 accepted — 9 September 2026
 
@@ -179,6 +179,6 @@ Correct calculations alone are insufficient. The feature must remain responsive,
 
 Use one dedicated chat per bounded checkpoint. Each chat must state its scope, required output, verification gate and hard stop. If confidence falls, a regression appears or the checkpoint cannot be completed within the remaining allowance, stop with a precise handoff rather than continuing into another stage.
 
-The next action after Checkpoint 3 review is Prediction Accuracy Checkpoint 4: the Meta accuracy UI. After all six accuracy checkpoints comes the owner-led UI/UX consistency pass, then Collection only when explicitly reopened. Do not start Checkpoint 4 automatically.
+The next action after Checkpoint 4 review is Prediction Accuracy Checkpoint 5: formula fitting and versioning. After all six accuracy checkpoints comes the owner-led UI/UX consistency pass, then Collection only when explicitly reopened. Do not start Checkpoint 5 automatically.
 
 Checkpoint 4 follow-up: the Home hero now explicitly requests Blended on cold and mounted Meta. The owner subsequently reported this handoff failure; device retest of the correction remains pending. PR #12 includes both the handoff correction and Home methodology-link removal. On 8 September the owner authorized merging this follow-up and proceeding to Checkpoint 5.

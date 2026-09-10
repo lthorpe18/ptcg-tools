@@ -6,9 +6,10 @@
     prep: 'prep',
     matchups: 'matchups',
     decks: 'decks',
+    accuracy: 'accuracy',
     detail: 'deckDetail',
   };
-  const CHILD_VIEWS = new Set(['current', 'prep', 'matchups', 'decks']);
+  const CHILD_VIEWS = new Set(['current', 'prep', 'matchups', 'decks', 'accuracy']);
   const BASE_URL = new URL('./', location.href);
   let route = { view: 'current', detail: null };
   let restoredFieldContext=null;
@@ -80,6 +81,7 @@
     if (route.view === 'prep') window.MetaPrep?.activate?.();
     if (route.view === 'matchups') window.MetaExplore?.renderMatchups?.();
     if (route.view === 'decks') window.MetaExplore?.renderDeckExplorer?.();
+    if (route.view === 'accuracy') window.MetaAccuracy?.activate?.();
     if (route.view === 'detail' && route.detail) window.MetaExplore?.showDetail?.(route.detail);
     window.MetaControls?.sync?.();
     window.MetaContext?.render?.();

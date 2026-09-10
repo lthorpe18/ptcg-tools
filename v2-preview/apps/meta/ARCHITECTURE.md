@@ -10,7 +10,7 @@ Keep analysis concise. Essential format/status stays inline; **How this is calcu
 
 ## Locked ownership
 
-Meta uses one shared state/data/control contract across Current Meta, What Should I Play, Matchups, Deck Explorer and Deck Detail.
+Meta uses one shared state/data/control contract across Current Meta, What Should I Play, Matchups, Deck Explorer and Deck Detail. Prediction Accuracy is a separate, read-only consumer of the generated accuracy archive.
 
 ### MetaState
 `meta-core.js` owns the selected evidence scopes:
@@ -58,9 +58,9 @@ Blended is a current-field presentation, not a third matchup/detail evidence sou
 ### Navigation
 Navigation remains separate from evidence state, with one owner at each boundary:
 - `meta-router.js` is the only owner of the active Meta view;
-- its route is a discriminated state: `current | prep | matchups | decks | detail`, where `detail` must also carry exact deck name, Online/IRL source and origin;
-- the five view roots exist statically in `index.html`, and every route transition sets `hidden` and `inert` on all inactive roots before rendering the active root;
-- child views use semantic hashes: `#prep`, `#matchups`, `#decks` (with existing What Should I Play aliases accepted on entry);
+- its route is a discriminated state: `current | prep | matchups | decks | accuracy | detail`, where `detail` must also carry exact deck name, Online/IRL source and origin;
+- the six view roots exist statically in `index.html`, and every route transition sets `hidden` and `inert` on all inactive roots before rendering the active root;
+- child views use semantic hashes: `#prep`, `#matchups`, `#decks`, `#accuracy` (with existing What Should I Play aliases accepted on entry);
 - `meta-explorer-v3.js` renders Deck Explorer, Matchups and exact-variant Deck Detail, but it never changes sibling visibility or browser history;
 - exact-variant detail routes use `?deck=<exact variant>&source=<online|irl>&from=<origin>#detail`;
 - when embedded, `persistent-shell.js` is the sole browser-history owner. Meta requests a route with `ptcg:shell-navigate`; the shell restores one with `ptcg:shell-apply-route` without reloading the iframe;
@@ -134,6 +134,8 @@ The release consists of a small manifest and purpose-specific files:
 - IRL matchup and result files.
 
 `meta-release-loader.js` is the sole browser owner of release discovery, checksum validation and last-known-good Cache Storage. It activates a new release only after its core has been validated. `meta-core.js` reads that release and lazy-loads history/matchups/results only when the active view needs them.
+
+Prediction Accuracy is also lazy. `prediction-accuracy.js` requests its separate generated index only when `#accuracy` becomes active, then loads the selected actual/evaluation revisions. It must not add that archive to normal Current Meta, Home or WSIP startup. The current empty-score state remains useful: it identifies eligible majors and explains why an event was not scored.
 
 Do not restore `CACHE`, `DATA`, `DeckAggregate`, `IRLLabs` or browser-to-Limitless compatibility globals. Shared public evidence is a generated GitHub Pages asset; Supabase remains the store for private per-account state.
 
