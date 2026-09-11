@@ -14,21 +14,24 @@ const deck={
 };
 
 function match(overrides={}){
-  return {
+  const base={
     id:overrides.id||Math.random().toString(36),
     deckId:'deck-a',
     deckNameSnapshot:'Deck A',
     result:'win',
     source:'ptcgl',
     playedAt:'2026-09-10T12:00:00.000Z',
+    createdAt:'2026-09-10T12:00:00.000Z',
     opponentArchetype:'Gardevoir',
     deckVersionId:'v1',
-    listHash:'hash-1',
-    ...overrides
+    listHash:'hash-1'
   };
+  const row={...base,...overrides};
+  if(!('games' in overrides))row.games=[{id:`${row.id}-g1`,number:1,result:row.result}];
+  return row;
 }
 
-test('aggregates only canonically linked matches and keeps tournament evidence separate',()=>{
+test('aggregates only canonically linked evidence and keeps tournament matches separate',()=>{
   const rows=[
     match({id:'t1',result:'win',source:'irl',participationId:'event-1',eventName:'League Cup'}),
     match({id:'p1',result:'loss',source:'ptcgl',playedAt:'2026-09-09T12:00:00.000Z'}),
@@ -40,15 +43,37 @@ test('aggregates only canonically linked matches and keeps tournament evidence s
 
   assert.equal(out.matches.length,4);
   assert.equal(out.scoredMatches.length,3);
+  assert.equal(out.scoredGames.length,3);
   assert.equal(out.unscoredCount,1);
   assert.deepEqual(out.overall,{wins:1,losses:1,draws:1,total:3,winRate:1/3});
   assert.deepEqual(out.tournament,{wins:1,losses:0,draws:0,total:1,winRate:1});
+  assert.deepEqual(out.tournamentGames,{wins:1,losses:0,draws:0,total:1,winRate:1});
   assert.deepEqual(out.training,{wins:0,losses:1,draws:1,total:2,winRate:0});
   assert.deepEqual(out.ptcgl,{wins:0,losses:1,draws:0,total:1,winRate:0});
   assert.deepEqual(out.inPersonTraining,{wins:0,losses:0,draws:1,total:1,winRate:0});
 });
 
-test('groups personal results by opponent archetype including unknown opponents',()=>{
+test('personal matchup evidence is game-level while tournament record stays match-level',()=>{
+  const rows=[
+    match({
+      id:'cup-round',source:'irl',participationId:'cup',result:'win',opponentArchetype:'Dragapult',
+      games:[{id:'g1',number:1,result:'win'},{id:'g2',number:2,result:'loss'},{id:'g3',number:3,result:'win'}]
+    }),
+    match({
+      id:'training-set',source:'irl',result:'loss',opponentArchetype:'Dragapult',playedAt:'2026-09-09T12:00:00.000Z',
+      games:[{id:'g4',number:1,result:'loss'},{id:'g5',number:2,result:'loss'},{id:'g6',number:3,result:'win'}]
+    })
+  ];
+  const out=results.aggregateDeck(deck,rows);
+
+  assert.deepEqual(out.overall,{wins:3,losses:3,draws:0,total:6,winRate:.5});
+  assert.deepEqual(out.tournament,{wins:1,losses:0,draws:0,total:1,winRate:1});
+  assert.deepEqual(out.tournamentGames,{wins:2,losses:1,draws:0,total:3,winRate:2/3});
+  assert.deepEqual(out.training,{wins:1,losses:2,draws:0,total:3,winRate:1/3});
+  assert.deepEqual(out.opponents[0].stats,{wins:3,losses:3,draws:0,total:6,winRate:.5});
+});
+
+test('groups personal game results by opponent archetype including unknown opponents',()=>{
   const rows=[
     match({id:'g1',result:'win',opponentArchetype:'Dragapult'}),
     match({id:'g2',result:'loss',opponentArchetype:'Dragapult',playedAt:'2026-09-09T12:00:00.000Z'}),
@@ -120,7 +145,7 @@ test('archetype scope does not guess from deck names when archetype metadata dif
   assert.deepEqual(out.deckIds,['deck-a']);
 });
 
-test('recent evidence is newest-first and recent form is capped at five scored matches',()=>{
+test('recent evidence is newest-first and recent form is capped at five games',()=>{
   const rows=Array.from({length:7},(_,index)=>match({
     id:`m${index}`,
     result:index%2?'loss':'win',
@@ -133,10 +158,20 @@ test('recent evidence is newest-first and recent form is capped at five scored m
   assert.deepEqual(out.recentForm,['win','loss','win','loss','win']);
 });
 
-test('sample labels avoid overstating tiny evidence sets',()=>{
-  assert.equal(results.sampleLabel(0),'No linked results');
+test('same-day evidence uses creation time as the newest-first tie break',()=>{
+  const rows=[
+    match({id:'older',opponentArchetype:'Older',createdAt:'2026-09-11T18:00:00.000Z',playedAt:'2026-09-11T12:00:00.000Z'}),
+    match({id:'newer',opponentArchetype:'Newer',createdAt:'2026-09-11T21:00:00.000Z',playedAt:'2026-09-11T12:00:00.000Z'})
+  ];
+  const out=results.aggregateDeck(deck,rows);
+  assert.equal(out.recent[0].id,'newer');
+  assert.equal(out.opponents[0].label,'Newer');
+});
+
+test('sample labels avoid overstating tiny game samples',()=>{
+  assert.equal(results.sampleLabel(0),'No linked games');
   assert.equal(results.sampleLabel(3),'Very small sample');
   assert.equal(results.sampleLabel(8),'Small sample');
   assert.equal(results.sampleLabel(15),'Developing sample');
-  assert.equal(results.sampleLabel(25),'25 matches');
+  assert.equal(results.sampleLabel(25),'25 games');
 });
