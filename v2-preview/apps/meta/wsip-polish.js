@@ -94,13 +94,17 @@
     const format = definition.format || definition.provenance?.targetFormat || '';
     const coverage = Number(window.PrepField?.getOriginalCoverage?.());
     const parts = [fieldModeLabel(), format];
-    if (Number.isFinite(coverage) && coverage > 0) parts.push(`${Math.round(coverage * 100)}% represented`);
+    if (Number.isFinite(coverage) && coverage > 0) parts.push(`${Math.round(coverage * 100)}%`);
     return parts.filter(Boolean).join(' · ');
   }
 
   function matchupLabel() {
     const source = $('playMatchupSource')?.value || 'combined';
-    return source === 'online' ? 'Online H2H' : source === 'irl' ? 'IRL H2H' : 'Online + IRL H2H';
+    return source === 'online' ? 'Online H2H' : source === 'irl' ? 'IRL H2H' : 'Online+IRL H2H';
+  }
+
+  function setupSummary() {
+    return [fieldSummary(), matchupLabel()].filter(Boolean).join(' · ');
   }
 
   function ensureSimplifiedLayout() {
@@ -115,32 +119,33 @@
     const subtitle = title.querySelector('p');
     setText(subtitle, 'Best choices for the field you expect.');
 
-    if (!$('wsipEventContext')) {
-      const event = document.createElement('section');
+    if (!$('wsipContextCard')) {
+      $('wsipEventContext')?.remove();
+      $('wsipFieldEditor')?.remove();
+      $('wsipAnalysisSettings')?.remove();
+
+      const card = document.createElement('section');
+      card.id = 'wsipContextCard';
+      card.className = 'wsip-context-card';
+
+      const event = document.createElement('div');
       event.id = 'wsipEventContext';
       event.className = 'wsip-event-context';
       event.innerHTML = `<div><small>Preparing for</small><strong id="wsipEventName">Next tournament</strong><span id="wsipEventMeta"></span></div><a href="../events/" class="wsip-context-action" id="wsipEventAction">Change</a>`;
-      title.after(event);
-    }
 
-    if (!$('wsipFieldEditor')) {
-      const details = document.createElement('details');
-      details.id = 'wsipFieldEditor';
-      details.className = 'wsip-field-editor';
-      details.innerHTML = `<summary><span><small>Expected field</small><strong id="wsipFieldSummary">Current field</strong></span><span class="wsip-context-action">Edit</span></summary><div class="wsip-field-editor-body"></div>`;
-      $('wsipEventContext')?.after(details);
-      details.querySelector('.wsip-field-editor-body')?.appendChild(fieldSurface);
-    }
+      const setup = document.createElement('details');
+      setup.id = 'wsipFieldEditor';
+      setup.className = 'wsip-field-editor';
+      setup.innerHTML = `<summary><span><small>Setup</small><strong id="wsipSetupSummary">Current field</strong></span><span class="wsip-context-action">Adjust</span></summary><div class="wsip-setup-body"><div class="wsip-field-editor-body"></div><div class="wsip-analysis-body"></div></div>`;
 
-    if (!$('wsipAnalysisSettings')) {
-      const details = document.createElement('details');
-      details.id = 'wsipAnalysisSettings';
-      details.className = 'wsip-analysis-settings';
-      details.innerHTML = `<summary><span><small>Analysis settings</small><strong id="wsipAnalysisSummary">Online + IRL H2H</strong></span><span class="wsip-settings-chevron">⌄</span></summary><div class="wsip-analysis-body"></div>`;
-      $('wsipFieldEditor')?.after(details);
-      const body = details.querySelector('.wsip-analysis-body');
-      body?.appendChild(controls);
-      body?.appendChild(sourceContext);
+      card.appendChild(event);
+      card.appendChild(setup);
+      title.after(card);
+
+      setup.querySelector('.wsip-field-editor-body')?.appendChild(fieldSurface);
+      const analysis = setup.querySelector('.wsip-analysis-body');
+      analysis?.appendChild(controls);
+      analysis?.appendChild(sourceContext);
     }
 
     prep.querySelector('.wsip-step')?.setAttribute('aria-hidden', 'true');
@@ -152,10 +157,7 @@
     setText($('wsipEventName'), event ? eventName(event) : 'No upcoming attending event');
     setText($('wsipEventMeta'), event ? eventMeta(event) : 'Choose an event in Compete when you are ready.');
     setText($('wsipEventAction'), event ? 'Change' : 'Choose');
-    setText($('wsipFieldSummary'), fieldSummary() || 'Expected field');
-    const definition = window.PrepField?.definition?.() || {};
-    const format = definition.format || definition.provenance?.targetFormat || '';
-    setText($('wsipAnalysisSummary'), [matchupLabel(), format].filter(Boolean).join(' · '));
+    setText($('wsipSetupSummary'), setupSummary() || 'Expected field');
   }
 
   function installSavedFieldAutoLoad() {
