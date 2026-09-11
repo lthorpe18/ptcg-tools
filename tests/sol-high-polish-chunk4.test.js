@@ -11,14 +11,16 @@ test('Training history is explicitly newest-first including same-day entries',()
   assert.doesNotThrow(()=>new Function(source));
   assert.match(source,/Date\.parse\(b\.playedAt\)-Date\.parse\(a\.playedAt\)/);
   assert.match(source,/Date\.parse\(b\.createdAt\)-Date\.parse\(a\.createdAt\)/);
+  assert.match(source,/PTCGPersonalResults\?\.compareRecent/);
 });
 
 test('Training history uses canonical deck sprites for both sides without regressing import flow',()=>{
   const html=read('v2-preview/apps/decklists/index.html');
   const source=read('v2-preview/apps/decklists/training.js');
   const css=read('v2-preview/apps/decklists/training-history-polish.css');
-  assert.match(html,/training-history-polish\.css\?v=1/);
-  assert.match(html,/training\.js\?v=5/);
+  assert.match(html,/training-history-polish\.css\?v=2/);
+  assert.match(html,/training\.js\?v=6/);
+  assert.match(html,/personal-results\.js\?v=2/);
   assert.match(source,/deckArchetypes=new Map/);
   assert.match(source,/window\.DeckSprites\?\.html/);
   assert.match(source,/training-matchup-side/);
