@@ -73,20 +73,21 @@
     el.hidden=false;
   }
 
+  function spriteVisual(name){
+    const sprites=window.DeckSprites;
+    const slugs=sprites?.slugs?.(name)||[];
+    if(!slugs.length)return `<span class="home-meta-hero-fallback">${esc(String(name||'?').charAt(0))}</span>`;
+    const primary=`<img class="home-meta-hero-primary" src="${sprites.url(slugs[0])}" alt="" loading="lazy" decoding="async">`;
+    const secondary=slugs[1]?`<span class="home-meta-hero-secondary-badge"><img class="home-meta-hero-secondary" src="${sprites.url(slugs[1])}" alt="" loading="lazy" decoding="async"></span>`:'';
+    return `<span class="home-meta-hero-sprite">${primary}${secondary}</span>`;
+  }
+
   function compactSprite(name){
-    const html=window.DeckSprites?.html?.(name,{size:24})||`<span class="deck-sprite deck-sprite-fallback">${esc(String(name||'?').charAt(0))}</span>`;
-    return `<span class="home-preview-sprite" style="flex:0 0 52px;width:52px;height:32px">${html}</span>`;
+    return `<span class="home-preview-sprite" title="${esc(name)}" aria-label="${esc(name)}">${spriteVisual(name)}</span>`;
   }
 
   function heroSprite(name){
-    const sprites=window.DeckSprites;
-    const slugs=sprites?.slugs?.(name)||[];
-    if(!slugs.length){
-      return `<div class="home-meta-sprite-placeholder" title="${esc(name)}" aria-label="${esc(name)}"><span class="home-meta-hero-fallback">${esc(String(name||'?').charAt(0))}</span></div>`;
-    }
-    const primary=`<img class="home-meta-hero-primary" src="${sprites.url(slugs[0])}" alt="" loading="lazy" decoding="async">`;
-    const secondary=slugs[1]?`<span class="home-meta-hero-secondary-badge"><img class="home-meta-hero-secondary" src="${sprites.url(slugs[1])}" alt="" loading="lazy" decoding="async"></span>`:'';
-    return `<div class="home-meta-sprite-placeholder" title="${esc(name)}" aria-label="${esc(name)}"><span class="home-meta-hero-sprite">${primary}${secondary}</span></div>`;
+    return `<div class="home-meta-sprite-placeholder" title="${esc(name)}" aria-label="${esc(name)}">${spriteVisual(name)}</div>`;
   }
 
   function groupingMode(){
