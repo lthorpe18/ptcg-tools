@@ -8,14 +8,24 @@
 
   const SCORED_RESULTS=new Set(['win','loss','draw']);
 
-  function timeValue(row){
-    const played=Date.parse(row?.playedAt||'');
-    if(Number.isFinite(played))return played;
-    const created=Date.parse(row?.createdAt||'');
-    return Number.isFinite(created)?created:0;
+  function parsedTime(value){
+    const parsed=Date.parse(value||'');
+    return Number.isFinite(parsed)?parsed:0;
   }
 
-  function sortRecent(rows){return [...(rows||[])].sort((a,b)=>timeValue(b)-timeValue(a))}
+  function compareRecent(a,b){
+    const playedDiff=parsedTime(b?.playedAt)-parsedTime(a?.playedAt);
+    if(playedDiff)return playedDiff;
+    const createdDiff=parsedTime(b?.createdAt)-parsedTime(a?.createdAt);
+    if(createdDiff)return createdDiff;
+    if(a?.parentMatchId&&a.parentMatchId===b?.parentMatchId){
+      const gameDiff=(Number(b?.gameNumber)||0)-(Number(a?.gameNumber)||0);
+      if(gameDiff)return gameDiff;
+    }
+    return String(b?.id||'').localeCompare(String(a?.id||''));
+  }
+
+  function sortRecent(rows){return [...(rows||[])].sort(compareRecent)}
 
   function stats(rows=[]){
     const out={wins:0,losses:0,draws:0,total:0,winRate:null};
@@ -37,11 +47,11 @@
 
   function sampleLabel(total){
     const count=Number(total)||0;
-    if(!count)return 'No linked results';
+    if(!count)return 'No linked games';
     if(count<5)return 'Very small sample';
     if(count<10)return 'Small sample';
     if(count<20)return 'Developing sample';
-    return `${count} matches`;
+    return `${count} games`;
   }
 
   function sourceKind(match){
@@ -88,58 +98,81 @@
     return !!(version.listHash&&match.listHash&&version.listHash===match.listHash);
   }
 
+  function gamesForMatch(match){
+    const source=Array.isArray(match?.games)&&match.games.length?match.games:[{result:match?.result,wentFirst:match?.wentFirst}];
+    return source.map((game,index)=>({
+      ...match,
+      id:game?.id||`${match?.id||'match'}:game:${index+1}`,
+      parentMatchId:match?.id||null,
+      gameNumber:Number(game?.number)||index+1,
+      result:game?.result||'unknown',
+      wentFirst:typeof game?.wentFirst==='boolean'?game.wentFirst:match?.wentFirst,
+      gameNotes:game?.notes||''
+    }));
+  }
+
+  function gameRows(matches=[]){
+    return sortRecent((matches||[]).flatMap(gamesForMatch));
+  }
+
   function grouped(rows,keyOf,labelOf){
     const map=new Map();
-    for(const row of rows){
+    for(const row of sortRecent(rows)){
       const key=keyOf(row);
       if(!map.has(key))map.set(key,{key,label:labelOf(row),matches:[],lastPlayedAt:row?.playedAt||row?.createdAt||null});
-      const bucket=map.get(key);
-      bucket.matches.push(row);
-      if(timeValue(row)>timeValue({playedAt:bucket.lastPlayedAt}))bucket.lastPlayedAt=row?.playedAt||row?.createdAt||bucket.lastPlayedAt;
+      map.get(key).matches.push(row);
     }
     return [...map.values()].map(bucket=>({...bucket,stats:stats(bucket.matches)}));
   }
 
   function summarise(linkedRows=[],deck=null){
     const linked=sortRecent(linkedRows);
-    const scored=linked.filter(match=>SCORED_RESULTS.has(match.result));
-    const tournament=scored.filter(match=>sourceKind(match)==='tournament');
-    const training=scored.filter(match=>sourceKind(match)!=='tournament');
-    const ptcgl=training.filter(match=>sourceKind(match)==='ptcgl');
-    const inPersonTraining=training.filter(match=>sourceKind(match)==='training-irl');
+    const scoredMatches=linked.filter(match=>SCORED_RESULTS.has(match.result));
+    const games=gameRows(linked);
+    const scoredGames=games.filter(game=>SCORED_RESULTS.has(game.result));
+    const tournamentMatches=scoredMatches.filter(match=>sourceKind(match)==='tournament');
+    const tournamentGames=scoredGames.filter(game=>sourceKind(game)==='tournament');
+    const trainingGames=scoredGames.filter(game=>sourceKind(game)!=='tournament');
+    const ptcglGames=trainingGames.filter(game=>sourceKind(game)==='ptcgl');
+    const inPersonTrainingGames=trainingGames.filter(game=>sourceKind(game)==='training-irl');
     const opponents=grouped(
-      scored,
-      match=>String(match?.opponentArchetype||'Unknown').trim()||'Unknown',
-      match=>String(match?.opponentArchetype||'Unknown').trim()||'Unknown'
-    ).sort((a,b)=>b.stats.total-a.stats.total||timeValue(b.matches[0])-timeValue(a.matches[0])||a.label.localeCompare(b.label));
+      scoredGames,
+      game=>String(game?.opponentArchetype||'Unknown').trim()||'Unknown',
+      game=>String(game?.opponentArchetype||'Unknown').trim()||'Unknown'
+    ).sort((a,b)=>b.stats.total-a.stats.total||compareRecent(a.matches[0],b.matches[0])||a.label.localeCompare(b.label));
 
     let versions=[];
     if(deck){
       const versionMap=new Map();
-      for(const match of scored){
-        const version=resolveVersion(deck,match);
-        if(!versionMap.has(version.key))versionMap.set(version.key,{...version,matches:[],lastPlayedAt:match.playedAt||match.createdAt||null});
-        versionMap.get(version.key).matches.push(match);
+      for(const game of scoredGames){
+        const version=resolveVersion(deck,game);
+        if(!versionMap.has(version.key))versionMap.set(version.key,{...version,matches:[]});
+        versionMap.get(version.key).matches.push(game);
       }
       versions=[...versionMap.values()]
-        .map(bucket=>({...bucket,stats:stats(bucket.matches)}))
-        .sort((a,b)=>timeValue(b.matches[0])-timeValue(a.matches[0])||b.stats.total-a.stats.total);
+        .map(bucket=>({...bucket,matches:sortRecent(bucket.matches),stats:stats(bucket.matches)}))
+        .sort((a,b)=>compareRecent(a.matches[0],b.matches[0])||b.stats.total-a.stats.total);
     }
 
     return {
       matches:linked,
-      scoredMatches:scored,
-      unscoredCount:linked.length-scored.length,
-      overall:stats(scored),
-      tournament:stats(tournament),
-      training:stats(training),
-      ptcgl:stats(ptcgl),
-      inPersonTraining:stats(inPersonTraining),
+      scoredMatches,
+      games,
+      scoredGames,
+      unscoredCount:games.length-scoredGames.length,
+      unscoredMatchCount:linked.length-scoredMatches.length,
+      overall:stats(scoredGames),
+      tournament:stats(tournamentMatches),
+      tournamentGames:stats(tournamentGames),
+      training:stats(trainingGames),
+      ptcgl:stats(ptcglGames),
+      inPersonTraining:stats(inPersonTrainingGames),
       opponents,
       versions,
-      recent:scored.slice(0,8),
-      recentForm:scored.slice(0,5).map(match=>match.result),
-      sampleLabel:sampleLabel(scored.length)
+      recent:scoredMatches.slice(0,8),
+      recentGames:scoredGames.slice(0,12),
+      recentForm:scoredGames.slice(0,5).map(game=>game.result),
+      sampleLabel:sampleLabel(scoredGames.length)
     };
   }
 
@@ -168,10 +201,10 @@
     const linked=(matches||[]).filter(match=>ids.has(match?.deckId));
     const summary=summarise(linked,null);
     const deckRows=grouped(
-      summary.scoredMatches,
-      match=>match?.deckId||'unknown',
-      match=>deckById.get(match?.deckId)?.name||match?.deckNameSnapshot||'Unknown deck'
-    ).sort((a,b)=>b.stats.total-a.stats.total||timeValue(b.matches[0])-timeValue(a.matches[0])||a.label.localeCompare(b.label));
+      summary.scoredGames,
+      game=>game?.deckId||'unknown',
+      game=>deckById.get(game?.deckId)?.name||game?.deckNameSnapshot||'Unknown deck'
+    ).sort((a,b)=>b.stats.total-a.stats.total||compareRecent(a.matches[0],b.matches[0])||a.label.localeCompare(b.label));
     return {
       ...summary,
       scope:'archetype',
@@ -187,5 +220,5 @@
     return result;
   }
 
-  return {SCORED_RESULTS,stats,recordText,sampleLabel,sourceKind,normaliseArchetype,versionLabel,resolveVersion,matchesVersion,aggregateDeck,aggregateVersion,aggregateArchetype,aggregateAll,sortRecent};
+  return {SCORED_RESULTS,stats,recordText,sampleLabel,sourceKind,normaliseArchetype,versionLabel,resolveVersion,matchesVersion,gamesForMatch,gameRows,aggregateDeck,aggregateVersion,aggregateArchetype,aggregateAll,sortRecent,compareRecent};
 });

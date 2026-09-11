@@ -20,10 +20,16 @@
   }
   function sourceLabel(match){
     if(match.participationId)return match.eventName||'Tournament';
-    return match.source==='ptcgl'?'PTCGL':'In-person training';
+    return match.source==='ptcgl'?'PTCGL':'In person';
   }
   function record(stats){return engine.recordText(stats)}
-  function countText(total){return `${total} ${total===1?'match':'matches'}`}
+  function gameCount(total){return `${total} ${total===1?'game':'games'}`}
+  function matchCount(total){return `${total} ${total===1?'match':'matches'}`}
+  function matchScore(match){
+    const score=window.PTCGMatchStore.score(match);
+    const total=score.wins+score.losses+score.draws;
+    return total>1?`${score.wins}–${score.losses}–${score.draws}`:null;
+  }
 
   function setupResultsLayout(){
     const panel=$('deckResultsPanel');
@@ -49,7 +55,7 @@
 
     const head=panel.querySelector('.app-section-head');
     const copy=panel.querySelector('.deck-results-head-copy p');
-    if(copy)copy.textContent='Review your own Training Log and Tournament Day evidence at the level that matters.';
+    if(copy)copy.hidden=true;
     if(head&&!$('deckResultsScopeBar')){
       head.insertAdjacentHTML('afterend',`
         <div id="deckResultsScopeBar" class="deck-results-scope-bar">
@@ -60,7 +66,6 @@
           </div>
           <label id="deckResultsVersionWrap" class="deck-results-version" hidden><span>Exact version</span><select id="deckResultsVersion" aria-label="Exact deck version"></select></label>
         </div>
-        <p id="deckResultsContext" class="deck-results-context"></p>
       `);
     }
 
@@ -72,6 +77,10 @@
     }
     const emptyCopy=panel.querySelector('#deckResultsEmpty p');
     if(emptyCopy)emptyCopy.id='deckResultsEmptyCopy';
+    const recentTitle=panel.querySelector('.deck-results-recent h3');
+    const recentHint=panel.querySelector('.deck-results-recent .deck-results-section-head span');
+    if(recentTitle)recentTitle.textContent='Recent entries';
+    if(recentHint)recentHint.textContent='Newest first';
   }
 
   function scheduleLibrary(){
@@ -97,10 +106,10 @@
       if(!summary){summary=document.createElement('div');summary.className='deck-result-summary';copy.appendChild(summary)}
       if(result?.overall.total){
         summary.classList.remove('empty');
-        summary.textContent=`${record(result.overall)} · ${pct(result.overall.winRate)} · ${countText(result.overall.total)}`;
+        summary.textContent=`${record(result.overall)} · ${pct(result.overall.winRate)} · ${gameCount(result.overall.total)}`;
       }else{
         summary.classList.add('empty');
-        summary.textContent='No linked results yet';
+        summary.textContent='No linked games yet';
       }
     });
   }
@@ -122,22 +131,24 @@
   }
 
   function metric(label,value,sub=''){return `<div class="deck-results-metric"><b>${esc(value)}</b><span>${esc(label)}${sub?` · ${esc(sub)}`:''}</span></div>`}
-  function sourceBox(label,stats){return `<div class="deck-results-source"><b>${esc(record(stats))}</b><span>${esc(label)} · ${esc(countText(stats.total))}</span></div>`}
+  function sourceBox(label,stats){return `<div class="deck-results-source"><b>${esc(record(stats))}</b><span>${esc(label)} · ${esc(gameCount(stats.total))}</span></div>`}
   function breakdownRows(rows){
     if(!rows.length)return '<div class="deck-results-empty">No evidence yet.</div>';
-    return rows.map(row=>`<div class="deck-results-row"><div class="deck-results-row-main"><b>${esc(row.label)}</b><small>${esc(countText(row.stats.total))}</small></div><div class="deck-results-row-stat"><b>${esc(record(row.stats))}</b><small>${esc(pct(row.stats.winRate))}</small></div></div>`).join('');
+    return rows.map(row=>`<div class="deck-results-row"><div class="deck-results-row-main"><b>${esc(row.label)}</b><small>${esc(gameCount(row.stats.total))}</small></div><div class="deck-results-row-stat"><b>${esc(record(row.stats))}</b><small>${esc(pct(row.stats.winRate))}</small></div></div>`).join('');
   }
   function recentHref(match){
     if(match.participationId)return `../events/tournament-day.html?participation=${encodeURIComponent(match.participationId)}`;
     return `?trainingMatch=${encodeURIComponent(match.id)}`;
   }
   function recentRows(rows,scope,deckById){
-    if(!rows.length)return '<div class="deck-results-empty">No scored matches yet.</div>';
+    if(!rows.length)return '<div class="deck-results-empty">No scored entries yet.</div>';
     return rows.map(match=>{
       const opponent=match.opponentArchetype||'Unknown opponent';
       const meta=[];
       if(scope==='archetype')meta.push(deckById.get(match.deckId)?.name||match.deckNameSnapshot||'Saved deck');
       meta.push(sourceLabel(match),shortDate(match.playedAt));
+      const score=matchScore(match);
+      if(score)meta.push(`${score} games`);
       if(match.deckVersionLabelSnapshot)meta.push(match.deckVersionLabelSnapshot);
       return `<a class="deck-results-match" href="${esc(recentHref(match))}"><span class="deck-results-badge ${esc(match.result)}">${esc(resultLetter(match.result))}</span><span class="deck-results-match-copy"><b>vs ${esc(opponent)}</b><small>${esc(meta.join(' · '))}</small></span><span class="deck-results-chevron">›</span></a>`;
     }).join('');
@@ -146,7 +157,7 @@
   function selectedVersion(deck){
     const versions=Array.isArray(deck?.versions)?deck.versions:[];
     if(!versions.length)return null;
-    let version=versions.find(row=>row.id===selectedVersionId)||versions.find(row=>row.id===deck.currentVersionId)||versions[versions.length-1];
+    const version=versions.find(row=>row.id===selectedVersionId)||versions.find(row=>row.id===deck.currentVersionId)||versions[versions.length-1];
     selectedVersionId=version?.id||null;
     return version||null;
   }
@@ -164,7 +175,7 @@
 
     const wrap=$('deckResultsVersionWrap'),select=$('deckResultsVersion');
     if(wrap)wrap.hidden=resultScope!=='version';
-    if(select&&versionAvailable){
+    if(select&&versionAvailable&&resultScope==='version'){
       const versions=[...deck.versions].reverse();
       select.innerHTML=versions.map(row=>`<option value="${esc(row.id)}">${esc(engine.versionLabel(row))}</option>`).join('');
       if(version?.id)select.value=version.id;
@@ -177,16 +188,10 @@
     return engine.aggregateDeck(deck,matches);
   }
 
-  function scopeContext(deck,result,version){
-    if(resultScope==='archetype')return `${deck.archetype} · ${result.deckIds.length} saved ${result.deckIds.length===1?'deck':'decks'} · every linked exact list`;
-    if(resultScope==='version')return `${deck.name} · ${version?engine.versionLabel(version):'No saved version'} · exact saved 60`;
-    return `${deck.name} · all linked versions and working lists`;
-  }
-
   function emptyMessage(deck,version){
-    if(resultScope==='archetype')return `No scored matches are linked to saved decks currently classified as ${deck.archetype||'this archetype'}.`;
-    if(resultScope==='version')return `No scored matches are linked to ${version?engine.versionLabel(version):'this exact version'} yet.`;
-    return 'No scored matches are linked to this deck yet, across any of its exact lists.';
+    if(resultScope==='archetype')return `No linked games for ${deck.archetype||'this archetype'} yet.`;
+    if(resultScope==='version')return `No linked games for ${version?engine.versionLabel(version):'this version'} yet.`;
+    return 'No linked games for this deck yet.';
   }
 
   async function renderDeckResults(){
@@ -197,26 +202,24 @@
     const matches=window.PTCGMatchStore.all();
     const version=selectedVersion(deck);
     updateScopeControls(deck,version);
-    const effectiveVersion=resultScope==='version'?selectedVersion(deck):version;
+    const effectiveVersion=resultScope==='version'?selectedVersion(deck):null;
     const result=scopeResult(deck,decks,matches,effectiveVersion);
     const deckById=new Map(decks.map(row=>[row.id,row]));
     const low=result.overall.total>0&&result.overall.total<10;
 
     $('deckResultsSample').textContent=result.sampleLabel;
     $('deckResultsSample').classList.toggle('low',low);
-    $('deckResultsContext').textContent=scopeContext(deck,result,effectiveVersion);
 
-    const recordLabel=resultScope==='archetype'?'Archetype record':resultScope==='version'?'Version record':'Deck record';
     $('deckResultsMetrics').innerHTML=[
-      metric(recordLabel,record(result.overall),countText(result.overall.total)),
-      metric('Win rate',pct(result.overall.winRate)),
-      metric('Tournament',record(result.tournament),countText(result.tournament.total)),
-      metric('Training',record(result.training),countText(result.training.total))
+      metric('Game record',record(result.overall),gameCount(result.overall.total)),
+      metric('Game win rate',pct(result.overall.winRate)),
+      metric('Tournament matches',record(result.tournament),matchCount(result.tournament.total)),
+      metric('Training games',record(result.training),gameCount(result.training.total))
     ].join('');
     $('deckResultsSources').innerHTML=[
-      sourceBox('Tournament',result.tournament),
+      sourceBox('Tournament',result.tournamentGames),
       sourceBox('PTCGL',result.ptcgl),
-      sourceBox('In-person training',result.inPersonTraining)
+      sourceBox('In person',result.inPersonTraining)
     ].join('');
     $('deckResultsOpponents').innerHTML=breakdownRows(result.opponents);
     $('deckResultsOpponentCount').textContent=result.opponents.length?`${result.opponents.length} matchup${result.opponents.length===1?'':'s'}`:'';
@@ -233,7 +236,7 @@
     }
 
     $('deckResultsRecent').innerHTML=recentRows(result.recent,resultScope,deckById);
-    $('deckResultsUnscored').textContent=result.unscoredCount?`${result.unscoredCount} linked match${result.unscoredCount===1?'':'es'} without a scored result ${result.unscoredCount===1?'is':'are'} excluded from this view.`:'';
+    $('deckResultsUnscored').textContent=result.unscoredCount?`${result.unscoredCount} unscored game${result.unscoredCount===1?'':'s'} excluded.`:'';
     $('deckResultsUnscored').hidden=!result.unscoredCount;
     $('deckResultsEmptyCopy').textContent=emptyMessage(deck,effectiveVersion);
     $('deckResultsEmpty').hidden=result.overall.total>0;
