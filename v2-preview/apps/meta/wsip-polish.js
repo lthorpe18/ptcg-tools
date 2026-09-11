@@ -32,15 +32,142 @@
     setAttr(select, 'aria-label', active ? `Field: saved expected field ${name}` : 'Field source');
   }
 
+  function dayKey(value) {
+    return String(value || '').slice(0, 10);
+  }
+
+  function todayKey() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function allParticipations() {
+    if (window.PTCGStorage?.allParticipations) return window.PTCGStorage.allParticipations();
+    try {
+      const raw = JSON.parse(localStorage.getItem('ptcg-tools-v2') || '{}');
+      return Array.isArray(raw.eventParticipations) ? raw.eventParticipations : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function nextAttendingEvent() {
+    const today = todayKey();
+    return allParticipations()
+      .filter(row => {
+        const date = dayKey(row?.eventSnapshot?.startDate);
+        return row?.attendanceStatus === 'attending' && !row.archivedAt && !row.completion && date && date >= today;
+      })
+      .sort((a, b) => dayKey(a.eventSnapshot?.startDate).localeCompare(dayKey(b.eventSnapshot?.startDate)))[0] || null;
+  }
+
+  function eventName(row) {
+    const event = row?.eventSnapshot || {};
+    return event.name || event.venue || event.city || 'Upcoming tournament';
+  }
+
+  function eventMeta(row) {
+    const event = row?.eventSnapshot || {};
+    const key = dayKey(event.startDate);
+    let date = '';
+    if (key) {
+      const parsed = new Date(`${key}T12:00:00`);
+      if (!Number.isNaN(parsed.getTime())) date = parsed.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+    }
+    const parts = [date, event.type].filter(Boolean);
+    return parts.join(' · ');
+  }
+
+  function fieldModeLabel() {
+    const source = $('playFieldSource')?.value || 'blend';
+    if (source === 'expected') return savedFieldName() ? `Saved · ${savedFieldName()}` : 'Saved field';
+    if (source === 'online') return 'Online';
+    if (source === 'irl') return 'IRL';
+    return 'Blended';
+  }
+
+  function fieldSummary() {
+    const definition = window.PrepField?.definition?.() || {};
+    const format = definition.format || definition.provenance?.targetFormat || '';
+    const coverage = Number(window.PrepField?.getOriginalCoverage?.());
+    const parts = [fieldModeLabel(), format];
+    if (Number.isFinite(coverage) && coverage > 0) parts.push(`${Math.round(coverage * 100)}% represented`);
+    return parts.filter(Boolean).join(' · ');
+  }
+
+  function matchupLabel() {
+    const source = $('playMatchupSource')?.value || 'combined';
+    return source === 'online' ? 'Online H2H' : source === 'irl' ? 'IRL H2H' : 'Online + IRL H2H';
+  }
+
+  function ensureSimplifiedLayout() {
+    const prep = $('prep');
+    const header = prep?.querySelector('.meta-child-header');
+    const title = header?.querySelector('.meta-child-title');
+    const controls = header?.querySelector('.child-source-row');
+    const sourceContext = $('playSourceContext');
+    const fieldSurface = prep?.querySelector('.field-surface');
+    if (!prep || !header || !title || !controls || !sourceContext || !fieldSurface) return;
+
+    const subtitle = title.querySelector('p');
+    setText(subtitle, 'Best choices for the field you expect.');
+
+    if (!$('wsipEventContext')) {
+      const event = document.createElement('section');
+      event.id = 'wsipEventContext';
+      event.className = 'wsip-event-context';
+      event.innerHTML = `<div><small>Preparing for</small><strong id="wsipEventName">Next tournament</strong><span id="wsipEventMeta"></span></div><a href="../events/" class="wsip-context-action" id="wsipEventAction">Change</a>`;
+      title.after(event);
+    }
+
+    if (!$('wsipFieldEditor')) {
+      const details = document.createElement('details');
+      details.id = 'wsipFieldEditor';
+      details.className = 'wsip-field-editor';
+      details.innerHTML = `<summary><span><small>Expected field</small><strong id="wsipFieldSummary">Current field</strong></span><span class="wsip-context-action">Edit</span></summary><div class="wsip-field-editor-body"></div>`;
+      $('wsipEventContext')?.after(details);
+      details.querySelector('.wsip-field-editor-body')?.appendChild(fieldSurface);
+    }
+
+    if (!$('wsipAnalysisSettings')) {
+      const details = document.createElement('details');
+      details.id = 'wsipAnalysisSettings';
+      details.className = 'wsip-analysis-settings';
+      details.innerHTML = `<summary><span><small>Analysis settings</small><strong id="wsipAnalysisSummary">Online + IRL H2H</strong></span><span class="wsip-settings-chevron">⌄</span></summary><div class="wsip-analysis-body"></div>`;
+      $('wsipFieldEditor')?.after(details);
+      const body = details.querySelector('.wsip-analysis-body');
+      body?.appendChild(controls);
+      body?.appendChild(sourceContext);
+    }
+
+    prep.querySelector('.wsip-step')?.setAttribute('aria-hidden', 'true');
+  }
+
+  function syncCompactContext() {
+    ensureSimplifiedLayout();
+    const event = nextAttendingEvent();
+    setText($('wsipEventName'), event ? eventName(event) : 'No upcoming attending event');
+    setText($('wsipEventMeta'), event ? eventMeta(event) : 'Choose an event in Compete when you are ready.');
+    setText($('wsipEventAction'), event ? 'Change' : 'Choose');
+    setText($('wsipFieldSummary'), fieldSummary() || 'Expected field');
+    const definition = window.PrepField?.definition?.() || {};
+    const format = definition.format || definition.provenance?.targetFormat || '';
+    setText($('wsipAnalysisSummary'), [matchupLabel(), format].filter(Boolean).join(' · '));
+  }
+
   function installSavedFieldAutoLoad() {
     document.addEventListener('change', event => {
       if (event.target?.id !== 'savedMetaSelect') return;
       const id = event.target.value;
-      if (!id) { syncTopFieldControl(); return; }
+      if (!id) { syncTopFieldControl(); syncCompactContext(); return; }
       queueMicrotask(() => {
         const item = window.SavedMetas?.get?.(id);
         if (item) window.PrepField?.applyExpectedField?.(item);
         syncTopFieldControl();
+        syncCompactContext();
       });
     });
     document.addEventListener('change', event => {
@@ -49,9 +176,12 @@
         const saved = $('savedMetaSelect');
         if (saved) saved.value = '';
       }
-      queueMicrotask(syncTopFieldControl);
+      queueMicrotask(() => { syncTopFieldControl(); syncCompactContext(); });
     });
-    window.addEventListener('savedmetas:updated', () => queueMicrotask(syncTopFieldControl));
+    document.addEventListener('change', event => {
+      if (event.target?.id === 'playMatchupSource' || event.target?.id === 'playFieldFormat') queueMicrotask(syncCompactContext);
+    });
+    window.addEventListener('savedmetas:updated', () => queueMicrotask(() => { syncTopFieldControl(); syncCompactContext(); }));
   }
 
   function installLoadingGuard() {
@@ -64,6 +194,7 @@
       } finally {
         setLoading(false);
         syncTopFieldControl();
+        syncCompactContext();
       }
     };
     wrapped.__wsipPolished = true;
@@ -106,7 +237,7 @@
           }
         }
         document.querySelector('[data-meta-route="prep"]')?.click();
-        queueMicrotask(syncTopFieldControl);
+        queueMicrotask(() => { syncTopFieldControl(); syncCompactContext(); });
       });
       head.appendChild(panel);
     };
@@ -119,11 +250,15 @@
   }
 
   function boot() {
+    ensureSimplifiedLayout();
     installLoadingGuard();
     installSavedFieldAutoLoad();
     installDeckDetailFieldLens();
     syncTopFieldControl();
-    window.addEventListener('wsip:rendered', syncTopFieldControl);
+    syncCompactContext();
+    window.addEventListener('wsip:rendered', () => { syncTopFieldControl(); syncCompactContext(); });
+    window.addEventListener('ptcg:local-change', syncCompactContext);
+    window.addEventListener('pageshow', syncCompactContext);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true });
