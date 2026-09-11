@@ -22,10 +22,6 @@
     if(match.participationId)return match.eventName||'Tournament';
     return match.source==='ptcgl'?'PTCGL':'In-person training';
   }
-  function sourceKindLabel(match){
-    if(match.participationId)return 'Tournament';
-    return match.source==='ptcgl'?'PTCGL':'Training';
-  }
   function record(stats){return engine.recordText(stats)}
   function countText(total){return `${total} ${total===1?'match':'matches'}`}
 
@@ -37,6 +33,7 @@
     clearTimeout(detailRenderTimer);
     detailRenderTimer=setTimeout(()=>renderDeckResults().catch(console.error),0);
   }
+  function scheduleAll(){scheduleLibrary();scheduleDetail()}
 
   async function renderLibraryResults(){
     const grid=$('deckGrid');
@@ -169,11 +166,11 @@
     if(deckScreen){
       new MutationObserver(()=>{if(!deckScreen.hidden)scheduleDetail()}).observe(deckScreen,{attributes:true,attributeFilter:['hidden']});
     }
-    window.addEventListener('storage',()=>{scheduleLibrary();scheduleDetail()});
+    window.addEventListener('storage',scheduleAll);
+    window.addEventListener('ptcg:local-change',scheduleAll);
   }
 
   bind();
-  scheduleLibrary();
-  scheduleDetail();
+  scheduleAll();
   openTrainingMatchFromQuery().catch(console.error);
 })();
