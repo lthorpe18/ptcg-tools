@@ -52,6 +52,12 @@
     return 'training-irl';
   }
 
+  function versionLabel(version){
+    const sequence=version?.label||`V${version?.ordinal||1}`;
+    const name=String(version?.name||'').trim();
+    return name?`${sequence} · ${name}`:sequence;
+  }
+
   function resolveVersion(deck,match){
     const versions=Array.isArray(deck?.versions)?deck.versions:[];
     let version=null;
@@ -60,7 +66,7 @@
     if(version){
       return {
         key:version.id||version.listHash||match.deckVersionLabelSnapshot||'version',
-        label:version.label||`V${version.ordinal||1}`,
+        label:versionLabel(version),
         deckVersionId:version.id||null,
         listHash:version.listHash||match?.listHash||null
       };
@@ -83,7 +89,6 @@
       if(!map.has(key))map.set(key,{key,label:labelOf(row),matches:[],lastPlayedAt:row?.playedAt||row?.createdAt||null});
       const bucket=map.get(key);
       bucket.matches.push(row);
-      if(timeValue(row)>Date.parse(bucket.lastPlayedAt||''))bucket.lastPlayedAt=row?.playedAt||row?.createdAt||bucket.lastPlayedAt;
     }
     return [...map.values()].map(bucket=>({...bucket,stats:stats(bucket.matches)}));
   }
@@ -107,9 +112,7 @@
     for(const match of scored){
       const version=resolveVersion(deck,match);
       if(!versionMap.has(version.key))versionMap.set(version.key,{...version,matches:[],lastPlayedAt:match.playedAt||match.createdAt||null});
-      const bucket=versionMap.get(version.key);
-      bucket.matches.push(match);
-      if(timeValue(match)>Date.parse(bucket.lastPlayedAt||''))bucket.lastPlayedAt=match.playedAt||match.createdAt||bucket.lastPlayedAt;
+      versionMap.get(version.key).matches.push(match);
     }
     const versions=[...versionMap.values()]
       .map(bucket=>({...bucket,stats:stats(bucket.matches)}))
