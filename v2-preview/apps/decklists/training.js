@@ -43,6 +43,7 @@
         ref.key=refKey(ref);deckRefs.push(ref);
       }
     }
+    window.PTCGArchetypes?.mergeSaved?.(decks.map(deck=>deck.archetype));
     renderDeckOptions(decks);
   }
 
@@ -73,7 +74,6 @@
     const view=window.PTCGPTCGLLogParser.perspective(parsedImport,playerName);
     $('matchResult').value=view.result;
     $('matchTurnOrder').value=view.wentFirst===true?'first':view.wentFirst===false?'second':'unknown';
-    $('matchOpponent').value=view.opponent.suggestedArchetype||'';
     $('importDetection').textContent=`${view.player.name} · ${resultLabel(view.result)} · ${view.wentFirst===true?'went first':view.wentFirst===false?'went second':'turn order unknown'}`;
     if(preferDeck){
       const best=bestDeckRef(view.player);
@@ -121,12 +121,12 @@
     $('matchSheetTitle').textContent=match?'Edit match':mode==='import'?'Import PTCGL log':'Record in-person match';
     $('matchSourceText').textContent=match?sourceLabel(match.source):mode==='import'?'PTCGL battle log':'In person';
     $('importLog').value='';$('importDetection').textContent='';$('matchDeckHint').textContent='';
-    $('matchDeckRef').value='';$('matchOpponent').value='';$('matchResult').value='win';$('matchDate').value=today();$('matchFormat').value='TEF-PBL';$('matchTurnOrder').value='unknown';
+    $('matchDeckRef').value='';$('matchOpponent').value='';$('matchOpponentSuggestions').innerHTML='';$('matchResult').value='win';$('matchDate').value=today();$('matchFormat').value='TEF-PBL';$('matchTurnOrder').value='unknown';
     $('matchEvent').value='';$('matchRound').value='';$('matchNotes').value='';$('gameWins').value='1';$('gameLosses').value='0';$('gameDraws').value='0';
     if(match)fillMatch(match);
   }
 
-  function closeSheet(){$('matchSheet').hidden=true;parsedImport=null;editingMatch=null}
+  function closeSheet(){$('matchSheet').hidden=true;parsedImport=null;editingMatch=null;$('matchOpponentSuggestions').innerHTML=''}
 
   function fillMatch(match){
     $('matchFields').hidden=false;
@@ -202,7 +202,11 @@
   }
 
   async function init(){
-    await window.PTCGDeckStore.open();await loadDeckRefs();events();render();
+    await window.PTCGDeckStore.open();
+    try{await window.PTCGArchetypes?.load?.()}catch(_){}
+    await loadDeckRefs();
+    window.PTCGArchetypes?.bindSearch?.($('matchOpponent'),$('matchOpponentSuggestions'));
+    events();render();
     unsubscribe=window.PTCGMatchStore.subscribe(()=>{loadDeckRefs().then(render).catch(console.error)});
   }
 
