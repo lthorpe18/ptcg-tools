@@ -2,7 +2,7 @@
   'use strict';
 
   const $=id=>document.getElementById(id);
-  let deckRefs=[],parsedImport=null,editingMatch=null,formMode='manual',unsubscribe=null,importParseTimer=null;
+  let deckRefs=[],deckArchetypes=new Map(),parsedImport=null,editingMatch=null,formMode='manual',unsubscribe=null,importParseTimer=null;
 
   function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]))}
   function toast(message){
@@ -15,6 +15,11 @@
   function shortDate(value){return new Intl.DateTimeFormat(undefined,{day:'numeric',month:'short',year:'numeric'}).format(new Date(value))}
   function resultLabel(result){return ({win:'Win',loss:'Loss',draw:'Draw',unknown:'Unknown'})[result]||'Unknown'}
   function sourceLabel(source){return source==='ptcgl'?'PTCGL':'In person'}
+  function historySprite(name){
+    if(window.DeckSprites?.html)return window.DeckSprites.html(name,{size:26,className:'training-history-sprite'});
+    const initial=String(name||'?').trim().charAt(0).toUpperCase()||'?';
+    return `<span class="training-history-fallback" aria-hidden="true">${esc(initial)}</span>`;
+  }
   function resultFromScore(){
     const wins=Math.max(0,Number($('gameWins').value)||0),losses=Math.max(0,Number($('gameLosses').value)||0),draws=Math.max(0,Number($('gameDraws').value)||0);
     if(!wins&&!losses&&!draws)return 'unknown';
@@ -29,6 +34,7 @@
   async function loadDeckRefs(){
     const decks=await window.PTCGDeckStore.all();
     deckRefs=[];
+    deckArchetypes=new Map(decks.map(deck=>[deck.id,deck.archetype||deck.name||'']));
     for(const deck of decks){
       for(const version of deck.versions||[]){
         deckRefs.push({
@@ -84,7 +90,9 @@
 
   function render(){
     const source=$('trainingSourceFilter').value,deckId=$('trainingDeckFilter').value;
-    const rows=window.PTCGMatchStore.all().filter(match=>(source==='all'||match.source===source)&&(deckId==='all'||match.deckId===deckId));
+    const rows=window.PTCGMatchStore.all()
+      .filter(match=>(source==='all'||match.source===source)&&(deckId==='all'||match.deckId===deckId))
+      .sort((a,b)=>Date.parse(b.playedAt)-Date.parse(a.playedAt)||Date.parse(b.createdAt)-Date.parse(a.createdAt));
     const totals=window.PTCGMatchStore.stats(rows);
     $('trainingMetrics').innerHTML=[
       ['Record',`${totals.wins}–${totals.losses}–${totals.draws}`],
@@ -94,11 +102,24 @@
     ].map(([label,value])=>`<div><b>${esc(value)}</b><span>${esc(label)}</span></div>`).join('');
     $('trainingCount').textContent=`${rows.length} ${rows.length===1?'match':'matches'}`;
     $('trainingList').innerHTML=rows.map(match=>{
-      const score=window.PTCGMatchStore.score(match),scoreText=match.games.length>1?` · ${score.wins}–${score.losses}–${score.draws}`:'';
-      const deck=match.deckNameSnapshot||'Unlinked deck',version=match.deckVersionLabelSnapshot?` · ${match.deckVersionLabelSnapshot}`:'';
+      const score=window.PTCGMatchStore.score(match);
+      const deck=match.deckNameSnapshot||'Unlinked deck';
+      const ownArchetype=deckArchetypes.get(match.deckId)||deck;
+      const opponent=match.opponentArchetype||'Unknown deck';
+      const meta=[sourceLabel(match.source),shortDate(match.playedAt)];
+      if(match.games.length>1)meta.push(`${score.wins}–${score.losses}–${score.draws}`);
+      if(match.wentFirst===true)meta.push('first');else if(match.wentFirst===false)meta.push('second');
+      if(match.deckVersionLabelSnapshot)meta.push(match.deckVersionLabelSnapshot);
       return `<button type="button" class="training-row ${esc(match.result)}" data-match-id="${esc(match.id)}">
         <span class="training-result">${esc(resultLabel(match.result).slice(0,1))}</span>
-        <span class="training-row-main"><b>${esc(deck)} <em>vs</em> ${esc(match.opponentArchetype||'Unknown deck')}</b><small>${esc(sourceLabel(match.source))} · ${esc(shortDate(match.playedAt))}${esc(scoreText)}${match.wentFirst===true?' · first':match.wentFirst===false?' · second':''}</small></span>
+        <span class="training-row-main">
+          <span class="training-matchup">
+            <span class="training-matchup-side"><span class="training-matchup-art">${historySprite(ownArchetype)}</span><span class="training-matchup-copy"><small>You</small><b>${esc(deck)}</b></span></span>
+            <span class="training-vs">vs</span>
+            <span class="training-matchup-side opponent"><span class="training-matchup-art">${historySprite(opponent)}</span><span class="training-matchup-copy"><small>Opponent</small><b>${esc(opponent)}</b></span></span>
+          </span>
+          <small class="training-meta">${esc(meta.join(' · '))}</small>
+        </span>
         <span class="training-chevron">›</span>
       </button>`;
     }).join('');
