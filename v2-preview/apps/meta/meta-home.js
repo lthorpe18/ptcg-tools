@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const state = { source: 'online', grouping: 'variants', showAll: false, expanded: new Set(), query: '' };
+  const state = { source: 'blend', grouping: 'variants', showAll: false, expanded: new Set(), query: '' };
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pct = value => `${Number(value || 0).toFixed(1)}%`;
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
@@ -41,7 +41,7 @@
       const map = new Map();
       for (const d of exact) {
         const name = familyName(d.name);
-        const row = map.get(name) || { name, entries:state.source === 'blend' ? null : 0, wins:0, losses:0, ties:0, share:0, variants:[], blended:state.source === 'blend' };
+        const row = map.get(name) || { name, entries:state.source === 'blend' ? null : 0, wins:0, losses:0, ties:0, share:0, variants:[], blended:state.source==='blend' };
         if (row.entries != null) row.entries += Number(d.entries || 0);
         row.wins += Number(d.wins || 0); row.losses += Number(d.losses || 0); row.ties += Number(d.ties || 0); row.share += Number(d.share || 0); row.variants.push(d);
         map.set(name,row);
@@ -155,5 +155,5 @@
   window.addEventListener('decksprites:updated', () => { if (currentIsActive()) renderCurrent(); });
 
   window.MetaHome = { render:renderCurrent, setSource, selection:()=>({source:state.source}) };
-  renderCurrent();
+  setSource('blend');
 })();
