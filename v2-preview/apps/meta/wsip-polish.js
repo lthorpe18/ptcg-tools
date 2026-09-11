@@ -24,12 +24,14 @@
     const select = $('playFieldSource');
     if (!select) return;
     const expected = select.querySelector('option[value="expected"]');
-    const name = savedFieldName();
-    const expectedLabel = name ? `Saved · ${name}` : 'Saved Expected Field';
-    setText(expected, expectedLabel);
-    const active = select.value === 'expected' && !!name;
-    select.closest('label')?.classList.toggle('custom-field-active', active);
-    setAttr(select, 'aria-label', active ? `Field: saved expected field ${name}` : 'Field source');
+    if (expected) expected.hidden = true;
+    const active = select.value === 'expected';
+    const label = select.closest('label');
+    if (label) {
+      label.hidden = active;
+      label.classList.remove('custom-field-active');
+    }
+    setAttr(select, 'aria-label', 'Field source');
   }
 
   function dayKey(value) {
