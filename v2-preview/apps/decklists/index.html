@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="deck-card-images.css?v=1">
   <link rel="stylesheet" href="training-import-polish.css?v=1">
   <link rel="stylesheet" href="training-history-polish.css?v=1">
+  <link rel="stylesheet" href="deck-results.css?v=1">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="decks">
   <header class="app-shell-header">
@@ -117,6 +118,35 @@
           <div class="app-section-head"><h2>At a glance</h2><p>Current working list</p></div>
           <div id="overviewMetrics" class="overview-metrics"></div>
         </section>
+        <section id="deckResultsPanel" class="app-card app-card-pad deck-results-panel">
+          <div class="app-section-head">
+            <div class="deck-results-head-copy"><h2>Results</h2><p>Your linked Training Log and Tournament Day evidence for this deck.</p></div>
+            <span id="deckResultsSample" class="deck-results-sample">No linked results</span>
+          </div>
+          <div id="deckResultsEmpty" class="deck-results-empty-action">
+            <p>No scored matches are linked to this deck yet. Link an exact deck when importing PTCGL games, recording training, or playing Tournament Day.</p>
+            <button id="deckResultsOpenTraining" class="app-button" type="button">Open Training Log</button>
+          </div>
+          <div id="deckResultsContent" hidden>
+            <div id="deckResultsMetrics" class="deck-results-metrics" aria-label="Deck results summary"></div>
+            <div id="deckResultsSources" class="deck-results-source-strip" aria-label="Results by source"></div>
+            <div class="deck-results-grid">
+              <section class="deck-results-section">
+                <div class="deck-results-section-head"><h3>By opponent</h3><span id="deckResultsOpponentCount"></span></div>
+                <div id="deckResultsOpponents" class="deck-results-list"></div>
+              </section>
+              <section class="deck-results-section">
+                <div class="deck-results-section-head"><h3>By version</h3><span id="deckResultsVersionCount"></span></div>
+                <div id="deckResultsVersions" class="deck-results-list"></div>
+              </section>
+            </div>
+            <section class="deck-results-section deck-results-recent">
+              <div class="deck-results-section-head"><h3>Recent matches</h3><span>Newest first</span></div>
+              <div id="deckResultsRecent" class="deck-results-recent-list"></div>
+            </section>
+            <p id="deckResultsUnscored" class="deck-results-empty" hidden></p>
+          </div>
+        </section>
       </section>
 
       <section id="tab-list" class="deck-tab" hidden>
@@ -210,11 +240,13 @@
   <script src="../_shared/playtest-launch.js?v=5"></script>
   <script src="../_shared/archetype-catalog.js?v=3"></script>
   <script src="../_shared/match-store.js?v=2"></script>
+  <script src="../_shared/personal-results.js?v=1"></script>
   <script src="ptcgl-log-parser.js?v=1"></script>
   <script src="deck-sprites-canonical.js?v=1"></script>
   <script src="app.js?v=7"></script>
   <script src="deck-card-images.js?v=1"></script>
   <script src="training.js?v=5"></script>
+  <script src="deck-results.js?v=1"></script>
   <script src="playtest-entry.js?v=6"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
 </body>
