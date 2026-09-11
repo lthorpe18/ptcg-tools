@@ -182,7 +182,7 @@
             <p id="importDetection"></p>
           </div>
           <label class="wide">Exact decklist<select id="matchDeckRef"><option value="">No saved deck</option></select><small id="matchDeckHint"></small></label>
-          <label class="wide">Opponent archetype<input id="matchOpponent" type="text" placeholder="e.g. Dragapult" required></label>
+          <label class="wide archetype-field">Opponent archetype<input id="matchOpponent" type="search" placeholder="Search current archetypes…" autocomplete="off" required><div id="matchOpponentSuggestions" class="archetype-suggestions"></div></label>
           <label>Result<select id="matchResult"><option value="win">Win</option><option value="loss">Loss</option><option value="draw">Draw</option><option value="unknown">Unknown</option></select></label>
           <label>Date<input id="matchDate" type="date" required></label>
           <label>Format<select id="matchFormat"><option value="TEF-PBL">TEF–PBL</option><option value="TEF-CRI">TEF–CRI</option><option value="Expanded">Expanded</option><option value="GLC">GLC</option></select></label>
@@ -206,13 +206,13 @@
   <script src="../meta/sprites.js?v=4"></script>
   <script src="../_shared/deck-store.js?v=5"></script>
   <script src="../_shared/playtest-launch.js?v=5"></script>
-  <script src="../_shared/archetype-catalog.js?v=2"></script>
+  <script src="../_shared/archetype-catalog.js?v=3"></script>
   <script src="../_shared/match-store.js?v=2"></script>
   <script src="ptcgl-log-parser.js?v=1"></script>
   <script src="deck-sprites-canonical.js?v=1"></script>
   <script src="app.js?v=7"></script>
   <script src="deck-card-images.js?v=1"></script>
-  <script src="training.js?v=2"></script>
+  <script src="training.js?v=3"></script>
   <script src="playtest-entry.js?v=6"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
 </body>
