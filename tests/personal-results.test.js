@@ -7,7 +7,7 @@ const deck={
   name:'Deck A',
   versions:[
     {id:'v1',label:'V1',listHash:'hash-1'},
-    {id:'v2',label:'Cup list',listHash:'hash-2'}
+    {id:'v2',label:'V2',name:'Cup list',listHash:'hash-2'}
   ]
 };
 
@@ -69,7 +69,7 @@ test('resolves version evidence by version id, list hash, then historical snapsh
   const byLabel=new Map(out.versions.map(row=>[row.label,row]));
 
   assert.equal(byLabel.get('V1').stats.total,1);
-  assert.equal(byLabel.get('Cup list').stats.losses,1);
+  assert.equal(byLabel.get('V2 · Cup list').stats.losses,1);
   assert.equal(byLabel.get('Old Cup list').stats.draws,1);
 });
 
