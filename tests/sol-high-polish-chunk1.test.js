@@ -26,18 +26,22 @@ test('Home shows the current Online format while field surfaces default to Blend
   assert.match(prepField,/name:'Suggested Blended'/);
 });
 
-test('Card Search sorts newest releases first and replaces terminal artwork failures',async()=>{
+test('Card Search sorts newest releases first and uses image-only fallbacks',async()=>{
   const source=read('v2-preview/apps/decklists/deck-card-search-glc-fix.js');
-  const css=read('v2-preview/apps/decklists/deck-card-search.css');
-  assert.match(css,/\.card-search-art-fallback\{/);
+  const imageSource=read('v2-preview/apps/_shared/card-images.js');
 
-  const listeners=new Map();
+  assert.doesNotMatch(source,/card-search-art-fallback/);
+  assert.doesNotMatch(imageSource,/>No art</);
+  assert.match(imageSource,/const extensions=\['webp','png','jpg'\]/);
+  assert.match(imageSource,/limitlesstcg\.nyc3\.cdn\.digitaloceanspaces\.com/);
+  assert.match(imageSource,/assets\.tcgdex\.net\/en/);
+
   const format={value:'all',querySelector:()=>({}),appendChild(){}};
   const document={
     head:{appendChild(){}},
     getElementById:id=>id==='cardFilterFormat'?format:null,
     createElement:tag=>({tagName:String(tag).toUpperCase(),className:'',textContent:'',title:'',style:{}}),
-    addEventListener(type,fn){const list=listeners.get(type)||[];list.push(fn);listeners.set(type,list)},
+    addEventListener(){},
   };
   const releases={new:'2026-09-01',mid:'2025-06-01',old:'2024-01-01'};
   const cards=[
@@ -62,18 +66,25 @@ test('Card Search sorts newest releases first and replaces terminal artwork fail
 
   const sorted=await catalog.searchAdvanced({name:'anything'});
   assert.deepEqual(sorted.map(card=>card.id),['new-card','mid-card','old-card','unknown-card']);
+});
 
-  let fallback=null,removed=false,zoomRemoved=false;
-  const tile={
-    querySelector:()=>fallback,
-    prepend(node){fallback=node},
-    removeAttribute(name){if(name==='data-card-zoom')zoomRemoved=true},
-  };
-  const image={tagName:'IMG',src:'https://example.test/broken.webp',alt:'Missing Card · TEST 001',closest:selector=>selector==='.card-search-tile'?tile:null,remove(){removed=true}};
-  for(const listener of listeners.get('error')||[])listener({target:image});
-  await Promise.resolve();
-  assert.equal(removed,true);
-  assert.equal(zoomRemoved,true);
-  assert.equal(fallback?.className,'card-search-art-fallback');
-  assert.equal(fallback?.textContent,'Missing Card · TEST 001');
+test('Card catalog excludes every TCG Pocket set through the canonical tcgp series',async()=>{
+  const source=read('v2-preview/apps/_shared/card-catalog.js');
+  assert.match(source,/serie\('tcgp'\)/);
+  assert.match(source,/withoutPocketCards/);
+
+  const responses=new Map([
+    ['https://api.tcgdex.net/v2/en/series/tcgp',{id:'tcgp',sets:[{id:'A1'},{id:'A2'}]}],
+    ['https://api.tcgdex.net/v2/en/cards?name=Pikachu',[
+      {id:'A1-001',localId:'001',name:'Pikachu'},
+      {id:'sv01-025',localId:'025',name:'Pikachu',image:'https://assets.tcgdex.net/en/sv/sv01/025'}
+    ]]
+  ]);
+  const fetch=async url=>({ok:responses.has(String(url)),status:responses.has(String(url))?200:404,json:async()=>responses.get(String(url))});
+  const window={};
+  const context=vm.createContext({window,fetch,URLSearchParams,Map,Set,Promise,String,Number,Array,Object,console});
+  vm.runInContext(source,context);
+
+  const results=await window.PTCGCardCatalog.searchAdvanced({name:'Pikachu'});
+  assert.deepEqual(results.map(card=>card.id),['sv01-025']);
 });

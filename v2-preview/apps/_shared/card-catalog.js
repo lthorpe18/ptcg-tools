@@ -4,7 +4,9 @@
   const API='https://api.tcgdex.net/v2/en';
   const detailCache=new Map();
   const setCache=new Map();
+  const serieCache=new Map();
   let setsPromise=null;
+  let pocketSetIdsPromise=null;
 
   const SET_CODE_BY_NAME=new Map(Object.entries({
     'scarlet & violet':'SVI','paldea evolved':'PAL','obsidian flames':'OBF','151':'MEW','pokémon 151':'MEW',
@@ -70,8 +72,47 @@
     return promise;
   }
 
+  async function serie(id){
+    if(!id)return null;
+    if(serieCache.has(id))return serieCache.get(id);
+    const promise=json(`${API}/series/${encodeURIComponent(id)}`).catch(error=>{serieCache.delete(id);throw error;});
+    serieCache.set(id,promise);
+    return promise;
+  }
+
+  async function pocketSetIds(){
+    if(!pocketSetIdsPromise){
+      pocketSetIdsPromise=serie('tcgp')
+        .then(row=>new Set((row?.sets||[]).map(item=>String(item?.id||'')).filter(Boolean)))
+        .catch(error=>{pocketSetIdsPromise=null;throw error;});
+    }
+    return pocketSetIdsPromise;
+  }
+
+  function rowSetId(row,pocketIds){
+    const direct=String(row?.set?.id||'').trim();
+    if(direct)return direct;
+    const cardId=String(row?.id||'');
+    for(const setId of pocketIds){if(cardId.startsWith(`${setId}-`))return setId}
+    return '';
+  }
+
+  async function withoutPocketCards(rows=[]){
+    const pocketIds=await pocketSetIds();
+    return (rows||[]).filter(row=>!pocketIds.has(rowSetId(row,pocketIds)));
+  }
+
+  async function isPocketCard(row){
+    const pocketIds=await pocketSetIds();
+    return pocketIds.has(rowSetId(row,pocketIds));
+  }
+
   async function sets(){
-    if(!setsPromise)setsPromise=json(`${API}/sets`).catch(error=>{setsPromise=null;throw error;});
+    if(!setsPromise){
+      setsPromise=Promise.all([json(`${API}/sets`),pocketSetIds()])
+        .then(([rows,pocketIds])=>(rows||[]).filter(row=>!pocketIds.has(String(row?.id||''))))
+        .catch(error=>{setsPromise=null;throw error;});
+    }
     return setsPromise;
   }
 
@@ -118,16 +159,16 @@
     const text=String(params.text||'').trim();
     let briefs=[];
     if(!text){
-      briefs=await search(params);
+      briefs=await withoutPocketCards(await search(params));
       if(!params.standardOnly||!String(params.name||'').trim())return briefs;
     }else if(String(params.name||'').trim()){
-      briefs=await search(params);
+      briefs=await withoutPocketCards(await search(params));
     }else{
       const fields=['effect','description','rules','attacks.name','attacks.effect','abilities.name','abilities.effect','item.name','item.effect'];
       const groups=await Promise.all(fields.map(async field=>{
         const query=baseQuery(params);
         query.set(field,text);
-        try{return await list(query)}catch{return []}
+        try{return await withoutPocketCards(await list(query))}catch{return []}
       }));
       const byId=new Map();
       groups.flat().forEach(item=>{if(item?.id)byId.set(item.id,item)});
@@ -138,7 +179,9 @@
     const batchSize=24;
     for(let index=0;index<briefs.length;index+=batchSize){
       const batch=await cards(briefs.slice(index,index+batchSize).map(item=>item.id));
-      batch.forEach(item=>{if(matchesAdvanced(item,params))detailed.push(item)});
+      for(const item of batch){
+        if(item&&!await isPocketCard(item)&&matchesAdvanced(item,params))detailed.push(item);
+      }
     }
     return detailed;
   }
@@ -152,7 +195,7 @@
   }
 
   async function exactDeckIdentity(cardObject){
-    if(!cardObject)return null;
+    if(!cardObject||await isPocketCard(cardObject))return null;
     const fullSet=await set(cardObject.set?.id);
     const setCode=String(fullSet?.tcgOnline||fallbackSetCode(fullSet,cardObject)||'').trim().toUpperCase();
     const number=String(cardObject.localId??'').trim();
@@ -177,5 +220,5 @@
     return 'unknown';
   }
 
-  window.PTCGCardCatalog={API,search,searchAdvanced,card,cards,set,sets,image,isStandard,cardText,matchesAdvanced,exactDeckIdentity,categoryToSection};
+  window.PTCGCardCatalog={API,search,searchAdvanced,card,cards,set,sets,serie,pocketSetIds,withoutPocketCards,isPocketCard,image,isStandard,cardText,matchesAdvanced,exactDeckIdentity,categoryToSection};
 })();
