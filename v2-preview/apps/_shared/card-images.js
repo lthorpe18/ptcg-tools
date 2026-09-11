@@ -4,7 +4,7 @@
   const fallbackByUrl=new Map();
 
   function esc(value){
-    return String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[char]));
+    return String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
   }
   function setCode(card){return String(card?.set||'').trim().toUpperCase()}
   function rawCardNumber(card){return String(card?.number??'').trim().toUpperCase().replace(/\s+/g,'')}
