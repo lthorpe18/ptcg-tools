@@ -103,11 +103,11 @@
   document.head.appendChild(style);
 
   const artwork=document.createElement('script');
-  artwork.src='../_shared/card-images.js?v=3';
+  artwork.src='../_shared/card-images.js?v=4';
   artwork.dataset.ptcgCardSearchLoader='true';
   artwork.onload=()=>{
     const catalog=document.createElement('script');
-    catalog.src='../_shared/card-catalog.js?v=5';
+    catalog.src='../_shared/card-catalog.js?v=6';
     catalog.dataset.ptcgCardSearchLoader='true';
     catalog.onload=()=>{
       const ui=document.createElement('script');
@@ -115,7 +115,7 @@
       ui.dataset.ptcgCardSearchLoader='true';
       ui.onload=()=>{
         const fix=document.createElement('script');
-        fix.src='deck-card-search-glc-fix.js?v=4';
+        fix.src='deck-card-search-glc-fix.js?v=5';
         fix.dataset.ptcgCardSearchLoader='true';
         document.body.appendChild(fix);
       };
