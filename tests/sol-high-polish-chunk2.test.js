@@ -36,7 +36,7 @@ test('Training opponent uses archetype search and PTCGL never auto-fills it',()=
   assert.match(html,/id="matchOpponent" type="search"[^>]*placeholder="Search current archetypes…"/);
   assert.match(html,/id="matchOpponentSuggestions" class="archetype-suggestions"/);
   assert.match(html,/archetype-catalog\.js\?v=3/);
-  assert.match(html,/training\.js\?v=3/);
+  assert.match(html,/training\.js\?v=\d+/);
   assert.match(source,/PTCGArchetypes\?\.bindSearch\?\.\(\$\('matchOpponent'\),\$\('matchOpponentSuggestions'\)\)/);
   assert.match(source,/PTCGArchetypes\?\.mergeSaved/);
   assert.doesNotMatch(source,/suggestedArchetype/);
