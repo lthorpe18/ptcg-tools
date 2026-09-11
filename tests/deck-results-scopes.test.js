@@ -7,6 +7,10 @@ const root=path.join(__dirname,'..','v2-preview','apps','decklists');
 const js=fs.readFileSync(path.join(root,'deck-results.js'),'utf8');
 const css=fs.readFileSync(path.join(root,'deck-results.css'),'utf8');
 
+test('deck Results browser script parses cleanly',()=>{
+  assert.doesNotThrow(()=>new Function(js));
+});
+
 test('deck Results replaces Odds as the visible third deck tab at runtime',()=>{
   assert.match(js,/oddsTab\.dataset\.tab='results'/);
   assert.match(js,/oddsTab\.textContent='Results'/);
