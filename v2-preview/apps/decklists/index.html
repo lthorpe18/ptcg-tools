@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="styles.css?v=8">
   <link rel="stylesheet" href="deck-card-images.css?v=1">
   <link rel="stylesheet" href="training-import-polish.css?v=1">
-  <link rel="stylesheet" href="training-history-polish.css?v=1">
-  <link rel="stylesheet" href="deck-results.css?v=1">
+  <link rel="stylesheet" href="training-history-polish.css?v=2">
+  <link rel="stylesheet" href="deck-results.css?v=2">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="decks">
   <header class="app-shell-header">
@@ -48,9 +48,9 @@
 
     <section id="trainingScreen" hidden>
       <section class="app-page-head training-head">
-        <div class="app-eyebrow">REAL MATCHES</div>
+        <div class="app-eyebrow">TRAINING</div>
         <h1>Training Log</h1>
-        <p>PTCGL and in-person results linked to the exact list you played.</p>
+        <p>PTCGL and in-person games.</p>
       </section>
       <section id="trainingMetrics" class="training-metrics" aria-label="Training summary"></section>
       <section class="training-actions">
@@ -58,16 +58,16 @@
         <button id="manualMatch" class="app-button" type="button">Record in person</button>
       </section>
       <section class="training-filters">
-        <select id="trainingSourceFilter" aria-label="Match source">
-          <option value="all">All matches</option><option value="ptcgl">PTCGL</option><option value="irl">In person</option>
+        <select id="trainingSourceFilter" aria-label="Game source">
+          <option value="all">All games</option><option value="ptcgl">PTCGL</option><option value="irl">In person</option>
         </select>
         <select id="trainingDeckFilter" aria-label="Deck filter"><option value="all">All decks</option></select>
       </section>
-      <div class="training-list-head"><strong>History</strong><span id="trainingCount">0 matches</span></div>
+      <div class="training-list-head"><strong>History</strong><span id="trainingCount">0 games</span></div>
       <section id="trainingList" class="training-list" aria-live="polite"></section>
       <div id="trainingEmpty" class="app-card app-empty">
-        <strong>No real matches yet</strong>
-        <p>Paste a PTCGL battle log or record an in-person result. Playtest sessions will remain separate.</p>
+        <strong>No training games yet</strong>
+        <p>Paste a PTCGL log or record in-person games.</p>
       </div>
     </section>
 
@@ -120,11 +120,11 @@
         </section>
         <section id="deckResultsPanel" class="app-card app-card-pad deck-results-panel">
           <div class="app-section-head">
-            <div class="deck-results-head-copy"><h2>Results</h2><p>Your linked Training Log and Tournament Day evidence for this deck.</p></div>
-            <span id="deckResultsSample" class="deck-results-sample">No linked results</span>
+            <div class="deck-results-head-copy"><h2>Results</h2><p></p></div>
+            <span id="deckResultsSample" class="deck-results-sample">No linked games</span>
           </div>
           <div id="deckResultsEmpty" class="deck-results-empty-action">
-            <p>No scored matches are linked to this deck yet. Link an exact deck when importing PTCGL games, recording training, or playing Tournament Day.</p>
+            <p>No linked games yet.</p>
             <button id="deckResultsOpenTraining" class="app-button" type="button">Open Training Log</button>
           </div>
           <div id="deckResultsContent" hidden>
@@ -141,7 +141,7 @@
               </section>
             </div>
             <section class="deck-results-section deck-results-recent">
-              <div class="deck-results-section-head"><h3>Recent matches</h3><span>Newest first</span></div>
+              <div class="deck-results-section-head"><h3>Recent entries</h3><span>Newest first</span></div>
               <div id="deckResultsRecent" class="deck-results-recent-list"></div>
             </section>
             <p id="deckResultsUnscored" class="deck-results-empty" hidden></p>
@@ -201,7 +201,7 @@
     <div class="sheet-backdrop" data-close-match-sheet></div>
     <section class="sheet-card match-sheet-card" role="dialog" aria-modal="true" aria-labelledby="matchSheetTitle">
       <div class="sheet-handle"></div>
-      <div class="match-sheet-head"><div><small id="matchSourceText">Match</small><h2 id="matchSheetTitle">Record match</h2></div><button type="button" class="sheet-close" data-close-match-sheet aria-label="Close">×</button></div>
+      <div class="match-sheet-head"><div><small id="matchSourceText">Training</small><h2 id="matchSheetTitle">Record games</h2></div><button type="button" class="sheet-close" data-close-match-sheet aria-label="Close">×</button></div>
       <form id="matchForm">
         <section id="importStage" class="import-stage" hidden>
           <label>PTCGL battle log<textarea id="importLog" spellcheck="false" placeholder="Paste the complete English battle log from PTCG Live"></textarea></label>
@@ -219,12 +219,12 @@
           <label>Date<input id="matchDate" type="date" required></label>
           <label>Format<select id="matchFormat"><option value="TEF-PBL">TEF–PBL</option><option value="TEF-CRI">TEF–CRI</option><option value="Expanded">Expanded</option><option value="GLC">GLC</option></select></label>
           <label>Opening turn<select id="matchTurnOrder"><option value="unknown">Unknown</option><option value="first">Went first</option><option value="second">Went second</option></select></label>
-          <fieldset class="game-score wide"><legend>Game score</legend><label>Wins<input id="gameWins" type="number" min="0" max="9" value="1"></label><label>Losses<input id="gameLosses" type="number" min="0" max="9" value="0"></label><label>Draws<input id="gameDraws" type="number" min="0" max="9" value="0"></label></fieldset>
+          <fieldset class="game-score wide"><legend>Games</legend><label>Wins<input id="gameWins" type="number" min="0" max="9" value="1"></label><label>Losses<input id="gameLosses" type="number" min="0" max="9" value="0"></label><label>Draws<input id="gameDraws" type="number" min="0" max="9" value="0"></label></fieldset>
           <label>Event<input id="matchEvent" type="text" placeholder="Optional"></label>
           <label>Round<input id="matchRound" type="text" placeholder="e.g. Round 3"></label>
-          <label class="wide">Notes<textarea id="matchNotes" placeholder="What mattered in this match?"></textarea></label>
+          <label class="wide">Notes<textarea id="matchNotes" placeholder="What mattered?"></textarea></label>
         </section>
-        <div class="match-form-actions"><button id="matchDelete" class="app-button danger" type="button" hidden>Delete</button><span></span><button class="app-button" data-close-match-sheet type="button">Cancel</button><button class="app-button primary" type="submit">Save match</button></div>
+        <div class="match-form-actions"><button id="matchDelete" class="app-button danger" type="button" hidden>Delete</button><span></span><button class="app-button" data-close-match-sheet type="button">Cancel</button><button class="app-button primary" type="submit">Save</button></div>
       </form>
     </section>
   </div>
@@ -240,13 +240,13 @@
   <script src="../_shared/playtest-launch.js?v=5"></script>
   <script src="../_shared/archetype-catalog.js?v=3"></script>
   <script src="../_shared/match-store.js?v=2"></script>
-  <script src="../_shared/personal-results.js?v=1"></script>
+  <script src="../_shared/personal-results.js?v=2"></script>
   <script src="ptcgl-log-parser.js?v=1"></script>
   <script src="deck-sprites-canonical.js?v=1"></script>
   <script src="app.js?v=7"></script>
   <script src="deck-card-images.js?v=1"></script>
-  <script src="training.js?v=5"></script>
-  <script src="deck-results.js?v=1"></script>
+  <script src="training.js?v=6"></script>
+  <script src="deck-results.js?v=2"></script>
   <script src="playtest-entry.js?v=6"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
 </body>
