@@ -2,7 +2,7 @@
   'use strict';
 
   const $=id=>document.getElementById(id);
-  let deckRefs=[],parsedImport=null,editingMatch=null,formMode='manual',unsubscribe=null;
+  let deckRefs=[],parsedImport=null,editingMatch=null,formMode='manual',unsubscribe=null,importParseTimer=null;
 
   function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]))}
   function toast(message){
@@ -111,8 +111,14 @@
     loadDeckRefs().then(render).catch(error=>{console.error(error);toast('Training Log failed to load')});
   }
 
+  function setImportState(state,message){
+    $('importStage').classList.toggle('is-parsed',state==='parsed');
+    if($('importStatus'))$('importStatus').textContent=message||'';
+  }
+
   function openSheet(mode,match=null){
     formMode=mode;editingMatch=match;parsedImport=null;
+    clearTimeout(importParseTimer);importParseTimer=null;
     $('matchSheet').hidden=false;
     $('matchDelete').hidden=!match;
     $('importStage').hidden=mode!=='import';
@@ -123,10 +129,14 @@
     $('importLog').value='';$('importDetection').textContent='';$('matchDeckHint').textContent='';
     $('matchDeckRef').value='';$('matchOpponent').value='';$('matchOpponentSuggestions').innerHTML='';$('matchResult').value='win';$('matchDate').value=today();$('matchFormat').value='TEF-PBL';$('matchTurnOrder').value='unknown';
     $('matchEvent').value='';$('matchRound').value='';$('matchNotes').value='';$('gameWins').value='1';$('gameLosses').value='0';$('gameDraws').value='0';
+    setImportState('empty','Paste a complete English PTCG Live battle log. The form will fill automatically.');
     if(match)fillMatch(match);
   }
 
-  function closeSheet(){$('matchSheet').hidden=true;parsedImport=null;editingMatch=null;$('matchOpponentSuggestions').innerHTML=''}
+  function closeSheet(){
+    clearTimeout(importParseTimer);importParseTimer=null;
+    $('matchSheet').hidden=true;parsedImport=null;editingMatch=null;$('matchOpponentSuggestions').innerHTML='';
+  }
 
   function fillMatch(match){
     $('matchFields').hidden=false;
@@ -138,15 +148,52 @@
     $('matchDeckHint').textContent=ref?'':match.deckNameSnapshot?`Previously linked to ${match.deckNameSnapshot}${match.deckVersionLabelSnapshot?` · ${match.deckVersionLabelSnapshot}`:''}. Choose a current list to relink.`:'';
   }
 
-  async function reviewImport(){
+  function parseImport({quiet=false}={}){
+    const raw=$('importLog').value||'';
+    if(!raw.trim()){
+      parsedImport=null;$('matchFields').hidden=true;$('matchPlayerRow').hidden=true;
+      setImportState('empty','Paste a complete English PTCG Live battle log. The form will fill automatically.');
+      return false;
+    }
     try{
-      parsedImport=window.PTCGPTCGLLogParser.parse($('importLog').value);
+      parsedImport=window.PTCGPTCGLLogParser.parse(raw);
       $('matchFields').hidden=false;$('matchPlayerRow').hidden=false;
       $('matchPlayer').innerHTML=parsedImport.players.map(player=>`<option value="${esc(player.name)}">${esc(player.name)}</option>`).join('');
       const user=inferredUserPlayer(parsedImport);$('matchPlayer').value=user;
       $('matchDate').value=today();$('matchFormat').value='TEF-PBL';$('gameWins').value='1';$('gameLosses').value='0';$('gameDraws').value='0';
       applyPerspective(user,true);
-    }catch(error){parsedImport=null;$('matchFields').hidden=true;toast(error.message||String(error)||'Could not parse battle log')}
+      setImportState('parsed','Log detected. Check the deck and opponent archetype, then save.');
+      return true;
+    }catch(error){
+      parsedImport=null;$('matchFields').hidden=true;$('matchPlayerRow').hidden=true;
+      setImportState('invalid','Paste the complete PTCGL battle log to continue.');
+      if(!quiet)toast(error.message||String(error)||'Could not parse battle log');
+      return false;
+    }
+  }
+
+  function scheduleImportParse(){
+    clearTimeout(importParseTimer);
+    if(!$('importLog').value.trim()){parseImport({quiet:true});return}
+    importParseTimer=setTimeout(()=>parseImport({quiet:true}),160);
+  }
+
+  async function openImportFromClipboard(){
+    openSheet('import');
+    const input=$('importLog');
+    input.focus();
+    if(!navigator.clipboard?.readText)return;
+    try{
+      const text=await navigator.clipboard.readText();
+      if(!String(text||'').trim())return;
+      input.value=text;
+      if(!parseImport({quiet:true})){
+        setImportState('invalid','Clipboard content was not recognised. Paste the complete PTCGL battle log below.');
+        input.focus();input.select();
+      }
+    }catch(_){
+      input.focus();
+    }
   }
 
   async function saveForm(event){
@@ -159,7 +206,7 @@
       let result=$('matchResult').value;
       let imported=editingMatch?.import||null,games;
       if(source==='ptcgl'&&!editingMatch){
-        if(!parsedImport)throw new Error('Review a PTCGL log first');
+        if(!parsedImport&&!parseImport({quiet:true}))throw new Error('Paste a valid PTCGL battle log first');
         imported={kind:'ptcgl-battle-log',hash:await window.PTCGPTCGLLogParser.hash(parsedImport.rawLog),parserVersion:parsedImport.parserVersion,rawLog:parsedImport.rawLog,importedAt:new Date().toISOString()};
         games=[{result,wentFirst}];
       }else{
@@ -189,9 +236,9 @@
   function events(){
     document.querySelector('[data-workspace="training"]').addEventListener('click',showTraining);
     document.querySelector('[data-workspace="decks"]').addEventListener('click',()=>window.PTCGDecksApp.showLibrary());
-    $('importMatch').addEventListener('click',()=>openSheet('import'));
+    $('importMatch').addEventListener('click',()=>openImportFromClipboard());
     $('manualMatch').addEventListener('click',()=>openSheet('manual'));
-    $('reviewImport').addEventListener('click',reviewImport);
+    $('importLog').addEventListener('input',scheduleImportParse);
     $('matchPlayer').addEventListener('change',()=>applyPerspective($('matchPlayer').value,true));
     ['gameWins','gameLosses','gameDraws'].forEach(id=>$(id).addEventListener('input',syncManualResult));
     $('matchForm').addEventListener('submit',saveForm);
