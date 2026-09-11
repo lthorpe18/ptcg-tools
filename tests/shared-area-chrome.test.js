@@ -36,3 +36,9 @@ test('Compete removes its duplicated area title and leads with the common select
   assert.match(css,/\.events-page-head>div:first-child\{display:none!important\}/);
   assert.match(css,/grid-template-columns:minmax\(0,1fr\) 44px!important/);
 });
+
+test('Compete keeps its four-way selector readable on mobile',()=>{
+  const html=read('v2-preview/apps/events/index.html');
+  assert.match(html,/id="myTournamentsTab"[^>]*>My Events<\/button>/);
+  assert.doesNotMatch(html,/>My Tournaments<\/button>/);
+});
