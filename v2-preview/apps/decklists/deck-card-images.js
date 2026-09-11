@@ -107,7 +107,7 @@
   artwork.dataset.ptcgCardSearchLoader='true';
   artwork.onload=()=>{
     const catalog=document.createElement('script');
-    catalog.src='../_shared/card-catalog.js?v=6';
+    catalog.src='../_shared/card-catalog.js?v=7';
     catalog.dataset.ptcgCardSearchLoader='true';
     catalog.onload=()=>{
       const ui=document.createElement('script');
