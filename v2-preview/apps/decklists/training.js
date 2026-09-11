@@ -4,7 +4,7 @@
   const $=id=>document.getElementById(id);
   let deckRefs=[],deckArchetypes=new Map(),parsedImport=null,editingMatch=null,formMode='manual',unsubscribe=null,importParseTimer=null;
 
-  function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[char]))}
+  function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]))}
   function toast(message){
     const element=$('toast');element.textContent=message;element.hidden=false;
     clearTimeout(element._t);element._t=setTimeout(()=>element.hidden=true,2400);
