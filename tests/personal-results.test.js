@@ -5,6 +5,8 @@ const results=require('../v2-preview/apps/_shared/personal-results.js');
 const deck={
   id:'deck-a',
   name:'Deck A',
+  archetype:'Gardevoir',
+  currentVersionId:'v2',
   versions:[
     {id:'v1',label:'V1',listHash:'hash-1'},
     {id:'v2',label:'V2',name:'Cup list',listHash:'hash-2'}
@@ -15,6 +17,7 @@ function match(overrides={}){
   return {
     id:overrides.id||Math.random().toString(36),
     deckId:'deck-a',
+    deckNameSnapshot:'Deck A',
     result:'win',
     source:'ptcgl',
     playedAt:'2026-09-10T12:00:00.000Z',
@@ -71,6 +74,50 @@ test('resolves version evidence by version id, list hash, then historical snapsh
   assert.equal(byLabel.get('V1').stats.total,1);
   assert.equal(byLabel.get('V2 · Cup list').stats.losses,1);
   assert.equal(byLabel.get('Old Cup list').stats.draws,1);
+});
+
+test('version scope isolates one exact saved list using id or list hash',()=>{
+  const v2=deck.versions[1];
+  const rows=[
+    match({id:'v1',deckVersionId:'v1',listHash:'hash-1',result:'win'}),
+    match({id:'v2-id',deckVersionId:'v2',listHash:'hash-2',result:'loss'}),
+    match({id:'v2-hash',deckVersionId:null,listHash:'hash-2',result:'draw',playedAt:'2026-09-09T12:00:00.000Z'}),
+    match({id:'other-deck',deckId:'deck-b',deckVersionId:'v2',listHash:'hash-2',result:'win'})
+  ];
+  const out=results.aggregateVersion(deck,v2,rows);
+
+  assert.equal(out.scope,'version');
+  assert.equal(out.matches.length,2);
+  assert.deepEqual(out.overall,{wins:0,losses:1,draws:1,total:2,winRate:0});
+  assert.equal(out.version.id,'v2');
+});
+
+test('archetype scope combines all saved decks classified as the same archetype',()=>{
+  const sibling={id:'deck-c',name:'Gardevoir Control',archetype:' gardevoir ',versions:[]};
+  const other={id:'deck-b',name:'Dragapult',archetype:'Dragapult',versions:[]};
+  const rows=[
+    match({id:'a',deckId:'deck-a',deckNameSnapshot:'Deck A',result:'win'}),
+    match({id:'c',deckId:'deck-c',deckNameSnapshot:'Gardevoir Control',result:'loss'}),
+    match({id:'b',deckId:'deck-b',deckNameSnapshot:'Dragapult',result:'win'})
+  ];
+  const out=results.aggregateArchetype('Gardevoir',[deck,sibling,other],rows);
+
+  assert.equal(out.scope,'archetype');
+  assert.deepEqual(new Set(out.deckIds),new Set(['deck-a','deck-c']));
+  assert.deepEqual(out.overall,{wins:1,losses:1,draws:0,total:2,winRate:.5});
+  assert.equal(out.decks.length,2);
+  assert.equal(out.decks.find(row=>row.label==='Deck A').stats.wins,1);
+  assert.equal(out.decks.find(row=>row.label==='Gardevoir Control').stats.losses,1);
+});
+
+test('archetype scope does not guess from deck names when archetype metadata differs',()=>{
+  const misleading={id:'deck-x',name:'Gardevoir Testing',archetype:'Dragapult',versions:[]};
+  const out=results.aggregateArchetype('Gardevoir',[deck,misleading],[
+    match({id:'a',deckId:'deck-a'}),
+    match({id:'x',deckId:'deck-x'})
+  ]);
+  assert.equal(out.overall.total,1);
+  assert.deepEqual(out.deckIds,['deck-a']);
 });
 
 test('recent evidence is newest-first and recent form is capped at five scored matches',()=>{
