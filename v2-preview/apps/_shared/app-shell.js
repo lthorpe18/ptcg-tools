@@ -20,6 +20,20 @@
   }
   const active=body.dataset.appSection||'home';
   const labels={home:['⌂','Home'],meta:['◈','Meta'],decks:['▤','Decks'],compete:['◇','Compete'],tools:['⊕','Tools']};
+  const areaHeaders={
+    meta:['Meta','Current field & competitive analysis'],
+    decks:['Decks','Build, train and playtest'],
+    compete:['Compete','Events, tournaments and season'],
+    tools:['Tools','Fast competitive utilities']
+  };
+  const areaHeader=areaHeaders[active];
+  const brandCopy=document.querySelector('.app-shell-header .app-shell-brand-copy');
+  if(areaHeader&&brandCopy){
+    const title=brandCopy.querySelector('strong');
+    const subtitle=brandCopy.querySelector('small');
+    if(title)title.textContent=areaHeader[0];
+    if(subtitle)subtitle.textContent=areaHeader[1];
+  }
   const hrefs={home:`${root}/`,meta:`${root}/apps/meta/`,decks:`${root}/apps/decklists/`,compete:`${root}/apps/events/`,tools:`${root}/apps/tools/`};
   if(!embedded&&!document.querySelector('.app-bottom-nav')){
     const nav=document.createElement('nav');
