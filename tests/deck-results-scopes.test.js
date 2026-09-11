@@ -27,10 +27,11 @@ test('deck Results exposes archetype deck and version analysis levels with Deck 
   assert.match(js,/aggregateVersion/);
 });
 
-test('version scope provides an exact saved version selector',()=>{
+test('exact version selector is only shown in Version scope',()=>{
   assert.match(js,/id="deckResultsVersion"/);
-  assert.match(js,/Exact version/);
-  assert.match(js,/engine\.versionLabel/);
+  assert.match(js,/if\(wrap\)wrap\.hidden=resultScope!==['"]version['"]/);
+  assert.match(js,/select&&versionAvailable&&resultScope===['"]version['"]/);
+  assert.match(css,/\.deck-results-version\[hidden\]\{display:none!important\}/);
 });
 
 test('archetype and deck scopes switch the secondary breakdown correctly',()=>{
@@ -38,8 +39,23 @@ test('archetype and deck scopes switch the secondary breakdown correctly',()=>{
   assert.match(js,/resultScope==='archetype'\?result\.decks:result\.versions/);
 });
 
-test('scope controls retain mobile-first layout support',()=>{
+test('Results uses games for personal evidence but keeps tournament matches explicit',()=>{
+  assert.match(js,/metric\('Game record'/);
+  assert.match(js,/metric\('Game win rate'/);
+  assert.match(js,/metric\('Tournament matches'.*result\.tournament/);
+  assert.match(js,/metric\('Training games'.*result\.training/);
+  assert.match(js,/sourceBox\('Tournament',result\.tournamentGames\)/);
+  assert.match(js,/gameCount\(row\.stats\.total\)/);
+});
+
+test('hidden empty state cannot consume white space when results exist',()=>{
+  assert.match(css,/\.deck-results-empty-action\[hidden\]\{display:none!important\}/);
+  assert.match(css,/\.deck-results-head-copy p\{display:none\}/);
+});
+
+test('scope controls retain dense mobile-first layout support',()=>{
   assert.match(css,/\.deck-results-scope-bar/);
   assert.match(css,/@media\(max-width:720px\)/);
   assert.match(css,/\.deck-results-version select\{width:100%\}/);
+  assert.match(css,/grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
 });
