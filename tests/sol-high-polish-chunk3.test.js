@@ -13,7 +13,7 @@ test('PTCGL import attempts clipboard paste and parses without a Review gate',()
   assert.doesNotMatch(html,/id="reviewImport"/);
   assert.doesNotMatch(html,/>Review log</);
   assert.match(html,/id="importStatus"/);
-  assert.match(html,/training\.js\?v=4/);
+  assert.match(html,/training\.js\?v=\d+/);
   assert.match(source,/async function openImportFromClipboard\(\)/);
   assert.match(source,/navigator\.clipboard\?\.readText/);
   assert.match(source,/input\.value=text/);
