@@ -6,16 +6,17 @@ const path=require('node:path');
 const root=path.resolve(__dirname,'..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 
-test('WSIP collapses setup chrome while keeping the existing controls',()=>{
+test('WSIP keeps one compact setup surface while retaining the existing controls',()=>{
   const html=read('v2-preview/apps/meta/index.html');
   const polish=read('v2-preview/apps/meta/wsip-polish.js');
   assert.equal((html.match(/id="playFieldSource"/g)||[]).length,1);
   assert.equal((html.match(/id="playFieldFormat"/g)||[]).length,1);
   assert.equal((html.match(/id="playMatchupSource"/g)||[]).length,1);
+  assert.match(polish,/id = 'wsipContextCard'/);
   assert.match(polish,/id = 'wsipFieldEditor'/);
-  assert.match(polish,/id = 'wsipAnalysisSettings'/);
-  assert.match(polish,/appendChild\(controls\)/);
-  assert.match(polish,/appendChild\(sourceContext\)/);
+  assert.doesNotMatch(polish,/id = 'wsipAnalysisSettings'/);
+  assert.match(polish,/analysis\?\.appendChild\(controls\)/);
+  assert.match(polish,/analysis\?\.appendChild\(sourceContext\)/);
 });
 
 test('WSIP shows the next attending event as compact context',()=>{
@@ -28,20 +29,22 @@ test('WSIP shows the next attending event as compact context',()=>{
   assert.doesNotMatch(polish,/updateParticipation|plannedDeckRef|usedDeckRef/);
 });
 
-test('recommendations remain primary and field detail is visually secondary',()=>{
+test('field and H2H setup collapse into one summary above recommendations',()=>{
   const css=read('v2-preview/apps/meta/wsip-polish.css');
   const polish=read('v2-preview/apps/meta/wsip-polish.js');
-  assert.match(css,/\.wsip-field-editor/);
-  assert.match(css,/\.wsip-analysis-settings/);
-  assert.match(css,/#prep \.recommendations-section\{margin-top:14px\}/);
-  assert.match(css,/#prep \.recommendations-section \.wsip-step\{display:none\}/);
+  assert.match(polish,/function setupSummary\(\)/);
+  assert.match(polish,/fieldSummary\(\), matchupLabel\(\)/);
+  assert.match(polish,/id="wsipSetupSummary"/);
+  assert.match(polish,/>Adjust</);
+  assert.match(css,/\.wsip-context-card\{/);
+  assert.match(css,/\.wsip-event-context\{[^}]*padding:9px 12px/);
+  assert.match(css,/\.wsip-field-editor>summary\{[^}]*padding:8px 12px/);
+  assert.match(css,/#prep \.recommendations-section\{margin-top:10px\}/);
   assert.match(polish,/Best choices for the field you expect\./);
-  assert.match(polish,/fieldModeLabel\(\)/);
-  assert.match(polish,/getOriginalCoverage/);
 });
 
-test('WSIP simplification assets are cache-busted',()=>{
+test('WSIP compact context assets are cache-busted',()=>{
   const html=read('v2-preview/apps/meta/index.html');
-  assert.match(html,/wsip-polish\.css\?v=6/);
-  assert.match(html,/wsip-polish\.js\?v=5/);
+  assert.match(html,/wsip-polish\.css\?v=7/);
+  assert.match(html,/wsip-polish\.js\?v=6/);
 });
