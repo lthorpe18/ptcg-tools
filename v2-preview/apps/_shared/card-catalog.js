@@ -13,7 +13,7 @@
     'paradox rift':'PAR','paldean fates':'PAF','temporal forces':'TEF','twilight masquerade':'TWM',
     'shrouded fable':'SFA','stellar crown':'SCR','surging sparks':'SSP','prismatic evolutions':'PRE',
     'journey together':'JTG','destined rivals':'DRI','black bolt':'BLK','white flare':'WHT',
-    'mega evolution':'MEG','mega evolution energy':'MEE','mega promos':'MEP','phantasmal flames':'PFL',
+    'mega evolution':'MEG','mega evolution energy':'MEE','mega promos':'MEP','mega evolution promos':'MEP','mep black star promos':'MEP','phantasmal flames':'PFL',
     'ascended heroes':'ASC','perfect order':'POR','chaos rising':'CRI','pitch black':'PBL'
   }));
 
@@ -197,7 +197,7 @@
   async function exactDeckIdentity(cardObject){
     if(!cardObject||await isPocketCard(cardObject))return null;
     const fullSet=await set(cardObject.set?.id);
-    const setCode=String(fullSet?.tcgOnline||fallbackSetCode(fullSet,cardObject)||'').trim().toUpperCase();
+    const setCode=String(fullSet?.tcgOnline||fullSet?.abbreviations?.official||fallbackSetCode(fullSet,cardObject)||'').trim().toUpperCase();
     const number=String(cardObject.localId??'').trim();
     if(!setCode||!number)return null;
     return {
