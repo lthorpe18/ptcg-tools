@@ -43,8 +43,18 @@ test('field and H2H setup collapse into one summary above recommendations',()=>{
   assert.match(polish,/Best choices for the field you expect\./);
 });
 
+test('saved Expected Field is chosen only from the saved-field picker',()=>{
+  const html=read('v2-preview/apps/meta/index.html');
+  const polish=read('v2-preview/apps/meta/wsip-polish.js');
+  assert.match(html,/option value="expected">Saved Expected Field<\/option>/);
+  assert.match(polish,/expected\.hidden = true/);
+  assert.match(polish,/label\.hidden = active/);
+  assert.match(polish,/select\.value === 'expected'/);
+  assert.doesNotMatch(polish,/setText\(expected/);
+});
+
 test('WSIP compact context assets are cache-busted',()=>{
   const html=read('v2-preview/apps/meta/index.html');
   assert.match(html,/wsip-polish\.css\?v=7/);
-  assert.match(html,/wsip-polish\.js\?v=6/);
+  assert.match(html,/wsip-polish\.js\?v=7/);
 });
