@@ -88,6 +88,38 @@
     return card;
   }
 
+  async function releaseDate(card){
+    try{
+      let detail=card?.__ptcgArtwork?.low?.card||card?.__ptcgArtwork?.high?.card||card;
+      if(!detail?.set?.id&&card?.id&&catalog.card)detail=await catalog.card(card.id);
+      if(!detail?.set?.id)return '';
+      const set=await catalog.set(detail.set.id);
+      return String(set?.releaseDate||'').slice(0,10);
+    }catch{return '';}
+  }
+
+  async function newestReleaseFirst(results){
+    const dated=await Promise.all((results||[]).map(async(card,index)=>({card,index,release:await releaseDate(card)})));
+    dated.sort((a,b)=>b.release.localeCompare(a.release)||a.index-b.index);
+    return dated.map(row=>row.card);
+  }
+
+  function showArtworkUnavailable(image){
+    const tile=image?.closest?.('.card-search-tile');
+    if(!tile)return;
+    const label=image.alt||'Artwork unavailable';
+    let fallback=tile.querySelector?.('.card-search-art-fallback');
+    if(!fallback){
+      fallback=document.createElement('span');
+      fallback.className='card-search-art-fallback';
+      fallback.textContent=label;
+      fallback.title=label;
+      tile.prepend(fallback);
+    }
+    tile.removeAttribute?.('data-card-zoom');
+    image.remove?.();
+  }
+
   const originalCatalogImage=catalog.image?.bind(catalog);
   if(originalCatalogImage&&images){
     catalog.image=function(card,quality='low'){
@@ -96,6 +128,15 @@
       return originalCatalogImage(card,quality);
     };
     images.bindFallback(document);
+    document.addEventListener('error',event=>{
+      const image=event.target;
+      if(image?.tagName!=='IMG'||!image.closest?.('.card-search-tile'))return;
+      const failed=String(image.src||'');
+      queueMicrotask(()=>{
+        if(String(image.src||'')!==failed)return;
+        showArtworkUnavailable(image);
+      });
+    },true);
   }
 
   const originalSearchAdvanced=catalog.searchAdvanced.bind(catalog);
@@ -112,7 +153,7 @@
     }
 
     await Promise.all(results.map(decorateArtwork));
-    return results;
+    return newestReleaseFirst(results);
   };
 
   function reflectGlcFilter(){
