@@ -1,39 +1,22 @@
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
-  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
   let names=[];
 
   function pokemonSlug(value){return window.DeckSprites?.normalizeSlug?.(value)||''}
   function spriteOptions(){return window.DeckSprites?.knownSlugs?.()||[]}
 
-  function collectFromData(data,set){
-    (data?.tournaments||[]).forEach(event=>(event?.archetypes||[]).forEach(a=>{if(a?.name)set.add(a.name)}));
-    Object.values(data?.matchupScopes||{}).forEach(scope=>{
-      (scope?.decks||[]).forEach(d=>{if(d?.name)set.add(d.name)});
-      (scope?.matchups||[]).forEach(m=>{if(m?.a)set.add(m.a);if(m?.b)set.add(m.b)});
-    });
-    Object.values(data?.scopes||{}).forEach(scope=>(scope?.decks||[]).forEach(d=>{if(d?.name)set.add(d.name)}));
-    (data?.decks||[]).forEach(d=>{if(d?.name)set.add(d.name)});
-    (data?.events||[]).forEach(event=>{
-      (event?.decks||event?.archetypes||[]).forEach(d=>{if(d?.name)set.add(d.name)});
-      (event?.standings||[]).forEach(r=>{if(r?.archetype)set.add(r.archetype)});
-    });
-  }
-
   async function loadNames(){
-    const set=new Set(Object.keys(window.DeckSprites?.defaults||{}));
+    let saved=[];
     try{
-      const base=new URL('../../data/meta/release/',location.href);
-      const manifestResponse=await fetch(new URL('manifest.json',base),{cache:'no-store'});
-      if(manifestResponse.ok){
-        const manifest=await manifestResponse.json();
-        const coreUrl=new URL(manifest.files.core.path,base);coreUrl.searchParams.set('release',manifest.release);
-        const coreResponse=await fetch(coreUrl);
-        if(coreResponse.ok)collectFromData(await coreResponse.json(),set);
-      }
+      await window.PTCGDeckStore?.open?.();
+      const decks=await window.PTCGDeckStore?.all?.()||[];
+      saved=decks.map(deck=>deck.archetype).filter(Boolean);
     }catch(_){}
-    names=[...set].filter(Boolean).sort((a,b)=>a.localeCompare(b));
+    try{await window.PTCGArchetypes?.load?.()}catch(_){}
+    window.PTCGArchetypes?.mergeSaved?.(saved);
+    names=(window.PTCGArchetypes?.all?.()||[]).map(row=>row.name);
   }
 
   function inputHtml(attr,value,placeholder){
@@ -93,9 +76,11 @@
   }
 
   function render(){
-    const q=($('deckIconSearch')?.value||'').trim().toLowerCase();
+    const q=($('deckIconSearch')?.value||'').trim();
     const overrides=window.DeckSprites?.overrides?.()||{};
-    const filtered=q?names.filter(n=>n.toLowerCase().includes(q)):names.filter(n=>Array.isArray(overrides[n])&&overrides[n].length);
+    const filtered=q
+      ?(window.PTCGArchetypes?.search?.(q,1000)||[]).map(row=>row.name)
+      :names.filter(name=>Array.isArray(overrides[name])&&overrides[name].length);
     $('deckIconList').innerHTML=filtered.length?filtered.map(rowHtml).join(''):`<div class="settings-empty">${q?'No archetypes match this search.':'No custom deck icons yet. Search for an archetype to customise its icon.'}</div>`;
     bindSpriteFields();
     document.querySelectorAll('[data-save-icon]').forEach(btn=>btn.addEventListener('click',()=>{
@@ -150,7 +135,7 @@
   $('deckIconSearch')?.addEventListener('input',render);
   $('exportAccountData')?.addEventListener('click',exportAccountData);
   ['ptcg:cloud-sync','ptcg:local-change','ptcg:auth-change'].forEach(name=>window.addEventListener(name,renderSyncStatus));
-  window.addEventListener('storage',()=>{render();renderSyncStatus();});
+  window.addEventListener('storage',()=>{loadNames().then(render);renderSyncStatus();});
   window.addEventListener('online',renderSyncStatus);window.addEventListener('offline',renderSyncStatus);
   loadNames().then(render);
   renderSyncStatus();
