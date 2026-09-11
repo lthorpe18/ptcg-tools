@@ -4,7 +4,7 @@
   const $=id=>document.getElementById(id);
   let deckRefs=[],deckArchetypes=new Map(),parsedImport=null,editingMatch=null,formMode='manual',unsubscribe=null,importParseTimer=null;
 
-  function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]))}
+  function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[char]))}
   function toast(message){
     const element=$('toast');element.textContent=message;element.hidden=false;
     clearTimeout(element._t);element._t=setTimeout(()=>element.hidden=true,2400);
@@ -28,6 +28,32 @@
     return 'draw';
   }
   function syncManualResult(){if(formMode!=='import'&&!editingMatch?.import)$('matchResult').value=resultFromScore()}
+  function compareRecent(a,b){
+    if(window.PTCGPersonalResults?.compareRecent)return window.PTCGPersonalResults.compareRecent(a,b);
+    return Date.parse(b.playedAt)-Date.parse(a.playedAt)||Date.parse(b.createdAt)-Date.parse(a.createdAt);
+  }
+  function gameStats(rows){
+    const out={wins:0,losses:0,draws:0,total:0,winRate:0};
+    for(const match of rows){
+      const games=Array.isArray(match.games)&&match.games.length?match.games:[{result:match.result}];
+      for(const game of games){
+        if(game.result==='win')out.wins++;
+        else if(game.result==='loss')out.losses++;
+        else if(game.result==='draw')out.draws++;
+        else continue;
+        out.total++;
+      }
+    }
+    out.winRate=out.total?out.wins/out.total:0;
+    return out;
+  }
+  function gameBadges(match){
+    const games=Array.isArray(match.games)&&match.games.length?match.games:[{result:match.result}];
+    return games.map(game=>{
+      const letter=game.result==='win'?'W':game.result==='loss'?'L':game.result==='draw'?'D':'?';
+      return `<span class="training-game-badge ${esc(game.result||'unknown')}">${letter}</span>`;
+    }).join('');
+  }
 
   function refKey(ref){return `${ref.deckId}::${ref.deckVersionId||'working'}::${ref.listHash||'unhashed'}`}
 
@@ -91,27 +117,27 @@
   function render(){
     const source=$('trainingSourceFilter').value,deckId=$('trainingDeckFilter').value;
     const rows=window.PTCGMatchStore.all()
-      .filter(match=>(source==='all'||match.source===source)&&(deckId==='all'||match.deckId===deckId))
-      .sort((a,b)=>Date.parse(b.playedAt)-Date.parse(a.playedAt)||Date.parse(b.createdAt)-Date.parse(a.createdAt));
-    const totals=window.PTCGMatchStore.stats(rows);
+      .filter(match=>!match.participationId&&(source==='all'||match.source===source)&&(deckId==='all'||match.deckId===deckId))
+      .sort(compareRecent);
+    const totals=gameStats(rows);
     $('trainingMetrics').innerHTML=[
-      ['Record',`${totals.wins}–${totals.losses}–${totals.draws}`],
-      ['Win rate',totals.total?`${Math.round(totals.winRate*100)}%`:'—'],
-      ['Matches',totals.total],
-      ['Games',totals.gameWins+totals.gameLosses+totals.gameDraws]
+      ['Game record',`${totals.wins}–${totals.losses}–${totals.draws}`],
+      ['Game win rate',totals.total?`${Math.round(totals.winRate*100)}%`:'—'],
+      ['Games',totals.total],
+      ['Entries',rows.length]
     ].map(([label,value])=>`<div><b>${esc(value)}</b><span>${esc(label)}</span></div>`).join('');
-    $('trainingCount').textContent=`${rows.length} ${rows.length===1?'match':'matches'}`;
+    $('trainingCount').textContent=`${totals.total} ${totals.total===1?'game':'games'}`;
     $('trainingList').innerHTML=rows.map(match=>{
-      const score=window.PTCGMatchStore.score(match);
       const deck=match.deckNameSnapshot||'Unlinked deck';
       const ownArchetype=deckArchetypes.get(match.deckId)||deck;
       const opponent=match.opponentArchetype||'Unknown deck';
+      const games=Array.isArray(match.games)&&match.games.length?match.games:[{result:match.result}];
       const meta=[sourceLabel(match.source),shortDate(match.playedAt)];
-      if(match.games.length>1)meta.push(`${score.wins}–${score.losses}–${score.draws}`);
+      if(games.length>1)meta.push(`${games.length} games`);
       if(match.wentFirst===true)meta.push('first');else if(match.wentFirst===false)meta.push('second');
       if(match.deckVersionLabelSnapshot)meta.push(match.deckVersionLabelSnapshot);
-      return `<button type="button" class="training-row ${esc(match.result)}" data-match-id="${esc(match.id)}">
-        <span class="training-result">${esc(resultLabel(match.result).slice(0,1))}</span>
+      return `<button type="button" class="training-row" data-match-id="${esc(match.id)}">
+        <span class="training-game-results" aria-label="Game results">${gameBadges(match)}</span>
         <span class="training-row-main">
           <span class="training-matchup">
             <span class="training-matchup-side"><span class="training-matchup-art">${historySprite(ownArchetype)}</span><span class="training-matchup-copy"><small>You</small><b>${esc(deck)}</b></span></span>
@@ -145,7 +171,7 @@
     $('importStage').hidden=mode!=='import';
     $('matchFields').hidden=mode==='import';
     $('matchPlayerRow').hidden=true;
-    $('matchSheetTitle').textContent=match?'Edit match':mode==='import'?'Import PTCGL log':'Record in-person match';
+    $('matchSheetTitle').textContent=match?'Edit training entry':mode==='import'?'Import PTCGL log':'Record in-person games';
     $('matchSourceText').textContent=match?sourceLabel(match.source):mode==='import'?'PTCGL battle log':'In person';
     $('importLog').value='';$('importDetection').textContent='';$('matchDeckHint').textContent='';
     $('matchDeckRef').value='';$('matchOpponent').value='';$('matchOpponentSuggestions').innerHTML='';$('matchResult').value='win';$('matchDate').value=today();$('matchFormat').value='TEF-PBL';$('matchTurnOrder').value='unknown';
@@ -244,14 +270,14 @@
       };
       const saved=window.PTCGMatchStore.put(record);
       closeSheet();render();
-      toast(saved.duplicate?'This battle log is already saved':wasEditing?'Match updated':source==='ptcgl'?'Battle log imported':'In-person match saved');
-    }catch(error){toast(error.message||'Match could not be saved')}
+      toast(saved.duplicate?'This battle log is already saved':wasEditing?'Training entry updated':source==='ptcgl'?'Battle log imported':'In-person games saved');
+    }catch(error){toast(error.message||'Training entry could not be saved')}
   }
 
   function openMatch(id){const match=window.PTCGMatchStore.get(id);if(match)openSheet('edit',match)}
   function deleteMatch(){
-    if(!editingMatch||!confirm('Delete this match from your Training Log?'))return;
-    window.PTCGMatchStore.remove(editingMatch.id);closeSheet();render();toast('Match deleted');
+    if(!editingMatch||!confirm('Delete this training entry?'))return;
+    window.PTCGMatchStore.remove(editingMatch.id);closeSheet();render();toast('Training entry deleted');
   }
 
   function events(){
@@ -269,12 +295,23 @@
     document.querySelectorAll('[data-close-match-sheet]').forEach(element=>element.addEventListener('click',closeSheet));
   }
 
+  function configureCopy(){
+    const source=$('trainingSourceFilter');
+    if(source?.options?.[0])source.options[0].textContent='All games';
+    const empty=$('trainingEmpty');
+    if(empty){
+      const strong=empty.querySelector('strong'),copy=empty.querySelector('p');
+      if(strong)strong.textContent='No training games yet';
+      if(copy)copy.textContent='Paste a PTCGL log or record in-person games.';
+    }
+  }
+
   async function init(){
     await window.PTCGDeckStore.open();
     try{await window.PTCGArchetypes?.load?.()}catch(_){}
     await loadDeckRefs();
     window.PTCGArchetypes?.bindSearch?.($('matchOpponent'),$('matchOpponentSuggestions'));
-    events();render();
+    configureCopy();events();render();
     unsubscribe=window.PTCGMatchStore.subscribe(()=>{loadDeckRefs().then(render).catch(console.error)});
   }
 
