@@ -125,9 +125,11 @@
   }
 
   function renderMetaContext(){
-    const result=metaPrediction,format=result?.format||metaCore?.currentFormats?.online?.label||metaCore?.online?.format||null;
+    const result=metaPrediction;
+    const onlineFormat=metaCore?.currentFormats?.online?.label||metaCore?.online?.format||result?.format||null;
+    const predictionFormat=result?.format||onlineFormat;
     const pill=document.getElementById('formatPill'),pillText=pill?.querySelector('span:last-child');
-    if(pillText)pillText.textContent=`Blended${format?` · ${format}`:''}${result?.available===false?' · unavailable':''}`;
+    if(pillText)pillText.textContent=onlineFormat||'Current format';
     const status=document.getElementById('homeBlendStatus')?.querySelector('span');
     if(status){
       if(!result)status.textContent='Loading current prediction…';
@@ -138,7 +140,7 @@
       }
     }
     const hero=document.querySelector('.home-meta-hero');
-    if(hero)hero.setAttribute('aria-label',`Open Meta${format?` for Blended ${format}`:''}`);
+    if(hero)hero.setAttribute('aria-label',`Open Meta${predictionFormat?` for Blended ${predictionFormat}`:''}`);
   }
 
   function renderMetaPreview(){
