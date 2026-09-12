@@ -1,0 +1,674 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T18:22:06.042Z",
+  "source": {
+    "provider": "limitless",
+    "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
+  },
+  "events": [
+    {
+      "id": "limitless:6aa44c0f38886b36383bc49b",
+      "source": "limitless",
+      "sourceId": "6aa44c0f38886b36383bc49b",
+      "name": "The Wild Area Expanded #11 - 16 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6aa44c0f38886b36383bc49b/details",
+      "startAt": "2026-09-12T20:00:00.000Z"
+    },
+    {
+      "id": "limitless:6aa0dd40a4272c53be64b7c1",
+      "source": "limitless",
+      "sourceId": "6aa0dd40a4272c53be64b7c1",
+      "name": "Amyverse GLC Gatherings #15 💚 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6aa0dd40a4272c53be64b7c1/details",
+      "startAt": "2026-09-12T22:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a63ce2252c24ac2da64ae00",
+      "source": "limitless",
+      "sourceId": "6a63ce2252c24ac2da64ae00",
+      "name": "RDG! September Open Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a63ce2252c24ac2da64ae00/details",
+      "startAt": "2026-09-13T00:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a8c5eef8302ae761e5fb228",
+      "source": "limitless",
+      "sourceId": "6a8c5eef8302ae761e5fb228",
+      "name": "Torneo Relámpago ⚡ #78 PTCG Live BO3 (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6a8c5eef8302ae761e5fb228/details",
+      "startAt": "2026-09-13T01:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a9ceedbab080c8c957fb8f2",
+      "source": "limitless",
+      "sourceId": "6a9ceedbab080c8c957fb8f2",
+      "name": "Vault Of Games #2🏆|SEASON 1|WEEKLY",
+      "url": "https://play.limitlesstcg.com/tournament/6a9ceedbab080c8c957fb8f2/details",
+      "startAt": "2026-09-13T01:00:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2e21aab080c8c958002e4",
+      "source": "limitless",
+      "sourceId": "6aa2e21aab080c8c958002e4",
+      "name": "SEASAC League Challenge #6 (SEASON 5) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2e21aab080c8c958002e4/details",
+      "startAt": "2026-09-13T11:30:00.000Z"
+    },
+    {
+      "id": "limitless:6aa0a22dab080c8c957fe961",
+      "source": "limitless",
+      "sourceId": "6aa0a22dab080c8c957fe961",
+      "name": "#Triplo Pack Brazil Limitless Trainer  EleuCards #",
+      "url": "https://play.limitlesstcg.com/tournament/6aa0a22dab080c8c957fe961/details",
+      "startAt": "2026-09-13T22:00:00.000Z"
+    },
+    {
+      "id": "limitless:6aa0dd63ab080c8c957fed64",
+      "source": "limitless",
+      "sourceId": "6aa0dd63ab080c8c957fed64",
+      "name": "Sisterhood Showdown #2 🩷 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6aa0dd63ab080c8c957fed64/details",
+      "startAt": "2026-09-13T22:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a6f72f92b308b6067b47d58",
+      "source": "limitless",
+      "sourceId": "6a6f72f92b308b6067b47d58",
+      "name": "REDACTED DITTO LP INVITATIONAL",
+      "url": "https://play.limitlesstcg.com/tournament/6a6f72f92b308b6067b47d58/details",
+      "startAt": "2026-09-13T22:05:00.000Z"
+    },
+    {
+      "id": "limitless:6aa38dfaab080c8c95800d97",
+      "source": "limitless",
+      "sourceId": "6aa38dfaab080c8c95800d97",
+      "name": "Rare Candy Club Showdown #44 (50 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6aa38dfaab080c8c95800d97/details",
+      "startAt": "2026-09-14T00:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a986ce9a4272c53be6450f3",
+      "source": "limitless",
+      "sourceId": "6a986ce9a4272c53be6450f3",
+      "name": "Clash of Cards - S1",
+      "url": "https://play.limitlesstcg.com/tournament/6a986ce9a4272c53be6450f3/details",
+      "startAt": "2026-09-14T13:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a9eeea7ab080c8c957fcf3e",
+      "source": "limitless",
+      "sourceId": "6a9eeea7ab080c8c957fcf3e",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6a9eeea7ab080c8c957fcf3e/details",
+      "startAt": "2026-09-14T18:00:00.000Z"
+    },
+    {
+      "id": "limitless:6aa26770a4272c53be64cba7",
+      "source": "limitless",
+      "sourceId": "6aa26770a4272c53be64cba7",
+      "name": "👑CrownOfSpain 👑 #7 (10€ paypal)",
+      "url": "https://play.limitlesstcg.com/tournament/6aa26770a4272c53be64cba7/details",
+      "startAt": "2026-09-14T18:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a9f13b4ab080c8c957fd34a",
+      "source": "limitless",
+      "sourceId": "6a9f13b4ab080c8c957fd34a",
+      "name": "Sunny's Weekly #273 Maryland Krabbys!",
+      "url": "https://play.limitlesstcg.com/tournament/6a9f13b4ab080c8c957fd34a/details",
+      "startAt": "2026-09-14T22:05:00.000Z"
+    },
+    {
+      "id": "limitless:6a84d8af78baaa6d1c22324a",
+      "source": "limitless",
+      "sourceId": "6a84d8af78baaa6d1c22324a",
+      "name": "Aceless Academy - Standard Aceless Format #2",
+      "url": "https://play.limitlesstcg.com/tournament/6a84d8af78baaa6d1c22324a/details",
+      "startAt": "2026-09-14T22:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a962f6e629039f77d8a70e1",
+      "source": "limitless",
+      "sourceId": "6a962f6e629039f77d8a70e1",
+      "name": "#Brazil Limitless Trainer #003",
+      "url": "https://play.limitlesstcg.com/tournament/6a962f6e629039f77d8a70e1/details",
+      "startAt": "2026-09-14T22:30:00.000Z"
+    },
+    {
+      "id": "limitless:6aa1c696ab080c8c957ff68f",
+      "source": "limitless",
+      "sourceId": "6aa1c696ab080c8c957ff68f",
+      "name": "Discord Exclusive Monday Night Tournament",
+      "url": "https://play.limitlesstcg.com/tournament/6aa1c696ab080c8c957ff68f/details",
+      "startAt": "2026-09-15T00:00:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2de21a4272c53be64d080",
+      "source": "limitless",
+      "sourceId": "6aa2de21a4272c53be64d080",
+      "name": "Rinha de Galo#3",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2de21a4272c53be64d080/details",
+      "startAt": "2026-09-15T22:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a8c5f7b8302ae761e5fb22a",
+      "source": "limitless",
+      "sourceId": "6a8c5f7b8302ae761e5fb22a",
+      "name": "Torneo Relámpago ⚡ #79 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6a8c5f7b8302ae761e5fb22a/details",
+      "startAt": "2026-09-16T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2200ca4272c53be64ca11",
+      "source": "limitless",
+      "sourceId": "6aa2200ca4272c53be64ca11",
+      "name": "Amyverse PTCG Live Weekly #13 💛 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2200ca4272c53be64ca11/details",
+      "startAt": "2026-09-16T18:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a9eeed3ab080c8c957fcf41",
+      "source": "limitless",
+      "sourceId": "6a9eeed3ab080c8c957fcf41",
+      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #22⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6a9eeed3ab080c8c957fcf41/details",
+      "startAt": "2026-09-16T19:30:00.000Z"
+    },
+    {
+      "id": "limitless:6aa1a404ab080c8c957ff3c9",
+      "source": "limitless",
+      "sourceId": "6aa1a404ab080c8c957ff3c9",
+      "name": "REFINE Autumn Series Session 3: Maple Butter",
+      "url": "https://play.limitlesstcg.com/tournament/6aa1a404ab080c8c957ff3c9/details",
+      "startAt": "2026-09-16T23:30:00.000Z"
+    },
+    {
+      "id": "limitless:6aa542c7f1243e65f97fe987",
+      "source": "limitless",
+      "sourceId": "6aa542c7f1243e65f97fe987",
+      "name": "Perth pokemon week 5",
+      "url": "https://play.limitlesstcg.com/tournament/6aa542c7f1243e65f97fe987/details",
+      "startAt": "2026-09-17T10:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a988c84ab080c8c957f822d",
+      "source": "limitless",
+      "sourceId": "6a988c84ab080c8c957f822d",
+      "name": "10° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6a988c84ab080c8c957f822d/details",
+      "startAt": "2026-09-17T19:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a9eef1fa4272c53be649d76",
+      "source": "limitless",
+      "sourceId": "6a9eef1fa4272c53be649d76",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6a9eef1fa4272c53be649d76/details",
+      "startAt": "2026-09-17T19:00:00.000Z"
+    },
+    {
+      "id": "limitless:6aa30ac4a4272c53be64d2ec",
+      "source": "limitless",
+      "sourceId": "6aa30ac4a4272c53be64d2ec",
+      "name": "Rare Candy Club Cash Tournament Jackpot ($5 Entry)",
+      "url": "https://play.limitlesstcg.com/tournament/6aa30ac4a4272c53be64d2ec/details",
+      "startAt": "2026-09-18T00:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a8c60318302ae761e5fb22b",
+      "source": "limitless",
+      "sourceId": "6a8c60318302ae761e5fb22b",
+      "name": "Torneo Relámpago ⚡ #80 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6a8c60318302ae761e5fb22b/details",
+      "startAt": "2026-09-18T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a43873b83fd320299bd4947",
+      "source": "limitless",
+      "sourceId": "6a43873b83fd320299bd4947",
+      "name": "Oceania Open! | Season 3 - Week 12",
+      "url": "https://play.limitlesstcg.com/tournament/6a43873b83fd320299bd4947/details",
+      "startAt": "2026-09-18T09:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a91ad35629039f77d8a4251",
+      "source": "limitless",
+      "sourceId": "6a91ad35629039f77d8a4251",
+      "name": "TDRS Season 2 Challenge 2",
+      "url": "https://play.limitlesstcg.com/tournament/6a91ad35629039f77d8a4251/details",
+      "startAt": "2026-09-18T16:05:00.000Z"
+    },
+    {
+      "id": "limitless:6a9eeefcab080c8c957fcf4d",
+      "source": "limitless",
+      "sourceId": "6a9eeefcab080c8c957fcf4d",
+      "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #23",
+      "url": "https://play.limitlesstcg.com/tournament/6a9eeefcab080c8c957fcf4d/details",
+      "startAt": "2026-09-18T18:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a993212ab080c8c957f88e5",
+      "source": "limitless",
+      "sourceId": "6a993212ab080c8c957f88e5",
+      "name": "🏆Ling TV ARENA🏆- TOP CUT",
+      "url": "https://play.limitlesstcg.com/tournament/6a993212ab080c8c957f88e5/details",
+      "startAt": "2026-09-18T18:30:00.000Z"
+    },
+    {
+      "id": "limitless:6aa4e16b38886b36383bd0e8",
+      "source": "limitless",
+      "sourceId": "6aa4e16b38886b36383bd0e8",
+      "name": "Amyverse Webcam Wonders #28 💙 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6aa4e16b38886b36383bd0e8/details",
+      "startAt": "2026-09-18T22:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a438d76c87cd9ff0a3135d8",
+      "source": "limitless",
+      "sourceId": "6a438d76c87cd9ff0a3135d8",
+      "name": "Budget Build Battles! | Season 8 - Week 12",
+      "url": "https://play.limitlesstcg.com/tournament/6a438d76c87cd9ff0a3135d8/details",
+      "startAt": "2026-09-19T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a8721c75a307140955752eb",
+      "source": "limitless",
+      "sourceId": "6a8721c75a307140955752eb",
+      "name": "TOURNAMENT OF DOOM! LEGOS!",
+      "url": "https://play.limitlesstcg.com/tournament/6a8721c75a307140955752eb/details",
+      "startAt": "2026-09-19T02:35:00.000Z"
+    },
+    {
+      "id": "limitless:6a8c60af81741245b151d816",
+      "source": "limitless",
+      "sourceId": "6a8c60af81741245b151d816",
+      "name": "Torneo Relámpago ⚡ #81 PTCG Live BO3 (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6a8c60af81741245b151d816/details",
+      "startAt": "2026-09-20T01:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a80b2925a30714095571744",
+      "source": "limitless",
+      "sourceId": "6a80b2925a30714095571744",
+      "name": "Cusca Premier Cup 👑 #2",
+      "url": "https://play.limitlesstcg.com/tournament/6a80b2925a30714095571744/details",
+      "startAt": "2026-09-21T01:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a8c61df81741245b151d823",
+      "source": "limitless",
+      "sourceId": "6a8c61df81741245b151d823",
+      "name": "Torneo Relámpago ⚡ #82 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6a8c61df81741245b151d823/details",
+      "startAt": "2026-09-23T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a8c620e81741245b151d827",
+      "source": "limitless",
+      "sourceId": "6a8c620e81741245b151d827",
+      "name": "Torneo Relámpago ⚡ #83 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6a8c620e81741245b151d827/details",
+      "startAt": "2026-09-25T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6aa10b3eab080c8c957fedc4",
+      "source": "limitless",
+      "sourceId": "6aa10b3eab080c8c957fedc4",
+      "name": "Oceania Open! | Season 3 - Week 13",
+      "url": "https://play.limitlesstcg.com/tournament/6aa10b3eab080c8c957fedc4/details",
+      "startAt": "2026-09-25T09:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d06aabb9482237504c6c",
+      "source": "limitless",
+      "sourceId": "6a95d06aabb9482237504c6c",
+      "name": "TDRS Season 2 Challenge 3",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d06aabb9482237504c6c/details",
+      "startAt": "2026-09-25T16:05:00.000Z"
+    },
+    {
+      "id": "limitless:6a993668ab080c8c957f88fa",
+      "source": "limitless",
+      "sourceId": "6a993668ab080c8c957f88fa",
+      "name": "🏆Ling TV ARENA🏆- TOP CUT",
+      "url": "https://play.limitlesstcg.com/tournament/6a993668ab080c8c957f88fa/details",
+      "startAt": "2026-09-25T18:30:00.000Z"
+    },
+    {
+      "id": "limitless:6aa10b18ab080c8c957fedc2",
+      "source": "limitless",
+      "sourceId": "6aa10b18ab080c8c957fedc2",
+      "name": "Budget Build Battles! | Season 8 - Week 13",
+      "url": "https://play.limitlesstcg.com/tournament/6aa10b18ab080c8c957fedc2/details",
+      "startAt": "2026-09-26T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a87229678baaa6d1c2244ea",
+      "source": "limitless",
+      "sourceId": "6a87229678baaa6d1c2244ea",
+      "name": "TOURNAMENT OF DOOM! LET'S GO!",
+      "url": "https://play.limitlesstcg.com/tournament/6a87229678baaa6d1c2244ea/details",
+      "startAt": "2026-09-26T02:35:00.000Z"
+    },
+    {
+      "id": "limitless:6a8c628e8302ae761e5fb23b",
+      "source": "limitless",
+      "sourceId": "6a8c628e8302ae761e5fb23b",
+      "name": "Torneo Relámpago ⚡ #84 PTCG Live BO3 (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6a8c628e8302ae761e5fb23b/details",
+      "startAt": "2026-09-27T01:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a944407abb9482237503e5a",
+      "source": "limitless",
+      "sourceId": "6a944407abb9482237503e5a",
+      "name": "Torneo Relámpago ⚡ #85 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6a944407abb9482237503e5a/details",
+      "startAt": "2026-09-30T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a944444629039f77d8a5a22",
+      "source": "limitless",
+      "sourceId": "6a944444629039f77d8a5a22",
+      "name": "Torneo Relámpago ⚡ #86 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6a944444629039f77d8a5a22/details",
+      "startAt": "2026-10-02T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a4382a0c87cd9ff0a31353c",
+      "source": "limitless",
+      "sourceId": "6a4382a0c87cd9ff0a31353c",
+      "name": "Oceania Open Invitational Championships! Season 3",
+      "url": "https://play.limitlesstcg.com/tournament/6a4382a0c87cd9ff0a31353c/details",
+      "startAt": "2026-10-02T09:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d0c2abb9482237504c8a",
+      "source": "limitless",
+      "sourceId": "6a95d0c2abb9482237504c8a",
+      "name": "TDRS Season 2 Cup 1",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d0c2abb9482237504c8a/details",
+      "startAt": "2026-10-02T16:05:00.000Z"
+    },
+    {
+      "id": "limitless:6a438d9583fd320299bd49c4",
+      "source": "limitless",
+      "sourceId": "6a438d9583fd320299bd49c4",
+      "name": "Championships - Budget Build Battles Season 8",
+      "url": "https://play.limitlesstcg.com/tournament/6a438d9583fd320299bd49c4/details",
+      "startAt": "2026-10-03T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a8723115a307140955752fb",
+      "source": "limitless",
+      "sourceId": "6a8723115a307140955752fb",
+      "name": "TOURNAMENT OF DOOM! Did you know...",
+      "url": "https://play.limitlesstcg.com/tournament/6a8723115a307140955752fb/details",
+      "startAt": "2026-10-03T02:35:00.000Z"
+    },
+    {
+      "id": "limitless:6a641a8e937230b102d43a93",
+      "source": "limitless",
+      "sourceId": "6a641a8e937230b102d43a93",
+      "name": "Swoop! Rocket Battle",
+      "url": "https://play.limitlesstcg.com/tournament/6a641a8e937230b102d43a93/details",
+      "startAt": "2026-10-03T22:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d100abb9482237504c8b",
+      "source": "limitless",
+      "sourceId": "6a95d100abb9482237504c8b",
+      "name": "TDRS Season 2 Challenge 4",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d100abb9482237504c8b/details",
+      "startAt": "2026-10-06T16:05:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2d11da4272c53be64cf95",
+      "source": "limitless",
+      "sourceId": "6aa2d11da4272c53be64cf95",
+      "name": "Nightshades Friday Challenge 1",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2d11da4272c53be64cf95/details",
+      "startAt": "2026-10-09T17:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a690277937230b102d47bac",
+      "source": "limitless",
+      "sourceId": "6a690277937230b102d47bac",
+      "name": "RDG! October Open Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a690277937230b102d47bac/details",
+      "startAt": "2026-10-11T00:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d119629039f77d8a6af7",
+      "source": "limitless",
+      "sourceId": "6a95d119629039f77d8a6af7",
+      "name": "TDRS Season 2 Challenge 5",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d119629039f77d8a6af7/details",
+      "startAt": "2026-10-16T16:05:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2d234a4272c53be64cfe5",
+      "source": "limitless",
+      "sourceId": "6aa2d234a4272c53be64cfe5",
+      "name": "Nightshades Friday Challenge 2",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2d234a4272c53be64cfe5/details",
+      "startAt": "2026-10-16T17:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d12aabb9482237504c8e",
+      "source": "limitless",
+      "sourceId": "6a95d12aabb9482237504c8e",
+      "name": "TDRS Season 2 Challenge 6",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d12aabb9482237504c8e/details",
+      "startAt": "2026-10-23T16:05:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2d276a4272c53be64cfe7",
+      "source": "limitless",
+      "sourceId": "6aa2d276a4272c53be64cfe7",
+      "name": "Nightshades Friday Challenge 3",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2d276a4272c53be64cfe7/details",
+      "startAt": "2026-10-23T17:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d139abb9482237504c8f",
+      "source": "limitless",
+      "sourceId": "6a95d139abb9482237504c8f",
+      "name": "TDRS Season 2 Challenge 7",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d139abb9482237504c8f/details",
+      "startAt": "2026-10-30T16:05:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2d284a4272c53be64cfe9",
+      "source": "limitless",
+      "sourceId": "6aa2d284a4272c53be64cfe9",
+      "name": "Nightshades Friday Challenge 4",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2d284a4272c53be64cfe9/details",
+      "startAt": "2026-10-30T17:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d159629039f77d8a6af8",
+      "source": "limitless",
+      "sourceId": "6a95d159629039f77d8a6af8",
+      "name": "TDRS Season 2 Cup 2",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d159629039f77d8a6af8/details",
+      "startAt": "2026-11-06T17:05:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2d291ab080c8c9580024f",
+      "source": "limitless",
+      "sourceId": "6aa2d291ab080c8c9580024f",
+      "name": "Nightshades Friday Challenge 5",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2d291ab080c8c9580024f/details",
+      "startAt": "2026-11-06T18:00:00.000Z"
+    },
+    {
+      "id": "limitless:chamionship-of-doom-ten",
+      "source": "limitless",
+      "sourceId": "chamionship-of-doom-ten",
+      "name": "CHAMPIONSHIP OF DOOM! TEN!",
+      "url": "https://play.limitlesstcg.com/tournament/chamionship-of-doom-ten/details",
+      "startAt": "2026-11-07T16:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d16a629039f77d8a6af9",
+      "source": "limitless",
+      "sourceId": "6a95d16a629039f77d8a6af9",
+      "name": "TDRS Season 2 Challenge 8",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d16a629039f77d8a6af9/details",
+      "startAt": "2026-11-13T17:05:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2d29aab080c8c95800250",
+      "source": "limitless",
+      "sourceId": "6aa2d29aab080c8c95800250",
+      "name": "Nightshades Friday Challenge 6",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2d29aab080c8c95800250/details",
+      "startAt": "2026-11-13T18:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a69081652c24ac2da64eb2a",
+      "source": "limitless",
+      "sourceId": "6a69081652c24ac2da64eb2a",
+      "name": "RDG! November Elite Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a69081652c24ac2da64eb2a/details",
+      "startAt": "2026-11-15T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d181629039f77d8a6afa",
+      "source": "limitless",
+      "sourceId": "6a95d181629039f77d8a6afa",
+      "name": "TDRS Season 2 Challenge 9",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d181629039f77d8a6afa/details",
+      "startAt": "2026-11-20T17:05:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2d2a3ab080c8c95800251",
+      "source": "limitless",
+      "sourceId": "6aa2d2a3ab080c8c95800251",
+      "name": "Nightshades Friday Challenge 7",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2d2a3ab080c8c95800251/details",
+      "startAt": "2026-11-20T18:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d1a1abb9482237504c92",
+      "source": "limitless",
+      "sourceId": "6a95d1a1abb9482237504c92",
+      "name": "TDRS Season 2 Challenge 10",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d1a1abb9482237504c92/details",
+      "startAt": "2026-11-27T17:05:00.000Z"
+    },
+    {
+      "id": "limitless:6a95d1b5abb9482237504c93",
+      "source": "limitless",
+      "sourceId": "6a95d1b5abb9482237504c93",
+      "name": "TDRS Season 2 Regional 1",
+      "url": "https://play.limitlesstcg.com/tournament/6a95d1b5abb9482237504c93/details",
+      "startAt": "2026-12-04T17:05:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2d2aca4272c53be64cfea",
+      "source": "limitless",
+      "sourceId": "6aa2d2aca4272c53be64cfea",
+      "name": "Nightshades Friday Challenge 8",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2d2aca4272c53be64cfea/details",
+      "startAt": "2026-12-04T18:00:00.000Z"
+    },
+    {
+      "id": "limitless:6aa2d2cbab080c8c95800255",
+      "source": "limitless",
+      "sourceId": "6aa2d2cbab080c8c95800255",
+      "name": "Nightshades Friday Challenge 9",
+      "url": "https://play.limitlesstcg.com/tournament/6aa2d2cbab080c8c95800255/details",
+      "startAt": "2026-12-11T18:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a690411937230b102d47bb2",
+      "source": "limitless",
+      "sourceId": "6a690411937230b102d47bb2",
+      "name": "RDG! December Open Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a690411937230b102d47bb2/details",
+      "startAt": "2026-12-13T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a7c9e942b308b6067b52125",
+      "source": "limitless",
+      "sourceId": "6a7c9e942b308b6067b52125",
+      "name": "Pokemon TCG TOPDECK LEAGUE Hoenn — Finals",
+      "url": "https://play.limitlesstcg.com/tournament/6a7c9e942b308b6067b52125/details",
+      "startAt": "2026-12-27T10:00:00.000Z"
+    },
+    {
+      "id": "limitless:6a690435937230b102d47bb3",
+      "source": "limitless",
+      "sourceId": "6a690435937230b102d47bb3",
+      "name": "RDG! January Open Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a690435937230b102d47bb3/details",
+      "startAt": "2027-01-10T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a6908dc52c24ac2da64eb2f",
+      "source": "limitless",
+      "sourceId": "6a6908dc52c24ac2da64eb2f",
+      "name": "RDG! February Elite Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a6908dc52c24ac2da64eb2f/details",
+      "startAt": "2027-02-14T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a690460937230b102d47bbf",
+      "source": "limitless",
+      "sourceId": "6a690460937230b102d47bbf",
+      "name": "RDG! March Open Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a690460937230b102d47bbf/details",
+      "startAt": "2027-03-14T01:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a69047852c24ac2da64eaf9",
+      "source": "limitless",
+      "sourceId": "6a69047852c24ac2da64eaf9",
+      "name": "RDG! April Open Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a69047852c24ac2da64eaf9/details",
+      "startAt": "2027-04-11T00:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a6908fd937230b102d47bf3",
+      "source": "limitless",
+      "sourceId": "6a6908fd937230b102d47bf3",
+      "name": "RDG! May Elite Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a6908fd937230b102d47bf3/details",
+      "startAt": "2027-05-09T00:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a69048c937230b102d47bc0",
+      "source": "limitless",
+      "sourceId": "6a69048c937230b102d47bc0",
+      "name": "RDG! June Open Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a69048c937230b102d47bc0/details",
+      "startAt": "2027-06-13T00:30:00.000Z"
+    },
+    {
+      "id": "limitless:6a6904a6937230b102d47bc1",
+      "source": "limitless",
+      "sourceId": "6a6904a6937230b102d47bc1",
+      "name": "RDG! July Open Qualifier",
+      "url": "https://play.limitlesstcg.com/tournament/6a6904a6937230b102d47bc1/details",
+      "startAt": "2027-07-11T00:30:00.000Z"
+    },
+    {
+      "id": "limitless:6aa1b553a4272c53be64c0e8",
+      "source": "limitless",
+      "sourceId": "6aa1b553a4272c53be64c0e8",
+      "name": "WOLDS OF DOOM 2027! DAY ONE!",
+      "url": "https://play.limitlesstcg.com/tournament/6aa1b553a4272c53be64c0e8/details",
+      "startAt": "2027-07-31T15:05:00.000Z"
+    },
+    {
+      "id": "limitless:6a6909af937230b102d47bf7",
+      "source": "limitless",
+      "sourceId": "6a6909af937230b102d47bf7",
+      "name": "RDG! World Championships",
+      "url": "https://play.limitlesstcg.com/tournament/6a6909af937230b102d47bf7/details",
+      "startAt": "2027-08-15T00:30:00.000Z"
+    }
+  ]
+}
