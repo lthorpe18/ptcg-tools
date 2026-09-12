@@ -1,0 +1,51 @@
+name: Update online tournaments
+
+on:
+  schedule:
+    - cron: '43 */2 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/update-online-events.yml'
+      - 'scripts/update-online-events.mjs'
+      - 'tests/online-events.test.mjs'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: online-tournament-feed-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Verify discovery and last-known-good protection
+        run: node --test tests/online-events.test.mjs
+      - name: Refresh future online tournaments
+        # One public-page request, with a 30-second deadline. Failure stops
+        # this job before any commit; unchanged event content is a no-op.
+        run: node scripts/update-online-events.mjs
+      - name: Commit changed feed only
+        env:
+          FEED_BRANCH: ${{ github.ref_name }}
+        run: |
+          if git diff --quiet -- v2-preview/data/online-events.json; then
+            echo "Tournament feed unchanged; no commit needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v2-preview/data/online-events.json
+          git commit -m "Refresh future online tournaments"
+          # Never force-push: a concurrent branch change fails safely and the
+          # next scheduled/manual run can refresh from its new head.
+          git push origin "HEAD:$FEED_BRANCH"
