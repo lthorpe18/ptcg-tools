@@ -54,6 +54,24 @@
       return `<span class="training-game-badge ${esc(game.result||'unknown')}">${letter}</span>`;
     }).join('');
   }
+  function participationMap(){
+    const rows=window.PTCGStorage?.allParticipations?.()||[];
+    return new Map(rows.map(row=>[String(row?.id||''),row]));
+  }
+  function gameLogContext(match,participations){
+    if(!match?.participationId)return {kind:'training',label:'Training',medium:sourceLabel(match?.source),eventName:''};
+    const participation=participations.get(String(match.participationId))||null;
+    const snapshot=participation?.eventSnapshot||{};
+    const platform=String(snapshot.platform||'').trim();
+    const online=snapshot.scope==='online'||snapshot.environment==='online'||String(snapshot.venue||'').trim().toLowerCase()==='online'||platform.toUpperCase().includes('PTCGL');
+    return {
+      kind:'tournament',
+      label:'Tournament',
+      medium:online?(platform||'Online'):'In person',
+      eventName:String(match.eventName||snapshot.name||snapshot.title||'').trim()
+    };
+  }
+  function tournamentHref(match){return `../events/tournament-day.html?participation=${encodeURIComponent(match.participationId)}`}
 
   function refKey(ref){return `${ref.deckId}::${ref.deckVersionId||'working'}::${ref.listHash||'unhashed'}`}
 
@@ -115,9 +133,13 @@
   }
 
   function render(){
-    const source=$('trainingSourceFilter').value,deckId=$('trainingDeckFilter').value;
+    const type=$('trainingSourceFilter').value,deckId=$('trainingDeckFilter').value;
+    const participations=participationMap();
     const rows=window.PTCGMatchStore.all()
-      .filter(match=>!match.participationId&&(source==='all'||match.source===source)&&(deckId==='all'||match.deckId===deckId))
+      .filter(match=>{
+        const kind=match.participationId?'tournament':'training';
+        return (type==='all'||type===kind)&&(deckId==='all'||match.deckId===deckId);
+      })
       .sort(compareRecent);
     const totals=gameStats(rows);
     $('trainingMetrics').innerHTML=[
@@ -132,11 +154,19 @@
       const ownArchetype=deckArchetypes.get(match.deckId)||deck;
       const opponent=match.opponentArchetype||'Unknown deck';
       const games=Array.isArray(match.games)&&match.games.length?match.games:[{result:match.result}];
-      const meta=[sourceLabel(match.source),shortDate(match.playedAt)];
+      const context=gameLogContext(match,participations);
+      const meta=[context.label];
+      if(context.eventName)meta.push(context.eventName);
+      if(context.kind==='tournament'&&match.roundLabel)meta.push(match.roundLabel);
+      if(context.medium)meta.push(context.medium);
+      meta.push(shortDate(match.playedAt));
       if(games.length>1)meta.push(`${games.length} games`);
       if(match.wentFirst===true)meta.push('first');else if(match.wentFirst===false)meta.push('second');
       if(match.deckVersionLabelSnapshot)meta.push(match.deckVersionLabelSnapshot);
-      return `<button type="button" class="training-row" data-match-id="${esc(match.id)}">
+      const tournament=context.kind==='tournament';
+      const open=tournament?`<a class="training-row" data-match-id="${esc(match.id)}" data-tournament="true" href="${esc(tournamentHref(match))}">`:`<button type="button" class="training-row" data-match-id="${esc(match.id)}">`;
+      const close=tournament?'</a>':'</button>';
+      return `${open}
         <span class="training-game-results" aria-label="Game results">${gameBadges(match)}</span>
         <span class="training-row-main">
           <span class="training-matchup">
@@ -147,7 +177,7 @@
           <small class="training-meta">${esc(meta.join(' · '))}</small>
         </span>
         <span class="training-chevron">›</span>
-      </button>`;
+      ${close}`;
     }).join('');
     $('trainingEmpty').hidden=rows.length>0;
   }
@@ -155,7 +185,7 @@
   function showTraining(){
     $('libraryScreen').hidden=true;$('deckScreen').hidden=true;$('trainingScreen').hidden=false;$('workspaceNav').hidden=false;$('newDeckTop').hidden=true;
     document.querySelectorAll('[data-workspace]').forEach(button=>button.setAttribute('aria-selected',String(button.dataset.workspace==='training')));
-    loadDeckRefs().then(render).catch(error=>{console.error(error);toast('Training Log failed to load')});
+    loadDeckRefs().then(render).catch(error=>{console.error(error);toast('Game Log failed to load')});
   }
 
   function setImportState(state,message){
@@ -274,7 +304,12 @@
     }catch(error){toast(error.message||'Training entry could not be saved')}
   }
 
-  function openMatch(id){const match=window.PTCGMatchStore.get(id);if(match)openSheet('edit',match)}
+  function openMatch(id){
+    const match=window.PTCGMatchStore.get(id);
+    if(!match)return;
+    if(match.participationId){location.href=tournamentHref(match);return}
+    openSheet('edit',match);
+  }
   function deleteMatch(){
     if(!editingMatch||!confirm('Delete this training entry?'))return;
     window.PTCGMatchStore.remove(editingMatch.id);closeSheet();render();toast('Training entry deleted');
@@ -290,19 +325,31 @@
     ['gameWins','gameLosses','gameDraws'].forEach(id=>$(id).addEventListener('input',syncManualResult));
     $('matchForm').addEventListener('submit',saveForm);
     $('matchDelete').addEventListener('click',deleteMatch);
-    $('trainingList').addEventListener('click',event=>{const row=event.target.closest('[data-match-id]');if(row)openMatch(row.dataset.matchId)});
+    $('trainingList').addEventListener('click',event=>{const row=event.target.closest('[data-match-id]');if(row&&!row.dataset.tournament)openMatch(row.dataset.matchId)});
     $('trainingSourceFilter').addEventListener('change',render);$('trainingDeckFilter').addEventListener('change',render);
     document.querySelectorAll('[data-close-match-sheet]').forEach(element=>element.addEventListener('click',closeSheet));
   }
 
   function configureCopy(){
+    const workspace=document.querySelector('[data-workspace="training"]');
+    if(workspace)workspace.textContent='Game Log';
+    const head=$('trainingScreen')?.querySelector('.training-head');
+    if(head){
+      const eyebrow=head.querySelector('.app-eyebrow'),title=head.querySelector('h1'),copy=head.querySelector('p');
+      if(eyebrow)eyebrow.textContent='GAMES';
+      if(title)title.textContent='Game Log';
+      if(copy)copy.textContent='Training and tournament games.';
+    }
     const source=$('trainingSourceFilter');
-    if(source?.options?.[0])source.options[0].textContent='All games';
+    if(source){
+      source.setAttribute('aria-label','Game type');
+      source.innerHTML='<option value="all">All games</option><option value="training">Training</option><option value="tournament">Tournaments</option>';
+    }
     const empty=$('trainingEmpty');
     if(empty){
       const strong=empty.querySelector('strong'),copy=empty.querySelector('p');
-      if(strong)strong.textContent='No training games yet';
-      if(copy)copy.textContent='Paste a PTCGL log or record in-person games.';
+      if(strong)strong.textContent='No games yet';
+      if(copy)copy.textContent='Paste a PTCGL log, record in-person games or record a tournament round.';
     }
   }
 
@@ -316,5 +363,5 @@
   }
 
   window.addEventListener('pagehide',()=>{if(unsubscribe)unsubscribe()});
-  init().catch(error=>{console.error(error);toast('Training Log failed to start')});
+  init().catch(error=>{console.error(error);toast('Game Log failed to start')});
 })();

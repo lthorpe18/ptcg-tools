@@ -25,7 +25,7 @@
   <main class="app-shell-page decks-page">
     <nav id="workspaceNav" class="app-segmented workspace-tabs" aria-label="Deck workspace">
       <button type="button" data-workspace="decks" aria-selected="true">My Decks</button>
-      <button type="button" data-workspace="training" aria-selected="false">Training Log</button>
+      <button type="button" data-workspace="training" aria-selected="false">Game Log</button>
     </nav>
 
     <section id="libraryScreen">
@@ -48,26 +48,26 @@
 
     <section id="trainingScreen" hidden>
       <section class="app-page-head training-head">
-        <div class="app-eyebrow">TRAINING</div>
-        <h1>Training Log</h1>
-        <p>PTCGL and in-person games.</p>
+        <div class="app-eyebrow">GAMES</div>
+        <h1>Game Log</h1>
+        <p>Training and tournament games.</p>
       </section>
-      <section id="trainingMetrics" class="training-metrics" aria-label="Training summary"></section>
+      <section id="trainingMetrics" class="training-metrics" aria-label="Game summary"></section>
       <section class="training-actions">
         <button id="importMatch" class="app-button primary" type="button">Paste PTCGL log</button>
         <button id="manualMatch" class="app-button" type="button">Record in person</button>
       </section>
       <section class="training-filters">
-        <select id="trainingSourceFilter" aria-label="Game source">
-          <option value="all">All games</option><option value="ptcgl">PTCGL</option><option value="irl">In person</option>
+        <select id="trainingSourceFilter" aria-label="Game type">
+          <option value="all">All games</option><option value="training">Training</option><option value="tournament">Tournaments</option>
         </select>
         <select id="trainingDeckFilter" aria-label="Deck filter"><option value="all">All decks</option></select>
       </section>
-      <div class="training-list-head"><strong>History</strong><span id="trainingCount">0 games</span></div>
+      <div class="training-list-head"><strong>Game history</strong><span id="trainingCount">0 games</span></div>
       <section id="trainingList" class="training-list" aria-live="polite"></section>
       <div id="trainingEmpty" class="app-card app-empty">
-        <strong>No training games yet</strong>
-        <p>Paste a PTCGL log or record in-person games.</p>
+        <strong>No games yet</strong>
+        <p>Paste a PTCGL log, record in-person games or record a tournament round.</p>
       </div>
     </section>
 
@@ -125,7 +125,7 @@
           </div>
           <div id="deckResultsEmpty" class="deck-results-empty-action">
             <p>No linked games yet.</p>
-            <button id="deckResultsOpenTraining" class="app-button" type="button">Open Training Log</button>
+            <button id="deckResultsOpenTraining" class="app-button" type="button">Open Game Log</button>
           </div>
           <div id="deckResultsContent" hidden>
             <div id="deckResultsMetrics" class="deck-results-metrics" aria-label="Deck results summary"></div>
@@ -245,7 +245,7 @@
   <script src="deck-sprites-canonical.js?v=1"></script>
   <script src="app.js?v=7"></script>
   <script src="deck-card-images.js?v=1"></script>
-  <script src="training.js?v=6"></script>
+  <script src="training.js?v=7"></script>
   <script src="deck-results.js?v=3"></script>
   <script src="playtest-entry.js?v=6"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
