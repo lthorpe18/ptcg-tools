@@ -218,7 +218,7 @@
       <form id="matchForm">
         <section id="importStage" class="import-stage" hidden>
           <label>PTCGL battle log<textarea id="importLog" spellcheck="false" placeholder="Paste the complete English battle log from PTCG Live"></textarea></label>
-          <small id="importStatus">Paste a complete English PTCG Live battle log. The form will fill automatically.</small>
+          <small id="importStatus">Paste a complete English battle log from PTCG Live. The form will fill automatically.</small>
         </section>
 
         <section id="matchFields" class="match-fields">
@@ -231,7 +231,7 @@
           <label>Result<select id="matchResult"><option value="win">Win</option><option value="loss">Loss</option><option value="draw">Draw</option><option value="unknown">Unknown</option></select></label>
           <label>Date<input id="matchDate" type="date" required></label>
           <label>Format<select id="matchFormat"><option value="TEF-PBL">TEF–PBL</option><option value="TEF-CRI">TEF–CRI</option><option value="Expanded">Expanded</option><option value="GLC">GLC</option></select></label>
-          <label>Opening turn<select id="matchTurnOrder"><option value="unknown">Unknown</option><option value="first">Went first</option><option value="second">Went second</option><option value="unknown">Unknown</option></select></label>
+          <label>Opening turn<select id="matchTurnOrder"><option value="unknown">Unknown</option><option value="first">Went first</option><option value="second">Went second</option></select></label>
           <fieldset class="game-score wide"><legend>Games</legend><label>Wins<input id="gameWins" type="number" min="0" max="9" value="1"></label><label>Losses<input id="gameLosses" type="number" min="0" max="9" value="0"></label><label>Draws<input id="gameDraws" type="number" min="0" max="9" value="0"></label></fieldset>
           <label>Event<input id="matchEvent" type="text" placeholder="Optional"></label>
           <label>Round<input id="matchRound" type="text" placeholder="e.g. Round 3"></label>
