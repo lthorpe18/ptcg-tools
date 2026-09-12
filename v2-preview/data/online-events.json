@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T19:48:46.765Z",
+  "generatedAt": "2026-09-12T19:51:25.632Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -265,6 +265,16 @@
       "name": "Perth pokemon week 5",
       "url": "https://play.limitlesstcg.com/tournament/6aa542c7f1243e65f97fe987/details",
       "startAt": "2026-09-17T10:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5ace8f1243e65f97ff33f",
+      "source": "limitless",
+      "sourceId": "6aa5ace8f1243e65f97ff33f",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5ace8f1243e65f97ff33f/details",
+      "startAt": "2026-09-17T16:00:00.000Z"
     },
     {
       "format": "Standard",
