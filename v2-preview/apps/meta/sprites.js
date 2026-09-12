@@ -5,6 +5,6 @@
   // The one app-wide implementation now lives in ../_shared/deck-sprites.js.
   if (window.DeckSprites) return;
   const current = document.currentScript?.src || location.href;
-  const shared = new URL('../_shared/deck-sprites.js?v=1', current).href;
+  const shared = new URL('../_shared/deck-sprites.js?v=2', current).href;
   document.write(`<script src="${shared}"><\/script>`);
 })();
