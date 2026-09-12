@@ -43,6 +43,13 @@ test('Results summary is one compact record strip rather than a metric-card grid
   assert.match(css,/\.deck-results-summary-main\{display:flex/);
 });
 
+test('mobile summary keeps record values intact and moves tournament context below',()=>{
+  assert.match(css,/\.deck-results-summary-stat b\{[^}]*white-space:nowrap/);
+  assert.match(css,/@media\(max-width:720px\)\{[^}]*\.deck-results-panel/);
+  assert.match(css,/\.deck-results-summary-main\{display:grid;grid-template-columns:max-content max-content minmax\(0,1fr\)/);
+  assert.match(css,/\.deck-results-tournament-record\{grid-column:1\/-1/);
+});
+
 test('matchup and archetype deck rows use canonical deck sprites',()=>{
   assert.match(js,/window\.DeckSprites\?\.html/);
   assert.match(js,/function matchupRows\(rows\)/);
@@ -50,6 +57,12 @@ test('matchup and archetype deck rows use canonical deck sprites',()=>{
   assert.match(js,/spriteHtml\(row\.label,32\)/);
   assert.match(js,/spriteHtml\(spriteLabel,32\)/);
   assert.match(css,/\.deck-results-row-sprite/);
+});
+
+test('two-sprite matchup identities reserve their full width before the deck name',()=>{
+  assert.match(css,/\.deck-results-row-identity\{display:grid;grid-template-columns:70px minmax\(0,1fr\)/);
+  assert.match(css,/\.deck-results-row-sprite\{[^}]*width:70px;min-width:70px/);
+  assert.match(css,/\.deck-results-row-sprite \.deck-sprite-stack\{max-width:none!important;overflow:visible\}/);
 });
 
 test('matchups render as compact stats tables with record and win rate columns',()=>{
