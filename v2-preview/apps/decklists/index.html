@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="styles.css?v=8">
   <link rel="stylesheet" href="deck-card-images.css?v=1">
   <link rel="stylesheet" href="training-import-polish.css?v=1">
-  <link rel="stylesheet" href="training-history-polish.css?v=2">
+  <link rel="stylesheet" href="training-history-polish.css?v=3">
   <link rel="stylesheet" href="deck-results.css?v=4">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="decks">
@@ -59,7 +59,20 @@
       </section>
       <section class="training-filters">
         <select id="trainingSourceFilter" aria-label="Game type">
-          <option value="all">All games</option><option value="training">Training</option><option value="tournament">Tournaments</option>
+          <option value="all">All games</option>
+          <option value="training">Training</option>
+          <optgroup label="Tournaments">
+            <option value="tournament:all">Tournaments — all</option>
+            <option value="tournament:online">Online</option>
+            <option value="tournament:local">Local / League</option>
+            <option value="tournament:challenge">Challenge</option>
+            <option value="tournament:cup">Cup</option>
+            <option value="tournament:majors">Majors — all</option>
+            <option value="tournament:regional">↳ Regional</option>
+            <option value="tournament:special">↳ Special Event</option>
+            <option value="tournament:international">↳ International</option>
+            <option value="tournament:worlds">↳ Worlds</option>
+          </optgroup>
         </select>
         <select id="trainingDeckFilter" aria-label="Deck filter"><option value="all">All decks</option></select>
       </section>
@@ -205,7 +218,7 @@
       <form id="matchForm">
         <section id="importStage" class="import-stage" hidden>
           <label>PTCGL battle log<textarea id="importLog" spellcheck="false" placeholder="Paste the complete English battle log from PTCG Live"></textarea></label>
-          <small id="importStatus">Paste a complete English PTCG Live battle log. The form will fill automatically.</small>
+          <small id="importStatus">Paste a complete English battle log from PTCG Live. The form will fill automatically.</small>
         </section>
 
         <section id="matchFields" class="match-fields">
@@ -245,7 +258,7 @@
   <script src="deck-sprites-canonical.js?v=1"></script>
   <script src="app.js?v=7"></script>
   <script src="deck-card-images.js?v=1"></script>
-  <script src="training.js?v=7"></script>
+  <script src="training.js?v=8"></script>
   <script src="deck-results.js?v=3"></script>
   <script src="playtest-entry.js?v=6"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
