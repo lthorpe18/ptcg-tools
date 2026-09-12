@@ -1,12 +1,12 @@
 # PTCG Tools — Accounts, Community & Public-Ready Architecture
 
 **Status:** Current companion architecture source of truth  
-**Date:** 4 September 2026  
+**Date:** 12 September 2026  
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `PERFORMANCE_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`
 
 ## Purpose
 
-This document records the account, persistence, community/public-release and source-governance decisions that keep PTCG Tools **personal-first, public-ready**.
+This document records the account, persistence, shared-data, community/public-release and source-governance decisions that keep PTCG Tools **personal-first, public-ready**.
 
 The product should continue to optimize for the primary user's competitive workflow without making unnecessary choices that block future community use.
 
@@ -28,18 +28,13 @@ Principles:
 - treat name/email/profile identifiers as personal data;
 - keep provider secrets out of the public GitHub repository.
 
-Current Supabase project:
-
-- **PTCG Tools V2 Auth**;
-- project ref `naylqcyrnhjvqodjpjsg`;
-- `eu-west-2`;
-- free tier at current scale.
+Current Supabase project remains the existing PTCG Tools V2 Auth project in `eu-west-2` at current personal scale.
 
 The frontend uses only the publishable client key.
 
 ### OAuth / persistent-shell boundary
 
-Google OAuth must never be loaded inside the embedded feature child view.
+Google OAuth must never be loaded inside an embedded feature child view.
 
 Authentication deliberately performs a **top-level navigation** away from PTCG Tools and returns to the top-level app afterward.
 
@@ -65,7 +60,7 @@ Current durable snapshot state includes:
 
 Desired user model:
 
-> Sign in once; meaningful PTCG Tools state follows the account.
+> Sign in once; meaningful PTCG Tools personal state follows the account.
 
 Current behavior includes:
 
@@ -78,11 +73,7 @@ Current behavior includes:
 
 The sync controller belongs to the **top-level persistent shell**, not to an individual feature page.
 
-### Proven behavior
-
-Google authentication and cross-device persistence were tested successfully across devices, including event Attending state.
-
-The account/sync milestone is therefore established for the current product stage.
+Google authentication and cross-device persistence have been tested successfully across devices, including event state.
 
 ---
 
@@ -101,7 +92,7 @@ Examples:
 - real Match/Game history;
 - preferences/presentation overrides;
 - future Collection quantities/allocations;
-- future Season/CP state.
+- future personal performance preferences/goals.
 
 ### Transient/local work-in-progress
 
@@ -116,19 +107,20 @@ Current Mobile Playtest tabletop state remains local browser state, including:
 
 It is not silently uploaded as durable account data.
 
-A future **Save Playtest session / Practice evidence** feature must be explicit.
+A future Save Playtest session / Practice evidence feature must be explicit.
 
 Solo/goldfish Playtest never creates competitive W/L.
 
 ---
 
-## 4. Shared competitive data vs private personal state
+## 4. Shared competitive/application data vs private personal state
 
-### Shared competitive data
+### Shared application / competitive data
 
-Fetched/derived once and reused across users:
+Fetched, derived or maintained once and reused across users:
 
 - cards/formats;
+- **set release / Online legality / IRL legality / rotation calendar facts**;
 - event/tournament facts;
 - tournament results/public decklists;
 - normalized Meta evidence;
@@ -141,35 +133,65 @@ Fetched/derived once and reused across users:
 Account-owned/private:
 
 - Decks/versions;
-- Collection;
+- future Collection;
 - attendance;
 - Prep;
 - Tournament Day/completion;
-- personal Matches;
+- personal Matches/Games;
 - Expected Fields;
 - notes/testing evidence;
 - preferences and deck-icon overrides;
 - season goals/manual corrections.
 
-Do not duplicate heavyweight public datasets inside every user's account snapshot.
+Do not duplicate heavyweight public/shared datasets inside every user's account snapshot.
+
+### Format/set calendar is shared, not a preference
+
+The current canonical manual source is `data/formats/maintained-calendar.json`.
+
+The agreed future **Settings → Formats & Sets** UI is a maintenance interface for this shared application model. It must not write independent set calendars into `user_snapshots` or ordinary account preferences.
+
+A practical future implementation may use an authorised global table/record or another controlled shared maintenance endpoint, with checked-in JSON retained as bootstrap/fallback. The browser-facing format resolver should continue to consume one canonical shared calendar regardless of storage implementation.
+
+Only authorised maintainers should be able to change shared release/legal-date/rotation facts. Ordinary signed-in users must not gain write access merely because Settings is account-accessible.
 
 ### Presentation preferences are account-owned but globally consumed
 
-Deck/archetype sprite overrides are a good example of the boundary:
+Deck/archetype sprite overrides are a good example of the opposite boundary:
 
 - the override itself is private user preference state;
-- every feature should consume the same shared presentation engine (`DeckSprites`);
+- every feature consumes the same shared presentation engine;
 - features must not independently re-infer or maintain competing archetype→sprite mappings.
 
-This keeps personal customization consistent across Meta, Decks, Compete and future surfaces.
+The one current visual renderer is:
+
+`v2-preview/apps/_shared/deck-sprites.js` → `window.DeckSprites.html()`
+
+That renderer owns both mapping and the accepted one/two-sprite composition. Account overrides therefore remain consistent across Home, Meta, Decks and Compete.
 
 ---
 
-## 5. Whole-account snapshot vs future normalized user tables
+## 5. Match/Game evidence and account persistence
+
+Canonical personal results remain stored as shared Match/Game evidence inside account-owned state.
+
+The analytics semantics are now explicit:
+
+- tournament record, completion and Season are Match-level;
+- personal Deck/matchup/version learning is Game-level;
+- Training Log is Game-level but excludes Tournament Day records from its workspace;
+- tournament Games may still contribute to personal learning;
+- personal evidence never overwrites public H2H.
+
+Do not introduce a second personal-results store merely to support Personal Performance, Practice Priorities or Deck Results. Derived analytics should read canonical account-owned Match/Game evidence and exact Deck references.
+
+---
+
+## 6. Whole-account snapshot vs future normalized user tables
 
 The current snapshot model remains appropriate while the product schema is evolving rapidly.
 
-Normalize a domain only when there is a concrete need for:
+Normalize a private domain only when there is a concrete need for:
 
 - queryability;
 - conflict resolution;
@@ -189,11 +211,13 @@ Likely future candidates include:
 
 Do not normalize only for database purity.
 
+The shared format/set calendar is a different concern: if Settings maintenance requires server-side writes, a small global authorised record/table is justified because the data is shared across accounts rather than private account state.
+
 Import/export remains desirable as user-controlled backup/interoperability even with cloud accounts.
 
 ---
 
-## 6. Local-community release
+## 7. Local-community release
 
 A legitimate middle ground is:
 
@@ -215,7 +239,7 @@ GitHub Pages is suitable for the current personal/community phase but should not
 
 ---
 
-## 7. Upstream-source architecture
+## 8. Upstream/shared-source architecture
 
 For community/public use, avoid:
 
@@ -225,9 +249,13 @@ Prefer:
 
 `external source → PTCG Tools ingestion/cache → normalized shared data → all users`
 
-For Meta today, that means scheduled GitHub Actions ingest and normalize Online/IRL evidence into canonical `data/meta/` archives, then build a content-addressed, purpose-split browser release served by GitHub Pages. Home/Meta validate and cache those files locally. A normal browser session does not query or scrape Limitless directly.
+For Meta today, scheduled GitHub Actions ingest and normalize Online/IRL evidence into canonical archives, then build a content-addressed browser release served by GitHub Pages. Home/Meta validate and cache those files locally. A normal browser session does not query or scrape Limitless directly.
 
-Supabase stores private per-user snapshots and authentication state. It is deliberately not a duplicate warehouse for the same shared Meta release at the current scale.
+For infrequent manually maintained set/format facts, the equivalent principle is:
+
+`authorised maintainer → one shared format calendar → format resolver → all users`
+
+Supabase stores private per-user snapshots and authentication state. It need not become the public Meta warehouse. A small authorised shared calendar record is acceptable if required by the Settings maintenance workflow because it solves a distinct shared-write need.
 
 Benefits:
 
@@ -239,7 +267,7 @@ Benefits:
 
 ---
 
-## 8. Source Adapter direction
+## 9. Source Adapter direction
 
 The app should increasingly reason in normalized entities such as:
 
@@ -248,15 +276,16 @@ The app should increasingly reason in normalized entities such as:
 - Decklist;
 - Match;
 - Event;
-- Card.
+- Card;
+- Format/Set calendar facts.
 
 Potential adapters include Limitless, Pokémon, RK9 and Pokédata adapters or successors.
 
-Imported records should retain provenance where practical:
+Imported/shared records should retain provenance where practical:
 
 - source;
 - source record ID;
-- retrieval timestamp;
+- retrieval/maintenance timestamp;
 - field authority;
 - access classification.
 
@@ -266,13 +295,13 @@ Useful access classifications:
 - Explicit permission;
 - Public data;
 - Scraped;
-- User supplied.
+- User supplied / manually maintained.
 
-Anything classified as **Scraped** that becomes essential to a public product should be replaced, reviewed or explicitly authorized before broad launch.
+Anything classified as Scraped that becomes essential to a public product should be replaced, reviewed or explicitly authorized before broad launch.
 
 ---
 
-## 9. Third-party source implications
+## 10. Third-party source implications
 
 ### Limitless
 
@@ -296,7 +325,7 @@ Treat discovery/index sources according to their actual authority and retain pro
 
 ---
 
-## 10. Pokémon IP / public distribution
+## 11. Pokémon IP / public distribution
 
 A free fan app is not automatically exempt from copyright, trademark, database-right or service-term obligations.
 
@@ -314,7 +343,7 @@ PTCG Tools should maintain an independent brand and identify itself as unofficia
 
 ---
 
-## 11. Privacy position
+## 12. Privacy position
 
 Once accounts exist, PTCG Tools handles personal data.
 
@@ -328,17 +357,19 @@ Principles:
 - provide practical export/delete controls before public release;
 - treat email/name/profile details as personal data.
 
+Shared calendar maintenance authorization must be separate from ordinary account privacy/RLS rules: a normal account may read shared format facts but should not automatically be allowed to edit them.
+
 A formal privacy policy is required before broad public distribution and sensible before a larger community cohort.
 
 ---
 
-## 12. Public-release progression
+## 13. Public-release progression
 
 Recommended progression:
 
 1. **Personal product** — complete the connected competitive workflow.
 2. **Development Cleanup / Release Hardening** — remove temporary build pins, dead compatibility code, duplicate cross-feature engines and stale cache assumptions.
-3. **Public-ready architecture** — retain account scoping, provenance and normalized shared-data direction.
+3. **Public-ready architecture** — retain account scoping, provenance and normalized/shared-data direction.
 4. **Local community** — small real-player cohort.
 5. **Private beta** — tens of users if useful.
 6. **Provider/IP/privacy review** — resolve external dependencies and distribution obligations.
@@ -348,20 +379,24 @@ Do not design for millions prematurely.
 
 ---
 
-## 13. Release-hardening implications
+## 14. Release-hardening implications
 
-The Tournament Day development cycle exposed two classes of issue that must be systematically removed before a stable release:
+The recent development cycle exposed repeat classes of issue that must be systematically removed before stable release:
 
-1. **temporary navigation/cache scaffolding** — dated build strings, stale service-worker assumptions, multiple entry routes pinning different application generations;
-2. **duplicate shared logic** — e.g. a feature-local archetype sprite resolver diverging from the account-owned Settings/Meta `DeckSprites` mapping.
+1. **temporary navigation/cache scaffolding** — dated build strings, stale service-worker assumptions, multiple routes pinning different application generations;
+2. **duplicate shared logic** — feature-local sprite composition, card-art helpers or other local engines diverging from shared contracts;
+3. **unclear shared/private boundaries** — global set/format facts must not be copied into private account preferences simply because their editor lives in Settings.
 
 Before stable release:
 
 - search repository-wide for dated build/revision links;
 - delete obsolete legacy UI paths rather than only hiding them;
 - consolidate shared concerns into one implementation;
+- verify only one canonical deck/archetype sprite renderer remains;
 - verify service-worker generation/cache behavior;
 - ensure personal preferences are consumed consistently everywhere;
+- keep shared format facts globally consistent;
+- verify account backup/export and sync recovery;
 - verify current deployed SHA and iPhone behavior.
 
 This hardening step is part of becoming public-ready, not optional cosmetic refactoring.
