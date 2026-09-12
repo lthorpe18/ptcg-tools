@@ -9,6 +9,7 @@ const training=fs.readFileSync('v2-preview/apps/decklists/training.js','utf8');
 const canonical=fs.readFileSync('v2-preview/apps/decklists/deck-sprites-canonical.js','utf8');
 const deckHtml=fs.readFileSync('v2-preview/apps/decklists/index.html','utf8');
 const homeHtml=fs.readFileSync('v2-preview/home-content.html','utf8');
+const homeTweaks=fs.readFileSync('v2-preview/home-tweaks.css','utf8');
 const shell=fs.readFileSync('v2-preview/index.html','utf8');
 
 test('DeckSprites owns the Home-style primary plus circular secondary visual',()=>{
@@ -29,6 +30,14 @@ test('Home delegates deck identity rendering to the same canonical DeckSprites r
   assert.doesNotMatch(home,/home-meta-hero-secondary-badge/);
 });
 
+test('Home pins canonical children to the accepted primary plus circular badge geometry',()=>{
+  assert.match(homeTweaks,/\.home-meta-sprite-placeholder \.home-meta-hero-sprite \.deck-sprite-primary/);
+  assert.match(homeTweaks,/\.home-preview-sprite \.home-meta-hero-sprite \.deck-sprite-primary/);
+  assert.match(homeTweaks,/\.deck-sprite-secondary-badge \.deck-sprite-secondary\{position:static!important/);
+  assert.match(homeTweaks,/right:-2px!important;bottom:-1px!important/);
+  assert.match(homeTweaks,/width:25px!important;height:25px!important/);
+});
+
 test('Deck library, Results and Training all consume canonical DeckSprites.html',()=>{
   assert.match(canonical,/window\.DeckSprites\.html\(label\|\|'',\{size\}\)/);
   assert.match(results,/window\.DeckSprites\?\.html/);
@@ -39,6 +48,7 @@ test('Home and Decks cache bust the canonical sprite renderer',()=>{
   assert.match(deckHtml,/\.\.\/meta\/sprites\.js\?v=6/);
   assert.match(deckHtml,/deck-results\.css\?v=4/);
   assert.match(homeHtml,/apps\/meta\/sprites\.js\?v=6/);
+  assert.match(homeHtml,/home-tweaks\.css\?v=10/);
   assert.match(homeHtml,/scripts\/home\.js\?v=21/);
-  assert.match(shell,/home-content\.html\?v=26/);
+  assert.match(shell,/home-content\.html\?v=27/);
 });
