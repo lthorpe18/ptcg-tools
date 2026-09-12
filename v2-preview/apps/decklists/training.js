@@ -16,10 +16,11 @@
   function resultLabel(result){return ({win:'Win',loss:'Loss',draw:'Draw',unknown:'Unknown'})[result]||'Unknown'}
   function sourceLabel(source){return source==='ptcgl'?'PTCGL':'In person'}
   function historySprite(name){
-    if(window.DeckSprites?.html)return window.DeckSprites.html(name,{size:26,className:'training-history-sprite'});
+    if(window.DeckSprites?.html)return window.DeckSprites.html(name,{size:38,className:'training-history-sprite'});
     const initial=String(name||'?').trim().charAt(0).toUpperCase()||'?';
     return `<span class="training-history-fallback" aria-hidden="true">${esc(initial)}</span>`;
   }
+  function sourceFilterOptions(){return '<option value="all">All games</option><option value="training">Training</option><optgroup label="Tournaments"><option value="tournament:all">Tournaments — all</option><option value="tournament:online">Online</option><option value="tournament:local">Local / League</option><option value="tournament:challenge">Challenge</option><option value="tournament:cup">Cup</option><option value="tournament:majors">Majors — all</option><option value="tournament:regional">↳ Regional</option><option value="tournament:special">↳ Special Event</option><option value="tournament:international">↳ International</option><option value="tournament:worlds">↳ Worlds</option></optgroup>'}
   function resultFromScore(){
     const wins=Math.max(0,Number($('gameWins').value)||0),losses=Math.max(0,Number($('gameLosses').value)||0),draws=Math.max(0,Number($('gameDraws').value)||0);
     if(!wins&&!losses&&!draws)return 'unknown';
@@ -32,11 +33,11 @@
     if(window.PTCGPersonalResults?.compareRecent)return window.PTCGPersonalResults.compareRecent(a,b);
     return Date.parse(b.playedAt)-Date.parse(a.playedAt)||Date.parse(b.createdAt)-Date.parse(a.createdAt);
   }
+  function gamesFor(match){return Array.isArray(match?.games)&&match.games.length?match.games:[{result:match?.result,wentFirst:match?.wentFirst}]}
   function gameStats(rows){
     const out={wins:0,losses:0,draws:0,total:0,winRate:0};
     for(const match of rows){
-      const games=Array.isArray(match.games)&&match.games.length?match.games:[{result:match.result}];
-      for(const game of games){
+      for(const game of gamesFor(match)){
         if(game.result==='win')out.wins++;
         else if(game.result==='loss')out.losses++;
         else if(game.result==='draw')out.draws++;
@@ -47,16 +48,39 @@
     out.winRate=out.total?out.wins/out.total:0;
     return out;
   }
-  function gameBadges(match){
-    const games=Array.isArray(match.games)&&match.games.length?match.games:[{result:match.result}];
-    return games.map(game=>{
-      const letter=game.result==='win'?'W':game.result==='loss'?'L':game.result==='draw'?'D':'?';
-      return `<span class="training-game-badge ${esc(game.result||'unknown')}">${letter}</span>`;
-    }).join('');
-  }
+  function gameLetter(result){return result==='win'?'W':result==='loss'?'L':result==='draw'?'D':'?'}
   function participationMap(){
     const rows=window.PTCGStorage?.allParticipations?.()||[];
     return new Map(rows.map(row=>[String(row?.id||''),row]));
+  }
+  function tournamentCategory(match,participations){
+    if(!match?.participationId)return {kind:'training',key:'training',major:false};
+    const participation=participations.get(String(match.participationId))||null;
+    const snapshot=participation?.eventSnapshot||{};
+    const type=String(snapshot.type||'').trim();
+    const scope=String(snapshot.scope||'').trim().toLowerCase();
+    const environment=String(snapshot.environment||'').trim().toLowerCase();
+    const venue=String(snapshot.venue||'').trim().toLowerCase();
+    const platform=String(snapshot.platform||'').trim().toUpperCase();
+    const online=scope==='online'||environment==='online'||type==='Online Tournament'||venue==='online'||platform.includes('PTCGL');
+    if(online)return {kind:'tournament',key:'online',major:false};
+    if(type==='League Challenge')return {kind:'tournament',key:'challenge',major:false};
+    if(type==='League Cup')return {kind:'tournament',key:'cup',major:false};
+    if(type==='Regional')return {kind:'tournament',key:'regional',major:true};
+    if(type==='Special Championship'||type==='Special Event')return {kind:'tournament',key:'special',major:true};
+    if(type==='International')return {kind:'tournament',key:'international',major:true};
+    if(type==='World Championships'||type==='Worlds')return {kind:'tournament',key:'worlds',major:true};
+    if(type==='League / Local'||(scope==='local'&&type!=='Prerelease'))return {kind:'tournament',key:'local',major:false};
+    return {kind:'tournament',key:'unclassified',major:false};
+  }
+  function matchesSourceFilter(match,filter,participations){
+    const category=tournamentCategory(match,participations);
+    if(filter==='all')return true;
+    if(filter==='training')return category.kind==='training';
+    if(filter==='tournament'||filter==='tournament:all')return category.kind==='tournament';
+    if(filter==='tournament:majors')return category.major;
+    if(filter.startsWith('tournament:'))return category.kind==='tournament'&&category.key===filter.slice('tournament:'.length);
+    return true;
   }
   function gameLogContext(match,participations){
     if(!match?.participationId)return {kind:'training',label:'Training',medium:sourceLabel(match?.source),eventName:''};
@@ -72,6 +96,34 @@
     };
   }
   function tournamentHref(match){return `../events/tournament-day.html?participation=${encodeURIComponent(match.participationId)}`}
+  function historyRows(matches){
+    const out=[];
+    for(const match of matches){
+      gamesFor(match).forEach((game,index)=>out.push({match,game,index}));
+    }
+    return out;
+  }
+  function historyGroupHtml(rows){
+    const groups=[];
+    for(const row of rows){
+      const key=dateValue(row.match.playedAt),last=groups[groups.length-1];
+      if(!last||last.key!==key)groups.push({key,label:shortDate(row.match.playedAt),rows:[row]});
+      else last.rows.push(row);
+    }
+    return groups.map(group=>`<section class="training-day-group"><h3 class="training-day-heading">${esc(group.label)}</h3><div class="training-day-games">${group.rows.map(gameRowHtml).join('')}</div></section>`).join('');
+  }
+  function gameRowHtml(row){
+    const {match,game,index}=row;
+    const deck=match.deckNameSnapshot||'Unlinked deck';
+    const ownArchetype=deckArchetypes.get(match.deckId)||deck;
+    const opponent=match.opponentArchetype||'Unknown deck';
+    const result=game?.result||'unknown',label=resultLabel(result);
+    const tournament=!!match.participationId;
+    const aria=`${label}: ${deck} versus ${opponent}`;
+    const open=tournament?`<a class="training-row ${esc(result)}" data-match-id="${esc(match.id)}" data-game-index="${index}" data-tournament="true" href="${esc(tournamentHref(match))}" aria-label="${esc(aria)}">`:`<button type="button" class="training-row ${esc(result)}" data-match-id="${esc(match.id)}" data-game-index="${index}" aria-label="${esc(aria)}">`;
+    const close=tournament?'</a>':'</button>';
+    return `${open}<span class="training-result">${gameLetter(result)}</span><span class="training-sprite-matchup"><span class="training-matchup-art">${historySprite(ownArchetype)}</span><span class="training-vs">vs</span><span class="training-matchup-art">${historySprite(opponent)}</span></span><span class="training-chevron">›</span>${close}`;
+  }
 
   function refKey(ref){return `${ref.deckId}::${ref.deckVersionId||'working'}::${ref.listHash||'unhashed'}`}
 
@@ -133,53 +185,16 @@
   }
 
   function render(){
-    const type=$('trainingSourceFilter').value,deckId=$('trainingDeckFilter').value;
+    const filter=$('trainingSourceFilter').value,deckId=$('trainingDeckFilter').value;
     const participations=participationMap();
     const rows=window.PTCGMatchStore.all()
-      .filter(match=>{
-        const kind=match.participationId?'tournament':'training';
-        return (type==='all'||type===kind)&&(deckId==='all'||match.deckId===deckId);
-      })
+      .filter(match=>matchesSourceFilter(match,filter,participations)&&(deckId==='all'||match.deckId===deckId))
       .sort(compareRecent);
-    const totals=gameStats(rows);
-    $('trainingMetrics').innerHTML=[
-      ['Game record',`${totals.wins}–${totals.losses}–${totals.draws}`],
-      ['Game win rate',totals.total?`${Math.round(totals.winRate*100)}%`:'—'],
-      ['Games',totals.total],
-      ['Entries',rows.length]
-    ].map(([label,value])=>`<div><b>${esc(value)}</b><span>${esc(label)}</span></div>`).join('');
-    $('trainingCount').textContent=`${totals.total} ${totals.total===1?'game':'games'}`;
-    $('trainingList').innerHTML=rows.map(match=>{
-      const deck=match.deckNameSnapshot||'Unlinked deck';
-      const ownArchetype=deckArchetypes.get(match.deckId)||deck;
-      const opponent=match.opponentArchetype||'Unknown deck';
-      const games=Array.isArray(match.games)&&match.games.length?match.games:[{result:match.result}];
-      const context=gameLogContext(match,participations);
-      const meta=[context.label];
-      if(context.eventName)meta.push(context.eventName);
-      if(context.kind==='tournament'&&match.roundLabel)meta.push(match.roundLabel);
-      if(context.medium)meta.push(context.medium);
-      meta.push(shortDate(match.playedAt));
-      if(games.length>1)meta.push(`${games.length} games`);
-      if(match.wentFirst===true)meta.push('first');else if(match.wentFirst===false)meta.push('second');
-      if(match.deckVersionLabelSnapshot)meta.push(match.deckVersionLabelSnapshot);
-      const tournament=context.kind==='tournament';
-      const open=tournament?`<a class="training-row" data-match-id="${esc(match.id)}" data-tournament="true" href="${esc(tournamentHref(match))}">`:`<button type="button" class="training-row" data-match-id="${esc(match.id)}">`;
-      const close=tournament?'</a>':'</button>';
-      return `${open}
-        <span class="training-game-results" aria-label="Game results">${gameBadges(match)}</span>
-        <span class="training-row-main">
-          <span class="training-matchup">
-            <span class="training-matchup-side"><span class="training-matchup-art">${historySprite(ownArchetype)}</span><span class="training-matchup-copy"><small>You</small><b>${esc(deck)}</b></span></span>
-            <span class="training-vs">vs</span>
-            <span class="training-matchup-side opponent"><span class="training-matchup-art">${historySprite(opponent)}</span><span class="training-matchup-copy"><small>Opponent</small><b>${esc(opponent)}</b></span></span>
-          </span>
-          <small class="training-meta">${esc(meta.join(' · '))}</small>
-        </span>
-        <span class="training-chevron">›</span>
-      ${close}`;
-    }).join('');
-    $('trainingEmpty').hidden=rows.length>0;
+    const totals=gameStats(rows),games=historyRows(rows);
+    $('trainingMetrics').innerHTML=`<strong>${totals.total} ${totals.total===1?'game':'games'}</strong><span>${totals.wins}–${totals.losses}–${totals.draws}</span><span>${totals.total?`${Math.round(totals.winRate*100)}% win`:'— win'}</span>`;
+    if($('trainingCount'))$('trainingCount').textContent=`${totals.total} ${totals.total===1?'game':'games'}`;
+    $('trainingList').innerHTML=historyGroupHtml(games);
+    $('trainingEmpty').hidden=games.length>0;
   }
 
   function showTraining(){
@@ -341,10 +356,7 @@
       if(copy)copy.textContent='Training and tournament games.';
     }
     const source=$('trainingSourceFilter');
-    if(source){
-      source.setAttribute('aria-label','Game type');
-      source.innerHTML='<option value="all">All games</option><option value="training">Training</option><option value="tournament">Tournaments</option>';
-    }
+    if(source){source.setAttribute('aria-label','Game type');source.innerHTML=sourceFilterOptions()}
     const empty=$('trainingEmpty');
     if(empty){
       const strong=empty.querySelector('strong'),copy=empty.querySelector('p');
