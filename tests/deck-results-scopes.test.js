@@ -59,10 +59,11 @@ test('matchup and archetype deck rows use canonical deck sprites',()=>{
   assert.match(css,/\.deck-results-row-sprite/);
 });
 
-test('two-sprite matchup identities reserve their full width before the deck name',()=>{
-  assert.match(css,/\.deck-results-row-identity\{display:grid;grid-template-columns:70px minmax\(0,1fr\)/);
-  assert.match(css,/\.deck-results-row-sprite\{[^}]*width:70px;min-width:70px/);
-  assert.match(css,/\.deck-results-row-sprite \.deck-sprite-stack\{max-width:none!important;overflow:visible\}/);
+test('canonical sprite badges keep matchup identity columns compact',()=>{
+  assert.match(css,/\.deck-results-row-identity\{display:grid;grid-template-columns:42px minmax\(0,1fr\)/);
+  assert.match(css,/\.deck-results-row-sprite\{[^}]*width:42px;min-width:42px/);
+  assert.match(css,/\.deck-results-row-sprite \.deck-sprite-stack\{max-width:42px!important;overflow:visible\}/);
+  assert.match(css,/@media\(max-width:390px\)[\s\S]*\.deck-results-row-sprite\{width:40px;min-width:40px\}/);
 });
 
 test('matchups render as compact stats tables with record and win rate columns',()=>{
