@@ -75,11 +75,8 @@
 
   function spriteVisual(name){
     const sprites=window.DeckSprites;
-    const slugs=sprites?.slugs?.(name)||[];
-    if(!slugs.length)return `<span class="home-meta-hero-fallback">${esc(String(name||'?').charAt(0))}</span>`;
-    const primary=`<img class="home-meta-hero-primary" src="${sprites.url(slugs[0])}" alt="" loading="lazy" decoding="async">`;
-    const secondary=slugs[1]?`<span class="home-meta-hero-secondary-badge"><img class="home-meta-hero-secondary" src="${sprites.url(slugs[1])}" alt="" loading="lazy" decoding="async"></span>`:'';
-    return `<span class="home-meta-hero-sprite">${primary}${secondary}</span>`;
+    if(sprites?.html)return sprites.html(name,{size:48,className:'home-meta-hero-sprite'});
+    return `<span class="home-meta-hero-fallback">${esc(String(name||'?').charAt(0))}</span>`;
   }
 
   function compactSprite(name){
