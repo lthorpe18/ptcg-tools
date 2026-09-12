@@ -7,8 +7,7 @@ const sprites=fs.readFileSync('v2-preview/apps/meta/sprites.js','utf8');
 const results=fs.readFileSync('v2-preview/apps/decklists/deck-results.js','utf8');
 const training=fs.readFileSync('v2-preview/apps/decklists/training.js','utf8');
 const canonical=fs.readFileSync('v2-preview/apps/decklists/deck-sprites-canonical.js','utf8');
-const html=fs.readFileSync('v2-preview/home-content.html','utf8');
-const shell=fs.readFileSync('v2-preview/index.html','utf8');
+const deckHtml=fs.readFileSync('v2-preview/apps/decklists/index.html','utf8');
 
 test('DeckSprites owns the Home-style primary plus circular secondary visual',()=>{
   assert.match(sprites,/function html\(name, options = \{\}\)/);
@@ -34,8 +33,7 @@ test('Deck library, Results and Training all consume canonical DeckSprites.html'
   assert.match(training,/window\.DeckSprites\?\.html/);
 });
 
-test('Home sprite renderer changes are cache busted through the persistent shell',()=>{
-  assert.match(html,/apps\/meta\/sprites\.js\?v=6/);
-  assert.match(html,/scripts\/home\.js\?v=21/);
-  assert.match(shell,/home-content\.html\?v=26/);
+test('Decks cache busts the canonical sprite renderer and Results spacing',()=>{
+  assert.match(deckHtml,/\.\.\/meta\/sprites\.js\?v=6/);
+  assert.match(deckHtml,/deck-results\.css\?v=4/);
 });
