@@ -37,3 +37,28 @@
 @media(max-width:405px){.home-header .app-context-pill{max-width:none}.home-header .home-account-link{width:32px;padding:0;justify-content:center}.home-header .home-account-link>span:last-child{display:none}}
 @media(max-height:740px) and (max-width:759px){.home-meta-topline{gap:6px}.home-meta-grouping-control{gap:4px}.home-meta-grouping-label{font-size:7px}.home-meta-grouping span{padding:3px 6px;font-size:8px}.home-meta-bar{min-height:20px}.home-meta-bar.is-small-label span{font-size:9px}.home-meta-bar-label-outside{bottom:46px;font-size:9px}.home-meta-hero-sprite{width:43px;height:43px}.home-meta-hero-primary{width:35px;height:35px}.home-meta-hero-secondary-badge{width:22px;height:22px}.home-meta-hero-secondary{width:17px;height:17px}.home-shell{grid-template-rows:minmax(0,1.92fr) minmax(0,.98fr) 54px 62px}.home-quick-actions{padding:4px}.home-quick-actions a{min-height:42px;font-size:8px}.home-quick-icon{width:21px;height:21px;font-size:11px}.home-play-card.home-play-card-compact{padding-top:8px;padding-bottom:8px}.home-play-card-compact .home-play-copy strong{font-size:13px}.home-play-card-compact .home-play-copy small{font-size:8px}}
 @media(max-width:359px){.home-meta-grouping-label{display:none}.home-meta-grouping span{padding:3px 5px;font-size:7px}.home-meta-bar-label-outside{font-size:8px}.home-meta-hero-sprite{width:41px;height:41px}.home-meta-hero-primary{width:33px;height:33px}.home-meta-hero-secondary-badge{width:21px;height:21px}.home-meta-hero-secondary{width:16px;height:16px}.home-quick-actions{gap:3px}.home-quick-actions a{font-size:7.5px}.home-play-card-compact .home-play-copy strong{font-size:12px}.home-play-card-compact .home-play-copy small{font-size:7.5px}}
+
+/* The shared DeckSprites renderer is self-contained, but Home still has legacy
+   deck-sprite selectors in styles.css. Pin the accepted Home composition here
+   so those legacy rules cannot pull the secondary image out of its badge. */
+.home-meta-sprite-placeholder .home-meta-hero-sprite,
+.home-preview-sprite .home-meta-hero-sprite{position:relative!important;display:block!important;width:48px!important;height:48px!important;margin:0 auto!important;overflow:visible!important}
+.home-meta-sprite-placeholder .home-meta-hero-sprite .deck-sprite-primary,
+.home-preview-sprite .home-meta-hero-sprite .deck-sprite-primary{position:absolute!important;inset:auto!important;left:4px!important;top:4px!important;right:auto!important;bottom:auto!important;width:40px!important;height:40px!important;margin:0!important;object-fit:contain!important}
+.home-meta-sprite-placeholder .home-meta-hero-sprite .deck-sprite-secondary-badge,
+.home-preview-sprite .home-meta-hero-sprite .deck-sprite-secondary-badge{position:absolute!important;left:auto!important;top:auto!important;right:-2px!important;bottom:-1px!important;display:grid!important;place-items:center!important;width:25px!important;height:25px!important;border:2px solid rgba(255,255,255,.95)!important;border-radius:50%!important;background:#dff8e8!important;box-shadow:0 1px 4px rgba(16,24,40,.15)!important;z-index:2!important}
+.home-meta-sprite-placeholder .home-meta-hero-sprite .deck-sprite-secondary-badge .deck-sprite-secondary,
+.home-preview-sprite .home-meta-hero-sprite .deck-sprite-secondary-badge .deck-sprite-secondary{position:static!important;inset:auto!important;left:auto!important;top:auto!important;right:auto!important;bottom:auto!important;width:20px!important;height:20px!important;margin:0!important;object-fit:contain!important}
+
+@media(max-height:740px) and (max-width:759px){
+  .home-meta-sprite-placeholder .home-meta-hero-sprite,.home-preview-sprite .home-meta-hero-sprite{width:43px!important;height:43px!important}
+  .home-meta-sprite-placeholder .home-meta-hero-sprite .deck-sprite-primary,.home-preview-sprite .home-meta-hero-sprite .deck-sprite-primary{width:35px!important;height:35px!important}
+  .home-meta-sprite-placeholder .home-meta-hero-sprite .deck-sprite-secondary-badge,.home-preview-sprite .home-meta-hero-sprite .deck-sprite-secondary-badge{width:22px!important;height:22px!important}
+  .home-meta-sprite-placeholder .home-meta-hero-sprite .deck-sprite-secondary-badge .deck-sprite-secondary,.home-preview-sprite .home-meta-hero-sprite .deck-sprite-secondary-badge .deck-sprite-secondary{width:17px!important;height:17px!important}
+}
+@media(max-width:359px){
+  .home-meta-sprite-placeholder .home-meta-hero-sprite,.home-preview-sprite .home-meta-hero-sprite{width:41px!important;height:41px!important}
+  .home-meta-sprite-placeholder .home-meta-hero-sprite .deck-sprite-primary,.home-preview-sprite .home-meta-hero-sprite .deck-sprite-primary{width:33px!important;height:33px!important}
+  .home-meta-sprite-placeholder .home-meta-hero-sprite .deck-sprite-secondary-badge,.home-preview-sprite .home-meta-hero-sprite .deck-sprite-secondary-badge{width:21px!important;height:21px!important}
+  .home-meta-sprite-placeholder .home-meta-hero-sprite .deck-sprite-secondary-badge .deck-sprite-secondary,.home-preview-sprite .home-meta-hero-sprite .deck-sprite-secondary-badge .deck-sprite-secondary{width:16px!important;height:16px!important}
+}
