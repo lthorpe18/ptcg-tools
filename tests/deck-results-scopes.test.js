@@ -34,28 +34,63 @@ test('exact version selector is only shown in Version scope',()=>{
   assert.match(css,/\.deck-results-version\[hidden\]\{display:none!important\}/);
 });
 
+test('Results summary is one compact record strip rather than a metric-card grid',()=>{
+  assert.match(js,/function summaryStrip\(result\)/);
+  assert.match(js,/deck-results-summary-stat/);
+  assert.match(js,/Game record|Record/);
+  assert.match(js,/Win rate/);
+  assert.doesNotMatch(css,/\.deck-results-metric\{/);
+  assert.match(css,/\.deck-results-summary-main\{display:flex/);
+});
+
+test('matchup and archetype deck rows use canonical deck sprites',()=>{
+  assert.match(js,/window\.DeckSprites\?\.html/);
+  assert.match(js,/function matchupRows\(rows\)/);
+  assert.match(js,/function deckRows\(rows,deckById\)/);
+  assert.match(js,/spriteHtml\(row\.label,32\)/);
+  assert.match(js,/spriteHtml\(spriteLabel,32\)/);
+  assert.match(css,/\.deck-results-row-sprite/);
+});
+
+test('matchups render as compact stats tables with record and win rate columns',()=>{
+  assert.match(js,/tableHeader\('Opponent'\)/);
+  assert.match(js,/tableHeader\('Deck'\)/);
+  assert.match(js,/tableHeader\('Version'\)/);
+  assert.match(css,/\.deck-results-table-head\{/);
+  assert.match(css,/grid-template-columns:minmax\(0,1fr\) 82px 68px/);
+});
+
 test('archetype and deck scopes switch the secondary breakdown correctly',()=>{
-  assert.match(js,/resultScope==='archetype'\?'By deck':'By version'/);
   assert.match(js,/resultScope==='archetype'\?result\.decks:result\.versions/);
+  assert.match(js,/resultScope==='archetype'\?deckRows\(rows\|\|\[\],deckById\):versionRows\(rows\|\|\[\]\)/);
+  assert.match(js,/resultScope==='archetype'\?'Decks':'Versions'/);
 });
 
-test('Results uses games for personal evidence but keeps tournament matches explicit',()=>{
-  assert.match(js,/metric\('Game record'/);
-  assert.match(js,/metric\('Game win rate'/);
-  assert.match(js,/metric\('Tournament matches'.*result\.tournament/);
-  assert.match(js,/metric\('Training games'.*result\.training/);
-  assert.match(js,/sourceBox\('Tournament',result\.tournamentGames\)/);
-  assert.match(js,/gameCount\(row\.stats\.total\)/);
+test('recent evidence is game-level and shows both deck identities with sprites',()=>{
+  assert.match(js,/recentGameRows\(result\.recentGames,resultScope,deckById\)/);
+  assert.match(js,/spriteHtml\(ownLabel,27\)/);
+  assert.match(js,/spriteHtml\(opponent,27\)/);
+  assert.match(js,/row\.parentMatchId\|\|row\.id/);
+  assert.match(css,/\.deck-results-recent-sprites/);
 });
 
-test('hidden empty state cannot consume white space when results exist',()=>{
+test('zero-value source boxes are omitted and tournament match record stays secondary',()=>{
+  assert.match(js,/if\(result\.ptcgl\.total\)/);
+  assert.match(js,/if\(result\.inPersonTraining\.total\)/);
+  assert.match(js,/if\(result\.tournamentGames\.total\)/);
+  assert.match(js,/result\.tournament\.total/);
+  assert.match(css,/\.deck-results-tournament-record/);
+});
+
+test('hidden empty and source states cannot consume white space',()=>{
   assert.match(css,/\.deck-results-empty-action\[hidden\]\{display:none!important\}/);
+  assert.match(css,/\.deck-results-source-strip\[hidden\]\{display:none!important\}/);
   assert.match(css,/\.deck-results-head-copy p\{display:none\}/);
 });
 
-test('scope controls retain dense mobile-first layout support',()=>{
-  assert.match(css,/\.deck-results-scope-bar/);
+test('scope and stats tables stay dense on mobile',()=>{
   assert.match(css,/@media\(max-width:720px\)/);
-  assert.match(css,/\.deck-results-version select\{width:100%\}/);
-  assert.match(css,/grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+  assert.match(css,/\.deck-results-version\{width:100%;flex:none\}/);
+  assert.match(css,/grid-template-columns:minmax\(0,1fr\) 76px 58px/);
+  assert.match(css,/@media\(max-width:390px\)/);
 });
