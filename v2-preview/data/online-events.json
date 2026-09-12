@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T19:51:25.632Z",
+  "generatedAt": "2026-09-12T22:31:53.078Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Expanded",
-      "platform": "SIM",
-      "id": "limitless:6aa44c0f38886b36383bc49b",
-      "source": "limitless",
-      "sourceId": "6aa44c0f38886b36383bc49b",
-      "name": "The Wild Area Expanded #11 - 16 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6aa44c0f38886b36383bc49b/details",
-      "startAt": "2026-09-12T20:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "CAM",
@@ -24,7 +14,7 @@
       "sourceId": "6aa0dd40a4272c53be64b7c1",
       "name": "Amyverse GLC Gatherings #15 💚 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6aa0dd40a4272c53be64b7c1/details",
-      "startAt": "2026-09-12T22:00:00.000Z"
+      "startAt": "2026-09-12T23:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -55,6 +45,16 @@
       "name": "Vault Of Games #2🏆|SEASON 1|WEEKLY",
       "url": "https://play.limitlesstcg.com/tournament/6a9ceedbab080c8c957fb8f2/details",
       "startAt": "2026-09-13T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5d141f1243e65f97ff7a7",
+      "source": "limitless",
+      "sourceId": "6aa5d141f1243e65f97ff7a7",
+      "name": "🎁Premio ETB 🇨🇱🏆BO1🏆 Formato estandar",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5d141f1243e65f97ff7a7/details",
+      "startAt": "2026-09-13T01:15:00.000Z"
     },
     {
       "format": "Standard",
@@ -238,6 +238,16 @@
     },
     {
       "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa42a02f1243e65f97fd2d7",
+      "source": "limitless",
+      "sourceId": "6aa42a02f1243e65f97fd2d7",
+      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #2",
+      "url": "https://play.limitlesstcg.com/tournament/6aa42a02f1243e65f97fd2d7/details",
+      "startAt": "2026-09-16T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "CAM",
       "id": "limitless:6a9eeed3ab080c8c957fcf41",
       "source": "limitless",
@@ -245,6 +255,16 @@
       "name": "⚡Surge's TCG Vault Webcam Wednesdays! #22⚡",
       "url": "https://play.limitlesstcg.com/tournament/6a9eeed3ab080c8c957fcf41/details",
       "startAt": "2026-09-16T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5b6ca38886b36383be0c3",
+      "source": "limitless",
+      "sourceId": "6aa5b6ca38886b36383be0c3",
+      "name": "Zard-Pokénight #018",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5b6ca38886b36383be0c3/details",
+      "startAt": "2026-09-16T22:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -408,6 +428,16 @@
     },
     {
       "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6a5bd3cd52c24ac2da645db3",
+      "source": "limitless",
+      "sourceId": "6a5bd3cd52c24ac2da645db3",
+      "name": "Webcam Sisterhood Saturdays #3 💗 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
+      "startAt": "2026-09-19T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6a8c60af81741245b151d816",
       "source": "limitless",
@@ -425,6 +455,16 @@
       "name": "Cusca Premier Cup 👑 #2",
       "url": "https://play.limitlesstcg.com/tournament/6a80b2925a30714095571744/details",
       "startAt": "2026-09-21T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5cf9738886b36383be21a",
+      "source": "limitless",
+      "sourceId": "6aa5cf9738886b36383be21a",
+      "name": "CHALLENGE OF DOOM! WAIT, HOW MANY!?!?!",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5cf9738886b36383be21a/details",
+      "startAt": "2026-09-22T03:35:00.000Z"
     },
     {
       "format": "Standard",
@@ -595,6 +635,16 @@
       "name": "Swoop! Rocket Battle",
       "url": "https://play.limitlesstcg.com/tournament/6a641a8e937230b102d43a93/details",
       "startAt": "2026-10-03T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5d01c38886b36383be23c",
+      "source": "limitless",
+      "sourceId": "6aa5d01c38886b36383be23c",
+      "name": "CHALLENGE OF DOOM! I will.....",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5d01c38886b36383be23c/details",
+      "startAt": "2026-10-06T03:35:00.000Z"
     },
     {
       "format": "Standard",
