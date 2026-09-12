@@ -3,13 +3,13 @@
 const participationId=new URLSearchParams(location.search).get('participation');
 const now=()=>new Date().toISOString();
 let decks=[];
-const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[ch]));
 function participation(){return window.PTCGStorage?.getParticipation?.(participationId)||null}
 function playedRef(){const ref=participation()?.usedDeckRef;return ref?.deckId?ref:null}
 function suggestedRef(){const ref=playedRef()||participation()?.plannedDeckRef;return ref?.deckId?ref:null}
 function tournamentMatches(){return (window.PTCGMatchStore?.all?.()||[]).filter(match=>match.participationId===participationId)}
 function applyRefToMatches(ref){for(const match of tournamentMatches())window.PTCGMatchStore.put({...match,deckId:ref?.deckId||null,deckVersionId:ref?.deckVersionId||null,listHash:ref?.listHash||null,deckNameSnapshot:ref?.deckNameSnapshot||null,deckVersionLabelSnapshot:ref?.deckVersionLabelSnapshot||null})}
-function sharedSpriteUrls(text){const slugs=window.DeckSprites?.slugs?.(text)||[];return slugs.slice(0,2).map(slug=>window.DeckSprites.url(slug)).filter(Boolean)}
+function deckSpriteHtml(text){return window.DeckSprites?.html?.(text||'',{size:46,className:'tournament-deck-visual'})||''}
 function renderSlot(){
   const quick=document.querySelector('.quick-actions');if(!quick)return;
   const ref=playedRef();let slot=document.getElementById('tournamentDeckSlot');
@@ -17,7 +17,7 @@ function renderSlot(){
   slot.className=`tournament-deck-slot ${ref?'has-deck':'is-empty'}`;slot.setAttribute('aria-label',ref?'Change tournament deck':'Choose tournament deck');slot.title=ref?'Change deck':'Choose deck';slot.innerHTML='<span class="deck-slot-placeholder">My Deck</span><span class="deck-slot-sprites" aria-hidden="true"></span>';
   if(slot.dataset.bound!=='true'){slot.dataset.bound='true';slot.addEventListener('click',openPicker)}
   if(!ref)return;
-  const urls=sharedSpriteUrls(ref.archetypeSnapshot||ref.deckNameSnapshot||''),host=slot.querySelector('.deck-slot-sprites');if(host&&urls.length)host.innerHTML=urls.map(url=>`<img src="${esc(url)}" alt="">`).join('');
+  const host=slot.querySelector('.deck-slot-sprites');if(host)host.innerHTML=deckSpriteHtml(ref.archetypeSnapshot||ref.deckNameSnapshot||'');
 }
 function ensurePicker(){let backdrop=document.getElementById('deckPickerBackdrop');if(backdrop)return backdrop;backdrop=document.createElement('div');backdrop.id='deckPickerBackdrop';backdrop.className='sheet-backdrop hidden';backdrop.setAttribute('aria-hidden','true');backdrop.innerHTML=`<section class="td-sheet deck-picker-sheet" role="dialog" aria-modal="true" aria-labelledby="deckPickerTitle"><div class="sheet-handle"></div><div class="sheet-head"><div><small>Optional</small><h2 id="deckPickerTitle">Deck played</h2></div><button type="button" class="sheet-close" data-close aria-label="Close">×</button></div><div id="deckPickerStatus" class="deck-picker-status">Loading saved decks…</div><div id="deckPickerControls" class="deck-picker-grid hidden"><label><span>Deck</span><select id="optionalDeckSelect"></select></label><label><span>Version</span><select id="optionalVersionSelect"></select></label></div><button type="button" class="primary-button full-button" id="saveOptionalDeck" disabled>Save deck</button><button type="button" class="secondary-button full-button" id="clearOptionalDeck">Remove deck from tournament</button></section>`;document.body.appendChild(backdrop);backdrop.querySelector('[data-close]').addEventListener('click',closePicker);backdrop.addEventListener('click',event=>{if(event.target===backdrop)closePicker()});backdrop.querySelector('#optionalDeckSelect').addEventListener('change',renderVersions);backdrop.querySelector('#optionalVersionSelect').addEventListener('change',updateSaveState);backdrop.querySelector('#saveOptionalDeck').addEventListener('click',saveDeck);backdrop.querySelector('#clearOptionalDeck').addEventListener('click',clearDeck);return backdrop}
 function updateSaveState(){const deck=document.getElementById('optionalDeckSelect')?.value,version=document.getElementById('optionalVersionSelect')?.value,button=document.getElementById('saveOptionalDeck');if(button)button.disabled=!(deck&&version)}
