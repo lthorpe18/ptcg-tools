@@ -5,6 +5,8 @@ const fs=require('node:fs');
 const home=fs.readFileSync('v2-preview/scripts/home.js','utf8');
 const sprites=fs.readFileSync('v2-preview/apps/_shared/deck-sprites.js','utf8');
 const legacySprites=fs.readFileSync('v2-preview/apps/meta/sprites.js','utf8');
+const spritePolish=fs.readFileSync('v2-preview/apps/meta/sprite-polish.css','utf8');
+const metaHtml=fs.readFileSync('v2-preview/apps/meta/index.html','utf8');
 const results=fs.readFileSync('v2-preview/apps/decklists/deck-results.js','utf8');
 const training=fs.readFileSync('v2-preview/apps/decklists/training.js','utf8');
 const canonical=fs.readFileSync('v2-preview/apps/decklists/deck-sprites-canonical.js','utf8');
@@ -23,13 +25,21 @@ test('shared DeckSprites is the one owner of primary plus circular secondary dec
   assert.match(sprites,/border-radius:50%/);
   assert.match(sprites,/background:#dff8e8/);
   assert.match(sprites,/THE single deck\/archetype identity renderer/);
+  assert.match(sprites,/image-rendering:pixelated!important/);
   assert.doesNotMatch(sprites,/display:inline-flex!important;align-items:center;gap:/);
 });
 
 test('legacy Meta sprite entrypoint is only a compatibility bridge to shared renderer',()=>{
-  assert.match(legacySprites,/\.\.\/_shared\/deck-sprites\.js\?v=1/);
+  assert.match(legacySprites,/\.\.\/_shared\/deck-sprites\.js\?v=2/);
   assert.doesNotMatch(legacySprites,/function html\(/);
   assert.doesNotMatch(legacySprites,/const EXACT/);
+});
+
+test('Current Meta reserves only the canonical single-stack footprint',()=>{
+  assert.match(spritePolish,/\.current-sprites\{[^}]*flex:0 0 38px!important/);
+  assert.match(spritePolish,/width:38px!important/);
+  assert.match(metaHtml,/sprite-polish\.css\?v=4/);
+  assert.match(metaHtml,/sprites\.js\?v=5/);
 });
 
 test('Home delegates deck identity rendering to canonical DeckSprites renderer',()=>{
