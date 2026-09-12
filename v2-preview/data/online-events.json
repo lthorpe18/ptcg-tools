@@ -1,12 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T19:21:51.800Z",
+  "generatedAt": "2026-09-12T19:51:25.632Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
     {
+      "format": "Expanded",
+      "platform": "SIM",
       "id": "limitless:6aa44c0f38886b36383bc49b",
       "source": "limitless",
       "sourceId": "6aa44c0f38886b36383bc49b",
@@ -15,6 +17,8 @@
       "startAt": "2026-09-12T20:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "CAM",
       "id": "limitless:6aa0dd40a4272c53be64b7c1",
       "source": "limitless",
       "sourceId": "6aa0dd40a4272c53be64b7c1",
@@ -23,6 +27,8 @@
       "startAt": "2026-09-12T22:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a63ce2252c24ac2da64ae00",
       "source": "limitless",
       "sourceId": "6a63ce2252c24ac2da64ae00",
@@ -31,6 +37,8 @@
       "startAt": "2026-09-13T00:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8c5eef8302ae761e5fb228",
       "source": "limitless",
       "sourceId": "6a8c5eef8302ae761e5fb228",
@@ -39,6 +47,8 @@
       "startAt": "2026-09-13T01:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a9ceedbab080c8c957fb8f2",
       "source": "limitless",
       "sourceId": "6a9ceedbab080c8c957fb8f2",
@@ -47,6 +57,8 @@
       "startAt": "2026-09-13T01:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2e21aab080c8c958002e4",
       "source": "limitless",
       "sourceId": "6aa2e21aab080c8c958002e4",
@@ -55,6 +67,18 @@
       "startAt": "2026-09-13T11:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5a98338886b36383bdfdf",
+      "source": "limitless",
+      "sourceId": "6aa5a98338886b36383bdfdf",
+      "name": "Domingou #07",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5a98338886b36383bdfdf/details",
+      "startAt": "2026-09-13T15:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa0a22dab080c8c957fe961",
       "source": "limitless",
       "sourceId": "6aa0a22dab080c8c957fe961",
@@ -63,6 +87,8 @@
       "startAt": "2026-09-13T22:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa0dd63ab080c8c957fed64",
       "source": "limitless",
       "sourceId": "6aa0dd63ab080c8c957fed64",
@@ -71,6 +97,8 @@
       "startAt": "2026-09-13T22:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a6f72f92b308b6067b47d58",
       "source": "limitless",
       "sourceId": "6a6f72f92b308b6067b47d58",
@@ -79,6 +107,8 @@
       "startAt": "2026-09-13T22:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa38dfaab080c8c95800d97",
       "source": "limitless",
       "sourceId": "6aa38dfaab080c8c95800d97",
@@ -87,6 +117,8 @@
       "startAt": "2026-09-14T00:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a986ce9a4272c53be6450f3",
       "source": "limitless",
       "sourceId": "6a986ce9a4272c53be6450f3",
@@ -95,6 +127,8 @@
       "startAt": "2026-09-14T13:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a9eeea7ab080c8c957fcf3e",
       "source": "limitless",
       "sourceId": "6a9eeea7ab080c8c957fcf3e",
@@ -103,6 +137,8 @@
       "startAt": "2026-09-14T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa26770a4272c53be64cba7",
       "source": "limitless",
       "sourceId": "6aa26770a4272c53be64cba7",
@@ -111,6 +147,8 @@
       "startAt": "2026-09-14T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a9f13b4ab080c8c957fd34a",
       "source": "limitless",
       "sourceId": "6a9f13b4ab080c8c957fd34a",
@@ -119,6 +157,8 @@
       "startAt": "2026-09-14T22:05:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
       "id": "limitless:6a84d8af78baaa6d1c22324a",
       "source": "limitless",
       "sourceId": "6a84d8af78baaa6d1c22324a",
@@ -127,6 +167,8 @@
       "startAt": "2026-09-14T22:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a962f6e629039f77d8a70e1",
       "source": "limitless",
       "sourceId": "6a962f6e629039f77d8a70e1",
@@ -135,6 +177,8 @@
       "startAt": "2026-09-14T22:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5a30138886b36383bdef8",
       "source": "limitless",
       "sourceId": "6aa5a30138886b36383bdef8",
@@ -143,6 +187,8 @@
       "startAt": "2026-09-14T23:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa1c696ab080c8c957ff68f",
       "source": "limitless",
       "sourceId": "6aa1c696ab080c8c957ff68f",
@@ -151,6 +197,8 @@
       "startAt": "2026-09-15T00:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2de21a4272c53be64d080",
       "source": "limitless",
       "sourceId": "6aa2de21a4272c53be64d080",
@@ -159,6 +207,8 @@
       "startAt": "2026-09-15T22:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5a3f038886b36383bdf05",
       "source": "limitless",
       "sourceId": "6aa5a3f038886b36383bdf05",
@@ -167,6 +217,8 @@
       "startAt": "2026-09-16T00:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8c5f7b8302ae761e5fb22a",
       "source": "limitless",
       "sourceId": "6a8c5f7b8302ae761e5fb22a",
@@ -175,6 +227,8 @@
       "startAt": "2026-09-16T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2200ca4272c53be64ca11",
       "source": "limitless",
       "sourceId": "6aa2200ca4272c53be64ca11",
@@ -183,6 +237,8 @@
       "startAt": "2026-09-16T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "CAM",
       "id": "limitless:6a9eeed3ab080c8c957fcf41",
       "source": "limitless",
       "sourceId": "6a9eeed3ab080c8c957fcf41",
@@ -191,6 +247,8 @@
       "startAt": "2026-09-16T19:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa1a404ab080c8c957ff3c9",
       "source": "limitless",
       "sourceId": "6aa1a404ab080c8c957ff3c9",
@@ -199,6 +257,8 @@
       "startAt": "2026-09-16T23:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa542c7f1243e65f97fe987",
       "source": "limitless",
       "sourceId": "6aa542c7f1243e65f97fe987",
@@ -207,6 +267,18 @@
       "startAt": "2026-09-17T10:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5ace8f1243e65f97ff33f",
+      "source": "limitless",
+      "sourceId": "6aa5ace8f1243e65f97ff33f",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5ace8f1243e65f97ff33f/details",
+      "startAt": "2026-09-17T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a988c84ab080c8c957f822d",
       "source": "limitless",
       "sourceId": "6a988c84ab080c8c957f822d",
@@ -215,6 +287,8 @@
       "startAt": "2026-09-17T19:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a9eef1fa4272c53be649d76",
       "source": "limitless",
       "sourceId": "6a9eef1fa4272c53be649d76",
@@ -223,6 +297,18 @@
       "startAt": "2026-09-17T19:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5ab53f1243e65f97ff305",
+      "source": "limitless",
+      "sourceId": "6aa5ab53f1243e65f97ff305",
+      "name": "🇧🇷 Hit Challenge #28 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5ab53f1243e65f97ff305/details",
+      "startAt": "2026-09-17T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa30ac4a4272c53be64d2ec",
       "source": "limitless",
       "sourceId": "6aa30ac4a4272c53be64d2ec",
@@ -231,6 +317,8 @@
       "startAt": "2026-09-18T00:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8c60318302ae761e5fb22b",
       "source": "limitless",
       "sourceId": "6a8c60318302ae761e5fb22b",
@@ -239,6 +327,8 @@
       "startAt": "2026-09-18T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a43873b83fd320299bd4947",
       "source": "limitless",
       "sourceId": "6a43873b83fd320299bd4947",
@@ -247,6 +337,8 @@
       "startAt": "2026-09-18T09:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a91ad35629039f77d8a4251",
       "source": "limitless",
       "sourceId": "6a91ad35629039f77d8a4251",
@@ -255,6 +347,8 @@
       "startAt": "2026-09-18T16:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a9eeefcab080c8c957fcf4d",
       "source": "limitless",
       "sourceId": "6a9eeefcab080c8c957fcf4d",
@@ -263,6 +357,8 @@
       "startAt": "2026-09-18T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a993212ab080c8c957f88e5",
       "source": "limitless",
       "sourceId": "6a993212ab080c8c957f88e5",
@@ -271,6 +367,8 @@
       "startAt": "2026-09-18T18:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "CAM",
       "id": "limitless:6aa4e16b38886b36383bd0e8",
       "source": "limitless",
       "sourceId": "6aa4e16b38886b36383bd0e8",
@@ -279,6 +377,18 @@
       "startAt": "2026-09-18T22:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5abf4f1243e65f97ff332",
+      "source": "limitless",
+      "sourceId": "6aa5abf4f1243e65f97ff332",
+      "name": "🇧🇷 Hit Challenge #29 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5abf4f1243e65f97ff332/details",
+      "startAt": "2026-09-18T23:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
       "id": "limitless:6a438d76c87cd9ff0a3135d8",
       "source": "limitless",
       "sourceId": "6a438d76c87cd9ff0a3135d8",
@@ -287,6 +397,8 @@
       "startAt": "2026-09-19T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8721c75a307140955752eb",
       "source": "limitless",
       "sourceId": "6a8721c75a307140955752eb",
@@ -295,6 +407,8 @@
       "startAt": "2026-09-19T02:35:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8c60af81741245b151d816",
       "source": "limitless",
       "sourceId": "6a8c60af81741245b151d816",
@@ -303,6 +417,8 @@
       "startAt": "2026-09-20T01:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a80b2925a30714095571744",
       "source": "limitless",
       "sourceId": "6a80b2925a30714095571744",
@@ -311,6 +427,8 @@
       "startAt": "2026-09-21T01:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8c61df81741245b151d823",
       "source": "limitless",
       "sourceId": "6a8c61df81741245b151d823",
@@ -319,6 +437,18 @@
       "startAt": "2026-09-23T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5a5e538886b36383bdf19",
+      "source": "limitless",
+      "sourceId": "6aa5a5e538886b36383bdf19",
+      "name": "🇧🇷 Hit Cup #18 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5a5e538886b36383bdf19/details",
+      "startAt": "2026-09-25T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8c620e81741245b151d827",
       "source": "limitless",
       "sourceId": "6a8c620e81741245b151d827",
@@ -327,6 +457,8 @@
       "startAt": "2026-09-25T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa10b3eab080c8c957fedc4",
       "source": "limitless",
       "sourceId": "6aa10b3eab080c8c957fedc4",
@@ -335,6 +467,8 @@
       "startAt": "2026-09-25T09:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d06aabb9482237504c6c",
       "source": "limitless",
       "sourceId": "6a95d06aabb9482237504c6c",
@@ -343,6 +477,8 @@
       "startAt": "2026-09-25T16:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a993668ab080c8c957f88fa",
       "source": "limitless",
       "sourceId": "6a993668ab080c8c957f88fa",
@@ -351,6 +487,8 @@
       "startAt": "2026-09-25T18:30:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
       "id": "limitless:6aa10b18ab080c8c957fedc2",
       "source": "limitless",
       "sourceId": "6aa10b18ab080c8c957fedc2",
@@ -359,6 +497,8 @@
       "startAt": "2026-09-26T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a87229678baaa6d1c2244ea",
       "source": "limitless",
       "sourceId": "6a87229678baaa6d1c2244ea",
@@ -367,6 +507,8 @@
       "startAt": "2026-09-26T02:35:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8c628e8302ae761e5fb23b",
       "source": "limitless",
       "sourceId": "6a8c628e8302ae761e5fb23b",
@@ -375,6 +517,8 @@
       "startAt": "2026-09-27T01:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a944407abb9482237503e5a",
       "source": "limitless",
       "sourceId": "6a944407abb9482237503e5a",
@@ -383,6 +527,18 @@
       "startAt": "2026-09-30T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5a6a738886b36383bdfc4",
+      "source": "limitless",
+      "sourceId": "6aa5a6a738886b36383bdfc4",
+      "name": "🇧🇷 Hit Cup #19 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5a6a738886b36383bdfc4/details",
+      "startAt": "2026-10-02T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a944444629039f77d8a5a22",
       "source": "limitless",
       "sourceId": "6a944444629039f77d8a5a22",
@@ -391,6 +547,8 @@
       "startAt": "2026-10-02T01:30:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
       "id": "limitless:6a4382a0c87cd9ff0a31353c",
       "source": "limitless",
       "sourceId": "6a4382a0c87cd9ff0a31353c",
@@ -399,6 +557,8 @@
       "startAt": "2026-10-02T09:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d0c2abb9482237504c8a",
       "source": "limitless",
       "sourceId": "6a95d0c2abb9482237504c8a",
@@ -407,6 +567,8 @@
       "startAt": "2026-10-02T16:05:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
       "id": "limitless:6a438d9583fd320299bd49c4",
       "source": "limitless",
       "sourceId": "6a438d9583fd320299bd49c4",
@@ -415,6 +577,8 @@
       "startAt": "2026-10-03T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8723115a307140955752fb",
       "source": "limitless",
       "sourceId": "6a8723115a307140955752fb",
@@ -423,6 +587,8 @@
       "startAt": "2026-10-03T02:35:00.000Z"
     },
     {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
       "id": "limitless:6a641a8e937230b102d43a93",
       "source": "limitless",
       "sourceId": "6a641a8e937230b102d43a93",
@@ -431,6 +597,8 @@
       "startAt": "2026-10-03T22:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d100abb9482237504c8b",
       "source": "limitless",
       "sourceId": "6a95d100abb9482237504c8b",
@@ -439,6 +607,18 @@
       "startAt": "2026-10-06T16:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5a6f2f1243e65f97ff28f",
+      "source": "limitless",
+      "sourceId": "6aa5a6f2f1243e65f97ff28f",
+      "name": "🇧🇷 Hit Cup #20 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5a6f2f1243e65f97ff28f/details",
+      "startAt": "2026-10-09T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d11da4272c53be64cf95",
       "source": "limitless",
       "sourceId": "6aa2d11da4272c53be64cf95",
@@ -447,6 +627,8 @@
       "startAt": "2026-10-09T17:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a690277937230b102d47bac",
       "source": "limitless",
       "sourceId": "6a690277937230b102d47bac",
@@ -455,6 +637,8 @@
       "startAt": "2026-10-11T00:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d119629039f77d8a6af7",
       "source": "limitless",
       "sourceId": "6a95d119629039f77d8a6af7",
@@ -463,6 +647,8 @@
       "startAt": "2026-10-16T16:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d234a4272c53be64cfe5",
       "source": "limitless",
       "sourceId": "6aa2d234a4272c53be64cfe5",
@@ -471,6 +657,8 @@
       "startAt": "2026-10-16T17:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d12aabb9482237504c8e",
       "source": "limitless",
       "sourceId": "6a95d12aabb9482237504c8e",
@@ -479,6 +667,8 @@
       "startAt": "2026-10-23T16:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d276a4272c53be64cfe7",
       "source": "limitless",
       "sourceId": "6aa2d276a4272c53be64cfe7",
@@ -487,6 +677,8 @@
       "startAt": "2026-10-23T17:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d139abb9482237504c8f",
       "source": "limitless",
       "sourceId": "6a95d139abb9482237504c8f",
@@ -495,6 +687,8 @@
       "startAt": "2026-10-30T16:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d284a4272c53be64cfe9",
       "source": "limitless",
       "sourceId": "6aa2d284a4272c53be64cfe9",
@@ -503,6 +697,8 @@
       "startAt": "2026-10-30T17:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d159629039f77d8a6af8",
       "source": "limitless",
       "sourceId": "6a95d159629039f77d8a6af8",
@@ -511,6 +707,8 @@
       "startAt": "2026-11-06T17:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d291ab080c8c9580024f",
       "source": "limitless",
       "sourceId": "6aa2d291ab080c8c9580024f",
@@ -519,6 +717,8 @@
       "startAt": "2026-11-06T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:chamionship-of-doom-ten",
       "source": "limitless",
       "sourceId": "chamionship-of-doom-ten",
@@ -527,6 +727,8 @@
       "startAt": "2026-11-07T16:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d16a629039f77d8a6af9",
       "source": "limitless",
       "sourceId": "6a95d16a629039f77d8a6af9",
@@ -535,6 +737,8 @@
       "startAt": "2026-11-13T17:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d29aab080c8c95800250",
       "source": "limitless",
       "sourceId": "6aa2d29aab080c8c95800250",
@@ -543,6 +747,8 @@
       "startAt": "2026-11-13T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a69081652c24ac2da64eb2a",
       "source": "limitless",
       "sourceId": "6a69081652c24ac2da64eb2a",
@@ -551,6 +757,8 @@
       "startAt": "2026-11-15T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d181629039f77d8a6afa",
       "source": "limitless",
       "sourceId": "6a95d181629039f77d8a6afa",
@@ -559,6 +767,8 @@
       "startAt": "2026-11-20T17:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d2a3ab080c8c95800251",
       "source": "limitless",
       "sourceId": "6aa2d2a3ab080c8c95800251",
@@ -567,6 +777,8 @@
       "startAt": "2026-11-20T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d1a1abb9482237504c92",
       "source": "limitless",
       "sourceId": "6a95d1a1abb9482237504c92",
@@ -575,6 +787,8 @@
       "startAt": "2026-11-27T17:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d1b5abb9482237504c93",
       "source": "limitless",
       "sourceId": "6a95d1b5abb9482237504c93",
@@ -583,6 +797,8 @@
       "startAt": "2026-12-04T17:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d2aca4272c53be64cfea",
       "source": "limitless",
       "sourceId": "6aa2d2aca4272c53be64cfea",
@@ -591,6 +807,8 @@
       "startAt": "2026-12-04T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d2cbab080c8c95800255",
       "source": "limitless",
       "sourceId": "6aa2d2cbab080c8c95800255",
@@ -599,6 +817,8 @@
       "startAt": "2026-12-11T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a690411937230b102d47bb2",
       "source": "limitless",
       "sourceId": "6a690411937230b102d47bb2",
@@ -607,6 +827,8 @@
       "startAt": "2026-12-13T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": null,
       "id": "limitless:6a7c9e942b308b6067b52125",
       "source": "limitless",
       "sourceId": "6a7c9e942b308b6067b52125",
@@ -615,6 +837,8 @@
       "startAt": "2026-12-27T10:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a690435937230b102d47bb3",
       "source": "limitless",
       "sourceId": "6a690435937230b102d47bb3",
@@ -623,6 +847,8 @@
       "startAt": "2027-01-10T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a6908dc52c24ac2da64eb2f",
       "source": "limitless",
       "sourceId": "6a6908dc52c24ac2da64eb2f",
@@ -631,6 +857,8 @@
       "startAt": "2027-02-14T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a690460937230b102d47bbf",
       "source": "limitless",
       "sourceId": "6a690460937230b102d47bbf",
@@ -639,6 +867,8 @@
       "startAt": "2027-03-14T01:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a69047852c24ac2da64eaf9",
       "source": "limitless",
       "sourceId": "6a69047852c24ac2da64eaf9",
@@ -647,6 +877,8 @@
       "startAt": "2027-04-11T00:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a6908fd937230b102d47bf3",
       "source": "limitless",
       "sourceId": "6a6908fd937230b102d47bf3",
@@ -655,6 +887,8 @@
       "startAt": "2027-05-09T00:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a69048c937230b102d47bc0",
       "source": "limitless",
       "sourceId": "6a69048c937230b102d47bc0",
@@ -663,6 +897,8 @@
       "startAt": "2027-06-13T00:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a6904a6937230b102d47bc1",
       "source": "limitless",
       "sourceId": "6a6904a6937230b102d47bc1",
@@ -671,6 +907,8 @@
       "startAt": "2027-07-11T00:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa1b553a4272c53be64c0e8",
       "source": "limitless",
       "sourceId": "6aa1b553a4272c53be64c0e8",
@@ -679,6 +917,8 @@
       "startAt": "2027-07-31T15:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a6909af937230b102d47bf7",
       "source": "limitless",
       "sourceId": "6a6909af937230b102d47bf7",

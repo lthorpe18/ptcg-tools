@@ -63,3 +63,8 @@ test('refresh is atomic, unchanged content is a no-op and failures preserve prio
     assert.deepEqual(await fs.readdir(directory), ['feed.json']);
   } finally { await fs.rm(directory, { recursive: true, force: true }); }
 });
+test('extracts format tooltip and platform, never numeric format sort key',()=>{
+ const html=page(row(id).replace('<tr ', '<tr data-platform="PTCGL" data-format="999" ').replace('</tr>','<td class="format"><img class="format" data-tooltip="Standard (Reg H–J)"></td></tr>'));
+ const event=parseUpcoming(html,now).events[0];assert.equal(event.format,'Standard (Reg H–J)');assert.equal(event.platform,'PTCGL');
+ assert.equal(parseUpcoming(page(row(id)),now).events[0].format,null);
+});

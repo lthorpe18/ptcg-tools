@@ -712,7 +712,7 @@ The user has explicitly required a normal in-app place to add/edit future set re
 3. **Practice Priorities** derived from expected field × matchup difficulty × personal evidence.
 4. **Event Prep v2 integration** so Prep surfaces selected deck/list plus concise practice priorities/readiness.
 5. **Deck Version Intelligence** — exact card diffs, evidence by version and version lineage where useful.
-6. **Compete → Online tournament discovery** — lightweight Limitless discovery only, separate from IRL Prep/Season lifecycle.
+6. **Compete → Online tournament discovery** — future Limitless tournaments; defaults to Standard on PTCGL, 17:00–22:00 Europe/London (GMT/BST). Format/platform and time controls include all-format/platform/time overrides. Cards show name/link, UK date/time and format/platform, with format-specific colour accents plus text labels. Users can mark attendance and record results through existing shared participation/tournament-day flows; saved snapshots survive discovery expiry. Online events do not receive IRL Event Prep links. This 12 September 2026 scope supersedes the earlier discovery-only/no-participation restriction.
 7. **Prediction Accuracy maturation** as genuine scored majors accumulate; fitting/versioning when evidence justifies it.
 8. **Release Hardening / data safety / installed-iPhone regression**.
 9. **Collection / physical readiness** only when explicitly reopened.

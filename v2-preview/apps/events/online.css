@@ -12,3 +12,14 @@
 .online-card:focus-visible,#onlineRetry:focus-visible{outline:3px solid var(--app-blue);outline-offset:2px}
 #onlineState:not(:empty){padding:16px 2px;font-size:14px;color:var(--app-muted)}
 #onlineRetry{min-height:44px;padding:8px 16px;border:1px solid var(--app-border);border-radius:10px;background:var(--app-surface,#fff);color:var(--app-blue);font:inherit}
+.online-filters{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0;align-items:end}
+.online-filters label{display:grid;gap:5px;font-size:13px;flex:1 1 110px}
+.online-filters select,.online-filters input[type=time],.online-actions button{min-height:44px;border:1px solid var(--app-border);border-radius:9px;background:var(--app-surface,#fff);color:var(--app-text);padding:8px;font:inherit;box-sizing:border-box;max-width:100%}
+.online-filters .online-all{display:flex;align-items:center;min-height:44px}
+.online-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.online-actions button:disabled{opacity:.75}
+.online-card{border-left:5px solid #84909d}
+.online-card.format-standard{border-left-color:#4e8ddb;background:color-mix(in srgb,var(--app-surface,#fff) 94%,#4e8ddb)}
+.online-card.format-glc{border-left-color:#47a879;background:color-mix(in srgb,var(--app-surface,#fff) 94%,#47a879)}
+.online-card.format-expanded{border-left-color:#a378ce;background:color-mix(in srgb,var(--app-surface,#fff) 94%,#a378ce)}
+.online-card>a{text-decoration:none}

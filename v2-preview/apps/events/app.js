@@ -43,8 +43,8 @@
   function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]))}
   function safeUrl(value){try{const u=new URL(String(value||''),location.href);return /^https?:$/.test(u.protocol)?u.href:''}catch{return ''}}
   function parseDate(date,time){if(!date)return null;const clock=time&&/^\d{2}:\d{2}/.test(time)?time.slice(0,8):'12:00:00';const d=new Date(`${date}T${clock}`);return Number.isNaN(d.getTime())?null:d}
-  function eventStart(event){return parseDate(event.startDate||event.date,event.startTime)}
-  function eventEnd(event){return parseDate(event.endDate||event.startDate||event.date,event.endTime||event.startTime||'23:59:59')}
+  function eventStart(event){return event.startAt?new Date(event.startAt):parseDate(event.startDate||event.date,event.startTime)}
+  function eventEnd(event){if(event.scope==='online'&&event.startAt)return new Date(event.startAt);return parseDate(event.endDate||event.startDate||event.date,event.endTime||event.startTime||'23:59:59')}
   function isPast(event){const end=eventEnd(event);return end?end.getTime()<Date.now():false}
   function daysAway(event){const d=eventStart(event);return d?(d.getTime()-Date.now())/86400000:null}
   function eventIdentity(event){return event&&event.id?event.id:(event&&event.source&&event.sourceId?`${event.source}:${event.sourceId}`:null)}
@@ -155,7 +155,7 @@
     toast(wasSaved?'Organiser removed':'Organiser saved');render();
   }
 
-  function humanDate(event){const start=eventStart(event);if(!start)return 'Date TBC';const opts={weekday:'short',day:'numeric',month:'short'};if(start.getFullYear()!==new Date().getFullYear())opts.year='numeric';let label=start.toLocaleDateString('en-GB',opts);const end=event.endDate?eventEnd(event):null;if(end&&event.endDate!==event.startDate)label+=` – ${end.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:end.getFullYear()!==start.getFullYear()?'numeric':undefined})}`;if(event.startTime)label+=` · ${event.startTime.slice(0,5)}`;return label}
+  function humanDate(event){if(event.scope==='online'&&event.startAt)return new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}).format(new Date(event.startAt))+' UK';const start=eventStart(event);if(!start)return 'Date TBC';const opts={weekday:'short',day:'numeric',month:'short'};if(start.getFullYear()!==new Date().getFullYear())opts.year='numeric';let label=start.toLocaleDateString('en-GB',opts);const end=event.endDate?eventEnd(event):null;if(end&&event.endDate!==event.startDate)label+=` – ${end.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:end.getFullYear()!==start.getFullYear()?'numeric':undefined})}`;if(event.startTime)label+=` · ${event.startTime.slice(0,5)}`;return label}
   function compactDate(event){const d=eventStart(event);return d?d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'TBC'}
   function placeLine(event){if(event.scope==='major')return [event.city,event.country].filter(Boolean).join(', ')||event.region||'Location TBC';return event.venue||event.city||event.address||'Location TBC'}
   function detailLine(event){if(event.scope==='major')return REGION_LABELS[event.region]||event.region||`Season ${event.season||''}`.trim();const bits=[];if(event.city&&event.city!==event.venue)bits.push(event.city);const distance=eventDistanceMiles(event);if(Number.isFinite(distance))bits.push(`${distance.toFixed(1)} mi`);if(event.cost)bits.push(event.cost);return bits.join(' · ')}

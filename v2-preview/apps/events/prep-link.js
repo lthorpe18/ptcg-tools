@@ -53,7 +53,7 @@ function enhance(){
   document.querySelectorAll('.event-card').forEach(card=>{
     const existing=card.querySelector('[data-prep-link]');
     const participation=participationForCard(card);
-    const attending=participation?.attendanceStatus==='attending';
+    const attending=participation?.attendanceStatus==='attending'&&participation?.eventSnapshot?.scope!=='online';
     if(!attending){existing?.remove();card.querySelector('.event-actions')?.classList.remove('has-prep');return;}
     const actions=card.querySelector('.event-actions');if(!actions)return;
     const link=existing||document.createElement('a');

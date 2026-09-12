@@ -54,7 +54,11 @@ export function parseUpcoming(html, now = new Date()) {
     assert(timestamp(data['data-date']), `Invalid start time: ${sourceId}`);
     const time = row.match(/data-time=["'](\d+)["']/)?.[1];
     assert(time && Number(time) === Date.parse(data['data-date']), `Conflicting start time: ${sourceId}`);
-    return { id: `limitless:${sourceId}`, source: 'limitless', sourceId, name,
+    const formatCell = [...row.matchAll(/<td\b[^>]*>[\s\S]*?<\/td>/g)].map(m => m[0]).find(c => hasClass(c.slice(0, c.indexOf('>') + 1), 'format'));
+    const formatTag = formatCell?.match(/<[^>]+data-tooltip=[^>]+>/)?.[0];
+    const format = formatTag ? attrs(formatTag)['data-tooltip'] : null;
+    const platform = data['data-platform'] || null;
+    return { format, platform, id: `limitless:${sourceId}`, source: 'limitless', sourceId, name,
       url: `https://play.limitlesstcg.com/tournament/${sourceId}/details`, startAt: data['data-date'] };
   });
   return { discoveredCount: rows.length, events: events.filter(e => Date.parse(e.startAt) > now.getTime())
