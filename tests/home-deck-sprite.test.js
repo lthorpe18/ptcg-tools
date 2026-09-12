@@ -57,7 +57,7 @@ test('Deck library, Results and Training all consume DeckSprites.html',()=>{
 
 test('Compete deck identities consume DeckSprites.html instead of composing sprite images locally',()=>{
   for(const source of [tournaments,tournamentHistory,tournamentDeck]){
-    assert.match(source,/DeckSprites(?:\?\.)?\.html/);
+    assert.match(source,/(?:DeckSprites\?\.html|DeckSprites\.html)/);
     assert.doesNotMatch(source,/DeckSprites\?\.slugs/);
     assert.doesNotMatch(source,/DeckSprites\.url\(/);
   }
