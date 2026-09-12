@@ -29,6 +29,8 @@
       venue:event.venue||null,
       startDate:event.startDate||event.date||null,
       startTime:event.startTime||null,
+      startAt:event.startAt||null,
+      platform:event.platform||null,
       endDate:event.endDate||null,
       endTime:event.endTime||null,
       address:event.address||null,
