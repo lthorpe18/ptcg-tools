@@ -33,6 +33,6 @@ test('Home WSIP CTA is compact and no longer carries the decorative chart',()=>{
 test('Home action assets are cache-busted',()=>{
   const home=read('v2-preview/home-content.html');
   const shell=read('v2-preview/index.html');
-  assert.match(home,/home-tweaks\.css\?v=9/);
+  assert.match(home,/home-tweaks\.css\?v=10/);
   assert.match(shell,/home-content\.html\?v=\d+/);
 });
