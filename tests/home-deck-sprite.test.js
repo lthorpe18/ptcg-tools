@@ -29,8 +29,14 @@ test('shared DeckSprites is the one owner of primary plus circular secondary dec
   assert.doesNotMatch(sprites,/display:inline-flex!important;align-items:center;gap:/);
 });
 
+test('canonical renderer accepts a per-deck slug override without changing archetype defaults',()=>{
+  assert.match(sprites,/Array\.isArray\(options\.slugs\)/);
+  assert.match(sprites,/const found = explicit\.length \? explicit : slugs\(name\)/);
+  assert.match(sprites,/options\.slugs\.map\(normalizeSlug\)/);
+});
+
 test('legacy Meta sprite entrypoint is only a compatibility bridge to shared renderer',()=>{
-  assert.match(legacySprites,/\.\.\/_shared\/deck-sprites\.js\?v=2/);
+  assert.match(legacySprites,/\.\.\/_shared\/deck-sprites\.js\?v=3/);
   assert.doesNotMatch(legacySprites,/function html\(/);
   assert.doesNotMatch(legacySprites,/const EXACT/);
 });
@@ -60,9 +66,20 @@ test('Home pins canonical children to accepted primary plus circular badge geome
 });
 
 test('Deck library, Results and Training all consume DeckSprites.html',()=>{
-  assert.match(canonical,/window\.DeckSprites\.html\(label\|\|'',\{size\}\)/);
+  assert.match(canonical,/window\.DeckSprites\.html\(label\|\|'',\{size,slugs\}\)/);
   assert.match(results,/window\.DeckSprites\?\.html/);
   assert.match(training,/window\.DeckSprites\?\.html/);
+});
+
+test('Deck Overview exposes editable per-deck sprite overrides and library/header consume them',()=>{
+  assert.match(deckHtml,/id="sprite1"/);
+  assert.match(deckHtml,/id="sprite2"/);
+  assert.match(deckHtml,/Deck sprite override|Sprite 2/);
+  assert.doesNotMatch(canonical,/\.sprite-grid\{display:none!important\}/);
+  assert.doesNotMatch(canonical,/PTCGSprites\.getIndex=async/);
+  assert.match(canonical,/function spriteSlugs\(deck\)/);
+  assert.match(canonical,/renderTarget\(target,label,42,spriteSlugs\(deck\)\)/);
+  assert.match(canonical,/inputSpriteSlugs\(\)/);
 });
 
 test('Compete deck identities consume DeckSprites.html instead of composing sprite images locally',()=>{
@@ -75,7 +92,8 @@ test('Compete deck identities consume DeckSprites.html instead of composing spri
 });
 
 test('cached entrypoints still reach shared renderer while canonical visuals remain cache-busted',()=>{
-  assert.match(deckHtml,/\.\.\/meta\/sprites\.js\?v=6/);
+  assert.match(deckHtml,/\.\.\/meta\/sprites\.js\?v=7/);
+  assert.match(deckHtml,/deck-sprites-canonical\.js\?v=2/);
   assert.match(deckHtml,/deck-results\.css\?v=4/);
   assert.match(homeHtml,/apps\/meta\/sprites\.js\?v=6/);
   assert.match(homeHtml,/home-tweaks\.css\?v=10/);
