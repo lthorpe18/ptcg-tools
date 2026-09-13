@@ -32,18 +32,24 @@
   }
 
   function fact(existing,status,value,source,isDate=false,forceNew=false){
-    const cleanStatus=status||'unknown';
     const cleanValue=value===''||value==null?null:value;
-    if(!forceNew&&existing&&existing.status===cleanStatus&&sameValue(existing.value,cleanValue))return clone(existing);
-    const next={value:cleanValue,status:cleanStatus,sources:cleanStatus==='unknown'?[]:[source]};
+    if(!forceNew&&existing&&existing.status===status&&sameValue(existing.value,cleanValue))return clone(existing);
+    const next={value:cleanValue,status,sources:status==='unknown'||status==='announced'?[]:[source]};
     if(isDate)next.convention=DATE_CONVENTION;
     return next;
+  }
+
+  function dateFact(existing,value,source,blankStatus='unknown',forceNew=false){
+    const clean=String(value||'').trim();
+    return fact(existing,clean?'confirmed':blankStatus,clean||null,source,true,forceNew);
   }
 
   function blankSet(){
     return {
       id:'',name:'',
       release:{value:null,status:'announced',sources:[],convention:DATE_CONVENTION},
+      // Set-level marks are intentionally not maintained. Standard legality is
+      // determined from each individual card printing's regulation mark.
       marks:{value:null,status:'unknown',sources:[]},
       legality:{
         online:{value:null,status:'unknown',sources:[],convention:DATE_CONVENTION},
@@ -52,13 +58,6 @@
       rotation:null
     };
   }
-
-  function statusOptions(value,allowAnnounced=true){
-    const values=allowAnnounced?['unknown','announced','confirmed']:['unknown','confirmed'];
-    return values.map(v=>`<option value="${v}"${v===value?' selected':''}>${v[0].toUpperCase()+v.slice(1)}</option>`).join('');
-  }
-
-  function factStatus(fallback,value){return value?.status||fallback}
 
   function currentContext(registry){
     try{
@@ -83,7 +82,6 @@
     const release=set.release||{};
     const online=set.legality?.online||{};
     const irl=set.legality?.irl||{};
-    const marks=Array.isArray(set.marks?.value)?set.marks.value.join(', '):'';
     const rotation=set.rotation||null;
     return `<article class="format-set-card app-card" data-format-set data-set-index="${index}">
       <div class="format-set-head"><div><span class="settings-kicker">Set ${index+1}</span><strong>${esc(set.id||'New set')}</strong></div><button type="button" class="format-remove" data-remove-set>Remove</button></div>
@@ -91,29 +89,19 @@
         <label><span>Set code</span><input data-set-id value="${esc(set.id||'')}" placeholder="e.g. 30C" autocapitalize="characters"></label>
         <label><span>Set name</span><input data-set-name value="${esc(set.name||'')}" placeholder="Set name"></label>
       </div>
-      <div class="format-fact-row">
-        <label><span>Physical release</span><select data-release-status>${statusOptions(factStatus('announced',release),true)}</select></label>
-        <label><span>Date</span><input data-release-date type="date" value="${esc(release.value||'')}"></label>
+      <div class="format-date-fields">
+        <label><span>Physical release</span><input data-release-date type="date" value="${esc(release.value||'')}"></label>
+        <label><span>Online legal</span><input data-online-date type="date" value="${esc(online.value||'')}"></label>
+        <label><span>IRL legal</span><input data-irl-date type="date" value="${esc(irl.value||'')}"></label>
       </div>
-      <div class="format-fact-row">
-        <label><span>Online legality</span><select data-online-status>${statusOptions(factStatus('unknown',online),true)}</select></label>
-        <label><span>Date</span><input data-online-date type="date" value="${esc(online.value||'')}"></label>
-      </div>
-      <div class="format-fact-row">
-        <label><span>IRL legality</span><select data-irl-status>${statusOptions(factStatus('unknown',irl),true)}</select></label>
-        <label><span>Date</span><input data-irl-date type="date" value="${esc(irl.value||'')}"></label>
-      </div>
-      <div class="format-fact-row">
-        <label><span>Regulation marks</span><select data-marks-status>${statusOptions(factStatus('unknown',set.marks),false)}</select></label>
-        <label><span>Marks</span><input data-marks value="${esc(marks)}" placeholder="e.g. J, K"></label>
-      </div>
+      <p class="format-helper">Leave a date blank when it is not yet known.</p>
       <details class="format-rotation"${rotation?' open':''}>
-        <summary>Rotation metadata${rotation?' · configured':''}</summary>
-        <label class="format-check"><input type="checkbox" data-rotation-enabled${rotation?' checked':''}><span>This set changes the rotation boundary</span></label>
-        <div class="format-fields three">
-          <label><span>Lowest mark</span><input data-rotation-lowest value="${esc(rotation?.lowestMark||'')}" maxlength="1" autocapitalize="characters" placeholder="J"></label>
-          <label><span>Legal marks</span><input data-rotation-marks value="${esc(Array.isArray(rotation?.regulationMarks)?rotation.regulationMarks.join(', '):'')}" placeholder="J, K"></label>
-          <label><span>Earliest set</span><input data-rotation-earliest value="${esc(rotation?.earliestSet||'')}" autocapitalize="characters" placeholder="Optional"></label>
+        <summary>Rotation${rotation?' · configured':''}</summary>
+        <p class="format-rotation-note">Rotation is card-level. Each printing is checked against the legal regulation marks; set boundaries are labels only.</p>
+        <label class="format-check"><input type="checkbox" data-rotation-enabled${rotation?' checked':''}><span>This set's legality date also changes the legal regulation marks</span></label>
+        <div class="format-fields two">
+          <label><span>Legal regulation marks after rotation</span><input data-rotation-marks value="${esc(Array.isArray(rotation?.regulationMarks)?rotation.regulationMarks.join(', '):'')}" placeholder="e.g. I, J, K"></label>
+          <label><span>Earliest set label</span><input data-rotation-earliest value="${esc(rotation?.earliestSet||'')}" autocapitalize="characters" placeholder="Optional display label"></label>
         </div>
       </details>
     </article>`;
@@ -134,13 +122,8 @@
       draftRow=null;
       renderSets();renderSummary();renderActions();
     }));
-    list.querySelectorAll('input,select').forEach(input=>{input.disabled=!isAdmin||saving;});
+    list.querySelectorAll('input').forEach(input=>{input.disabled=!isAdmin||saving;});
     list.querySelectorAll('[data-remove-set]').forEach(button=>{button.hidden=!isAdmin;button.disabled=saving;});
-  }
-
-  function validateStatusDate(status,date,label){
-    if(status==='confirmed'&&!date)throw new Error(`${label}: confirmed status needs a date.`);
-    if(status!=='confirmed'&&date)throw new Error(`${label}: choose Confirmed to save a date.`);
   }
 
   function collectRegistry(){
@@ -162,39 +145,29 @@
       if(!name)throw new Error(`${id}: set name is required.`);
       const original=existingById.get(id)||null;
       const forceNew=!original;
-      const releaseStatus=row.querySelector('[data-release-status]')?.value||'unknown';
       const releaseDate=row.querySelector('[data-release-date]')?.value||'';
-      const onlineStatus=row.querySelector('[data-online-status]')?.value||'unknown';
       const onlineDate=row.querySelector('[data-online-date]')?.value||'';
-      const irlStatus=row.querySelector('[data-irl-status]')?.value||'unknown';
       const irlDate=row.querySelector('[data-irl-date]')?.value||'';
-      const marksStatus=row.querySelector('[data-marks-status]')?.value||'unknown';
-      const marks=splitMarks(row.querySelector('[data-marks]')?.value);
-      validateStatusDate(releaseStatus,releaseDate,`${id} physical release`);
-      validateStatusDate(onlineStatus,onlineDate,`${id} Online legality`);
-      validateStatusDate(irlStatus,irlDate,`${id} IRL legality`);
-      if(marksStatus==='confirmed'&&!marks.length)throw new Error(`${id}: confirmed regulation marks need at least one mark.`);
-      if(marksStatus!=='confirmed'&&marks.length)throw new Error(`${id}: choose Confirmed to save regulation marks.`);
       const enabled=!!row.querySelector('[data-rotation-enabled]')?.checked;
       let rotation=null;
       if(enabled){
-        const lowest=String(row.querySelector('[data-rotation-lowest]')?.value||'').trim().toUpperCase();
         const legal=splitMarks(row.querySelector('[data-rotation-marks]')?.value);
         const earliest=String(row.querySelector('[data-rotation-earliest]')?.value||'').trim().toUpperCase();
-        if(!/^[A-Z]$/.test(lowest))throw new Error(`${id}: rotation lowest mark must be one letter.`);
-        if(!legal.length)throw new Error(`${id}: rotation legal marks are required.`);
-        if(!legal.includes(lowest))legal.push(lowest);
-        legal.sort();
-        rotation={lowestMark:lowest,regulationMarks:legal};
+        if(!legal.length)throw new Error(`${id}: legal regulation marks are required for a rotation.`);
+        if(!legal.every(mark=>/^[A-Z]$/.test(mark)))throw new Error(`${id}: regulation marks must be single letters.`);
+        rotation={lowestMark:legal[0],regulationMarks:legal};
         if(earliest)rotation.earliestSet=earliest;
       }
       return {
         id,name,
-        release:fact(original?.release,releaseStatus,releaseDate||null,source,true,forceNew),
-        marks:fact(original?.marks,marksStatus,marksStatus==='confirmed'?marks:null,source,false,forceNew),
+        release:dateFact(original?.release,releaseDate,source,'announced',forceNew),
+        // Never infer or maintain regulation marks for an entire set. The card
+        // catalogue supplies each printing's mark and the format context supplies
+        // the currently legal marks.
+        marks:{value:null,status:'unknown',sources:[]},
         legality:{
-          online:fact(original?.legality?.online,onlineStatus,onlineDate||null,source,true,forceNew),
-          irl:fact(original?.legality?.irl,irlStatus,irlDate||null,source,true,forceNew)
+          online:dateFact(original?.legality?.online,onlineDate,source,'unknown',forceNew),
+          irl:dateFact(original?.legality?.irl,irlDate,source,'unknown',forceNew)
         },
         rotation
       };
@@ -206,7 +179,7 @@
       if(set.legality.online.status!=='confirmed')unknowns.push(`${set.id} Online legality date`);
       if(set.legality.irl.status!=='confirmed')unknowns.push(`${set.id} IRL legality date`);
     }
-    if(!next.sets.some(set=>set.rotation))unknowns.push('Next rotation date and lower boundary');
+    if(!next.sets.some(set=>set.rotation))unknowns.push('Next rotation date and legal regulation marks');
     const last=next.sets[next.sets.length-1];
     if(last)unknowns.push(`Set releases after ${last.id}`);
     next.unknowns=[...new Set(unknowns)];

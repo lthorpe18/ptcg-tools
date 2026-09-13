@@ -67,6 +67,7 @@
       fact(set.release, set.id + '.release', true);
       fact(set.marks, set.id + '.marks');
       if (confirmed(set.marks)) check(Array.isArray(set.marks.value) && set.marks.value.length > 0 && set.marks.value.every(m => /^[A-Z]$/.test(m)), set.id + ': invalid marks');
+      if (registry.kind === 'user-maintained') check(!confirmed(set.marks), set.id + ': maintained set marks must stay unknown; card regulation marks are checked per printing');
       for (const env of ENVIRONMENTS) fact(set.legality?.[env], set.id + '.' + env, true);
       if (set.rotation) {
         check(!!registry.baseline, set.id + ': set-linked rotation requires a baseline');
@@ -180,6 +181,8 @@
           else if (admission.value > day) { state = 'illegal'; reason = 'before-legality-date'; }
           else if (!boundary) { state = 'unknown'; reason = 'rotation-boundary-unknown'; }
           else if (boundary.lowestMark && confirmed(set.marks)) {
+            // This describes which mark-bearing portion of a set is in the pool; it
+            // must never be interpreted as card legality for the whole set.
             legalMarks = set.marks.value.filter(mark => mark >= boundary.lowestMark).sort();
             state = legalMarks.length ? 'legal' : 'illegal'; reason = legalMarks.length ? 'admitted-under-rotation' : 'rotated-out';
           } else if (!boundary.lowestMark && boundary.setIds) {
@@ -259,7 +262,18 @@
         registryRevision: result.registryRevision, fixtureKind: result.fixtureKind, scope: result.scope,
         sources: result.sources, unknowns: result.unknowns, ...result.environments[event.environment]}) : result;
     }
-    return Object.freeze({resolve, resolveEvent, revision: registry.revision});
+    function resolveCardLegality(card, event) {
+      const context = resolveEvent(event);
+      if (!context?.date) return freeze({status:'unknown', reason:context?.reason || 'format-context-unknown'});
+      const legalMarks = context.formatContext?.regulationMarks;
+      if (!Array.isArray(legalMarks) || !legalMarks.length) return freeze({status:'unknown', reason:'legal-regulation-marks-unknown', date:context.date, environment:context.environment});
+      const mark = String(card?.regulationMark || '').trim().toUpperCase();
+      if (!/^[A-Z]$/.test(mark)) return freeze({status:'unknown', reason:'card-regulation-mark-unknown', date:context.date, environment:context.environment, legalRegulationMarks:[...legalMarks]});
+      const legal = legalMarks.includes(mark);
+      return freeze({status:legal?'legal':'illegal', reason:legal?'regulation-mark-legal':'regulation-mark-rotated', regulationMark:mark,
+        legalRegulationMarks:[...legalMarks], date:context.date, environment:context.environment, formatContextId:context.formatContext?.contextId || null});
+    }
+    return Object.freeze({resolve, resolveEvent, resolveCardLegality, revision: registry.revision});
   }
   return Object.freeze({VERSION, validate, create, dateOnly});
 });
