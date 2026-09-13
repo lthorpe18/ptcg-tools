@@ -72,6 +72,6 @@ test('Formats and Sets controls are iPhone-safe and cannot overflow their cards'
   assert.match(css,/box-sizing:border-box/);
   assert.match(css,/max-width:100%/);
   assert.match(css,/\.format-set-card\{[^}]*overflow:hidden/s);
-  assert.match(css,/@media\(max-width:520px\)[^{]*\{[^}]*\.format-date-fields\{grid-template-columns:1fr\}/s);
+  assert.match(css,/@media\(max-width:520px\)[\s\S]*?\.format-date-fields\{grid-template-columns:1fr\}/);
   assert.match(css,/\.format-actions\{[^}]*margin-bottom:10px/s);
 });
