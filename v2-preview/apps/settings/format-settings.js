@@ -75,7 +75,7 @@
     const context=currentContext(workingRegistry);
     const version=draftRow?`Draft v${draftRow.version_number||'—'}`:publishedRow?.version_number?`Published v${publishedRow.version_number}`:'Published';
     const source=publishedRow?.source==='lkg'?'Last-known-good cache':publishedRow?.source==='fallback'?'Checked-in fallback':'Shared calendar';
-    el.innerHTML=`<div class="format-summary-grid"><span><small>Status</small><b>${esc(version)}</b></span><span><small>Online now</small><b>${esc(context.online)}</b></span><span><small>IRL now</small><b>${esc(context.irl)}</b></span></div><p>${esc(source)} · revision ${esc(workingRegistry.revision||'—')}</p>`;
+    el.innerHTML=`<div class="format-summary-grid"><span><small>Status</small><b>${esc(version)}</b></span><span><small>Online</small><b>${esc(context.online)}</b></span><span><small>IRL</small><b>${esc(context.irl)}</b></span></div><details class="format-summary-meta"><summary>Calendar details</summary><p>${esc(source)} · revision ${esc(workingRegistry.revision||'—')}</p></details>`;
   }
 
   function setCard(set,index){
@@ -83,25 +83,26 @@
     const online=set.legality?.online||{};
     const irl=set.legality?.irl||{};
     const rotation=set.rotation||null;
+    const rotationMarks=Array.isArray(rotation?.regulationMarks)?rotation.regulationMarks.join(', '):'';
+    const rotationLabel=rotationMarks?`Rotation · ${rotationMarks}`:'Rotation';
     return `<article class="format-set-card app-card" data-format-set data-set-index="${index}">
-      <div class="format-set-head"><div><span class="settings-kicker">Set ${index+1}</span><strong>${esc(set.id||'New set')}</strong></div><button type="button" class="format-remove" data-remove-set>Remove</button></div>
-      <div class="format-fields two">
-        <label><span>Set code</span><input data-set-id value="${esc(set.id||'')}" placeholder="e.g. 30C" autocapitalize="characters"></label>
-        <label><span>Set name</span><input data-set-name value="${esc(set.name||'')}" placeholder="Set name"></label>
+      <div class="format-set-toolbar"><span class="settings-kicker">Set ${index+1}</span><button type="button" class="format-remove" data-remove-set>Remove</button></div>
+      <div class="format-set-identity">
+        <label class="format-set-code"><span>Code</span><input data-set-id value="${esc(set.id||'')}" placeholder="30C" autocapitalize="characters"></label>
+        <label><span>Name</span><input data-set-name value="${esc(set.name||'')}" placeholder="Set name"></label>
       </div>
       <div class="format-date-fields">
-        <label><span>Physical release</span><input data-release-date type="date" value="${esc(release.value||'')}"></label>
-        <label><span>Online legal</span><input data-online-date type="date" value="${esc(online.value||'')}"></label>
-        <label><span>IRL legal</span><input data-irl-date type="date" value="${esc(irl.value||'')}"></label>
+        <label><span>Release</span><input data-release-date type="date" value="${esc(release.value||'')}"></label>
+        <label><span>Online</span><input data-online-date type="date" value="${esc(online.value||'')}"></label>
+        <label><span>IRL</span><input data-irl-date type="date" value="${esc(irl.value||'')}"></label>
       </div>
-      <p class="format-helper">Leave a date blank when it is not yet known.</p>
-      <details class="format-rotation"${rotation?' open':''}>
-        <summary>Rotation${rotation?' · configured':''}</summary>
-        <p class="format-rotation-note">Rotation is card-level. Each printing is checked against the legal regulation marks; set boundaries are labels only.</p>
-        <label class="format-check"><input type="checkbox" data-rotation-enabled${rotation?' checked':''}><span>This set's legality date also changes the legal regulation marks</span></label>
+      <details class="format-rotation">
+        <summary>${esc(rotationLabel)}</summary>
+        <p class="format-rotation-note">Card-level rotation: each printing is checked against these legal regulation marks.</p>
+        <label class="format-check"><input type="checkbox" data-rotation-enabled${rotation?' checked':''}><span>This set's legality date changes the legal regulation marks</span></label>
         <div class="format-fields two">
-          <label><span>Legal regulation marks after rotation</span><input data-rotation-marks value="${esc(Array.isArray(rotation?.regulationMarks)?rotation.regulationMarks.join(', '):'')}" placeholder="e.g. I, J, K"></label>
-          <label><span>Earliest set label</span><input data-rotation-earliest value="${esc(rotation?.earliestSet||'')}" autocapitalize="characters" placeholder="Optional display label"></label>
+          <label><span>Legal marks after rotation</span><input data-rotation-marks value="${esc(rotationMarks)}" placeholder="e.g. I, J, K"></label>
+          <label><span>Earliest set label</span><input data-rotation-earliest value="${esc(rotation?.earliestSet||'')}" autocapitalize="characters" placeholder="Optional"></label>
         </div>
       </details>
     </article>`;
@@ -195,7 +196,7 @@
     const add=$('addFormatSet');
     if(admin)admin.hidden=!isAdmin;
     if(access){
-      access.textContent=isAdmin?'Authorised maintainer · edits are shared application data.':'Published format data is shared across PTCG Tools. Only authorised maintainers can edit it.';
+      access.textContent=isAdmin?'Maintainer access · shared data':'Shared data · read only';
       access.classList.toggle('is-admin',isAdmin);
     }
     if(save){save.disabled=!isAdmin||saving;save.textContent=saving?'Saving…':draftRow?'Update draft':'Save draft';}

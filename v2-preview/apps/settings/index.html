@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="../../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="../_shared/app-shell.css?v=2">
   <link rel="stylesheet" href="./settings.css?v=5">
-  <link rel="stylesheet" href="./format-settings.css?v=2">
+  <link rel="stylesheet" href="./format-settings.css?v=3">
   <link rel="stylesheet" href="../meta/sprite-polish.css?v=3">
 </head>
 <body class="ptcg-v2" data-app-root="../.." data-app-section="settings">
@@ -44,18 +44,23 @@
     </section>
 
     <section class="settings-section" aria-labelledby="formatsHeading">
-      <div class="settings-section-head"><span class="settings-kicker">Shared data</span><h2 id="formatsHeading">Formats &amp; Sets</h2><p>Maintain set release and legality dates plus known rotation changes. Card legality is checked from each printing's regulation mark; set boundaries are used only for format labels and meta grouping.</p></div>
+      <div class="settings-section-head"><span class="settings-kicker">Shared data</span><h2 id="formatsHeading">Formats &amp; Sets</h2><p>Maintain release dates, Online/IRL legality and rotation. Card legality always uses each printing's regulation mark.</p></div>
       <div class="format-calendar-shell">
         <div id="formatCalendarSummary" class="format-calendar-summary app-card"><div class="settings-empty">Loading shared format calendar…</div></div>
         <p id="formatAccessMessage" class="format-access">Checking maintenance access…</p>
         <div id="formatAdminControls" class="format-admin-controls" hidden>
           <div id="formatSetList" class="format-set-list"></div>
-          <button id="addFormatSet" class="format-add" type="button">+ Add set</button>
-          <label class="format-notes-label"><span>Maintenance notes</span><textarea id="formatPublishNotes" placeholder="What changed and where the dates came from"></textarea></label>
-          <div class="format-actions">
-            <button id="saveFormatDraft" type="button">Save draft</button>
-            <button id="publishFormatDraft" class="primary" type="button" disabled>Publish shared calendar</button>
+          <div class="format-maintenance-bar">
+            <button id="addFormatSet" class="format-add" type="button">+ Set</button>
+            <div class="format-actions">
+              <button id="saveFormatDraft" type="button">Save draft</button>
+              <button id="publishFormatDraft" class="primary" type="button" disabled>Publish</button>
+            </div>
           </div>
+          <details class="format-notes-disclosure">
+            <summary>Maintenance notes <span>optional</span></summary>
+            <label class="format-notes-label"><textarea id="formatPublishNotes" placeholder="What changed and where the dates came from"></textarea></label>
+          </details>
         </div>
         <p id="formatCalendarMessage" class="format-calendar-message" aria-live="polite"></p>
       </div>
@@ -85,7 +90,7 @@
   <script src="../_shared/auth-ui.js?v=4"></script>
   <script src="../_shared/archetype-catalog.js?v=3"></script>
   <script src="../meta/sprites.js?v=5"></script>
-  <script src="./format-settings.js?v=2"></script>
+  <script src="./format-settings.js?v=3"></script>
   <script src="./settings.js?v=5"></script>
   <script src="../_shared/app-shell.js?v=7"></script>
 </body>

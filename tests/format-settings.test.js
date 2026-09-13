@@ -18,9 +18,8 @@ test('Formats and Sets settings scripts parse cleanly and load shared format dep
 });
 
 test('Settings exposes Formats and Sets as shared application data rather than an account preference',()=>{
-  assert.match(html,/id="formatsHeading">Formats &amp; Sets</);
-  assert.match(html,/Card legality is checked from each printing's regulation mark/);
-  assert.match(html,/set boundaries are used only for format labels and meta grouping/);
+  assert.match(html,/id="formatsHeading">Formats &amp; Sets/);
+  assert.match(html,/Card legality always uses each printing's regulation mark/);
   assert.match(html,/id="formatAccessMessage"/);
   assert.match(html,/id="formatAdminControls"[^>]*hidden/);
   assert.doesNotMatch(js,/PTCGStorage\.(?:save|update)|PTCGCloud\.localSnapshot|rootState/);
@@ -33,9 +32,7 @@ test('Formats and Sets editor uses dates directly and does not expose fact-statu
   for(const retired of ['data-release-status','data-online-status','data-irl-status','data-marks-status','data-marks','data-rotation-lowest']){
     assert.doesNotMatch(js,new RegExp(retired));
   }
-  assert.match(js,/Leave a date blank when it is not yet known/);
-  assert.match(js,/Rotation is card-level/);
-  assert.match(js,/set boundaries are labels only/);
+  assert.match(js,/Card-level rotation/);
   assert.match(html,/id="addFormatSet"/);
   assert.match(html,/id="formatPublishNotes"/);
 });
@@ -67,11 +64,25 @@ test('maintenance keeps set marks unknown and derives a rotation boundary only f
   assert.match(js,/PTCGFormatCalendar\.validateRegistry\(next,window\.PTCGFormat\)/);
 });
 
-test('Formats and Sets controls are iPhone-safe and cannot overflow their cards',()=>{
+test('Formats and Sets is compact on normal iPhone widths',()=>{
+  assert.match(js,/format-set-identity/);
+  assert.match(js,/format-date-fields/);
+  assert.doesNotMatch(js,/format-helper/);
+  assert.match(js,/<details class="format-rotation">/);
+  assert.doesNotMatch(js,/<details class="format-rotation"\$\{rotation\?' open'/);
+  assert.match(js,/format-summary-meta/);
+  assert.match(html,/class="format-notes-disclosure"/);
+  assert.match(html,/class="format-maintenance-bar"/);
+  assert.match(css,/\.format-summary-grid\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/s);
+  assert.match(css,/\.format-set-identity\{[^}]*grid-template-columns:76px minmax\(0,1fr\)/s);
+  assert.match(css,/\.format-date-fields\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/s);
+  assert.match(css,/@media\(max-width:350px\)[\s\S]*?\.format-date-fields\{grid-template-columns:1fr\}/);
+  assert.doesNotMatch(css,/@media\(max-width:520px\)[\s\S]*?\.format-date-fields\{grid-template-columns:1fr\}/);
+});
+
+test('Formats and Sets controls remain iPhone-safe and cannot overflow their cards',()=>{
   assert.match(css,/@media\(max-width:760px\)[^{]*\{[^}]*\.format-set-card input,[^}]*font-size:16px/s);
   assert.match(css,/box-sizing:border-box/);
   assert.match(css,/max-width:100%/);
   assert.match(css,/\.format-set-card\{[^}]*overflow:hidden/s);
-  assert.match(css,/@media\(max-width:520px\)[\s\S]*?\.format-date-fields\{grid-template-columns:1fr\}/);
-  assert.match(css,/\.format-actions\{[^}]*margin-bottom:10px/s);
 });
