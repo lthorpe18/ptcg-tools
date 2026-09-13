@@ -28,6 +28,15 @@ test('Tournament Day accepts a blank final placement as an explicit drop',()=>{
   assert.doesNotMatch(day,/toast\('Enter your final placement'\)/);
 });
 
+test('Tournament completion allows player count to be left blank',()=>{
+  assert.match(dayHtml,/Player count <small>optional<\/small>/);
+  assert.match(day,/playerCountRaw=String\(\$\('playerCount'\)\.value\|\|''\)\.trim\(\),playerCount=playerCountRaw===''\?null:Number\(playerCountRaw\)/);
+  assert.match(day,/playerCountRaw!==''&&\(!Number\.isFinite\(playerCount\)\|\|playerCount<1\)/);
+  assert.match(day,/placement!=null&&playerCount!=null&&placement>playerCount/);
+  assert.doesNotMatch(day,/toast\('Enter the final player count'\)/);
+  assert.match(dayHtml,/tournament-day\.js\?v=8/);
+});
+
 test('Dropped completion stays distinct from genuinely missing legacy placement',()=>{
   const dropped=engine.effectiveParticipationFacts({
     id:'drop-1',
@@ -67,7 +76,6 @@ test('Tournament and Season views label explicit drops rather than showing a fak
   assert.match(seasonUi,/Dropped · placement not recorded/);
   assert.match(seasonUi,/activeResult\.dropped\?'Dropped'/);
   assert.match(seasonUi,/activeResult\.dropped\?'Not calculated'/);
-  assert.match(dayHtml,/tournament-day\.js\?v=7/);
   assert.match(dayHtml,/season-engine\.js\?v=3/);
   assert.match(eventsHtml,/tournaments-inline\.js\?v=9/);
   assert.match(eventsHtml,/season-inline\.js\?v=4/);
