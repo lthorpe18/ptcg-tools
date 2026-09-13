@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const {spawnSync}=require('node:child_process');
 
-const html=fs.readFileSync('v2-preview/apps/settings/index.html','utf8');
+const html=fs.readFileSync('v2-preview/apps/settings/formats.html','utf8');
 const js=fs.readFileSync('v2-preview/apps/settings/format-settings.js','utf8');
 const css=fs.readFileSync('v2-preview/apps/settings/format-settings.css','utf8');
 
@@ -84,7 +84,7 @@ test('Formats and Sets keeps all three date controls side by side on iPhone widt
   assert.match(js,/format-summary-meta/);
   assert.match(html,/class="format-notes-disclosure"/);
   assert.match(html,/class="format-maintenance-bar"/);
-  assert.match(html,/format-settings\.css\?v=6/);
+  assert.match(html,/format-settings\.css\?v=7/);
   assert.match(css,/\.format-summary-grid\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/s);
   assert.match(css,/\.format-set-identity\{[^}]*grid-template-columns:76px minmax\(0,1fr\)/s);
   assert.match(css,/\.format-date-fields\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)[^}]*column-gap:4px/s);
