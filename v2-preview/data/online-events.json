@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-13T18:56:24.283Z",
+  "generatedAt": "2026-09-13T22:36:51.646Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa0a22dab080c8c957fe961",
-      "source": "limitless",
-      "sourceId": "6aa0a22dab080c8c957fe961",
-      "name": "#Triplo Pack Brazil Limitless Trainer  EleuCards #",
-      "url": "https://play.limitlesstcg.com/tournament/6aa0a22dab080c8c957fe961/details",
-      "startAt": "2026-09-13T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa0dd63ab080c8c957fed64",
-      "source": "limitless",
-      "sourceId": "6aa0dd63ab080c8c957fed64",
-      "name": "Sisterhood Showdown #2 🩷 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6aa0dd63ab080c8c957fed64/details",
-      "startAt": "2026-09-13T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a6f72f92b308b6067b47d58",
-      "source": "limitless",
-      "sourceId": "6a6f72f92b308b6067b47d58",
-      "name": "REDACTED DITTO LP INVITATIONAL",
-      "url": "https://play.limitlesstcg.com/tournament/6a6f72f92b308b6067b47d58/details",
-      "startAt": "2026-09-13T22:05:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -55,6 +25,16 @@
       "name": "Clash of Cards - S1",
       "url": "https://play.limitlesstcg.com/tournament/6a986ce9a4272c53be6450f3/details",
       "startAt": "2026-09-14T13:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa701ae38886b36383bf083",
+      "source": "limitless",
+      "sourceId": "6aa701ae38886b36383bf083",
+      "name": "Monday Afternoon Showdown #7",
+      "url": "https://play.limitlesstcg.com/tournament/6aa701ae38886b36383bf083/details",
+      "startAt": "2026-09-14T14:00:00.000Z"
     },
     {
       "format": "Standard",
