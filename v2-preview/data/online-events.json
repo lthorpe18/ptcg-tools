@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-13T05:21:13.172Z",
+  "generatedAt": "2026-09-13T12:16:22.406Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa2e21aab080c8c958002e4",
-      "source": "limitless",
-      "sourceId": "6aa2e21aab080c8c958002e4",
-      "name": "SEASAC League Challenge #6 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6aa2e21aab080c8c958002e4/details",
-      "startAt": "2026-09-13T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa5f598f1243e65f97ff9ff",
-      "source": "limitless",
-      "sourceId": "6aa5f598f1243e65f97ff9ff",
-      "name": "Pyroars Cup  - Online Editon",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5f598f1243e65f97ff9ff/details",
-      "startAt": "2026-09-13T12:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -415,6 +395,16 @@
       "name": "Webcam Sisterhood Saturdays #3 💗 Girls & Enbies!",
       "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
       "startAt": "2026-09-19T17:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6aa64cd738886b36383be749",
+      "source": "limitless",
+      "sourceId": "6aa64cd738886b36383be749",
+      "name": "Amyverse GLC Gatherings #16 💚 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6aa64cd738886b36383be749/details",
+      "startAt": "2026-09-19T23:00:00.000Z"
     },
     {
       "format": "Standard",
