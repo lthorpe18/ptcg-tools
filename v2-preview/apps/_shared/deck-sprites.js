@@ -3,7 +3,7 @@
 
   // Single app-wide owner for deck/archetype sprite identity and presentation.
   // Consumers must render deck identities through DeckSprites.html(); they may
-  // choose a size/class but must not compose primary/secondary sprites locally.
+  // choose a size/class and may supply an explicit per-deck slug override.
   const BASE = 'https://r2.limitlesstcg.net/pokemon/gen9';
   const LEGACY_OVERRIDE_KEY = 'ptcg.deckSpriteOverrides.v1';
   const ROOT_KEY = 'ptcg-tools-v2';
@@ -121,7 +121,10 @@
   function html(name, options = {}) {
     const size = Math.max(18, Number(options.size || 36));
     const className = options.className ? ` ${options.className}` : '';
-    const found = slugs(name);
+    const explicit = Array.isArray(options.slugs)
+      ? options.slugs.map(normalizeSlug).filter(Boolean).slice(0,2)
+      : [];
+    const found = explicit.length ? explicit : slugs(name);
     if (!found.length) {
       const initial = String(name || '?').trim().charAt(0).toUpperCase() || '?';
       return `<span class="deck-sprite deck-sprite-fallback${className}" style="--sprite-size:${size}px;display:grid;place-items:center;width:${size}px;height:${size}px;border-radius:50%;background:#f2f4f7;color:#475467;font-weight:850" aria-hidden="true">${initial}</span>`;
