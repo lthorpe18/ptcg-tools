@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-13T00:18:09.161Z",
+  "generatedAt": "2026-09-13T05:21:13.172Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a63ce2252c24ac2da64ae00",
-      "source": "limitless",
-      "sourceId": "6a63ce2252c24ac2da64ae00",
-      "name": "RDG! September Open Qualifier",
-      "url": "https://play.limitlesstcg.com/tournament/6a63ce2252c24ac2da64ae00/details",
-      "startAt": "2026-09-13T00:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a8c5eef8302ae761e5fb228",
-      "source": "limitless",
-      "sourceId": "6a8c5eef8302ae761e5fb228",
-      "name": "Torneo Relámpago ⚡ #78 PTCG Live BO3 (25 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6a8c5eef8302ae761e5fb228/details",
-      "startAt": "2026-09-13T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a9ceedbab080c8c957fb8f2",
-      "source": "limitless",
-      "sourceId": "6a9ceedbab080c8c957fb8f2",
-      "name": "Vault Of Games #2🏆|SEASON 1|WEEKLY",
-      "url": "https://play.limitlesstcg.com/tournament/6a9ceedbab080c8c957fb8f2/details",
-      "startAt": "2026-09-13T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa5d141f1243e65f97ff7a7",
-      "source": "limitless",
-      "sourceId": "6aa5d141f1243e65f97ff7a7",
-      "name": "🎁Premio ETB 🇨🇱🏆BO1🏆 Formato estandar",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5d141f1243e65f97ff7a7/details",
-      "startAt": "2026-09-13T01:15:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -59,12 +19,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aa5f598f1243e65f97ff9ff",
+      "source": "limitless",
+      "sourceId": "6aa5f598f1243e65f97ff9ff",
+      "name": "Pyroars Cup  - Online Editon",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5f598f1243e65f97ff9ff/details",
+      "startAt": "2026-09-13T12:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5a98338886b36383bdfdf",
       "source": "limitless",
       "sourceId": "6aa5a98338886b36383bdfdf",
       "name": "Domingou #07",
       "url": "https://play.limitlesstcg.com/tournament/6aa5a98338886b36383bdfdf/details",
       "startAt": "2026-09-13T15:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5fcc238886b36383be514",
+      "source": "limitless",
+      "sourceId": "6aa5fcc238886b36383be514",
+      "name": "Kearney Free Entry Standard Tournament #3",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5fcc238886b36383be514/details",
+      "startAt": "2026-09-13T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -205,6 +185,16 @@
       "name": "🇧🇷 Hit Cup #17 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6aa5a3f038886b36383bdf05/details",
       "startAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5eecef1243e65f97ff95b",
+      "source": "limitless",
+      "sourceId": "6aa5eecef1243e65f97ff95b",
+      "name": "Pudding Weekly #13 | Can I get another mango?",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5eecef1243e65f97ff95b/details",
+      "startAt": "2026-09-16T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -434,6 +424,16 @@
       "sourceId": "6a8c60af81741245b151d816",
       "name": "Torneo Relámpago ⚡ #81 PTCG Live BO3 (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6a8c60af81741245b151d816/details",
+      "startAt": "2026-09-20T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa616b6f1243e65f97ffc36",
+      "source": "limitless",
+      "sourceId": "6aa616b6f1243e65f97ffc36",
+      "name": "Vault Of Games #3🏆|SEASON 1|WEEKLY",
+      "url": "https://play.limitlesstcg.com/tournament/6aa616b6f1243e65f97ffc36/details",
       "startAt": "2026-09-20T01:00:00.000Z"
     },
     {
