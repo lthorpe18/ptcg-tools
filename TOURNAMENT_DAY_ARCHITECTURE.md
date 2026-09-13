@@ -1,39 +1,43 @@
 # PTCG Tools — Tournament Day / Results Architecture
 
-**Status:** Accepted Tournament Day v1 source of truth; September personal-results and sprite contracts incorporated  
-**Date:** 12 September 2026  
-**Companion to:** `PTCG_TOOLS_MASTER.md`, `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`
+**Status:** Current accepted Tournament Day source of truth  
+**Date:** 13 September 2026  
+**Companion to:** `PTCG_TOOLS_MASTER.md`, `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`
 
 ## Purpose
 
-This document records the accepted architecture established by the Tournament Day + event-linked results implementation and the subsequent September personal-results work.
+This document records the canonical Tournament Day / tournament-result model and the boundaries between Compete, Decks personal learning, Game Log and Season.
 
-The canonical account-owned record throughout is one `UserEventParticipation` in the V2 root state. Tournament Day is not a second tournament/history model layered on top of Events.
+The canonical account-owned event-history entity is one `UserEventParticipation`. Tournament Day does not create a second tournament/history model.
 
-## Ownership locks
+---
 
-- Compete owns Events, attendance, Event Prep, Tournament Day, real tournament results and Competitive Record / Season.
-- Deck and DeckVersion identity remain Decks-owned.
-- Cut / ID remains Tools-owned at engine/standalone-tool level, while Tournament Day owns the lightweight contextual decision workflow.
-- Real tournament rounds use the shared Match/Game contract in `v2-preview/apps/_shared/match-store.js`.
-- Tournament Day does not create a second match-history/result store.
-- Tournament standings/Season records are **match-level**; personal deck/matchup learning consumes the **Games underneath those Matches** as individual game evidence.
-- Training Log excludes Tournament Day records even though both domains share the same canonical Match/Game store.
+## 1. Ownership locks
+
+- Compete owns Events, attendance, Online discovery, Event Prep, Tournament Day, completion and Season.
+- Deck/DeckVersion identity remains Decks-owned.
+- Real tournament rounds use shared `PTCGMatchStore` / Match/Game evidence.
+- Tournament Day does not create a second match-history store.
+- Tournament standings/completion/Season are **Match-level**.
+- Personal deck/matchup/version learning consumes the **Games beneath those Matches**.
+- **Game Log** may show those tournament Games alongside training Games, but remains a derived browser over the same store.
 - Solo/goldfish Mobile Playtest remains outside competitive W/L evidence.
-- Cross-app archetype/deck sprite presentation is owned by the one shared `DeckSprites.html()` renderer in `v2-preview/apps/_shared/deck-sprites.js`. Tournament Day must not maintain a competing archetype→sprite mapping or local two-sprite renderer.
+- Deck/archetype visuals use the one shared `DeckSprites.html()` renderer.
 
-## Tournament recording entry model
+---
 
-A tournament record may begin from either an Event or an ad-hoc record.
+## 2. Tournament entry model
 
-### Catalogue/event-linked path
+A tournament may begin from:
 
-An existing `UserEventParticipation` marked Attending can be opened directly from Events / My Tournaments / Prep and continued through Tournament Day.
+### Event/catalogue path
+
+An existing attending `UserEventParticipation` is opened from Event discovery, My Events, Online discovery or Event Prep.
 
 The same participation retains:
 
-- catalogue/event identity;
-- event snapshot;
+- event/catalogue identity;
+- retained event snapshot;
 - attendance state;
 - Prep;
 - planned exact list;
@@ -43,388 +47,277 @@ The same participation retains:
 
 ### Ad-hoc path
 
-`Record tournament` can create a participation without requiring an Event catalogue record first.
+`Record tournament` may create a participation with no catalogue event.
 
 An ad-hoc tournament has:
 
-- its own stable participation ID;
+- stable participation ID;
 - `eventId: null`;
-- a retained manual event snapshot;
+- retained manual event snapshot;
 - in-person or online context;
 - the same downstream Tournament Day / Match / completion path.
 
-Online tournaments, recurring local league nights and other unlisted events therefore do not need a parallel history model.
+Online tournaments and local league nights therefore do not need parallel history models.
 
-The lifecycle is:
+---
 
-**Optional catalogue attendance / Prep → Tournament Day → Completion → Season**
+## 3. Participation lifecycle
 
-or:
+`UserEventParticipation` contains durable fields including:
 
-**Record tournament → Tournament Day → Completion → Season**
+- `plannedDeckRef`;
+- `usedDeckRef`;
+- `tournamentDay`;
+- `completion`.
 
-## Event lifecycle contract
+Phase is derived from participation state:
 
-`UserEventParticipation` contains the durable relationship fields:
+- attendance/prep → preparation;
+- `tournamentDay` present → in progress;
+- `completion` present → completed;
+- past attended event without completion → needs completion.
 
-- `plannedDeckRef`
-- `usedDeckRef`
-- `tournamentDay`
-- `completion`
+Opening Tournament Day for an uncompleted participation may create lightweight Tournament Day timestamps. **Deck selection is not a start gate.**
 
-Phase remains derived by shared storage:
+---
 
-- attendance / prep → `preparation`
-- `tournamentDay` present → `in-progress`
-- `completion` present → `completed`
-- past attended event without completion → `needs-completion`
+## 4. My Events / tournament lists
 
-Tournament Day updates this existing participation. It does not create a separate tournament-history entity.
+Completed/current/upcoming tournament cards use the same participation model and same canonical deck sprites as the rest of the app.
 
-Opening Tournament Day for an uncompleted participation starts the Tournament Day workspace immediately by creating lightweight `tournamentDay` timestamps if required. **Deck selection is not a start gate.**
+Tournament card identity may include:
 
-## My Tournaments surface
+- event name/type/date;
+- online/local/major context;
+- used deck where known;
+- Match W-L-D;
+- round count;
+- placement or **Dropped** when explicitly recorded.
 
-My Tournaments is an in-page Compete / Events view alongside Nearby, Majors and Season.
+Online discovery source is not itself the classification authority for personal evidence; event/participation metadata is.
 
-The Events header and page shell remain identical across all views. My Tournaments must not navigate to a separate top-level page or duplicate the Events title/header.
+---
 
-Primary lifecycle filters are:
+## 5. Planned deck vs played deck
 
-- **Current** — tournaments whose event date is literally today;
-- **Upcoming** — future-dated uncompleted tournaments;
-- **Incomplete** — past/undated tournament records without completion;
-- **Completed** — completed tournament records.
+`plannedDeckRef` and `usedDeckRef` are separate concepts.
 
-Archived is secondary recovery/cleanup state rather than an equal primary lifecycle tab.
+Event Prep may write an exact planned list:
 
-Default behaviour:
+- `deckId`;
+- `deckVersionId`;
+- `listHash`.
 
-- open Current when at least one tournament is dated today;
-- otherwise open Upcoming.
+Tournament Day does not require a deck before recording rounds.
 
-Ordering:
+The compact Tournament Day **My Deck** control is the live played-deck selector. Selecting/changing/removing it updates `usedDeckRef` and reconciles linked Match deck references.
 
-- Current / Upcoming: nearest date first;
-- Incomplete / Completed / Archived: most recent first.
+A planned deck may be suggested but must never silently become `usedDeckRef`.
 
-Tournament cards show event identity, date/type/status, used deck where present, W-L-D, round count and compact management actions. `usedDeckRef` is the only deck reference that may be presented as the deck actually played.
+Historical DeckVersions remain immutable.
 
-My Tournaments uses the same shared `DeckSprites.html()` renderer as Home, Meta, Decks, Settings and Tournament Day. A two-Pokémon identity is always composed by that renderer as one dominant primary sprite with a smaller circular secondary badge. Compete may request a contextual size but must not compose the images itself.
+---
 
-## Planned list vs used list
+## 6. Match / Game contract
 
-`plannedDeckRef` and `usedDeckRef` are deliberately separate concepts.
+Every competitive tournament round is stored through the shared Match store with:
 
-Event Prep may write `plannedDeckRef` with exact Deck identity:
-
-- `deckId`
-- `deckVersionId`
-- `listHash`
-
-Tournament Day does **not** require a deck before rounds can begin.
-
-The user can open Tournament Day and record rounds with no deck selected. At any time they may attach, change or remove the exact deck actually played. Saving that selection writes `usedDeckRef`.
-
-The compact Tournament Day deck control is the only live deck-selection UI:
-
-- no deck → compact **My Deck** control;
-- selected deck → canonical shared sprite visual in that same compact control;
-- tapping either state opens the deck/version picker;
-- selecting a deck/version updates existing participation-linked Match records with the same exact deck reference;
-- removing the tournament deck clears `usedDeckRef` and the corresponding deck fields on those Matches.
-
-The former large `Playing / Deck not selected / Saved deck · Exact list` summary and the old pre-round deck-selection start card were deleted during the acceptance cleanup. They are no longer hidden compatibility UI.
-
-A planned deck may be used as a picker suggestion, but must never silently become `usedDeckRef` merely because it was planned.
-
-`usedDeckRef` includes the exact Deck/DeckVersion/list identity plus display snapshots such as deck name, version label and archetype where available.
-
-Tournament Day must never rewrite an immutable historical DeckVersion.
-
-## Deck picker architecture
-
-Tournament Day reads saved decks through the shared `PTCGDeckStore` rather than opening/reimplementing IndexedDB independently.
-
-The picker:
-
-- opens immediately on tap;
-- may show loading state while deck records resolve;
-- lists saved Decks and exact versions;
-- preselection tolerates `usedDeckRef === null`;
-- enables Save only when a Deck and exact version are selected.
-
-The compact deck slot renders identity through `DeckSprites.html()` and therefore inherits the same one/two-sprite composition and Settings overrides as every other feature surface.
-
-A core acceptance fix refreshes the participation from shared storage before deck-sensitive round-save and completion actions. This prevents a deck selection made by the picker from being missed by an older in-memory participation object.
-
-Do not add browser-specific parallel deck-reading paths to work around a local failure. Fix the shared store contract or picker logic instead.
-
-## Tournament Day state
-
-`participation.tournamentDay` is lightweight lifecycle/workspace state only, currently including timestamps such as:
-
-- `startedAt`
-- `lastOpenedAt`
-- `lastRoundAt`
-- `finishedAt`
-
-It may also contain mutable decision-support workspace state under `tournamentDay.idCalc`, including event setup, current opponent standings snapshots and the user's current matchup-confidence input. These are current-event state, not historical Match facts.
-
-Round results are deliberately not duplicated inside `tournamentDay`.
-
-The current record and round history are derived from shared Matches linked by `participationId`.
-
-## Match / Game contract
-
-Every competitive tournament round is stored through `PTCGMatchStore` with:
-
-- stable Match `id`;
-- source/evidence context;
+- stable Match ID;
 - `participationId`;
-- optional catalogue event ID plus event-name snapshot;
-- exact `deckId + deckVersionId + listHash` when a played deck is attached;
-- deck/version display snapshots;
+- optional catalogue event ID and event-name snapshot;
+- exact deck/list identity when attached;
 - opponent archetype;
-- Win / Loss / Draw **Match result**;
-- round label;
+- Match result W/L/D;
+- round label/stage;
 - optional notes;
-- Games representing entered game-by-game results.
+- individual entered Games.
 
-Editing a round reuses the same Match ID and `put()` replaces that record.
+Editing a round reuses the same Match ID and replaces that record. Deleting a round removes that Match.
 
-Deleting a round removes that Match ID from MatchStore.
+### Match-level vs Game-level evidence
 
-This prevents correction flows from creating duplicate competitive evidence.
+Locked rule:
 
-### Match-level vs game-level evidence
+- tournament record/standings/completion/Season = Match result;
+- personal Deck/matchup/version analysis = individual Games;
+- Game Log = chronological view of those individual Games plus training Games;
+- public H2H = separate global evidence.
 
-The distinction is now explicit and app-wide:
+A 2–1 round therefore contributes one Match win and three personal Game observations.
 
-- **Tournament record, standings, completion and Season** use the Match result. A 2–1 round is one tournament Match win.
-- **Personal deck/matchup analysis** uses the individual Games beneath the Match. A 2–1 round contributes three game observations to personal deck/matchup evidence.
-- **Training Log** is also game-level for its summaries/analytics, but it deliberately excludes Tournament Day Matches from the Training workspace.
-- Personal game evidence never overwrites or contaminates public/global H2H evidence.
+### Game entry
 
-Consumers must not collapse tournament Games into one personal-learning data point merely because they share a parent Match, and must not inflate tournament standings by treating Games as tournament Matches.
-
-### Game entry semantics
-
-Normal round entry is game-by-game:
+Normal round capture is game-by-game:
 
 - Game 1 W/L/T;
 - Game 2 W/L/T;
-- Game 3 W/L/T where required;
-- aggregate Match W/L/D derived from those entered Games.
+- Game 3 when required;
+- aggregate Match W/L/D is derived.
 
-First/second is not part of the accepted Tournament Day v1 capture requirement.
+### Intentional draw
 
-### ID
+ID is displayed distinctly from a played draw. The current compatibility representation may still use the accepted note marker while the canonical Match result is Draw.
 
-An intentional draw is displayed distinctly as **ID** rather than a normal played draw.
+---
 
-The accepted v1 implementation retains the `[ID]` compatibility marker in Match notes while using the canonical Match result as draw. This is deliberately left as a non-blocking compatibility detail. A future central Match-contract change may add an explicit outcome kind such as `played | id | bye | no-show`, but Tournament Day must not invent a private parallel result field.
+## 7. Round-history UX
 
-## Round-history UX
+Round rows remain compact and opponent-focused:
 
-Round rows are compact, iPhone-first records of the opponent and result.
+**R# · vs · canonical opponent sprite + archetype · game sequence · Match-result badge**
 
-The accepted hierarchy is:
+The player's own deck is shown once in the My Deck control rather than repeated in every row.
 
-**R# · vs · canonical opponent sprite visual + opponent archetype · game sequence · match-result badge**
+Result badges:
 
-The player's own deck sprites are **not repeated in every round row**. The deck is already visible once in the compact My Deck control above the history.
+- W — green;
+- D — amber/orange;
+- L — red;
+- ID — neutral/dark.
 
-Opponent deck names may wrap to two lines when useful rather than forcing horizontal compression.
+Game sequence remains visible where entered.
 
-Result presentation:
+---
 
-- Win → green circular **W**;
-- Draw → amber/orange circular **D**;
-- Loss → red circular **L**;
-- ID → neutral/dark circular **ID**.
+## 8. Canonical sprite presentation
 
-The game sequence remains visible beside the main result, e.g. `W W`, `W L T`, `L L`.
-
-## Canonical archetype/deck sprite presentation
-
-There is exactly one renderer for deck/archetype identity across PTCG Tools:
+Tournament Day, My Events and other Compete surfaces consume:
 
 `v2-preview/apps/_shared/deck-sprites.js` → `window.DeckSprites.html()`
 
-That shared module owns:
+The shared renderer owns defaults, Settings overrides, slug/source resolution and primary + circular-secondary composition.
 
-- built-in archetype→sprite defaults;
-- one/two-sprite user overrides from **Settings → Deck icons**;
-- sprite slug/source resolution;
-- primary + circular-secondary composition;
-- contextual sizing hooks;
-- pixel-art rendering behavior.
+Compete may size/align the whole returned stack but must not compose raw sprite images locally.
 
-Tournament Day, My Tournaments and all other Compete surfaces call `DeckSprites.html()`. They must not call `DeckSprites.slugs()` / `DeckSprites.url()` to compose a local identity and must not fall back to a separate `PTCGSprites` renderer for ordinary deck/archetype presentation.
+---
 
-Feature CSS may size or align the returned whole stack but must not pull its primary/secondary children into a feature-specific composition.
+## 9. Current record derivation
 
-This is a general architecture rule: when a presentation/domain concern already has a shared engine, feature pages consume that engine rather than reimplementing inference locally.
+Tournament Day derives current W-L-D and rounds completed from participation-linked **Match** records.
 
-## Current-record derivation
+No second W-L-D counter is persisted in the live workspace.
 
-Tournament Day derives W-L-D and rounds completed from participation-linked **Match** records using the shared MatchStore statistics contract.
+Deck Results/Game Log may read the Games beneath those same Matches without changing the tournament record.
 
-No second W-L-D counter is persisted in the live Tournament Day workspace.
+---
 
-Separately, Decks personal-results analysis may read the Games beneath those same Matches for game-level learning. That derived personal analysis does not change the tournament Match record.
-
-## Completion contract
+## 10. Completion contract — current
 
 Completing an event writes `participation.completion` and changes attendance to `attended`.
 
 Completion captures:
 
 - completion timestamp;
-- final placement;
-- final player count;
-- final W-L-D **Match** snapshot;
+- final placement state;
+- final player count where known;
+- final Match W-L-D snapshot;
 - rounds completed;
 - exact `usedDeckRef` snapshot;
 - optional notes.
 
 The linked Match/Game history remains the authoritative per-round evidence.
 
-Past events in `needs-completion` use the same Tournament Day/completion workspace rather than a separate historical-result form.
+### Placement semantics
 
-The accepted v1 completion flow requires the user to attach the exact deck actually used before completion so the historical completion snapshot can retain exact list identity. This does not block round entry.
+**Final placement is optional.**
 
-## Cut / ID boundary
+- a positive placement means the recorded finishing position;
+- **blank placement explicitly means Dropped** for current completion flows;
+- legacy records with genuinely missing placement must remain distinguishable from an explicit Drop;
+- a later correction may replace Dropped with a real placement.
 
-A reusable deterministic/recommendation engine lives at:
+Tournament/My Events/Season surfaces should display **Dropped**, not fabricate a numeric placement.
 
-`v2-preview/apps/_shared/cut-id-engine.js`
+### Player-count semantics
 
-The standalone Tools Cut / ID surface remains available for advanced/manual calculations. Tournament Day exposes the normal in-event workflow through an `ID Calc` action using the same shared engine.
+**Final player count is optional.**
 
-The old `v2-preview/apps/swiss` application is a separate standalone tournament manager backed by its own store and is not an appropriate Tournament Day result store.
+- supplied values must be valid positive counts;
+- blank means unknown/unspecified;
+- completion must not be blocked merely because player count is unavailable.
 
-### Contextual Tournament Day ID workflow
+Season/CP calculation must remain honest when placement/player-count facts are insufficient. Do not invent CP from missing inputs.
 
-Tournament Day automatically supplies the user's current W-L-D from canonical Match history. Opening ID Calc asks only for decision-relevant current information:
+### Exact played deck requirement
 
-- tournament player count, cut size and total Swiss rounds;
-- current W-L-D records of previous opponents;
-- the next opponent's current record;
-- a lightweight five-level confidence rating for the next matchup;
-- current W-L-D records for players around the cut who could still affect the user's ID outcome.
+The accepted completion flow still requires the exact deck/list actually used before final completion so historical deck evidence remains precise. This does not block round entry.
 
-Previous opponents' current records must not be written into the historical Match record. They change as the event progresses, so they belong in mutable `tournamentDay.idCalc` state keyed by Match ID.
+---
 
-The user may explicitly confirm that the entered near-cut standings include everyone who can still reach the user's ID score. Only then may the tool treat omitted lower-table players as mathematically irrelevant. Without that confirmation, the output is labelled as a recommendation/lean rather than a mathematical lock.
+## 11. Season boundary
 
-### Resistance and recommendation separation
+Season consumes completed participation history; it is not a second editable tournament store.
 
-Opponent Win Percentage is estimated from the current records of all previous opponents and uses the Play! Pokémon Win Percentage concept with the 25% floor.
+Season may apply bounded user corrections for event type/placement/player count, but those are explicit correction metadata over the underlying participation facts.
 
-The result must keep three concepts visibly separate:
+An explicit Drop may later be replaced by a correction with a genuine placement.
 
-1. deterministic points/cut bound;
-2. current resistance estimate;
-3. subjective next-match confidence.
+See `SEASON_ARCHITECTURE.md`.
 
-Matchup confidence may influence the ID vs Play recommendation, but must never change the deterministic cut bound or be presented as measured match-win probability.
+---
 
-Current bounded rule:
+## 12. Game Log boundary
 
-- one-round/final-Swiss-round ID decision support;
-- Pokémon points including draws;
-- Top N cut size;
-- deterministic maximum-above / maximum-at-or-above conclusions when the relevant standings set is asserted complete;
-- current Op Win % estimate from previous opponents' current records;
-- lightweight qualitative ID-vs-Play recommendation;
-- standalone pairing-aware conservative calculator remains available under Tools;
-- no hidden empirical tie-rate default;
-- no probabilistic simulation.
+Game Log is the unified personal Game browser and includes Tournament Day Games.
 
-Future Cut / ID expansion should extend the reusable Tools engine rather than embedding competing calculation logic in Tournament Day.
+Tournament Game rows:
 
-## Navigation and cache architecture
+- retain participation/event context;
+- classify Online/local/Challenge/Cup/Major from event/participation metadata;
+- open the relevant Tournament Day record when tapped.
 
-Tournament Day entry points exist from:
+Training Game rows remain editable through the training workflow.
 
-- Event cards;
-- My Tournaments;
-- Record tournament;
-- Event Prep.
+Game Log must not duplicate Tournament Day Match state or persist a second result history.
 
-All accepted routes open the same current:
+---
+
+## 13. Cut / ID boundary
+
+A reusable shared Cut / ID engine remains Tools-owned and is exposed contextually from Tournament Day.
+
+Tournament Day supplies current canonical Match W-L-D and event context. Mutable standings/resistance inputs belong to the current Tournament Day decision workspace, not historical Match facts.
+
+Deterministic cut bounds, resistance estimates and subjective matchup confidence remain visibly separate concepts.
+
+Do not embed a competing calculator into Tournament Day.
+
+---
+
+## 14. Navigation and performance
+
+Accepted route:
 
 `tournament-day.html?participation=<id>`
 
-Do not maintain feature-specific historical `?build=YYYY...` pins. Those were development cache workarounds and caused different routes to reopen different generations of Tournament Day.
+Do not maintain feature-specific historical build pins.
 
-The service worker must not serve stale HTML before checking the network during normal online navigation. Application HTML/navigation is **network-first with cached fallback**, while suitable static/versioned assets remain cacheable.
+Application HTML navigation is network-first with cached fallback. Routine round saves/edits/deletes render in place and do not require full-page reload.
 
-This is important because stale document HTML can reference an older local asset generation even when GitHub Pages itself is current.
+Tournament Day remains inside the existing Compete child view; it does not create a second shell or bottom navigation layer.
 
-## UX / performance locks
+---
 
-Tournament Day is mobile-first around ~390 CSS px and answer-first:
+## 15. Acceptance state — 13 September 2026
 
-- linking to an Event is optional rather than a prerequisite;
-- deck selection is optional before/during rounds;
-- current W-L-D is primary;
-- next-round action remains prominent;
-- `ID Calc` is a lightweight contextual action beside completion;
-- compact My Deck control represents the exact used deck once;
-- round history is compact, editable and opponent-focused;
-- routine entry uses taps and mobile-safe 16 px form inputs;
-- nested Tournament Day navigation remains inside the existing Compete child view and does not replace the five-area persistent shell;
-- no full-page reload is required after saving/editing/deleting a round.
+Tournament Day v1 remains accepted for the current product stage.
 
-## Acceptance status — 12 September 2026
+Current accepted contracts include:
 
-**Tournament Day v1 remains accepted/complete for the current product stage.**
+- event-linked and ad-hoc tournament records share one participation model;
+- Online tournament participation/results use the same model;
+- Tournament Day starts without mandatory deck selection;
+- exact played DeckVersion/list identity remains canonical;
+- game-by-game entry feeds canonical Match/Game evidence;
+- editing replaces stable Match records;
+- tournament W-L-D remains Match-level;
+- personal learning/Game Log may consume individual tournament Games;
+- completion may record a real placement or **Dropped**;
+- player count may be unknown;
+- later corrections may replace Drop/unknown facts where better evidence exists;
+- no CP or placement is fabricated from missing data;
+- canonical sprites are reused across Compete surfaces.
 
-The September Deck Results/Training work clarified downstream evidence semantics without changing the canonical tournament model:
+Future work should build Personal Matchup Analysis / Practice Priorities over the existing evidence rather than creating another results model.
 
-- tournament W-L-D / completion / Season remain Match-level;
-- the individual Games under tournament Matches are reusable game-level personal learning evidence;
-- Training Log stays a separate game-level practice workspace and excludes Tournament Day records;
-- exact Deck/DeckVersion/list attribution remains canonical;
-- personal results never become public H2H evidence.
-
-The canonical sprite refactor through PR #44 also removed Compete-local deck identity composition. My Tournaments, Tournament Day selected-deck controls and opponent rows now consume the one shared `DeckSprites.html()` renderer.
-
-The existing accepted Tournament Day contracts remain:
-
-- event-linked and ad-hoc tournament records use one participation model;
-- Tournament Day opens/starts without a mandatory deck selection;
-- compact My Deck is the only deck-selection surface;
-- used deck can be selected, changed and removed, with linked Match deck references reconciled;
-- game-by-game Win/Loss/played Draw and ID use the canonical Match/Game store;
-- editing a round replaces the stable Match rather than creating a duplicate;
-- tournament W-L-D is derived from linked Matches;
-- completion writes placement/player count/final record/used-deck snapshot to the same `UserEventParticipation`;
-- all Tournament Day entry routes are canonical current routes.
-
-The final deployed code still requires ordinary real-device smoke testing whenever future changes touch layout, service-worker behaviour or Safari-specific interaction; acceptance does not make automated tests a substitute for iPhone visual verification.
-
-## Remaining non-blocking technical debt
-
-These items do not block Tournament Day v1 acceptance:
-
-- `tournament-day-history-v2.js` and `tournament-day-optional-deck.js` remain separate bounded helper modules rather than being fully merged into the core script;
-- the `[ID]` note marker remains the accepted compatibility representation for intentional draws;
-- hidden result/score compatibility inputs remain because the game-by-game entry adapter still feeds the core save contract through them;
-- broader repository-wide legacy pages, build pins and enhancer consolidation belong to the later Development Cleanup / Release Hardening milestone.
-
-## Deferred
-
-This milestone does not add:
-
-- further Season expansion beyond the accepted current Season v1;
-- Collection readiness;
-- practice-priority recommendations;
-- public-H2H crossover from personal evidence;
-- Playtest evidence crossover;
-- probabilistic Cut / ID simulation.
-
-Personal Performance is now expected to build on the canonical game-level evidence contract rather than inventing another results store.
+Collection / physical readiness remains deferred.

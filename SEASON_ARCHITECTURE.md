@@ -1,7 +1,7 @@
 # PTCG Tools — Competitive Record / Season Architecture
 
 **Status:** Competitive Record / Season v1 accepted current-stage source of truth  
-**Date:** 4 September 2026  
+**Date:** 13 September 2026  
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`
 
 ## Purpose
@@ -10,52 +10,53 @@ Competitive Record / Season is the Compete-owned continuation of the tournament 
 
 **attendance → Prep → Tournament Day → completion → Season**
 
-It turns completed `UserEventParticipation` records into a season record without creating a second tournament-history database.
+It turns completed `UserEventParticipation` records into a derived season record without creating a second tournament-history database.
 
-## Ownership and identity locks
+---
+
+## 1. Ownership and identity locks
 
 - Compete owns Competitive Record / Season.
-- `UserEventParticipation` remains the canonical account-owned event participation/history entity.
-- Match/Game remains the canonical per-round competitive evidence contract.
+- `UserEventParticipation` remains the canonical account-owned tournament-history entity.
+- Match/Game remains the canonical per-round evidence contract.
 - Deck/DeckVersion identity remains Decks-owned.
 - `usedDeckRef` is the exact list actually played and is reused by Season.
-- Playtest evidence remains separate from competitive Match evidence.
-- Shared season definitions and Championship Point rules are public/shared data.
-- User completions, corrections, notes and goals are private account-owned data.
-- `SeasonSummary` is always derived. It is never an independently edited history source.
+- Playtest evidence remains separate from competitive evidence.
+- Shared Season definitions and CP/BFL rules are public/shared data.
+- User completions/corrections/goals are private account-owned data.
+- `SeasonSummary` is derived; it is never independently edited truth.
 
-## Current implementation
+---
 
-Implemented on 4 September 2026:
+## 2. Current implementation
+
+Current shared modules include:
 
 - `v2-preview/apps/_shared/season-engine.js` — canonical CP/BFL/summary engine;
-- `v2-preview/apps/_shared/season-rules-2027.js` — official 2027 TCG CP tables and BFL configuration;
-- `v2-preview/apps/_shared/season-config-2027.js` — first-class 2027 season identity and start boundary;
-- `v2-preview/apps/_shared/season-participation.js` — bounded per-user season correction helpers;
-- `v2-preview/apps/events/season-inline.js` / `season.js` / `season.css` — Season as an in-page Events view;
-- `v2-preview/apps/events/tournament-season-stamp.js` — completion-time season/ruleset identity stamping plus safe repair of older completed records when opened;
-- `v2-preview/apps/events/tournament-day-topcut.js` — manual canonical Match `roundStage` tags for Swiss / Asym Top 16/8/4 / Top 16/8/4 / Finals;
-- `tests/season-engine.test.js` — deterministic placement/kicker/BFL checks.
+- `v2-preview/apps/_shared/season-rules-2027.js` — official 2027 TCG CP tables/BFL configuration;
+- `v2-preview/apps/_shared/season-config-2027.js` — 2027 season identity/start boundary;
+- `v2-preview/apps/_shared/season-participation.js` — bounded user correction helpers;
+- Events/Season UI modules under `v2-preview/apps/events/`;
+- Tournament Day season stamping and Top Cut stage metadata;
+- deterministic Season engine tests.
 
 Tournament Day supplies the history contract required by Season:
 
 - stable participation identity;
-- retained event snapshot;
+- event snapshot;
 - completion state;
-- final placement;
-- final player count;
-- final W-L-D snapshot;
+- placement state or explicit Drop;
+- player count where known;
+- final Match W-L-D snapshot;
 - exact `usedDeckRef`;
-- participation-linked Match/Game evidence;
-- optional `roundStage` on canonical Matches;
+- linked Match/Game evidence;
+- optional Top Cut `roundStage` tags;
 - completion timestamp/notes;
-- persisted season/ruleset identity for supported Championship Series completions.
+- persisted season/ruleset identity for supported Championship Series events.
 
-No duplicate tournament or season-history entity is required.
+---
 
-## CompetitiveSeason
-
-A `CompetitiveSeason` is shared/public configuration with a stable identity independent of calendar year.
+## 3. CompetitiveSeason
 
 Current 2027 configuration:
 
@@ -70,39 +71,32 @@ Current 2027 configuration:
 }
 ```
 
-The season start is verified. The whole-season end boundary remains deliberately unset until directly verified from an official source. Do not infer it from calendar year or a local-play period.
+The season start is verified. The season end remains deliberately unset until directly verified from an authoritative source.
 
-## ChampionshipPointRuleset
+Do not infer a season end from calendar year or local-play periods.
 
-Rules are injected into the shared Season engine rather than hard-coded into UI pages.
+---
+
+## 4. ChampionshipPointRuleset
+
+Rules are injected into the shared Season engine rather than hard-coded in UI pages.
 
 Current ruleset identity:
 
-- `id`: `pokemon-tcg-2027-cp`
-- `version`: `2027.1`
-- game: TCG
-- season: `pokemon-2027`
+- `id`: `pokemon-tcg-2027-cp`;
+- `version`: `2027.1`;
+- game: TCG;
+- season: `pokemon-2027`.
 
-Authoritative official Pokémon Championship Series sources approved for the 2027 TCG numbers:
+The versioned ruleset contains official placement/kicker/BFL configuration for supported Championship Series event types.
 
-1. `https://championships.pokemon.com/en-gb/about/league-challenges-and-league-cup`
-2. `https://championships.pokemon.com/en-gb/about/pokemon-regional-and-special-championships?pillar=tcg`
-3. `https://championships.pokemon.com/en-gb/about/international-championships?pillar=tcg`
+BFL remains calculated dynamically over eligible positive-CP results.
 
-The versioned ruleset contains:
+---
 
-- League Challenge placement awards + player-count kickers;
-- League Cup placement awards + player-count kickers;
-- Regional placement awards + player-count kickers;
-- Special Championship placement awards + player-count kickers;
-- International Championship placement awards + player-count kickers;
-- League Challenge BFL = 4;
-- League Cup BFL = 4;
-- shared Regional/Special/International BFL = 5.
+## 5. Completion-time historical identity
 
-## Completion-time historical identity
-
-Supported Championship Series completions now persist historical season identity on the existing participation:
+Supported Championship Series completions persist season identity on the existing participation:
 
 ```js
 participation.seasonId = 'pokemon-2027'
@@ -114,35 +108,65 @@ participation.seasonRulesetRef = {
 }
 ```
 
-The stamping hook only applies when:
+Generic locals, prereleases and unsupported types are not stamped as CP events merely because their date falls within the season.
 
-- the participation is complete;
-- the event date resolves inside the configured season;
-- the event type is supported by the ruleset.
+Older completed supported records may be safely repaired/stamped when opened if canonical evidence is sufficient.
 
-Generic locals, prereleases and unsupported event types are not stamped as CP events merely because their date falls within the season.
+---
 
-Older completed supported records without explicit identity continue to derive correctly and are stamped when next opened in Tournament Day. Historical records therefore no longer depend solely on future date-based inference.
-
-## Shared engine
+## 6. Shared Season engine
 
 `window.PTCGSeasonEngine` owns:
 
 - event-type normalization;
 - season-date resolution;
 - effective participation facts;
-- per-event CP calculation from injected rules;
-- dynamic Best Finish Limit application;
-- raw CP vs counting CP derivation;
+- CP calculation from injected rules;
+- BFL application;
+- raw vs counting CP;
 - derived `SeasonSummary` construction.
 
-Feature pages consume this engine rather than implementing CP/BFL logic independently.
+Feature pages consume this engine instead of reimplementing CP/BFL logic.
 
-## Manual corrections
+---
 
-Corrections are participation-local and do not mutate shared event data.
+## 7. Placement, Drop and player-count semantics
 
-Current correction envelope:
+Tournament completion now allows incomplete standings facts honestly.
+
+### Real placement
+
+A positive final placement is used as the recorded finishing position.
+
+### Explicit Drop
+
+A blank final placement in the current completion flow means **Dropped**.
+
+Season must:
+
+- display `Dropped` rather than a fake numeric placement;
+- preserve the distinction between explicit Drop and genuinely missing legacy data;
+- allow a later explicit correction to replace Dropped with a real placement.
+
+### Player count
+
+Player count is optional at tournament completion.
+
+Blank means unknown. Season must not require a fabricated player count merely to render a result.
+
+### CP honesty
+
+Where CP rules require placement and/or player-count facts that are unavailable, Season must not invent missing facts or award speculative CP.
+
+A result can still appear in Season history with `Dropped` or unknown player-count context while CP remains unavailable/zero as dictated by the canonical engine.
+
+---
+
+## 8. Manual corrections
+
+Corrections are participation-local metadata and do not mutate shared event data.
+
+Current correction envelope may include:
 
 ```js
 participation.seasonCorrection = {
@@ -158,147 +182,117 @@ participation.seasonCorrection = {
 }
 ```
 
-The Season result sheet exposes bounded corrections for event type, placement and player count, plus an optional note. Corrected results are visibly labelled. Clearing corrections restores recorded participation facts.
+The Season UI exposes bounded corrections for event type, placement and player count with optional note.
 
-## SeasonSummary
+A correction with a genuine placement supersedes an explicit Dropped display state for Season calculations/presentation.
 
-A `SeasonSummary` is a read model derived at render/query time from:
+Clearing corrections restores the recorded participation facts.
+
+---
+
+## 9. SeasonSummary
+
+A `SeasonSummary` is a read model derived from:
 
 - completed participations;
 - effective/corrected participation facts;
-- the applicable season;
-- the applicable versioned ruleset;
-- optional player context required by official rules.
+- applicable season;
+- applicable versioned ruleset.
 
-Current UI exposes:
+Current UI may expose:
 
 - counting CP;
 - raw CP;
 - eligible/completed Championship Series event counts;
-- BFL bucket summaries;
+- BFL bucket state;
 - per-event CP;
 - counting/excluded state;
-- W-L-D;
-- placement/player count;
-- exact used deck name and saved DeckVersion/list snapshot where available;
-- visible correction state;
-- participation-linked round history;
-- manual Top Cut stage tags where recorded;
-- direct link back to the canonical Tournament Day record.
+- Match W-L-D;
+- placement/player count or Dropped/unknown states;
+- exact used Deck/DeckVersion/list snapshot;
+- correction state;
+- linked round history and Top Cut tags;
+- direct Tournament Day link.
 
 It is not separately persisted as editable truth.
 
-## BFL semantics
+---
 
-BFL is calculated dynamically over eligible results.
+## 10. BFL semantics
 
 For each official BFL bucket:
 
-1. collect all positive-CP results in the bucket;
-2. rank by CP earned, not merely placement;
+1. collect eligible positive-CP results;
+2. rank by CP earned;
 3. retain the top `limit` results;
-4. mark lower results as excluded;
-5. recalculate whenever a completion/correction/ruleset input changes.
+4. mark lower results excluded;
+5. recalculate whenever relevant completion/correction/ruleset input changes.
 
-This supports the official shared BFL across Regionals, Specials and Internationals with different CP scales.
+This allows shared BFL buckets spanning multiple event types with different CP scales.
 
-## Events / My Tournaments lifecycle
+---
 
-Season is an equal in-page Compete view under the permanent Events header:
+## 11. Compete integration
 
-**Nearby · Majors · My Tournaments · Season**
+Season remains an in-page Compete view alongside event discovery/My Events surfaces.
 
-Season must not navigate to a separate page/header during normal use.
+Completed tournament records can be reopened without losing event snapshot, exact used deck or Match/Game evidence.
 
-My Tournaments now presents the primary lifecycle as:
+Season is downstream of Tournament Day completion; it does not replace Tournament Day as the authoritative detailed record.
 
-**Current · Upcoming · Incomplete · Completed**
+Online tournament participation may appear in general tournament history, but only event types supported by the canonical Championship Series ruleset contribute Championship Points.
 
-- Current = dated today;
-- Upcoming = future-dated, not complete;
-- Incomplete = past/un-dated tournament record without completion;
-- Completed = completed tournament record.
+---
 
-Archived is deliberately demoted from the primary lifecycle. It is a secondary recovery/cleanup view shown only when archived records exist.
+## 12. Top Cut round semantics
 
-A completed or archived tournament can be reopened without losing event snapshot, used deck or Match/Game evidence. Reopening clears completion/archive state and routes the record back to Current, Upcoming or Incomplete according to date.
+Top Cut stage remains optional metadata on canonical Matches, not a second result model.
 
-## Top Cut round semantics
+Accepted tags include:
 
-Top Cut stage is optional metadata on the canonical Match, not a second result model.
-
-Accepted manual tags:
-
-- Swiss (default / no explicit `roundStage`);
-- Asym Top 16;
-- Asym Top 8;
-- Asym Top 4;
-- Top 16;
-- Top 8;
-- Top 4;
+- Swiss/default;
+- Asym Top 16/8/4;
+- Top 16/8/4;
 - Finals.
 
-The 2026 rules update caps TCG asymmetrical top cut at 16 competitors. PTCG Tools does not attempt to automate bracket determination in v1; the user tags the stage when recording/editing the round.
+PTCG Tools does not automate bracket determination in v1; the user records stage where useful.
 
-## UI direction and current surface
+---
 
-Season belongs inside Compete and remains iPhone-first.
+## 13. Acceptance state — 13 September 2026
 
-Current answer-first hierarchy:
+Season v1 remains accepted/current-stage complete.
 
-1. compact `2027 Season` heading;
-2. counting CP;
-3. raw CP;
-4. eligible/completed event counts;
-5. BFL bucket state;
-6. recent results;
-7. result evidence/corrections.
+Current accepted contracts include:
 
-The permanent Events shell/header remains visible when switching among Compete views.
+- versioned official 2027 CP/BFL rules;
+- derived Season read model over completed participations;
+- exact used DeckVersion/list identity retained;
+- linked Match/round evidence;
+- manual bounded corrections;
+- dynamic BFL calculations;
+- explicit Dropped handling;
+- optional player count;
+- no fabricated CP from missing facts;
+- later placement correction may replace a Drop.
 
-## Acceptance state — 4 September 2026
+Season is not the current feature-development milestone.
 
-**Season v1 is accepted/complete for the current product stage.**
+---
 
-Established implementation includes:
+## 14. Current roadmap relationship
 
-- official numerical 2027 rules configuration committed with provenance;
-- deterministic rules/BFL test file committed;
-- 2027 season identity/start definition committed;
-- Season implemented as an in-page Events view;
-- permanent Events header retained across Season;
-- one real manually recorded Cup checked by the user with the expected tournament information flowing through to Season correctly;
-- supported completions stamping season/ruleset identity;
-- Season detail exposing exact deck/version snapshots, linked rounds and Top Cut stage tags, with a direct Tournament Day link;
-- completed/archived tournaments reopening without losing evidence;
-- primary My Tournaments lifecycle simplified to Current / Upcoming / Incomplete / Completed.
+The old sequence that placed Collection immediately after Season is superseded.
 
-The following remain useful **non-blocking verification/maintenance checks** and do not keep the Season milestone open:
+Current sequence before Collection is:
 
-1. execute the deterministic test suite in a real JS runtime and record the result;
-2. exercise BFL overflow/displacement beyond the official limits;
-3. verify a Season correction syncs across devices/account persistence;
-4. perform additional real iPhone visual/interaction smoke testing;
-5. fill the whole-season end boundary only when directly verified from an authoritative official source.
+1. shared format-calendar consumer wiring;
+2. Personal Matchup Analysis;
+3. Practice Priorities;
+4. Event Prep v2;
+5. Deck Version Intelligence;
+6. Prediction Accuracy maturation;
+7. Release Hardening;
+8. Collection only when explicitly reopened.
 
-Any genuine defect found by those checks may reopen a bounded Season bugfix, but there is no further planned Season v1 feature-development programme.
-
-## Roadmap handoff
-
-Season v1 is closed. Central roadmap work should move to the next major product milestone while keeping the verification items above as background/non-blocking follow-up.
-
-Current intended sequence after Season:
-
-1. **Collection / physical readiness**;
-2. **Learn / personal analytics**;
-3. **Development Cleanup / Release Hardening** before calling the broader application stable/public-ready.
-
-## Explicitly deferred
-
-- Collection / physical readiness;
-- Learn / personal analytics;
-- Playtest expansion;
-- Tournament Day redesign;
-- broad repository cleanup;
-- community/public release work;
-- speculative qualification/ranking logic not backed by official data.
+Season should only reopen for bounded defects, official rules/config updates or directly justified competitive-record improvements.

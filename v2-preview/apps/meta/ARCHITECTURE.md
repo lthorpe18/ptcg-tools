@@ -1,215 +1,240 @@
-# Meta V2 architecture
+# PTCG Tools — Meta V2 Architecture
 
-## Accepted Format/Blended recovery specification — 7 September 2026
+**Status:** Current Meta runtime/data-delivery source of truth  
+**Date:** 13 September 2026  
+**Companion to:** `PTCG_TOOLS_MASTER.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted contract. Checkpoints 1–9 are complete and owner-accepted. Checkpoint 8 merged in PR #17 (`9e3453e`) and passed all six Event Prep device checks. Checkpoint 9's 128-test, deployed-desktop and installed-iPhone/offline-resume gates all passed. The recovery programme is closed; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
+## Current position
 
-Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
+The Format/Rotation + Blended recovery programme is complete through Checkpoint 9 and remains owner-accepted. Do not reopen the forensic recovery programme without a concrete regression.
 
-Keep analysis concise. Essential format/status stays inline; **How this is calculated** reveals actual weights, dates, tournaments and transition rule; one shared methodology page records assumptions, formula version and changes. Saved fields retain the assumptions used at capture. This explanation is required UX, not the deferred fitting/admin subsystem.
+Meta uses one shared state/data/control contract across Current Meta, What Should I Play, Matchups, Deck Explorer and Deck Detail. Prediction Accuracy is a separate read-only consumer of the generated accuracy archive.
 
-## Locked ownership
+---
 
-Meta uses one shared state/data/control contract across Current Meta, What Should I Play, Matchups, Deck Explorer and Deck Detail. Prediction Accuracy is a separate, read-only consumer of the generated accuracy archive.
+## 1. Shared ownership
 
 ### MetaState
-`meta-core.js` owns the selected evidence scopes:
-- Online: `14`, `30`, `since-major`, `all` (`since-major` supports the shared current-field blend)
-- IRL: `latest-weekend`, `all-irl`, `event:<id>`
 
-No page-level script should introduce a second independent copy of these scope values.
+`meta-core.js` owns selected evidence scopes.
+
+No page-level script should introduce a second independent scope state.
 
 ### MetaData
-`meta-core.js` owns source interpretation and exposes the evidence consumed by Meta surfaces:
-- scoped decks / field data
-- scoped matchups
-- results
-- source context (event count, entry count, scope label, update/date detail)
 
-Pages render data; they do not independently reinterpret what Online or IRL means.
+`meta-core.js` owns source interpretation and exposes:
+
+- scoped decks/field data;
+- scoped matchups;
+- results;
+- source context/evidence counts/date details.
+
+Pages render this evidence; they do not reinterpret Online or IRL independently.
 
 ### MetaControls
-`meta-controls.js` owns the reusable source/scope UI contract:
-- Current Meta reuses its compact scope select for Online/IRL
-- Matchups and Deck Explorer show exactly one subordinate scope matching the active source
-- What Should I Play declares one field control and one H2H evidence control directly. It consumes the current shared source scopes and does not mirror them into hidden controls.
-- Deck Detail renders its own source-matched scope control from `MetaState`
 
-Controls do not own navigation and must not intercept generic clicks.
+`meta-controls.js` owns reusable source/scope control semantics. Controls do not own navigation and must not intercept unrelated clicks.
 
-### Blended Current Meta
-Current Meta also exposes a **Blended** presentation alongside Online and IRL.
+### Shared engines
 
-Blended is PTCG Tools' best estimate of the genuine competitive field at a hypothetical major-quality tournament today or tomorrow. Online and IRL are evidence sources, not the target identity of the prediction.
+Meta consumes rather than duplicates:
 
-Blended must consume the shared prediction directly, using the same policy as the Home hero. When Online and IRL share a legal format, there is one current prediction using:
-- IRL = latest IRL major weekend;
-- Online = 50+ player events since that major weekend;
-- IRL weight starts at 70%, decays by 2 percentage points per day and floors at 30%;
-- Online receives the remaining weight;
-- at least one compatible 50+ player Online event is required, and one is sufficient.
+- `MetaBlendedField` / shared blend logic;
+- `PTCGMetaField` field semantics;
+- `PTCGRecommendation` recommendation logic;
+- `DeckSprites.html()` for deck/archetype identity;
+- `PTCGFormat` for canonical date/environment format resolution;
+- `PTCGFormatCalendar` as the shared maintained calendar source once consumer wiring is complete.
 
-During an Online/IRL legality split, Current Meta exposes separate format-labelled options such as **Blended (TEF-PBL)** and **Blended (MEG-PBL)**. The current IRL-format prediction freezes its Online evidence at the Online format-change boundary but may continue to update from newer compatible IRL tournaments. The current Online-format prediction uses qualifying current-format Online evidence plus only compatible/predictive IRL evidence. No prediction silently substitutes IRL-only or incompatible evidence when its minimum Online evidence is absent.
+---
 
-Home defaults to the current Online-format prediction and displays its format in the page-level format chip. Event Prep automatically selects the prediction compatible with the event's date and legal format, with explicit user override.
+## 2. Online / IRL / Blended semantics
 
-Blended is a current-field presentation, not a third matchup/detail evidence source. Exact-variant drill-down remains Online/IRL and must not invent blended matchup evidence or blended deck-detail statistics.
+Online and IRL are distinct evidence sources.
 
-### Navigation
-Navigation remains separate from evidence state, with one owner at each boundary:
-- `meta-router.js` is the only owner of the active Meta view;
-- its route is a discriminated state: `current | prep | matchups | decks | accuracy | detail`, where `detail` must also carry exact deck name, Online/IRL source and origin;
-- the six view roots exist statically in `index.html`, and every route transition sets `hidden` and `inert` on all inactive roots before rendering the active root;
-- child views use semantic hashes: `#prep`, `#matchups`, `#decks`, `#accuracy` (with existing What Should I Play aliases accepted on entry);
-- `meta-explorer-v3.js` renders Deck Explorer, Matchups and exact-variant Deck Detail, but it never changes sibling visibility or browser history;
-- exact-variant detail routes use `?deck=<exact variant>&source=<online|irl>&from=<origin>#detail`;
-- when embedded, `persistent-shell.js` is the sole browser-history owner. Meta requests a route with `ptcg:shell-navigate`; the shell restores one with `ptcg:shell-apply-route` without reloading the iframe;
-- when opened standalone, `meta-router.js` owns its own `pushState` / `replaceState` and Back/Forward projection;
-- source and scope controls rerender evidence only. Detail source replacement may update the serialized route with `replaceState`, but never creates a view transition;
-- shared data/control modules must not call `preventDefault`, `stopPropagation` or `stopImmediatePropagation` on unrelated page navigation.
+Blended is PTCG Tools' estimate of the genuine competitive field at a hypothetical major-quality tournament today/tomorrow, not a third H2H evidence source.
 
-Deck Detail is mutually exclusive with Current Meta / What Should I Play / Matchups / Deck Explorer by construction. Renderers cannot activate themselves, and no mutation observer rewrites section classes in the background.
+Settled-format weighting:
 
-Browser Back/Forward must restore Meta subviews/detail without changing evidence semantics. A shell reload of a routed Meta view must preserve the intended Meta child route rather than silently falling back to Current Meta. Ordinary interaction inside an open Deck Detail, including expanding/collapsing Data & performance and changing its source/scope controls, must never reveal or navigate to an underlying Meta view.
+`IRL = max(30%, 70% - 2 percentage points × days since latest compatible IRL major weekend)`
 
-## Variant grouping
-Variant grouping is presentation-only on Current Meta and defaults OFF.
+`Online = 100% - IRL`
 
-Families can group Current Meta field share and expand inline. Matchups, Deck Explorer, Deck Detail and What Should I Play remain exact-variant analytical surfaces.
+At least one compatible 50+ player Online event is required.
 
-Canonical family metadata and field-row normalisation live in `../_shared/meta-field.js`, so Home and Meta do not maintain separate definitions.
+During Online/IRL legality splits, separate format-labelled Blended predictions may coexist. Old-format Online evidence freezes at the Online legality boundary; compatible later IRL evidence may update the old-format prediction according to the accepted transition rules. Rotation-incompatible IRL contributes zero to the new-format prediction.
 
-## What Should I Play
+No prediction silently substitutes incompatible or IRL-only evidence when minimum Online evidence is absent.
 
-WSIP consumes the shared field vocabulary, `MetaData` evidence, `MetaBlendedField` and the DOM-free `PTCGRecommendation` engine. Event Prep consumes the same field/recommendation engines for its shortlist. Missing H2H evidence remains unknown, small samples use the documented neutral prior, and only variants meeting the shared coverage/sample-quality rules receive ranks.
+---
 
-The accepted flow is **Field → Recommendations → direct exact-variant inspection**.
+## 3. Format/calendar authority
 
-Accepted interaction rules:
-- available format-labelled Blended predictions, Online, IRL and Saved Expected Field remain the field inputs;
-- selecting a Saved Expected Field applies it directly and the custom-field state is visibly distinct;
-- show five recommendations initially and reveal five more at a time;
-- the recommendation card itself opens exact variant detail;
-- the collapsed card shows the covered-field estimate, evidence category, concise best/risk summary and **“H2H evidence against X% of field”** wording;
-- expanding **Why this deck?** shows the three best and three worst evidenced matchups, with adjusted H2H rate, decisive-game count and expected field share;
-- full matchup/methodology detail remains behind progressive disclosure;
-- exact deck detail can evaluate against Blended, Online, IRL or actual named Saved Expected Fields and carry that field into WSIP;
-- one- and two-Pokémon sprite identities must reserve enough width to avoid overlap.
+The format resolver remains the one canonical authority for date/environment legality context.
 
-**Compare is deliberately removed** from accepted WSIP. There is no Compare control, state or table. **Decide is deliberately removed** as a separate stage. WSIP recommends/explains; event-specific planned-deck choice remains explicit in Event Prep.
+Settings → Maintenance → Formats & Sets now provides a published shared calendar with independent:
 
-See `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md` at the repository root for the scoring, uncertainty and full product contract.
+- physical release date;
+- Online legality date;
+- IRL legality date;
+- rotation/legal-regulation-mark state.
 
-## WSIP rendering safety
+Individual card legality is based on each printing's own `regulationMark`, not inferred from whole-set marks.
 
-A September regression demonstrated that presentation-layer observers can freeze the whole Meta child even when the data/release architecture is healthy.
+### Immediate integration package
 
-Rules:
-- never use body-wide self-triggering `MutationObserver` loops for WSIP polish;
-- prefer explicit lifecycle events such as `wsip:rendered`;
-- if an observer is genuinely necessary, keep it bounded and idempotent;
-- do not alter Meta release/startup architecture merely to mask a presentation-layer render loop.
+The Settings/shared-calendar maintenance path is implemented, but Meta/WSIP runtime still needs a bounded migration so normal consumers load the **published shared calendar** and resolve format context through `PTCGFormat` rather than depending only on checked-in/current-release assumptions.
 
-The offending WSIP polish/reset observer loops were reproduced in browser runtime, removed/fixed and are now guarded by integration tests.
+The migration must preserve:
 
-## Page hierarchy
-Locked high-level hierarchy:
-- Current Meta: purpose → source → scope → grouping → evidence summary → field → exploration
-- What Should I Play: back → purpose → field/H2H sources → field → recommendations → Why this deck? → progressive methodology
-- Matchups: back → purpose → source → scope → evidence summary → exact variant → matchup evidence → detail
-- Deck Explorer: back → purpose → source → scope → evidence summary → exact variants → detail
-- Deck Detail: back → identity → source → scope → headline stats → exact-variant evidence
+- validated last-known-good/checked-in fallback through `PTCGFormatCalendar`;
+- independent Online vs IRL dates;
+- explicit unknown facts;
+- actual event date for Event Prep;
+- Saved Expected Field provenance;
+- generation guards against late stale async context replacing current state.
 
-## Evidence context
-Evidence context confirms the current state; it is not another settings layer. It must be derived from the same `MetaData` request used by the rendered content.
+Do not recreate format logic inside Meta pages.
 
-## Data release boundary
+---
 
-Browsers never ingest Limitless tournament data directly. Scheduled GitHub Actions update the canonical source archives under `data/meta/`, then `scripts/build-meta-release.mjs` publishes one content-addressed browser release under `v2-preview/data/meta/release/`.
+## 4. Navigation
 
-The release consists of a small manifest and purpose-specific files:
+`meta-router.js` is the sole Meta view owner.
 
-- `core.json`: source metadata, precomputed Online scopes, IRL event/field data and records links;
-- Online history, matchup and result files;
-- IRL matchup and result files.
+Current routes are mutually exclusive:
 
-`meta-release-loader.js` is the sole browser owner of release discovery, checksum validation and last-known-good Cache Storage. It activates a new release only after its core has been validated. `meta-core.js` reads that release and lazy-loads history/matchups/results only when the active view needs them.
+- Current Meta;
+- What Should I Play;
+- Matchups;
+- Deck Explorer;
+- Prediction Accuracy;
+- exact Deck Detail.
 
-Prediction Accuracy is also lazy. `prediction-accuracy.js` requests its separate generated index only when `#accuracy` becomes active, then loads the selected actual/evaluation revisions. It must not add that archive to normal Current Meta, Home or WSIP startup. The current empty-score state remains useful: it identifies eligible majors and explains why an event was not scored.
+When embedded, the persistent shell owns browser history and Meta communicates via shell navigation messages. Standalone Meta may own its own history projection.
 
-Do not restore `CACHE`, `DATA`, `DeckAggregate`, `IRLLabs` or browser-to-Limitless compatibility globals. Shared public evidence is a generated GitHub Pages asset; Supabase remains the store for private per-account state.
+Source/scope changes rerender evidence only; they do not create sibling-view transitions.
 
-## Retired layers
-Do not recreate or re-add these superseded implementations:
-- `irl-scope.js`
-- `meta-consistency-v3.js`
-- `meta-window-fix.js`
-- `source-controls.js`
-- `meta-scope-controls.js`
-- `meta-detail-scope.js`
-- `meta-navigation.js`
-- `meta-explorer-v2.js`
-- `meta-results-v2.js`
-- `meta-table.js`
-- `perf-shell/shell.js`
-- `app.js`
-- `meta-engine.js`
-- `limitless.js`
-- `live.js`
-- `deck-aggregate.js`
-- `irl-labs.js`
-- `decklinks.js`
-- `breakdown.css`
-- mirrored hidden WSIP source controls and DOM relocation patches
+Deck Detail must never reveal underlying sibling views through ordinary interaction.
 
-## Deployment rule
-Whenever behavior or styling changes, bump the relevant JS/CSS query version in `index.html`. Do not rely on the HTML URL query alone to invalidate iOS/PWA subresource caches.
+---
 
-Before calling a Meta change complete, smoke-test:
-1. Current Meta Online, IRL and Blended switching
-2. variant grouping off/on and exact variant drill-down
-3. What Should I Play field/H2H source changes, Expected Field load/edit/save, direct card → exact variant navigation, Why this deck? best/worst matchups and five-at-a-time recommendation paging
-4. Matchups source/scope and deck detail drill-down
-5. Deck Explorer source/scope and deck detail drill-down
-6. Deck Detail source/scope, Data & performance collapse/expand, Expected Field handoff, and Back
-7. Current Meta back navigation and bottom app navigation
-8. Home → Meta and Home → What Should I Play through the persistent shell
-9. browser Back/Forward across Meta subviews and exact-variant detail
-10. reload/restore of a shell-routed Meta child view
-11. real iPhone/Home Screen startup when a change touches WSIP render lifecycle, service worker or Meta loading
+## 5. Exact variants and family grouping
 
-## Current acceptance state — 6 September 2026
+Variant grouping is presentation-only on Current Meta.
 
-The Meta navigation and data-ingest/delivery architecture rework is **accepted and closed for the current product stage**, and the bounded WSIP rebuild/polish is also accepted.
+- families may group field share;
+- Matchups, Deck Explorer, Deck Detail and WSIP remain exact-variant analytical surfaces;
+- family metadata/field normalisation live in shared `meta-field.js`.
 
-Acceptance includes successful real-iPhone testing after the architecture rework and after the final WSIP changes. The current implementation is considered the canonical Meta runtime/data-delivery and WSIP interaction model:
+**Families describe the meta; variants play games.**
 
-- one `meta-router.js` navigation owner;
-- one `MetaState` / `MetaData` / `MetaControls` evidence contract;
-- scheduled central ingestion instead of browser-side Limitless tournament ingestion;
-- canonical `data/meta/` archives;
-- validated, content-addressed, purpose-split browser releases;
-- small `core.json` for Home/current-field use;
-- lazy-loaded history/matchup/result evidence;
-- checksum validation and last-known-good local Cache Storage;
-- shared Home/Meta blend calculation;
-- on-demand top-level area loading rather than fixed startup warming of every area;
-- WSIP Field → Recommendations → exact-variant inspection flow;
-- Saved Expected Field handoff and clear custom-field state;
-- best/worst matchup explanation and five-at-a-time paging;
-- no Compare stage and no Decide stage;
-- no body-wide self-triggering WSIP observer loops.
+---
 
-The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptance. Do not reopen Meta/WSIP as a broad roadmap programme unless a concrete correctness, navigation, ingest or usability regression is found. Routine upstream data refreshes are maintenance, not a feature milestone.
+## 6. What Should I Play
 
-## Checkpoint 5 implementation contract
+WSIP consumes shared field vocabulary, MetaData evidence, Blended prediction and `PTCGRecommendation`.
 
-`MetaWSIPSource` selects a canonical prediction or observed format field. `MetaData.dataForFormat` and `ensureForFormat` read compatible source packages without changing browsing selections. Combined evidence pools only records in the selected target format; a previous-format IRL prior is prediction evidence only. Request/cache identities include release, source and format. Unavailable fields yield no recommendations; failed requests show Retry. Existing ranking and coverage rules remain unchanged. Complete saved-field migration is Checkpoint 7 and exact-detail handoff is Checkpoint 6.
+Accepted flow:
 
-## Checkpoint 6 navigation context
+**Field → Recommendations → direct exact-variant inspection**
 
-`detail-field.js` captures immutable field navigation snapshots in same-tab session storage. The router alone serializes their IDs with exact variants and restores them into WSIP. Unknown/missing snapshots are explicit, never live-field substitutions. Detail offers working field/format/H2H selectors using the shared engine; observed source statistics and scope remain separate. Checkpoint 7 preserves full saved provenance and editor state through the existing storage/sync contract; see `SAVED_FIELDS_CHECKPOINT_7.md`.
+Rules include:
 
-## Checkpoint 8 Event Prep consumer
+- Blended / Online / IRL / Saved Expected Field inputs;
+- five recommendations initially, then five more at a time;
+- recommendation card opens exact detail;
+- Why this deck? shows three best + three worst evidenced matchups;
+- missing H2H remains unknown;
+- evidence coverage/sample quality is explicit;
+- Compare and Decide remain removed;
+- event-specific planned-deck selection remains Event Prep-owned.
 
-`events/prep-field.js` resolves the event date through `PTCGFormat`, selects the matching canonical prediction, records explicit field-format overrides and creates independent lock copies. `events/prep.js` uses `MetaWSIPSource.inputs` and explicit-format H2H loading; it never uses the compatibility blend or saved-name heuristics. Event snapshots and exact deck-version locks are owned by participation persistence. The owner accepted the device gate after PR #17; see `EVENT_PREP_CHECKPOINT_8.md`.
+Public/global H2H remains separate from personal Game evidence. Future Personal Matchup Analysis may compare them side-by-side without merging the stores/evidence.
+
+See `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`.
+
+---
+
+## 7. Event Prep boundary
+
+Event Prep consumes the same canonical field/recommendation engines.
+
+It owns event-specific Expected Field reaction, exact planned DeckVersion/list lock and Tournament Day handoff.
+
+Event format resolution must use the **actual event date and environment**, never today's date as a substitute.
+
+The planned Event Prep v2 extension should consume Practice Priorities derived from personal evidence after Personal Matchup Analysis exists.
+
+---
+
+## 8. Data release boundary
+
+Normal browsers never ingest Limitless tournament result evidence directly.
+
+Scheduled ingestion builds canonical archives and a content-addressed browser release under `v2-preview/data/meta/release/`.
+
+`meta-release-loader.js` owns browser release discovery, checksum validation and last-known-good Cache Storage.
+
+Heavy history/matchup/result payloads remain lazy-loaded.
+
+Prediction Accuracy uses its separate generated archive/index and does not enlarge routine Home/Current Meta startup.
+
+Do not restore retired browser-side ingestion/aggregate compatibility layers.
+
+---
+
+## 9. Rendering safety
+
+No body-wide self-triggering `MutationObserver` loops for WSIP/Meta polish.
+
+Prefer explicit lifecycle events and bounded/idempotent observers.
+
+Do not alter data/release architecture merely to hide a presentation-layer render loop.
+
+---
+
+## 10. Retired architecture
+
+Do not recreate superseded layers such as old Meta navigation, source-control mirrors, duplicate aggregation engines, legacy result-table stacks or browser-to-Limitless runtime ingestion.
+
+Shared state/data/control, router, release loader and shared field/recommendation engines are the current architecture.
+
+---
+
+## 11. Deployment/validation rule
+
+When behaviour/styling changes, deliberately bump relevant asset versions and verify iOS/PWA cache behaviour where applicable.
+
+Smoke-test at minimum:
+
+1. Online / IRL / Blended switching;
+2. variant grouping + exact drill-down;
+3. WSIP field/H2H changes, Saved Fields, recommendations and Why this deck?;
+4. Matchups and Deck Explorer scopes;
+5. Deck Detail source/scope and Back;
+6. Prediction Accuracy lazy route;
+7. Home → Meta / WSIP through persistent shell;
+8. Back/Forward and reload restoration;
+9. real iPhone startup for changes touching render lifecycle, service worker or data loading.
+
+For the upcoming format-calendar consumer package, add explicit tests around shared published calendar loading, Online/IRL split dates and Event Prep event-date resolution.
+
+---
+
+## 12. Current validation debt
+
+Two repository-wide baseline failures are currently known:
+
+- prediction snapshot publication lookup (`assert.ok(publication)`);
+- WSIP live/current-release expectation drift where an old test expects `Unknown` but current evidence produces a strong recommendation.
+
+These are tracked debt, not permission to weaken the accepted Meta/WSIP contracts.
+
+---
+
+## 13. Current roadmap relationship
+
+Meta/WSIP is not a broad active rebuild programme.
+
+Immediate work is the bounded **shared format-calendar consumer wiring** package. After that, central product development moves to **Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence**, with Prediction Accuracy fitting delayed until enough genuine scored majors justify it.

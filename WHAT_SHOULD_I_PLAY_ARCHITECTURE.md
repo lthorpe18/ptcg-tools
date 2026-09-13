@@ -1,202 +1,229 @@
-# What Should I Play architecture
+# PTCG Tools — What Should I Play Architecture
 
-**Status:** Canonical bounded implementation — accepted after iPhone validation  
-**Date:** 6 September 2026  
+**Status:** Canonical accepted Meta decision-support architecture  
+**Date:** 13 September 2026  
 **Owner:** Meta
 
-## Accepted Format/Blended recovery specification — 7 September 2026
+## Purpose
 
-See `FORMAT_BLENDED_V2_SPECIFICATION.md` for the accepted contract. Checkpoints 1–5 are merged and accepted; the owner confirmed all six Checkpoint 5 checks and advanced prediction date. Checkpoint 6 is merged/deployed through PR #15 (`e27a914`) and accepted: the owner passed all six device steps. Checkpoint 7 saved-field persistence is implemented for review in `SAVED_FIELDS_CHECKPOINT_7.md`; 120 automated tests pass. Browser access to the local preview is blocked before page load; desktop/390px/iPhone acceptance remains pending. Checkpoint 8 has not started.
-
-Approved policies: retain the frozen old-format Online pool when a newer compatible old-format major arrives; freeze old weights at the split and reset/freeze at 70/30 after that major; require a qualifying post-major Online event in ordinary settled operation; permit an explicit mismatched Saved/Edited Field override with retained warning/provenance; use exactly 25% eligible immediately preceding non-rotation IRL until the first target-format major finishes, and 0% rotation-incompatible IRL.
-
-Keep analysis concise. Essential format/status stays inline; **How this is calculated** reveals actual weights, dates, tournaments and transition rule; one shared methodology page records assumptions, formula version and changes. Saved fields retain the assumptions used at capture. This explanation is required UX, not the deferred fitting/admin subsystem.
-
-## Product question
-
-What Should I Play (WSIP) helps a competitive player answer:
+What Should I Play (WSIP) helps answer:
 
 > Given the field I expect, which exact deck variants are best positioned, why, and how trustworthy is that conclusion?
 
-It is decision support, not a deck selector. It never writes Deck state or silently sets `plannedDeckRef` or `usedDeckRef`. Event-specific deck choice remains explicit in Event Prep.
+It is decision support, not a deck selector. It never writes Deck state or silently sets `plannedDeckRef` / `usedDeckRef`. Event-specific selection remains explicit in Event Prep.
 
-## Shared field contract
+The Format/Rotation + Blended recovery programme is complete through Checkpoint 9. Historical checkpoint documents remain evidence for how the current contract was reached, but this document records the current accepted product behaviour.
 
-`v2-preview/apps/_shared/meta-field.js` is the shared vocabulary and normalisation layer for Home, Meta, WSIP and Event Prep.
+---
 
-- A field row is `{ name, share }` where `name` is an exact variant and `share` is an internal fraction from `0` to `1`.
-- Displayed field percentage means expected entry share in the selected field.
-- Active rows are normalised to 100% for analysis.
-- `Other`, `Unknown`, zero-share rows and invalid names are excluded.
-- Duplicate exact names are merged before normalisation.
-- Families are presentation metadata only. They may describe Current Meta but never own field-vs-matchup analysis identity.
-- Legacy Expected Fields containing a possible family label are flagged for review; WSIP does not silently expand them.
+## 1. Shared field contract
 
-The field sources are:
+`v2-preview/apps/_shared/meta-field.js` owns field vocabulary/normalisation for Home, Meta, WSIP and Event Prep.
 
-| Source | Meaning |
-|---|---|
-| Blended prediction | PTCG Tools' best estimate of the genuine competitive field at a hypothetical major-quality tournament today or tomorrow in the labelled format. There is normally one current prediction; during an Online/IRL legality split there may be separate format-labelled Blended predictions. |
-| Online | Exact-variant field share from the current shared `MetaState` Online scope. |
-| IRL | Exact-variant field share from the current shared `MetaState` IRL scope. |
-| Saved Expected Field | An explicit, editable predicted field copied with provenance. |
+A field row is `{ name, share }`, where `name` is an exact variant and `share` is an internal fraction.
 
-The default WSIP field for an observed source includes rows through at least 90% of source field share, then renormalises those selected rows for analysis. A saved Expected Field uses all explicitly saved rows. The UI shows how much of an observed source field the selection represents.
+Rules:
 
-Saved Expected Fields are first-class WSIP inputs. Selecting one applies it immediately. When a custom saved field is active, the top Field control must make that custom state obvious rather than misleadingly appearing to be Blended, Online or IRL. Returning to the normal source field must be explicit and clean. A Saved Expected Field copied from Blended retains the exact format-labelled prediction and evidence provenance from which it was created.
+- displayed percentage = expected entry share;
+- active rows normalise to 100% for analysis;
+- `Other`, `Unknown`, zero-share and invalid rows are excluded;
+- duplicate exact names merge before normalisation;
+- families are presentation-only and never own matchup identity;
+- legacy Expected Fields with ambiguous family labels must be flagged rather than silently expanded.
 
-## Matchup evidence
+Field sources:
 
-H2H evidence remains independent of the field source. WSIP supports Online, IRL and combined Online + IRL evidence.
+- format-labelled **Blended prediction**;
+- **Online** field;
+- **IRL** field;
+- **Saved Expected Field**.
 
-- Default Online H2H scope is 30 days, or the active shared Online scope inside Meta.
-- IRL H2H uses all IRL majors in the current format because narrower event/weekend scopes do not necessarily contain a usable matchup matrix.
-- Combined evidence pools wins, losses and ties for the estimate, while retaining separate Online and IRL profiles for disagreement checks.
-- Direct exact-variant rows are preferred. If only the reverse row exists, wins and losses are inverted.
-- Ties are reported as evidence context but do not enter the win-rate denominator.
-- A missing or zero-decisive-game matchup remains unknown. It is never replaced by 50%, 0%, overall deck win rate or a family result.
+Saved Expected Fields are account-owned snapshots with provenance, not silent live links to future Meta changes.
 
-## Recommendation engine
+---
 
-`v2-preview/apps/_shared/recommendation-engine.js` is DOM-free and is consumed by both Meta WSIP and Event Prep.
+## 2. Format context and shared calendar
+
+WSIP field/prediction identity is format-specific. Online and IRL may legally differ during set-transition windows.
+
+Settings → Maintenance → Formats & Sets now maintains one published shared format calendar. The next format-consumer package must ensure WSIP/Meta resolves current date/environment context from that published shared calendar through the canonical `PTCGFormat` resolver rather than older checked-in/current-release assumptions.
+
+Rules:
+
+- do not infer event/current legality from set name alone;
+- Online and IRL dates remain independent;
+- card legality remains card-printing/regulation-mark based;
+- Saved Expected Fields retain the format/provenance present when saved;
+- missing/unknown calendar facts stay explicit rather than guessed.
+
+---
+
+## 3. Matchup evidence
+
+H2H evidence is independent of field source. WSIP supports Online, IRL and combined compatible Online + IRL evidence.
+
+- direct exact-variant rows are preferred;
+- reverse rows may be inverted when required;
+- ties are context but do not enter decisive-game win-rate denominator;
+- missing/zero-decisive-game matchups remain **unknown**;
+- unknown must never be replaced by 50%, 0%, overall deck win rate or a family result;
+- only evidence compatible with the selected target format may contribute.
+
+Personal Game evidence is **not** merged into public WSIP H2H. Future Personal Matchup Analysis may show personal results beside public H2H, but the two evidence domains remain separate.
+
+---
+
+## 4. Recommendation engine
+
+Canonical engine:
+
+`v2-preview/apps/_shared/recommendation-engine.js` → `window.PTCGRecommendation`
+
+Meta WSIP and Event Prep consume the same DOM-free engine.
 
 For candidate `c` and opponent `o`:
 
 `adjusted matchup WR(c,o) = (wins + 6) / (wins + losses + 12)`
 
-This is a transparent 12-game neutral prior. It moderates small samples without pretending they are missing.
+This is a transparent 12-game neutral prior.
 
 For covered opponents:
 
 `expected WR(c) = sum(field share(o) × adjusted WR(c,o)) / covered field share(c)`
 
-The expected rate is therefore explicitly a **covered-field estimate**, not a claim about unknown field share.
+This is explicitly a **covered-field estimate**, not a claim about unknown matchups.
 
-Each matchup contribution is:
+Contribution for explanation:
 
 `contribution(c,o) = field share(o) / covered field share(c) × (adjusted WR(c,o) - 50%)`
 
-Positive and negative contributions drive the explanatory evidence. This distinguishes a large edge into a small deck from a modest edge into a high-share deck.
+This lets explanations distinguish high-share relevant edges/risks from low-share ones.
 
-## Uncertainty rule
+---
 
-WSIP uses two deterministic measures:
+## 5. Evidence quality / uncertainty
 
-- **Coverage:** field share with at least one decisive H2H game.
-- **Sample quality:** full-field weighted `min(decisive games / 20, 1)` for each matchup. Unknown matchups contribute zero.
+WSIP uses:
 
-Evidence categories are:
+- **Coverage:** field share with at least one decisive H2H game;
+- **Sample quality:** weighted `min(decisive games / 20, 1)` across the field, with unknown matchups contributing zero.
 
-| Category | Rule | May receive a rank? |
+Current categories:
+
+| Category | Rule | Rank? |
 |---|---|---|
 | Strong | coverage ≥85% and quality ≥70% | Yes |
 | Moderate | coverage ≥70% and quality ≥45% | Yes |
-| Weak | coverage ≥50% and quality ≥25%, but below Moderate | No; promising only |
-| Insufficient | coverage <50% or quality <25% | No; promising only |
+| Weak | coverage ≥50% and quality ≥25%, below Moderate | No; promising only |
+| Insufficient | coverage <50% or quality <25% | No |
 
-Decision-ready variants are ordered by covered-field estimate, then coverage, sample quality and exact name. Lower-evidence variants remain available but do not displace decision-ready recommendations.
+Decision-ready variants order by covered-field estimate, then coverage, sample quality and exact name.
 
-If the top two decision-ready estimates differ by less than 2 percentage points, the outcome is a **close call** and their ordering is not presented as meaningful. A **strong recommendation** requires strong evidence, a gap of at least 2 points and no material source disagreement.
+If the top two decision-ready estimates differ by less than 2 percentage points, present a **close call** rather than overstate ordering.
 
-Online/IRL disagreement is surfaced when both sources cover at least 50% of the field and their candidate estimates differ by at least 5 points. A profile is flagged as polarised when at least 15% of field share is favourable (adjusted WR ≥55%) and at least 15% is bad exposure (≤45%).
+A **strong recommendation** requires strong evidence, ≥2 point lead and no material source disagreement.
 
-These categories are product thresholds, not formal statistical confidence intervals.
+Online/IRL disagreement is surfaced when both sources cover enough field and estimates differ materially. Polarised matchup profiles remain visible.
 
-## Accepted player flow
+These are product thresholds, not formal statistical confidence intervals.
 
-The accepted WSIP flow is intentionally simple:
+---
 
-1. **Field** — choose an available format-labelled Blended prediction, Online, IRL or a Saved Expected Field; inspect target format, provenance, exact variants and model shares; optionally make an explicit adjustment.
-2. **Recommendations** — show the best-positioned exact variants, ranked where evidence is decision-ready. The first five are shown initially; **Show 5 more decks** reveals the next five at a time rather than expanding the entire candidate pool.
-3. **Inspect** — tapping the recommendation card itself opens that exact deck-variant page. There is no separate “Open exact variant” action.
-4. **Why this deck?** — expanding a recommendation shows the three best and three worst evidenced matchups, with opponent identity/sprites, adjusted rate, decisive-game count and field share. Polarisation, source disagreement and unknown evidence remain visible where relevant, with full field matchup detail available by progressive disclosure.
+## 6. Accepted player flow
 
-The collapsed recommendation card prioritises:
+Accepted flow:
 
-- rank / recommendation order;
-- canonical one- or two-Pokémon deck sprite identity;
+**Field → Recommendations → direct exact-variant inspection**
+
+1. **Field** — choose available Blended, Online, IRL or Saved Expected Field; inspect target format/provenance; optionally edit an expected field where supported.
+2. **Recommendations** — show decision-ready exact variants; first five initially, then reveal five more at a time.
+3. **Inspect** — tapping a recommendation card opens that exact variant.
+4. **Why this deck?** — show three best and three worst evidenced matchups plus progressive full detail/methodology.
+
+Collapsed recommendation cards prioritise:
+
+- rank/order;
+- canonical deck sprite identity;
 - exact variant name;
 - covered-field estimate;
 - evidence category;
-- wording such as **“H2H evidence against X% of field”** rather than ambiguous “field covered” language;
-- concise best-matchup and risk summary.
+- `H2H evidence against X% of field` wording;
+- concise best-matchup/risk context.
 
-The primary layout is a one-column iPhone flow. Two-sprite identities must always reserve enough width to avoid overlap in recommendation cards and matchup rows.
+The primary layout remains one-column iPhone-first.
 
-## Explicitly removed UX
+---
 
-The bounded September review deliberately removed two earlier concepts:
+## 7. Explicitly removed UX
 
-- **Compare** — removed completely. It did not add enough decision value relative to the complexity and vertical space it consumed. There is no Compare button, Compare state, Compare table or hidden auto-selection behaviour in accepted WSIP.
-- **Decide** — removed completely. WSIP recommends and explains. Tapping a recommendation opens exact variant detail; event-specific selection belongs to Event Prep.
+**Compare** remains removed. There is no Compare stage/control/table.
 
-Do not reintroduce either as default WSIP stages without a new product decision.
+**Decide** remains removed as a separate WSIP stage. WSIP recommends and explains; event-specific planned-deck selection belongs in Event Prep.
 
-## Exact deck detail handoff
+Do not reintroduce these by default without a new product decision.
 
-Exact deck-variant detail may be evaluated against:
+---
 
-- an available format-labelled Blended prediction;
+## 8. Exact detail handoff
+
+Exact variant detail can be evaluated against:
+
+- available format-labelled Blended field;
 - Online field;
 - IRL field;
-- actual named Saved Expected Fields.
+- named Saved Expected Fields.
 
-The chosen field must genuinely carry into WSIP. The selector must never be a dead/fake dropdown.
+Chosen field/context must genuinely carry into detail and back into WSIP. No fake/dead selectors and no silent live-field substitution for missing saved snapshots.
 
-## Event Prep boundary
+---
 
-WSIP does not choose an event deck. Any attending event must expose an obvious Event Prep entry point, and Event Prep remains the place where the user explicitly chooses a planned exact deck/list for that event.
+## 9. Event Prep boundary
 
-Event Prep may consume the same `PTCGRecommendation` and Expected Field records, but it owns event-specific reactions, snapshots and planned-deck choice. It automatically selects the Blended prediction compatible with the event's date and legal format while allowing an explicit user override.
+Event Prep consumes the same field/recommendation engines but owns event-specific planning, immutable snapshots and explicit planned-deck choice.
 
-## Integration boundaries
+Event Prep must resolve the **actual event date/environment**, never substitute today's date where event date is required.
 
-- **Home** launches `Meta/#prep` and owns no recommendation logic.
-- **Meta** owns WSIP, source/scope evidence and Expected Fields.
-- **Event Prep** consumes the shared field and recommendation engines for its lightweight shortlist. It may store a user’s reaction but never silently sets a planned deck.
-- **Decks** owns saved deck and DeckVersion identity. Opening a variant from WSIP does not mutate Decks.
+The planned Event Prep v2 extension should add concise personal Practice Priorities/readiness after Personal Matchup Analysis exists, rather than duplicating personal analytics inside WSIP.
 
-## Runtime / rendering safety rule
+---
 
-A September regression showed that cosmetic WSIP enhancement code can block the entire Meta child if it observes and mutates the same broad DOM subtree recursively.
+## 10. Integration boundaries
 
-Accepted rule:
+- **Home** launches WSIP and owns no recommendation logic.
+- **Meta** owns WSIP, public field/H2H evidence and Saved Expected Fields.
+- **Event Prep** consumes shared field/recommendation engines and owns event-specific choice/snapshot state.
+- **Decks** owns Deck/DeckVersion and future personal matchup analysis.
+- personal evidence remains separate from WSIP's public/global H2H.
 
-- no body-wide self-triggering `MutationObserver` loops for WSIP polish;
-- render-dependent enhancements should use explicit render lifecycle events such as `wsip:rendered` or bounded/idempotent observers;
-- Meta startup/data-loader architecture must not be changed to compensate for a presentation-layer render loop.
+---
 
-The regression was traced to self-triggering observers in the WSIP polish/reset helpers, reproduced in browser runtime, removed/fixed, and guarded by integration tests.
+## 11. Rendering/runtime safety
 
-## Explicit deferrals
+No body-wide self-triggering `MutationObserver` loops for WSIP polish.
 
-- formal confidence intervals or tournament simulation;
-- personal skill/playtest adjustments to global H2H evidence;
-- automated deck building or card substitutions;
-- Collection/physical-readiness filtering;
+Prefer explicit render lifecycle events such as `wsip:rendered`; any observer must be bounded and idempotent.
+
+Do not alter Meta release/startup architecture merely to mask a presentation-layer loop.
+
+---
+
+## 12. Current validation state
+
+Current WSIP functionality has broad deterministic/integration coverage for field normalisation, evidence quality, missing data, close calls, exact variants, saved fields, source changes, navigation handoff, incremental paging and rendering safety.
+
+The full repository currently has one known WSIP-related **baseline expectation drift**: `wsip-formats.test.js` still expects an `Unknown` outcome for live/current release data while the current release now has enough evidence to render a strong recommendation. This is current-data/test expectation drift, not an accepted change to the recommendation formula.
+
+Repair that assertion in the appropriate Meta/release-hardening pass; do not weaken recommendation behaviour merely to preserve stale fixture expectations.
+
+---
+
+## 13. Explicit deferrals
+
+- formal confidence intervals/simulation;
+- personal skill values merged into public H2H;
+- automated deck building/card substitutions;
+- Collection/readiness filtering;
 - automatic planned/used-deck mutation;
-- a large matchup analytics matrix;
-- new external evidence providers.
+- new external evidence providers without a deliberate source decision.
 
-## Tests and acceptance
-
-Current relevant automated coverage includes:
-
-- recommendation-engine deterministic cases for normalisation, weighted contribution, missing data, coverage, order/near ties, exact-variant divergence, field overrides, sparse samples, polarisation, source disagreement and current release data;
-- Meta navigation/release/offline contracts;
-- WSIP direct exact-variant navigation;
-- best/worst matchup exposure;
-- no Compare surface or controls;
-- five-at-a-time recommendation paging;
-- two-sprite width protection;
-- no body-wide WSIP mutation-observer feedback loop.
-
-The relevant Meta/WSIP suite passed **37/37 tests** at final functional acceptance. The final WSIP interaction/presentation flow was then accepted through real iPhone Home Screen testing on 6 September 2026, including Meta startup recovery, recommendation cards, matchup expansion, incremental paging and the Saved Expected Field selector polish.
-
-## Checkpoint 5 implementation contract
-
-`MetaWSIPSource` selects a canonical prediction or observed format field. `MetaData.dataForFormat` and `ensureForFormat` read compatible source packages without changing browsing selections. Combined evidence pools only records in the selected target format; a previous-format IRL prior is prediction evidence only. Request/cache identities include release, source and format. Unavailable fields yield no recommendations; failed requests show Retry. Existing ranking and coverage rules remain unchanged. Complete saved-field migration is Checkpoint 7 and exact-detail handoff is Checkpoint 6.
-
-## Checkpoint 6 navigation context
-
-`detail-field.js` captures immutable field navigation snapshots in same-tab session storage. The router alone serializes their IDs with exact variants and restores them into WSIP. Unknown/missing snapshots are explicit, never live-field substitutions. Detail offers working field/format/H2H selectors using the shared engine; observed source statistics and scope remain separate. Checkpoint 7 preserves full saved provenance and editor state through the existing storage/sync contract; see `SAVED_FIELDS_CHECKPOINT_7.md`.
+Current roadmap after shared format-calendar consumer wiring is **Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence → Prediction Accuracy maturation → Release Hardening → Collection later**.

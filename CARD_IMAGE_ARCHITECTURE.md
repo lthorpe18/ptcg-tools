@@ -1,96 +1,124 @@
 # PTCG Tools — Exact Card Image Presentation
 
-**Status:** Shared presentation architecture  
-**Date:** 4 September 2026  
+**Status:** Current shared presentation architecture  
+**Date:** 13 September 2026  
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `CARD_SEARCH_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `PERFORMANCE_ARCHITECTURE.md`
 
 ## Purpose
 
-PTCG Tools may display Pokémon TCG card artwork anywhere an exact parsed card is already known. Artwork is presentation only and must never create or alter Deck, DeckVersion, Collection or card identity.
+PTCG Tools may display Pokémon TCG card artwork anywhere an exact printing is already known. Artwork is presentation only and must never create or alter Deck, DeckVersion, Collection, legality or card identity.
 
-## Shared resolver
+---
 
-The single intended shared browser artwork resolver is:
+## 1. Shared resolver
 
-`v2-preview/apps/_shared/card-images.js`
+The single intended browser artwork resolver is:
 
-Feature code should not construct card-art URLs or choose artwork providers independently. Deck lists, saved versions, Card Search, Add Card, zoomed card views, Mobile Playtest and future Collection presentation should all delegate artwork resolution to this helper.
+`v2-preview/apps/_shared/card-images.js` → `window.PTCGCardImages`
 
-The resolver uses the following source order:
+Feature code should not independently construct card-art URLs or choose providers.
 
-1. **Exact Limitless-hosted TPCI artwork** when the exact PTCGL/Limitless set code + card number can be resolved.
-2. **TCGdex artwork fallback** when an exact Limitless/TPCI presentation URL cannot be resolved or fails to load.
-3. Stable no-art fallback when neither source is available.
+Current source/fallback direction:
 
-TCGdex remains a card metadata/search dependency. Its image field is not a separate presentation architecture; it is an input/fallback consumed by the shared artwork resolver.
+1. exact Limitless-hosted TPCI artwork when exact set code + card number resolves;
+2. TCGdex artwork fallback;
+3. stable no-art fallback.
 
-The resolver owns:
+The resolver owns provider choice, exact-print URL construction, fallback registration and reusable thumbnail presentation.
 
-- exact `SET + card number` Limitless/TPCI URL construction;
-- TCGdex artwork fallback URL construction;
-- async resolution from TCGdex card identity to the existing exact Deck printing identity where possible;
-- provider fallback registration and failed-image handling;
-- reusable thumbnail markup.
+---
 
-## Identity boundary
+## 2. Identity boundary
 
-Canonical identity continues to come from the existing Deck parser/store model:
+Canonical card identity continues to come from the existing Deck/card model:
 
-- Deck working list: `Deck.rawText` + canonical `listHash`;
-- saved exact list: `DeckVersion.rawText` + immutable `listHash`;
-- exact card printing where available: parsed `set` + `number`.
+- exact card name;
+- set code;
+- card number;
+- Deck working-list/listHash identity;
+- immutable DeckVersion/listHash identity.
 
-Card Search may use TCGdex IDs and metadata to discover a printing, but presentation must resolve back through the shared exact-print identity path before choosing the primary artwork source.
+Card Search may use TCGdex IDs/metadata for discovery, but discovered printings resolve back into the existing exact-print identity before Deck mutation/presentation.
 
-Image availability, URL resolution or failed loading must never affect those identities.
+Image availability or provider failure must never affect identity.
 
-## Decks and Card Search presentation
+### Regulation mark / legality boundary
 
-The primary mutable Deck list displays small lazy-loaded thumbnails alongside existing editable rows.
+TCGdex card metadata may also supply an individual printing's `regulationMark` for legality resolution. That metadata is **not image identity** and must remain independent from artwork choice.
 
-Saved DeckVersions expose an inline read-only exact-list viewer using the same parser and shared card-image helper. Viewing a version does not load or mutate the working list; the existing “Use as working list” action remains explicit.
+The shared format resolver, not `PTCGCardImages`, decides legality from the card printing's regulation mark and date/environment context.
 
-Card Search and Add Card use the same shared artwork resolver. Search metadata comes from TCGdex, but exact-print Limitless/TPCI artwork is preferred whenever the printing can be mapped. TCGdex artwork is fallback presentation only.
+---
 
-Normal Card Search shows image-only results and a large zoomed card view. Those surfaces must use the same artwork resolution order rather than choosing provider-specific URLs independently.
+## 3. Consumers
 
-No separate card-list representation is introduced.
+The shared resolver is the intended artwork source for:
+
+- Deck working lists;
+- saved DeckVersions;
+- Card Search;
+- Add Card;
+- zoomed card views;
+- Mobile Playtest;
+- future Collection.
+
+No consumer should create a separate card-list representation merely to display art.
+
+---
+
+## 4. Card Search presentation
+
+Normal Card Search uses image-led results and a large zoomed exact-card view. Add Card uses the same underlying exact-print artwork path.
+
+TCGdex is the metadata/search provider, but provider-specific image URLs remain an implementation detail of the shared resolver.
 
 See `CARD_SEARCH_ARCHITECTURE.md`.
 
-## Mobile Playtest consolidation state
+---
 
-Mobile Playtest historically derived Limitless-hosted TPCI artwork through local set-code/card-number/image URL helpers.
+## 5. Mobile Playtest consolidation
 
-The architecture lock is now that Playtest should consume `PTCGCardImages` like other card-art surfaces. If current Playtest code still contains equivalent local resolver helpers, treat that as small technical debt to remove during a bounded cleanup or Release Hardening pass rather than as a second accepted artwork architecture.
+Mobile Playtest historically included local Limitless URL helpers.
 
-Do not change Playtest card identity/state semantics as part of that cleanup; only presentation resolution should be consolidated.
+The architecture lock is that Playtest should consume `PTCGCardImages` like other card-art surfaces. Any equivalent local helpers that still remain are Release Hardening debt, not a second accepted artwork architecture.
 
-## Performance and caching
+Do not change Playtest card identity/state semantics as part of that consolidation.
 
-- Deck/list thumbnails are secondary imagery and use native lazy loading.
-- Card artwork keeps ordinary browser/service-worker caching behavior.
-- No card-image cache-busting tokens are added to image URLs.
-- Resolver JavaScript assets may be versioned when implementation changes.
-- Broken primary images retry the registered fallback provider without changing card identity.
-- Broken/unresolved images preserve thumbnail dimensions and fall back without destabilising the row.
-- Mobile Playtest retains eager loading for immediately visible tabletop art and lazy loading for secondary/search imagery as defined in `PLAYTEST_ARCHITECTURE.md`.
+---
 
-## Current implementation notes / small debt
+## 6. Performance and caching
 
-The shared resolver exists and is used by Deck working-list and saved-version presentation. Card Search artwork is currently decorated through the Decks Card Search enhancement path, including a follow-up GLC patch that wraps catalog image behavior.
+- secondary list/search thumbnails may use native lazy loading;
+- immediately visible Playtest tabletop art may load eagerly;
+- card artwork keeps ordinary browser/service-worker caching;
+- no per-session cache-busting token is added to image URLs;
+- broken primary images may retry the registered fallback without changing card identity;
+- unresolved artwork should preserve layout dimensions.
 
-Accepted cleanup direction:
+---
 
-- make `PTCGCardImages` the direct shared dependency of Card Search rather than relying on follow-up monkey-patching;
-- keep provider/source selection out of feature-local code;
-- audit and remove duplicated Playtest artwork helpers when safe;
-- centralise exact-print/set-code fallback knowledge in the shared card catalog/resolver rather than copying mappings across features.
+## 7. Current cleanup debt
 
-These are cleanup items, not blockers for Collection unless a real artwork/identity regression appears.
+Small Release Hardening items remain:
 
-## Future Collection boundary
+- ensure Card Search directly depends on `PTCGCardImages` rather than follow-up monkey-patch/decorator paths;
+- remove duplicated Playtest artwork helpers when safe;
+- centralise set-code/exact-print fallback knowledge in shared card infrastructure;
+- remove obsolete enhancement layers only after equivalent core behaviour is proven.
 
-Future Collection must reuse this presentation helper to show exact artwork consistently. It must also reuse the existing exact-print Deck/card identity and shared Card Catalog rather than creating a new card database.
+These are cleanup tasks rather than current feature milestones.
 
-This architecture does not define or store owned quantities, allocations, missing cards, shopping lists or Collection persistence.
+---
+
+## 8. Future Collection boundary
+
+Future Collection must reuse:
+
+- existing exact-print identity;
+- `PTCGCardCatalog` for metadata/search;
+- `PTCGCardImages` for artwork;
+- the shared format/card-legality resolver where legality context is needed.
+
+This architecture does not define owned quantities, allocations, missing cards or Collection persistence.
+
+Collection remains deferred until explicitly reopened.
