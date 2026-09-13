@@ -70,8 +70,8 @@ test('date fields are visibly editable without adding another row of controls',(
   assert.match(js,/title="Tap to edit release date"/);
   assert.match(js,/title="Tap to edit Online legality date"/);
   assert.match(js,/title="Tap to edit IRL legality date"/);
-  assert.match(css,/\.format-date-control\{position:relative\}/);
-  assert.match(css,/\.format-date-control::after\{content:'✎'/);
+  assert.match(css,/\.format-date-control\{position:relative;min-width:0\}/);
+  assert.match(css,/\.format-date-control>span::after\{content:'✎'/);
   assert.match(css,/\.format-date-fields input\{[^}]*cursor:pointer/s);
 });
 
