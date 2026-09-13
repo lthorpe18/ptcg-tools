@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-13T16:36:38.057Z",
+  "generatedAt": "2026-09-13T18:56:24.283Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6aa6aff4f1243e65f980012c",
-      "source": "limitless",
-      "sourceId": "6aa6aff4f1243e65f980012c",
-      "name": "Pokemon TCG Katowice #16",
-      "url": "https://play.limitlesstcg.com/tournament/6aa6aff4f1243e65f980012c/details",
-      "startAt": "2026-09-13T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -84,6 +74,16 @@
       "sourceId": "6aa26770a4272c53be64cba7",
       "name": "👑CrownOfSpain 👑 #7 (10€ paypal)",
       "url": "https://play.limitlesstcg.com/tournament/6aa26770a4272c53be64cba7/details",
+      "startAt": "2026-09-14T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa6db0938886b36383beef2",
+      "source": "limitless",
+      "sourceId": "6aa6db0938886b36383beef2",
+      "name": "Pumpkaweekly",
+      "url": "https://play.limitlesstcg.com/tournament/6aa6db0938886b36383beef2/details",
       "startAt": "2026-09-14T18:00:00.000Z"
     },
     {
