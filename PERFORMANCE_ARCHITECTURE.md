@@ -1,27 +1,24 @@
 # PTCG Tools — Performance Architecture
 
 **Status:** Current production source of truth  
-**Date:** 4 September 2026
+**Date:** 13 September 2026  
+**Companion to:** `PTCG_TOOLS_MASTER.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`
 
 ## Purpose
 
-This document records the performance decisions established during the September 2026 app-performance pass, Mobile Playtest performance consolidation and the Tournament Day cache/navigation regression investigation. It is a companion to `PTCG_TOOLS_MASTER.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `PLAYTEST_ARCHITECTURE.md` and `TOURNAMENT_DAY_ARCHITECTURE.md`.
+This document records the performance and application-lifecycle decisions established during the September 2026 shell, Playtest, cache and Meta-release work.
 
-Consult it before changing global navigation, caching, app-shell behaviour, shell-owned sync or Playtest/Tournament Day rendering.
+Consult it before changing global navigation, caching, shell-owned sync, Home activation, Meta release loading, Playtest rendering or Tournament Day rendering.
 
 ## Core performance principle
 
 The dominant recurring performance failure mode has been unnecessary **document lifecycle churn** rather than raw computation.
 
-Examples observed:
+Durable rule:
 
-- switching Home / Meta / Decks / Compete / Tools via full-document navigation;
-- Playtest helper layers calling `location.reload()` after ordinary tabletop mutations;
-- a service worker returning stale cached navigation HTML before the network, causing newer code to appear to regress to an older UI generation.
+> **Routine interaction should preserve the active application/document where practical, render state changes in place, and use caching to accelerate rather than override the current online application.**
 
-The durable principle is:
-
-> **Routine interaction should preserve the active application/document where practical, render state changes in place, and use caching to accelerate—not override—the current online application.**
+---
 
 ## 1. Persistent production shell
 
@@ -29,266 +26,237 @@ The production app keeps the five core areas mounted after first load:
 
 **Home · Meta · Decks · Compete · Tools**
 
-Section switching changes the active child view rather than cold-starting a new top-level document each time. Only the active/requested area is loaded; the shell no longer starts every other feature on fixed timers during Home launch.
+Section switching changes the active child view rather than cold-starting a new top-level document every time.
+
+Already-loaded areas remain immediately available; unopened areas load on demand.
 
 This provides:
 
-- immediate repeat navigation once areas have loaded;
+- fast repeat navigation;
 - retained feature state;
-- retained already-open areas without paying their startup cost on every app launch;
-- reduced repeated bootstrap/data work.
+- less repeated bootstrap/data work;
+- lower perceived latency on iPhone.
 
-The current persistent-child-view architecture is a pragmatic migration path over the existing plain HTML/CSS/JS feature pages. A future shared-DOM/router shell is allowed only if it preserves or improves the measured iPhone experience.
+The current persistent-child-view architecture is a pragmatic migration path over plain HTML/CSS/JS. A future router/shared-DOM rewrite is justified only if measured user experience improves.
+
+---
 
 ## 2. Shell-owned account sync
 
 Google account reconciliation belongs to the **top-level persistent shell**, not to one feature child view.
 
-Current sync may react to:
+Sync may react to:
 
 - durable local personal-data changes;
 - reconnect/online events;
 - focus/foreground/resume signals.
 
-Do not move the only sync controller into one feature page.
+Do not move the only sync controller into an individual feature page.
+
+---
 
 ## 3. OAuth exception
 
-External OAuth must escape embedded child views.
+External OAuth deliberately escapes embedded child views and navigates at top level.
 
-Google authentication is a deliberate top-level navigation because Google blocks the embedded authentication flow used by the persistent shell.
+This remains an intentional exception to the normal “stay inside the shell” rule.
 
-This is an exception to the normal “stay inside the shell” navigation rule and must remain available for future providers/external flows that prohibit embedding.
+---
 
-## 4. Service-worker architecture
+## 4. Service-worker and cache architecture
 
-### 4.1 Static/generated assets
+### Static/generated assets
 
-Suitable static assets and generated JSON may use stale-while-revalidate caching.
+Suitable static assets and generated shared JSON may use cache-friendly strategies such as stale-while-revalidate when correctness is preserved.
 
-Useful cache targets include:
+Versioned JS/CSS should use deliberate version bumps when behaviour changes.
 
-- shell/static CSS and JS;
-- generated shared data;
-- card/sprite images where source/usage allows;
-- pre-cached primary app entry surfaces.
+### Navigation/document HTML — network first
 
-Versioned assets should use deliberate version bumps when behavior changes.
+Application/navigation HTML is **network-first with cached fallback**.
 
-### 4.2 Navigation HTML — network first
-
-As of 4 September 2026, **navigation/document HTML is network-first with cached fallback**.
-
-This supersedes the earlier stale-while-revalidate navigation behavior.
-
-Reason: the previous service worker could return an old cached Tournament Day document immediately and only fetch the new document in the background. This made the user see a newer UI, navigate elsewhere, then reopen an apparently “regressed” older UI even though GitHub Pages had already deployed the new code.
+Reason: stale-first document caching previously caused newer deployed code to appear to regress to an older application generation.
 
 Current rule:
 
-1. for online navigation, request the current HTML from the network first;
-2. cache a successful current response;
-3. use cached HTML only when the network is unavailable/fails.
+1. request current HTML from the network when online;
+2. cache a successful response;
+3. fall back to cached HTML only when the network is unavailable/fails.
 
-The service-worker cache generation was bumped from `ptcg-tools-v17` to `ptcg-tools-v18` for this transition.
+Do not restore stale-first navigation without an explicit offline-first requirement and direct regression testing.
 
-Do not restore cache-first/stale-first navigation without a specific offline-first product requirement and direct testing that it cannot serve obsolete application generations during ordinary online use.
+### No scattered build pins
 
-### 4.4 Meta release cache
+Internal routes use semantic current URLs rather than feature-specific dated `?build=` parameters.
 
-Shared Meta evidence is built centrally by scheduled ingestion and published as a content-addressed, purpose-split release. Home and Meta initially load only the manifest plus `core.json`; history, matchup and result payloads load on demand.
+Cache invalidation belongs to service-worker strategy and asset versioning, not scattered navigation tokens.
 
-Validated release files use a dedicated Cache Storage cache. The active manifest pointer is small local metadata, not a copy of the dataset in `localStorage`. A new release becomes active only after its core validates, and the current/previous releases are retained as last-known-good offline fallbacks.
+---
 
-Normal browsers must not call Limitless tournament APIs. They read prepared GitHub Pages assets; Supabase is not the shared Meta warehouse at the present scale.
+## 5. Meta release delivery
 
-Prediction releases also write a repository-backed immutable archive. Snapshot files are content-addressed and never rewritten; a small index records each successful publication time. This archive is pipeline evidence for later accuracy scoring and is not loaded by normal Home/Meta startup.
+Shared Meta evidence is prepared centrally and published as content-addressed releases.
 
-The scheduled accuracy engine reads that archive and IRL major fields, then writes content-addressed actual/evaluation revisions. Its index remains separate from the startup release, so Home and routine Meta use pay no payload or calculation cost until the Prediction accuracy UI explicitly requests it.
+Normal Home/Meta startup loads only the small release manifest/core required for current navigation/context. Heavy matchup/results/history payloads load on demand.
 
-Prediction Accuracy preserves that boundary in the browser: the route loads its small index only on activation and loads referenced actual/evaluation revisions on demand. Requests bypass a potentially stale service-worker copy so a newly scored major appears without changing the normal Meta release or startup path.
+A new release becomes active only after validation; current/previous validated releases remain available as last-known-good fallbacks.
 
-### Checkpoint 2 release compatibility (merged)
+Normal browsers must not perform tournament ingestion themselves.
 
-Schema 2 labels Online and IRL independently and validates each payload against its manifest source format. Historical format packages remain published; archived cores and heavy evidence load on demand instead of growing the startup core. Network deadlines include response-body reads. Stale asynchronous evidence and startup callbacks cannot replace a newly selected format/release. Checkpoint 2 merged in PR #8; see `META_FORMATS_CHECKPOINT_2.md`.
+Prediction snapshots/accuracy archives remain separate from normal startup payloads and load only when the Prediction Accuracy surface requests them.
 
-### Checkpoint 4 Home release freshness (review pending)
+### Format-transition safety
 
-Home consumes the canonical current Online-target calculation from the same prepared release as Meta. It loads only retained IRL archive cores required for the eligible transition prior; heavy matchup/result payloads remain deferred. Prediction loads carry a generation token so an older asynchronous release cannot repaint Home after a newer release arrives.
+Online and IRL format-labelled evidence is validated against its target format. Stale asynchronous evidence must not replace a newer selected release/format/context.
 
-The persistent shell sends a lightweight activation message when an already-mounted Home frame becomes active. Home responds by asking the shared release loader to check the manifest; it does not reload the page, rebuild a second store or call upstream tournament APIs. This closes the warm-return stale-chart gap while preserving mounted-area performance.
+Generation/request guards remain required where a late async response could repaint a newer state.
 
-Checkpoint 4 also bumps the Home document/static asset references and service-worker cache generation to `ptcg-tools-v29`. This is required because an iPhone can resume a mounted child document across a deployment; data or versioned scripts alone must not create a mixed old-HTML/new-runtime page.
+---
 
-### 4.3 Query-string cache behavior
+## 6. Home warm-return freshness
 
-Historic development links such as `?build=YYYY...` were used to try to force fresh Tournament Day loads. They became dangerous because different entry points could pin different application generations, and the older service worker normalized navigation cache keys anyway.
+Home is a mounted child view and may survive deployments/data changes while inactive.
 
-Current direction:
+When an already-mounted Home becomes active, the shell sends a lightweight activation signal. Home may then ask shared release/calendar loaders to refresh derived state.
 
-- internal navigation should point to the canonical current page, e.g. `tournament-day.html?participation=<id>`;
-- do not scatter dated build IDs across features;
-- static JS/CSS versioning and correct service-worker strategy own cache invalidation;
-- any temporary development token must have one explicit owner and be removed during release hardening.
+Do not reload the page, create a second Home store or hit upstream tournament APIs merely to refresh current context.
 
-## 5. Mobile Playtest in-place rendering
+The next shared format-calendar consumer package should follow the same model: refresh/resolve through the shared calendar store and canonical resolver rather than creating Home-local format logic.
 
-Ordinary Playtest actions follow the core path:
+---
+
+## 7. Mobile Playtest rendering
+
+Ordinary Playtest actions follow:
 
 **mutate → push Undo snapshot → change state → persist → clear selection → render in place**
 
 Do not use `location.reload()` for routine tabletop interactions.
 
-This applies to:
-
-- markers/status;
-- prize taking;
-- Hand multi-select/bulk movement;
-- discard/deck/lost moves;
-- damage;
-- attachments/evolution;
-- Stadium replacement;
-- Deck search/shuffle/draw;
-- turn advance and automatic start-of-turn draw.
+This applies to markers, prizes, multi-select moves, damage, attachments/evolution, Stadium replacement, Deck search/shuffle/draw and turn advance.
 
 Grouped actions remain one logical mutation / one Undo step.
 
-## 6. Mobile Playtest image policy
+---
 
-Eager-load immediately visible main-tabletop art:
+## 8. Mobile Playtest image policy
+
+Eager-load immediately visible primary tabletop art where appropriate:
 
 - Hand;
 - Active;
 - Bench;
 - Stadium;
-- visible Prize inspection where appropriate.
+- visible Prize inspection.
 
-Keep secondary/search/list thumbnails lazy where appropriate.
+Keep secondary/search/list thumbnails lazy where practical.
 
-The goal is stable primary interaction without needlessly eager-loading every secondary image.
+Card-art provider/fallback choice should remain centralized through shared card-image infrastructure rather than feature-local resolvers.
 
-## 7. Mobile Playtest cache-busting
+---
 
-Playtest uses a fresh `_pt=<timestamp>` launch token for local Playtest assets/navigation.
+## 9. Shell / child viewport boundary
 
-The service worker bypasses `_pt` requests rather than normalizing the token away.
+The visible five-item global navigation belongs to the **outer persistent shell**.
 
-Card images remain normally cacheable.
+Child views must not reserve/own a second global-nav height or render a duplicate bottom nav.
 
-This remains a Playtest-specific mechanism; do not generalize it into dated build strings throughout the application.
+This applies to Home, Playtest, Settings drill-in pages and Compete/Tournament Day child navigation.
 
-## 8. Shell / Playtest viewport boundary
+---
 
-The visible five-item navigation belongs to the **outer persistent shell**.
+## 10. Tournament Day and Game Log rendering
 
-Playtest does not reserve/own a second global-nav height and does not load a duplicate bottom nav.
+Tournament Day should update current record/round history in place after Match changes rather than reloading the document.
 
-Its Hand tray anchors to the bottom of its own bounded child viewport.
+Game Log is a derived browser over canonical Match/Game evidence and should likewise render/filter the existing evidence rather than duplicate/persist a second log model.
 
-## 9. Tournament Day rendering and shared services
+Tournament rows route to Tournament Day; training rows remain editable through the training workflow. These are navigation decisions over shared data, not separate persistence systems.
 
-Tournament Day should update its current record/round history in place after Match changes rather than reloading the document.
+---
 
-Cross-feature presentation/data helpers should be reused rather than duplicated. The September 4 sprite issue demonstrated this clearly: Tournament Day had independently inferred archetype sprites instead of consuming the shared `DeckSprites` engine used by Settings/Meta.
+## 11. Shared-engine rule
 
-Performance and correctness both benefit from one shared implementation because duplicate helper stacks increase:
+Performance and correctness both benefit from one shared implementation.
 
-- script cost;
-- maintenance cost;
-- inconsistent behavior;
-- stale-code/cache confusion;
-- re-render races.
+If a cross-app concern already has a shared engine, consume that engine first. Local fallbacks may exist only for genuinely unsupported data, not as a second primary implementation.
 
-Architecture rule:
+Current examples:
 
-> If a cross-app concern already has a shared engine, consume that engine first. A local fallback may exist only for genuinely unsupported data, not as a second primary implementation.
+- `DeckSprites.html()`;
+- shared card catalog/images;
+- `PTCGMatchStore`;
+- `PTCGMetaField` / `PTCGRecommendation`;
+- shared format resolver/calendar store;
+- Season engine;
+- Cut / ID engine.
 
-## 10. Current performance status
+Duplicate helper stacks increase script cost, maintenance cost, drift and stale-code/cache confusion.
 
-Real iPhone testing after the persistent-shell pass reported navigation as **much, much snappier**.
+---
 
-Mobile Playtest’s card-art popping regression was resolved by removing full-page reloads from ordinary actions.
+## 12. Current performance status
 
-Tournament Day’s apparent saved-state/UI regression was traced to stale navigation HTML served by the application service worker and corrected by making online document navigation network-first.
+Current established state:
 
-Therefore:
+- persistent-shell navigation is accepted and materially faster on real iPhone testing;
+- Mobile Playtest ordinary actions render in place;
+- navigation HTML stale-cache regression is resolved architecturally through network-first documents;
+- normal browsers do not run Meta ingestion;
+- Home warm-return refresh uses lightweight shared-runtime activation rather than reloads;
+- Settings has moved to compact hub + focused subpages without changing the five-area shell boundary;
+- Game Log reuses canonical Match/Game evidence rather than creating a second data path.
 
-- **navigation-performance milestone is complete**;
-- **Mobile Playtest in-place rendering regression is resolved**;
-- **navigation HTML cache regression is resolved architecturally as of 4 September 2026**;
-- **Meta launch no longer performs browser-side tournament ingestion or fixed background startup of every top-level area**;
-- further performance work is not the next product milestone unless a material user-visible regression appears.
+Performance is an established foundation, not the current roadmap milestone unless a material user-visible regression appears.
 
-## 11. Architecture lock
+---
 
-Future shell/router/performance work must preserve:
+## 13. If performance work is reopened
 
-1. already-loaded core areas remain immediately available, while unopened areas are loaded on demand;
+Diagnose before changing architecture:
+
+- **initialisation cost** — first load of an area;
+- **navigation cost** — switching mounted sections;
+- **data cost** — network/cache/parse cost;
+- **rendering cost** — DOM/layout/main-thread work;
+- **sync cost** — reconciliation competing with interaction;
+- **mutation cost** — unnecessary reload/re-render;
+- **asset freshness** — mixed or stale HTML/JS/CSS generations;
+- **service-worker lifecycle** — old worker/cache controlling current clients.
+
+Measure first. Do not assume every delay is network latency or every stale UI is state corruption.
+
+---
+
+## 14. Architecture lock
+
+Future work must preserve:
+
+1. already-loaded core areas remain immediately available;
 2. routine section switching does not cold-start each feature;
 3. feature state survives normal navigation where practical;
 4. perceived iPhone performance is at least as good as the current shell;
-5. account/session sync retains an application-level lifecycle;
-6. external OAuth can navigate at top level;
-7. ordinary Playtest actions remain in-place and Undo-consistent;
-8. Playtest cache-busting keeps local Playtest code fresh without disabling useful image caching;
-9. the outer shell remains sole owner of the five-item global mobile navigation;
-10. online navigation HTML must not preferentially serve a stale cached application generation;
-11. cross-app helpers such as deck/archetype sprite mapping remain centralized rather than repeatedly reimplemented.
+5. account sync remains application-level;
+6. OAuth can escape to top-level navigation;
+7. ordinary Playtest/Tournament Day interactions remain in-place;
+8. the outer shell remains sole owner of global bottom navigation;
+9. online navigation HTML does not preferentially serve stale app generations;
+10. async release/format responses cannot overwrite a newer selected context;
+11. shared concerns remain centralized rather than repeatedly reimplemented.
 
-## 12. If performance work is reopened
+---
 
-Diagnose the category before changing architecture:
+## 15. Release-hardening requirement
 
-- **Initialisation cost** — first load/warm-up of Meta, Decks, Compete, etc.;
-- **Navigation cost** — switching between already-loaded sections;
-- **Data cost** — network latency, large JSON, cache misses, parsing;
-- **Rendering/main-thread cost** — DOM/layout/synchronous analysis;
-- **Sync cost** — account reconciliation competing with interaction;
-- **Mutation cost** — unnecessary re-renders/reloads;
-- **Asset freshness** — stale JS/CSS/HTML masquerading as a runtime bug;
-- **Service-worker lifecycle** — an old worker/cache generation controlling the client.
+Before stable/public-ready release:
 
-Measure/diagnose before optimising. Do not assume every delay is network latency and do not assume every UI regression is state corruption.
+- search for stale dated `build=` links;
+- remove obsolete compatibility/enhancer layers after parity is proven;
+- verify one canonical implementation per shared concern;
+- review service-worker precache and version strategy;
+- verify network-first documents with offline fallback;
+- verify shared format-calendar refresh/fallback behaviour;
+- verify current deployment SHA;
+- retest installed-iPhone navigation and warm-return behaviour.
 
-Potential future work only if justified:
-
-- instrument transition/first-load timings;
-- reduce Meta first-entry startup cost;
-- adaptive background warming;
-- consolidate shared runtime/data caches;
-- keep cloud reconciliation asynchronous/lightweight;
-- migrate from persistent child views to a shared-DOM shell only with clear product/performance benefit;
-- consolidate temporary feature enhancer layers during release hardening.
-
-## 13. Release-hardening requirement
-
-Before a stable/public-ready release, perform a deliberate cache/runtime cleanup pass:
-
-- search repository-wide for dated `build=` links and stale development route pins;
-- remove obsolete compatibility/enhancer code where behavior has moved into core;
-- verify one canonical shared engine for reusable cross-app concerns;
-- review service-worker pre-cache contents and generation/version strategy;
-- ensure navigation remains network-first online with offline cached fallback;
-- verify current deployment SHA before acceptance;
-- retest iPhone/home-screen navigation after service-worker changes.
-
-## Relationship to roadmap
-
-Performance is an established foundation, not the current feature milestone.
-
-Product work should continue through:
-
-**Analyse → Build & Test → Prepare → Compete → Learn**
-
-See `TOURNAMENT_DAY_ARCHITECTURE.md` for the current Compete implementation contract, `PLAYTEST_ARCHITECTURE.md` for Mobile Playtest and `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md` for account/public-ready boundaries.
-
-## Checkpoint 5 — Explicit-format WSIP requests
-
-WSIP reuses the canonical prediction and recommendation engines. Matchup requests are cached/deduplicated by release, environment and target format without mutating browsing selections. Generation guards prevent late target completion from replacing active status; stale-release payloads are discarded. Failed loads have an explicit retry. Persistent listeners are bound once. Seven behavioural scenarios, including repeated switches and failure recovery, pass within the 110-test suite. Local browser access is blocked; visual acceptance remains pending in `WSIP_CHECKPOINT_5.md`.
-
-## Checkpoint 6 detail ownership
-
-Exact-detail routes carry immutable same-tab field context IDs. The router restores fields only when entering WSIP with a different context, avoiding repeated mounted-return overwrites. Detail observed scopes do not mutate browsing or field evaluation scope. Result/H2H payloads are cached separately by release/source/format; callbacks check active exact variant/context/source. Six new integrated scenarios bring the suite to 116 passing tests. Visual acceptance is pending because local browser navigation is blocked.
-
-## Checkpoint 8 Event Prep consumption
-
-Prep reuses the existing release loader, Meta core, canonical Blended prediction and explicit-format WSIP evidence APIs. It loads the maintained calendar once with an eight-second request timeout and validated local fallback. Missing evidence does not block personal deck planning. Field switches and retries render within the same document; request generations reject delayed obsolete results. Release updates may refresh untouched automatic suggestions but never overwrite saved choices, unsaved edits or locked snapshots. No new shell/navigation ownership or event ingestion is introduced.
+Performance hardening should reduce lifecycle/cache drift, not trigger a framework rewrite for its own sake.
