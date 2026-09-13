@@ -45,15 +45,16 @@ test('blank dates map to internal unknown facts while a listed undated set remai
   assert.doesNotMatch(js,/statusOptions|factStatus|validateStatusDate/);
 });
 
-test('maintenance flow is admin-gated and explicitly uses draft then publish operations',()=>{
+test('maintenance is admin-gated and exposes one Save changes action instead of draft and publish workflow',()=>{
   assert.match(js,/PTCGFormatCalendar/);
   assert.match(js,/api\.isAdmin\(\)/);
-  assert.match(js,/PTCGFormatCalendar\.createDraft/);
-  assert.match(js,/PTCGFormatCalendar\.updateDraft/);
-  assert.match(js,/PTCGFormatCalendar\.publish/);
-  assert.match(js,/Published data is unchanged until you publish/);
-  assert.match(html,/id="saveFormatDraft"/);
-  assert.match(html,/id="publishFormatDraft"/);
+  assert.match(js,/async function saveChanges/);
+  assert.match(js,/PTCGFormatCalendar\.createDraft\(registry,note\)/);
+  assert.match(js,/PTCGFormatCalendar\.publish\(draft\.id\)/);
+  assert.match(js,/setMessage\('Saved\.'\)/);
+  assert.match(html,/id="saveFormatCalendar"[^>]*>Save changes</);
+  assert.doesNotMatch(html,/id="saveFormatDraft"|id="publishFormatDraft"/);
+  assert.doesNotMatch(js,/draftRow|saveDraft|publishDraft|Update draft|Published data is unchanged/);
 });
 
 test('maintenance keeps set marks unknown and derives a rotation boundary only from legal card regulation marks',()=>{
@@ -62,6 +63,16 @@ test('maintenance keeps set marks unknown and derives a rotation boundary only f
   assert.match(js,/regulation marks must be single letters/);
   assert.match(js,/rotation=\{lowestMark:legal\[0\],regulationMarks:legal\}/);
   assert.match(js,/PTCGFormatCalendar\.validateRegistry\(next,window\.PTCGFormat\)/);
+});
+
+test('date fields are visibly editable without adding another row of controls',()=>{
+  assert.match(js,/class="format-date-control"/);
+  assert.match(js,/title="Tap to edit release date"/);
+  assert.match(js,/title="Tap to edit Online legality date"/);
+  assert.match(js,/title="Tap to edit IRL legality date"/);
+  assert.match(css,/\.format-date-control\{position:relative\}/);
+  assert.match(css,/\.format-date-control::after\{content:'✎'/);
+  assert.match(css,/\.format-date-fields input\{[^}]*cursor:pointer/s);
 });
 
 test('Formats and Sets is compact on normal iPhone widths',()=>{
