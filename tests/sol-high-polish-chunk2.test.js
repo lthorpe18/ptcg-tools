@@ -15,11 +15,11 @@ test('shared archetype catalog owns the reusable list and search widget',()=>{
   assert.match(source,/data-archetype=/);
 });
 
-test('Settings uses the canonical archetype catalog instead of rebuilding Meta names',()=>{
-  const html=read('v2-preview/apps/settings/index.html');
+test('Settings Deck icons page uses the canonical archetype catalog instead of rebuilding Meta names',()=>{
+  const html=read('v2-preview/apps/settings/deck-icons.html');
   const source=read('v2-preview/apps/settings/settings.js');
   assert.doesNotThrow(()=>new Function(source));
-  assert.ok(html.indexOf('archetype-catalog.js?v=3')<html.indexOf('settings.js?v=5'));
+  assert.ok(html.indexOf('archetype-catalog.js?v=3')<html.indexOf('settings.js?v=6'));
   assert.match(source,/PTCGArchetypes\?\.load/);
   assert.match(source,/PTCGArchetypes\?\.mergeSaved/);
   assert.match(source,/PTCGArchetypes\?\.all/);

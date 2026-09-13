@@ -8,6 +8,7 @@
   function spriteOptions(){return window.DeckSprites?.knownSlugs?.()||[]}
 
   async function loadNames(){
+    if(!$('deckIconList'))return;
     let saved=[];
     try{
       await window.PTCGDeckStore?.open?.();
@@ -75,24 +76,26 @@
     });
   }
 
-  function render(){
+  function renderIcons(){
+    const host=$('deckIconList');
+    if(!host)return;
     const q=($('deckIconSearch')?.value||'').trim();
     const overrides=window.DeckSprites?.overrides?.()||{};
     const filtered=q
       ?(window.PTCGArchetypes?.search?.(q,1000)||[]).map(row=>row.name)
       :names.filter(name=>Array.isArray(overrides[name])&&overrides[name].length);
-    $('deckIconList').innerHTML=filtered.length?filtered.map(rowHtml).join(''):`<div class="settings-empty">${q?'No archetypes match this search.':'No custom deck icons yet. Search for an archetype to customise its icon.'}</div>`;
+    host.innerHTML=filtered.length?filtered.map(rowHtml).join(''):`<div class="settings-empty">${q?'No archetypes match this search.':'No custom deck icons yet. Search for an archetype to customise its icon.'}</div>`;
     bindSpriteFields();
     document.querySelectorAll('[data-save-icon]').forEach(btn=>btn.addEventListener('click',()=>{
       const row=btn.closest('.deck-icon-row'); const name=row?.dataset.deckName;if(!name)return;
       const first=pokemonSlug(row.querySelector('[data-icon-one]')?.value);
       const second=pokemonSlug(row.querySelector('[data-icon-two]')?.value);
       window.DeckSprites?.setOverride?.(name,[first,second].filter(Boolean));
-      render();
+      renderIcons();
     }));
     document.querySelectorAll('[data-reset-icon]').forEach(btn=>btn.addEventListener('click',()=>{
       const name=btn.closest('.deck-icon-row')?.dataset.deckName;if(!name)return;
-      window.DeckSprites?.clearOverride?.(name);render();
+      window.DeckSprites?.clearOverride?.(name);renderIcons();
     }));
   }
 
@@ -116,9 +119,16 @@
     }catch(_){statusEl.textContent='Unavailable';statusEl.classList.add('is-offline');detailEl.textContent='Sync status could not be checked';}
   }
 
+  async function renderMaintenanceAccess(){
+    const section=$('maintenanceSection');
+    if(!section)return;
+    section.hidden=true;
+    try{section.hidden=!(await window.PTCGFormatCalendar?.isAdmin?.())}catch(_){section.hidden=true}
+  }
+
   async function exportAccountData(){
     const button=$('exportAccountData'),message=$('dataMessage');
-    if(!button||!window.PTCGCloud)return;
+    if(!button||!message||!window.PTCGCloud)return;
     button.disabled=true;message.textContent='Preparing backup…';message.classList.remove('is-error');
     try{
       const snapshot=await window.PTCGCloud.localSnapshot();
@@ -132,11 +142,13 @@
     finally{button.disabled=false;}
   }
 
-  $('deckIconSearch')?.addEventListener('input',render);
+  $('deckIconSearch')?.addEventListener('input',renderIcons);
   $('exportAccountData')?.addEventListener('click',exportAccountData);
-  ['ptcg:cloud-sync','ptcg:local-change','ptcg:auth-change'].forEach(name=>window.addEventListener(name,renderSyncStatus));
-  window.addEventListener('storage',()=>{loadNames().then(render);renderSyncStatus();});
+  ['ptcg:cloud-sync','ptcg:local-change'].forEach(name=>window.addEventListener(name,renderSyncStatus));
+  window.addEventListener('ptcg:auth-change',()=>{renderSyncStatus();renderMaintenanceAccess()});
+  window.addEventListener('storage',()=>{if($('deckIconList'))loadNames().then(renderIcons);renderSyncStatus();renderMaintenanceAccess();});
   window.addEventListener('online',renderSyncStatus);window.addEventListener('offline',renderSyncStatus);
-  loadNames().then(render);
+  if($('deckIconList'))loadNames().then(renderIcons);
   renderSyncStatus();
+  renderMaintenanceAccess();
 })();
