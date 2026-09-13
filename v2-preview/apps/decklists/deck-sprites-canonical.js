@@ -54,6 +54,19 @@ function renderTarget(target,label,size,slugs=[]){
   target.innerHTML=window.DeckSprites.html(label||'',{size,slugs});
 }
 
+function renderGameLog(map,force=false){
+  if(!window.PTCGMatchStore?.get)return;
+  document.querySelectorAll('#trainingList [data-match-id]').forEach(row=>{
+    const match=window.PTCGMatchStore.get(row.dataset.matchId);
+    const deck=match?.deckId?map.get(String(match.deckId)):null;
+    if(!deck)return;
+    const target=row.querySelector('.training-sprite-matchup .training-matchup-art');
+    if(!target)return;
+    if(force)delete target.dataset.canonicalDeckSprites;
+    renderTarget(target,deck.archetype||deck.name||match.deckNameSnapshot||'',38,spriteSlugs(deck));
+  });
+}
+
 async function render(force=false){
   style();
   const map=await decks();
@@ -70,6 +83,7 @@ async function render(force=false){
   const deckName=document.getElementById('deckName')?.value||'';
   if(force&&header)delete header.dataset.canonicalDeckSprites;
   renderTarget(header,archetype||deckName,44,inputSpriteSlugs());
+  renderGameLog(map,force);
 }
 
 function schedule(force=false){
