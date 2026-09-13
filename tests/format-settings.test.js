@@ -70,12 +70,12 @@ test('date fields are visibly editable without adding another row of controls',(
   assert.match(js,/title="Tap to edit release date"/);
   assert.match(js,/title="Tap to edit Online legality date"/);
   assert.match(js,/title="Tap to edit IRL legality date"/);
-  assert.match(css,/\.format-date-control\{position:relative;min-width:0\}/);
+  assert.match(css,/\.format-date-control\{position:relative;min-width:0;overflow:hidden\}/);
   assert.match(css,/\.format-date-control>span::after\{content:'✎'/);
   assert.match(css,/\.format-date-fields input\{[^}]*cursor:pointer/s);
 });
 
-test('Formats and Sets is compact on normal iPhone widths',()=>{
+test('Formats and Sets keeps all three date controls side by side on iPhone widths',()=>{
   assert.match(js,/format-set-identity/);
   assert.match(js,/format-date-fields/);
   assert.doesNotMatch(js,/format-helper/);
@@ -84,15 +84,16 @@ test('Formats and Sets is compact on normal iPhone widths',()=>{
   assert.match(js,/format-summary-meta/);
   assert.match(html,/class="format-notes-disclosure"/);
   assert.match(html,/class="format-maintenance-bar"/);
+  assert.match(html,/format-settings\.css\?v=6/);
   assert.match(css,/\.format-summary-grid\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/s);
   assert.match(css,/\.format-set-identity\{[^}]*grid-template-columns:76px minmax\(0,1fr\)/s);
-  assert.match(css,/\.format-date-fields\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/s);
-  assert.match(css,/@media\(max-width:350px\)[\s\S]*?\.format-date-fields\{grid-template-columns:1fr\}/);
-  assert.doesNotMatch(css,/@media\(max-width:520px\)[\s\S]*?\.format-date-fields\{grid-template-columns:1fr\}/);
+  assert.match(css,/\.format-date-fields\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)[^}]*column-gap:4px/s);
+  assert.doesNotMatch(css,/@media\(max-width:350px\)[\s\S]*?\.format-date-fields\{grid-template-columns:1fr\}/);
 });
 
-test('Formats and Sets controls remain iPhone-safe and cannot overflow their cards',()=>{
-  assert.match(css,/@media\(max-width:760px\)[^{]*\{[^}]*\.format-set-card input,[^}]*font-size:16px/s);
+test('native iOS date inputs are forced to shrink inside their grid tracks',()=>{
+  assert.match(css,/\.format-date-fields input\{[^}]*min-inline-size:0[^}]*max-inline-size:100%[^}]*-webkit-appearance:none[^}]*appearance:none/s);
+  assert.match(css,/\.format-date-fields input::-webkit-date-and-time-value\{min-width:0;text-align:center\}/);
   assert.match(css,/box-sizing:border-box/);
   assert.match(css,/max-width:100%/);
   assert.match(css,/\.format-set-card\{[^}]*overflow:hidden/s);
