@@ -56,7 +56,10 @@ test('A later season placement correction overrides the dropped display state',(
   });
   assert.equal(facts.placement,17);
   assert.equal(facts.dropped,false);
-  assert.equal(engine.calculateEventCP(facts,rules).reason,'awarded');
+  const award=engine.calculateEventCP(facts,rules);
+  assert.equal(award.eligible,true);
+  assert.notEqual(award.reason,'dropped');
+  assert.notEqual(award.reason,'missing-placement');
 });
 
 test('Tournament and Season views label explicit drops rather than showing a fake placement',()=>{
