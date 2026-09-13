@@ -66,6 +66,7 @@
     const placement=corrected('placement',completion.placement??completion.finalPlacement??null);
     const playerCount=corrected('playerCount',completion.playerCount??completion.finalPlayerCount??null);
     const seasonId=corrected('seasonId',row.seasonId||event.seasonId||null);
+    const resolvedPlacement=positiveInteger(placement.value);
 
     return {
       participationId:text(row.id),
@@ -73,7 +74,8 @@
       eventName:text(event.name)||text(completion.eventName),
       eventDate:dateOnly(event.startDate||event.date||completion.eventDate),
       eventType:canonicalEventType(eventType.value),
-      placement:positiveInteger(placement.value),
+      placement:resolvedPlacement,
+      dropped:completion.dropped===true&&!resolvedPlacement,
       playerCount:positiveInteger(playerCount.value),
       seasonId:text(seasonId.value),
       completedAt:text(completion.completedAt||completion.finishedAt||completion.timestamp),
@@ -113,6 +115,7 @@
 
   function calculateEventCP(facts,ruleset){
     if(!facts||!ruleset)return {eligible:false,cp:0,reason:'missing-input'};
+    if(facts.dropped)return {eligible:false,cp:0,reason:'dropped'};
     if(!facts.placement)return {eligible:false,cp:0,reason:'missing-placement'};
     if(!facts.eventType)return {eligible:false,cp:0,reason:'missing-event-type'};
     const rule=eventRule(ruleset,facts.eventType);
