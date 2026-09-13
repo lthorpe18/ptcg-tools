@@ -7,14 +7,13 @@
   const DATE_CONVENTION='calendar-day-inclusive';
   let publishedRow=null;
   let workingRegistry=null;
-  let draftRow=null;
   let isAdmin=false;
   let saving=false;
 
   function localDay(){
     const d=new Date();
     const pad=n=>String(n).padStart(2,'0');
-    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    return `${d.getFullYear()}-${pad(d.getMonth()+1,'0')}-${pad(d.getDate(),'0')}`;
   }
 
   function revisionStamp(){
@@ -48,8 +47,6 @@
     return {
       id:'',name:'',
       release:{value:null,status:'announced',sources:[],convention:DATE_CONVENTION},
-      // Set-level marks are intentionally not maintained. Standard legality is
-      // determined from each individual card printing's regulation mark.
       marks:{value:null,status:'unknown',sources:[]},
       legality:{
         online:{value:null,status:'unknown',sources:[],convention:DATE_CONVENTION},
@@ -73,7 +70,7 @@
     if(!el)return;
     if(!workingRegistry){el.innerHTML='<div class="settings-empty">Loading shared format calendar…</div>';return;}
     const context=currentContext(workingRegistry);
-    const version=draftRow?`Draft v${draftRow.version_number||'—'}`:publishedRow?.version_number?`Published v${publishedRow.version_number}`:'Published';
+    const version=publishedRow?.version_number?`Published v${publishedRow.version_number}`:'Published';
     const source=publishedRow?.source==='lkg'?'Last-known-good cache':publishedRow?.source==='fallback'?'Checked-in fallback':'Shared calendar';
     el.innerHTML=`<div class="format-summary-grid"><span><small>Status</small><b>${esc(version)}</b></span><span><small>Online</small><b>${esc(context.online)}</b></span><span><small>IRL</small><b>${esc(context.irl)}</b></span></div><details class="format-summary-meta"><summary>Calendar details</summary><p>${esc(source)} · revision ${esc(workingRegistry.revision||'—')}</p></details>`;
   }
@@ -92,9 +89,9 @@
         <label><span>Name</span><input data-set-name value="${esc(set.name||'')}" placeholder="Set name"></label>
       </div>
       <div class="format-date-fields">
-        <label><span>Release</span><input data-release-date type="date" value="${esc(release.value||'')}"></label>
-        <label><span>Online</span><input data-online-date type="date" value="${esc(online.value||'')}"></label>
-        <label><span>IRL</span><input data-irl-date type="date" value="${esc(irl.value||'')}"></label>
+        <label class="format-date-control"><span>Release</span><input data-release-date type="date" value="${esc(release.value||'')}" aria-label="Release date" title="Tap to edit release date"></label>
+        <label class="format-date-control"><span>Online</span><input data-online-date type="date" value="${esc(online.value||'')}" aria-label="Online legality date" title="Tap to edit Online legality date"></label>
+        <label class="format-date-control"><span>IRL</span><input data-irl-date type="date" value="${esc(irl.value||'')}" aria-label="IRL legality date" title="Tap to edit IRL legality date"></label>
       </div>
       <details class="format-rotation">
         <summary>${esc(rotationLabel)}</summary>
@@ -120,7 +117,6 @@
       const index=Number(card?.dataset.setIndex);
       if(!Number.isInteger(index))return;
       workingRegistry.sets.splice(index,1);
-      draftRow=null;
       renderSets();renderSummary();renderActions();
     }));
     list.querySelectorAll('input').forEach(input=>{input.disabled=!isAdmin||saving;});
@@ -162,9 +158,6 @@
       return {
         id,name,
         release:dateFact(original?.release,releaseDate,source,'announced',forceNew),
-        // Never infer or maintain regulation marks for an entire set. The card
-        // catalogue supplies each printing's mark and the format context supplies
-        // the currently legal marks.
         marks:{value:null,status:'unknown',sources:[]},
         legality:{
           online:dateFact(original?.legality?.online,onlineDate,source,'unknown',forceNew),
@@ -191,16 +184,14 @@
   function renderActions(){
     const admin=$('formatAdminControls');
     const access=$('formatAccessMessage');
-    const save=$('saveFormatDraft');
-    const publish=$('publishFormatDraft');
+    const save=$('saveFormatCalendar');
     const add=$('addFormatSet');
     if(admin)admin.hidden=!isAdmin;
     if(access){
       access.textContent=isAdmin?'Maintainer access · shared data':'Shared data · read only';
       access.classList.toggle('is-admin',isAdmin);
     }
-    if(save){save.disabled=!isAdmin||saving;save.textContent=saving?'Saving…':draftRow?'Update draft':'Save draft';}
-    if(publish)publish.disabled=!isAdmin||saving||!draftRow;
+    if(save){save.disabled=!isAdmin||saving;save.textContent=saving?'Saving…':'Save changes';}
     if(add)add.disabled=!isAdmin||saving;
   }
 
@@ -219,41 +210,26 @@
       publishedRow=await api.load();
       workingRegistry=clone(publishedRow.registry);
       isAdmin=await api.isAdmin().catch(()=>false);
-      draftRow=null;
       renderSummary();renderSets();renderActions();
-      setMessage(isAdmin?'Published calendar loaded. Make changes, save a draft, then publish when ready.':'Published calendar loaded.');
+      setMessage('');
     }catch(error){
       setMessage(error?.message||'Could not load the shared format calendar.',true);
       renderActions();
     }
   }
 
-  async function saveDraft(){
+  async function saveChanges(){
     if(!isAdmin||saving)return;
-    saving=true;renderActions();setMessage('Validating and saving draft…');
+    saving=true;renderActions();setMessage('Saving…');
     try{
       const {registry,note}=collectRegistry();
-      draftRow=draftRow
-        ?await window.PTCGFormatCalendar.updateDraft(draftRow.id,registry,note)
-        :await window.PTCGFormatCalendar.createDraft(registry,note);
-      workingRegistry=clone(draftRow.registry);
-      renderSummary();renderSets();
-      setMessage(`Draft v${draftRow.version_number||'—'} saved. Published data is unchanged until you publish.`);
-    }catch(error){setMessage(error?.message||'Could not save the format calendar draft.',true);}
-    finally{saving=false;renderActions();}
-  }
-
-  async function publishDraft(){
-    if(!isAdmin||saving||!draftRow)return;
-    saving=true;renderActions();setMessage('Publishing shared format calendar…');
-    try{
-      const row=await window.PTCGFormatCalendar.publish(draftRow.id);
+      const draft=await window.PTCGFormatCalendar.createDraft(registry,note);
+      const row=await window.PTCGFormatCalendar.publish(draft.id);
       publishedRow={source:'shared',...row};
       workingRegistry=clone(row.registry);
-      draftRow=null;
       renderSummary();renderSets();
-      setMessage(`Published v${row.version_number||'—'}. New sessions can now load this shared calendar.`);
-    }catch(error){setMessage(error?.message||'Could not publish the format calendar.',true);}
+      setMessage('Saved.');
+    }catch(error){setMessage(error?.message||'Could not save the shared format calendar.',true);}
     finally{saving=false;renderActions();}
   }
 
@@ -261,12 +237,10 @@
     if(!isAdmin||saving||!workingRegistry)return;
     workingRegistry.sets=Array.isArray(workingRegistry.sets)?workingRegistry.sets:[];
     workingRegistry.sets.push(blankSet());
-    draftRow=null;
     renderSets();renderSummary();renderActions();
     document.querySelector('[data-format-set]:last-child [data-set-id]')?.focus();
   });
-  $('saveFormatDraft')?.addEventListener('click',saveDraft);
-  $('publishFormatDraft')?.addEventListener('click',publishDraft);
+  $('saveFormatCalendar')?.addEventListener('click',saveChanges);
   window.addEventListener('ptcg:auth-change',load);
   window.addEventListener('ptcg:format-calendar-updated',()=>{if(!saving)load();});
   load();
