@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T22:31:53.078Z",
+  "generatedAt": "2026-09-13T00:18:09.161Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6aa0dd40a4272c53be64b7c1",
-      "source": "limitless",
-      "sourceId": "6aa0dd40a4272c53be64b7c1",
-      "name": "Amyverse GLC Gatherings #15 💚 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6aa0dd40a4272c53be64b7c1/details",
-      "startAt": "2026-09-12T23:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -279,16 +269,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6aa542c7f1243e65f97fe987",
-      "source": "limitless",
-      "sourceId": "6aa542c7f1243e65f97fe987",
-      "name": "Perth pokemon week 5",
-      "url": "https://play.limitlesstcg.com/tournament/6aa542c7f1243e65f97fe987/details",
-      "startAt": "2026-09-17T10:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6aa5ace8f1243e65f97ff33f",
       "source": "limitless",
       "sourceId": "6aa5ace8f1243e65f97ff33f",
@@ -425,6 +405,16 @@
       "name": "TOURNAMENT OF DOOM! LEGOS!",
       "url": "https://play.limitlesstcg.com/tournament/6a8721c75a307140955752eb/details",
       "startAt": "2026-09-19T02:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa542c7f1243e65f97fe987",
+      "source": "limitless",
+      "sourceId": "6aa542c7f1243e65f97fe987",
+      "name": "Perth pokemon week 5",
+      "url": "https://play.limitlesstcg.com/tournament/6aa542c7f1243e65f97fe987/details",
+      "startAt": "2026-09-19T10:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -679,6 +669,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aa5d3a038886b36383be25d",
+      "source": "limitless",
+      "sourceId": "6aa5d3a038886b36383be25d",
+      "name": "TOURNAMENT OF DOOM! KEYCHAIN!",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5d3a038886b36383be25d/details",
+      "startAt": "2026-10-10T02:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a690277937230b102d47bac",
       "source": "limitless",
       "sourceId": "6a690277937230b102d47bac",
@@ -705,6 +705,16 @@
       "name": "Nightshades Friday Challenge 2",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d234a4272c53be64cfe5/details",
       "startAt": "2026-10-16T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5d406f1243e65f97ff818",
+      "source": "limitless",
+      "sourceId": "6aa5d406f1243e65f97ff818",
+      "name": "TOURNAMENT OF DOOM! DINNER?",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5d406f1243e65f97ff818/details",
+      "startAt": "2026-10-17T02:35:00.000Z"
     },
     {
       "format": "Standard",
