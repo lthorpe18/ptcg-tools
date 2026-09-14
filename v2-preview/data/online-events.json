@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T05:26:01.108Z",
+  "generatedAt": "2026-09-14T13:20:21.575Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa75259f1243e65f9800b72",
-      "source": "limitless",
-      "sourceId": "6aa75259f1243e65f9800b72",
-      "name": "SEASAC League Challenge #7 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6aa75259f1243e65f9800b72/details",
-      "startAt": "2026-09-14T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -39,32 +29,22 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6a9eeea7ab080c8c957fcf3e",
-      "source": "limitless",
-      "sourceId": "6a9eeea7ab080c8c957fcf3e",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6a9eeea7ab080c8c957fcf3e/details",
-      "startAt": "2026-09-14T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa26770a4272c53be64cba7",
-      "source": "limitless",
-      "sourceId": "6aa26770a4272c53be64cba7",
-      "name": "👑CrownOfSpain 👑 #7 (10€ paypal)",
-      "url": "https://play.limitlesstcg.com/tournament/6aa26770a4272c53be64cba7/details",
-      "startAt": "2026-09-14T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6aa6db0938886b36383beef2",
       "source": "limitless",
       "sourceId": "6aa6db0938886b36383beef2",
       "name": "Pumpkaweekly",
       "url": "https://play.limitlesstcg.com/tournament/6aa6db0938886b36383beef2/details",
       "startAt": "2026-09-14T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa7d3db38886b36383bf846",
+      "source": "limitless",
+      "sourceId": "6aa7d3db38886b36383bf846",
+      "name": "🔥⚔️XVII TORNEIO TCG LIVE ⚔️🔥",
+      "url": "https://play.limitlesstcg.com/tournament/6aa7d3db38886b36383bf846/details",
+      "startAt": "2026-09-14T22:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -115,6 +95,26 @@
       "name": "Discord Exclusive Monday Night Tournament",
       "url": "https://play.limitlesstcg.com/tournament/6aa1c696ab080c8c957ff68f/details",
       "startAt": "2026-09-15T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa7a2f2f1243e65f9800d88",
+      "source": "limitless",
+      "sourceId": "6aa7a2f2f1243e65f9800d88",
+      "name": "BO3 $30 CASH PRIZE (2 Day Comp)",
+      "url": "https://play.limitlesstcg.com/tournament/6aa7a2f2f1243e65f9800d88/details",
+      "startAt": "2026-09-15T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6a9eeea7ab080c8c957fcf3e",
+      "source": "limitless",
+      "sourceId": "6a9eeea7ab080c8c957fcf3e",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6a9eeea7ab080c8c957fcf3e/details",
+      "startAt": "2026-09-15T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -219,6 +219,26 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aa26770a4272c53be64cba7",
+      "source": "limitless",
+      "sourceId": "6aa26770a4272c53be64cba7",
+      "name": "👑CrownOfSpain 👑 #7 (10€ paypal)",
+      "url": "https://play.limitlesstcg.com/tournament/6aa26770a4272c53be64cba7/details",
+      "startAt": "2026-09-17T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6a993212ab080c8c957f88e5",
+      "source": "limitless",
+      "sourceId": "6a993212ab080c8c957f88e5",
+      "name": "🏆Ling TV ARENA🏆- TOP CUT",
+      "url": "https://play.limitlesstcg.com/tournament/6a993212ab080c8c957f88e5/details",
+      "startAt": "2026-09-17T18:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a988c84ab080c8c957f822d",
       "source": "limitless",
       "sourceId": "6a988c84ab080c8c957f822d",
@@ -295,16 +315,6 @@
       "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #23",
       "url": "https://play.limitlesstcg.com/tournament/6a9eeefcab080c8c957fcf4d/details",
       "startAt": "2026-09-18T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a993212ab080c8c957f88e5",
-      "source": "limitless",
-      "sourceId": "6a993212ab080c8c957f88e5",
-      "name": "🏆Ling TV ARENA🏆- TOP CUT",
-      "url": "https://play.limitlesstcg.com/tournament/6a993212ab080c8c957f88e5/details",
-      "startAt": "2026-09-18T18:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -415,6 +425,16 @@
       "name": "Cusca Premier Cup 👑 #2",
       "url": "https://play.limitlesstcg.com/tournament/6a80b2925a30714095571744/details",
       "startAt": "2026-09-21T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6a5a7f3c937230b102d3dd03",
+      "source": "limitless",
+      "sourceId": "6a5a7f3c937230b102d3dd03",
+      "name": "Pokemon TCG Frankfurt Prep #1 🇩🇪",
+      "url": "https://play.limitlesstcg.com/tournament/6a5a7f3c937230b102d3dd03/details",
+      "startAt": "2026-09-21T15:00:00.000Z"
     },
     {
       "format": "Standard",
