@@ -34,7 +34,7 @@ function harness({storage=new Map(),date='2026-09-12',prep=null,loadOverride,cor
  context.PTCGDeckStore={open:async()=>{},all:async()=>decks,getVersion:(deck,id)=>deck.versions.find(v=>v.id===id)};
  const sandbox=vm.createContext(context);
  const run=file=>vm.runInContext(read('v2-preview/apps/'+file),sandbox);
- for(const file of ['_shared/storage.js','_shared/format-resolver.js','_shared/meta-field.js','_shared/meta-blend.js','_shared/recommendation-engine.js','meta/meta-core.js','meta/blended-field.js','meta/wsip-source.js','meta/saved-metas.js','events/prep-field.js'])run(file);
+ for(const file of ['_shared/storage.js','_shared/format-resolver.js','_shared/format-calendar-store.js','_shared/format-runtime.js','_shared/meta-field.js','_shared/meta-blend.js','_shared/recommendation-engine.js','meta/meta-core.js','meta/blended-field.js','meta/wsip-source.js','meta/saved-metas.js','events/prep-field.js'])run(file);
  if(!storage.has('ptcg-tools-v2'))context.PTCGStorage.save({schemaVersion:3,eventParticipations:[{id:'p',attendanceStatus:'attending',eventSnapshot:{id:'test-event',type:'League Cup',startDate:date,name:'Test Cup'},prep}],matches:[],favouriteVenues:[]});
  return {context,ids,calls,decks,storage,listeners,files,run:()=>run('events/prep.js'),get:()=>context.PTCGStorage.getParticipation('p'),replace(value){core=value;context.dispatchEvent({type:'meta:release-core',detail:{}})}};
 }
