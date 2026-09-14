@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T13:20:21.575Z",
+  "generatedAt": "2026-09-14T19:35:02.530Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a986ce9a4272c53be6450f3",
-      "source": "limitless",
-      "sourceId": "6a986ce9a4272c53be6450f3",
-      "name": "Clash of Cards - S1",
-      "url": "https://play.limitlesstcg.com/tournament/6a986ce9a4272c53be6450f3/details",
-      "startAt": "2026-09-14T13:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa701ae38886b36383bf083",
-      "source": "limitless",
-      "sourceId": "6aa701ae38886b36383bf083",
-      "name": "Monday Afternoon Showdown #7",
-      "url": "https://play.limitlesstcg.com/tournament/6aa701ae38886b36383bf083/details",
-      "startAt": "2026-09-14T14:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa6db0938886b36383beef2",
-      "source": "limitless",
-      "sourceId": "6aa6db0938886b36383beef2",
-      "name": "Pumpkaweekly",
-      "url": "https://play.limitlesstcg.com/tournament/6aa6db0938886b36383beef2/details",
-      "startAt": "2026-09-14T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -109,6 +79,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aa6ece1f1243e65f9800545",
+      "source": "limitless",
+      "sourceId": "6aa6ece1f1243e65f9800545",
+      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 1 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6aa6ece1f1243e65f9800545/details",
+      "startAt": "2026-09-15T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a9eeea7ab080c8c957fcf3e",
       "source": "limitless",
       "sourceId": "6a9eeea7ab080c8c957fcf3e",
@@ -155,6 +135,16 @@
       "name": "Torneo Relámpago ⚡ #79 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6a8c5f7b8302ae761e5fb22a/details",
       "startAt": "2026-09-16T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa7fb5cf1243e65f9801018",
+      "source": "limitless",
+      "sourceId": "6aa7fb5cf1243e65f9801018",
+      "name": "Team Corna Weekly September's #4 (30th Legal)",
+      "url": "https://play.limitlesstcg.com/tournament/6aa7fb5cf1243e65f9801018/details",
+      "startAt": "2026-09-16T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -415,6 +405,16 @@
       "name": "Sisterhood Showdown #2 💗 Girls & Enbies!",
       "url": "https://play.limitlesstcg.com/tournament/6aa768daf1243e65f9800cb1/details",
       "startAt": "2026-09-20T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa7e343f1243e65f9800f39",
+      "source": "limitless",
+      "sourceId": "6aa7e343f1243e65f9800f39",
+      "name": "36° Torneio Padrão do Zap ! Hora do Pix",
+      "url": "https://play.limitlesstcg.com/tournament/6aa7e343f1243e65f9800f39/details",
+      "startAt": "2026-09-21T00:00:00.000Z"
     },
     {
       "format": "Standard",
