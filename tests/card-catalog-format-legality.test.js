@@ -42,7 +42,7 @@ function catalogHarness({runtime=true}={}){
 test('Standard Card Search delegates to the maintained current Online format, not TCGdex legal.standard',async()=>{
   const h=catalogHarness();
   const rows=await h.catalog.searchAdvanced({name:'Test',standardOnly:true});
-  assert.deepEqual(rows.map(card=>card.id),['test-h']);
+  assert.equal(rows.map(card=>card.id).join(','),'test-h');
   assert.equal(h.urls.some(url=>url.includes('legal.standard')),false);
   assert.deepEqual(h.legalityCalls.map(call=>call.event),[
     {date:'2026-09-15',environment:'online'},
@@ -62,7 +62,7 @@ test('standalone catalog consumers without the format runtime keep the legacy TC
   const h=catalogHarness({runtime:false});
   const rows=await h.catalog.searchAdvanced({name:'Test',standardOnly:true});
   assert.equal(h.urls.some(url=>url.includes('legal.standard=true')),true);
-  assert.deepEqual(rows.map(card=>card.id),['test-g']);
+  assert.equal(rows.map(card=>card.id).join(','),'test-g');
   assert.equal(h.legalityCalls.length,0);
 });
 
