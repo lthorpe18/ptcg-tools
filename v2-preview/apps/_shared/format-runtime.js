@@ -33,7 +33,7 @@
   }
   function build(result,format){
     const resolver=format.create(result.registry);
-    return {source:result.source,status:result.status||'loaded',versionNumber:result.versionNumber??null,publishedAt:result.publishedAt||null,
+    return {source:result.source,status:result.status||'loaded',versionNumber:result.versionNumber??result.version_number??null,publishedAt:result.publishedAt||result.published_at||null,
       registryRevision:result.registry?.revision||resolver.revision||null,registry:copy(result.registry),resolver,remoteError:result.remoteError||null};
   }
   async function refresh(options={}){
