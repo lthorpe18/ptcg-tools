@@ -1,5 +1,7 @@
 # PTCG Tools — Master Product & Design Document
 
+> **Operational entry:** read [CURRENT_STATE.md](CURRENT_STATE.md) for baseline, live state and active branch/PR. This document retains its product/design role. Shared-calendar consumer integration is implemented on open [PR #60](https://github.com/lthorpe18/ptcg-tools/pull/60), not yet merged at the 14 September audit. Historical research in `ptcg-meta-analysis` has a separate roadmap.
+
 **Status:** Current product source of truth  
 **Date:** 13 September 2026  
 **Repository:** `lthorpe18/ptcg-tools`  

@@ -1,5 +1,7 @@
 # Checkpoint 9 — Full connected acceptance
 
+> **SUPERSEDED — retained for historical reference.** Operational status and next actions are maintained in [CURRENT_STATE.md](CURRENT_STATE.md). The [13 September roadmap](ROADMAP_HANDOFF_2026-09-13.md) and current architecture govern later decisions. Historical implementation details below remain evidence of their recorded stage.
+
 Status: Accepted on 9 September 2026. The automated, deployed-desktop and final owner iPhone/offline-resume gates all passed. Checkpoints 1–8 are merged and owner-accepted; Checkpoint 8 merged in PR #17 (`9e3453e`) and all six owner device checks passed.
 
 ## Scope

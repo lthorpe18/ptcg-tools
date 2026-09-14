@@ -1,5 +1,7 @@
 # Checkpoint 4 — Home Blended integration
 
+> **SUPERSEDED — retained for historical reference.** Operational status and next actions are maintained in [CURRENT_STATE.md](CURRENT_STATE.md). The [13 September roadmap](ROADMAP_HANDOFF_2026-09-13.md) and current architecture govern later decisions. Historical implementation details below remain evidence of their recorded stage.
+
 **Status:** Accepted through owner iPhone testing on 8 September 2026, with one requested concise-Home follow-up implemented for review. Checkpoint 5 has not begun.
 
 ## Outcome

@@ -1,5 +1,7 @@
 # Format/Rotation and Blended Meta v2 — Accepted Recovery Specification
 
+> **SUPERSEDED — retained for historical reference.** Operational status and next actions are maintained in [CURRENT_STATE.md](CURRENT_STATE.md). The [13 September roadmap](ROADMAP_HANDOFF_2026-09-13.md) and current architecture govern later decisions. Historical implementation details below remain evidence of their recorded stage.
+
 **Status:** Complete and owner-accepted through Checkpoint 9; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 **Source review:** main `eb7809c5724f687c15d2d99b7af1f1f7b5365365`.
 **Companions:** PTCG_TOOLS_MASTER.md; ROADMAP_HANDOFF_2026-09-07.md; HOME_ARCHITECTURE.md; WHAT_SHOULD_I_PLAY_ARCHITECTURE.md; v2-preview/apps/meta/ARCHITECTURE.md; PERFORMANCE_ARCHITECTURE.md.

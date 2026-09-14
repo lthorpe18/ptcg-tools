@@ -1,5 +1,7 @@
 # Checkpoint 8 — Event Prep integration
 
+> **SUPERSEDED — retained for historical reference.** Operational status and next actions are maintained in [CURRENT_STATE.md](CURRENT_STATE.md). The [13 September roadmap](ROADMAP_HANDOFF_2026-09-13.md) and current architecture govern later decisions. Historical implementation details below remain evidence of their recorded stage.
+
 Status: Merged and owner-accepted. PR #17 merged as `9e3453e`; all six owner device checks passed on 9 September 2026. Checkpoint 9 full connected acceptance is in progress; see `FORMAT_BLENDED_CHECKPOINT_9.md`.
 
 ## Behaviour

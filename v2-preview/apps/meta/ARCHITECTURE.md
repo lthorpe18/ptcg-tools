@@ -1,5 +1,7 @@
 # PTCG Tools — Meta V2 Architecture
 
+> **Operational entry:** [CURRENT_STATE.md](../../../CURRENT_STATE.md) and the [calendar handoff](../../../handoffs/shared-format-calendar-consumers.md) track open PR #60. This is the main app Meta architecture; the separate `ptcg-meta-analysis` research repository does not own this feature.
+
 **Status:** Current Meta runtime/data-delivery source of truth  
 **Date:** 13 September 2026  
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`
