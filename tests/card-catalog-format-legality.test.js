@@ -65,3 +65,14 @@ test('standalone catalog consumers without the format runtime keep the legacy TC
   assert.deepEqual(rows.map(card=>card.id),['test-g']);
   assert.equal(h.legalityCalls.length,0);
 });
+
+test('Card Search lazy-loads the shared published-calendar runtime before the catalog',()=>{
+  const loader=fs.readFileSync('v2-preview/apps/decklists/deck-card-images.js','utf8');
+  const ordered=['cloud-sync.js?v=7','format-resolver.js?v=3','format-calendar-store.js?v=2','format-runtime.js?v=1','card-catalog.js?v=8'];
+  let previous=-1;
+  for(const part of ordered){
+    const index=loader.indexOf(part);
+    assert.ok(index>previous,`${part} should load after the prior shared dependency`);
+    previous=index;
+  }
+});
