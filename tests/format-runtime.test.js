@@ -6,7 +6,7 @@ const maintained=require('../data/formats/maintained-calendar.json');
 
 const clone=value=>JSON.parse(JSON.stringify(value));
 function calendar(registry=maintained,source='test-calendar'){
-  return {load:async()=>({source,status:'published',versionNumber:7,publishedAt:'2026-09-14T12:00:00Z',registry:clone(registry)})};
+  return {load:async()=>({source,status:'published',version_number:7,published_at:'2026-09-14T12:00:00Z',registry:clone(registry)})};
 }
 
 test('runtime exposes maintained Online and IRL transitions from one shared calendar',async()=>{
@@ -19,6 +19,8 @@ test('runtime exposes maintained Online and IRL transitions from one shared cale
   assert.equal(runtime.currentFormat('2026-09-24','irl').label,'TEF-30C');
   assert.equal(runtime.currentFormat('2026-09-24','irl').effectiveDate,'2026-09-24');
   assert.equal(runtime.revision(),maintained.revision);
+  assert.equal(runtime.snapshot().versionNumber,7);
+  assert.equal(runtime.snapshot().publishedAt,'2026-09-14T12:00:00Z');
 });
 
 test('runtime delegates card legality to the same maintained resolver',async()=>{
