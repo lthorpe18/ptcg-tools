@@ -1,6 +1,6 @@
 # PTCG Tools — current state
 
-Audit: 14 September 2026. Read this first, then the linked handoff and current GitHub refs. This is an evidence snapshot, not a claim that branches stop moving.
+Review: 15 September 2026, reconciling the 14 September forensic audit with current `main`. Read this first, then the linked handoff and current GitHub refs. This is an evidence snapshot, not a claim that branches stop moving.
 
 ## Purpose and boundary
 
@@ -8,9 +8,9 @@ Audit: 14 September 2026. Read this first, then the linked handoff and current G
 
 ## Baseline and live state
 
-- **Verified:** default branch `main`; audited HEAD [6e6445524bda1856a8f782b3e235e26480a6925a](https://github.com/lthorpe18/ptcg-tools/commit/6e6445524bda1856a8f782b3e235e26480a6925a). Later data-refresh commits may advance it.
-- **Verified:** latest substantive product merge is Settings hub [#58](https://github.com/lthorpe18/ptcg-tools/pull/58); architecture refresh [#59](https://github.com/lthorpe18/ptcg-tools/pull/59) merged at `676d669`. Subsequent main commits refresh data.
-- **Verified:** [Pages run 34887779785](https://github.com/lthorpe18/ptcg-tools/actions/runs/34887779785) successfully deployed the audited HEAD. [Public app](https://lthorpe18.github.io/ptcg-tools/) serves the V2 entry flow. **Unknown:** exact version cached on any particular installed iPhone.
+- **Verified:** default branch `main`. Immediately before this documentation merge, current main was [fa173586123ec884ca7f1ee70397db827beef9f0](https://github.com/lthorpe18/ptcg-tools/commit/fa173586123ec884ca7f1ee70397db827beef9f0). Since the original audited main [6e6445524bda1856a8f782b3e235e26480a6925a](https://github.com/lthorpe18/ptcg-tools/commit/6e6445524bda1856a8f782b3e235e26480a6925a), three commits advanced generated Meta/event data only: one Limitless PBL matchup refresh and two future-online-tournament refreshes. No intervening product implementation PR merged.
+- **Verified:** latest substantive product merge remains Settings hub [#58](https://github.com/lthorpe18/ptcg-tools/pull/58); architecture refresh [#59](https://github.com/lthorpe18/ptcg-tools/pull/59) merged at `676d669`. Subsequent main commits through the pre-merge baseline above are generated data refreshes.
+- **Verified:** [Pages run 34887779785](https://github.com/lthorpe18/ptcg-tools/actions/runs/34887779785) successfully deployed the original audited `6e64455` baseline. **Unknown:** deployment state of the later generated refresh commits was not independently revalidated in this documentation review, and the exact version cached on any particular installed iPhone remains unknown.
 - **Verified:** persistent five-area shell; shared engines/stores; immutable DeckVersions; personal Games distinct from tournament Matches and public H2H; generated, versioned Meta releases with lazy payloads; Google/Supabase account snapshots; separate shared maintained format calendar.
 
 ## Complete on main
@@ -21,13 +21,13 @@ Audit: 14 September 2026. Read this first, then the linked handoff and current G
 
 ## Active work and exact next action
 
-**Verified:** [PR #60](https://github.com/lthorpe18/ptcg-tools/pull/60), `sol/shared-format-calendar-consumers`, head `311123b25ab9783570e5d47585fa4e0473dfe9b3`, implements shared-calendar consumer wiring and remains **open/unmerged**.
+**Verified:** [PR #60](https://github.com/lthorpe18/ptcg-tools/pull/60), `sol/shared-format-calendar-consumers`, head `311123b25ab9783570e5d47585fa4e0473dfe9b3`, implements shared-calendar consumer wiring and remains **open/unmerged** at the 15 September documentation review.
 
 **Next recommended action:** read [the calendar handoff](handoffs/shared-format-calendar-consumers.md), inspect #60 against current main, verify the shared calendar through Home → Meta/WSIP → Event Prep and Card Search on iPhone, then review the two known test failures before making a separate merge decision. Do not reimplement this package as if it had not started.
 
 ## Debt, uncertainty and later work
 
-- **Verified:** #60 CI and local suite: **253/255 pass**, two failures. Main CI at `676d669`: **242/244 pass**; targeted tests on audited main reproduce both failures. Snapshot publication lookup and WSIP's stale `Unknown` expectation are existing debt. No green full-suite claim.
+- **Verified:** #60 CI and local suite: **253/255 pass**, two failures. Main CI at `676d669`: **242/244 pass**; targeted tests on original audited main reproduce both failures. Snapshot publication lookup and WSIP's stale `Unknown` expectation are existing debt. No green full-suite claim.
 - **Unknown:** #60 owner/device acceptance; live shared-calendar database contents and every installed-client cache state. This audit did not publish calendar data or inspect private user records.
 - **Verified roadmap, not active branches:** after calendar wiring: Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence → Prediction Accuracy maturation → Release Hardening. Collection remains deferred until explicitly reopened. Research results do not reorder this sequence.
 - **Inferred:** old experimental branches without an open PR are historical remnants; the inventory records them without authorising restoration or deletion.
