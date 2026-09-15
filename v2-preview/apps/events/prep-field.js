@@ -53,17 +53,8 @@
       deckSnapshot:{id:deck.id,name:deck.name,archetype:deck.archetype,version}});
   }
   async function loadResolver() {
-    const key='ptcg:event-prep:calendar';
-    const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);
-    try {
-      const response=await fetch('../../../data/formats/maintained-calendar.json',{cache:'no-cache',signal:controller.signal});
-      if(!response.ok)throw new Error('Calendar unavailable');
-      const registry=await response.json(),resolver=window.PTCGFormat.create(registry);
-      try{localStorage.setItem(key,JSON.stringify(registry))}catch{}
-      return resolver;
-    } catch {
-      try{return window.PTCGFormat.create(JSON.parse(localStorage.getItem(key)))}catch{return null}
-    } finally{clearTimeout(timer)}
+    try{return (await window.PTCGFormatRuntime?.ready?.())?.resolver || window.PTCGFormatRuntime?.resolver?.() || null}
+    catch{return null}
   }
   window.EventPrepField={eventContext,automatic,compatibility,overrideValid,snapshot,lock,loadResolver};
 })();

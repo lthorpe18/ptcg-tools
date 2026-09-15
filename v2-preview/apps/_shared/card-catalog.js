@@ -18,6 +18,8 @@
   }));
 
   function normaliseSetName(value){return String(value||'').trim().toLocaleLowerCase('en').replace(/\s+/g,' ')}
+  function formatRuntime(){return window.PTCGFormatRuntime||null}
+  function runtimeOwnsStandard(){const runtime=formatRuntime();return !!(runtime?.ready&&runtime?.resolveCardLegality)}
 
   async function json(url){
     const response=await fetch(url,{headers:{Accept:'application/json'}});
@@ -41,7 +43,10 @@
     addQuery(query,'trainerType',params.trainerType);
     addQuery(query,'rarity',params.rarity);
     addQuery(query,'illustrator',params.illustrator);
-    if(params.standardOnly)query.set('legal.standard','true');
+    // The app's maintained date/environment calendar is authoritative when loaded.
+    // TCGdex's generic legal.standard flag remains only a compatibility fallback for
+    // standalone consumers that do not load the shared runtime.
+    if(params.standardOnly&&!runtimeOwnsStandard())query.set('legal.standard','true');
     if(String(params.hpMin??'').trim())addQuery(query,'hp',params.hpMin,'gte:');
     if(String(params.hpMax??'').trim())addQuery(query,'hp',params.hpMax,'lte:');
     return query;
@@ -123,6 +128,23 @@
 
   function isStandard(cardObject){return cardObject?.legal?.standard===true}
 
+  async function runtimeStandardContext(params={}){
+    if(!params.standardOnly||!runtimeOwnsStandard())return null;
+    const runtime=formatRuntime();
+    try{await runtime.ready()}
+    catch{throw new Error('Current Standard legality is unavailable.')}
+    const date=String(params.date||runtime.today?.()||'').slice(0,10);
+    const environment=params.environment==='irl'?'irl':'online';
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(date))throw new Error('Current Standard legality is unavailable.');
+    return {runtime,date,environment};
+  }
+
+  function isRuntimeStandardLegal(cardObject,context){
+    if(!context)return null;
+    const result=context.runtime.resolveCardLegality(cardObject,{date:context.date,environment:context.environment});
+    return result?.status==='legal';
+  }
+
   function cardText(cardObject){
     if(!cardObject)return '';
     const values=[];
@@ -136,10 +158,10 @@
     return values.join(' ').replace(/\s+/g,' ').trim();
   }
 
-  function matchesAdvanced(cardObject,params={}){
+  function matchesAdvanced(cardObject,params={},options={}){
     if(!cardObject)return false;
     const lower=value=>String(value||'').toLocaleLowerCase('en');
-    if(params.standardOnly&&!isStandard(cardObject))return false;
+    if(params.standardOnly&&!options.standardHandled&&!isStandard(cardObject))return false;
     if(params.text&&!lower(cardText(cardObject)).includes(lower(params.text)))return false;
     if(params.category&&lower(cardObject.category)!==lower(params.category))return false;
     if(params.setId&&String(cardObject.set?.id||'')!==String(params.setId))return false;
@@ -157,10 +179,12 @@
 
   async function searchAdvanced(params={}){
     const text=String(params.text||'').trim();
+    const standardContext=await runtimeStandardContext(params);
     let briefs=[];
     if(!text){
       briefs=await withoutPocketCards(await search(params));
-      if(!params.standardOnly||!String(params.name||'').trim())return briefs;
+      if(!params.standardOnly)return briefs;
+      if(!standardContext&&!String(params.name||'').trim())return briefs;
     }else if(String(params.name||'').trim()){
       briefs=await withoutPocketCards(await search(params));
     }else{
@@ -180,7 +204,10 @@
     for(let index=0;index<briefs.length;index+=batchSize){
       const batch=await cards(briefs.slice(index,index+batchSize).map(item=>item.id));
       for(const item of batch){
-        if(item&&!await isPocketCard(item)&&matchesAdvanced(item,params))detailed.push(item);
+        if(!item||await isPocketCard(item))continue;
+        if(!matchesAdvanced(item,params,{standardHandled:!!standardContext}))continue;
+        if(standardContext&&!isRuntimeStandardLegal(item,standardContext))continue;
+        detailed.push(item);
       }
     }
     return detailed;

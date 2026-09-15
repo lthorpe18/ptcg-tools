@@ -16,7 +16,8 @@ test('Home shows the current Online format while field surfaces default to Blend
 
   assert.match(home,/id="formatPill"[^>]*>[\s\S]*?<span>Current format<\/span>/);
   assert.doesNotMatch(home,/id="formatPill"[^>]*>[\s\S]*?<span>Standard<\/span>/);
-  assert.match(homeJs,/const onlineFormat=metaCore\?\.currentFormats\?\.online\?\.label\|\|metaCore\?\.online\?\.format/);
+  assert.match(homeJs,/const onlineFormat=current\?\.online\?\.label\|\|metaCore\?\.currentFormats\?\.online\?\.label\|\|metaCore\?\.online\?\.format/);
+  assert.match(homeJs,/PTCGFormatRuntime/);
   assert.match(homeJs,/pillText\.textContent=onlineFormat\|\|'Current format'/);
 
   assert.match(metaHtml,/data-current-source="blend" class="active">Blended/);

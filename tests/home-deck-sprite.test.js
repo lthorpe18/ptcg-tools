@@ -97,6 +97,6 @@ test('cached entrypoints still reach shared renderer while canonical visuals rem
   assert.match(deckHtml,/deck-results\.css\?v=4/);
   assert.match(homeHtml,/apps\/meta\/sprites\.js\?v=6/);
   assert.match(homeHtml,/home-tweaks\.css\?v=10/);
-  assert.match(homeHtml,/scripts\/home\.js\?v=21/);
+  assert.match(homeHtml,/scripts\/home\.js\?v=22/);
   assert.match(shell,/home-content\.html\?v=27/);
 });
