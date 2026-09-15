@@ -1,5 +1,7 @@
 # PTCG Tools — Roadmap Handoff — 5 September 2026
 
+> **SUPERSEDED — retained for historical reference.** Operational status and next actions are maintained in [CURRENT_STATE.md](CURRENT_STATE.md). The [13 September roadmap](ROADMAP_HANDOFF_2026-09-13.md) and current architecture govern later decisions. Historical implementation details below remain evidence of their recorded stage.
+
 **Status:** Superseded on 7 September 2026
 
 This handoff previously identified Collection / physical readiness v1 as the next milestone. That sequence is no longer current following the failed Format Registry / Blended Meta v2 rollout and the decision to finish and stabilise the existing application before adding Collection.

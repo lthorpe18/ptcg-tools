@@ -1,5 +1,7 @@
 # Checkpoint 2 — Meta Online/IRL format handling
 
+> **SUPERSEDED — retained for historical reference.** Operational status and next actions are maintained in [CURRENT_STATE.md](CURRENT_STATE.md). The [13 September roadmap](ROADMAP_HANDOFF_2026-09-13.md) and current architecture govern later decisions. Historical implementation details below remain evidence of their recorded stage.
+
 **Status: implementation prepared for review; 90 automated tests pass. Browser acceptance is blocked by unavailable browser control. Not merged or deployed. Checkpoint 3 has not begun.**
 
 Built on latest main `f33aa6a`, preserving PR #6 (foundation), PR #7 (accepted Compete navigation repair), and the subsequent scheduled deck/event updates. Browser release: `14227cd7d3249eaa24f3`.

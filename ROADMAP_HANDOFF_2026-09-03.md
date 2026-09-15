@@ -1,5 +1,7 @@
 # PTCG Tools — Roadmap Handoff — 3 September 2026
 
+> **SUPERSEDED — retained for historical reference.** Operational status and next actions are maintained in [CURRENT_STATE.md](CURRENT_STATE.md). The [13 September roadmap](ROADMAP_HANDOFF_2026-09-13.md) and current architecture govern later decisions. Historical implementation details below remain evidence of their recorded stage.
+
 **Purpose:** central coordination handoff after completion of the Decks / Mobile Playtest implementation milestone.
 
 Read alongside:

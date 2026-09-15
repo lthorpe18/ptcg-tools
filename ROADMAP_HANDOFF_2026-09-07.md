@@ -1,5 +1,7 @@
 # PTCG Tools — Roadmap Handoff — updated 12 September 2026
 
+> **SUPERSEDED — retained for historical reference.** Operational status and next actions are maintained in [CURRENT_STATE.md](CURRENT_STATE.md). The [13 September roadmap](ROADMAP_HANDOFF_2026-09-13.md) and current architecture govern later decisions. Historical implementation details below remain evidence of their recorded stage.
+
 **Status:** Current roadmap handoff; Format/Rotation + Blended recovery complete, Deck Results v1 complete, canonical sprite renderer unified app-wide
 **Original handoff date:** 7 September 2026
 **Updated:** 12 September 2026

@@ -1,5 +1,7 @@
 # Compete navigation freeze
 
+> **SUPERSEDED — retained for historical reference.** Operational status and next actions are maintained in [CURRENT_STATE.md](CURRENT_STATE.md). The [13 September roadmap](ROADMAP_HANDOFF_2026-09-13.md) and current architecture govern later decisions. Historical implementation details below remain evidence of their recorded stage.
+
 **Accepted — 8 September 2026.** PR #7 merged at `94bc077`. The owner confirmed all six manual navigation checks passed, including reload with saved attendance. The owner clarified the failing tap was Compete in the bottom navigation, not event completion.
 
 Post-Checkpoint-1 smoke testing: the owner confirmed steps 1–5 (Home, sources, Meta, in-app return, detail reload). Compete navigation then froze. Checkpoint 2 remains paused.

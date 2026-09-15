@@ -1,5 +1,7 @@
 # Prediction Accuracy & Formula Fitting — Specification
 
+> **SUPERSEDED — retained for historical reference.** Operational status and next actions are maintained in [CURRENT_STATE.md](CURRENT_STATE.md). The [13 September roadmap](ROADMAP_HANDOFF_2026-09-13.md) and current architecture govern later decisions. Historical implementation details below remain evidence of their recorded stage.
+
 **Status:** Checkpoints 1–3 accepted; Checkpoint 4 implemented for review — 10 September 2026
 **Previous programme:** Format/Rotation and Blended Meta v2 accepted through Checkpoint 9  
 **Next checkpoint:** Formula fitting/versioning after Checkpoint 4 review
