@@ -7,6 +7,8 @@
 
   const originalResolve=images.resolve.bind(images);
   const originalImage=typeof catalog.image==='function'?catalog.image.bind(catalog):null;
+  const originalSearchAdvanced=typeof catalog.searchAdvanced==='function'?catalog.searchAdvanced.bind(catalog):null;
+  const originalCard=typeof catalog.card==='function'?catalog.card.bind(catalog):null;
 
   function rawNumber(card){
     return String(card?.localId??card?.number??'').trim().toUpperCase().replace(/\s+/g,'');
@@ -19,6 +21,12 @@
     if(!match)return [raw];
     const compact=`${match[1]}${String(Number(match[2]))}${match[3]}`;
     return [...new Set([compact,raw])];
+  }
+
+  function isAlphanumericCard(card){return alphanumericVariants(rawNumber(card)).length>0;}
+
+  function withoutBriefImage(card){
+    return card&&isAlphanumericCard(card)?{...card,image:''}:card;
   }
 
   function limitlessCandidates(setCode,numbers,quality='low'){
@@ -34,8 +42,19 @@
     )));
   }
 
+  if(originalSearchAdvanced){
+    catalog.searchAdvanced=async function(params={}){
+      const rows=await originalSearchAdvanced(params)||[];
+      return rows.map(withoutBriefImage);
+    };
+  }
+
+  if(originalCard){
+    catalog.card=async function(id){return withoutBriefImage(await originalCard(id));};
+  }
+
   catalog.image=function(card,quality='low'){
-    if(alphanumericVariants(rawNumber(card)).length)return '';
+    if(isAlphanumericCard(card))return '';
     return originalImage?originalImage(card,quality):'';
   };
 
@@ -62,9 +81,9 @@
       fallback:candidates[1]||'',
       candidates,
       source:candidates[0]?.includes('limitlesstcg')?'limitless':original?.source||'',
-      card:original?.card||card
+      card:withoutBriefImage(original?.card||card)
     };
   };
 
-  global.PTCGKantoImageIdentity={rawNumber,alphanumericVariants,limitlessCandidates};
+  global.PTCGKantoImageIdentity={rawNumber,alphanumericVariants,isAlphanumericCard,limitlessCandidates};
 })(window);
