@@ -1,6 +1,6 @@
 # PTCG Tools — current state
 
-Review: 15 September 2026, reconciling the 14 September forensic audit with current `main`. Read this first, then the linked handoff and current GitHub refs. This is an evidence snapshot, not a claim that branches stop moving.
+Review: 16 September 2026, after shared calendar consumer wiring merged and live acceptance exposed a generation-source mismatch. Read this first, then the linked handoff and current GitHub refs. This is an evidence snapshot, not a claim that branches stop moving.
 
 ## Purpose and boundary
 
@@ -8,29 +8,30 @@ Review: 15 September 2026, reconciling the 14 September forensic audit with curr
 
 ## Baseline and live state
 
-- **Verified:** default branch `main`. Immediately before this documentation merge, current main was [fa173586123ec884ca7f1ee70397db827beef9f0](https://github.com/lthorpe18/ptcg-tools/commit/fa173586123ec884ca7f1ee70397db827beef9f0). Since the original audited main [6e6445524bda1856a8f782b3e235e26480a6925a](https://github.com/lthorpe18/ptcg-tools/commit/6e6445524bda1856a8f782b3e235e26480a6925a), three commits advanced generated Meta/event data only: one Limitless PBL matchup refresh and two future-online-tournament refreshes. No intervening product implementation PR merged.
-- **Verified:** latest substantive product merge remains Settings hub [#58](https://github.com/lthorpe18/ptcg-tools/pull/58); architecture refresh [#59](https://github.com/lthorpe18/ptcg-tools/pull/59) merged at `676d669`. Subsequent main commits through the pre-merge baseline above are generated data refreshes.
-- **Verified:** [Pages run 34932294641](https://github.com/lthorpe18/ptcg-tools/actions/runs/34932294641) successfully deployed the pre-documentation-merge `fa17358` baseline. **Unknown:** exact version cached on any particular installed iPhone.
-- **Verified:** persistent five-area shell; shared engines/stores; immutable DeckVersions; personal Games distinct from tournament Matches and public H2H; generated, versioned Meta releases with lazy payloads; Google/Supabase account snapshots; separate shared maintained format calendar.
+- **Verified:** default branch `main`. Shared format-calendar consumer wiring [#60](https://github.com/lthorpe18/ptcg-tools/pull/60) merged on 16 September as `97a9f0b5f7db84ced626c23de67dbda665c7f385` and Pages deployment succeeded.
+- **Verified:** persistent five-area shell; shared engines/stores; immutable DeckVersions; personal Games distinct from tournament Matches and public H2H; generated, versioned Meta releases with lazy payloads; Google/Supabase account snapshots; shared maintained format calendar.
+- **Verified owner/device observation after #60:** Home's format pill followed the published shared calendar, but the generated Meta release still reflected the older checked-in calendar revision. This proved that browser consumers and scheduled Meta generation did not yet share one authoritative production calendar.
 
 ## Complete on main
 
-**Verified by code and merged PRs:** Format/Blended recovery checkpoints 1–9; Prediction Accuracy archive/scoring/UI (#19–22); Deck Results with Archetype/Deck/Version scopes; unified Game Log; canonical sprites; Card Search and Playtest; event discovery/attendance, Online filters and durable results; Event Prep v1, Tournament Day and Season; Tools; Settings hub and maintainer Formats & Sets. See [audit and evidence](docs/FORENSIC_AUDIT_2026-09-14.md).
+**Verified by code and merged PRs:** Format/Blended recovery checkpoints 1–9; Prediction Accuracy archive/scoring/UI (#19–22); Deck Results with Archetype/Deck/Version scopes; unified Game Log; canonical sprites; Card Search and Playtest; event discovery/attendance, Online filters and durable results; Event Prep v1, Tournament Day and Season; Tools; Settings hub and maintainer Formats & Sets; shared format-calendar browser consumer wiring (#60). See [audit and evidence](docs/FORENSIC_AUDIT_2026-09-14.md).
 
 “Complete” means the documented stage is implemented, not every future refinement. In particular, the accuracy index currently contains Worlds as **unscored**: there is no eligible pre-Day-1 snapshot.
 
 ## Active work and exact next action
 
-**Verified:** [PR #60](https://github.com/lthorpe18/ptcg-tools/pull/60), `sol/shared-format-calendar-consumers`, head `311123b25ab9783570e5d47585fa4e0473dfe9b3`, implements shared-calendar consumer wiring and remains **open/unmerged** at the 15 September documentation review.
+**Verified:** branch `sol/meta-published-calendar-generation` is the bounded follow-up to #60. It changes production Meta ingestion/release workflows to load the latest **published Settings → Formats & Sets calendar** instead of silently using `data/formats/maintained-calendar.json`. Production generation fails closed if the published calendar cannot be read; deterministic tests/local tooling may continue to use the checked-in bootstrap unless explicitly switched to the published source.
 
-**Next recommended action:** read [the calendar handoff](handoffs/shared-format-calendar-consumers.md), inspect #60 against current main, verify the shared calendar through Home → Meta/WSIP → Event Prep and Card Search on iPhone, then review the two known test failures before making a separate merge decision. Do not reimplement this package as if it had not started.
+**Owner action pending:** correct 30C Online legality back to 15 September through Settings → Formats & Sets and publish it. Do not encode that correction in product source as a competing production authority.
+
+**Next engineering action:** validate the follow-up PR, merge only after explicit owner authorisation, let a production Meta job rebuild from the corrected published calendar, then repeat Home / Meta / WSIP / Event Prep acceptance. After that the supported next feature package is Personal Matchup Analysis.
 
 ## Debt, uncertainty and later work
 
-- **Verified:** #60 CI and local suite: **253/255 pass**, two failures. Main CI at `676d669`: **242/244 pass**; targeted tests on original audited main reproduce both failures. Snapshot publication lookup and WSIP's stale `Unknown` expectation are existing debt. No green full-suite claim.
-- **Unknown:** #60 owner/device acceptance; live shared-calendar database contents and every installed-client cache state. This audit did not publish calendar data or inspect private user records.
-- **Verified roadmap, not active branches:** after calendar wiring: Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence → Prediction Accuracy maturation → Release Hardening. Collection remains deferred until explicitly reopened. Research results do not reorder this sequence.
-- **Inferred:** old experimental branches without an open PR are historical remnants; the inventory records them without authorising restoration or deletion.
+- **Verified:** immediately after #60 merged, the repository-wide validation run reported 276/287 passing. Several new failures were transition-date assumptions exposed on 16 September; they must be distinguished from genuine #60 regressions rather than being normalised away.
+- **Verified:** the earlier prediction snapshot publication lookup and stale WSIP expectation were pre-existing validation debt before #60.
+- **Unknown:** final owner/device acceptance of #60 plus the generation follow-up is pending the corrected published calendar and regenerated Meta release.
+- **Verified roadmap, not active branches:** after calendar integration is clean: Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence → Prediction Accuracy maturation → Release Hardening. Collection remains deferred until explicitly reopened. Research results do not reorder this sequence.
 
 ## Reading order and maintenance
 
