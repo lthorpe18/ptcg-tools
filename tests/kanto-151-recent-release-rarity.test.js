@@ -61,13 +61,62 @@ test('Kanto rarity sorting puts illustration/full-art tiers ahead of ordinary ra
   assert.ok(window.PTCGKantoRaritySort.rarityRank({rarity:'Ultra Rare'})>window.PTCGKantoRaritySort.rarityRank({rarity:'Rare Holo'}));
 });
 
-test('Kanto loads release overlay before filters and rarity sort before app search',()=>{
+test('Kanto image identity keeps alphanumeric card numbers intact so TG01 cannot resolve as set card 001',async()=>{
+  const source=read('image-identity-fix.js');
+  const wrong='https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/tpci/LOR/LOR_001_R_EN.png';
+  const card={id:'swsh11tg-TG01',name:'Parasect',localId:'TG01',image:'https://wrong.example/oddish'};
+  const catalog={
+    searchAdvanced:async()=>[card],
+    card:async()=>card,
+    image:item=>item.image?`${item.image}/low.webp`:'',
+    exactDeckIdentity:async()=>({set:'LOR',number:'TG01'})
+  };
+  const images={
+    resolve:async item=>({primary:wrong,candidates:[wrong,'https://assets.tcgdex.net/en/swsh/swsh11tg/TG01/low.webp'],card:item}),
+    registerFallbackChain:urls=>urls
+  };
+  const window={PTCGCardCatalog:catalog,PTCGCardImages:images};
+  vm.runInNewContext(source,{window,String,Set,Map,encodeURIComponent});
+
+  const rows=await catalog.searchAdvanced({name:'Parasect'});
+  assert.equal(rows[0].image,'','untrusted TCGdex brief art is withheld for alphanumeric card numbers');
+  assert.equal(catalog.image(rows[0],'low'),'');
+
+  const resolved=await images.resolve(rows[0],{quality:'low'});
+  assert.match(resolved.primary,/\/LOR\/LOR_TG1_R_EN\.png$/);
+  assert.ok(!resolved.candidates[0].includes('LOR_001'));
+  assert.deepEqual(Array.from(window.PTCGKantoImageIdentity.alphanumericVariants('TG01')),['TG1','TG01']);
+});
+
+test('Kanto image identity preserves ordinary numeric card image handling',async()=>{
+  const source=read('image-identity-fix.js');
+  const catalog={
+    searchAdvanced:async()=>[{id:'lor-001',name:'Oddish',localId:'001',image:'https://correct.example/oddish'}],
+    card:async()=>null,
+    image:item=>`${item.image}/low.webp`,
+    exactDeckIdentity:async()=>({set:'LOR',number:'001'})
+  };
+  const images={
+    resolve:async item=>({primary:'numeric-ok',candidates:['numeric-ok'],card:item}),
+    registerFallbackChain:urls=>urls
+  };
+  const window={PTCGCardCatalog:catalog,PTCGCardImages:images};
+  vm.runInNewContext(source,{window,String,Set,Map,encodeURIComponent});
+  const rows=await catalog.searchAdvanced({name:'Oddish'});
+  assert.equal(rows[0].image,'https://correct.example/oddish');
+  assert.equal(catalog.image(rows[0],'low'),'https://correct.example/oddish/low.webp');
+  assert.equal((await images.resolve(rows[0])).primary,'numeric-ok');
+});
+
+test('Kanto loads release overlay and identity fixes before app search',()=>{
   const html=read('index.html');
   const order=[
     './recent-release-cards.js',
     './set-code-identity.js',
     './card-number-filter.js',
     './rarity-sort.js',
+    '../../apps/_shared/card-images.js',
+    './image-identity-fix.js',
     './app.js'
   ].map(src=>html.indexOf(`<script src="${src}"></script>`));
   assert.ok(order.every(index=>index>=0));
