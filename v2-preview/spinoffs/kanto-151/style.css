@@ -66,6 +66,7 @@ input, select { width: 100%; min-height: 44px; border: 1px solid var(--line); bo
 .text-button { background: transparent; border-color: transparent; }
 .text-button.danger { color: var(--danger); }
 .filters-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 4px 0 14px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.filters-panel[hidden] { display: none; }
 .filters-panel label { display: grid; gap: 5px; min-width: 0; color: var(--muted); font-size: 12px; font-weight: 700; }
 .filters-panel .check-filter { display: flex; align-items: center; gap: 8px; min-height: 44px; color: #e8edf4; }
 .check-filter input { width: 20px; min-height: 20px; }
