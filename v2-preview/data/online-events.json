@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-16T13:43:25.523Z",
+  "generatedAt": "2026-09-16T18:25:12.440Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa7fb5cf1243e65f9801018",
-      "source": "limitless",
-      "sourceId": "6aa7fb5cf1243e65f9801018",
-      "name": "Team Corna Weekly 30th Legal (closed decklist)",
-      "url": "https://play.limitlesstcg.com/tournament/6aa7fb5cf1243e65f9801018/details",
-      "startAt": "2026-09-16T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa9a1bc38886b36383c10cc",
-      "source": "limitless",
-      "sourceId": "6aa9a1bc38886b36383c10cc",
-      "name": "Prep Frankfurt Circuito TCG #6 | Z2 Gaming",
-      "url": "https://play.limitlesstcg.com/tournament/6aa9a1bc38886b36383c10cc/details",
-      "startAt": "2026-09-16T16:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa2200ca4272c53be64ca11",
-      "source": "limitless",
-      "sourceId": "6aa2200ca4272c53be64ca11",
-      "name": "Amyverse PTCG Live Weekly #13 💛 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6aa2200ca4272c53be64ca11/details",
-      "startAt": "2026-09-16T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -52,7 +22,7 @@
       "id": "limitless:6aaa4577f1243e65f9802955",
       "source": "limitless",
       "sourceId": "6aaa4577f1243e65f9802955",
-      "name": "ASRcristiano # 188 - 60 codes - Road to Frankfurt!",
+      "name": "ASRcristiano #188 -Road to Frankfurt! 30c legal",
       "url": "https://play.limitlesstcg.com/tournament/6aaa4577f1243e65f9802955/details",
       "startAt": "2026-09-16T19:00:00.000Z"
     },
@@ -94,6 +64,16 @@
       "sourceId": "6aa5d141f1243e65f97ff7a7",
       "name": "🎁Premio ETB 🇨🇱🏆BO1🏆 30 ANIVERSARIO ✅",
       "url": "https://play.limitlesstcg.com/tournament/6aa5d141f1243e65f97ff7a7/details",
+      "startAt": "2026-09-17T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aaac71438886b36383c19c9",
+      "source": "limitless",
+      "sourceId": "6aaac71438886b36383c19c9",
+      "name": "Domino Arena Cup| Temporada 3 | Semana 1 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6aaac71438886b36383c19c9/details",
       "startAt": "2026-09-17T01:00:00.000Z"
     },
     {
