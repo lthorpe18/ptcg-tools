@@ -7,6 +7,7 @@
   if(!catalog||!images?.resolve)return;
 
   const resolving=new WeakMap();
+  const resolvedByCard=new Map();
 
   function loadState(){
     try{
@@ -15,18 +16,43 @@
     }catch{return {};}
   }
 
+  function resolveKey(card,quality){
+    const id=String(card?.id||'').trim();
+    return id?`${id}:${quality==='high'?'high':'low'}`:'';
+  }
+
+  async function resolveCard(card,quality='low'){
+    const key=resolveKey(card,quality);
+    if(key&&resolvedByCard.has(key))return resolvedByCard.get(key);
+    const promise=images.resolve(card,{catalog,quality});
+    if(key)resolvedByCard.set(key,promise);
+    try{
+      const resolved=await promise;
+      if(key)resolvedByCard.set(key,resolved);
+      return resolved;
+    }catch(error){
+      if(key)resolvedByCard.delete(key);
+      throw error;
+    }
+  }
+
   async function resolveInto(img,card,quality='low',fallbackNode=null){
     if(!img||!card)return false;
     const token={};
     resolving.set(img,token);
     try{
-      const resolved=await images.resolve(card,{catalog,quality});
+      const resolved=await resolveCard(card,quality);
       if(resolving.get(img)!==token)return false;
       if(!resolved?.primary){
         if(img.dataset.kantoCreated==='1')img.remove();
         return false;
       }
-      img.src=resolved.primary;
+
+      const currentSrc=String(img.getAttribute('src')||'').trim();
+      const brokenExisting=Boolean(currentSrc&&img.complete&&img.naturalWidth===0);
+      const needsResolvedSource=img.dataset.kantoCreated==='1'||!currentSrc||brokenExisting;
+
+      if(needsResolvedSource)img.src=resolved.primary;
       img.hidden=false;
       fallbackNode?.remove?.();
       return true;
@@ -38,12 +64,15 @@
 
   function ensureImage(container,className,alt){
     let img=container?.querySelector?.('img');
-    if(img)return img;
+    if(img){
+      if(className==='slot-art')img.loading='eager';
+      return img;
+    }
     if(!container)return null;
     img=document.createElement('img');
     img.className=className||'';
     img.alt=alt||'';
-    img.loading='lazy';
+    img.loading=className==='slot-art'?'eager':'lazy';
     img.decoding='async';
     img.hidden=true;
     img.dataset.kantoCreated='1';

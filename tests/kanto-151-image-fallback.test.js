@@ -30,3 +30,19 @@ test('image hydration can create an image when the initial provider supplied no 
   assert.match(source,/dataset\.kantoCreated='1'/);
   assert.match(source,/fallbackNode\?\.remove/);
 });
+
+test('image hydration preserves a working rendered source instead of swapping providers',()=>{
+  const source=read('image-fallback.js');
+  assert.match(source,/const currentSrc=String\(img\.getAttribute\('src'\)\|\|''\)\.trim\(\)/);
+  assert.match(source,/brokenExisting=Boolean\(currentSrc&&img\.complete&&img\.naturalWidth===0\)/);
+  assert.match(source,/needsResolvedSource=img\.dataset\.kantoCreated==='1'\|\|!currentSrc\|\|brokenExisting/);
+  assert.match(source,/if\(needsResolvedSource\)img\.src=resolved\.primary/);
+});
+
+test('grid art is eager and resolver work is cached across rerenders',()=>{
+  const source=read('image-fallback.js');
+  assert.match(source,/resolvedByCard=new Map\(\)/);
+  assert.match(source,/resolvedByCard\.has\(key\)/);
+  assert.match(source,/if\(className==='slot-art'\)img\.loading='eager'/);
+  assert.match(source,/img\.loading=className==='slot-art'\?'eager':'lazy'/);
+});
