@@ -69,7 +69,7 @@
   catalog.searchAdvanced=async function(params={}){
     let rows=[];
     let upstreamError=null;
-    try{rows=await originalSearchAdvanced(params)||[];}catch(error){upstreamError=error;}
+    try{rows=[...(await originalSearchAdvanced(params)||[])];}catch(error){upstreamError=error;}
 
     const existing=new Set(rows.map(card=>String(card?.id||'').trim()).filter(Boolean));
     for(const card of RELEASED){
