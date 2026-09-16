@@ -6,13 +6,14 @@ const path=require('node:path');
 const root=path.join(process.cwd(),'v2-preview','spinoffs','kanto-151');
 const read=name=>fs.readFileSync(path.join(root,name),'utf8');
 
-test('Kanto quick filters keep set, illustrator and Filters side by side',()=>{
+test('Kanto quick filters keep set, card number and Filters side by side',()=>{
   const html=read('index.html');
   const css=read('style.css');
-  assert.match(html,/class="quick-filter-row"[\s\S]*id="filter-set"[\s\S]*id="filter-illustrator"[\s\S]*id="filters-toggle"/);
+  assert.match(html,/class="quick-filter-row"[\s\S]*id="filter-set"[\s\S]*id="filter-card-number"[\s\S]*id="filters-toggle"/);
   assert.match(css,/\.quick-filter-row\s*\{[^}]*display:\s*grid[^}]*grid-template-columns:/s);
   const panel=html.match(/<section id="filters-panel"[\s\S]*?<\/section>/)?.[0]||'';
-  assert.doesNotMatch(panel,/id="filter-set"|id="filter-illustrator"/);
+  assert.doesNotMatch(panel,/id="filter-set"|id="filter-card-number"/);
+  assert.match(panel,/id="filter-illustrator"/);
 });
 
 test('Kanto picker hides duplicate Pokemon heading',()=>{
@@ -28,6 +29,7 @@ test('Kanto filters reset before each new Pokemon picker opens',()=>{
   assert.ok(appIndex>=0&&resetIndex>appIndex,'filter reset loads after the Kanto app');
   assert.match(source,/\[data-open-picker\]/);
   assert.match(source,/setFilter\.value=''/);
+  assert.match(source,/cardNumber\.value=''/);
   assert.match(source,/illustrator\.value=''/);
   assert.match(source,/rarity\.innerHTML='<option value="">Any rarity<\/option>'/);
   assert.match(source,/regulation\.value=''/);
