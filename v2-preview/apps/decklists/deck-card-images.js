@@ -102,26 +102,28 @@
   style.href='deck-card-search.css?v=7';
   document.head.appendChild(style);
 
-  const artwork=document.createElement('script');
-  artwork.src='../_shared/card-images.js?v=4';
-  artwork.dataset.ptcgCardSearchLoader='true';
-  artwork.onload=()=>{
-    const catalog=document.createElement('script');
-    catalog.src='../_shared/card-catalog.js?v=7';
-    catalog.dataset.ptcgCardSearchLoader='true';
-    catalog.onload=()=>{
-      const ui=document.createElement('script');
-      ui.src='deck-card-search.js?v=8';
-      ui.dataset.ptcgCardSearchLoader='true';
-      ui.onload=()=>{
-        const fix=document.createElement('script');
-        fix.src='deck-card-search-glc-fix.js?v=5';
-        fix.dataset.ptcgCardSearchLoader='true';
-        document.body.appendChild(fix);
-      };
-      document.body.appendChild(ui);
-    };
-    document.body.appendChild(catalog);
-  };
-  document.body.appendChild(artwork);
+  function loadScript(src,test){
+    if(test?.())return Promise.resolve();
+    return new Promise((resolve,reject)=>{
+      const script=document.createElement('script');
+      script.src=src;
+      script.dataset.ptcgCardSearchLoader='true';
+      script.onload=resolve;
+      script.onerror=()=>reject(new Error(`Could not load ${src}`));
+      document.body.appendChild(script);
+    });
+  }
+
+  (async()=>{
+    try{
+      await loadScript('../_shared/cloud-sync.js?v=7',()=>!!window.PTCGCloud);
+      await loadScript('../_shared/format-resolver.js?v=3',()=>!!window.PTCGFormat);
+      await loadScript('../_shared/format-calendar-store.js?v=2',()=>!!window.PTCGFormatCalendar);
+      await loadScript('../_shared/format-runtime.js?v=1',()=>!!window.PTCGFormatRuntime);
+      await loadScript('../_shared/card-images.js?v=4',()=>!!window.PTCGCardImages);
+      await loadScript('../_shared/card-catalog.js?v=8',()=>!!window.PTCGCardCatalog);
+      await loadScript('deck-card-search.js?v=8',()=>!!document.getElementById('cardSearchSurface'));
+      await loadScript('deck-card-search-glc-fix.js?v=5',()=>!!window.PTCGCardCatalog?.__ptcgGlcFilterPatched);
+    }catch(error){console.warn('Card Search dependencies unavailable',error)}
+  })();
 })();

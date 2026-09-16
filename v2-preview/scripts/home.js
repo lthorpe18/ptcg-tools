@@ -122,9 +122,14 @@
     return false;
   }
 
+  function runtimeFormats(){
+    const runtime=window.PTCGFormatRuntime,day=runtime?.today?.();
+    return day?runtime.currentFormats?.(day)||null:null;
+  }
+
   function renderMetaContext(){
-    const result=metaPrediction;
-    const onlineFormat=metaCore?.currentFormats?.online?.label||metaCore?.online?.format||result?.format||null;
+    const result=metaPrediction,current=runtimeFormats();
+    const onlineFormat=current?.online?.label||metaCore?.currentFormats?.online?.label||metaCore?.online?.format||result?.format||null;
     const predictionFormat=result?.format||onlineFormat;
     const pill=document.getElementById('formatPill'),pillText=pill?.querySelector('span:last-child');
     if(pillText)pillText.textContent=onlineFormat||'Current format';
@@ -147,7 +152,6 @@
     renderMetaContext();
     if(!metaPrediction)return renderMetaLoading();
     if(!metaPrediction.available)return renderMetaUnavailable(metaPrediction.reason);
-
     try{
       const rows=presentationRows(metaPrediction.rows||[]).slice(0,5);
       if(!rows.length)return renderMetaUnavailable('No predicted deck shares are available.');
@@ -173,11 +177,13 @@
   }
 
   function blendEvidence(core,archiveIrl=[]){
-    const online={},irl={};
+    const online={},irl={},current=runtimeFormats();
     if(core?.online?.format)online[core.online.format]=core.online;
     if(core?.irl?.format)irl[core.irl.format]=core.irl;
     for(const item of archiveIrl)if(item?.format)irl[item.format]=item;
-    return {asOf:core?.formatDate,splitDate:core?.splitDate||null,currentFormats:core?.currentFormats||{},calendarRevision:core?.calendarRevision,online,irl};
+    return {asOf:core?.formatDate,splitDate:core?.splitDate||null,
+      currentFormats:{online:current?.online||core?.currentFormats?.online||null,irl:current?.irl||core?.currentFormats?.irl||null},
+      calendarRevision:window.PTCGFormatRuntime?.revision?.()||core?.calendarRevision,online,irl};
   }
 
   async function predictionForCore(core){
@@ -201,11 +207,14 @@
       }).catch(error=>{
         if(request!==metaLoadId)return;
         console.warn('Home Blended prediction unavailable',error);
-        metaPrediction={format:core?.currentFormats?.online?.label||core?.online?.format||null,available:false,reason:'Required Blended evidence could not be loaded.',rows:[],weights:{irl:0,online:0}};
+        const current=runtimeFormats();
+        metaPrediction={format:current?.online?.label||core?.currentFormats?.online?.label||core?.online?.format||null,available:false,reason:'Required Blended evidence could not be loaded.',rows:[],weights:{irl:0,online:0}};
         renderMetaPreview();
       });
     };
     window.addEventListener('meta:release-core',apply);
+    const runtime=window.PTCGFormatRuntime;
+    if(runtime?.EVENT_NAME){window.addEventListener(runtime.EVENT_NAME,apply);runtime.ready?.().catch(()=>{})}
     window.MetaRelease?.ready?.().then(apply).catch(apply);
     apply();
   }
@@ -278,7 +287,9 @@
   renderHome();
   window.addEventListener('message',event=>{
     if(event.origin!==location.origin||event.source!==window.parent||event.data?.type!=='ptcg:shell-activated'||event.data.section!=='home')return;
-    if(!metaRefresh)metaRefresh=window.MetaRelease?.refresh?.().catch(error=>console.warn('Home Meta refresh unavailable',error)).finally(()=>{metaRefresh=null});
+    if(!metaRefresh)metaRefresh=Promise.allSettled([
+      window.MetaRelease?.refresh?.(),window.PTCGFormatRuntime?.refresh?.({force:true})
+    ]).finally(()=>{metaRefresh=null});
   });
   window.addEventListener('storage',renderHome);
   window.addEventListener('ptcg:local-change',renderHome);
