@@ -12,6 +12,7 @@ on:
       - 'scripts/prediction-accuracy.mjs'
       - 'scripts/update-online-formats.mjs'
       - 'scripts/meta-format-contract.mjs'
+      - 'scripts/load-published-calendar.mjs'
       - 'data/formats/maintained-calendar.json'
       - '.github/workflows/update-meta.yml'
 
@@ -26,6 +27,8 @@ jobs:
   archive:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      PTCG_FORMAT_SOURCE: published
     steps:
       - uses: actions/checkout@v4
         with:

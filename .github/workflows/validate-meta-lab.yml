@@ -19,10 +19,12 @@ on:
       - 'scripts/prediction-snapshots.mjs'
       - 'scripts/prediction-accuracy.mjs'
       - 'scripts/meta-format-contract.mjs'
+      - 'scripts/load-published-calendar.mjs'
       - 'scripts/update-online-formats.mjs'
       - 'data/formats/**'
       - 'tests/meta-formats.test.mjs'
       - 'tests/meta-ingest.test.mjs'
+      - 'tests/meta-published-calendar.test.mjs'
       - 'v2-preview/index.html'
       - 'tests/meta-navigation.test.js'
       - 'tests/meta-release.test.mjs'
@@ -57,6 +59,8 @@ jobs:
           node --check v2-preview/apps/events/prep-field.js
           node --check v2-preview/apps/_shared/meta-field.js
           node --check v2-preview/apps/_shared/recommendation-engine.js
+          node --check scripts/meta-format-contract.mjs
+          node --check scripts/load-published-calendar.mjs
       - name: Check required V2 Meta hooks
         run: |
           node - <<'NODE'
