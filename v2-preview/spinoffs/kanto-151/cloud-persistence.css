@@ -1,0 +1,21 @@
+.cloud-save-line {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  min-height: 20px;
+}
+#cloud-status { font-size: 10px; color: var(--muted); white-space: nowrap; }
+#cloud-status[data-mode="saved"] { color: var(--success); }
+#cloud-status[data-mode="error"] { color: var(--danger); }
+.cloud-sign-in {
+  min-height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 3px 7px;
+  background: var(--surface);
+  color: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}

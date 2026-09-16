@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#101319">
   <title>Kanto 151</title>
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./cloud-persistence.css">
 </head>
 <body>
   <header class="topbar">
@@ -16,6 +17,10 @@
     <div class="progress" aria-live="polite">
       <strong id="owned-count">0 / 151 owned</strong>
       <span id="chosen-count">0 chosen</span>
+      <div class="cloud-save-line">
+        <span id="cloud-status" data-mode="syncing">Checking save…</span>
+        <button id="cloud-sign-in" class="cloud-sign-in" type="button" hidden>Sign in to save</button>
+      </div>
     </div>
   </header>
 
@@ -85,6 +90,7 @@
 
   <script src="../../apps/_shared/card-catalog.js"></script>
   <script src="../../apps/_shared/card-images.js"></script>
+  <script src="./cloud-persistence.js"></script>
   <script src="./app.js"></script>
   <script src="./search-filter-reset.js"></script>
   <script src="./image-fallback.js"></script>
