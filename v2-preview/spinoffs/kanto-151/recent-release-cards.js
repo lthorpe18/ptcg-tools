@@ -42,6 +42,7 @@
     {
       id:'mep-101',name:'Nidorina',localId:'101',category:'Pokemon',hp:90,stage:'Stage1',rarity:'Promo',
       illustrator:'Taiga Kasai',regulationMark:'J',legal:{standard:false},set:SET,releaseDate:'2026-09-16',
+      abilities:[{name:'Share Happiness'}],attacks:[{name:'Bite'}],
       image:directImageRoot('https://bills-archive.nyc3.cdn.digitaloceanspaces.com/30th/30th_EN_101.webp'),
       sourceUrl:'https://www.pokemon.com/uk/news/pokemon-tcg-30th-celebration-product-showcase',
       _kantoRecent:true,_kantoSortRarity:'Illustration Rare'
