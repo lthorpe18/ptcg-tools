@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101319">
+  <title>Kanto 151</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Kanto collection</p>
+      <h1>151</h1>
+    </div>
+    <div class="progress" aria-live="polite">
+      <strong id="owned-count">0 / 151 owned</strong>
+      <span id="chosen-count">0 chosen</span>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section id="pokedex-grid" class="pokedex-grid" aria-label="Kanto Pokédex card grid"></section>
+  </main>
+
+  <dialog id="search-dialog" class="search-dialog">
+    <div class="search-sheet">
+      <header class="sheet-header">
+        <div>
+          <p id="picker-number" class="eyebrow">#001</p>
+          <h2 id="picker-title">Bulbasaur</h2>
+        </div>
+        <button id="close-picker" class="icon-button" type="button" aria-label="Close card search">×</button>
+      </header>
+
+      <form id="search-form" class="search-form" role="search">
+        <label class="sr-only" for="card-search">Search cards</label>
+        <input id="card-search" type="search" inputmode="search" autocomplete="off" autocapitalize="words" spellcheck="false">
+        <button type="submit" class="search-button">Search</button>
+      </form>
+
+      <div class="filter-actions">
+        <button id="filters-toggle" class="secondary-button" type="button" aria-expanded="false">Filters</button>
+        <button id="remove-choice" class="text-button danger" type="button" hidden>Remove choice</button>
+      </div>
+
+      <section id="filters-panel" class="filters-panel" hidden aria-label="Card filters">
+        <label>Set
+          <select id="filter-set"><option value="">Any set</option></select>
+        </label>
+        <label>Regulation mark
+          <select id="filter-regulation">
+            <option value="">Any mark</option>
+            <option>J</option><option>I</option><option>H</option><option>G</option><option>F</option><option>E</option>
+          </select>
+        </label>
+        <label>Type
+          <select id="filter-type">
+            <option value="">Any type</option>
+            <option>Grass</option><option>Fire</option><option>Water</option><option>Lightning</option><option>Psychic</option><option>Fighting</option><option>Darkness</option><option>Metal</option><option>Dragon</option><option>Colorless</option><option>Fairy</option>
+          </select>
+        </label>
+        <label>Stage
+          <select id="filter-stage">
+            <option value="">Any stage</option>
+            <option>Basic</option><option>Stage 1</option><option>Stage 2</option><option>VSTAR</option><option>VMAX</option><option>BREAK</option>
+          </select>
+        </label>
+        <label>Rarity
+          <input id="filter-rarity" type="text" placeholder="e.g. Illustration Rare">
+        </label>
+        <label>Illustrator
+          <input id="filter-illustrator" type="text" placeholder="Artist name">
+        </label>
+        <label>Minimum HP
+          <input id="filter-hp-min" type="number" inputmode="numeric" min="0" step="10" placeholder="Any">
+        </label>
+        <label>Maximum HP
+          <input id="filter-hp-max" type="number" inputmode="numeric" min="0" step="10" placeholder="Any">
+        </label>
+        <label class="check-filter"><input id="filter-standard" type="checkbox"> Standard legal</label>
+        <button id="clear-filters" class="secondary-button full-width" type="button">Clear filters</button>
+      </section>
+
+      <p id="results-status" class="results-status" aria-live="polite"></p>
+      <section id="card-results" class="card-results" aria-label="Card search results"></section>
+      <button id="show-more" class="secondary-button show-more" type="button" hidden>Show more</button>
+    </div>
+  </dialog>
+
+  <dialog id="zoom-dialog" class="zoom-dialog">
+    <div class="zoom-card">
+      <button id="close-zoom" class="icon-button zoom-close" type="button" aria-label="Close card preview">×</button>
+      <img id="zoom-image" alt="">
+      <div class="zoom-copy">
+        <strong id="zoom-name"></strong>
+        <span id="zoom-meta"></span>
+      </div>
+      <button id="zoom-choose" class="primary-button" type="button">+ Choose this card</button>
+    </div>
+  </dialog>
+
+  <script src="../../apps/_shared/card-catalog.js"></script>
+  <script src="../../apps/_shared/card-images.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
