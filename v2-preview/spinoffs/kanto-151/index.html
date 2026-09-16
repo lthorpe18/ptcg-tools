@@ -47,8 +47,8 @@
       <div class="quick-filter-row" aria-label="Quick card filters">
         <label class="sr-only" for="filter-set">Set code</label>
         <input id="filter-set" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Set code">
-        <label class="sr-only" for="filter-illustrator">Illustrator</label>
-        <input id="filter-illustrator" type="text" autocomplete="off" placeholder="Illustrator">
+        <label class="sr-only" for="filter-card-number">Card number</label>
+        <input id="filter-card-number" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Card number">
         <button id="filters-toggle" class="secondary-button" type="button" aria-expanded="false">Filters ▾</button>
       </div>
 
@@ -57,6 +57,9 @@
       </div>
 
       <section id="filters-panel" class="filters-panel" hidden aria-label="Card filters">
+        <label>Illustrator
+          <input id="filter-illustrator" type="text" autocomplete="off" placeholder="Any illustrator">
+        </label>
         <label>Rarity
           <select id="filter-rarity"><option value="">Any rarity</option></select>
         </label>
@@ -90,6 +93,7 @@
 
   <script src="../../apps/_shared/card-catalog.js"></script>
   <script src="./set-code-identity.js"></script>
+  <script src="./card-number-filter.js"></script>
   <script src="../../apps/_shared/card-images.js"></script>
   <script src="./cloud-persistence.js"></script>
   <script src="./app.js"></script>
