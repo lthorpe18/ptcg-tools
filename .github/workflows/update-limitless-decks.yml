@@ -11,6 +11,7 @@ on:
       - 'scripts/prediction-snapshots.mjs'
       - 'scripts/prediction-accuracy.mjs'
       - 'scripts/meta-format-contract.mjs'
+      - 'scripts/load-published-calendar.mjs'
       - 'data/formats/maintained-calendar.json'
       - '.github/workflows/update-limitless-decks.yml'
 
@@ -25,6 +26,8 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 6
+    env:
+      PTCG_FORMAT_SOURCE: published
     steps:
       - uses: actions/checkout@v4
         with:
@@ -32,7 +35,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Read PBL aggregate deck and matchup data
+      - name: Read current-format aggregate deck and matchup data
         run: node scripts/update-limitless-decks.mjs
       - name: Build validated browser release
         run: node scripts/build-meta-release.mjs
@@ -47,6 +50,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/meta/decks data/meta/online-fields data/meta/prediction-snapshots data/meta/prediction-accuracy v2-preview/data/meta/release
-          git commit -m "Update Limitless PBL deck matchups"
+          git commit -m "Update Limitless deck matchups"
           git pull --rebase
           git push
