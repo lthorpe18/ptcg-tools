@@ -11,14 +11,16 @@ test('Kanto filters are collapsed and simplified',()=>{
   const css=read('style.css');
   assert.match(html,/id="filters-panel"[^>]*hidden/);
   assert.match(css,/\.filters-panel\[hidden\]\s*\{\s*display:\s*none/);
-  assert.match(html,/id="filter-set"[^>]*maxlength="3"/);
+  assert.match(html,/id="filter-set"/);
+  assert.doesNotMatch(html,/id="filter-set"[^>]*maxlength=/);
   assert.match(html,/<select id="filter-rarity">/);
   assert.doesNotMatch(html,/id="filter-type"|id="filter-stage"|id="filter-hp-min"|id="filter-hp-max"/);
 });
 
-test('Kanto set code uses canonical three-letter deck identity',()=>{
+test('Kanto set code accepts canonical deck identities of any length',()=>{
   const source=read('app.js');
   assert.match(source,/normaliseSetCode/);
+  assert.doesNotMatch(source,/slice\(0,3\)/);
   assert.match(source,/catalog\.exactDeckIdentity\(card\)/);
-  assert.match(source,/identity\?\.set===setCode/);
+  assert.match(source,/normaliseSetCode\(identity\?\.set\)===setCode/);
 });

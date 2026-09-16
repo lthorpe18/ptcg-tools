@@ -42,7 +42,7 @@
 
   function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));}
   function dexNumber(number){return `#${String(number).padStart(3,'0')}`;}
-  function normaliseSetCode(value){return String(value||'').replace(/[^a-z0-9]/gi,'').slice(0,3).toUpperCase();}
+  function normaliseSetCode(value){return String(value||'').trim().toUpperCase();}
   function loadState(){
     try{
       const parsed=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
@@ -121,7 +121,7 @@
       const matches=await Promise.all(filtered.map(async card=>{
         try{
           const identity=await catalog.exactDeckIdentity(card);
-          return identity?.set===setCode?card:null;
+          return normaliseSetCode(identity?.set)===setCode?card:null;
         }catch{return null;}
       }));
       filtered=matches.filter(Boolean);
