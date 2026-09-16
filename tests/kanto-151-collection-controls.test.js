@@ -27,7 +27,7 @@ test('Kanto main collection controls distinguish wanted and owned cards',()=>{
     '2':{card:{id:'b'},owned:true},
     '3':{}
   };
-  assert.deepEqual(api.wantedEntries(state).map(entry=>entry.number),[1]);
+  assert.deepEqual(Array.from(api.wantedEntries(state),entry=>entry.number),[1]);
   assert.equal(api.visibleFor('wanted','wanted'),true);
   assert.equal(api.visibleFor('owned','wanted'),false);
 });
