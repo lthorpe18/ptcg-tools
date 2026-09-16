@@ -1,8 +1,15 @@
 import fs from 'node:fs/promises';
 import formatResolver from '../v2-preview/apps/_shared/format-resolver.js';
+import {loadPublishedCalendar} from './load-published-calendar.mjs';
 
-export const calendar = JSON.parse(await fs.readFile(new URL('../data/formats/maintained-calendar.json', import.meta.url), 'utf8'));
-export const resolver = formatResolver.create(calendar);
+const bootstrapCalendar=JSON.parse(await fs.readFile(new URL('../data/formats/maintained-calendar.json', import.meta.url), 'utf8'));
+const requestedSource=process.env.PTCG_FORMAT_SOURCE||'bootstrap';
+if(!['bootstrap','published'].includes(requestedSource))throw new Error(`Unknown PTCG_FORMAT_SOURCE: ${requestedSource}`);
+export const calendarAuthority=requestedSource==='published'
+  ? await loadPublishedCalendar()
+  : {source:'bootstrap',id:null,versionNumber:null,publishedAt:null,registry:bootstrapCalendar};
+export const calendar=calendarAuthority.registry;
+export const resolver=formatResolver.create(calendar);
 export const day = value => {
   const text = String(value || '');
   if (!/^\d{4}-\d{2}-\d{2}(?:$|T)/.test(text)) throw new Error(`Missing/invalid event date: ${text}`);
