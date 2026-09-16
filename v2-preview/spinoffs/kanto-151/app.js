@@ -25,12 +25,8 @@
   const setFilter=document.getElementById('filter-set');
   const filters={
     regulation:document.getElementById('filter-regulation'),
-    type:document.getElementById('filter-type'),
-    stage:document.getElementById('filter-stage'),
     rarity:document.getElementById('filter-rarity'),
     illustrator:document.getElementById('filter-illustrator'),
-    hpMin:document.getElementById('filter-hp-min'),
-    hpMax:document.getElementById('filter-hp-max'),
     standard:document.getElementById('filter-standard')
   };
 
@@ -42,11 +38,11 @@
   let visibleCount=PAGE_SIZE;
   let searchSerial=0;
   let zoomCard=null;
-  let setOptionsLoaded=false;
   let debounceTimer=null;
 
   function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));}
   function dexNumber(number){return `#${String(number).padStart(3,'0')}`;}
+  function normaliseSetCode(value){return String(value||'').replace(/[^a-z0-9]/gi,'').slice(0,3).toUpperCase();}
   function loadState(){
     try{
       const parsed=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
@@ -81,18 +77,6 @@
     ownedCount.textContent=`${owned} / 151 owned`;
   }
 
-  async function ensureSetOptions(){
-    if(setOptionsLoaded||!catalog?.sets)return;
-    setOptionsLoaded=true;
-    try{
-      const sets=await catalog.sets();
-      const rows=[...(sets||[])].sort((a,b)=>String(b.releaseDate||'').localeCompare(String(a.releaseDate||''))||String(a.name||'').localeCompare(String(b.name||'')));
-      setFilter.insertAdjacentHTML('beforeend',rows.map(set=>`<option value="${escapeHtml(set.id)}">${escapeHtml(set.name||set.id)}</option>`).join(''));
-    }catch{
-      setOptionsLoaded=false;
-    }
-  }
-
   function openPicker(number){
     activePokemon=POKEMON[number-1];
     if(!activePokemon)return;
@@ -100,12 +84,14 @@
     pickerTitle.textContent=activePokemon.name;
     searchInput.value=activePokemon.name;
     removeChoice.hidden=!slotState(number)?.card?.id;
+    filtersPanel.hidden=true;
+    filtersToggle.setAttribute('aria-expanded','false');
+    filtersToggle.textContent='Filters ▾';
     searchResults=[];
     visibleCount=PAGE_SIZE;
     resultsRoot.innerHTML='';
     resultsStatus.textContent='Searching…';
     searchDialog.showModal();
-    ensureSetOptions();
     runSearch();
     requestAnimationFrame(()=>searchInput.focus({preventScroll:true}));
   }
@@ -114,16 +100,36 @@
     return {
       name:searchInput.value.trim(),
       category:'Pokemon',
-      setId:setFilter.value,
       regulationMark:filters.regulation.value,
-      type:filters.type.value,
-      stage:filters.stage.value,
-      rarity:filters.rarity.value.trim(),
       illustrator:filters.illustrator.value.trim(),
-      hpMin:filters.hpMin.value,
-      hpMax:filters.hpMax.value,
       standardOnly:filters.standard.checked
     };
+  }
+
+  function populateRarityOptions(rows){
+    const selected=filters.rarity.value;
+    const rarities=[...new Set((rows||[]).map(card=>String(card?.rarity||'').trim()).filter(Boolean))]
+      .sort((a,b)=>a.localeCompare(b,'en',{sensitivity:'base'}));
+    filters.rarity.innerHTML='<option value="">Any rarity</option>'+rarities.map(value=>`<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
+    if(rarities.includes(selected))filters.rarity.value=selected;
+  }
+
+  async function applyLocalFilters(rows){
+    let filtered=[...(rows||[])];
+    const setCode=normaliseSetCode(setFilter.value);
+    if(setCode){
+      const matches=await Promise.all(filtered.map(async card=>{
+        try{
+          const identity=await catalog.exactDeckIdentity(card);
+          return identity?.set===setCode?card:null;
+        }catch{return null;}
+      }));
+      filtered=matches.filter(Boolean);
+    }
+    populateRarityOptions(filtered);
+    const rarity=filters.rarity.value;
+    if(rarity)filtered=filtered.filter(card=>String(card?.rarity||'')===rarity);
+    return filtered;
   }
 
   async function runSearch(){
@@ -139,7 +145,9 @@
     try{
       const rows=await catalog.searchAdvanced(params);
       if(serial!==searchSerial)return;
-      searchResults=rows||[];
+      const filtered=await applyLocalFilters(rows||[]);
+      if(serial!==searchSerial)return;
+      searchResults=filtered;
       renderResults();
     }catch(error){
       if(serial!==searchSerial)return;
@@ -229,6 +237,11 @@
     runSearch();
   }
 
+  function debouncedSearch(delay=260){
+    clearTimeout(debounceTimer);
+    debounceTimer=setTimeout(runSearch,delay);
+  }
+
   grid.addEventListener('click',event=>{
     const ownedButton=event.target.closest('[data-owned-toggle]');
     if(ownedButton){
@@ -252,14 +265,19 @@
   });
 
   searchForm.addEventListener('submit',event=>{event.preventDefault();runSearch();});
-  searchInput.addEventListener('input',()=>{clearTimeout(debounceTimer);debounceTimer=setTimeout(runSearch,320);});
-  setFilter.addEventListener('change',runSearch);
+  searchInput.addEventListener('input',()=>debouncedSearch(320));
+  setFilter.addEventListener('input',()=>{
+    const normalised=normaliseSetCode(setFilter.value);
+    if(setFilter.value!==normalised)setFilter.value=normalised;
+    debouncedSearch();
+  });
   Object.values(filters).forEach(element=>element.addEventListener('change',runSearch));
 
   filtersToggle.addEventListener('click',()=>{
     const opening=filtersPanel.hidden;
     filtersPanel.hidden=!opening;
     filtersToggle.setAttribute('aria-expanded',String(opening));
+    filtersToggle.textContent=opening?'Filters ▴':'Filters ▾';
   });
   document.getElementById('clear-filters').addEventListener('click',clearFilters);
   document.getElementById('close-picker').addEventListener('click',()=>searchDialog.close());
