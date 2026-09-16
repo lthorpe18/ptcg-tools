@@ -1,9 +1,9 @@
 # PTCG Tools — Meta V2 Architecture
 
-> **Operational entry:** [CURRENT_STATE.md](../../../CURRENT_STATE.md) and the [calendar handoff](../../../handoffs/shared-format-calendar-consumers.md) track open PR #60. This is the main app Meta architecture; the separate `ptcg-meta-analysis` research repository does not own this feature.
+> **Operational entry:** [CURRENT_STATE.md](../../../CURRENT_STATE.md) and the [calendar handoff](../../../handoffs/shared-format-calendar-consumers.md) track current implementation/acceptance. This is the main app Meta architecture; the separate `ptcg-meta-analysis` research repository does not own this feature.
 
 **Status:** Current Meta runtime/data-delivery source of truth  
-**Date:** 13 September 2026  
+**Date:** 16 September 2026  
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`
 
 ## Current position
@@ -46,7 +46,7 @@ Meta consumes rather than duplicates:
 - `PTCGRecommendation` recommendation logic;
 - `DeckSprites.html()` for deck/archetype identity;
 - `PTCGFormat` for canonical date/environment format resolution;
-- `PTCGFormatCalendar` as the shared maintained calendar source once consumer wiring is complete.
+- `PTCGFormatCalendar` / the published Formats & Sets registry as the shared maintained calendar authority.
 
 ---
 
@@ -74,7 +74,7 @@ No prediction silently substitutes incompatible or IRL-only evidence when minimu
 
 The format resolver remains the one canonical authority for date/environment legality context.
 
-Settings → Maintenance → Formats & Sets now provides a published shared calendar with independent:
+Settings → Maintenance → Formats & Sets provides the maintained **published shared calendar** with independent:
 
 - physical release date;
 - Online legality date;
@@ -83,20 +83,27 @@ Settings → Maintenance → Formats & Sets now provides a published shared cale
 
 Individual card legality is based on each printing's own `regulationMark`, not inferred from whole-set marks.
 
-### Immediate integration package
+### Runtime consumers
 
-The Settings/shared-calendar maintenance path is implemented, but Meta/WSIP runtime still needs a bounded migration so normal consumers load the **published shared calendar** and resolve format context through `PTCGFormat` rather than depending only on checked-in/current-release assumptions.
+Home, Meta/Blended/WSIP, Event Prep and Card Search are wired through the shared runtime. Interactive browser consumers use the shared published registry first, then a validated last-known-good copy, then the checked-in bootstrap if necessary for availability.
 
-The migration must preserve:
+The runtime must preserve:
 
-- validated last-known-good/checked-in fallback through `PTCGFormatCalendar`;
 - independent Online vs IRL dates;
 - explicit unknown facts;
 - actual event date for Event Prep;
 - Saved Expected Field provenance;
 - generation guards against late stale async context replacing current state.
 
-Do not recreate format logic inside Meta pages.
+### Production Meta generation
+
+Scheduled Meta ingestion and release generation must use the same **published Formats & Sets registry** as the application. The production jobs explicitly opt into the published source before resolving ingestion boundaries or current Online/IRL identities.
+
+Production generation is intentionally stricter than an interactive browser: if the published registry cannot be read or validated, the job must **fail closed** and retain the previously generated release. It must not silently publish a new Meta release from a stale checked-in bootstrap.
+
+`data/formats/maintained-calendar.json` remains a bootstrap/emergency runtime fallback and deterministic local/test fixture. It is not a second production calendar that maintainers must manually keep in sync with Settings → Formats & Sets.
+
+Do not recreate format logic inside Meta pages or generation scripts.
 
 ---
 
@@ -174,7 +181,7 @@ The planned Event Prep v2 extension should consume Practice Priorities derived f
 
 Normal browsers never ingest Limitless tournament result evidence directly.
 
-Scheduled ingestion builds canonical archives and a content-addressed browser release under `v2-preview/data/meta/release/`.
+Scheduled ingestion builds canonical archives and a content-addressed browser release under `v2-preview/data/meta/release/`. Before ingestion/release construction, production jobs resolve format context from the current published Formats & Sets registry.
 
 `meta-release-loader.js` owns browser release discovery, checksum validation and last-known-good Cache Storage.
 
@@ -220,18 +227,13 @@ Smoke-test at minimum:
 8. Back/Forward and reload restoration;
 9. real iPhone startup for changes touching render lifecycle, service worker or data loading.
 
-For the upcoming format-calendar consumer package, add explicit tests around shared published calendar loading, Online/IRL split dates and Event Prep event-date resolution.
+Calendar integration tests must cover published calendar loading, independent Online/IRL transition dates, production-generation source selection and Event Prep event-date resolution.
 
 ---
 
 ## 12. Current validation debt
 
-Two repository-wide baseline failures are currently known:
-
-- prediction snapshot publication lookup (`assert.ok(publication)`);
-- WSIP live/current-release expectation drift where an old test expects `Unknown` but current evidence produces a strong recommendation.
-
-These are tracked debt, not permission to weaken the accepted Meta/WSIP contracts.
+The earlier prediction snapshot publication lookup and stale WSIP expectation are known baseline debt. After the 16 September transition, additional date-sensitive assertions surfaced; reconcile them against the maintained calendar and actual generated release rather than weakening the accepted Meta/WSIP contracts.
 
 ---
 
@@ -239,4 +241,4 @@ These are tracked debt, not permission to weaken the accepted Meta/WSIP contract
 
 Meta/WSIP is not a broad active rebuild programme.
 
-Immediate work is the bounded **shared format-calendar consumer wiring** package. After that, central product development moves to **Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence**, with Prediction Accuracy fitting delayed until enough genuine scored majors justify it.
+Shared browser consumer wiring is merged. The active bounded follow-up is ensuring production Meta generation uses the same published calendar. After that, central product development moves to **Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence**, with Prediction Accuracy fitting delayed until enough genuine scored majors justify it.
