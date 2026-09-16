@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-16T07:53:46.892Z",
+  "generatedAt": "2026-09-16T13:43:25.523Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,20 +9,10 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6aa8b39138886b36383c0937",
-      "source": "limitless",
-      "sourceId": "6aa8b39138886b36383c0937",
-      "name": "SEASAC League Challenge #9 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6aa8b39138886b36383c0937/details",
-      "startAt": "2026-09-16T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6aa7fb5cf1243e65f9801018",
       "source": "limitless",
       "sourceId": "6aa7fb5cf1243e65f9801018",
-      "name": "Team Corna Weekly September's #4 (30th Legal)",
+      "name": "Team Corna Weekly 30th Legal (closed decklist)",
       "url": "https://play.limitlesstcg.com/tournament/6aa7fb5cf1243e65f9801018/details",
       "startAt": "2026-09-16T16:00:00.000Z"
     },
@@ -475,6 +465,16 @@
       "name": "#Brazil Limitless Trainer #004",
       "url": "https://play.limitlesstcg.com/tournament/6aa879f438886b36383c02fe/details",
       "startAt": "2026-09-22T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aaa897e38886b36383c1765",
+      "source": "limitless",
+      "sourceId": "6aaa897e38886b36383c1765",
+      "name": "🐓🇧🇷 RINHA DE GALO#4 - PREMIAÇÃO EM PIX 🇧🇷🐓",
+      "url": "https://play.limitlesstcg.com/tournament/6aaa897e38886b36383c1765/details",
+      "startAt": "2026-09-22T23:00:00.000Z"
     },
     {
       "format": "Standard",
