@@ -40,13 +40,16 @@
       </form>
 
       <div class="filter-actions">
-        <button id="filters-toggle" class="secondary-button" type="button" aria-expanded="false">Filters</button>
+        <button id="filters-toggle" class="secondary-button" type="button" aria-expanded="false">Filters ▾</button>
         <button id="remove-choice" class="text-button danger" type="button" hidden>Remove choice</button>
       </div>
 
       <section id="filters-panel" class="filters-panel" hidden aria-label="Card filters">
-        <label>Set
-          <select id="filter-set"><option value="">Any set</option></select>
+        <label>Set code
+          <input id="filter-set" type="text" maxlength="3" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="e.g. TEF">
+        </label>
+        <label>Rarity
+          <select id="filter-rarity"><option value="">Any rarity</option></select>
         </label>
         <label>Regulation mark
           <select id="filter-regulation">
@@ -54,29 +57,8 @@
             <option>J</option><option>I</option><option>H</option><option>G</option><option>F</option><option>E</option>
           </select>
         </label>
-        <label>Type
-          <select id="filter-type">
-            <option value="">Any type</option>
-            <option>Grass</option><option>Fire</option><option>Water</option><option>Lightning</option><option>Psychic</option><option>Fighting</option><option>Darkness</option><option>Metal</option><option>Dragon</option><option>Colorless</option><option>Fairy</option>
-          </select>
-        </label>
-        <label>Stage
-          <select id="filter-stage">
-            <option value="">Any stage</option>
-            <option>Basic</option><option>Stage 1</option><option>Stage 2</option><option>VSTAR</option><option>VMAX</option><option>BREAK</option>
-          </select>
-        </label>
-        <label>Rarity
-          <input id="filter-rarity" type="text" placeholder="e.g. Illustration Rare">
-        </label>
         <label>Illustrator
           <input id="filter-illustrator" type="text" placeholder="Artist name">
-        </label>
-        <label>Minimum HP
-          <input id="filter-hp-min" type="number" inputmode="numeric" min="0" step="10" placeholder="Any">
-        </label>
-        <label>Maximum HP
-          <input id="filter-hp-max" type="number" inputmode="numeric" min="0" step="10" placeholder="Any">
         </label>
         <label class="check-filter"><input id="filter-standard" type="checkbox"> Standard legal</label>
         <button id="clear-filters" class="secondary-button full-width" type="button">Clear filters</button>
