@@ -8,6 +8,7 @@ on:
       - 'scripts/prediction-snapshots.mjs'
       - 'scripts/prediction-accuracy.mjs'
       - 'scripts/meta-format-contract.mjs'
+      - 'scripts/load-published-calendar.mjs'
       - 'data/formats/maintained-calendar.json'
       - '.github/workflows/update-irl-labs.yml'
   schedule:
@@ -25,6 +26,8 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 8
+    env:
+      PTCG_FORMAT_SOURCE: published
     steps:
       - uses: actions/checkout@v4
         with:
