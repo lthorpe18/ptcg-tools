@@ -55,17 +55,19 @@ dialog { border: 0; padding: 0; color: inherit; background: transparent; }
 dialog::backdrop { background: rgba(0,0,0,.72); backdrop-filter: blur(4px); }
 .search-dialog { width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; }
 .search-sheet { min-height: 100%; background: #101319; padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)); }
-.sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.sheet-header h2 { margin: 0; font-size: 25px; }
+.sheet-header { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 8px; }
 .icon-button { width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: inherit; font-size: 26px; line-height: 1; }
 .search-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
 input, select { width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: inherit; padding: 10px 11px; font-size: 16px; }
 .search-button, .primary-button { border: 0; border-radius: 10px; background: var(--accent); color: #07101f; font-weight: 800; padding: 0 15px; min-height: 44px; }
-.filter-actions { min-height: 46px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.quick-filter-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.15fr) auto; gap: 8px; align-items: stretch; margin-top: 10px; }
+.quick-filter-row input, .quick-filter-row button { min-width: 0; }
+.quick-filter-row .secondary-button { min-height: 44px; padding-inline: 10px; white-space: nowrap; }
+.choice-actions { display: flex; justify-content: flex-end; }
 .secondary-button, .text-button { border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: inherit; min-height: 38px; padding: 8px 12px; font-weight: 700; }
 .text-button { background: transparent; border-color: transparent; }
 .text-button.danger { color: var(--danger); }
-.filters-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 4px 0 14px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.filters-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 8px 0 14px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
 .filters-panel[hidden] { display: none; }
 .filters-panel label { display: grid; gap: 5px; min-width: 0; color: var(--muted); font-size: 12px; font-weight: 700; }
 .filters-panel .check-filter { display: flex; align-items: center; gap: 8px; min-height: 44px; color: #e8edf4; }
