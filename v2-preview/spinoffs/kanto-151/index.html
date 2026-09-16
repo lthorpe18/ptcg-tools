@@ -7,6 +7,7 @@
   <title>Kanto 151</title>
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./cloud-persistence.css">
+  <link rel="stylesheet" href="./collection-controls.css">
 </head>
 <body>
   <header class="topbar">
@@ -23,6 +24,24 @@
       </div>
     </div>
   </header>
+
+  <section class="collection-controls" aria-label="Collection view controls">
+    <div class="collection-filter-row" role="group" aria-label="Show collection cards">
+      <button class="collection-filter" type="button" data-collection-filter="all" aria-pressed="true">All <span id="collection-count-all">151</span></button>
+      <button class="collection-filter" type="button" data-collection-filter="wanted" aria-pressed="false">Wanted <span id="collection-count-wanted">0</span></button>
+      <button class="collection-filter" type="button" data-collection-filter="owned" aria-pressed="false">Owned <span id="collection-count-owned">0</span></button>
+    </div>
+    <div class="collection-action-row">
+      <label class="sr-only" for="collection-sort">Sort collection</label>
+      <select id="collection-sort" aria-label="Sort collection">
+        <option value="dex">Pokédex #</option>
+        <option value="wanted">Wanted first</option>
+        <option value="owned">Owned first</option>
+      </select>
+      <button id="copy-wanted" class="secondary-button" type="button">Copy wanted for Cardmarket</button>
+    </div>
+    <p id="collection-copy-status" class="collection-copy-status" aria-live="polite"></p>
+  </section>
 
   <main class="page-shell">
     <section id="pokedex-grid" class="pokedex-grid" aria-label="Kanto Pokédex card grid"></section>
@@ -92,11 +111,15 @@
   </dialog>
 
   <script src="../../apps/_shared/card-catalog.js"></script>
+  <script src="./recent-release-cards.js"></script>
   <script src="./set-code-identity.js"></script>
   <script src="./card-number-filter.js"></script>
+  <script src="./rarity-sort.js"></script>
   <script src="../../apps/_shared/card-images.js"></script>
+  <script src="./image-identity-fix.js"></script>
   <script src="./cloud-persistence.js"></script>
   <script src="./app.js"></script>
+  <script src="./collection-controls.js"></script>
   <script src="./search-filter-reset.js"></script>
   <script src="./image-fallback.js"></script>
 </body>
