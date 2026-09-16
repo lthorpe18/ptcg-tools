@@ -9,7 +9,7 @@ const read=name=>fs.readFileSync(path.join(root,name),'utf8');
 
 function helpers(){
   const source=read('collection-controls.js');
-  const window={PTCGCardCatalog:null};
+  const window={PTCGCardCatalog:null,PTCGCardImages:null};
   const document={getElementById:()=>null,querySelectorAll:()=>[]};
   const localStorage={getItem:()=>null};
   vm.runInNewContext(source,{window,document,localStorage,String,Number,Object,Set,JSON});
@@ -58,7 +58,19 @@ test('Cardmarket copy format uses Pokemon name, abilities, attacks and expansion
   assert.equal(nidorina,'1x Nidorina Share Happiness Bite (MEP Black Star Promos)');
 });
 
-test('Kanto main screen exposes collection filters, sorting and Cardmarket copy',()=>{
+test('wanted image layout remains exportable even for all 151 cards',()=>{
+  const api=helpers();
+  const small=api.wantedImageLayout(3);
+  assert.equal(small.columns,3);
+  assert.equal(small.rows,1);
+  const full=api.wantedImageLayout(151);
+  assert.equal(full.columns,5);
+  assert.equal(full.rows,31);
+  assert.ok(full.width<2048);
+  assert.ok(full.height<12000);
+});
+
+test('Kanto main screen exposes collection filters, sorting, Cardmarket copy and wanted image generation',()=>{
   const html=read('index.html');
   const css=read('collection-controls.css');
   const source=read('collection-controls.js');
@@ -66,6 +78,14 @@ test('Kanto main screen exposes collection filters, sorting and Cardmarket copy'
   assert.match(html,/id="collection-sort"[\s\S]*Wanted first[\s\S]*Owned first/);
   assert.match(html,/id="copy-wanted"[^>]*>Copy wanted for Cardmarket/);
   assert.match(css,/\.dex-slot\[hidden\]\s*\{\s*display:\s*none/);
+  assert.match(css,/grid-template-columns:\s*minmax\(0,\s*\.78fr\)\s*repeat\(2,/);
+  assert.match(source,/generate-wanted-image/);
+  assert.match(source,/Generate wanted image/);
+  assert.match(source,/wanted-image-dialog/);
+  assert.match(source,/images\?\.resolve/);
+  assert.match(source,/canvas\.toBlob/);
+  assert.match(source,/ClipboardItem/);
+  assert.match(source,/kanto-151-wanted\.png/);
   assert.match(source,/navigator\.clipboard\?\.writeText/);
   assert.ok(html.indexOf('./collection-controls.js')>html.indexOf('./app.js'));
 });
