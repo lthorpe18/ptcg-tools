@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-16T18:25:12.440Z",
+  "generatedAt": "2026-09-16T21:42:18.691Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa42a02f1243e65f97fd2d7",
-      "source": "limitless",
-      "sourceId": "6aa42a02f1243e65f97fd2d7",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #2",
-      "url": "https://play.limitlesstcg.com/tournament/6aa42a02f1243e65f97fd2d7/details",
-      "startAt": "2026-09-16T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aaa4577f1243e65f9802955",
-      "source": "limitless",
-      "sourceId": "6aaa4577f1243e65f9802955",
-      "name": "ASRcristiano #188 -Road to Frankfurt! 30c legal",
-      "url": "https://play.limitlesstcg.com/tournament/6aaa4577f1243e65f9802955/details",
-      "startAt": "2026-09-16T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6a9eeed3ab080c8c957fcf41",
-      "source": "limitless",
-      "sourceId": "6a9eeed3ab080c8c957fcf41",
-      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #22⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6a9eeed3ab080c8c957fcf41/details",
-      "startAt": "2026-09-16T19:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
