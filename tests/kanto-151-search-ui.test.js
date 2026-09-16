@@ -23,7 +23,9 @@ test('Kanto picker hides duplicate Pokemon heading',()=>{
 test('Kanto filters reset before each new Pokemon picker opens',()=>{
   const html=read('index.html');
   const source=read('search-filter-reset.js');
-  assert.match(html,/\.\/app\.js<\/script>\s*<script src="\.\/search-filter-reset\.js"/);
+  const appIndex=html.indexOf('<script src="./app.js"></script>');
+  const resetIndex=html.indexOf('<script src="./search-filter-reset.js"></script>');
+  assert.ok(appIndex>=0&&resetIndex>appIndex,'filter reset loads after the Kanto app');
   assert.match(source,/\[data-open-picker\]/);
   assert.match(source,/setFilter\.value=''/);
   assert.match(source,/illustrator\.value=''/);
