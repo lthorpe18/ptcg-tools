@@ -76,7 +76,7 @@
   function createHeading(group,index,order){
     const heading=document.createElement('div');
     heading.className='set-section-heading';
-    heading.dataset.setSectionHeading=group.key;
+    heading.setAttribute('data-set-section-heading',group.key);
     heading.dataset.first=String(index===0);
     heading.style.order=String(order);
     heading.setAttribute('role','heading');
