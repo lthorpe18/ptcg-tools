@@ -17,7 +17,11 @@ export async function loadPublishedCalendar(options={}) {
   url.searchParams.set('order','version_number.desc');
   url.searchParams.set('limit','1');
 
-  const response=await fetcher(url,{headers:{apikey:key,accept:'application/json'}});
+  const response=await fetcher(url,{headers:{
+    apikey:key,
+    Authorization:`Bearer ${key}`,
+    accept:'application/json'
+  }});
   if(!response?.ok)throw new Error(`Published format calendar request failed${response?` (${response.status})`:''}`);
   const rows=await response.json();
   const row=Array.isArray(rows)?rows[0]:null;
