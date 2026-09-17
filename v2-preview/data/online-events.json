@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-17T18:32:19.876Z",
+  "generatedAt": "2026-09-17T21:44:27.980Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a988c84ab080c8c957f822d",
-      "source": "limitless",
-      "sourceId": "6a988c84ab080c8c957f822d",
-      "name": "10° Torneo del circuito CarroTCG/Prof. Fili",
-      "url": "https://play.limitlesstcg.com/tournament/6a988c84ab080c8c957f822d/details",
-      "startAt": "2026-09-17T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a9eef1fa4272c53be649d76",
-      "source": "limitless",
-      "sourceId": "6a9eef1fa4272c53be649d76",
-      "name": "⚡ Surge's TCG Vault - Winner Takes All ⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6a9eef1fa4272c53be649d76/details",
-      "startAt": "2026-09-17T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aaa460438886b36383c1655",
-      "source": "limitless",
-      "sourceId": "6aaa460438886b36383c1655",
-      "name": "ASRcristiano # 189 - 60 codes - Road to Frankfurt!",
-      "url": "https://play.limitlesstcg.com/tournament/6aaa460438886b36383c1655/details",
-      "startAt": "2026-09-17T19:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -72,7 +42,7 @@
       "id": "limitless:6aab44c138886b36383c21bf",
       "source": "limitless",
       "sourceId": "6aab44c138886b36383c21bf",
-      "name": "🟢Jolly Good Weekly #7 | Top Cut! (50 Codes!)",
+      "name": "🎉30TH LEGAL! | 🟢Jolly Good Weekly #7 | Top Cut!",
       "url": "https://play.limitlesstcg.com/tournament/6aab44c138886b36383c21bf/details",
       "startAt": "2026-09-18T00:00:00.000Z"
     },
@@ -109,10 +79,20 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aac4b05e905c1db687439e8",
+      "source": "limitless",
+      "sourceId": "6aac4b05e905c1db687439e8",
+      "name": "⚡️ Vault Of Games | 30TH LEGAL Midnight Madness #6",
+      "url": "https://play.limitlesstcg.com/tournament/6aac4b05e905c1db687439e8/details",
+      "startAt": "2026-09-18T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a43873b83fd320299bd4947",
       "source": "limitless",
       "sourceId": "6a43873b83fd320299bd4947",
-      "name": "Oceania Open! | Season 3 - Week 12",
+      "name": "30th ANNIVERSARY IS HERE! Oceania Open! | S3 wk 12",
       "url": "https://play.limitlesstcg.com/tournament/6a43873b83fd320299bd4947/details",
       "startAt": "2026-09-18T09:30:00.000Z"
     },
@@ -375,6 +355,16 @@
       "name": "Torneo Relámpago ⚡ #82 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6a8c61df81741245b151d823/details",
       "startAt": "2026-09-23T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aaa945538886b36383c17dc",
+      "source": "limitless",
+      "sourceId": "6aaa945538886b36383c17dc",
+      "name": "🐓🇧🇷 COLISEU DO GALO#1-PREMIAÇÃO EM PIX 🇧🇷🐓",
+      "url": "https://play.limitlesstcg.com/tournament/6aaa945538886b36383c17dc/details",
+      "startAt": "2026-09-23T12:30:00.000Z"
     },
     {
       "format": "Standard",
