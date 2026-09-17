@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-16T21:42:18.691Z",
+  "generatedAt": "2026-09-17T00:52:38.183Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa5b6ca38886b36383be0c3",
-      "source": "limitless",
-      "sourceId": "6aa5b6ca38886b36383be0c3",
-      "name": "Zard-Pokénight #018",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5b6ca38886b36383be0c3/details",
-      "startAt": "2026-09-16T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa1a404ab080c8c957ff3c9",
-      "source": "limitless",
-      "sourceId": "6aa1a404ab080c8c957ff3c9",
-      "name": "REFINE Autumn Series Session 3: Maple (No 30th)",
-      "url": "https://play.limitlesstcg.com/tournament/6aa1a404ab080c8c957ff3c9/details",
-      "startAt": "2026-09-16T23:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa5d141f1243e65f97ff7a7",
-      "source": "limitless",
-      "sourceId": "6aa5d141f1243e65f97ff7a7",
-      "name": "🎁Premio ETB 🇨🇱🏆BO1🏆 30 ANIVERSARIO ✅",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5d141f1243e65f97ff7a7/details",
-      "startAt": "2026-09-17T01:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -45,6 +15,16 @@
       "name": "Domino Arena Cup| Temporada 3 | Semana 1 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6aaac71438886b36383c19c9/details",
       "startAt": "2026-09-17T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa5d141f1243e65f97ff7a7",
+      "source": "limitless",
+      "sourceId": "6aa5d141f1243e65f97ff7a7",
+      "name": "🎁Premio ETB 🇨🇱🏆BO1🏆ED 30 ANIVERSARIO ✅",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5d141f1243e65f97ff7a7/details",
+      "startAt": "2026-09-17T01:15:00.000Z"
     },
     {
       "format": "Standard",
@@ -84,6 +64,16 @@
       "sourceId": "6aa26770a4272c53be64cba7",
       "name": "👑CrownOfSpain 👑 #7 (10€ paypal)",
       "url": "https://play.limitlesstcg.com/tournament/6aa26770a4272c53be64cba7/details",
+      "startAt": "2026-09-17T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aab160238886b36383c1e4e",
+      "source": "limitless",
+      "sourceId": "6aab160238886b36383c1e4e",
+      "name": "Amyverse PTCG Live 30th Anniversary Standard 🎉",
+      "url": "https://play.limitlesstcg.com/tournament/6aab160238886b36383c1e4e/details",
       "startAt": "2026-09-17T18:00:00.000Z"
     },
     {
@@ -435,6 +425,16 @@
       "name": "Torneo Relámpago ⚡ #82 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6a8c61df81741245b151d823/details",
       "startAt": "2026-09-23T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aab154f38886b36383c1e47",
+      "source": "limitless",
+      "sourceId": "6aab154f38886b36383c1e47",
+      "name": "Amyverse PTCG Live Weekly #14 💛 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6aab154f38886b36383c1e47/details",
+      "startAt": "2026-09-23T18:00:00.000Z"
     },
     {
       "format": "Standard",
