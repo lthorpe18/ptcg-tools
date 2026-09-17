@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-17T13:46:06.609Z",
+  "generatedAt": "2026-09-17T18:32:19.876Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa5ace8f1243e65f97ff33f",
-      "source": "limitless",
-      "sourceId": "6aa5ace8f1243e65f97ff33f",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5ace8f1243e65f97ff33f/details",
-      "startAt": "2026-09-17T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aab955638886b36383c23c0",
-      "source": "limitless",
-      "sourceId": "6aab955638886b36383c23c0",
-      "name": "⚗️PokéKhemistry TURBO Thursday",
-      "url": "https://play.limitlesstcg.com/tournament/6aab955638886b36383c23c0/details",
-      "startAt": "2026-09-17T17:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa26770a4272c53be64cba7",
-      "source": "limitless",
-      "sourceId": "6aa26770a4272c53be64cba7",
-      "name": "👑CrownOfSpain 👑 #7 (10€ paypal)",
-      "url": "https://play.limitlesstcg.com/tournament/6aa26770a4272c53be64cba7/details",
-      "startAt": "2026-09-17T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aab160238886b36383c1e4e",
-      "source": "limitless",
-      "sourceId": "6aab160238886b36383c1e4e",
-      "name": "Amyverse PTCG Live 30th Anniversary Standard 🎉",
-      "url": "https://play.limitlesstcg.com/tournament/6aab160238886b36383c1e4e/details",
-      "startAt": "2026-09-17T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a993212ab080c8c957f88e5",
-      "source": "limitless",
-      "sourceId": "6a993212ab080c8c957f88e5",
-      "name": "🏆Ling TV ARENA🏆- 30 YEARS PLAYABLE",
-      "url": "https://play.limitlesstcg.com/tournament/6a993212ab080c8c957f88e5/details",
-      "startAt": "2026-09-17T18:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -72,7 +22,7 @@
       "id": "limitless:6a9eef1fa4272c53be649d76",
       "source": "limitless",
       "sourceId": "6a9eef1fa4272c53be649d76",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
+      "name": "⚡ Surge's TCG Vault - Winner Takes All ⚡",
       "url": "https://play.limitlesstcg.com/tournament/6a9eef1fa4272c53be649d76/details",
       "startAt": "2026-09-17T19:00:00.000Z"
     },
@@ -129,12 +79,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aabef2ef127b1b52c27b2bb",
+      "source": "limitless",
+      "sourceId": "6aabef2ef127b1b52c27b2bb",
+      "name": "Heart of the Games Online Series - S103",
+      "url": "https://play.limitlesstcg.com/tournament/6aabef2ef127b1b52c27b2bb/details",
+      "startAt": "2026-09-18T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8c60318302ae761e5fb22b",
       "source": "limitless",
       "sourceId": "6a8c60318302ae761e5fb22b",
       "name": "Torneo Relámpago ⚡ #80 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6a8c60318302ae761e5fb22b/details",
       "startAt": "2026-09-18T01:30:00.000Z"
+    },
+    {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6aac21abf127b1b52c27b4a1",
+      "source": "limitless",
+      "sourceId": "6aac21abf127b1b52c27b4a1",
+      "name": "Holon Locals #45 (US Friendly)",
+      "url": "https://play.limitlesstcg.com/tournament/6aac21abf127b1b52c27b4a1/details",
+      "startAt": "2026-09-18T02:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -155,6 +125,16 @@
       "name": "SEASAC League Challenge #11 (SEASON 5) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6aab592938886b36383c22e1/details",
       "startAt": "2026-09-18T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa7fc1af1243e65f980101c",
+      "source": "limitless",
+      "sourceId": "6aa7fc1af1243e65f980101c",
+      "name": "Team Corna Weekly September's #5",
+      "url": "https://play.limitlesstcg.com/tournament/6aa7fc1af1243e65f980101c/details",
+      "startAt": "2026-09-18T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -205,6 +185,16 @@
       "name": "FULL BENCH FRIDAYS PTCGL $$CASH PRIZE$$",
       "url": "https://play.limitlesstcg.com/tournament/6aa9c528f1243e65f98024ce/details",
       "startAt": "2026-09-18T21:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6aa4e16b38886b36383bd0e8",
+      "source": "limitless",
+      "sourceId": "6aa4e16b38886b36383bd0e8",
+      "name": "Amyverse Webcam Wonders #28 💙 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6aa4e16b38886b36383bd0e8/details",
+      "startAt": "2026-09-18T22:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -398,6 +388,26 @@
     },
     {
       "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6a9eeed3ab080c8c957fcf41",
+      "source": "limitless",
+      "sourceId": "6a9eeed3ab080c8c957fcf41",
+      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #22⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6a9eeed3ab080c8c957fcf41/details",
+      "startAt": "2026-09-23T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aac0cf6e905c1db68743543",
+      "source": "limitless",
+      "sourceId": "6aac0cf6e905c1db68743543",
+      "name": "REFINE Autumn Series Session 4: Falling Leaves",
+      "url": "https://play.limitlesstcg.com/tournament/6aac0cf6e905c1db68743543/details",
+      "startAt": "2026-09-23T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aa5a5e538886b36383bdf19",
       "source": "limitless",
@@ -445,16 +455,6 @@
       "name": "🏆Ling TV ARENA🏆- TOP CUT",
       "url": "https://play.limitlesstcg.com/tournament/6a993668ab080c8c957f88fa/details",
       "startAt": "2026-09-25T18:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6aa4e16b38886b36383bd0e8",
-      "source": "limitless",
-      "sourceId": "6aa4e16b38886b36383bd0e8",
-      "name": "Amyverse Webcam Wonders #28 💙 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6aa4e16b38886b36383bd0e8/details",
-      "startAt": "2026-09-25T22:00:00.000Z"
     },
     {
       "format": null,
@@ -545,6 +545,16 @@
       "name": "Torneo Relámpago ⚡ #85 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6a944407abb9482237503e5a/details",
       "startAt": "2026-09-30T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aac1b09f127b1b52c27b411",
+      "source": "limitless",
+      "sourceId": "6aac1b09f127b1b52c27b411",
+      "name": "11° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6aac1b09f127b1b52c27b411/details",
+      "startAt": "2026-10-01T19:00:00.000Z"
     },
     {
       "format": "Standard",
