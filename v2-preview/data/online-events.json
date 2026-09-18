@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-17T21:44:27.980Z",
+  "generatedAt": "2026-09-18T00:46:24.216Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa5ab53f1243e65f97ff305",
-      "source": "limitless",
-      "sourceId": "6aa5ab53f1243e65f97ff305",
-      "name": "🇧🇷 Hit Challenge #28 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5ab53f1243e65f97ff305/details",
-      "startAt": "2026-09-17T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa30ac4a4272c53be64d2ec",
-      "source": "limitless",
-      "sourceId": "6aa30ac4a4272c53be64d2ec",
-      "name": "Rare Candy Club Cash Tournament Jackpot ($5 Entry)",
-      "url": "https://play.limitlesstcg.com/tournament/6aa30ac4a4272c53be64d2ec/details",
-      "startAt": "2026-09-18T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa886cff1243e65f9801afa",
-      "source": "limitless",
-      "sourceId": "6aa886cff1243e65f9801afa",
-      "name": "Le Tournois Du DresseurPokeCharbie #128",
-      "url": "https://play.limitlesstcg.com/tournament/6aa886cff1243e65f9801afa/details",
-      "startAt": "2026-09-18T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aab44c138886b36383c21bf",
-      "source": "limitless",
-      "sourceId": "6aab44c138886b36383c21bf",
-      "name": "🎉30TH LEGAL! | 🟢Jolly Good Weekly #7 | Top Cut!",
-      "url": "https://play.limitlesstcg.com/tournament/6aab44c138886b36383c21bf/details",
-      "startAt": "2026-09-18T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aabef2ef127b1b52c27b2bb",
-      "source": "limitless",
-      "sourceId": "6aabef2ef127b1b52c27b2bb",
-      "name": "Heart of the Games Online Series - S103",
-      "url": "https://play.limitlesstcg.com/tournament/6aabef2ef127b1b52c27b2bb/details",
-      "startAt": "2026-09-18T00:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -317,6 +267,16 @@
       "startAt": "2026-09-21T22:05:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6aac7666e905c1db68743c55",
+      "source": "limitless",
+      "sourceId": "6aac7666e905c1db68743c55",
+      "name": "💰 Control Players Unite's Pauper Tournament! #41",
+      "url": "https://play.limitlesstcg.com/tournament/6aac7666e905c1db68743c55/details",
+      "startAt": "2026-09-21T23:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aa5cf9738886b36383be21a",
@@ -344,6 +304,16 @@
       "sourceId": "6aaa897e38886b36383c1765",
       "name": "🐓🇧🇷 RINHA DE GALO#4 - PREMIAÇÃO EM PIX 🇧🇷🐓",
       "url": "https://play.limitlesstcg.com/tournament/6aaa897e38886b36383c1765/details",
+      "startAt": "2026-09-22T23:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6aac76c5f127b1b52c27b9c7",
+      "source": "limitless",
+      "sourceId": "6aac76c5f127b1b52c27b9c7",
+      "name": "♠️ Control Players Unite's Aceless Tournament! #40",
+      "url": "https://play.limitlesstcg.com/tournament/6aac76c5f127b1b52c27b9c7/details",
       "startAt": "2026-09-22T23:00:00.000Z"
     },
     {
