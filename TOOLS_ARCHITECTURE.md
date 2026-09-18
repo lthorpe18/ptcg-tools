@@ -145,4 +145,6 @@ Further Tools work should be bounded bugfix/polish unless a genuinely useful sta
 
 The old statement that Collection is the immediate next roadmap milestone is superseded. Current central sequence is:
 
-**shared format-calendar consumer wiring → Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence → Prediction Accuracy maturation → Release Hardening → Collection only when explicitly reopened.**
+**close published-calendar production generation/acceptance → Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence → Prediction Accuracy maturation → Release Hardening → general Collection only when explicitly reopened.**
+
+The standalone Kanto 151 direct-link spin-off is separate from the main Tools surface and does not reopen Collection.
