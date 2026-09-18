@@ -2,6 +2,7 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const state = { source: 'blend', grouping: 'variants', showAll: false, expanded: new Set(), query: '' };
+  let renderedListHtml = null;
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pct = value => `${Number(value || 0).toFixed(1)}%`;
   const ignored = name => !name || name === 'Other' || name === 'Unknown';
@@ -127,15 +128,13 @@
       const context = window.MetaData?.context?.(state.source) || {events:0,entries:0,label:'Loading',detail:''};
       $('currentMetaStats').innerHTML = `<div><b>${Number(context.events||0).toLocaleString()}</b><span>Events</span></div><div><b>${Number(context.entries||0).toLocaleString()}</b><span>Entries</span></div><div class="wide"><b>${esc(context.label)}</b><span>${esc(context.detail||'')}</span></div>`;
     }
-    $('currentMetaList').innerHTML = shown.length ? shown.map(rowHtml).join('') : `<div class="meta-empty">${state.query?'No decks match this search.':'No data is available for this source and scope yet.'}</div>`;
+    const nextListHtml = shown.length ? shown.map(rowHtml).join('') : `<div class="meta-empty">${state.query?'No decks match this search.':'No data is available for this source and scope yet.'}</div>`;
+    if (nextListHtml !== renderedListHtml) {
+      $('currentMetaList').innerHTML = nextListHtml;
+      renderedListHtml = nextListHtml;
+    }
     $('currentMetaMore').hidden = !!state.query || all.length <= 8;
     $('currentMetaMore').textContent = state.showAll ? 'Show top 8' : `View full field (${all.length})`;
-    document.querySelectorAll('[data-current-family].expandable').forEach(row => row.addEventListener('click', e => {
-      if (e.target.closest('[data-explore-deck]')) return;
-      const name = row.dataset.currentFamily;
-      state.expanded.has(name) ? state.expanded.delete(name) : state.expanded.add(name);
-      renderCurrent();
-    }));
   }
 
   function setSource(requested) {
@@ -145,6 +144,13 @@
     if(state.source==='blend') window.MetaBlendedField?.ensure?.().then(() => { renderCurrent(); window.MetaControls?.sync?.(); }).catch(()=>renderCurrent());
   }
   document.querySelectorAll('[data-current-source]').forEach(btn => btn.addEventListener('click', () => setSource(btn.dataset.currentSource)));
+  $('currentMetaList')?.addEventListener('click', event => {
+    const row = event.target.closest('[data-current-family].expandable');
+    if (!row || event.target.closest('[data-explore-deck]')) return;
+    const name = row.dataset.currentFamily;
+    state.expanded.has(name) ? state.expanded.delete(name) : state.expanded.add(name);
+    renderCurrent();
+  });
   $('blendTargetSelect')?.addEventListener('change',event=>{window.MetaBlendedField?.select?.(event.target.value);state.showAll=false;state.expanded.clear();renderCurrent()});
   $('currentGroupingToggle')?.addEventListener('change', e => { state.grouping=e.currentTarget.checked?'families':'variants'; state.expanded.clear(); renderCurrent(); });
   $('currentMetaSearch')?.addEventListener('input', e => { state.query=e.currentTarget.value || ''; state.expanded.clear(); renderCurrent(); });
