@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-18T17:51:41.287Z",
+  "generatedAt": "2026-09-18T21:14:16.414Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a9eeefcab080c8c957fcf4d",
-      "source": "limitless",
-      "sourceId": "6a9eeefcab080c8c957fcf4d",
-      "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #23",
-      "url": "https://play.limitlesstcg.com/tournament/6a9eeefcab080c8c957fcf4d/details",
-      "startAt": "2026-09-18T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aaa4624f1243e65f9802957",
-      "source": "limitless",
-      "sourceId": "6aaa4624f1243e65f9802957",
-      "name": "ASRcristiano # 190 - 60 codes - Road to Frankfurt!",
-      "url": "https://play.limitlesstcg.com/tournament/6aaa4624f1243e65f9802957/details",
-      "startAt": "2026-09-18T19:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -44,6 +24,16 @@
       "sourceId": "6aa4e16b38886b36383bd0e8",
       "name": "Amyverse Webcam Wonders #28 💙 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6aa4e16b38886b36383bd0e8/details",
+      "startAt": "2026-09-18T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": null,
+      "id": "limitless:6aad062ee905c1db687440e4",
+      "source": "limitless",
+      "sourceId": "6aad062ee905c1db687440e4",
+      "name": "Psy ay ay Team Test",
+      "url": "https://play.limitlesstcg.com/tournament/6aad062ee905c1db687440e4/details",
       "startAt": "2026-09-18T22:00:00.000Z"
     },
     {
@@ -219,6 +209,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aad843af127b1b52c27c2fd",
+      "source": "limitless",
+      "sourceId": "6aad843af127b1b52c27c2fd",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6aad843af127b1b52c27c2fd/details",
+      "startAt": "2026-09-21T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa860e3f1243e65f980170f",
       "source": "limitless",
       "sourceId": "6aa860e3f1243e65f980170f",
@@ -235,6 +235,16 @@
       "name": "💰 Control Players Unite's Pauper Tournament! #41",
       "url": "https://play.limitlesstcg.com/tournament/6aac7666e905c1db68743c55/details",
       "startAt": "2026-09-21T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad9018e905c1db6874470e",
+      "source": "limitless",
+      "sourceId": "6aad9018e905c1db6874470e",
+      "name": "Monday Night Madness",
+      "url": "https://play.limitlesstcg.com/tournament/6aad9018e905c1db6874470e/details",
+      "startAt": "2026-09-22T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -308,6 +318,16 @@
     },
     {
       "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad973df127b1b52c27c3b0",
+      "source": "limitless",
+      "sourceId": "6aad973df127b1b52c27c3b0",
+      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #3",
+      "url": "https://play.limitlesstcg.com/tournament/6aad973df127b1b52c27c3b0/details",
+      "startAt": "2026-09-23T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "CAM",
       "id": "limitless:6a9eeed3ab080c8c957fcf41",
       "source": "limitless",
@@ -325,6 +345,16 @@
       "name": "REFINE Autumn Series Session 4: Falling Leaves",
       "url": "https://play.limitlesstcg.com/tournament/6aac0cf6e905c1db68743543/details",
       "startAt": "2026-09-23T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad84ace905c1db68744643",
+      "source": "limitless",
+      "sourceId": "6aad84ace905c1db68744643",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6aad84ace905c1db68744643/details",
+      "startAt": "2026-09-24T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -365,6 +395,16 @@
       "name": "TDRS Season 2 Challenge 3",
       "url": "https://play.limitlesstcg.com/tournament/6a95d06aabb9482237504c6c/details",
       "startAt": "2026-09-25T16:05:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad90c5e905c1db68744736",
+      "source": "limitless",
+      "sourceId": "6aad90c5e905c1db68744736",
+      "name": "Lunch Time",
+      "url": "https://play.limitlesstcg.com/tournament/6aad90c5e905c1db68744736/details",
+      "startAt": "2026-09-25T17:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -669,6 +709,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aad8311e905c1db687445ea",
+      "source": "limitless",
+      "sourceId": "6aad8311e905c1db687445ea",
+      "name": "Nightshades Monday Cup 1",
+      "url": "https://play.limitlesstcg.com/tournament/6aad8311e905c1db687445ea/details",
+      "startAt": "2026-10-13T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d119629039f77d8a6af7",
       "source": "limitless",
       "sourceId": "6a95d119629039f77d8a6af7",
@@ -709,6 +759,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aad83bde905c1db68744611",
+      "source": "limitless",
+      "sourceId": "6aad83bde905c1db68744611",
+      "name": "Nightshades Monday Cup 2",
+      "url": "https://play.limitlesstcg.com/tournament/6aad83bde905c1db68744611/details",
+      "startAt": "2026-10-20T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d12aabb9482237504c8e",
       "source": "limitless",
       "sourceId": "6a95d12aabb9482237504c8e",
@@ -735,6 +795,16 @@
       "name": "Elite Four Fridays",
       "url": "https://play.limitlesstcg.com/tournament/6aad6718e905c1db68744465/details",
       "startAt": "2026-10-23T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad83d1e905c1db68744612",
+      "source": "limitless",
+      "sourceId": "6aad83d1e905c1db68744612",
+      "name": "Nightshades Monday Cup 3",
+      "url": "https://play.limitlesstcg.com/tournament/6aad83d1e905c1db68744612/details",
+      "startAt": "2026-10-27T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -769,6 +839,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aad83eee905c1db68744613",
+      "source": "limitless",
+      "sourceId": "6aad83eee905c1db68744613",
+      "name": "Nightshades Monday Cup 4",
+      "url": "https://play.limitlesstcg.com/tournament/6aad83eee905c1db68744613/details",
+      "startAt": "2026-11-03T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d159629039f77d8a6af8",
       "source": "limitless",
       "sourceId": "6a95d159629039f77d8a6af8",
@@ -795,6 +875,16 @@
       "name": "CHAMPIONSHIP OF DOOM! TEN!",
       "url": "https://play.limitlesstcg.com/tournament/chamionship-of-doom-ten/details",
       "startAt": "2026-11-07T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad840ff127b1b52c27c2fb",
+      "source": "limitless",
+      "sourceId": "6aad840ff127b1b52c27c2fb",
+      "name": "Nightshades Monday Cup 5",
+      "url": "https://play.limitlesstcg.com/tournament/6aad840ff127b1b52c27c2fb/details",
+      "startAt": "2026-11-10T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -829,6 +919,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aad8426e905c1db68744640",
+      "source": "limitless",
+      "sourceId": "6aad8426e905c1db68744640",
+      "name": "Nightshades Monday Cup 6",
+      "url": "https://play.limitlesstcg.com/tournament/6aad8426e905c1db68744640/details",
+      "startAt": "2026-11-17T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d181629039f77d8a6afa",
       "source": "limitless",
       "sourceId": "6a95d181629039f77d8a6afa",
@@ -849,12 +949,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aad843cf127b1b52c27c2fe",
+      "source": "limitless",
+      "sourceId": "6aad843cf127b1b52c27c2fe",
+      "name": "Nightshades Monday Cup 7",
+      "url": "https://play.limitlesstcg.com/tournament/6aad843cf127b1b52c27c2fe/details",
+      "startAt": "2026-11-24T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d1a1abb9482237504c92",
       "source": "limitless",
       "sourceId": "6a95d1a1abb9482237504c92",
       "name": "TDRS Season 2 Challenge 10",
       "url": "https://play.limitlesstcg.com/tournament/6a95d1a1abb9482237504c92/details",
       "startAt": "2026-11-27T17:05:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad8450e905c1db68744641",
+      "source": "limitless",
+      "sourceId": "6aad8450e905c1db68744641",
+      "name": "Nightshades Monday Cup 8",
+      "url": "https://play.limitlesstcg.com/tournament/6aad8450e905c1db68744641/details",
+      "startAt": "2026-12-01T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -879,6 +999,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aad8479f127b1b52c27c2ff",
+      "source": "limitless",
+      "sourceId": "6aad8479f127b1b52c27c2ff",
+      "name": "Nightshades Monday Cup 9",
+      "url": "https://play.limitlesstcg.com/tournament/6aad8479f127b1b52c27c2ff/details",
+      "startAt": "2026-12-08T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d2cbab080c8c95800255",
       "source": "limitless",
       "sourceId": "6aa2d2cbab080c8c95800255",
@@ -895,6 +1025,36 @@
       "name": "RDG! December Open Qualifier",
       "url": "https://play.limitlesstcg.com/tournament/6a690411937230b102d47bb2/details",
       "startAt": "2026-12-13T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad84a3f127b1b52c27c300",
+      "source": "limitless",
+      "sourceId": "6aad84a3f127b1b52c27c300",
+      "name": "Nightshades Monday Cup 10",
+      "url": "https://play.limitlesstcg.com/tournament/6aad84a3f127b1b52c27c300/details",
+      "startAt": "2026-12-15T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad8518f127b1b52c27c306",
+      "source": "limitless",
+      "sourceId": "6aad8518f127b1b52c27c306",
+      "name": "Nightshades Friday Challenge 10",
+      "url": "https://play.limitlesstcg.com/tournament/6aad8518f127b1b52c27c306/details",
+      "startAt": "2026-12-18T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad84dce905c1db68744645",
+      "source": "limitless",
+      "sourceId": "6aad84dce905c1db68744645",
+      "name": "Nightshades Monday Cup 11 (Season Finale)",
+      "url": "https://play.limitlesstcg.com/tournament/6aad84dce905c1db68744645/details",
+      "startAt": "2026-12-22T01:00:00.000Z"
     },
     {
       "format": "Standard",
