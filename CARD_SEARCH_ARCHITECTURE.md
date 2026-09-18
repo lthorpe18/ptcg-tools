@@ -76,11 +76,11 @@ Architecture rule:
 - do not infer legality from the set as a whole;
 - do not maintain whole-set regulation-mark claims;
 - set boundaries may support readable format labels/grouping only;
-- the published shared Formats & Sets calendar + canonical `PTCGFormat` resolver should become the authoritative runtime context for date/environment legality.
+- the published shared Formats & Sets calendar + canonical `PTCGFormat` resolver are the authoritative runtime context for date/environment legality.
 
-### Current integration gap
+### Current integration state
 
-Card Search's existing Standard filter has historically relied on current catalog/provider legality metadata. The next shared format-calendar consumer package should migrate relevant Standard/card-legality checks to the canonical shared resolver where the required date/environment context exists, without duplicating legality logic inside Card Search.
+Card Search now delegates relevant Standard/card-legality checks to the canonical shared format runtime where date/environment context exists. Provider/catalog legality metadata must not replace that authority. Feature-local legality inference remains prohibited.
 
 ---
 
@@ -125,7 +125,7 @@ Current user-facing choices include:
 
 ### Standard
 
-Standard should ultimately consume canonical card-level legality from the shared format/calendar resolver for the applicable current context.
+Standard consumes canonical card-level legality from the shared format/calendar resolver for the applicable current context.
 
 ### GLC
 
