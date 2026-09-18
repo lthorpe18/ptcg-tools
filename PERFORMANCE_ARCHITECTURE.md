@@ -103,6 +103,8 @@ Normal Home/Meta startup loads only the small release manifest/core required for
 
 A new release becomes active only after validation; current/previous validated releases remain available as last-known-good fallbacks.
 
+Browser CacheStorage is an accelerator/fallback, not a blocking authority. Cache reads, writes and pruning on the Meta release path must be bounded. A stalled/failed cache read must fall through to the validated network payload; a stalled/failed cache write or prune must not prevent already validated evidence from becoming usable.
+
 Normal browsers must not perform tournament ingestion themselves.
 
 Prediction snapshots/accuracy archives remain separate from normal startup payloads and load only when the Prediction Accuracy surface requests them.

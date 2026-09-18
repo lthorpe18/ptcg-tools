@@ -6,6 +6,7 @@
   const MANIFEST_URL = new URL('manifest.json', BASE);
   const CORE_URL = new URL('core.json', BASE);
   const CACHE_NAME = 'ptcg-meta-release-v1';
+  const CACHE_IO_TIMEOUT_MS = 1200;
   const ACTIVE_KEY = 'ptcg:meta-release:active';
   const CORE_LKG_KEY = 'ptcg:meta-release:core-lkg';
   const KNOWN_FILES = {
@@ -21,6 +22,18 @@
 
   const emit = (type, detail = {}) => window.dispatchEvent(new CustomEvent(type, { detail }));
   const cacheAvailable = () => typeof caches !== 'undefined';
+
+  async function boundedCache(work, label) {
+    let timer;
+    try {
+      return await Promise.race([
+        Promise.resolve().then(work),
+        new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(`${label} timed out`)), CACHE_IO_TIMEOUT_MS); }),
+      ]);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
 
   function validManifest(value) {
     return [1,2].includes(value?.schemaVersion) && typeof value.release === 'string' && value.release.length >= 8 && value.files?.core?.path && Object.entries(value.files).every(([key,file])=>typeof file.path==='string' && !file.path.includes('..') && !/^(?:[a-z]+:|\/)/i.test(file.path) && (value.schemaVersion===1 || key==='core' || (['online','irl'].includes(file.environment) && typeof file.format==='string')));
@@ -87,8 +100,15 @@
 
   async function cachedText(manifest, key) {
     if (!cacheAvailable()) return null;
-    const response = await (await caches.open(CACHE_NAME)).match(cacheKey(manifest, key));
-    return response ? response.text() : null;
+    try {
+      return await boundedCache(async () => {
+        const response = await (await caches.open(CACHE_NAME)).match(cacheKey(manifest, key));
+        return response ? response.text() : null;
+      }, `Meta ${key} cache read`);
+    } catch (error) {
+      console.warn(`Meta ${key} cache read unavailable; using network.`, error);
+      return null;
+    }
   }
 
   async function boundedFetch(url,options) {
@@ -108,8 +128,14 @@
 
   async function storeText(manifest, key, text) {
     if (!cacheAvailable()) return;
-    const response = new Response(text, { headers:{ 'Content-Type':'application/json' } });
-    await (await caches.open(CACHE_NAME)).put(cacheKey(manifest, key), response);
+    try {
+      await boundedCache(async () => {
+        const response = new Response(text, { headers:{ 'Content-Type':'application/json' } });
+        await (await caches.open(CACHE_NAME)).put(cacheKey(manifest, key), response);
+      }, `Meta ${key} cache write`);
+    } catch (error) {
+      console.warn(`Meta ${key} cache write unavailable; continuing without cache persistence.`, error);
+    }
   }
 
   async function loadFile(key, manifest = activeManifest, options = {}) {
@@ -168,12 +194,18 @@
 
   async function prune(keep) {
     if (!cacheAvailable()) return;
-    const cache = await caches.open(CACHE_NAME);
-    const keys = await cache.keys();
-    await Promise.all(keys.map(request => {
-      const release = new URL(request.url).searchParams.get('release');
-      return release && !keep.has(release) ? cache.delete(request) : null;
-    }));
+    try {
+      await boundedCache(async () => {
+        const cache = await caches.open(CACHE_NAME);
+        const keys = await cache.keys();
+        await Promise.all(keys.map(request => {
+          const release = new URL(request.url).searchParams.get('release');
+          return release && !keep.has(release) ? cache.delete(request) : null;
+        }));
+      }, 'Meta cache prune');
+    } catch (error) {
+      console.warn('Meta cache prune unavailable; continuing with the active release.', error);
+    }
   }
 
   async function refresh() {
