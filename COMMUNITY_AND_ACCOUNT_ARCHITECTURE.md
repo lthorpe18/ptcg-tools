@@ -174,9 +174,11 @@ Individual printing legality is derived from **that card printing's own `regulat
 
 Set boundaries may remain for readable format labels and Meta grouping only.
 
-### Immediate consumer-integration gap
+### Consumer / generation integration state
 
-The shared calendar maintenance/store is implemented, but the published shared calendar still needs to become authoritative across normal runtime consumers such as Home current format, Meta/WSIP, Event Prep and relevant card-legality checks. Consumers must load the shared calendar and call the canonical resolver rather than recreating logic locally.
+The shared calendar maintenance/store is implemented and normal browser consumers such as Home current format, Meta/WSIP, Event Prep and relevant Card Search legality checks now load the shared published calendar through the canonical runtime/resolver rather than recreating logic locally.
+
+Scheduled production Meta generation is also contractually configured to use the published registry and fail closed if it cannot be read. The remaining issue is operational authentication: the production archive job was still observed failing HTTP 401 after the first auth follow-up, so a successful regenerated release is still required before end-to-end production authority is accepted.
 
 ---
 
