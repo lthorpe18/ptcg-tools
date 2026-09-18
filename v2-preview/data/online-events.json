@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-18T13:08:55.170Z",
+  "generatedAt": "2026-09-18T17:51:41.287Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa7fc1af1243e65f980101c",
-      "source": "limitless",
-      "sourceId": "6aa7fc1af1243e65f980101c",
-      "name": "Team Corna Weekly September's #5",
-      "url": "https://play.limitlesstcg.com/tournament/6aa7fc1af1243e65f980101c/details",
-      "startAt": "2026-09-18T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a91ad35629039f77d8a4251",
-      "source": "limitless",
-      "sourceId": "6a91ad35629039f77d8a4251",
-      "name": "TDRS Season 2 Challenge 2",
-      "url": "https://play.limitlesstcg.com/tournament/6a91ad35629039f77d8a4251/details",
-      "startAt": "2026-09-18T16:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa8518a38886b36383c007b",
-      "source": "limitless",
-      "sourceId": "6aa8518a38886b36383c007b",
-      "name": "Nightshades Lunch Time Tourney",
-      "url": "https://play.limitlesstcg.com/tournament/6aa8518a38886b36383c007b/details",
-      "startAt": "2026-09-18T17:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -78,16 +48,6 @@
     },
     {
       "format": "Standard",
-      "platform": null,
-      "id": "limitless:6aad062ee905c1db687440e4",
-      "source": "limitless",
-      "sourceId": "6aad062ee905c1db687440e4",
-      "name": "Psy ay ay Team Test",
-      "url": "https://play.limitlesstcg.com/tournament/6aad062ee905c1db687440e4/details",
-      "startAt": "2026-09-18T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aa5abf4f1243e65f97ff332",
       "source": "limitless",
@@ -109,11 +69,11 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6a8721c75a307140955752eb",
+      "id": "limitless:legos",
       "source": "limitless",
-      "sourceId": "6a8721c75a307140955752eb",
+      "sourceId": "legos",
       "name": "TOURNAMENT OF DOOM! LEGOS!",
-      "url": "https://play.limitlesstcg.com/tournament/6a8721c75a307140955752eb/details",
+      "url": "https://play.limitlesstcg.com/tournament/legos/details",
       "startAt": "2026-09-19T02:35:00.000Z"
     },
     {
@@ -145,6 +105,16 @@
       "name": "Surprise! Eternal Tournament #36",
       "url": "https://play.limitlesstcg.com/tournament/6aacae85f127b1b52c27bca5/details",
       "startAt": "2026-09-19T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad6f9ce905c1db687444f5",
+      "source": "limitless",
+      "sourceId": "6aad6f9ce905c1db687444f5",
+      "name": "PokeMagee Weekly - 30th Celebration",
+      "url": "https://play.limitlesstcg.com/tournament/6aad6f9ce905c1db687444f5/details",
+      "startAt": "2026-09-19T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -407,6 +377,16 @@
       "startAt": "2026-09-25T18:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad6127f127b1b52c27c081",
+      "source": "limitless",
+      "sourceId": "6aad6127f127b1b52c27c081",
+      "name": "Elite Four Fridays",
+      "url": "https://play.limitlesstcg.com/tournament/6aad6127f127b1b52c27c081/details",
+      "startAt": "2026-09-25T23:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6aa10b18ab080c8c957fedc2",
@@ -547,6 +527,16 @@
       "startAt": "2026-10-02T16:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad664cf127b1b52c27c0ac",
+      "source": "limitless",
+      "sourceId": "6aad664cf127b1b52c27c0ac",
+      "name": "Elite Four Fridays",
+      "url": "https://play.limitlesstcg.com/tournament/6aad664cf127b1b52c27c0ac/details",
+      "startAt": "2026-10-02T23:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6a438d9583fd320299bd49c4",
@@ -639,6 +629,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aad66bdf127b1b52c27c0ae",
+      "source": "limitless",
+      "sourceId": "6aad66bdf127b1b52c27c0ae",
+      "name": "Elite Four Fridays",
+      "url": "https://play.limitlesstcg.com/tournament/6aad66bdf127b1b52c27c0ae/details",
+      "startAt": "2026-10-09T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5d3a038886b36383be25d",
       "source": "limitless",
       "sourceId": "6aa5d3a038886b36383be25d",
@@ -689,6 +689,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aad66cde905c1db6874444f",
+      "source": "limitless",
+      "sourceId": "6aad66cde905c1db6874444f",
+      "name": "Elite Four Fridays",
+      "url": "https://play.limitlesstcg.com/tournament/6aad66cde905c1db6874444f/details",
+      "startAt": "2026-10-16T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5d406f1243e65f97ff818",
       "source": "limitless",
       "sourceId": "6aa5d406f1243e65f97ff818",
@@ -719,6 +729,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aad6718e905c1db68744465",
+      "source": "limitless",
+      "sourceId": "6aad6718e905c1db68744465",
+      "name": "Elite Four Fridays",
+      "url": "https://play.limitlesstcg.com/tournament/6aad6718e905c1db68744465/details",
+      "startAt": "2026-10-23T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d139abb9482237504c8f",
       "source": "limitless",
       "sourceId": "6a95d139abb9482237504c8f",
@@ -735,6 +755,16 @@
       "name": "Nightshades Friday Challenge 4",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d284a4272c53be64cfe9/details",
       "startAt": "2026-10-30T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aad6751e905c1db68744467",
+      "source": "limitless",
+      "sourceId": "6aad6751e905c1db68744467",
+      "name": "Elite Four Fridays",
+      "url": "https://play.limitlesstcg.com/tournament/6aad6751e905c1db68744467/details",
+      "startAt": "2026-10-30T23:00:00.000Z"
     },
     {
       "format": "Standard",
