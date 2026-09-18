@@ -284,15 +284,17 @@ Season is not the current feature-development milestone.
 
 The old sequence that placed Collection immediately after Season is superseded.
 
-Current sequence before Collection is:
+Current central sequence before general Collection is:
 
-1. shared format-calendar consumer wiring;
+1. close published-calendar production Meta generation/acceptance;
 2. Personal Matchup Analysis;
 3. Practice Priorities;
 4. Event Prep v2;
 5. Deck Version Intelligence;
 6. Prediction Accuracy maturation;
 7. Release Hardening;
-8. Collection only when explicitly reopened.
+8. general Collection only when explicitly reopened.
+
+The standalone Kanto 151 direct-link spin-off is outside this sequence and does not reopen the main Collection domain.
 
 Season should only reopen for bounded defects, official rules/config updates or directly justified competitive-record improvements.

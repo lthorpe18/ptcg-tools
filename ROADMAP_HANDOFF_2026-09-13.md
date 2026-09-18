@@ -1,9 +1,10 @@
 # PTCG Tools — Roadmap Handoff — 13 September 2026
 
-> **Operational entry:** read [CURRENT_STATE.md](CURRENT_STATE.md) for baseline, live state and active branch/PR. This document retains its product/design role. Shared-calendar consumer integration is implemented on open [PR #60](https://github.com/lthorpe18/ptcg-tools/pull/60), not yet merged at the 14 September audit. Historical research in `ptcg-meta-analysis` has a separate roadmap.
+> **Operational entry:** read [CURRENT_STATE.md](CURRENT_STATE.md) for the current implementation, validation and acceptance state. This roadmap retains the agreed product sequence and is synchronised through 18 September 2026. Historical research in `ptcg-meta-analysis` has a separate roadmap.
 
 **Status:** Current roadmap handoff  
-**Date:** 13 September 2026  
+**Original roadmap date:** 13 September 2026  
+**Last synchronised:** 18 September 2026  
 **Supersedes:** `ROADMAP_HANDOFF_2026-09-07.md`  
 **Companion to:** `PTCG_TOOLS_MASTER.md`, `PERFORMANCE_ARCHITECTURE.md`, `COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md`, `HOME_ARCHITECTURE.md`, `TOURNAMENT_DAY_ARCHITECTURE.md`, `SEASON_ARCHITECTURE.md`, `WHAT_SHOULD_I_PLAY_ARCHITECTURE.md`
 
@@ -24,9 +25,12 @@ PTCG Tools has moved beyond the Format/Rotation recovery phase. The current prod
 - Tools: Cut / ID · Tournament · Odds;
 - Google auth and cross-device user snapshots;
 - shared, maintainer-editable Formats & Sets data;
-- Settings reorganised into a compact hub with focused subpages.
+- shared browser calendar consumers and published-calendar generation contract;
+- Settings reorganised into a compact hub with focused subpages;
+- network-fresh Online tournament discovery after PR #79;
+- standalone Kanto 151 direct-link collector in the same repository.
 
-Collection / physical readiness remains deliberately deferred.
+General Collection / physical readiness in the main application remains deliberately deferred. The Kanto 151 spin-off is intentionally separate and does not reopen that roadmap item.
 
 ## Shared Formats & Sets — current state
 
@@ -51,9 +55,11 @@ Current contract:
 
 The shared calendar is persisted separately from ordinary account snapshots and is maintainer-gated.
 
-### Immediate integration gap
+### Integration status
 
-The maintenance surface exists, but the published shared calendar is not yet the authoritative runtime source for every consumer. The next format-specific package is to wire the shared published calendar into Home / Meta / WSIP / Event Prep and relevant card-legality checks without duplicating resolver logic.
+PR #60 merged the browser-side consumer wiring so Home / Meta / WSIP / Event Prep and relevant card-legality checks use the shared format runtime. PR #73 then changed scheduled Meta generation to opt into the published Formats & Sets calendar and fail closed if it cannot be read. PR #74 added the first Supabase REST-auth correction.
+
+The published 30C Online legality date has been corrected to **15 September 2026**. However, the production `Archive Meta History` job was still observed failing HTTP 401 after #74, and the current committed browser release still carries an older calendar revision. The remaining work is production integration recovery/validation, not another browser-consumer implementation.
 
 ## Game Log and personal evidence — current state
 
@@ -105,9 +111,11 @@ It is future-facing Limitless discovery with the current user intent:
 - attendance can create/retain durable `UserEventParticipation`;
 - saved participation survives discovery-feed expiry;
 - online tournament results flow through the existing Tournament Day / Match/Game model;
-- Online event cards use the same event-card visual language as the rest of Compete.
+- Online event cards use the same event-card visual language as the rest of Compete;
+- the generated feed is revalidated network-fresh on Online entry, app return/pageshow and refresh;
+- a failed refresh keeps the last successful feed visible and exposes retry.
 
-This supersedes the earlier discovery-only/no-participation restriction.
+PR #79 fixed the stale multi-day feed defect and was accepted on the owner's iPhone. This supersedes the earlier discovery-only/no-participation restriction.
 
 ## Tournament completion refinements
 
@@ -131,29 +139,32 @@ Settings is no longer one long page. The landing screen is a compact hub:
 
 Substantial editors live on focused drill-in pages. Future Settings additions should follow this pattern rather than extending the landing page vertically.
 
+## Standalone Kanto 151 spin-off
+
+The same repository now contains `/v2-preview/spinoffs/kanto-151/`, a direct-link-only collector for the first 151 Pokémon. PRs #62–77 established a three-wide iPhone grid, exact printing selection, Wanted/Owned state, search/filter refinements, stable card art, per-user Supabase persistence with RLS and local cache, wanted-image export, card information and set-grouped browsing.
+
+This spin-off is intentionally outside the main five-area navigation and outside the general Collection roadmap. It must not silently create a parallel main-app collection/evidence model.
+
 ## Immediate product roadmap
 
 The strongest value sequence is now:
 
-1. **Shared format-calendar consumer wiring** — make the published maintained calendar authoritative for Home current format, Meta/WSIP context, Event Prep date/environment resolution and card legality while retaining validated fallback/LKG behaviour.
+1. **Close published-calendar production generation** — fix the remaining production read/auth failure, successfully regenerate Meta from the published Formats & Sets calendar, verify release provenance/current formats, reconcile transition-sensitive tests and repeat Home / Meta / WSIP / Event Prep / Card Search acceptance.
 2. **Personal Matchup Analysis** — extend Deck Results using canonical Game evidence; expose Archetype / Deck / Version records by opponent archetype, Training vs Tournament and Online vs IRL where useful, with explicit small-sample warnings and a clear side-by-side reference to public H2H without merging the datasets.
 3. **Practice Priorities** — derive a concise practice list from expected field share × matchup difficulty × personal evidence, with transparent reasons.
 4. **Event Prep v2** — Expected Field → selected exact deck/list → three practice priorities → readiness → Tournament Day.
 5. **Deck Version Intelligence** — exact list diffs, evidence by version, tournaments using each version and useful lineage/context.
 6. **Prediction Accuracy maturation** — continue genuine scored majors; fit/version the formula only when enough evidence exists or a structural flaw is demonstrated.
 7. **Release Hardening / data safety** — cache/service-worker audit, duplicate helper cleanup, sync recovery, backup/export verification and installed-iPhone regression.
-8. **Collection / physical readiness** — only when explicitly reopened.
+8. **General Collection / physical readiness** — only when explicitly reopened; the Kanto 151 spin-off is not this milestone.
 
 Do not add a generic broad UI-consistency milestone. Continue handling real-use UX defects as bounded passes.
 
 ## Known validation debt
 
-The full suite currently has two known unrelated baseline failures:
+At the PR #79 baseline the repository-wide suite reports **287 / 298 passing**. The same 11 failures were present on the immediately preceding #78 baseline, while the new Online freshness tests pass.
 
-1. `prediction-snapshots.test.mjs` — committed snapshot publication lookup (`assert.ok(publication)`);
-2. `wsip-formats.test.js` — a live/current-release expectation still expects `Unknown` while current data now produces a strong recommendation.
-
-New bounded work must distinguish these baseline failures from actual regressions. Repair them in the appropriate Meta/release-hardening pass rather than weakening unrelated feature acceptance.
+The failures cluster around the generated Meta release/calendar transition and dependent expectations across Blended, Event Prep/H2H, Meta format/release integrity, prediction archive, recommendation and WSIP. New bounded work must distinguish this baseline from actual regressions. Repair the underlying generated-release/integration state and dependent assertions in the appropriate Meta/release-hardening pass rather than weakening unrelated feature acceptance.
 
 ## Operating rules
 
@@ -168,4 +179,4 @@ For each bounded package:
 - use real iPhone testing for visual/mobile acceptance;
 - merge only after the intended package is coherent.
 
-`PTCG_TOOLS_MASTER.md` plus the current companion architecture documents and this handoff are the current authority. Older handoffs/checkpoints are historical evidence only when they conflict with the 13 September 2026 state.
+`CURRENT_STATE.md`, `PTCG_TOOLS_MASTER.md`, the current companion architecture documents and this handoff are the current authority. Older handoffs/checkpoints are historical evidence only when they conflict with the synchronised 18 September 2026 state.

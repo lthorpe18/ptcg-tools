@@ -1,57 +1,63 @@
 # Shared format-calendar consumers
 
-Status at 16 September 2026: **PR #60 merged; browser consumer wiring deployed. Live owner/device acceptance exposed one follow-up production-generation source mismatch.**
+Status at 18 September 2026: **browser consumer wiring and published-calendar generation contract are merged; production Meta generation still has an unresolved authenticated-read failure, so end-to-end acceptance is not complete.**
 
 ## Purpose and agreed scope
 
-**Verified:** roadmap package 1 in [ROADMAP_HANDOFF_2026-09-13.md](../ROADMAP_HANDOFF_2026-09-13.md). Home, Meta/Blended/WSIP, Event Prep and relevant card legality now consume the maintained shared calendar through the common runtime. Browser runtime retains shared → last-known-good → checked-in fallback. This is product integration, not historical model fitting.
+**Verified:** this work closes roadmap package 1 in [ROADMAP_HANDOFF_2026-09-13.md](../ROADMAP_HANDOFF_2026-09-13.md). Home, Meta/Blended/WSIP, Event Prep and relevant card legality consume the maintained shared calendar through the common runtime. Production Meta generation is also intended to use the latest published calendar rather than a second checked-in authority. This is product integration, not historical model fitting.
 
 ## Merged implementation
 
 - Repository: `lthorpe18/ptcg-tools`; target `main`.
-- [PR #60](https://github.com/lthorpe18/ptcg-tools/pull/60), branch `sol/shared-format-calendar-consumers`.
-- Audited implementation head: `311123b25ab9783570e5d47585fa4e0473dfe9b3`.
-- **Merged:** 16 September 2026 as `97a9f0b5f7db84ced626c23de67dbda665c7f385`; Pages deployment succeeded.
+- [PR #60](https://github.com/lthorpe18/ptcg-tools/pull/60) — browser/shared runtime consumers; merged 16 September 2026.
+- [PR #73](https://github.com/lthorpe18/ptcg-tools/pull/73) — scheduled Meta generation explicitly opts into the published Formats & Sets calendar and fails closed if it cannot be read; merged 16 September 2026.
+- [PR #74](https://github.com/lthorpe18/ptcg-tools/pull/74) — first Supabase REST-auth correction for the Node published-calendar loader; merged 17 September 2026.
 
-**Verified code:** `v2-preview/apps/_shared/format-runtime.js` wraps `PTCGFormatCalendar` and `PTCGFormat`; manages readiness/refresh, generation guards, publication metadata and change events; exposes current formats, event resolution and card legality. Meta overlays current format context while retaining historical packages. Home uses runtime current formats. Event Prep delegates its former private calendar handling. Card Search lazily loads runtime dependencies and checks each printing's regulation mark.
+**Verified browser code:** `v2-preview/apps/_shared/format-runtime.js` wraps `PTCGFormatCalendar` and `PTCGFormat`; manages readiness/refresh, generation guards, publication metadata and change events; exposes current formats, event resolution and card legality. Meta overlays current format context while retaining historical packages. Home uses runtime current formats. Event Prep delegates its former private calendar handling. Card Search lazily loads runtime dependencies and checks each printing's regulation mark.
+
+**Verified generation contract:** production Meta workflows set `PTCG_FORMAT_SOURCE=published`; deterministic tests/local tooling may continue to use the checked-in bootstrap unless explicitly switched. Production generation must fail closed if the published calendar cannot be read.
 
 ## Contracts and data sources
 
-**Verified:** calendar persistence and maintenance shipped in #51–58. Shared published registry, validated local last-known-good and `data/formats/maintained-calendar.json` bootstrap are separate from per-user snapshots. Independent Online/IRL legality dates and explicit unknowns remain mandatory. Individual printing `regulationMark`, not whole-set marks or TCGdex's generic Standard flag, determines card legality.
+Shared published registry, validated local last-known-good and `data/formats/maintained-calendar.json` bootstrap are separate from per-user snapshots. Independent Online/IRL legality dates and explicit unknowns remain mandatory. Individual printing `regulationMark`, not whole-set marks or TCGdex's generic Standard flag, determines card legality.
 
 Keep archived Meta evidence immutable; saved Expected Fields retain their own captured composition/provenance. Resolve Event Prep at the event date/environment. Do not import the research repository's historical legality calendar or exploratory weights. Long-term contracts: [accounts/shared data](../COMMUNITY_AND_ACCOUNT_ARCHITECTURE.md), [Meta](../v2-preview/apps/meta/ARCHITECTURE.md), [Card Search](../CARD_SEARCH_ARCHITECTURE.md).
 
-## Post-merge acceptance finding
+## Current published-calendar state
 
-**Verified owner/device observation:** after #60 deployed, the Home format pill followed the latest published shared calendar while the generated Meta package still carried `calendarRevision: user-calendar-2026-09-08.1`. The scheduled Meta ingestion/release scripts were still importing `data/formats/maintained-calendar.json` directly through `scripts/meta-format-contract.mjs`.
+**Verified from the owner session:** 30C Online legality was corrected back to **15 September 2026** through Settings → Formats & Sets. IRL legality remains **24 September 2026**.
 
-This is not a second legitimate format authority. It is a migration gap between runtime consumers and production generation.
+Browser consumers now follow that shared published state.
 
-The owner confirmed the current published 17 September Online date was a deliberate later edit but should now be corrected back to **15 September** through the in-app Formats & Sets editor. That correction remains an owner maintenance action, not a code constant to add in this follow-up.
+## Remaining production failure
 
-## Active follow-up
+**Verified production observation after #74:** `Archive Meta History` still failed with HTTP 401 when trying to read the published calendar. Therefore #74 did not complete the production integration in practice.
 
-Branch `sol/meta-published-calendar-generation` is scoped to production Meta generation only:
+**Verified repository evidence:** the current committed browser release is still generated on 16 September, before #73/#74 completed, and `v2-preview/data/meta/release/core.json` still reports `calendarRevision: user-calendar-2026-09-08.1`. The current release can therefore not be used as proof that production generation is reading the latest published registry.
 
-- scheduled Meta, IRL and aggregate matchup jobs explicitly opt into the latest **published** Formats & Sets calendar;
-- `scripts/meta-format-contract.mjs` uses that published registry for ingestion boundaries, current Online/IRL identities and release construction when production mode is enabled;
-- deterministic tests/local tools retain the checked-in bootstrap by default;
-- production generation fails closed if the published calendar cannot be read rather than silently generating against a stale bootstrap;
-- focused tests cover published-row loading and ensure all scheduled Meta-generation workflows opt into it.
+This is the remaining gap. Do not reintroduce the checked-in bootstrap as a silent production fallback merely to make generation pass.
 
-## Validation and continuation
+## Validation state
 
-#60's pre-merge suite was 253/255, with two failures reproduced on main. Immediately after merge, the full suite reported 276/287 as transition dates advanced; several additional failures are stale date assumptions and must be reconciled separately rather than treated automatically as #60 regressions.
+At the PR #79 baseline the repository-wide suite reports **287 / 298 passing**. The same 11 failures were present on #78 immediately before it, so they are current baseline debt rather than an identified #79 regression.
 
-Exact continuation:
+Those failures cluster around generated Meta release/format-transition state and dependent Blended, Event Prep/H2H, prediction archive, recommendation and WSIP expectations. Repair the source integration/release state first and then reconcile the affected assertions without weakening the contracts.
 
-1. Owner updates and publishes 30C Online legality = 15 September in Settings → Formats & Sets.
-2. Validate the generation follow-up PR; do not merge without explicit owner authorisation.
-3. After merge, run/allow the production Meta job to regenerate from the corrected published calendar.
-4. Recheck Home format pill, Meta/Blended/WSIP, Event Prep dates and Card Search legality on iPhone.
-5. Reconcile remaining transition-sensitive tests without weakening assertions.
-6. Record owner acceptance, then proceed to Personal Matchup Analysis.
+## Exact continuation
+
+1. Diagnose the remaining production Supabase published-calendar read/auth failure from the actual `Archive Meta History` workflow environment.
+2. Make the smallest production-auth/source fix; retain fail-closed behaviour and the one published production authority.
+3. Run `Archive Meta History` successfully.
+4. Verify the newly committed Meta release records the latest published calendar revision and resolves current Online / IRL formats from that source.
+5. Re-run the full suite and reconcile remaining transition-sensitive failures at source.
+6. Recheck Home format pill, Meta / Blended / WSIP, Event Prep event-date formats and Card Search legality on iPhone.
+7. Record final owner/device acceptance in `CURRENT_STATE.md`.
+8. Proceed to **Personal Matchup Analysis** as the next feature package.
 
 ## Confidence / open questions
 
-The runtime/generation mismatch and its source are **Verified** from deployed behaviour, repository code and the published calendar history. Final device acceptance is **Unknown** until the published date is corrected and a production Meta release is rebuilt from it.
+- Browser consumer integration: **Verified implemented/merged**.
+- Published-calendar production generation contract: **Verified implemented/merged**.
+- Published 30C Online date = 15 September: **Verified from owner maintenance action**.
+- Successful production Meta generation from the published calendar: **Unknown / not yet achieved after the observed HTTP 401**.
+- Final end-to-end device acceptance: **Unknown** until regeneration and recheck complete.

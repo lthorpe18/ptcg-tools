@@ -233,7 +233,9 @@ Calendar integration tests must cover published calendar loading, independent On
 
 ## 12. Current validation debt
 
-The earlier prediction snapshot publication lookup and stale WSIP expectation are known baseline debt. After the 16 September transition, additional date-sensitive assertions surfaced; reconcile them against the maintained calendar and actual generated release rather than weakening the accepted Meta/WSIP contracts.
+At the PR #79 baseline the repository-wide suite reports **287 / 298 passing**. The same 11 failures were present on the immediately preceding #78 baseline. They cluster around the generated Meta release/calendar transition and dependent Blended, Event Prep/H2H, prediction archive, recommendation and WSIP expectations.
+
+Repair the published-calendar production generation/release state first, then reconcile dependent assertions against the actual regenerated release. Do not weaken accepted Meta/WSIP contracts merely to make the current stale-release baseline green.
 
 ---
 
@@ -241,4 +243,6 @@ The earlier prediction snapshot publication lookup and stale WSIP expectation ar
 
 Meta/WSIP is not a broad active rebuild programme.
 
-Shared browser consumer wiring is merged. The active bounded follow-up is ensuring production Meta generation uses the same published calendar. After that, central product development moves to **Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence**, with Prediction Accuracy fitting delayed until enough genuine scored majors justify it.
+Shared browser consumer wiring and the published-calendar production-generation contract are merged. The remaining bounded work is operational: fix the production published-calendar read/auth failure, regenerate the release successfully, verify its calendar provenance/current formats and complete device acceptance.
+
+After that, central product development moves to **Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence**, with Prediction Accuracy fitting delayed until enough genuine scored majors justify it.

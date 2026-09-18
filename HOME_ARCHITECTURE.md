@@ -77,15 +77,16 @@ Variant grouping is presentation-only:
 
 The Home format pill identifies the current Online format, such as `TEF-PBL`.
 
-Settings → Maintenance → Formats & Sets now maintains one published shared format calendar, but Home has not yet been fully migrated to use that published shared calendar as its authoritative runtime source.
+Settings → Maintenance → Formats & Sets maintains one published shared format calendar. Home is now wired through the shared format runtime and resolves current Online context from that published source, with validated last-known-good / checked-in fallback behaviour for interactive availability.
 
-The next format integration package must:
+Home must continue to:
 
-1. load the shared published calendar through `PTCGFormatCalendar`;
+1. load/refresh shared calendar state through `PTCGFormatCalendar`;
 2. resolve current Online context through the canonical `PTCGFormat` resolver;
-3. retain checked-in/last-known-good fallback behaviour through the shared store;
-4. refresh derived format context on warm Home activation where appropriate;
-5. avoid any Home-local date/format inference.
+3. refresh derived format context on warm Home activation where appropriate;
+4. avoid any Home-local date/format inference.
+
+The remaining end-to-end calendar risk is production Meta generation, not Home's browser consumer wiring. That production status is tracked in `CURRENT_STATE.md` and the shared-calendar handoff.
 
 Home may legitimately use the user's current local date for the current-format pill. Event-specific consumers must continue to use the actual event date instead.
 
@@ -193,7 +194,7 @@ Home viewport calculations must not reserve shell navigation height twice.
 Reuse:
 
 - shared Meta release/blend runtime;
-- shared format-calendar store/resolver once consumer wiring lands;
+- shared format-calendar store/resolver;
 - `PTCGDeckStore`;
 - root participation state;
 - shared Season engine;
@@ -227,6 +228,6 @@ Current accepted Home surface includes:
 - What Should I Play entry;
 - one persistent bottom navigation layer.
 
-Further Home work is bugfix/polish unless the roadmap deliberately reopens the product surface. The immediate format-specific exception is the planned migration to the published shared format calendar.
+Further Home work is bugfix/polish unless the roadmap deliberately reopens the product surface. End-to-end format acceptance still depends on a successful production Meta regeneration from the published calendar, but Home must not grow a second format implementation to solve that.
 
-Collection / physical readiness remains deferred.
+General Collection / physical readiness remains deferred. The standalone Kanto 151 direct-link spin-off is not a Home/main-navigation feature and does not reopen that roadmap item.

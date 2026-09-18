@@ -67,7 +67,9 @@ This remains an intentional exception to the normal “stay inside the shell” 
 
 ### Static/generated assets
 
-Suitable static assets and generated shared JSON may use cache-friendly strategies such as stale-while-revalidate when correctness is preserved.
+Suitable static assets and generated shared JSON may use cache-friendly strategies such as stale-while-revalidate **only when serving the immediately cached copy cannot make the feature materially wrong**.
+
+Time-sensitive discovery feeds are stricter. After the Online tournament freshness defect fixed in PR #79, Compete → Online explicitly bypasses the stale generated-data service-worker path with a cache-busting request + `cache: no-store`, revalidates on Online entry/app return/refresh, and keeps the last successful feed only as an explicit fallback after a failed refresh.
 
 Versioned JS/CSS should use deliberate version bumps when behaviour changes.
 
@@ -121,7 +123,7 @@ When an already-mounted Home becomes active, the shell sends a lightweight activ
 
 Do not reload the page, create a second Home store or hit upstream tournament APIs merely to refresh current context.
 
-The next shared format-calendar consumer package should follow the same model: refresh/resolve through the shared calendar store and canonical resolver rather than creating Home-local format logic.
+Shared format-calendar consumers now follow the same model: refresh/resolve through the shared calendar store and canonical resolver rather than creating Home-local format logic. Production Meta generation uses a stricter fail-closed published-source contract tracked in the Meta architecture/handoff.
 
 ---
 
