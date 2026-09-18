@@ -3,9 +3,9 @@ const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
 function harness() {
-  const nodes = {}, listeners = {}, timers = new Map(); let clock = Date.parse('2026-09-12T19:00:00Z'), calls = 0, fail = false, finish;
+  const nodes = {}, listeners = {}, timers = new Map(), requests = []; let clock = Date.parse('2026-09-12T19:00:00Z'), calls = 0, fail = false, finish;
   const element = () => ({hidden:false,textContent:'',innerHTML:'',dataset:{},addEventListener(n,f){this[n]=f},setAttribute(){},insertAdjacentElement(_,e){nodes[e.id]=e}});
-  for(const id of ['onlineFreshness','onlineList','onlineState','onlineRetry','onlineFormat','onlinePlatform','onlineFrom','onlineTo','onlineAllTimes'])nodes[id]=element();
+  for(const id of ['onlineFreshness','onlineList','onlineState','onlineRetry','onlineFormat','onlinePlatform','onlineFrom','onlineTo','onlineAllTimes','refreshButton'])nodes[id]=element();
   nodes.onlineFormat.value='standard';nodes.onlinePlatform.value='PTCGL';nodes.onlineFrom.value='17:00';nodes.onlineTo.value='22:00';
   const nav=element(); const classes=new Set();
   const document={readyState:'complete',hidden:false,body:{classList:{toggle(n,on){on?classes.add(n):classes.delete(n)}}},createElement:element,getElementById:id=>nodes[id],querySelector:()=>nav,addEventListener:(n,f)=>listeners[n]=f};
@@ -13,16 +13,25 @@ function harness() {
   class Clock extends Date { static now(){return clock} }
   const local = new Map(); const win = {addEventListener:(n,f)=>listeners[n]=f,dispatchEvent(){}};
   vm.runInNewContext(fs.readFileSync('v2-preview/apps/_shared/storage.js','utf8'), {window:win,localStorage:{getItem:k=>local.get(k),setItem:(k,v)=>local.set(k,v)},CustomEvent:class {},Date:Clock});
-  vm.runInNewContext(fs.readFileSync('v2-preview/apps/events/online.js','utf8'),{document,window:win,location:{href:'https://example.test/v2-preview/apps/events/index.html',search:''},URL,URLSearchParams,Intl,Date:Clock,AbortController,setTimeout:f=>{timers.set(f,f);return f},clearTimeout:f=>timers.delete(f),fetch:()=>{calls++;return new Promise(resolve=>finish=()=>resolve({ok:!fail,json:async()=>feed}))}});
-  return {nodes,feed,storage:win.PTCGStorage,get calls(){return calls},select:view=>nav.click({target:{closest:()=>({dataset:{view}})}}),async resolve(){finish();await new Promise(r=>setImmediate(r))},fail(){fail=true},recover(){fail=false},advance(){clock+=7200000;listeners.pageshow()},classes};
+  vm.runInNewContext(fs.readFileSync('v2-preview/apps/events/online.js','utf8'),{document,window:win,location:{href:'https://example.test/v2-preview/apps/events/index.html',search:''},URL,URLSearchParams,Intl,Date:Clock,AbortController,setTimeout:f=>{timers.set(f,f);return f},clearTimeout:f=>timers.delete(f),fetch:(url,options)=>{calls++;requests.push({url:String(url),options});return new Promise(resolve=>finish=()=>resolve({ok:!fail,json:async()=>feed}))}});
+  return {nodes,feed,requests,storage:win.PTCGStorage,get calls(){return calls},select:view=>nav.click({target:{closest:()=>({dataset:{view}})}}),async resolve(){finish();await new Promise(r=>setImmediate(r))},fail(){fail=true},recover(){fail=false},pageShow(){listeners.pageshow()},advance(){clock+=7200000;listeners.pageshow()},classes};
 }
-test('lazy loads once, survives tab switches, escapes names and removes started tournaments',async()=>{
+test('lazy loads, fetches network-fresh data on re-entry, escapes names and removes started tournaments',async()=>{
   const h=harness();assert.equal(h.calls,0);h.select('nearby');assert.equal(h.calls,0);
   h.select('online');assert.equal(h.calls,1);assert.match(h.nodes.onlineState.textContent,/Loading/);
+  assert.equal(h.requests[0].options.cache,'no-store');assert.match(h.requests[0].url,/[?&]_pt=/);
   h.select('majors');await h.resolve();assert.equal(h.nodes.onlinePanel.hidden,true);
-  h.select('online');assert.equal(h.calls,1);assert.match(h.nodes.onlineList.innerHTML,/Future &lt;event&gt;/);assert.doesNotMatch(h.nodes.onlineList.innerHTML,/Past event/);
+  h.select('online');assert.equal(h.calls,2);assert.match(h.nodes.onlineList.innerHTML,/Future &lt;event&gt;/);assert.doesNotMatch(h.nodes.onlineList.innerHTML,/Past event/);
   for(const view of ['nearby','majors',undefined]){h.select(view);assert.equal(h.nodes.onlinePanel.hidden,true);h.select('online')}
   h.advance();assert.equal(h.nodes.onlineList.innerHTML,'');assert.match(h.nodes.onlineState.textContent,/No upcoming/);
+});
+
+test('refresh button and app return revalidate while failed refresh keeps last-known-good feed',async()=>{
+  const h=harness();h.select('online');await h.resolve();const good=h.nodes.onlineList.innerHTML;assert.match(good,/Future/);
+  h.fail();h.nodes.refreshButton.click();assert.equal(h.calls,2);await h.resolve();
+  assert.equal(h.nodes.onlineList.innerHTML,good);assert.equal(h.nodes.onlineRetry.hidden,false);assert.match(h.nodes.onlineFreshness.textContent,/Refresh failed/);
+  h.recover();h.nodes.onlineRetry.click();assert.equal(h.calls,3);await h.resolve();assert.equal(h.nodes.onlineRetry.hidden,true);
+  h.pageShow();assert.equal(h.calls,4);assert.equal(h.requests[3].options.cache,'no-store');
 });
 test('error is retryable; malformed feed cannot become successful results',async()=>{
   const h=harness();h.fail();h.select('online');await h.resolve();assert.equal(h.nodes.onlineRetry.hidden,false);assert.match(h.nodes.onlineState.textContent,/could not be loaded/);
