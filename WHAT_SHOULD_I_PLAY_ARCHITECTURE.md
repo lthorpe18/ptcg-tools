@@ -46,7 +46,7 @@ Saved Expected Fields are account-owned snapshots with provenance, not silent li
 
 WSIP field/prediction identity is format-specific. Online and IRL may legally differ during set-transition windows.
 
-Settings → Maintenance → Formats & Sets now maintains one published shared format calendar. The next format-consumer package must ensure WSIP/Meta resolves current date/environment context from that published shared calendar through the canonical `PTCGFormat` resolver rather than older checked-in/current-release assumptions.
+Settings → Maintenance → Formats & Sets maintains one published shared format calendar. WSIP/Meta browser consumers now resolve current date/environment context from that published calendar through the canonical `PTCGFormat` runtime rather than feature-local assumptions. Production Meta generation is contractually wired to the same source, but end-to-end acceptance remains blocked until the production archive job successfully regenerates the release from it.
 
 Rules:
 
@@ -226,4 +226,4 @@ Repair that assertion in the appropriate Meta/release-hardening pass; do not wea
 - automatic planned/used-deck mutation;
 - new external evidence providers without a deliberate source decision.
 
-Current roadmap after shared format-calendar consumer wiring is **Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence → Prediction Accuracy maturation → Release Hardening → Collection later**.
+Current roadmap is **close published-calendar production generation/acceptance → Personal Matchup Analysis → Practice Priorities → Event Prep v2 → Deck Version Intelligence → Prediction Accuracy maturation → Release Hardening → general Collection later**. The standalone Kanto 151 spin-off is outside this WSIP roadmap.
