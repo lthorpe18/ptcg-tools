@@ -53,13 +53,21 @@
     const controller = new AbortController(), deadline = setTimeout(() => controller.abort(), 15000);
     pending = (async () => {
       try {
-        const response = await fetch(new URL('../../data/online-events.json', location.href), { signal:controller.signal, cache:'no-cache' });
+        const url = new URL('../../data/online-events.json', location.href);
+        url.searchParams.set('_pt', String(Date.now()));
+        const response = await fetch(url, { signal:controller.signal, cache:'no-store' });
         if (!response.ok) throw new Error('Unavailable');
         feed = validate(await response.json());
         render();
       } catch {
-        $('onlineState').textContent = 'Online tournaments could not be loaded. Please try again.';
-        $('onlineRetry').hidden = false;
+        if (feed) {
+          render();
+          $('onlineFreshness').textContent += ' · Refresh failed';
+          $('onlineRetry').hidden = false;
+        } else {
+          $('onlineState').textContent = 'Online tournaments could not be loaded. Please try again.';
+          $('onlineRetry').hidden = false;
+        }
       } finally { clearTimeout(deadline); pending = null; }
     })();
     return pending;
@@ -69,7 +77,7 @@
     document.body.classList.toggle('show-online', show);
     $('onlinePanel').hidden = !show;
     clearTimeout(timer);
-    if (show) { if (feed) render(); else load(); }
+    if (show) { if (feed) render(); load(); }
   }
   function bind() {
     const panel = document.createElement('section');
@@ -92,8 +100,9 @@
     });
     window.addEventListener('ptcg:local-change', render);
     $('onlineRetry').addEventListener('click', load);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden && active) render(); });
-    window.addEventListener('pageshow', () => { if (active) render(); });
+    $('refreshButton')?.addEventListener('click', () => { if (active) { if (feed) render(); load(); } });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && active) { if (feed) render(); load(); } });
+    window.addEventListener('pageshow', () => { if (active) { if (feed) render(); load(); } });
     if (new URLSearchParams(location.search).get('view') === 'online') document.querySelector('[data-view="online"]').click();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind, {once:true}); else bind();
