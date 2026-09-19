@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-19T16:03:14.023Z",
+  "generatedAt": "2026-09-19T18:53:41.784Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": null,
-      "id": "limitless:6aacae85f127b1b52c27bca5",
-      "source": "limitless",
-      "sourceId": "6aacae85f127b1b52c27bca5",
-      "name": "Surprise! Eternal Tournament #36",
-      "url": "https://play.limitlesstcg.com/tournament/6aacae85f127b1b52c27bca5/details",
-      "startAt": "2026-09-19T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad6f9ce905c1db687444f5",
-      "source": "limitless",
-      "sourceId": "6aad6f9ce905c1db687444f5",
-      "name": "PokeMagee Weekly - 30th Celebration",
-      "url": "https://play.limitlesstcg.com/tournament/6aad6f9ce905c1db687444f5/details",
-      "startAt": "2026-09-19T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
