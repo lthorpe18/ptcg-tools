@@ -1,5 +1,7 @@
 # PTCG Tools — Master Product & Design Document
 
+> **19 September 2026 UI/UX programme:** the owner has explicitly reopened presentation and navigation through [UI_UX_REBUILD_GUIDE.md](docs/UI_UX_REBUILD_GUIDE.md), [status](docs/UI_UX_REBUILD_STATUS.md) and [decisions](docs/UI_UX_DECISIONS.md). Existing layouts and navigation in this document describe production V2; the new guide governs the staged target UI. Shared engines, identity, data safety and evidence rules remain binding. The old restriction against a broad UI milestone is superseded by this request. General Collection implementation and Kanto migration remain separately gated. No production changes in CP00.
+
 > **Operational entry:** read [CURRENT_STATE.md](CURRENT_STATE.md) for the current implementation, validation and acceptance state. This document retains the long-term product/design contract. Historical research in `ptcg-meta-analysis` has a separate roadmap and does not become product behaviour without an explicit adoption decision.
 
 **Status:** Current product source of truth  
