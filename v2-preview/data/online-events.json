@@ -1,50 +1,20 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-19T00:37:12.876Z",
+  "generatedAt": "2026-09-19T05:01:58.385Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
     {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6a438d76c87cd9ff0a3135d8",
-      "source": "limitless",
-      "sourceId": "6a438d76c87cd9ff0a3135d8",
-      "name": "Budget Build Battles! | Season 8 - Week 12",
-      "url": "https://play.limitlesstcg.com/tournament/6a438d76c87cd9ff0a3135d8/details",
-      "startAt": "2026-09-19T01:30:00.000Z"
-    },
-    {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6aadc4cdf127b1b52c27c5a0",
+      "id": "limitless:6aadfae0e905c1db68744d85",
       "source": "limitless",
-      "sourceId": "6aadc4cdf127b1b52c27c5a0",
-      "name": "🎁Nocturno 🇨🇱🏆BO1🏆CHILE",
-      "url": "https://play.limitlesstcg.com/tournament/6aadc4cdf127b1b52c27c5a0/details",
-      "startAt": "2026-09-19T01:35:00.000Z"
-    },
-    {
-      "format": "Worlds 2017 (PRC–BUS)",
-      "platform": "SIM",
-      "id": "limitless:6aadd64df127b1b52c27c6e4",
-      "source": "limitless",
-      "sourceId": "6aadd64df127b1b52c27c6e4",
-      "name": "Surprise! Retro Rewind - Vault of Games",
-      "url": "https://play.limitlesstcg.com/tournament/6aadd64df127b1b52c27c6e4/details",
-      "startAt": "2026-09-19T02:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:legos",
-      "source": "limitless",
-      "sourceId": "legos",
-      "name": "TOURNAMENT OF DOOM! LEGOS!",
-      "url": "https://play.limitlesstcg.com/tournament/legos/details",
-      "startAt": "2026-09-19T02:35:00.000Z"
+      "sourceId": "6aadfae0e905c1db68744d85",
+      "name": "YHT Pokémon TCG League",
+      "url": "https://play.limitlesstcg.com/tournament/6aadfae0e905c1db68744d85/details",
+      "startAt": "2026-09-19T06:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -165,16 +135,6 @@
       "name": "TurboBlaze Trials GLC Series - Season 2 Week 4",
       "url": "https://play.limitlesstcg.com/tournament/6aa95546f1243e65f9802073/details",
       "startAt": "2026-09-21T00:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a80b2925a30714095571744",
-      "source": "limitless",
-      "sourceId": "6a80b2925a30714095571744",
-      "name": "Cusca Premier Cup 👑 #2",
-      "url": "https://play.limitlesstcg.com/tournament/6a80b2925a30714095571744/details",
-      "startAt": "2026-09-21T01:00:00.000Z"
     },
     {
       "format": "Standard",
