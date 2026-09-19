@@ -1,6 +1,12 @@
 # PTCG Tools — current state
 
-Review: 19 September 2026, after source-of-truth documentation PR #80 merged; Meta exact-detail evidence loading fix PR #81 is open for owner review. Read this first, then the linked handoff and current GitHub refs. This is an evidence snapshot, not a claim that branches stop moving.
+## UI/UX rebuild — CP00 documentation handoff
+
+The owner has requested a staged UI/UX rebuild. Read [rebuild status](docs/UI_UX_REBUILD_STATUS.md), [guide](docs/UI_UX_REBUILD_GUIDE.md), [decisions](docs/UI_UX_DECISIONS.md) and [CP01](handoffs/ui-ux/CP-01.md). CP00 verified remote main at `8e9d8e2a81121924f3ecc6420dcc833c3d2a52d0`; newer changes since #81 were generated feeds, preserved here. No open PRs were found at checkpoint start.
+
+The previous baseline descriptions below retain historical context. The guide now governs target UI/navigation, not current production. Reuse the existing stack/shared engines under an isolated `v3-preview/`; no runtime, data or production cutover in CP00. Collection remains future implementation; Kanto stays separate pending reviewed migration. Calendar production concerns and device acceptance remain unresolved, not waived. Documentation PR merge is pending.
+
+Review: 19 September 2026, after source-of-truth documentation PR #80 merged; Meta exact-detail evidence loading fix PR #81 is merged; device acceptance remains unverified here. Read this first, then the linked handoff and current GitHub refs. This is an evidence snapshot, not a claim that branches stop moving.
 
 ## Purpose and boundary
 
@@ -28,11 +34,11 @@ The same repository also contains a deliberately standalone Kanto 151 collection
 - **Verified:** opening Online Slowking in the current TEF-30C Meta can remain on “Loading compatible H2H…” and “Loading field, matchup and result evidence…”.
 - **Verified:** the committed current release is not missing the evidence. Its 30-day TEF-30C field contains Slowking with 34 entries; the matching Online matchup payload contains 67 Slowking H2H rows; the matching results payload contains 22 Slowking result rows.
 - **Inferred:** the strongest code-grounded failure mode is a stalled browser CacheStorage operation. Network requests were bounded, but Meta release cache reads/writes/pruning were not, so lazy evidence could remain unresolved indefinitely before network fallback or after a successful fetch.
-- **Implemented, not merged:** [PR #81](https://github.com/lthorpe18/ptcg-tools/pull/81) bounds Meta release CacheStorage I/O, falls through to validated network evidence after cache-read failure/timeout, does not block successful loads on cache-write/prune failure, and bumps the installed-app loader/service-worker asset generation.
+- **Merged; device acceptance pending:** [PR #81](https://github.com/lthorpe18/ptcg-tools/pull/81) bounds Meta release CacheStorage I/O, falls through to validated network evidence after cache-read failure/timeout, does not block successful loads on cache-write/prune failure, and bumps the installed-app loader/service-worker asset generation.
 - **Verified validation:** both new stalled-cache regression tests pass. Branch CI runs 300 tests with 289 passes / 11 failures; the overall failure count remains the documented transition-debt count. Syntax and Meta architecture checks pass.
 - **Unknown:** whether CacheStorage stalling is the exact device cause until the merged/deployed build is retested on the owner’s iPhone.
 
-**Exact next action for this regression:** merge PR #81 only with explicit owner authorization, then repeat Meta → Online TEF-30C → Slowking and verify observed performance, matchup rows and recent results replace both loading states. If not, instrument the lazy-loader failure path rather than changing evidence semantics.
+**Exact next action for this regression:** PR #81 is already merged; verify deployment and repeat Meta → Online TEF-30C → Slowking and verify observed performance, matchup rows and recent results replace both loading states. If not, instrument the lazy-loader failure path rather than changing evidence semantics.
 
 See [handoffs/meta-detail-evidence-loading.md](handoffs/meta-detail-evidence-loading.md).
 
