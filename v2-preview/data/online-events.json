@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-19T11:31:03.445Z",
+  "generatedAt": "2026-09-19T16:03:14.023Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6aa956d5f1243e65f980207d",
-      "source": "limitless",
-      "sourceId": "6aa956d5f1243e65f980207d",
-      "name": "TurboBlaze Presents: The Saturday Special #2",
-      "url": "https://play.limitlesstcg.com/tournament/6aa956d5f1243e65f980207d/details",
-      "startAt": "2026-09-19T16:00:00.000Z"
-    },
     {
       "format": null,
       "platform": null,
@@ -55,6 +45,16 @@
       "name": "Vault Of Games #3🏆|SEASON 1|WEEKLY",
       "url": "https://play.limitlesstcg.com/tournament/6aa616b6f1243e65f97ffc36/details",
       "startAt": "2026-09-20T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aae988df127b1b52c27cf93",
+      "source": "limitless",
+      "sourceId": "6aae988df127b1b52c27cf93",
+      "name": "SEASAC League Challenge #12 (SEASON 5) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6aae988df127b1b52c27cf93/details",
+      "startAt": "2026-09-20T11:30:00.000Z"
     },
     {
       "format": null,
@@ -119,6 +119,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aae98a2f127b1b52c27cf94",
+      "source": "limitless",
+      "sourceId": "6aae98a2f127b1b52c27cf94",
+      "name": "SEASAC League Challenge #13 (SEASON 5) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6aae98a2f127b1b52c27cf94/details",
+      "startAt": "2026-09-21T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a5a7f3c937230b102d3dd03",
       "source": "limitless",
       "sourceId": "6a5a7f3c937230b102d3dd03",
@@ -154,6 +164,16 @@
       "sourceId": "6aac7666e905c1db68743c55",
       "name": "💰 Control Players Unite's Pauper Tournament! #41",
       "url": "https://play.limitlesstcg.com/tournament/6aac7666e905c1db68743c55/details",
+      "startAt": "2026-09-21T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aae7dedf127b1b52c27ce0a",
+      "source": "limitless",
+      "sourceId": "6aae7dedf127b1b52c27ce0a",
+      "name": "🇧🇷 Hit Challenge #30 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aae7dedf127b1b52c27ce0a/details",
       "startAt": "2026-09-21T23:00:00.000Z"
     },
     {
@@ -344,6 +364,16 @@
       "sourceId": "6aad6127f127b1b52c27c081",
       "name": "Elite Four Fridays",
       "url": "https://play.limitlesstcg.com/tournament/6aad6127f127b1b52c27c081/details",
+      "startAt": "2026-09-25T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aae8247e905c1db687452b5",
+      "source": "limitless",
+      "sourceId": "6aae8247e905c1db687452b5",
+      "name": "🇧🇷 Hit Challenge #31 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aae8247e905c1db687452b5/details",
       "startAt": "2026-09-25T23:00:00.000Z"
     },
     {
