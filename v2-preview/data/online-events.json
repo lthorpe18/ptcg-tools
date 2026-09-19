@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-19T05:01:58.385Z",
+  "generatedAt": "2026-09-19T11:31:03.445Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aadfae0e905c1db68744d85",
-      "source": "limitless",
-      "sourceId": "6aadfae0e905c1db68744d85",
-      "name": "YHT Pokémon TCG League",
-      "url": "https://play.limitlesstcg.com/tournament/6aadfae0e905c1db68744d85/details",
-      "startAt": "2026-09-19T06:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa542c7f1243e65f97fe987",
-      "source": "limitless",
-      "sourceId": "6aa542c7f1243e65f97fe987",
-      "name": "Perth pokemon week 5",
-      "url": "https://play.limitlesstcg.com/tournament/6aa542c7f1243e65f97fe987/details",
-      "startAt": "2026-09-19T10:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "CAM",
