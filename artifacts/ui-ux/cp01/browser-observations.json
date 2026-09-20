@@ -1,0 +1,82 @@
+{
+  "observations": [
+    {
+      "label": "390-portrait",
+      "width": 390,
+      "overflow": false,
+      "headerHeight": 126,
+      "firstRowTop": 340.6875,
+      "art": "ready",
+      "navs": 1
+    },
+    {
+      "label": "360-portrait",
+      "width": 360,
+      "overflow": false,
+      "headerHeight": 126,
+      "firstRowTop": 359.53125,
+      "art": "ready",
+      "navs": 1
+    },
+    {
+      "label": "360-gallery",
+      "width": 360,
+      "overflow": false,
+      "headerHeight": 126,
+      "firstRowTop": 359.53125,
+      "art": "ready",
+      "navs": 1
+    },
+    {
+      "label": "desktop",
+      "width": 1440,
+      "overflow": false,
+      "headerHeight": 140,
+      "firstRowTop": 354.6875,
+      "art": "ready",
+      "navs": 1
+    },
+    {
+      "label": "390-text-200",
+      "width": 390,
+      "overflow": false,
+      "headerHeight": 248.4375,
+      "firstRowTop": 749.640625,
+      "art": "ready",
+      "navs": 1
+    },
+    {
+      "label": "390-states",
+      "width": 390,
+      "overflow": false,
+      "headerHeight": 126,
+      "firstRowTop": 1470.96875,
+      "art": "missing",
+      "navs": 1
+    },
+    {
+      "label": "missing-art-dialog",
+      "width": 390,
+      "overflow": false,
+      "headerHeight": 126,
+      "firstRowTop": 620.96875,
+      "art": "missing",
+      "navs": 1
+    },
+    {
+      "label": "safe-area-bottom",
+      "width": 390,
+      "overflow": false,
+      "headerHeight": 126,
+      "firstRowTop": -1139.3125,
+      "art": "ready",
+      "navs": 1
+    }
+  ],
+  "pageErrors": [
+    {
+      "url": "http://127.0.0.1:4173/v2-preview/",
+      "message": "Could not load Supabase client"
+    }
+  ]
+}

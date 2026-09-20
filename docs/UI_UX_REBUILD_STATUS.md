@@ -1,16 +1,17 @@
 # UI/UX rebuild — checkpoint ledger
 
-Updated 19 September 2026. Read with CURRENT_STATE.md and UI_UX_REBUILD_GUIDE.md.
+Updated 20 September 2026. Read with CURRENT_STATE.md and UI_UX_REBUILD_GUIDE.md.
 
 ## Current handoff
 
-- CP00 documentation prepared on `docs/ui-ux-rebuild-cp00`; merge is not yet authorized or completed.
-- Verified remote main at start: `8e9d8e2a81121924f3ecc6420dcc833c3d2a52d0`.
+- CP00 is merged via PR #82, merge `606f7dd1e0f9bdc12c83d7edd524759d023df206`.
+- CP01 implementation is on `ui-ux/cp01-foundation`, pending PR review/explicit merge authorization. See [completion handoff](../handoffs/ui-ux/CP-01-COMPLETION.md).
+- Original CP01 base: `407a0117203fd665fba57cb9d95ea60f857d114d`; resumed from current main `c5000b37445b83b40272bba533028a02259065fb`, retaining every newer generated-feed commit.
 - No open PRs found at start. Subsequent main changes must be checked again in each workspace.
 - Changes since the earlier #81 checkout were confined to generated events.json and online-events.json; they are preserved.
 - Existing stack: static HTML/CSS/JavaScript; Node test runner; persistent mounted child views; shared stores/resolvers.
 - No AGENTS.md found in the checkout or checked workspace ancestors.
-- No application, backend, schema, generated data, auth or service-worker changes in CP00.
+- CP01 adds only isolated V3 presentation, tests and documentation. Existing QA server gets `.mjs` MIME support; production root/V2/runtime/data/auth/service-worker files are unchanged.
 - Full-suite baseline remains the historically recorded 289/300 with 11 known failures; not rerun or independently reclassified in this documentation pass.
 - Production calendar-generation acceptance and device acceptance of #78/#81 remain pending verification. Do not call them resolved.
 
@@ -18,8 +19,8 @@ Updated 19 September 2026. Read with CURRENT_STATE.md and UI_UX_REBUILD_GUIDE.md
 
 | CP | Scope | Status | Next gate |
 |---|---|---|---|
-| 00 | Baseline, guide, route parity, decisions, handoff | Documentation prepared for review | Review/merge docs PR |
-| 01 | Shared design system and isolated preview shell | Ready to start from CP00 branch or merged main | Browser-verified shell; no production cutover |
+| 00 | Baseline, guide, route parity, decisions, handoff | Merged: PR #82 | Complete |
+| 01 | Shared design system and isolated preview shell | Implemented; focused/browser verification recorded in completion handoff; unmerged | Review PR; owner-device acceptance pending |
 | 02 | Real deck workspace | Not started | Full list and preserved actions |
 | 03 | Deck index, search, versions | Not started | Identity/back-state parity |
 | 04 | Results, Game Log, Playtest | Not started | Evidence and playtest parity |
@@ -34,8 +35,8 @@ Updated 19 September 2026. Read with CURRENT_STATE.md and UI_UX_REBUILD_GUIDE.md
 
 ## Operational rules
 
-CP01 may be based on this documentation branch before merge; target that branch with a stacked PR and disclose the dependency. If merged, start from updated main. Never merge CP00 or switch production merely because this ledger says ready.
+CP01 is based on updated main, not a stacked CP00 branch. Do not merge or switch production because the ledger says implemented. No hosted preview or production deployment was created by CP01; the supported local preview is `http://localhost:4173/v3-preview/` after `npm run dev`.
 
 Every checkpoint updates this ledger, its handoff, relevant architecture docs and route parity. Record implemented, tested, merged, deployed and owner/device-accepted separately. Preserve a single active branch per checkpoint. Generated feed commits may advance main during work; never overwrite them.
 
-Exact next brief: [CP01](../handoffs/ui-ux/CP-01.md).
+Exact next action: review the CP01 PR and explicitly authorize any merge. Owner-device acceptance remains pending. After foundation acceptance/merge, the next brief is [CP02](../handoffs/ui-ux/CP-02.md); do not start it in the CP01 chat.

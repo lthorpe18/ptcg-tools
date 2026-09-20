@@ -1,5 +1,29 @@
 # UI/UX rebuild decisions
 
+## CP01 implementation evidence — 20 September 2026
+
+- **D02/D03:** `v3-preview/` is an isolated, read-only specimen shell. Four primary
+  destinations plus Utilities/Settings use an explicit transition page followed
+  by a top-level V2 link. The existing V2 shell is never embedded in V3. No auth
+  controller is loaded in V3. Collection has no route or visible tab; the central
+  destination registry is its eventual extension point.
+- **D04:** 126px phone / 140px desktop ArtworkHeader starting heights verified in
+  Chromium; height grows at enlarged text to avoid title clipping. A measured
+  bottom-nav reserve handles wrapped labels and safe-area height. Native dialogs
+  provide focus containment and Escape; the shared helper restores the trigger.
+- **D05:** adapter calls `PTCGCardImages.resolve` and binds its ordered candidates;
+  it neither constructs provider URLs nor calls a handler that removes reserved
+  thumbnail dimensions. Canonical sprites retain exact name/override lookup.
+- **Return context:** exact hash allowlist plus `history.state` presentation
+  snapshots; no new domain store. Browser Back traverses V2's own intermediate
+  history. The transition's Return to specimen link also restores native view,
+  filter, disclosures and scroll. No changes to V2's routing contract.
+- **D07:** browser evidence uses the repository QA server. `.mjs` MIME support
+  is the sole existing-code change outside documentation/tests. Real iPhone,
+  Safari and installed-PWA acceptance remain pending, not inferred from Chromium.
+- **CP02 gate:** no live deck writes or accepted sync adapter in CP01. Those
+  contracts must be inspected and proven before the real workspace is connected.
+
 19 September 2026. Product direction comes from the user's redesign conversation; technical decisions below define the initial implementation approach and may change only with recorded evidence.
 
 ## D01 — Existing repository and stack

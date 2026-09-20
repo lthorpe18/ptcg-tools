@@ -1,6 +1,35 @@
 # UI/UX capability and route parity
 
-CP00 inventory, 19 September 2026. All V3 implementation/acceptance is pending. File paths identify current owners, not invented future URLs. Query/hash contracts must be extracted from the owning router when each capability is migrated; do not guess old-link redirects.
+## CP01 exact preview routes — 20 September 2026
+
+Paths below are relative to the repository deployment root (including any
+hosting subpath). `shared/routes.mjs` owns the allowlist and URL construction.
+
+| Preview URL | Owner/action | Temporary destination |
+|---|---|---|
+| `v3-preview/` or `v3-preview/#/specimen` | Native labelled 60-card component specimen | None |
+| `v3-preview/#/specimen/states` | Native states, disclosures, dense rows and missing-art specimen | None |
+| `v3-preview/#/home` | Explicit Home transition | `v2-preview/` |
+| `v3-preview/#/meta` | Explicit Meta transition | `v2-preview/?section=meta` |
+| `v3-preview/#/decks` | Explicit Decks transition | `v2-preview/?section=decks` |
+| `v3-preview/#/compete` | Explicit Compete transition | `v2-preview/?section=compete` |
+| `v3-preview/#/utilities` | App-level Utilities transition | `v2-preview/?section=tools` |
+| `v3-preview/#/settings` | App-level Settings transition | `v2-preview/apps/settings/` |
+| Any unrecognised hash, including `#/collection` | Native route-not-found and specimen recovery link | Never redirected to an arbitrary URL |
+
+These are temporary full-document exits, not migrated Home/Meta/Decks/Compete
+workflows. V2 alone owns its shell and sync while active. All existing V2 URLs
+and query parameters remain untouched. Browser Back through V2 history restores
+the transition; native specimen context is restored by Back or its explicit
+return link. Direct-load/reload, Back/Forward and Home V2 roundtrip are covered
+by `tests/browser/ui-ux-cp01.cjs`; exact URL mappings are unit-tested for hosting
+subpaths. No V3 entity-ID routes exist until the relevant checkpoint proves them.
+
+Local QA URL: `http://localhost:4173/v3-preview/` after `npm run dev`. No hosted
+preview or production cutover has been deployed by CP01. Owner-device acceptance
+is pending. See the CP01 completion handoff for rendered observations.
+
+Historical CP00 inventory, 19 September 2026. Feature migration/acceptance remains pending; the CP01 foundation and temporary routes are recorded above. File paths identify current owners, not invented future URLs. Query/hash contracts must be extracted from the owning router when each capability is migrated; do not guess old-link redirects.
 
 | Current entry / owner | Existing capability/action to preserve | Target owner | CP |
 |---|---|---|---|
