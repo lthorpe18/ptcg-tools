@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-20T05:23:35.695Z",
+  "generatedAt": "2026-09-20T11:47:35.386Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aae988df127b1b52c27cf93",
-      "source": "limitless",
-      "sourceId": "6aae988df127b1b52c27cf93",
-      "name": "SEASAC League Challenge #12 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6aae988df127b1b52c27cf93/details",
-      "startAt": "2026-09-20T11:30:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGL",
@@ -24,16 +14,6 @@
       "sourceId": "6aacbef7e905c1db68744028",
       "name": "2026/9/20日小天冠山Android客户端庆祝赛",
       "url": "https://play.limitlesstcg.com/tournament/6aacbef7e905c1db68744028/details",
-      "startAt": "2026-09-20T12:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aaf3cdff127b1b52c27d986",
-      "source": "limitless",
-      "sourceId": "6aaf3cdff127b1b52c27d986",
-      "name": "Pyroars Cup - Online Edition #2",
-      "url": "https://play.limitlesstcg.com/tournament/6aaf3cdff127b1b52c27d986/details",
       "startAt": "2026-09-20T12:00:00.000Z"
     },
     {
@@ -92,7 +72,7 @@
       "id": "limitless:6aace66ef127b1b52c27bd26",
       "source": "limitless",
       "sourceId": "6aace66ef127b1b52c27bd26",
-      "name": "Rare Candy Club Showdown #45 (50 CODES)",
+      "name": "Rare Candy Club Showdown #45 (30TH LEGAL)",
       "url": "https://play.limitlesstcg.com/tournament/6aace66ef127b1b52c27bd26/details",
       "startAt": "2026-09-21T00:00:00.000Z"
     },
@@ -105,6 +85,16 @@
       "name": "TurboBlaze Trials GLC Series - Season 2 Week 4",
       "url": "https://play.limitlesstcg.com/tournament/6aa95546f1243e65f9802073/details",
       "startAt": "2026-09-21T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aaf5762f127b1b52c27da24",
+      "source": "limitless",
+      "sourceId": "6aaf5762f127b1b52c27da24",
+      "name": "【CL台風特別編】Rising Poke Japan Cup #Special【BO3】",
+      "url": "https://play.limitlesstcg.com/tournament/6aaf5762f127b1b52c27da24/details",
+      "startAt": "2026-09-21T04:00:00.000Z"
     },
     {
       "format": "Standard",
