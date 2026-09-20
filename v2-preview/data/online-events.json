@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-20T11:47:35.386Z",
+  "generatedAt": "2026-09-20T16:28:23.036Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6aacbef7e905c1db68744028",
-      "source": "limitless",
-      "sourceId": "6aacbef7e905c1db68744028",
-      "name": "2026/9/20日小天冠山Android客户端庆祝赛",
-      "url": "https://play.limitlesstcg.com/tournament/6aacbef7e905c1db68744028/details",
-      "startAt": "2026-09-20T12:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aaf1fffe905c1db68745cde",
-      "source": "limitless",
-      "sourceId": "6aaf1fffe905c1db68745cde",
-      "name": "Kearney Free Standard Tournament #4",
-      "url": "https://play.limitlesstcg.com/tournament/6aaf1fffe905c1db68745cde/details",
-      "startAt": "2026-09-20T15:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -345,6 +325,16 @@
       "name": "🏆Ling TV ARENA🏆- TOP CUT",
       "url": "https://play.limitlesstcg.com/tournament/6a993668ab080c8c957f88fa/details",
       "startAt": "2026-09-25T18:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6aa4e16b38886b36383bd0e8",
+      "source": "limitless",
+      "sourceId": "6aa4e16b38886b36383bd0e8",
+      "name": "Amyverse Webcam Wonders #28 💙 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6aa4e16b38886b36383bd0e8/details",
+      "startAt": "2026-09-25T22:00:00.000Z"
     },
     {
       "format": "Standard",
