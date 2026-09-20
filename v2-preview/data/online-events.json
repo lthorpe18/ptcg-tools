@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-19T22:29:14.717Z",
+  "generatedAt": "2026-09-20T00:22:29.227Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aaefea9f127b1b52c27d790",
-      "source": "limitless",
-      "sourceId": "6aaefea9f127b1b52c27d790",
-      "name": "Torneo Sidedeck Online Gratis Sábado 19 Septiembre",
-      "url": "https://play.limitlesstcg.com/tournament/6aaefea9f127b1b52c27d790/details",
-      "startAt": "2026-09-19T23:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -65,6 +55,16 @@
       "name": "2026/9/20日小天冠山Android客户端庆祝赛",
       "url": "https://play.limitlesstcg.com/tournament/6aacbef7e905c1db68744028/details",
       "startAt": "2026-09-20T12:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aaf1fffe905c1db68745cde",
+      "source": "limitless",
+      "sourceId": "6aaf1fffe905c1db68745cde",
+      "name": "Kearney 30th Celebration Event",
+      "url": "https://play.limitlesstcg.com/tournament/6aaf1fffe905c1db68745cde/details",
+      "startAt": "2026-09-20T15:30:00.000Z"
     },
     {
       "format": "Standard",
