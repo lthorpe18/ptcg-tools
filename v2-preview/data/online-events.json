@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-20T16:28:23.036Z",
+  "generatedAt": "2026-09-20T19:02:34.560Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aaef971e905c1db68745b9a",
-      "source": "limitless",
-      "sourceId": "6aaef971e905c1db68745b9a",
-      "name": "Monster Collectibles After Hours Season 2 #2",
-      "url": "https://play.limitlesstcg.com/tournament/6aaef971e905c1db68745b9a/details",
-      "startAt": "2026-09-20T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aabd391e905c1db68743227",
-      "source": "limitless",
-      "sourceId": "6aabd391e905c1db68743227",
-      "name": "Zard-Domingou #10",
-      "url": "https://play.limitlesstcg.com/tournament/6aabd391e905c1db68743227/details",
-      "startAt": "2026-09-20T17:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
