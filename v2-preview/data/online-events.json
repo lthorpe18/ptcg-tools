@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-21T05:27:53.631Z",
+  "generatedAt": "2026-09-21T13:19:57.067Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aae98a2f127b1b52c27cf94",
-      "source": "limitless",
-      "sourceId": "6aae98a2f127b1b52c27cf94",
-      "name": "SEASAC League Challenge #13 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6aae98a2f127b1b52c27cf94/details",
-      "startAt": "2026-09-21T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -54,6 +44,16 @@
       "sourceId": "6aaf0c8ce905c1db68745c27",
       "name": "PHOENIX ONLINE 1°",
       "url": "https://play.limitlesstcg.com/tournament/6aaf0c8ce905c1db68745c27/details",
+      "startAt": "2026-09-21T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab11439f127b1b52c27e74d",
+      "source": "limitless",
+      "sourceId": "6ab11439f127b1b52c27e74d",
+      "name": "🔥⚔️XVIII TORNEIO TCG LIVE - 3️⃣0️⃣🎉 ANOS⚔️🔥",
+      "url": "https://play.limitlesstcg.com/tournament/6ab11439f127b1b52c27e74d/details",
       "startAt": "2026-09-21T22:00:00.000Z"
     },
     {
@@ -125,6 +125,16 @@
       "name": "CHALLENGE OF DOOM! WAIT, HOW MANY!?!?!",
       "url": "https://play.limitlesstcg.com/tournament/6aa5cf9738886b36383be21a/details",
       "startAt": "2026-09-22T03:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab0edbce905c1db68746c13",
+      "source": "limitless",
+      "sourceId": "6ab0edbce905c1db68746c13",
+      "name": "👑CrownOfSpain 👑 #8 (10€ paypal)",
+      "url": "https://play.limitlesstcg.com/tournament/6ab0edbce905c1db68746c13/details",
+      "startAt": "2026-09-22T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -325,6 +335,16 @@
       "name": "🇧🇷 Hit Challenge #31 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6aae8247e905c1db687452b5/details",
       "startAt": "2026-09-25T23:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ab12735f127b1b52c27e84e",
+      "source": "limitless",
+      "sourceId": "6ab12735f127b1b52c27e84e",
+      "name": "TurboBlaze Trials GLC Series - Season 2 Week 5",
+      "url": "https://play.limitlesstcg.com/tournament/6ab12735f127b1b52c27e84e/details",
+      "startAt": "2026-09-26T00:30:00.000Z"
     },
     {
       "format": null,
