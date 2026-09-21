@@ -103,7 +103,7 @@
       for (const frame of document.querySelectorAll("iframe")) {
         frame.addEventListener("load", () => {
           const doc = frame.contentDocument;
-          if (frame.dataset.text200 !== undefined)
+          if (frame.hasAttribute("data-text-200"))
             doc.documentElement.style.fontSize = "200%";
 
           requestAnimationFrame(() =>
