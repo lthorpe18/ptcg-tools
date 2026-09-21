@@ -6,6 +6,7 @@ import {
 } from "./shared/routes.mjs";
 import {
   el,
+  sprite,
   artworkHeader,
   toolbar,
   cardRow,
@@ -35,6 +36,7 @@ function link(text, href, className = "") {
   return node;
 }
 const nav = document.querySelector(".bottom-nav");
+const appBar = document.querySelector(".app-bar");
 // Reserve the measured navigation height, including safe area and enlarged text.
 new ResizeObserver(() => {
   document.documentElement.style.setProperty(
@@ -42,6 +44,12 @@ new ResizeObserver(() => {
     `${nav.getBoundingClientRect().height}px`,
   );
 }).observe(nav, { box: "border-box" });
+new ResizeObserver(() => {
+  document.documentElement.style.setProperty(
+    "--appbar-height",
+    `${appBar.getBoundingClientRect().height}px`,
+  );
+}).observe(appBar, { box: "border-box" });
 for (const item of destinations.slice(0, 4)) {
   const a = link("", `#/${item.id}`);
   const icon = el("span", "nav-icon", item.icon);
@@ -161,8 +169,50 @@ function specimen() {
     note(),
     artworkHeader({ name: deckName, card: cover, focal: { x: 50, y: 35 } }),
   );
+  const surface = el("section", "task-surface");
+  surface.setAttribute("aria-label", "Deck specimen workspace");
+  const rail = el("nav", "entity-tabs");
+  rail.setAttribute("aria-label", "Specimen sections");
+  for (const [label, target] of [
+    ["Overview", "deck-summary"],
+    ["List", "card-groups"],
+    ["States", "states"],
+  ]) {
+    const button = el("button", target === "card-groups" ? "active" : "", label);
+    button.type = "button";
+    if (target === "card-groups") button.setAttribute("aria-current", "page");
+    button.onclick = () => {
+      if (target === "states") return routeTo("#/specimen/states");
+      document.getElementById(target)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    rail.append(button);
+  }
+  surface.append(rail);
+  const summary = el("section", "entity-summary");
+  summary.id = "deck-summary";
+  const identity = el("div", "entity-identity");
+  identity.append(
+    el("p", "eyebrow", "Historical deck fixture"),
+    el("p", "entity-meta", "Version 2 · 60 cards · Read only"),
+  );
+  const sprites = el("div", "entity-sprites");
+  sprites.setAttribute("aria-label", "Canonical deck sprites");
+  sprites.append(sprite(deckName, 56));
+  summary.append(identity, sprites);
+  const stats = el("div", "specimen-stats");
+  for (const [label, value] of [
+    ["Purpose", "Density"],
+    ["Identity", "Exact prints"],
+    ["State", "Fixture only"],
+  ]) {
+    const item = el("div");
+    item.append(el("span", "eyebrow", label), el("strong", "", value));
+    stats.append(item);
+  }
+  summary.append(stats);
+  surface.append(summary);
   const controls = toolbar("Fixture deck display");
-  controls.append(el("span", "grow meta", "60 cards · Sample list"));
+  controls.append(el("span", "grow section-kicker", "Deck list · 60 cards"));
   const views = el("div", "segmented");
   views.setAttribute("role", "group");
   views.setAttribute("aria-label", "Card display");
@@ -181,9 +231,10 @@ function specimen() {
   filter.id = "filter-button";
   filter.onclick = () => filterSheet(filter);
   controls.append(views, filter);
-  const groups = el("div");
+  const groups = el("div", "card-groups");
   groups.id = "card-groups";
-  main.append(controls, groups);
+  surface.append(controls, groups);
+  main.append(surface);
   renderCards();
   const secondary = el("div", "support");
   secondary.append(
@@ -199,7 +250,7 @@ function specimen() {
       true,
     ),
   );
-  main.append(
+  surface.append(
     secondary,
     link("Inspect states and patterns", "#/specimen/states", "specimen-footer"),
   );

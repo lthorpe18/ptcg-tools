@@ -86,10 +86,24 @@ const run = promisify(execFile);
         firstRowTop: document
           .querySelector(".card-row")
           ?.getBoundingClientRect().top,
+        artworkBottom: document
+          .querySelector(".artwork-header")
+          ?.getBoundingClientRect().bottom,
+        surfaceTop: document
+          .querySelector(".task-surface")
+          ?.getBoundingClientRect().top,
+        sectionTabs: document.querySelectorAll(".entity-tabs button").length,
         art: document.querySelector(".artwork-header")?.dataset.art,
         navs: document.querySelectorAll(".bottom-nav").length,
       }));
       assert.equal(m.overflow, false, label + " horizontal overflow");
+      if (m.artworkBottom != null && m.surfaceTop != null)
+        assert.ok(
+          m.surfaceTop < m.artworkBottom,
+          label + " task surface overlaps artwork stage",
+        );
+      if (m.sectionTabs != null)
+        assert.equal(m.sectionTabs, 3, label + " section rail");
       observations.push({ label, ...m });
       await page.screenshot({ path: path.join(out, label + ".png") });
     }
@@ -287,7 +301,7 @@ const run = promisify(execFile);
     assert.ok(
       await page.evaluate(
         () =>
-          document.querySelector("main > a:last-child").getBoundingClientRect()
+          document.querySelector(".specimen-footer").getBoundingClientRect()
             .bottom <=
           document.querySelector(".bottom-nav").getBoundingClientRect().top,
       ),

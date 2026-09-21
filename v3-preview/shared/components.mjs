@@ -94,6 +94,8 @@ export function state(kind, title, message, retry) {
 }
 export function dialog(title, trigger, { sheet = false } = {}) {
   const node = el("dialog", sheet ? "sheet" : "inspector");
+  const handle = el("span", "dialog-handle");
+  handle.setAttribute("aria-hidden", "true");
   const heading = el("h2", "", title);
   heading.id = "dialog-title";
   node.setAttribute("aria-labelledby", heading.id);
@@ -102,7 +104,7 @@ export function dialog(title, trigger, { sheet = false } = {}) {
   close.autofocus = true;
   close.onclick = () => node.close();
   bar.append(heading, close);
-  node.append(bar);
+  node.append(handle, bar);
   node.addEventListener("keydown", (event) => {
     if (event.key !== "Tab") return;
     const controls = [
@@ -137,13 +139,18 @@ export function dialog(title, trigger, { sheet = false } = {}) {
 }
 export function inspector(card, trigger) {
   const node = dialog(card.name, trigger);
-  node.append(
+  const layout = el("div", "inspector-layout");
+  const copy = el("div", "inspector-copy");
+  copy.append(
     el(
       "p",
       "meta",
-      `${card.set || "Printing unavailable"} ${card.number || ""} · Read-only fixture`,
+      `${card.set || "Printing unavailable"} ${card.number || ""} · Exact printing`,
     ),
-    cardArt(card, "inspector-art"),
+    el("p", "inspector-note", "Read-only historical fixture. No saved deck or account data is changed."),
+    el("div", "inspector-quantity", `${card.quantity}× in this specimen`),
   );
+  layout.append(cardArt(card, "inspector-art"), copy);
+  node.append(layout);
   node.showModal();
 }
