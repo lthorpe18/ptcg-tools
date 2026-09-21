@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-20T22:41:40.045Z",
+  "generatedAt": "2026-09-21T00:30:20.284Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,32 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6aa7e343f1243e65f9800f39",
+      "id": "limitless:6ab066f4f127b1b52c27e2c7",
       "source": "limitless",
-      "sourceId": "6aa7e343f1243e65f9800f39",
-      "name": "36° Torneio Padrão do Zap ! Hora do Pix",
-      "url": "https://play.limitlesstcg.com/tournament/6aa7e343f1243e65f9800f39/details",
-      "startAt": "2026-09-21T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aace66ef127b1b52c27bd26",
-      "source": "limitless",
-      "sourceId": "6aace66ef127b1b52c27bd26",
-      "name": "Rare Candy Club Showdown #45 (30TH LEGAL)",
-      "url": "https://play.limitlesstcg.com/tournament/6aace66ef127b1b52c27bd26/details",
-      "startAt": "2026-09-21T00:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6aa95546f1243e65f9802073",
-      "source": "limitless",
-      "sourceId": "6aa95546f1243e65f9802073",
-      "name": "TurboBlaze Trials GLC Series - Season 2 Week 4",
-      "url": "https://play.limitlesstcg.com/tournament/6aa95546f1243e65f9802073/details",
-      "startAt": "2026-09-21T00:30:00.000Z"
+      "sourceId": "6ab066f4f127b1b52c27e2c7",
+      "name": "Torneo de Prueba #0 (BO1)",
+      "url": "https://play.limitlesstcg.com/tournament/6ab066f4f127b1b52c27e2c7/details",
+      "startAt": "2026-09-21T01:00:00.000Z"
     },
     {
       "format": "Standard",
