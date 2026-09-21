@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CP01 responsive visual QA</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: system-ui, sans-serif;
+        background: #101716;
+        color: #f3efe6;
+      }
+
+      body {
+        margin: 0;
+        padding: 24px;
+      }
+
+      main {
+        display: flex;
+        align-items: flex-start;
+        gap: 32px;
+      }
+
+      section {
+        display: grid;
+        gap: 8px;
+      }
+
+      h1,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      p {
+        color: #a8b5ae;
+        font-size: 12px;
+      }
+
+      iframe {
+        display: block;
+        height: 844px;
+        border: 1px solid #34504a;
+        background: #061514;
+      }
+
+      .phone-390 {
+        width: 390px;
+      }
+
+      .phone-360 {
+        width: 360px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>390 CSS px</h1>
+        <p>Portrait specimen</p>
+        <iframe
+          class="phone-390"
+          src="../../v3-preview/index.html#/specimen"
+          title="CP01 specimen at 390 CSS pixels"
+        ></iframe>
+      </section>
+      <section>
+        <h1>360 CSS px</h1>
+        <p>Portrait specimen</p>
+        <iframe
+          class="phone-360"
+          src="../../v3-preview/index.html#/specimen"
+          title="CP01 specimen at 360 CSS pixels"
+        ></iframe>
+      </section>
+    </main>
+  </body>
+</html>
