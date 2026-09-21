@@ -19,6 +19,7 @@
 
       main {
         display: flex;
+        flex-wrap: wrap;
         align-items: flex-start;
         gap: 32px;
       }
@@ -40,6 +41,12 @@
       p {
         color: #a8b5ae;
         font-size: 12px;
+      }
+
+      output {
+        max-width: 390px;
+        color: #83dfd2;
+        font: 11px/1.4 ui-monospace, monospace;
       }
 
       iframe {
@@ -68,6 +75,7 @@
           src="../../v3-preview/index.html#/specimen"
           title="CP01 specimen at 390 CSS pixels"
         ></iframe>
+        <output aria-live="polite"></output>
       </section>
       <section>
         <h1>360 CSS px</h1>
@@ -77,7 +85,48 @@
           src="../../v3-preview/index.html#/specimen"
           title="CP01 specimen at 360 CSS pixels"
         ></iframe>
+        <output aria-live="polite"></output>
+      </section>
+      <section>
+        <h1>390 CSS px · text 200%</h1>
+        <p>Enlarged-text resilience</p>
+        <iframe
+          class="phone-390"
+          data-text-200
+          src="../../v3-preview/index.html#/specimen"
+          title="CP01 specimen at 390 CSS pixels with text enlarged to 200 percent"
+        ></iframe>
+        <output aria-live="polite"></output>
       </section>
     </main>
+    <script>
+      for (const frame of document.querySelectorAll("iframe")) {
+        frame.addEventListener("load", () => {
+          const doc = frame.contentDocument;
+          if (frame.dataset.text200 !== undefined)
+            doc.documentElement.style.fontSize = "200%";
+
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => {
+              const hero = doc.querySelector(".artwork-header");
+              const surface = doc.querySelector(".task-surface");
+              const metrics = {
+                viewport: frame.contentWindow.innerWidth,
+                overflow:
+                  doc.documentElement.scrollWidth > frame.contentWindow.innerWidth,
+                art: hero?.dataset.art,
+                hero: Math.round(hero?.getBoundingClientRect().height || 0),
+                overlap: Math.round(
+                  (hero?.getBoundingClientRect().bottom || 0) -
+                    (surface?.getBoundingClientRect().top || 0),
+                ),
+                navs: doc.querySelectorAll(".bottom-nav").length,
+              };
+              frame.nextElementSibling.value = JSON.stringify(metrics);
+            }),
+          );
+        });
+      }
+    </script>
   </body>
 </html>
