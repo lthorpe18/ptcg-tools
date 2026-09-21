@@ -1,71 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-21T19:43:35.293Z",
+  "generatedAt": "2026-09-21T23:36:19.003Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aaf0c8ce905c1db68745c27",
-      "source": "limitless",
-      "sourceId": "6aaf0c8ce905c1db68745c27",
-      "name": "PHOENIX ONLINE 1°",
-      "url": "https://play.limitlesstcg.com/tournament/6aaf0c8ce905c1db68745c27/details",
-      "startAt": "2026-09-21T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab11439f127b1b52c27e74d",
-      "source": "limitless",
-      "sourceId": "6ab11439f127b1b52c27e74d",
-      "name": "🔥⚔️XVIII TORNEIO TCG LIVE - 3️⃣0️⃣🎉 ANOS⚔️🔥",
-      "url": "https://play.limitlesstcg.com/tournament/6ab11439f127b1b52c27e74d/details",
-      "startAt": "2026-09-21T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa860e3f1243e65f980170f",
-      "source": "limitless",
-      "sourceId": "6aa860e3f1243e65f980170f",
-      "name": "Sunny's Weekly #274 Beans and Frankfurts",
-      "url": "https://play.limitlesstcg.com/tournament/6aa860e3f1243e65f980170f/details",
-      "startAt": "2026-09-21T22:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab082eae905c1db687469be",
-      "source": "limitless",
-      "sourceId": "6ab082eae905c1db687469be",
-      "name": "I HATE MONDAYS 🐈 PKMN Centro Occidente",
-      "url": "https://play.limitlesstcg.com/tournament/6ab082eae905c1db687469be/details",
-      "startAt": "2026-09-21T22:10:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6aac7666e905c1db68743c55",
-      "source": "limitless",
-      "sourceId": "6aac7666e905c1db68743c55",
-      "name": "💰 Control Players Unite's Pauper Tournament! #41",
-      "url": "https://play.limitlesstcg.com/tournament/6aac7666e905c1db68743c55/details",
-      "startAt": "2026-09-21T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aae7dedf127b1b52c27ce0a",
-      "source": "limitless",
-      "sourceId": "6aae7dedf127b1b52c27ce0a",
-      "name": "🇧🇷 Hit Challenge #30 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aae7dedf127b1b52c27ce0a/details",
-      "startAt": "2026-09-21T23:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -299,6 +239,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aaf76adf127b1b52c27dac9",
+      "source": "limitless",
+      "sourceId": "6aaf76adf127b1b52c27dac9",
+      "name": "Rare Candy Club Blitz #1",
+      "url": "https://play.limitlesstcg.com/tournament/6aaf76adf127b1b52c27dac9/details",
+      "startAt": "2026-09-25T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a8c620e81741245b151d827",
       "source": "limitless",
       "sourceId": "6a8c620e81741245b151d827",
@@ -397,6 +347,16 @@
       "startAt": "2026-09-26T00:30:00.000Z"
     },
     {
+      "format": "Worlds 2010 (DP–UL)",
+      "platform": "SIM",
+      "id": "limitless:6ab1a0e5f127b1b52c27efcd",
+      "source": "limitless",
+      "sourceId": "6ab1a0e5f127b1b52c27efcd",
+      "name": "James G Tournaments #56 - 2010 Worlds (DP-UL)",
+      "url": "https://play.limitlesstcg.com/tournament/6ab1a0e5f127b1b52c27efcd/details",
+      "startAt": "2026-09-26T01:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6aa10b18ab080c8c957fedc2",
@@ -485,6 +445,16 @@
       "name": "Sisterhood Showdown #2 💗 Girls & Enbies!",
       "url": "https://play.limitlesstcg.com/tournament/6aa768daf1243e65f9800cb1/details",
       "startAt": "2026-09-27T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab1beb7f127b1b52c27f23a",
+      "source": "limitless",
+      "sourceId": "6ab1beb7f127b1b52c27f23a",
+      "name": "Rare Candy Club Showdown #46 (30TH LEGAL)",
+      "url": "https://play.limitlesstcg.com/tournament/6ab1beb7f127b1b52c27f23a/details",
+      "startAt": "2026-09-28T00:00:00.000Z"
     },
     {
       "format": "Standard",
