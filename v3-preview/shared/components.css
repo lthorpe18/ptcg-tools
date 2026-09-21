@@ -113,6 +113,7 @@ main:focus {
 }
 
 .bottom-nav a {
+  min-width: 0;
   min-height: 60px;
   display: grid;
   place-content: center;
@@ -123,6 +124,7 @@ main:focus {
   text-align: center;
   text-decoration: none;
   border-top: 3px solid transparent;
+  overflow-wrap: anywhere;
 }
 
 .bottom-nav a[aria-current] {
@@ -806,6 +808,46 @@ dialog::backdrop {
 }
 
 @media (max-width: 620px) {
+  .app-bar {
+    flex-wrap: wrap;
+  }
+
+  .app-actions {
+    margin-left: auto;
+  }
+
+  .app-actions a,
+  .bottom-nav a {
+    font-size: min(0.78rem, 3.2vw);
+  }
+
+  .app-actions a {
+    padding-inline: 4px;
+  }
+
+  .nav-icon {
+    font-size: min(1.2rem, 5vw);
+  }
+
+  .entity-tabs button,
+  .segmented button,
+  #filter-button {
+    font-size: min(1rem, 4.2vw);
+  }
+
+  .specimen-stats .eyebrow,
+  .specimen-stats strong {
+    overflow-wrap: anywhere;
+  }
+
+  .specimen-stats .eyebrow {
+    font-size: min(0.69rem, 3vw);
+  }
+
+  .specimen-stats strong {
+    font-size: min(1.05rem, 4vw);
+  }
+
   dialog[open] {
     width: 100%;
     max-width: 100%;
