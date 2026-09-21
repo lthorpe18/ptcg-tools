@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-21T00:30:20.284Z",
+  "generatedAt": "2026-09-21T05:27:53.631Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab066f4f127b1b52c27e2c7",
-      "source": "limitless",
-      "sourceId": "6ab066f4f127b1b52c27e2c7",
-      "name": "Torneo de Prueba #0 (BO1)",
-      "url": "https://play.limitlesstcg.com/tournament/6ab066f4f127b1b52c27e2c7/details",
-      "startAt": "2026-09-21T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aaf5762f127b1b52c27da24",
-      "source": "limitless",
-      "sourceId": "6aaf5762f127b1b52c27da24",
-      "name": "【CL台風特別編】Rising Poke Japan Cup #Special【BO3】",
-      "url": "https://play.limitlesstcg.com/tournament/6aaf5762f127b1b52c27da24/details",
-      "startAt": "2026-09-21T04:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -87,6 +67,16 @@
       "startAt": "2026-09-21T22:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab082eae905c1db687469be",
+      "source": "limitless",
+      "sourceId": "6ab082eae905c1db687469be",
+      "name": "I HATE MONDAYS 🐈 PKMN Centro Occidente",
+      "url": "https://play.limitlesstcg.com/tournament/6ab082eae905c1db687469be/details",
+      "startAt": "2026-09-21T22:10:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6aac7666e905c1db68743c55",
@@ -115,6 +105,16 @@
       "name": "Monday Night Madness",
       "url": "https://play.limitlesstcg.com/tournament/6aad9018e905c1db6874470e/details",
       "startAt": "2026-09-22T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab0a073f127b1b52c27e559",
+      "source": "limitless",
+      "sourceId": "6ab0a073f127b1b52c27e559",
+      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 2 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6ab0a073f127b1b52c27e559/details",
+      "startAt": "2026-09-22T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -155,6 +155,16 @@
       "name": "♠️ Control Players Unite's Aceless Tournament! #40",
       "url": "https://play.limitlesstcg.com/tournament/6aac76c5f127b1b52c27b9c7/details",
       "startAt": "2026-09-22T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab0812de905c1db687469ae",
+      "source": "limitless",
+      "sourceId": "6ab0812de905c1db687469ae",
+      "name": "Pudding Weekly #14 | What's faster sound or light?",
+      "url": "https://play.limitlesstcg.com/tournament/6ab0812de905c1db687469ae/details",
+      "startAt": "2026-09-23T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -335,6 +345,16 @@
       "name": "TOURNAMENT OF DOOM! LET'S GO!",
       "url": "https://play.limitlesstcg.com/tournament/6a87229678baaa6d1c2244ea/details",
       "startAt": "2026-09-26T02:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab094bfe905c1db68746a48",
+      "source": "limitless",
+      "sourceId": "6ab094bfe905c1db68746a48",
+      "name": "Perth Pokemon week 6",
+      "url": "https://play.limitlesstcg.com/tournament/6ab094bfe905c1db68746a48/details",
+      "startAt": "2026-09-26T10:00:00.000Z"
     },
     {
       "format": "Standard",
