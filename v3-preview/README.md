@@ -17,6 +17,12 @@ build, framework, manifest, service-worker registration, auth bootstrap or store
 | `shared/routes.mjs` | Exact native/legacy route allowlist, V2 destination construction and UI-state validation |
 | `fixtures.mjs` | Historical 60-card sample, isolated from all personal/domain persistence |
 
+The visual hierarchy is Artwork Stage → floating Section Rail → overlapping
+Task Surface. Dark atmospheric chrome frames a warm paper working surface;
+editorial display type, restrained cyan/mint accents, fine rules, authentic card
+art and canonical sprites provide identity. It is deliberately not a generic
+grid of rounded cards. Inspectors and filters become bottom sheets on phones.
+
 `app.js` composes the filter dialog from the shared dialog/toolbar pattern.
 Semantic HTML owns disclosures, buttons, links and modal focus containment;
 the dialog helper restores the triggering control on close. Primary controls
@@ -35,8 +41,9 @@ reserved layout. It never removes images inside the canonical sprite fallback.
 `artworkHeader({name, card, focal:{x,y}, level})` accepts an exact printing and
 per-printing percentage focal point. Cover printing and crop are presentation
 inputs, separate from the deck's cards/identity; CP01 persists neither. Headers
-start at 126px on phones and 140px on desktop. Enlarged text may increase height
-instead of clipping the title. The title is the only text inside the artwork.
+start at 210px at 390px, 196px at 360px and 270px on desktop, with the task
+surface overlapping by 28px. Enlarged text may increase height instead of
+clipping the title. The title is the only text inside the artwork.
 `DeckSprites.html()` receives the original name, preserving exact override keys.
 
 ## Routes and return context
@@ -81,6 +88,11 @@ normally. The harness requires actual header and initial card artwork to load.
 
 Screenshots and observations are written to `CP01_OUTPUT`; inspect the images,
 not just the assertions. Owner iPhone/Safari/installed-app acceptance is separate.
+
+`tests/browser/cp01-responsive.html` is a read-only manual QA harness that loads
+the real preview at exact 390px and 360px iframe viewports plus a 390px/200%-text
+case. It reports viewport width, overflow, artwork state/height, surface overlap
+and shell count; it is test infrastructure, not an application route.
 
 ## CP02 adapter boundary
 

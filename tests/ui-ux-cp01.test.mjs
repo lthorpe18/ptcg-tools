@@ -164,3 +164,24 @@ test("preview entry imports canonical providers and no sync, worker or embedded 
   assert.match(html, /v2-preview\/apps\/_shared\/deck-sprites.js/);
   assert.doesNotMatch(html, /iframe|serviceWorker|account-sync|manifest/i);
 });
+test("layered visual system keeps artwork, task surface and compact navigation contracts", () => {
+  const css = fs.readFileSync(
+    new URL("../v3-preview/shared/components.css", import.meta.url),
+    "utf8",
+  );
+  const tokens = fs.readFileSync(
+    new URL("../v3-preview/shared/tokens.css", import.meta.url),
+    "utf8",
+  );
+  const app = fs.readFileSync(
+    new URL("../v3-preview/app.js", import.meta.url),
+    "utf8",
+  );
+  assert.match(css, /\.task-surface\s*\{[\s\S]*?margin-top:\s*-28px/);
+  assert.match(css, /\.entity-tabs\s*\{[\s\S]*?position:\s*sticky/);
+  assert.match(css, /\.artwork-header\s*\{[\s\S]*?min-height:\s*210px/);
+  assert.match(tokens, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(tokens, /--accent:\s*#58dfd0/);
+  assert.match(app, /sprite\(deckName/);
+  assert.match(app, /el\("section", "task-surface"\)/);
+});

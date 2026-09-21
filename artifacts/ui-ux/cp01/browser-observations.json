@@ -1,82 +1,60 @@
 {
+  "recorded": "2026-09-21",
+  "source": "cloud Chromium rendering the immutable RawGitHack branch commit through tests/browser/cp01-responsive.html",
   "observations": [
     {
       "label": "390-portrait",
       "width": 390,
+      "height": 844,
       "overflow": false,
-      "headerHeight": 126,
-      "firstRowTop": 340.6875,
+      "headerHeight": 210,
+      "surfaceOverlap": 28,
       "art": "ready",
       "navs": 1
     },
     {
       "label": "360-portrait",
       "width": 360,
+      "height": 844,
       "overflow": false,
-      "headerHeight": 126,
-      "firstRowTop": 359.53125,
-      "art": "ready",
-      "navs": 1
-    },
-    {
-      "label": "360-gallery",
-      "width": 360,
-      "overflow": false,
-      "headerHeight": 126,
-      "firstRowTop": 359.53125,
-      "art": "ready",
-      "navs": 1
-    },
-    {
-      "label": "desktop",
-      "width": 1440,
-      "overflow": false,
-      "headerHeight": 140,
-      "firstRowTop": 354.6875,
+      "headerHeight": 196,
+      "surfaceOverlap": 28,
       "art": "ready",
       "navs": 1
     },
     {
       "label": "390-text-200",
       "width": 390,
+      "height": 844,
       "overflow": false,
-      "headerHeight": 248.4375,
-      "firstRowTop": 749.640625,
+      "headerHeight": 302,
+      "surfaceOverlap": 28,
       "art": "ready",
       "navs": 1
     },
     {
-      "label": "390-states",
-      "width": 390,
+      "label": "desktop",
+      "width": 1363,
+      "height": 936,
       "overflow": false,
-      "headerHeight": 126,
-      "firstRowTop": 1470.96875,
-      "art": "missing",
-      "navs": 1
-    },
-    {
-      "label": "missing-art-dialog",
-      "width": 390,
-      "overflow": false,
-      "headerHeight": 126,
-      "firstRowTop": 620.96875,
-      "art": "missing",
-      "navs": 1
-    },
-    {
-      "label": "safe-area-bottom",
-      "width": 390,
-      "overflow": false,
-      "headerHeight": 126,
-      "firstRowTop": -1139.3125,
+      "headerHeight": 270,
+      "surfaceOverlap": 28,
       "art": "ready",
       "navs": 1
     }
   ],
-  "pageErrors": [
-    {
-      "url": "http://127.0.0.1:4173/v2-preview/",
-      "message": "Could not load Supabase client"
-    }
-  ]
+  "visualChecks": {
+    "cardInspectorBottomSheet": "pass at 390px with exact-print full card artwork",
+    "filterBottomSheet": "pass at 390px",
+    "states": "loading, empty, partial and error/retry surfaces inspected at 360px",
+    "routes": "direct immutable load and native Home/Meta/Decks transitions inspected",
+    "canonicalAssets": "resolver artwork and DeckSprites output loaded",
+    "horizontalOverflow": "none at 390px, 360px or 390px/200% text"
+  },
+  "automation": {
+    "focusedNodeTests": "10 passing",
+    "fullBrowserHarness": "not rerun after visual revision: local Chromium unavailable and download timed out",
+    "retainedAssertions": "focus containment/return, reduced motion, safe area, direct reload, Back/Forward, V2 return, missing artwork and state handling"
+  },
+  "ownerDevice": "pending iPhone/Safari/installed-PWA acceptance"
 }

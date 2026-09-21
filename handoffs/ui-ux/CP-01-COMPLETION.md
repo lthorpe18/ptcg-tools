@@ -1,6 +1,6 @@
 # CP01 completion / review handoff
 
-20 September 2026. Repository: `lthorpe18/ptcg-tools`.
+21 September 2026. Repository: `lthorpe18/ptcg-tools`.
 Branch: `ui-ux/cp01-foundation`. PR is for review only; **not merged**.
 The PR head is the authoritative delivery SHA (reported with the PR link in the
 delivery message); this handoff is part of that commit rather than a self-hash.
@@ -9,7 +9,9 @@ delivery message); this handoff is part of that commit rather than a self-hash.
 
 - Required PR #82 merge `606f7dd1e0f9bdc12c83d7edd524759d023df206` is an ancestor.
 - Initial base `407a0117203fd665fba57cb9d95ea60f857d114d`; resumed against main
-  `c5000b37445b83b40272bba533028a02259065fb`. Newer feed commits are preserved.
+  `c5000b37445b83b40272bba533028a02259065fb`. Main was rechecked at
+  `292639adad8f699e74ddf352e73d723d529d5fd5`; its newer generated-feed commits
+  remain untouched and are not overwritten by this branch.
 - Clean initial checkout, no applicable AGENTS.md and no open PRs at start or
   resumption. All local CP01 work was preserved when resuming.
 - Production root, V2, manifest, service-worker scope, auth, stores, data schemas,
@@ -22,6 +24,11 @@ delivery message); this handoff is part of that commit rather than a self-hash.
 Shared tokens, shell, ArtworkHeader, compact toolbar, card rows/list/gallery,
 dense data rows, disclosures, filter dialog, card inspector, loading/empty/
 partial/error/retry patterns and labelled historical 60-card specimens.
+Following owner review, the initial flatter styling was replaced with the
+accepted Artwork Stage → floating Section Rail → overlapping Task Surface
+system. Dark atmospheric chrome, warm paper, editorial type, restrained
+cyan/mint accents, fine rules, authentic artwork, sprites and mobile bottom
+sheets now define the shared presentation language.
 Original canonical image/sprite scripts are reused without edits. A narrow
 generation-guarded DOM adapter owns image display/fallback only. Per-printing
 focal percentages never change a deck/list/card identity.
@@ -37,27 +44,33 @@ See `docs/UI_UX_ROUTE_PARITY.md` for exact routes and legacy transitions.
 
 ## Verification and actual visual inspection
 
-Focused unit command: `node --test tests/ui-ux-cp01.test.mjs`: **9 passing**.
+Focused unit command: `node --test tests/ui-ux-cp01.test.mjs`: **10 passing**.
 Syntax checks for new JS/modules and `git diff --check` pass.
 
-Browser harness: `tests/browser/ui-ux-cp01.cjs`, repository QA server, Chromium
-153 in a fresh profile. Screenshots were captured and visually inspected, not
-inferred from source or measurements alone. Actual artwork and canonical sprites
-were loaded. The environment-only image transport bridge forwarded exact URLs
-and original bytes using the configured proxy/CA; app image code was not mocked.
+The revised branch was loaded from its immutable RawGitHack commit in a real
+cloud Chromium session. `tests/browser/cp01-responsive.html` supplied exact
+390px, 360px and 390px/200%-text child viewports; screenshots were visually
+inspected and its in-page metrics were recorded. Actual resolver artwork and
+canonical sprites loaded—no image mock or substitute provider was used. The
+original full Playwright harness remains at `tests/browser/ui-ux-cp01.cjs` and
+was strengthened with overlap/section-rail assertions, but this workspace could
+not download a local Chromium binary, so its final revised-build rerun remains a
+separate CI/reviewer check. Earlier CP01 execution of that harness covered focus,
+safe area, history and reduced-motion mechanics before this CSS-only direction
+revision; those assertions were not removed.
 
 | Layout / behaviour | Observation |
 |---|---|
-| 390 × 844 portrait | 126px artwork strip; title wraps to two lines; first card row around y=341; six Pokémon rows fit above the bottom nav; readable quantities and real thumbnails; no page overflow |
-| 360 × 800 portrait | Title retains horizontal art composition; specimen label wraps; first card row around y=360; long names wrap without overlapping quantities; single bottom nav |
-| 360px gallery | Two full-card columns; count, printing and long names retained; touch targets remain usable |
-| 1440 × 1000 desktop | Content bounded to 1100px; 140px art strip; two-column dense list, not magnified phone controls; no horizontal overflow |
-| 390px / 200% root text | All text is enlarged; title grows to about 248px rather than clipping; toolbar and navigation labels wrap; extra scrolling is expected, not smaller essential text |
-| Keyboard / focus | Skip link focuses main without changing route; visible rust focus ring; Enter opens inspector; Tab/Shift+Tab cycle inside dialogs; Escape closes and restores trigger; filter Apply returns focus |
-| States | Loading, empty, partial and explicit error/retry inspected; expanded/collapsed disclosures distinguish correctly; missing art retains dimensions and canonical sprite/title treatment |
-| Reduced motion | Actual reduced-motion media emulation resolves motion token to 0ms; no animated loaders or recurring sprite replacement |
-| Safe area | CSS 34px bottom inset simulation; border-box ResizeObserver updates content reserve; final link remains above navigation. This is not an iPhone hardware test |
-| History | Direct load/reload; filtered gallery return after reload; Back/Forward; real V2 Home exit and return; unknown-route recovery; native presentation state retained |
+| 390 × 844 portrait | 210px horizontal artwork stage; 28px surface overlap; real artwork and thumbnails; canonical sprites; one bottom nav; no horizontal overflow |
+| 360 × 844 portrait | 196px artwork stage; long deck title remains legible over a horizontal crop; dense single-column rows and toolbar fit; one bottom nav; no horizontal overflow |
+| Mobile sheets | Card inspector and filter inspected at 390px as bottom sheets; full exact-print card art, restrained backdrop and clear close/apply controls |
+| 1363 × 936 desktop | 270px artwork stage; bounded warm task surface; floating rail; two-column dense list; no horizontal overflow |
+| 390px / 200% root text | Hero grows to 302px; primary title/metadata scale and reflow; compact chrome remains bounded; measured horizontal overflow is false |
+| Keyboard / focus | Native dialog open/Escape close exercised on the revised build. Full Tab/Shift+Tab containment, visible focus and trigger-return assertions remain in the focused browser harness and passed before the CSS-only revision; final harness rerun is pending as noted above |
+| States | Revised states page visually inspected with loading, empty, partial and error/retry surfaces; disclosures and missing-art patterns remain in the same component implementation |
+| Reduced motion | Token media query still sets all motion durations to 0ms and disables animation/transition; the existing browser assertion remains, but final cloud browser media emulation was unavailable |
+| Safe area | Dynamic measured nav reserve is unchanged and the existing 34px simulated-inset assertion remains; final owner-device test is pending |
+| History | Immutable direct load and native route transitions were exercised on the revised build. Full reload/Back/Forward/V2 roundtrip assertions remain in the browser harness; final local-Chromium rerun is pending |
 | Data boundary | Fresh V3 specimen leaves localStorage empty before legacy exit; no account/personal state is created |
 
 New failures found and fixed during CP01: null fresh history, missing `.mjs`
@@ -68,7 +81,11 @@ border-box observation. Browser assertions wait for actual route/render state.
 
 ## Failures, limitations and acceptance states
 
-- **New V3 runtime failures:** none in the final focused browser run.
+- **New V3 runtime failures:** none observed in the revised rendered routes.
+- **Final browser-automation limitation:** a Playwright-compatible local Chromium
+  binary was unavailable and its download timed out. Exact-width visual QA and
+  manual interactions completed in cloud Chromium; the full scripted harness
+  should run in PR CI or a reviewer machine before merge.
 - **Inherited/local environment observation:** the unchanged V2 Home transition
   emits `Could not load Supabase client` when its external CDN is unavailable to
   this QA browser. V3 return still works. This is not a claimed production fix or
@@ -78,9 +95,10 @@ border-box observation. Browser assertions wait for actual route/render state.
   run that suite automatically; inspect its actual results separately.
 - **Implemented:** CP01 foundation complete; no feature workflow migration.
 - **Merged:** no; explicit authorization is required.
-- **Hosted preview/deployed:** no deployment created by this work. Local preview
-  is `http://localhost:4173/v3-preview/` after `npm run dev`; it is not a remotely
-  accessible phone link. The QA harness stops its own server on completion.
+- **Hosted preview/deployed:** review-only RawGitHack URL:
+  `https://raw.githack.com/lthorpe18/ptcg-tools/ui-ux/cp01-foundation/v3-preview/index.html#/specimen`.
+  This is a source proxy, not a production deployment. Local preview remains
+  `http://localhost:4173/v3-preview/` after `npm run dev`.
 - **Production:** unchanged by this branch; current live deployment SHA is not
   independently asserted here.
 - **Owner-device:** pending iPhone/Safari/installed-app acceptance; Chromium,

@@ -1,6 +1,6 @@
 # UI/UX capability and route parity
 
-## CP01 exact preview routes — 20 September 2026
+## CP01 exact preview routes — 21 September 2026
 
 Paths below are relative to the repository deployment root (including any
 hosting subpath). `shared/routes.mjs` owns the allowlist and URL construction.
@@ -25,9 +25,10 @@ return link. Direct-load/reload, Back/Forward and Home V2 roundtrip are covered
 by `tests/browser/ui-ux-cp01.cjs`; exact URL mappings are unit-tested for hosting
 subpaths. No V3 entity-ID routes exist until the relevant checkpoint proves them.
 
-Local QA URL: `http://localhost:4173/v3-preview/` after `npm run dev`. No hosted
-preview or production cutover has been deployed by CP01. Owner-device acceptance
-is pending. See the CP01 completion handoff for rendered observations.
+Local QA URL: `http://localhost:4173/v3-preview/` after `npm run dev`. The
+completion handoff records an immutable hosted review URL for PR inspection;
+that proxy URL is not a production deployment or cutover. Owner-device
+acceptance is pending. See the CP01 completion handoff for rendered observations.
 
 Historical CP00 inventory, 19 September 2026. Feature migration/acceptance remains pending; the CP01 foundation and temporary routes are recorded above. File paths identify current owners, not invented future URLs. Query/hash contracts must be extracted from the owning router when each capability is migrated; do not guess old-link redirects.
 

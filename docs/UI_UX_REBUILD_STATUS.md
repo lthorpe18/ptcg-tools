@@ -1,11 +1,16 @@
 # UI/UX rebuild — checkpoint ledger
 
-Updated 20 September 2026. Read with CURRENT_STATE.md and UI_UX_REBUILD_GUIDE.md.
+Updated 21 September 2026. Read with CURRENT_STATE.md and UI_UX_REBUILD_GUIDE.md.
 
 ## Current handoff
 
 - CP00 is merged via PR #82, merge `606f7dd1e0f9bdc12c83d7edd524759d023df206`.
 - CP01 implementation is on `ui-ux/cp01-foundation`, pending PR review/explicit merge authorization. See [completion handoff](../handoffs/ui-ux/CP-01-COMPLETION.md).
+- After owner review of the first specimen, CP01 was visually revised to the
+  approved layered direction: atmospheric artwork stage, floating section rail,
+  overlapping warm task surface, editorial display type, cyan/mint control
+  accent, dense ruled rows and mobile bottom sheets. This replaces the flatter
+  initial presentation without changing CP01's data/runtime boundary.
 - Original CP01 base: `407a0117203fd665fba57cb9d95ea60f857d114d`; resumed from current main `c5000b37445b83b40272bba533028a02259065fb`, retaining every newer generated-feed commit.
 - No open PRs found at start. Subsequent main changes must be checked again in each workspace.
 - Changes since the earlier #81 checkout were confined to generated events.json and online-events.json; they are preserved.
@@ -20,7 +25,7 @@ Updated 20 September 2026. Read with CURRENT_STATE.md and UI_UX_REBUILD_GUIDE.md
 | CP | Scope | Status | Next gate |
 |---|---|---|---|
 | 00 | Baseline, guide, route parity, decisions, handoff | Merged: PR #82 | Complete |
-| 01 | Shared design system and isolated preview shell | Implemented; focused/browser verification recorded in completion handoff; unmerged | Review PR; owner-device acceptance pending |
+| 01 | Shared design system and isolated preview shell | Revised visual system implemented; focused/browser verification recorded in completion handoff; unmerged | Review revised PR; owner-device acceptance pending |
 | 02 | Real deck workspace | Not started | Full list and preserved actions |
 | 03 | Deck index, search, versions | Not started | Identity/back-state parity |
 | 04 | Results, Game Log, Playtest | Not started | Evidence and playtest parity |
@@ -35,7 +40,7 @@ Updated 20 September 2026. Read with CURRENT_STATE.md and UI_UX_REBUILD_GUIDE.md
 
 ## Operational rules
 
-CP01 is based on updated main, not a stacked CP00 branch. Do not merge or switch production because the ledger says implemented. No hosted preview or production deployment was created by CP01; the supported local preview is `http://localhost:4173/v3-preview/` after `npm run dev`.
+CP01 is based on updated main, not a stacked CP00 branch. Do not merge or switch production because the ledger says implemented. An immutable RawGitHack review URL is recorded in the completion handoff; it is not a production deployment or cutover. The supported local preview remains `http://localhost:4173/v3-preview/` after `npm run dev`.
 
 Every checkpoint updates this ledger, its handoff, relevant architecture docs and route parity. Record implemented, tested, merged, deployed and owner/device-accepted separately. Preserve a single active branch per checkpoint. Generated feed commits may advance main during work; never overwrite them.
 
