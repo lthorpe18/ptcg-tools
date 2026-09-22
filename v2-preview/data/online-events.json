@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T17:16:14.330Z",
+  "generatedAt": "2026-09-22T21:39:18.389Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab0edbce905c1db68746c13",
-      "source": "limitless",
-      "sourceId": "6ab0edbce905c1db68746c13",
-      "name": "👑CrownOfSpain 👑 #8 (10€ paypal)",
-      "url": "https://play.limitlesstcg.com/tournament/6ab0edbce905c1db68746c13/details",
-      "startAt": "2026-09-22T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab274e2e905c1db68747ac7",
-      "source": "limitless",
-      "sourceId": "6ab274e2e905c1db68747ac7",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6ab274e2e905c1db68747ac7/details",
-      "startAt": "2026-09-22T20:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -54,6 +34,16 @@
       "sourceId": "6aac76c5f127b1b52c27b9c7",
       "name": "♠️ Control Players Unite's Aceless Tournament! #40",
       "url": "https://play.limitlesstcg.com/tournament/6aac76c5f127b1b52c27b9c7/details",
+      "startAt": "2026-09-22T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab2f3a4f127b1b52c27fec6",
+      "source": "limitless",
+      "sourceId": "6ab2f3a4f127b1b52c27fec6",
+      "name": "Torneo Sidedeck Online Gratis Martes 22 Septiembre",
+      "url": "https://play.limitlesstcg.com/tournament/6ab2f3a4f127b1b52c27fec6/details",
       "startAt": "2026-09-22T23:00:00.000Z"
     },
     {
@@ -118,6 +108,16 @@
     },
     {
       "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6a9eeed3ab080c8c957fcf41",
+      "source": "limitless",
+      "sourceId": "6a9eeed3ab080c8c957fcf41",
+      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #22⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6a9eeed3ab080c8c957fcf41/details",
+      "startAt": "2026-09-23T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aad973df127b1b52c27c3b0",
       "source": "limitless",
@@ -125,16 +125,6 @@
       "name": "TAVERNA LEAGUE - SEASON 0 - DAY #3",
       "url": "https://play.limitlesstcg.com/tournament/6aad973df127b1b52c27c3b0/details",
       "startAt": "2026-09-23T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6a9eeed3ab080c8c957fcf41",
-      "source": "limitless",
-      "sourceId": "6a9eeed3ab080c8c957fcf41",
-      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #22⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6a9eeed3ab080c8c957fcf41/details",
-      "startAt": "2026-09-23T19:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -165,6 +155,16 @@
       "name": "REFINE Autumn Series Session 4: Falling Leaves",
       "url": "https://play.limitlesstcg.com/tournament/6aac0cf6e905c1db68743543/details",
       "startAt": "2026-09-23T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aaac71438886b36383c19c9",
+      "source": "limitless",
+      "sourceId": "6aaac71438886b36383c19c9",
+      "name": "Domino Arena Cup| Temporada 3 | Semana 2 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6aaac71438886b36383c19c9/details",
+      "startAt": "2026-09-24T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -455,6 +455,16 @@
       "name": "Rare Candy Club Showdown #46 (30TH LEGAL)",
       "url": "https://play.limitlesstcg.com/tournament/6ab1beb7f127b1b52c27f23a/details",
       "startAt": "2026-09-28T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab2c734e905c1db68747e74",
+      "source": "limitless",
+      "sourceId": "6ab2c734e905c1db68747e74",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ab2c734e905c1db68747e74/details",
+      "startAt": "2026-09-28T16:00:00.000Z"
     },
     {
       "format": "Standard",
