@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T12:02:09.899Z",
+  "generatedAt": "2026-09-22T17:16:14.330Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab141bdf127b1b52c27e96d",
-      "source": "limitless",
-      "sourceId": "6ab141bdf127b1b52c27e96d",
-      "name": "Team Corna Weekly September's #6",
-      "url": "https://play.limitlesstcg.com/tournament/6ab141bdf127b1b52c27e96d/details",
-      "startAt": "2026-09-22T17:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -25,6 +15,16 @@
       "name": "👑CrownOfSpain 👑 #8 (10€ paypal)",
       "url": "https://play.limitlesstcg.com/tournament/6ab0edbce905c1db68746c13/details",
       "startAt": "2026-09-22T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab274e2e905c1db68747ac7",
+      "source": "limitless",
+      "sourceId": "6ab274e2e905c1db68747ac7",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6ab274e2e905c1db68747ac7/details",
+      "startAt": "2026-09-22T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -189,6 +189,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ab27567f127b1b52c27f7d5",
+      "source": "limitless",
+      "sourceId": "6ab27567f127b1b52c27f7d5",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6ab27567f127b1b52c27f7d5/details",
+      "startAt": "2026-09-24T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5a5e538886b36383bdf19",
       "source": "limitless",
       "sourceId": "6aa5a5e538886b36383bdf19",
@@ -265,6 +275,16 @@
       "name": "Lunch Time",
       "url": "https://play.limitlesstcg.com/tournament/6aad90c5e905c1db68744736/details",
       "startAt": "2026-09-25T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab27598e905c1db68747acb",
+      "source": "limitless",
+      "sourceId": "6ab27598e905c1db68747acb",
+      "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #24",
+      "url": "https://play.limitlesstcg.com/tournament/6ab27598e905c1db68747acb/details",
+      "startAt": "2026-09-25T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -397,6 +417,16 @@
       "startAt": "2026-09-27T01:00:00.000Z"
     },
     {
+      "format": "Worlds 2007 (DX–DP)",
+      "platform": "SIM",
+      "id": "limitless:6ab28a6af127b1b52c27f83f",
+      "source": "limitless",
+      "sourceId": "6ab28a6af127b1b52c27f83f",
+      "name": "C-C Colosseum #19 - 2007 Worlds (DX-DP)",
+      "url": "https://play.limitlesstcg.com/tournament/6ab28a6af127b1b52c27f83f/details",
+      "startAt": "2026-09-27T01:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ab158d9f127b1b52c27eb3a",
@@ -425,6 +455,16 @@
       "name": "Rare Candy Club Showdown #46 (30TH LEGAL)",
       "url": "https://play.limitlesstcg.com/tournament/6ab1beb7f127b1b52c27f23a/details",
       "startAt": "2026-09-28T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ab277caf127b1b52c27f7e1",
+      "source": "limitless",
+      "sourceId": "6ab277caf127b1b52c27f7e1",
+      "name": "⚡Surge's TCG Vault Webcam Play!⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6ab277caf127b1b52c27f7e1/details",
+      "startAt": "2026-09-28T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -459,6 +499,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ab2760de905c1db68747acc",
+      "source": "limitless",
+      "sourceId": "6ab2760de905c1db68747acc",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6ab2760de905c1db68747acc/details",
+      "startAt": "2026-09-29T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a944407abb9482237503e5a",
       "source": "limitless",
       "sourceId": "6a944407abb9482237503e5a",
@@ -468,12 +518,32 @@
     },
     {
       "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ab27634e905c1db68747ace",
+      "source": "limitless",
+      "sourceId": "6ab27634e905c1db68747ace",
+      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #23⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6ab27634e905c1db68747ace/details",
+      "startAt": "2026-09-30T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aac1b09f127b1b52c27b411",
       "source": "limitless",
       "sourceId": "6aac1b09f127b1b52c27b411",
       "name": "11° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6aac1b09f127b1b52c27b411/details",
+      "startAt": "2026-10-01T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab27650f127b1b52c27f7d8",
+      "source": "limitless",
+      "sourceId": "6ab27650f127b1b52c27f7d8",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6ab27650f127b1b52c27f7d8/details",
       "startAt": "2026-10-01T19:00:00.000Z"
     },
     {
@@ -515,6 +585,16 @@
       "name": "TDRS Season 2 Cup 1",
       "url": "https://play.limitlesstcg.com/tournament/6a95d0c2abb9482237504c8a/details",
       "startAt": "2026-10-02T16:05:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab2769af127b1b52c27f7da",
+      "source": "limitless",
+      "sourceId": "6ab2769af127b1b52c27f7da",
+      "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #25",
+      "url": "https://play.limitlesstcg.com/tournament/6ab2769af127b1b52c27f7da/details",
+      "startAt": "2026-10-02T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -578,6 +658,16 @@
     },
     {
       "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ab277ebf127b1b52c27f7e3",
+      "source": "limitless",
+      "sourceId": "6ab277ebf127b1b52c27f7e3",
+      "name": "⚡Surge's TCG Vault Webcam Play!⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6ab277ebf127b1b52c27f7e3/details",
+      "startAt": "2026-10-05T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aa87a0af1243e65f980190d",
       "source": "limitless",
@@ -609,6 +699,36 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ab27720f127b1b52c27f7db",
+      "source": "limitless",
+      "sourceId": "6ab27720f127b1b52c27f7db",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6ab27720f127b1b52c27f7db/details",
+      "startAt": "2026-10-06T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ab27742f127b1b52c27f7de",
+      "source": "limitless",
+      "sourceId": "6ab27742f127b1b52c27f7de",
+      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #24⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6ab27742f127b1b52c27f7de/details",
+      "startAt": "2026-10-07T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab27766e905c1db68747ad3",
+      "source": "limitless",
+      "sourceId": "6ab27766e905c1db68747ad3",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6ab27766e905c1db68747ad3/details",
+      "startAt": "2026-10-08T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5a6f2f1243e65f97ff28f",
       "source": "limitless",
       "sourceId": "6aa5a6f2f1243e65f97ff28f",
@@ -625,6 +745,16 @@
       "name": "Nightshades Friday Challenge 1",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d11da4272c53be64cf95/details",
       "startAt": "2026-10-09T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab27786f127b1b52c27f7e0",
+      "source": "limitless",
+      "sourceId": "6ab27786f127b1b52c27f7e0",
+      "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #26",
+      "url": "https://play.limitlesstcg.com/tournament/6ab27786f127b1b52c27f7e0/details",
+      "startAt": "2026-10-09T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -655,6 +785,16 @@
       "name": "RDG! October Open Qualifier",
       "url": "https://play.limitlesstcg.com/tournament/6a690277937230b102d47bac/details",
       "startAt": "2026-10-11T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ab27807e905c1db68747ad6",
+      "source": "limitless",
+      "sourceId": "6ab27807e905c1db68747ad6",
+      "name": "⚡Surge's TCG Vault Webcam Play!⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6ab27807e905c1db68747ad6/details",
+      "startAt": "2026-10-12T19:00:00.000Z"
     },
     {
       "format": "Standard",
