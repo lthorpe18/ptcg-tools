@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T05:21:47.594Z",
+  "generatedAt": "2026-09-22T12:02:09.899Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab15326f127b1b52c27eaa2",
-      "source": "limitless",
-      "sourceId": "6ab15326f127b1b52c27eaa2",
-      "name": "SEASAC League Challenge #14 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ab15326f127b1b52c27eaa2/details",
-      "startAt": "2026-09-22T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -185,6 +175,16 @@
       "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
       "url": "https://play.limitlesstcg.com/tournament/6aad84ace905c1db68744643/details",
       "startAt": "2026-09-24T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab218f6f127b1b52c27f672",
+      "source": "limitless",
+      "sourceId": "6ab218f6f127b1b52c27f672",
+      "name": "Amyverse Pokémon 30th Celebration PTCGL Event",
+      "url": "https://play.limitlesstcg.com/tournament/6ab218f6f127b1b52c27f672/details",
+      "startAt": "2026-09-24T18:00:00.000Z"
     },
     {
       "format": "Standard",
