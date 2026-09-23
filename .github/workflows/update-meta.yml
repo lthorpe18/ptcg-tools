@@ -8,8 +8,6 @@ on:
     branches: [main]
     paths:
       - 'scripts/build-current-field.mjs'
-      - 'scripts/prediction-snapshots.mjs'
-      - 'scripts/prediction-accuracy.mjs'
       - 'scripts/update-online-formats.mjs'
       - 'scripts/meta-format-contract.mjs'
       - 'scripts/load-published-calendar.mjs'
@@ -20,7 +18,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: meta-history-archive
+  group: meta-source-online
   cancel-in-progress: true
 
 jobs:
@@ -38,15 +36,11 @@ jobs:
           node-version: '22'
       - name: Build incremental field and scoped matchups
         run: node scripts/update-online-formats.mjs
-      - name: Build validated browser release
-        run: node scripts/build-meta-release.mjs
-      - name: Build prediction accuracy records
-        run: node scripts/prediction-accuracy.mjs
-      - name: Commit meta data if changed
+      - name: Commit Online source data if changed
         run: |
-          git add data/meta/current-field.json data/meta/online-events data/meta/online-results data/meta/online-fields data/meta/prediction-snapshots data/meta/prediction-accuracy v2-preview/data/meta/release
+          git add data/meta/current-field.json data/meta/online-events data/meta/online-results data/meta/online-fields
           if git diff --cached --quiet; then
-            echo "No meta changes"
+            echo "No Online source changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
