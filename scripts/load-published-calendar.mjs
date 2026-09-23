@@ -19,7 +19,6 @@ export async function loadPublishedCalendar(options={}) {
 
   const response=await fetcher(url,{headers:{
     apikey:key,
-    Authorization:`Bearer ${key}`,
     accept:'application/json'
   }});
   if(!response?.ok)throw new Error(`Published format calendar request failed${response?` (${response.status})`:''}`);
