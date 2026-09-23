@@ -62,5 +62,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Build Meta release"
-          git pull --rebase
-          git push
+          bash .github/scripts/push-with-rebase-retry.sh main
