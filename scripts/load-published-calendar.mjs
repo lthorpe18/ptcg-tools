@@ -1,5 +1,5 @@
 const DEFAULT_SUPABASE_URL='https://naylqcyrnhjvqodjpjsg.supabase.co';
-const DEFAULT_PUBLISHABLE_KEY='sb_publishable_Nr1MmUClNYQcD1vxkoJZog_VfOtBzFQ';
+const DEFAULT_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5heWxxY3lybmhqdnFvZGpwanNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNTQxNzQsImV4cCI6MjEwMzgzMDE3NH0.DAaeax-UngOhcGn7oINpo-dP0HefGexeaPgEYItUmuQ';
 const TABLE='ptcg_maintained_calendar_versions';
 
 const clone=value=>JSON.parse(JSON.stringify(value));
@@ -7,7 +7,7 @@ const clone=value=>JSON.parse(JSON.stringify(value));
 export async function loadPublishedCalendar(options={}) {
   const fetcher=options.fetch||globalThis.fetch;
   const base=options.url||process.env.PTCG_SUPABASE_URL||DEFAULT_SUPABASE_URL;
-  const key=options.key||process.env.PTCG_SUPABASE_PUBLISHABLE_KEY||DEFAULT_PUBLISHABLE_KEY;
+  const key=options.key||process.env.PTCG_SUPABASE_ANON_KEY||DEFAULT_ANON_KEY;
   if(typeof fetcher!=='function')throw new Error('Published format calendar requires fetch');
   if(!base||!key)throw new Error('Published format calendar endpoint is not configured');
 
@@ -19,6 +19,7 @@ export async function loadPublishedCalendar(options={}) {
 
   const response=await fetcher(url,{headers:{
     apikey:key,
+    Authorization:`Bearer ${key}`,
     accept:'application/json'
   }});
   if(!response?.ok)throw new Error(`Published format calendar request failed${response?` (${response.status})`:''}`);
@@ -34,4 +35,4 @@ export async function loadPublishedCalendar(options={}) {
   };
 }
 
-export const publishedCalendarConfig=Object.freeze({table:TABLE,url:DEFAULT_SUPABASE_URL});
+export const publishedCalendarConfig=Object.freeze({table:TABLE,url:DEFAULT_SUPABASE_URL,auth:'anon-jwt'});
