@@ -5,8 +5,6 @@ on:
     branches: [main]
     paths:
       - 'scripts/update-irl-labs.mjs'
-      - 'scripts/prediction-snapshots.mjs'
-      - 'scripts/prediction-accuracy.mjs'
       - 'scripts/meta-format-contract.mjs'
       - 'scripts/load-published-calendar.mjs'
       - 'data/formats/maintained-calendar.json'
@@ -19,7 +17,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: update-irl-meta
+  group: meta-source-irl
   cancel-in-progress: true
 
 jobs:
@@ -53,19 +51,15 @@ jobs:
           }
           console.log(`Validated ${d.events.length} events, ${d.decks.length} decks, ${d.matchups.length} matchups, ${d.results.length} results`);
           NODE
-      - name: Build validated browser release
-        run: node scripts/build-meta-release.mjs
-      - name: Build prediction accuracy records
-        run: node scripts/prediction-accuracy.mjs
-      - name: Publish IRL dataset
+      - name: Publish IRL source data
         run: |
-          if git diff --quiet -- data/meta/irl data/meta/online-fields data/meta/prediction-snapshots data/meta/prediction-accuracy v2-preview/data/meta/release; then
+          if git diff --quiet -- data/meta/irl; then
             echo "IRL dataset unchanged"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/meta/irl data/meta/online-fields data/meta/prediction-snapshots data/meta/prediction-accuracy v2-preview/data/meta/release
+          git add data/meta/irl
           git commit -m "Update Limitless Labs IRL meta"
           git pull --rebase
           git push

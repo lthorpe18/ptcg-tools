@@ -1,0 +1,64 @@
+name: Build Meta Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/meta/current-field.json'
+      - 'data/meta/online-events/**'
+      - 'data/meta/online-results/**'
+      - 'data/meta/online-fields/**'
+      - 'data/meta/irl/**'
+      - 'data/meta/decks/**'
+      - 'scripts/build-meta-release.mjs'
+      - 'scripts/prediction-snapshots.mjs'
+      - 'scripts/prediction-accuracy.mjs'
+      - 'scripts/meta-format-contract.mjs'
+      - 'scripts/load-published-calendar.mjs'
+      - 'data/formats/maintained-calendar.json'
+      - '.github/workflows/build-meta-release.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: meta-release-publisher
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      PTCG_FORMAT_SOURCE: published
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build validated browser release
+        run: node scripts/build-meta-release.mjs
+      - name: Build prediction accuracy records
+        run: node scripts/prediction-accuracy.mjs
+      - name: Verify release build did not mutate source inputs
+        run: |
+          if ! git diff --quiet -- data/meta/online-fields; then
+            echo "build-meta-release unexpectedly mutated Online source archives"
+            git diff -- data/meta/online-fields
+            exit 1
+          fi
+      - name: Publish generated Meta release
+        run: |
+          git add data/meta/prediction-snapshots data/meta/prediction-accuracy v2-preview/data/meta/release
+          if git diff --cached --quiet; then
+            echo "Generated Meta release unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Build Meta release"
+          git pull --rebase
+          git push

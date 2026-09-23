@@ -8,8 +8,6 @@ on:
     branches: [main]
     paths:
       - 'scripts/update-limitless-decks.mjs'
-      - 'scripts/prediction-snapshots.mjs'
-      - 'scripts/prediction-accuracy.mjs'
       - 'scripts/meta-format-contract.mjs'
       - 'scripts/load-published-calendar.mjs'
       - 'data/formats/maintained-calendar.json'
@@ -19,7 +17,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: update-limitless-decks
+  group: meta-source-decks
   cancel-in-progress: true
 
 jobs:
@@ -37,19 +35,15 @@ jobs:
           node-version: '22'
       - name: Read current-format aggregate deck and matchup data
         run: node scripts/update-limitless-decks.mjs
-      - name: Build validated browser release
-        run: node scripts/build-meta-release.mjs
-      - name: Build prediction accuracy records
-        run: node scripts/prediction-accuracy.mjs
-      - name: Publish deck matchup dataset
+      - name: Publish deck matchup source data
         run: |
-          if [ -z "$(git status --porcelain -- data/meta/decks data/meta/online-fields data/meta/prediction-snapshots data/meta/prediction-accuracy v2-preview/data/meta/release)" ]; then
+          if [ -z "$(git status --porcelain -- data/meta/decks)" ]; then
             echo "Deck matchup dataset unchanged"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/meta/decks data/meta/online-fields data/meta/prediction-snapshots data/meta/prediction-accuracy v2-preview/data/meta/release
+          git add data/meta/decks
           git commit -m "Update Limitless deck matchups"
           git pull --rebase
           git push
