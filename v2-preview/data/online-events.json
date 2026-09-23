@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T00:55:17.011Z",
+  "generatedAt": "2026-09-23T07:57:28.108Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab0812de905c1db687469ae",
-      "source": "limitless",
-      "sourceId": "6ab0812de905c1db687469ae",
-      "name": "Pudding Weekly #14 | What's faster sound or light?",
-      "url": "https://play.limitlesstcg.com/tournament/6ab0812de905c1db687469ae/details",
-      "startAt": "2026-09-23T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a8c61df81741245b151d823",
-      "source": "limitless",
-      "sourceId": "6a8c61df81741245b151d823",
-      "name": "Torneo Relámpago ⚡ #82 PTCG Live (25 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6a8c61df81741245b151d823/details",
-      "startAt": "2026-09-23T01:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
