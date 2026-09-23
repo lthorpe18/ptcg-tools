@@ -48,3 +48,8 @@ jobs:
           git commit -m "Refresh incremental Limitless meta data"
           git pull --rebase
           git push
+
+  release:
+    needs: archive
+    if: ${{ needs.archive.result == 'success' }}
+    uses: ./.github/workflows/build-meta-release.yml

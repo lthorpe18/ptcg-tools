@@ -63,3 +63,8 @@ jobs:
           git commit -m "Update Limitless Labs IRL meta"
           git pull --rebase
           git push
+
+  release:
+    needs: update
+    if: ${{ needs.update.result == 'success' }}
+    uses: ./.github/workflows/build-meta-release.yml
