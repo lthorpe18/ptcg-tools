@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T18:36:39.592Z",
+  "generatedAt": "2026-09-23T21:46:10.099Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6a9eeed3ab080c8c957fcf41",
-      "source": "limitless",
-      "sourceId": "6a9eeed3ab080c8c957fcf41",
-      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #22⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6a9eeed3ab080c8c957fcf41/details",
-      "startAt": "2026-09-23T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad973df127b1b52c27c3b0",
-      "source": "limitless",
-      "sourceId": "6aad973df127b1b52c27c3b0",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #3",
-      "url": "https://play.limitlesstcg.com/tournament/6aad973df127b1b52c27c3b0/details",
-      "startAt": "2026-09-23T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab2f7ddf127b1b52c27fef3",
-      "source": "limitless",
-      "sourceId": "6ab2f7ddf127b1b52c27fef3",
-      "name": "Hideout TCG MID-WEEK Meta Clash 100 codes #12",
-      "url": "https://play.limitlesstcg.com/tournament/6ab2f7ddf127b1b52c27fef3/details",
-      "startAt": "2026-09-23T21:15:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -134,6 +104,16 @@
       "sourceId": "6aaf76adf127b1b52c27dac9",
       "name": "Rare Candy Club Blitz #1",
       "url": "https://play.limitlesstcg.com/tournament/6aaf76adf127b1b52c27dac9/details",
+      "startAt": "2026-09-25T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab4350ee905c1db68748cdb",
+      "source": "limitless",
+      "sourceId": "6ab4350ee905c1db68748cdb",
+      "name": "Le Tournois Du DresseurPokeCharbie #129",
+      "url": "https://play.limitlesstcg.com/tournament/6ab4350ee905c1db68748cdb/details",
       "startAt": "2026-09-25T00:00:00.000Z"
     },
     {
