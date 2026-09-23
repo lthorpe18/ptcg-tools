@@ -21,8 +21,9 @@ test('Meta generation can load the latest published Formats & Sets calendar',asy
   assert.equal(url.searchParams.get('status'),'eq.published');
   assert.equal(url.searchParams.get('order'),'version_number.desc');
   assert.equal(url.searchParams.get('limit'),'1');
+  assert.equal(publishedCalendarConfig.auth,'anon-jwt');
   assert.equal(request.options.headers.apikey,'public-test-key');
-  assert.equal(request.options.headers.Authorization,undefined);
+  assert.equal(request.options.headers.Authorization,'Bearer public-test-key');
   assert.equal(result.source,'published');
   assert.equal(result.versionNumber,12);
   assert.equal(result.publishedAt,'2030-02-01T12:00:00Z');
