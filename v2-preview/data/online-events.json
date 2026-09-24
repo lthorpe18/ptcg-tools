@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T13:46:34.190Z",
+  "generatedAt": "2026-09-24T18:39:28.298Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad84ace905c1db68744643",
-      "source": "limitless",
-      "sourceId": "6aad84ace905c1db68744643",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6aad84ace905c1db68744643/details",
-      "startAt": "2026-09-24T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab4cac6f127b1b52c280ffb",
-      "source": "limitless",
-      "sourceId": "6ab4cac6f127b1b52c280ffb",
-      "name": "⚗️PokéKhemistry TURBO Thursday",
-      "url": "https://play.limitlesstcg.com/tournament/6ab4cac6f127b1b52c280ffb/details",
-      "startAt": "2026-09-24T17:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab218f6f127b1b52c27f672",
-      "source": "limitless",
-      "sourceId": "6ab218f6f127b1b52c27f672",
-      "name": "Amyverse Pokémon 30th Celebration PTCGL Event",
-      "url": "https://play.limitlesstcg.com/tournament/6ab218f6f127b1b52c27f672/details",
-      "startAt": "2026-09-24T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -45,6 +15,16 @@
       "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
       "url": "https://play.limitlesstcg.com/tournament/6ab27567f127b1b52c27f7d5/details",
       "startAt": "2026-09-24T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab53447f127b1b52c28118d",
+      "source": "limitless",
+      "sourceId": "6ab53447f127b1b52c28118d",
+      "name": "🎉30TH LEGAL! | 🟢Jolly Good Weekly #8 | Top Cut!",
+      "url": "https://play.limitlesstcg.com/tournament/6ab53447f127b1b52c28118d/details",
+      "startAt": "2026-09-24T22:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -152,7 +132,7 @@
       "id": "limitless:6aad90c5e905c1db68744736",
       "source": "limitless",
       "sourceId": "6aad90c5e905c1db68744736",
-      "name": "Lunch Time",
+      "name": "Nightshades Lunch Time",
       "url": "https://play.limitlesstcg.com/tournament/6aad90c5e905c1db68744736/details",
       "startAt": "2026-09-25T17:00:00.000Z"
     },
@@ -234,6 +214,16 @@
       "sourceId": "6ab12735f127b1b52c27e84e",
       "name": "TurboBlaze Trials GLC Series - Season 2 Week 5",
       "url": "https://play.limitlesstcg.com/tournament/6ab12735f127b1b52c27e84e/details",
+      "startAt": "2026-09-26T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab54d1ff127b1b52c2812d3",
+      "source": "limitless",
+      "sourceId": "6ab54d1ff127b1b52c2812d3",
+      "name": "Torneo Online Alain Cards #11",
+      "url": "https://play.limitlesstcg.com/tournament/6ab54d1ff127b1b52c2812d3/details",
       "startAt": "2026-09-26T00:30:00.000Z"
     },
     {
