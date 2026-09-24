@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T07:48:29.529Z",
+  "generatedAt": "2026-09-24T13:46:34.190Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -124,6 +124,16 @@
       "sourceId": "6aa74ce538886b36383bf593",
       "name": "Lhama Champs",
       "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
+      "startAt": "2026-09-25T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab4ee63f127b1b52c281028",
+      "source": "limitless",
+      "sourceId": "6ab4ee63f127b1b52c281028",
+      "name": "Team Corna Weekly September's #7",
+      "url": "https://play.limitlesstcg.com/tournament/6ab4ee63f127b1b52c281028/details",
       "startAt": "2026-09-25T16:00:00.000Z"
     },
     {
