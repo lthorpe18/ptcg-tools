@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T14:09:19.649Z",
+  "generatedAt": "2026-09-25T18:52:21.816Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab4ee63f127b1b52c281028",
-      "source": "limitless",
-      "sourceId": "6ab4ee63f127b1b52c281028",
-      "name": "Team Corna Weekly September's #7",
-      "url": "https://play.limitlesstcg.com/tournament/6ab4ee63f127b1b52c281028/details",
-      "startAt": "2026-09-25T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a95d06aabb9482237504c6c",
-      "source": "limitless",
-      "sourceId": "6a95d06aabb9482237504c6c",
-      "name": "TDRS Season 2 Challenge 3",
-      "url": "https://play.limitlesstcg.com/tournament/6a95d06aabb9482237504c6c/details",
-      "startAt": "2026-09-25T16:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad90c5e905c1db68744736",
-      "source": "limitless",
-      "sourceId": "6aad90c5e905c1db68744736",
-      "name": "Nightshades Lunch Time",
-      "url": "https://play.limitlesstcg.com/tournament/6aad90c5e905c1db68744736/details",
-      "startAt": "2026-09-25T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab27598e905c1db68747acb",
-      "source": "limitless",
-      "sourceId": "6ab27598e905c1db68747acb",
-      "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #24",
-      "url": "https://play.limitlesstcg.com/tournament/6ab27598e905c1db68747acb/details",
-      "startAt": "2026-09-25T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a993668ab080c8c957f88fa",
-      "source": "limitless",
-      "sourceId": "6a993668ab080c8c957f88fa",
-      "name": "🏆Ling TV ARENA🏆- TOP CUT",
-      "url": "https://play.limitlesstcg.com/tournament/6a993668ab080c8c957f88fa/details",
-      "startAt": "2026-09-25T18:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -159,11 +109,11 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6a87229678baaa6d1c2244ea",
+      "id": "limitless:lets-go",
       "source": "limitless",
-      "sourceId": "6a87229678baaa6d1c2244ea",
+      "sourceId": "lets-go",
       "name": "TOURNAMENT OF DOOM! LET'S GO!",
-      "url": "https://play.limitlesstcg.com/tournament/6a87229678baaa6d1c2244ea/details",
+      "url": "https://play.limitlesstcg.com/tournament/lets-go/details",
       "startAt": "2026-09-26T02:35:00.000Z"
     },
     {
@@ -339,6 +289,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ab69a7b783097f8dcb70576",
+      "source": "limitless",
+      "sourceId": "6ab69a7b783097f8dcb70576",
+      "name": "Nightshades Monday Pre Season",
+      "url": "https://play.limitlesstcg.com/tournament/6ab69a7b783097f8dcb70576/details",
+      "startAt": "2026-09-29T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab2760de905c1db68747acc",
       "source": "limitless",
       "sourceId": "6ab2760de905c1db68747acc",
@@ -459,6 +419,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ab69ac1880ed327106dc5a9",
+      "source": "limitless",
+      "sourceId": "6ab69ac1880ed327106dc5a9",
+      "name": "Nightshades Friday Pre Season",
+      "url": "https://play.limitlesstcg.com/tournament/6ab69ac1880ed327106dc5a9/details",
+      "startAt": "2026-10-02T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab2769af127b1b52c27f7da",
       "source": "limitless",
       "sourceId": "6ab2769af127b1b52c27f7da",
@@ -555,6 +525,16 @@
       "name": "#Brazil Limitless Trainer #006",
       "url": "https://play.limitlesstcg.com/tournament/6aa87a0af1243e65f980190d/details",
       "startAt": "2026-10-05T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab69a8e783097f8dcb7059f",
+      "source": "limitless",
+      "sourceId": "6ab69a8e783097f8dcb7059f",
+      "name": "Nightshades Monday Pre Season",
+      "url": "https://play.limitlesstcg.com/tournament/6ab69a8e783097f8dcb7059f/details",
+      "startAt": "2026-10-06T00:00:00.000Z"
     },
     {
       "format": "Standard",
