@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T00:48:07.076Z",
+  "generatedAt": "2026-09-25T08:10:21.987Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab5b7bcf127b1b52c281941",
-      "source": "limitless",
-      "sourceId": "6ab5b7bcf127b1b52c281941",
-      "name": "Liga Shiny🏆productos sellados🎁 (CHILE)",
-      "url": "https://play.limitlesstcg.com/tournament/6ab5b7bcf127b1b52c281941/details",
-      "startAt": "2026-09-25T01:10:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a8c620e81741245b151d827",
-      "source": "limitless",
-      "sourceId": "6a8c620e81741245b151d827",
-      "name": "Torneo Relámpago ⚡ #83 PTCG Live (25 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6a8c620e81741245b151d827/details",
-      "startAt": "2026-09-25T01:30:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6ab5b983f127b1b52c28195b",
-      "source": "limitless",
-      "sourceId": "6ab5b983f127b1b52c28195b",
-      "name": "Holon Locals #46 (US Friendly)",
-      "url": "https://play.limitlesstcg.com/tournament/6ab5b983f127b1b52c28195b/details",
-      "startAt": "2026-09-25T02:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -178,6 +148,16 @@
     },
     {
       "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ab53f42e905c1db6874961c",
+      "source": "limitless",
+      "sourceId": "6ab53f42e905c1db6874961c",
+      "name": "Domino Store - Torneo Webcam",
+      "url": "https://play.limitlesstcg.com/tournament/6ab53f42e905c1db6874961c/details",
+      "startAt": "2026-09-26T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ab54d1ff127b1b52c2812d3",
       "source": "limitless",
@@ -287,6 +267,16 @@
       "startAt": "2026-09-27T01:00:00.000Z"
     },
     {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6ab5c45fe905c1db68749cfa",
+      "source": "limitless",
+      "sourceId": "6ab5c45fe905c1db68749cfa",
+      "name": "Vault Of Games Retro #1: RSPK EX era! Monthly",
+      "url": "https://play.limitlesstcg.com/tournament/6ab5c45fe905c1db68749cfa/details",
+      "startAt": "2026-09-27T02:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ab158d9f127b1b52c27eb3a",
@@ -375,6 +365,16 @@
       "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
       "url": "https://play.limitlesstcg.com/tournament/6ab2760de905c1db68747acc/details",
       "startAt": "2026-09-29T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab5d567f127b1b52c281b8b",
+      "source": "limitless",
+      "sourceId": "6ab5d567f127b1b52c281b8b",
+      "name": "Last Prize Series S4 #2",
+      "url": "https://play.limitlesstcg.com/tournament/6ab5d567f127b1b52c281b8b/details",
+      "startAt": "2026-09-29T23:35:00.000Z"
     },
     {
       "format": "Standard",
@@ -702,7 +702,7 @@
       "id": "limitless:6a320126e334c3c9befd8433",
       "source": "limitless",
       "sourceId": "6a320126e334c3c9befd8433",
-      "name": "🇧🇷 Hit Team | TCG Live",
+      "name": "🇧🇷 Hit Team #1 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6a320126e334c3c9befd8433/details",
       "startAt": "2026-10-13T00:00:00.000Z"
     },
