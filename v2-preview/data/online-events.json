@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-26T05:27:15.867Z",
+  "generatedAt": "2026-09-26T11:45:55.634Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab094bfe905c1db68746a48",
-      "source": "limitless",
-      "sourceId": "6ab094bfe905c1db68746a48",
-      "name": "Perth Pokemon week 6",
-      "url": "https://play.limitlesstcg.com/tournament/6ab094bfe905c1db68746a48/details",
-      "startAt": "2026-09-26T10:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab66653783097f8dcb703d1",
-      "source": "limitless",
-      "sourceId": "6ab66653783097f8dcb703d1",
-      "name": "SEASAC League Challenge #17 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ab66653783097f8dcb703d1/details",
-      "startAt": "2026-09-26T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "CAM",
@@ -35,6 +15,16 @@
       "name": "Webcam Sisterhood Saturdays #3 🩷 Girls & Enbies!",
       "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
       "startAt": "2026-09-26T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab7a8a1880ed327106dd08d",
+      "source": "limitless",
+      "sourceId": "6ab7a8a1880ed327106dd08d",
+      "name": "PokeMagee Weekly",
+      "url": "https://play.limitlesstcg.com/tournament/6ab7a8a1880ed327106dd08d/details",
+      "startAt": "2026-09-26T18:00:00.000Z"
     },
     {
       "format": "Standard",
