@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T18:39:17.535Z",
+  "generatedAt": "2026-09-27T21:35:49.330Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -215,6 +215,16 @@
       "name": "REFINE Autumn Series Session 5: Nor'Easter",
       "url": "https://play.limitlesstcg.com/tournament/6ab49275e905c1db687492bc/details",
       "startAt": "2026-09-30T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab98142880ed327106de105",
+      "source": "limitless",
+      "sourceId": "6ab98142880ed327106de105",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ab98142880ed327106de105/details",
+      "startAt": "2026-10-01T16:00:00.000Z"
     },
     {
       "format": "Standard",
