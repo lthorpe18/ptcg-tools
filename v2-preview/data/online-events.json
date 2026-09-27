@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T14:17:12.340Z",
+  "generatedAt": "2026-09-27T18:39:17.535Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6ab5d0d3f127b1b52c281b58",
-      "source": "limitless",
-      "sourceId": "6ab5d0d3f127b1b52c281b58",
-      "name": "The Holon Open - September",
-      "url": "https://play.limitlesstcg.com/tournament/6ab5d0d3f127b1b52c281b58/details",
-      "startAt": "2026-09-27T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab158d9f127b1b52c27eb3a",
-      "source": "limitless",
-      "sourceId": "6ab158d9f127b1b52c27eb3a",
-      "name": "Kearney $5 Standard Tournament #3",
-      "url": "https://play.limitlesstcg.com/tournament/6ab158d9f127b1b52c27eb3a/details",
-      "startAt": "2026-09-27T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -55,6 +35,16 @@
       "name": "SEASAC League Challenge #18 (SEASON 5) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6ab7b105880ed327106dd0b4/details",
       "startAt": "2026-09-28T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab9562a880ed327106de032",
+      "source": "limitless",
+      "sourceId": "6ab9562a880ed327106de032",
+      "name": "Monday Afternoon Showdown #8",
+      "url": "https://play.limitlesstcg.com/tournament/6ab9562a880ed327106de032/details",
+      "startAt": "2026-09-28T12:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -308,6 +298,16 @@
     },
     {
       "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ab941f1783097f8dcb7204d",
+      "source": "limitless",
+      "sourceId": "6ab941f1783097f8dcb7204d",
+      "name": "Amyverse Webcam Wonders #29 💙 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ab941f1783097f8dcb7204d/details",
+      "startAt": "2026-10-02T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aad664cf127b1b52c27c0ac",
       "source": "limitless",
@@ -405,6 +405,16 @@
       "name": "Swoop! Rocket Battle",
       "url": "https://play.limitlesstcg.com/tournament/6a641a8e937230b102d43a93/details",
       "startAt": "2026-10-03T22:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ab9415e880ed327106ddf7c",
+      "source": "limitless",
+      "sourceId": "6ab9415e880ed327106ddf7c",
+      "name": "Amyverse GLC Gatherings #17 💚 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ab9415e880ed327106ddf7c/details",
+      "startAt": "2026-10-04T00:00:00.000Z"
     },
     {
       "format": "Standard",
