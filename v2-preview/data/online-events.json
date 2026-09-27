@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T08:32:58.230Z",
+  "generatedAt": "2026-09-27T14:17:12.340Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab7b116783097f8dcb711b1",
-      "source": "limitless",
-      "sourceId": "6ab7b116783097f8dcb711b1",
-      "name": "SEASAC League Cup #3 (SEASON 5) [150 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ab7b116783097f8dcb711b1/details",
-      "startAt": "2026-09-27T11:30:00.000Z"
-    },
     {
       "format": "EX Series (RS–PK)",
       "platform": "SIM",
@@ -78,6 +68,16 @@
     },
     {
       "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab8ea44880ed327106ddc4f",
+      "source": "limitless",
+      "sourceId": "6ab8ea44880ed327106ddc4f",
+      "name": "Team Corna Weekly September's #8",
+      "url": "https://play.limitlesstcg.com/tournament/6ab8ea44880ed327106ddc4f/details",
+      "startAt": "2026-09-28T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "CAM",
       "id": "limitless:6ab277caf127b1b52c27f7e1",
       "source": "limitless",
@@ -134,6 +134,16 @@
       "sourceId": "6ab69a7b783097f8dcb70576",
       "name": "Nightshades Monday Pre Season",
       "url": "https://play.limitlesstcg.com/tournament/6ab69a7b783097f8dcb70576/details",
+      "startAt": "2026-09-29T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab869b1783097f8dcb71a9b",
+      "source": "limitless",
+      "sourceId": "6ab869b1783097f8dcb71a9b",
+      "name": "🇧🇷 37° Torneio Padrão do Zap Códigos",
+      "url": "https://play.limitlesstcg.com/tournament/6ab869b1783097f8dcb71a9b/details",
       "startAt": "2026-09-29T00:00:00.000Z"
     },
     {
