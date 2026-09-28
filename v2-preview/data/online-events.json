@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-28T01:10:19.452Z",
+  "generatedAt": "2026-09-28T08:56:51.228Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab9b017880ed327106de292",
-      "source": "limitless",
-      "sourceId": "6ab9b017880ed327106de292",
-      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #10",
-      "url": "https://play.limitlesstcg.com/tournament/6ab9b017880ed327106de292/details",
-      "startAt": "2026-09-28T02:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -125,6 +115,16 @@
       "name": "🇧🇷 37° Torneio Padrão do Zap Códigos",
       "url": "https://play.limitlesstcg.com/tournament/6ab869b1783097f8dcb71a9b/details",
       "startAt": "2026-09-29T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab9c425880ed327106de3d6",
+      "source": "limitless",
+      "sourceId": "6ab9c425880ed327106de3d6",
+      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 3 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6ab9c425880ed327106de3d6/details",
+      "startAt": "2026-09-29T00:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -425,6 +425,16 @@
       "name": "Vault Of Games #5🏆| SEASON 1|WEEKLY",
       "url": "https://play.limitlesstcg.com/tournament/6ab89ead783097f8dcb71c7b/details",
       "startAt": "2026-10-04T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab9de13783097f8dcb7258f",
+      "source": "limitless",
+      "sourceId": "6ab9de13783097f8dcb7258f",
+      "name": "Sisterhood Showdown #3 💗 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6ab9de13783097f8dcb7258f/details",
+      "startAt": "2026-10-04T22:00:00.000Z"
     },
     {
       "format": null,
