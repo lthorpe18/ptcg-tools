@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-28T08:56:51.228Z",
+  "generatedAt": "2026-09-28T18:15:23.452Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,52 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ab7b105880ed327106dd0b4",
+      "id": "limitless:6aba4c79880ed327106de5d5",
       "source": "limitless",
-      "sourceId": "6ab7b105880ed327106dd0b4",
-      "name": "SEASAC League Challenge #18 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ab7b105880ed327106dd0b4/details",
-      "startAt": "2026-09-28T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab9562a880ed327106de032",
-      "source": "limitless",
-      "sourceId": "6ab9562a880ed327106de032",
-      "name": "Monday Afternoon Showdown #8",
-      "url": "https://play.limitlesstcg.com/tournament/6ab9562a880ed327106de032/details",
-      "startAt": "2026-09-28T12:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab2c734e905c1db68747e74",
-      "source": "limitless",
-      "sourceId": "6ab2c734e905c1db68747e74",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ab2c734e905c1db68747e74/details",
-      "startAt": "2026-09-28T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab8ea44880ed327106ddc4f",
-      "source": "limitless",
-      "sourceId": "6ab8ea44880ed327106ddc4f",
-      "name": "Team Corna Weekly September's #8",
-      "url": "https://play.limitlesstcg.com/tournament/6ab8ea44880ed327106ddc4f/details",
-      "startAt": "2026-09-28T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ab277caf127b1b52c27f7e1",
-      "source": "limitless",
-      "sourceId": "6ab277caf127b1b52c27f7e1",
-      "name": "⚡Surge's TCG Vault Webcam Play!⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6ab277caf127b1b52c27f7e1/details",
-      "startAt": "2026-09-28T19:00:00.000Z"
+      "sourceId": "6aba4c79880ed327106de5d5",
+      "name": "XVIII LIVE - EDIÇÃO ROMMEL BOX 🛫 RECIFE",
+      "url": "https://play.limitlesstcg.com/tournament/6aba4c79880ed327106de5d5/details",
+      "startAt": "2026-09-28T22:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -119,6 +79,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aba5b10880ed327106de663",
+      "source": "limitless",
+      "sourceId": "6aba5b10880ed327106de663",
+      "name": "La Techgece Casual #3 [BO1] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6aba5b10880ed327106de663/details",
+      "startAt": "2026-09-29T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab9c425880ed327106de3d6",
       "source": "limitless",
       "sourceId": "6ab9c425880ed327106de3d6",
@@ -134,6 +104,16 @@
       "sourceId": "6ab2760de905c1db68747acc",
       "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
       "url": "https://play.limitlesstcg.com/tournament/6ab2760de905c1db68747acc/details",
+      "startAt": "2026-09-29T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aba4937880ed327106de5c9",
+      "source": "limitless",
+      "sourceId": "6aba4937880ed327106de5c9",
+      "name": "👑CrownOfSpain 👑 #9 (10€ paypal)",
+      "url": "https://play.limitlesstcg.com/tournament/6aba4937880ed327106de5c9/details",
       "startAt": "2026-09-29T18:00:00.000Z"
     },
     {
@@ -155,6 +135,16 @@
       "name": "Last Prize Series S4 #2",
       "url": "https://play.limitlesstcg.com/tournament/6ab5d567f127b1b52c281b8b/details",
       "startAt": "2026-09-29T23:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aba92f0783097f8dcb72988",
+      "source": "limitless",
+      "sourceId": "6aba92f0783097f8dcb72988",
+      "name": "Pudding Weekly #15 | Daring today aren't we?",
+      "url": "https://play.limitlesstcg.com/tournament/6aba92f0783097f8dcb72988/details",
+      "startAt": "2026-09-30T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -219,6 +209,26 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ab6ea93783097f8dcb7090f",
+      "source": "limitless",
+      "sourceId": "6ab6ea93783097f8dcb7090f",
+      "name": "Becca Bootcamp - Chally Preo",
+      "url": "https://play.limitlesstcg.com/tournament/6ab6ea93783097f8dcb7090f/details",
+      "startAt": "2026-10-01T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aba82bc880ed327106de7db",
+      "source": "limitless",
+      "sourceId": "6aba82bc880ed327106de7db",
+      "name": "Amyverse Banlist Battles #1 🧡 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6aba82bc880ed327106de7db/details",
+      "startAt": "2026-10-01T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aac1b09f127b1b52c27b411",
       "source": "limitless",
       "sourceId": "6aac1b09f127b1b52c27b411",
@@ -272,7 +282,7 @@
       "id": "limitless:6a95d0c2abb9482237504c8a",
       "source": "limitless",
       "sourceId": "6a95d0c2abb9482237504c8a",
-      "name": "TDRS Season 2 Cup 1",
+      "name": "Turtwig Den Revival Series Season 2 Cup 1",
       "url": "https://play.limitlesstcg.com/tournament/6a95d0c2abb9482237504c8a/details",
       "startAt": "2026-10-02T16:05:00.000Z"
     },
@@ -492,7 +502,7 @@
       "id": "limitless:6a95d100abb9482237504c8b",
       "source": "limitless",
       "sourceId": "6a95d100abb9482237504c8b",
-      "name": "TDRS Season 2 Challenge 4",
+      "name": "Turtwig Den Revival Series Season 2 Challenge 4",
       "url": "https://play.limitlesstcg.com/tournament/6a95d100abb9482237504c8b/details",
       "startAt": "2026-10-06T16:05:00.000Z"
     },
@@ -632,7 +642,7 @@
       "id": "limitless:6a95d119629039f77d8a6af7",
       "source": "limitless",
       "sourceId": "6a95d119629039f77d8a6af7",
-      "name": "TDRS Season 2 Challenge 5",
+      "name": "Turtwig Den Revival Series Season 2 Challenge 5",
       "url": "https://play.limitlesstcg.com/tournament/6a95d119629039f77d8a6af7/details",
       "startAt": "2026-10-16T16:05:00.000Z"
     },
@@ -682,7 +692,7 @@
       "id": "limitless:6a95d12aabb9482237504c8e",
       "source": "limitless",
       "sourceId": "6a95d12aabb9482237504c8e",
-      "name": "TDRS Season 2 Challenge 6",
+      "name": "Turtwig Den Revival Series Season 2 Challenge 6",
       "url": "https://play.limitlesstcg.com/tournament/6a95d12aabb9482237504c8e/details",
       "startAt": "2026-10-23T16:05:00.000Z"
     },
@@ -722,7 +732,7 @@
       "id": "limitless:6a95d139abb9482237504c8f",
       "source": "limitless",
       "sourceId": "6a95d139abb9482237504c8f",
-      "name": "TDRS Season 2 Challenge 7",
+      "name": "Turtwig Den Revival Series Season 2 Challenge 7",
       "url": "https://play.limitlesstcg.com/tournament/6a95d139abb9482237504c8f/details",
       "startAt": "2026-10-30T16:05:00.000Z"
     },
@@ -762,7 +772,7 @@
       "id": "limitless:6a95d159629039f77d8a6af8",
       "source": "limitless",
       "sourceId": "6a95d159629039f77d8a6af8",
-      "name": "TDRS Season 2 Cup 2",
+      "name": "Turtwig Den Revival Series Season 2 Cup 2",
       "url": "https://play.limitlesstcg.com/tournament/6a95d159629039f77d8a6af8/details",
       "startAt": "2026-11-06T17:05:00.000Z"
     },
@@ -802,7 +812,7 @@
       "id": "limitless:6a95d16a629039f77d8a6af9",
       "source": "limitless",
       "sourceId": "6a95d16a629039f77d8a6af9",
-      "name": "TDRS Season 2 Challenge 8",
+      "name": "Turtwig Den Revival Series Season 2 Challenge 8",
       "url": "https://play.limitlesstcg.com/tournament/6a95d16a629039f77d8a6af9/details",
       "startAt": "2026-11-13T17:05:00.000Z"
     },
@@ -842,7 +852,7 @@
       "id": "limitless:6a95d181629039f77d8a6afa",
       "source": "limitless",
       "sourceId": "6a95d181629039f77d8a6afa",
-      "name": "TDRS Season 2 Challenge 9",
+      "name": "Turtwig Den Revival Series Season 2 Challenge 9",
       "url": "https://play.limitlesstcg.com/tournament/6a95d181629039f77d8a6afa/details",
       "startAt": "2026-11-20T17:05:00.000Z"
     },
@@ -872,7 +882,7 @@
       "id": "limitless:6a95d1a1abb9482237504c92",
       "source": "limitless",
       "sourceId": "6a95d1a1abb9482237504c92",
-      "name": "TDRS Season 2 Challenge 10",
+      "name": "Turtwig Den Revival Series Season 2 Challenge 10",
       "url": "https://play.limitlesstcg.com/tournament/6a95d1a1abb9482237504c92/details",
       "startAt": "2026-11-27T17:05:00.000Z"
     },
@@ -902,7 +912,7 @@
       "id": "limitless:6a95d1b5abb9482237504c93",
       "source": "limitless",
       "sourceId": "6a95d1b5abb9482237504c93",
-      "name": "TDRS Season 2 Regional 1",
+      "name": "Turtwig Den Revival Series Season 2 Regional 1",
       "url": "https://play.limitlesstcg.com/tournament/6a95d1b5abb9482237504c93/details",
       "startAt": "2026-12-04T17:05:00.000Z"
     },
