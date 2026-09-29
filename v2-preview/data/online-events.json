@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T06:11:23.722Z",
+  "generatedAt": "2026-09-29T13:18:43.733Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -77,6 +77,16 @@
       "startAt": "2026-09-30T01:30:00.000Z"
     },
     {
+      "format": null,
+      "platform": null,
+      "id": "limitless:6abb7d5b783097f8dcb73428",
+      "source": "limitless",
+      "sourceId": "6abb7d5b783097f8dcb73428",
+      "name": "Primo Torneo GLC Games Time Palermo Centro",
+      "url": "https://play.limitlesstcg.com/tournament/6abb7d5b783097f8dcb73428/details",
+      "startAt": "2026-09-30T16:30:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ab480d7f127b1b52c280eba",
@@ -132,7 +142,7 @@
       "id": "limitless:6ab6ea93783097f8dcb7090f",
       "source": "limitless",
       "sourceId": "6ab6ea93783097f8dcb7090f",
-      "name": "Becca Bootcamp - Chally Preo",
+      "name": "Becca Bootcamp - Chally Preparation",
       "url": "https://play.limitlesstcg.com/tournament/6ab6ea93783097f8dcb7090f/details",
       "startAt": "2026-10-01T17:00:00.000Z"
     },
@@ -355,6 +365,16 @@
       "name": "Vault Of Games #5🏆| SEASON 1|WEEKLY",
       "url": "https://play.limitlesstcg.com/tournament/6ab89ead783097f8dcb71c7b/details",
       "startAt": "2026-10-04T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abb9444783097f8dcb73463",
+      "source": "limitless",
+      "sourceId": "6abb9444783097f8dcb73463",
+      "name": "YHT Pokémon TCG League",
+      "url": "https://play.limitlesstcg.com/tournament/6abb9444783097f8dcb73463/details",
+      "startAt": "2026-10-04T06:30:00.000Z"
     },
     {
       "format": "Standard",
