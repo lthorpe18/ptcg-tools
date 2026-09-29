@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T19:37:51.170Z",
+  "generatedAt": "2026-09-29T23:56:43.874Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab13087f127b1b52c27e8b2",
-      "source": "limitless",
-      "sourceId": "6ab13087f127b1b52c27e8b2",
-      "name": "LUDUSP - Pokémon - Liga semanal #1",
-      "url": "https://play.limitlesstcg.com/tournament/6ab13087f127b1b52c27e8b2/details",
-      "startAt": "2026-09-29T21:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abbbf62783097f8dcb735db",
-      "source": "limitless",
-      "sourceId": "6abbbf62783097f8dcb735db",
-      "name": "🇧🇷 Semanal • Hit Belém #1 | Pokémon TCG",
-      "url": "https://play.limitlesstcg.com/tournament/6abbbf62783097f8dcb735db/details",
-      "startAt": "2026-09-29T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aaa897e38886b36383c1765",
-      "source": "limitless",
-      "sourceId": "6aaa897e38886b36383c1765",
-      "name": "🐓🇧🇷 RINHA DE GALO#4 - PREMIAÇÃO EM PIX 🇧🇷🐓",
-      "url": "https://play.limitlesstcg.com/tournament/6aaa897e38886b36383c1765/details",
-      "startAt": "2026-09-29T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab71788783097f8dcb70ba2",
-      "source": "limitless",
-      "sourceId": "6ab71788783097f8dcb70ba2",
-      "name": "🇧🇷 Hit Challenge #33 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ab71788783097f8dcb70ba2/details",
-      "startAt": "2026-09-29T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab5d567f127b1b52c281b8b",
-      "source": "limitless",
-      "sourceId": "6ab5d567f127b1b52c281b8b",
-      "name": "Last Prize Series S4 #2",
-      "url": "https://play.limitlesstcg.com/tournament/6ab5d567f127b1b52c281b8b/details",
-      "startAt": "2026-09-29T23:35:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -69,12 +19,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abc255f880ed327106dfa1b",
+      "source": "limitless",
+      "sourceId": "6abc255f880ed327106dfa1b",
+      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
+      "url": "https://play.limitlesstcg.com/tournament/6abc255f880ed327106dfa1b/details",
+      "startAt": "2026-09-30T01:05:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a944407abb9482237503e5a",
       "source": "limitless",
       "sourceId": "6a944407abb9482237503e5a",
       "name": "Torneo Relámpago ⚡ #85 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6a944407abb9482237503e5a/details",
       "startAt": "2026-09-30T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abc46fa783097f8dcb73bc9",
+      "source": "limitless",
+      "sourceId": "6abc46fa783097f8dcb73bc9",
+      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #12",
+      "url": "https://play.limitlesstcg.com/tournament/6abc46fa783097f8dcb73bc9/details",
+      "startAt": "2026-09-30T02:00:00.000Z"
     },
     {
       "format": null,
@@ -214,6 +184,16 @@
       "sourceId": "6abbbfd0880ed327106df3e7",
       "name": "Rare Candy Club Blitz #2 (30TH LEGAL)",
       "url": "https://play.limitlesstcg.com/tournament/6abbbfd0880ed327106df3e7/details",
+      "startAt": "2026-10-02T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abc187e880ed327106df913",
+      "source": "limitless",
+      "sourceId": "6abc187e880ed327106df913",
+      "name": "Le Tournois Du DresseurPokeCharbie #130",
+      "url": "https://play.limitlesstcg.com/tournament/6abc187e880ed327106df913/details",
       "startAt": "2026-10-02T00:00:00.000Z"
     },
     {
@@ -394,6 +374,16 @@
       "sourceId": "6a641a8e937230b102d43a93",
       "name": "Swoop! Rocket Battle",
       "url": "https://play.limitlesstcg.com/tournament/6a641a8e937230b102d43a93/details",
+      "startAt": "2026-10-03T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abc389a783097f8dcb73b38",
+      "source": "limitless",
+      "sourceId": "6abc389a783097f8dcb73b38",
+      "name": "OTS Pokemon TCG Live Arena #2",
+      "url": "https://play.limitlesstcg.com/tournament/6abc389a783097f8dcb73b38/details",
       "startAt": "2026-10-03T22:00:00.000Z"
     },
     {
