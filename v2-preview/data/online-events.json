@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-28T23:29:49.445Z",
+  "generatedAt": "2026-09-29T06:11:23.722Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab869b1783097f8dcb71a9b",
-      "source": "limitless",
-      "sourceId": "6ab869b1783097f8dcb71a9b",
-      "name": "🇧🇷 37° Torneio Padrão do Zap Códigos",
-      "url": "https://play.limitlesstcg.com/tournament/6ab869b1783097f8dcb71a9b/details",
-      "startAt": "2026-09-29T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aba5b10880ed327106de663",
-      "source": "limitless",
-      "sourceId": "6aba5b10880ed327106de663",
-      "name": "La Techgece Casual #3 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6aba5b10880ed327106de663/details",
-      "startAt": "2026-09-29T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab9c425880ed327106de3d6",
-      "source": "limitless",
-      "sourceId": "6ab9c425880ed327106de3d6",
-      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 3 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6ab9c425880ed327106de3d6/details",
-      "startAt": "2026-09-29T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abad76e783097f8dcb72dac",
-      "source": "limitless",
-      "sourceId": "6abad76e783097f8dcb72dac",
-      "name": "🏛💫 Card Temple Weekly Battles #78",
-      "url": "https://play.limitlesstcg.com/tournament/6abad76e783097f8dcb72dac/details",
-      "startAt": "2026-09-29T02:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abaefe8880ed327106deed3",
-      "source": "limitless",
-      "sourceId": "6abaefe8880ed327106deed3",
-      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #11",
-      "url": "https://play.limitlesstcg.com/tournament/6abaefe8880ed327106deed3/details",
-      "startAt": "2026-09-29T02:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -419,6 +369,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abb186d783097f8dcb73290",
+      "source": "limitless",
+      "sourceId": "6abb186d783097f8dcb73290",
+      "name": "Kearney Duos Tournament",
+      "url": "https://play.limitlesstcg.com/tournament/6abb186d783097f8dcb73290/details",
+      "startAt": "2026-10-04T15:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab9de13783097f8dcb7258f",
       "source": "limitless",
       "sourceId": "6ab9de13783097f8dcb7258f",
@@ -445,6 +405,16 @@
       "name": "⚡Surge's TCG Vault Webcam Play!⚡",
       "url": "https://play.limitlesstcg.com/tournament/6ab277ebf127b1b52c27f7e3/details",
       "startAt": "2026-10-05T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abaccb3783097f8dcb72d09",
+      "source": "limitless",
+      "sourceId": "6abaccb3783097f8dcb72d09",
+      "name": "Sunny's Weekly #276 Carved from Stone",
+      "url": "https://play.limitlesstcg.com/tournament/6abaccb3783097f8dcb72d09/details",
+      "startAt": "2026-10-05T22:05:00.000Z"
     },
     {
       "format": "Standard",
