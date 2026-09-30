@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T23:56:43.874Z",
+  "generatedAt": "2026-09-30T05:57:52.624Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aba92f0783097f8dcb72988",
-      "source": "limitless",
-      "sourceId": "6aba92f0783097f8dcb72988",
-      "name": "Pudding Weekly #15 | Daring today aren't we?",
-      "url": "https://play.limitlesstcg.com/tournament/6aba92f0783097f8dcb72988/details",
-      "startAt": "2026-09-30T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abc255f880ed327106dfa1b",
-      "source": "limitless",
-      "sourceId": "6abc255f880ed327106dfa1b",
-      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
-      "url": "https://play.limitlesstcg.com/tournament/6abc255f880ed327106dfa1b/details",
-      "startAt": "2026-09-30T01:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a944407abb9482237503e5a",
-      "source": "limitless",
-      "sourceId": "6a944407abb9482237503e5a",
-      "name": "Torneo Relámpago ⚡ #85 PTCG Live (25 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6a944407abb9482237503e5a/details",
-      "startAt": "2026-09-30T01:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abc46fa783097f8dcb73bc9",
-      "source": "limitless",
-      "sourceId": "6abc46fa783097f8dcb73bc9",
-      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #12",
-      "url": "https://play.limitlesstcg.com/tournament/6abc46fa783097f8dcb73bc9/details",
-      "startAt": "2026-09-30T02:00:00.000Z"
-    },
     {
       "format": null,
       "platform": null,
@@ -115,6 +75,16 @@
       "name": "La Techgece Casual #4 [BO1] (30C Legal!)",
       "url": "https://play.limitlesstcg.com/tournament/6abbea48880ed327106df581/details",
       "startAt": "2026-10-01T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abc7c92880ed327106dfef2",
+      "source": "limitless",
+      "sourceId": "6abc7c92880ed327106dfef2",
+      "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 3 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6abc7c92880ed327106dfef2/details",
+      "startAt": "2026-10-01T01:00:00.000Z"
     },
     {
       "format": "Standard",
