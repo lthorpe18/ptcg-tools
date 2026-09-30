@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-30T12:59:39.137Z",
+  "generatedAt": "2026-09-30T19:37:30.519Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": null,
-      "id": "limitless:6abb7d5b783097f8dcb73428",
-      "source": "limitless",
-      "sourceId": "6abb7d5b783097f8dcb73428",
-      "name": "Primo Torneo GLC Games Time Palermo Centro",
-      "url": "https://play.limitlesstcg.com/tournament/6abb7d5b783097f8dcb73428/details",
-      "startAt": "2026-09-30T16:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab480d7f127b1b52c280eba",
-      "source": "limitless",
-      "sourceId": "6ab480d7f127b1b52c280eba",
-      "name": "Amyverse PTCG Live Weekly #15 💛 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ab480d7f127b1b52c280eba/details",
-      "startAt": "2026-09-30T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab44f5df127b1b52c280bdc",
-      "source": "limitless",
-      "sourceId": "6ab44f5df127b1b52c280bdc",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #4",
-      "url": "https://play.limitlesstcg.com/tournament/6ab44f5df127b1b52c280bdc/details",
-      "startAt": "2026-09-30T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ab27634e905c1db68747ace",
-      "source": "limitless",
-      "sourceId": "6ab27634e905c1db68747ace",
-      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #23⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6ab27634e905c1db68747ace/details",
-      "startAt": "2026-09-30T19:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -139,6 +99,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abd0c74783097f8dcb74105",
+      "source": "limitless",
+      "sourceId": "6abd0c74783097f8dcb74105",
+      "name": "ASRcristiano # 192 - 60 codes - Road to Nice!",
+      "url": "https://play.limitlesstcg.com/tournament/6abd0c74783097f8dcb74105/details",
+      "startAt": "2026-10-01T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab719cb880ed327106dcd52",
       "source": "limitless",
       "sourceId": "6ab719cb880ed327106dcd52",
@@ -225,6 +195,16 @@
       "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #25",
       "url": "https://play.limitlesstcg.com/tournament/6ab2769af127b1b52c27f7da/details",
       "startAt": "2026-10-02T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abd0c8d880ed327106e0182",
+      "source": "limitless",
+      "sourceId": "6abd0c8d880ed327106e0182",
+      "name": "ASRcristiano # 193 - 60 codes - Road to Nice!",
+      "url": "https://play.limitlesstcg.com/tournament/6abd0c8d880ed327106e0182/details",
+      "startAt": "2026-10-02T19:00:00.000Z"
     },
     {
       "format": "Standard",
