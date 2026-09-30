@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CP01 responsive visual QA</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: system-ui, sans-serif;
+        background: #101716;
+        color: #f3efe6;
+      }
+
+      body {
+        margin: 0;
+        padding: 24px;
+      }
+
+      main {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 32px;
+      }
+
+      section {
+        display: grid;
+        gap: 8px;
+      }
+
+      h1,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      p {
+        color: #a8b5ae;
+        font-size: 12px;
+      }
+
+      output {
+        max-width: 390px;
+        color: #83dfd2;
+        font: 11px/1.4 ui-monospace, monospace;
+      }
+
+      iframe {
+        display: block;
+        height: 844px;
+        border: 1px solid #34504a;
+        background: #061514;
+      }
+
+      .phone-390 {
+        width: 390px;
+      }
+
+      .phone-360 {
+        width: 360px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>390 CSS px</h1>
+        <p>Portrait specimen</p>
+        <iframe
+          class="phone-390"
+          src="../../v3-preview/index.html#/specimen"
+          title="CP01 specimen at 390 CSS pixels"
+        ></iframe>
+        <output aria-live="polite"></output>
+      </section>
+      <section>
+        <h1>360 CSS px</h1>
+        <p>Portrait specimen</p>
+        <iframe
+          class="phone-360"
+          src="../../v3-preview/index.html#/specimen"
+          title="CP01 specimen at 360 CSS pixels"
+        ></iframe>
+        <output aria-live="polite"></output>
+      </section>
+      <section>
+        <h1>390 CSS px · text 200%</h1>
+        <p>Enlarged-text resilience</p>
+        <iframe
+          class="phone-390"
+          data-text-200
+          src="../../v3-preview/index.html#/specimen"
+          title="CP01 specimen at 390 CSS pixels with text enlarged to 200 percent"
+        ></iframe>
+        <output aria-live="polite"></output>
+      </section>
+    </main>
+    <script>
+      for (const frame of document.querySelectorAll("iframe")) {
+        frame.addEventListener("load", () => {
+          const doc = frame.contentDocument;
+          if (frame.hasAttribute("data-text-200"))
+            doc.documentElement.style.fontSize = "200%";
+
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => {
+              const hero = doc.querySelector(".artwork-header");
+              const surface = doc.querySelector(".task-surface");
+              const metrics = {
+                viewport: frame.contentWindow.innerWidth,
+                overflow:
+                  doc.documentElement.scrollWidth > frame.contentWindow.innerWidth,
+                art: hero?.dataset.art,
+                hero: Math.round(hero?.getBoundingClientRect().height || 0),
+                overlap: Math.round(
+                  (hero?.getBoundingClientRect().bottom || 0) -
+                    (surface?.getBoundingClientRect().top || 0),
+                ),
+                navs: doc.querySelectorAll(".bottom-nav").length,
+              };
+              frame.nextElementSibling.value = JSON.stringify(metrics);
+            }),
+          );
+        });
+      }
+    </script>
+  </body>
+</html>
