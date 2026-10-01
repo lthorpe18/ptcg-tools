@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-01T13:53:10.904Z",
+  "generatedAt": "2026-10-01T19:48:09.250Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,72 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ab98142880ed327106de105",
-      "source": "limitless",
-      "sourceId": "6ab98142880ed327106de105",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ab98142880ed327106de105/details",
-      "startAt": "2026-10-01T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab6ea93783097f8dcb7090f",
-      "source": "limitless",
-      "sourceId": "6ab6ea93783097f8dcb7090f",
-      "name": "Becca Bootcamp - Chally Preparation",
-      "url": "https://play.limitlesstcg.com/tournament/6ab6ea93783097f8dcb7090f/details",
-      "startAt": "2026-10-01T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aba82bc880ed327106de7db",
-      "source": "limitless",
-      "sourceId": "6aba82bc880ed327106de7db",
-      "name": "Amyverse Bulk Box Battles #1 🧡 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6aba82bc880ed327106de7db/details",
-      "startAt": "2026-10-01T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abe0691880ed327106e0b58",
-      "source": "limitless",
-      "sourceId": "6abe0691880ed327106e0b58",
-      "name": "⚗️PokéKhemistry TURBO Thursday",
-      "url": "https://play.limitlesstcg.com/tournament/6abe0691880ed327106e0b58/details",
-      "startAt": "2026-10-01T17:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aac1b09f127b1b52c27b411",
-      "source": "limitless",
-      "sourceId": "6aac1b09f127b1b52c27b411",
-      "name": "11° Torneo del circuito CarroTCG/Prof. Fili",
-      "url": "https://play.limitlesstcg.com/tournament/6aac1b09f127b1b52c27b411/details",
-      "startAt": "2026-10-01T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ab27650f127b1b52c27f7d8",
       "source": "limitless",
       "sourceId": "6ab27650f127b1b52c27f7d8",
       "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
       "url": "https://play.limitlesstcg.com/tournament/6ab27650f127b1b52c27f7d8/details",
-      "startAt": "2026-10-01T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abd0c74783097f8dcb74105",
-      "source": "limitless",
-      "sourceId": "6abd0c74783097f8dcb74105",
-      "name": "ASRcristiano # 192 - 60 codes - Road to Nice!",
-      "url": "https://play.limitlesstcg.com/tournament/6abd0c74783097f8dcb74105/details",
-      "startAt": "2026-10-01T19:00:00.000Z"
+      "startAt": "2026-10-01T20:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -369,6 +309,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abe9ca6783097f8dcb7540a",
+      "source": "limitless",
+      "sourceId": "6abe9ca6783097f8dcb7540a",
+      "name": "Tournoi amical LEAGUE canto N63°",
+      "url": "https://play.limitlesstcg.com/tournament/6abe9ca6783097f8dcb7540a/details",
+      "startAt": "2026-10-04T12:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abad747783097f8dcb72dab",
       "source": "limitless",
       "sourceId": "6abad747783097f8dcb72dab",
@@ -434,6 +384,16 @@
       "sourceId": "6ab14c45e905c1db68746f00",
       "name": "TurboBlaze Troll Async - Yellow Series - Oct 26",
       "url": "https://play.limitlesstcg.com/tournament/6ab14c45e905c1db68746f00/details",
+      "startAt": "2026-10-05T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abe7c95880ed327106e0e00",
+      "source": "limitless",
+      "sourceId": "6abe7c95880ed327106e0e00",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6abe7c95880ed327106e0e00/details",
       "startAt": "2026-10-05T16:00:00.000Z"
     },
     {
@@ -607,6 +567,16 @@
       "startAt": "2026-10-05T22:30:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6abe7dff783097f8dcb751a3",
+      "source": "limitless",
+      "sourceId": "6abe7dff783097f8dcb751a3",
+      "name": "💰 Control Players Unite's Pauper Tournament! #42",
+      "url": "https://play.limitlesstcg.com/tournament/6abe7dff783097f8dcb751a3/details",
+      "startAt": "2026-10-05T23:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ab69a8e783097f8dcb7059f",
@@ -647,6 +617,26 @@
       "startAt": "2026-10-06T18:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6abe7dab783097f8dcb7519e",
+      "source": "limitless",
+      "sourceId": "6abe7dab783097f8dcb7519e",
+      "name": "♠️ Control Players Unite's Aceless Tournament! #41",
+      "url": "https://play.limitlesstcg.com/tournament/6abe7dab783097f8dcb7519e/details",
+      "startAt": "2026-10-06T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abeaffb783097f8dcb7554d",
+      "source": "limitless",
+      "sourceId": "6abeaffb783097f8dcb7554d",
+      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #5",
+      "url": "https://play.limitlesstcg.com/tournament/6abeaffb783097f8dcb7554d/details",
+      "startAt": "2026-10-07T07:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6abdb84e783097f8dcb74c59",
@@ -669,12 +659,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abe7436783097f8dcb7512c",
+      "source": "limitless",
+      "sourceId": "6abe7436783097f8dcb7512c",
+      "name": "REFINE Autumn Series Session 6: Jack-O-Lantern",
+      "url": "https://play.limitlesstcg.com/tournament/6abe7436783097f8dcb7512c/details",
+      "startAt": "2026-10-07T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab27766e905c1db68747ad3",
       "source": "limitless",
       "sourceId": "6ab27766e905c1db68747ad3",
       "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
       "url": "https://play.limitlesstcg.com/tournament/6ab27766e905c1db68747ad3/details",
       "startAt": "2026-10-08T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abea067880ed327106e10d2",
+      "source": "limitless",
+      "sourceId": "6abea067880ed327106e10d2",
+      "name": "12° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6abea067880ed327106e10d2/details",
+      "startAt": "2026-10-08T19:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -875,6 +885,16 @@
       "name": "Elite Four Fridays",
       "url": "https://play.limitlesstcg.com/tournament/6aad6718e905c1db68744465/details",
       "startAt": "2026-10-23T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": null,
+      "id": "limitless:6abe8331880ed327106e0e64",
+      "source": "limitless",
+      "sourceId": "6abe8331880ed327106e0e64",
+      "name": "($115 PRIZE POOL) OCTOBER COOKOFF CHALLENGE",
+      "url": "https://play.limitlesstcg.com/tournament/6abe8331880ed327106e0e64/details",
+      "startAt": "2026-10-24T18:00:00.000Z"
     },
     {
       "format": "Standard",
