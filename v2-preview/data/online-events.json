@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-30T19:37:30.519Z",
+  "generatedAt": "2026-10-01T00:10:18.495Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abbc534880ed327106df429",
-      "source": "limitless",
-      "sourceId": "6abbc534880ed327106df429",
-      "name": "Zard-Pokénight #020",
-      "url": "https://play.limitlesstcg.com/tournament/6abbc534880ed327106df429/details",
-      "startAt": "2026-09-30T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab49275e905c1db687492bc",
-      "source": "limitless",
-      "sourceId": "6ab49275e905c1db687492bc",
-      "name": "REFINE Autumn Series Session 5: Nor'Easter",
-      "url": "https://play.limitlesstcg.com/tournament/6ab49275e905c1db687492bc/details",
-      "startAt": "2026-09-30T23:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abbea48880ed327106df581",
-      "source": "limitless",
-      "sourceId": "6abbea48880ed327106df581",
-      "name": "La Techgece Casual #4 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6abbea48880ed327106df581/details",
-      "startAt": "2026-10-01T00:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -114,6 +84,16 @@
       "sourceId": "6ab719cb880ed327106dcd52",
       "name": "🇧🇷 Hit Challenge #34 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ab719cb880ed327106dcd52/details",
+      "startAt": "2026-10-01T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abd9bf3783097f8dcb74a6c",
+      "source": "limitless",
+      "sourceId": "6abd9bf3783097f8dcb74a6c",
+      "name": "💥Plantel Battle #34 💥​100 CODES ✔️​ TOP 8",
+      "url": "https://play.limitlesstcg.com/tournament/6abd9bf3783097f8dcb74a6c/details",
       "startAt": "2026-10-01T23:00:00.000Z"
     },
     {
