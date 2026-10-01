@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-01T06:31:54.317Z",
+  "generatedAt": "2026-10-01T13:53:10.904Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abdfbaf783097f8dcb74e2a",
-      "source": "limitless",
-      "sourceId": "6abdfbaf783097f8dcb74e2a",
-      "name": "SEASAC League Challenge #22 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6abdfbaf783097f8dcb74e2a/details",
-      "startAt": "2026-10-01T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -45,6 +35,16 @@
       "name": "Amyverse Bulk Box Battles #1 🧡 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6aba82bc880ed327106de7db/details",
       "startAt": "2026-10-01T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abe0691880ed327106e0b58",
+      "source": "limitless",
+      "sourceId": "6abe0691880ed327106e0b58",
+      "name": "⚗️PokéKhemistry TURBO Thursday",
+      "url": "https://play.limitlesstcg.com/tournament/6abe0691880ed327106e0b58/details",
+      "startAt": "2026-10-01T17:15:00.000Z"
     },
     {
       "format": "Standard",
@@ -809,6 +809,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abe1b7a783097f8dcb74e64",
+      "source": "limitless",
+      "sourceId": "6abe1b7a783097f8dcb74e64",
+      "name": "🏆 LING TV ARENA 🏆",
+      "url": "https://play.limitlesstcg.com/tournament/6abe1b7a783097f8dcb74e64/details",
+      "startAt": "2026-10-16T18:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aad66cde905c1db6874444f",
       "source": "limitless",
       "sourceId": "6aad66cde905c1db6874444f",
@@ -895,6 +905,16 @@
       "name": "Nightshades Friday Challenge 4",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d284a4272c53be64cfe9/details",
       "startAt": "2026-10-30T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abe23b5880ed327106e0b8b",
+      "source": "limitless",
+      "sourceId": "6abe23b5880ed327106e0b8b",
+      "name": "🏆Ling TV ARENA🏆",
+      "url": "https://play.limitlesstcg.com/tournament/6abe23b5880ed327106e0b8b/details",
+      "startAt": "2026-10-30T19:30:00.000Z"
     },
     {
       "format": "Standard",
