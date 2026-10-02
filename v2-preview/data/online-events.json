@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-01T19:48:09.250Z",
+  "generatedAt": "2026-10-02T00:12:25.435Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,52 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ab27650f127b1b52c27f7d8",
+      "id": "limitless:6abee02e783097f8dcb757dd",
       "source": "limitless",
-      "sourceId": "6ab27650f127b1b52c27f7d8",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6ab27650f127b1b52c27f7d8/details",
-      "startAt": "2026-10-01T20:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab719cb880ed327106dcd52",
-      "source": "limitless",
-      "sourceId": "6ab719cb880ed327106dcd52",
-      "name": "🇧🇷 Hit Challenge #34 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ab719cb880ed327106dcd52/details",
-      "startAt": "2026-10-01T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abd9bf3783097f8dcb74a6c",
-      "source": "limitless",
-      "sourceId": "6abd9bf3783097f8dcb74a6c",
-      "name": "💥Plantel Battle #34 💥​100 CODES ✔️​ TOP 8",
-      "url": "https://play.limitlesstcg.com/tournament/6abd9bf3783097f8dcb74a6c/details",
-      "startAt": "2026-10-01T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abbbfd0880ed327106df3e7",
-      "source": "limitless",
-      "sourceId": "6abbbfd0880ed327106df3e7",
-      "name": "Rare Candy Club Blitz #2 (30TH LEGAL)",
-      "url": "https://play.limitlesstcg.com/tournament/6abbbfd0880ed327106df3e7/details",
-      "startAt": "2026-10-02T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abc187e880ed327106df913",
-      "source": "limitless",
-      "sourceId": "6abc187e880ed327106df913",
-      "name": "Le Tournois Du DresseurPokeCharbie #130",
-      "url": "https://play.limitlesstcg.com/tournament/6abc187e880ed327106df913/details",
-      "startAt": "2026-10-02T00:00:00.000Z"
+      "sourceId": "6abee02e783097f8dcb757dd",
+      "name": "Liga Shiny🏆productos sellados🎁 (CHILE)",
+      "url": "https://play.limitlesstcg.com/tournament/6abee02e783097f8dcb757dd/details",
+      "startAt": "2026-10-02T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -134,6 +94,16 @@
       "sourceId": "6ab941f1783097f8dcb7204d",
       "name": "Amyverse Webcam Wonders #29 💙 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6ab941f1783097f8dcb7204d/details",
+      "startAt": "2026-10-02T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abe917f783097f8dcb752a3",
+      "source": "limitless",
+      "sourceId": "6abe917f783097f8dcb752a3",
+      "name": "FINALLY I CAN TEST! PKMN Centro Occidente🏵️",
+      "url": "https://play.limitlesstcg.com/tournament/6abe917f783097f8dcb752a3/details",
       "startAt": "2026-10-02T22:00:00.000Z"
     },
     {
@@ -665,6 +635,16 @@
       "name": "REFINE Autumn Series Session 6: Jack-O-Lantern",
       "url": "https://play.limitlesstcg.com/tournament/6abe7436783097f8dcb7512c/details",
       "startAt": "2026-10-07T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abeef1c783097f8dcb758c7",
+      "source": "limitless",
+      "sourceId": "6abeef1c783097f8dcb758c7",
+      "name": "Amyverse Bulk Box Battles #2 🧡 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6abeef1c783097f8dcb758c7/details",
+      "startAt": "2026-10-08T17:00:00.000Z"
     },
     {
       "format": "Standard",
