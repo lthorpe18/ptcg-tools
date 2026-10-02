@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-02T19:30:29.688Z",
+  "generatedAt": "2026-10-02T23:58:59.839Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ab941f1783097f8dcb7204d",
-      "source": "limitless",
-      "sourceId": "6ab941f1783097f8dcb7204d",
-      "name": "Amyverse Webcam Wonders #29 💙 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ab941f1783097f8dcb7204d/details",
-      "startAt": "2026-10-02T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abe917f783097f8dcb752a3",
-      "source": "limitless",
-      "sourceId": "6abe917f783097f8dcb752a3",
-      "name": "FINALLY I CAN TEST! PKMN Centro Occidente🏵️",
-      "url": "https://play.limitlesstcg.com/tournament/6abe917f783097f8dcb752a3/details",
-      "startAt": "2026-10-02T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad664cf127b1b52c27c0ac",
-      "source": "limitless",
-      "sourceId": "6aad664cf127b1b52c27c0ac",
-      "name": "Elite Four Fridays",
-      "url": "https://play.limitlesstcg.com/tournament/6aad664cf127b1b52c27c0ac/details",
-      "startAt": "2026-10-02T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abbead2880ed327106df586",
-      "source": "limitless",
-      "sourceId": "6abbead2880ed327106df586",
-      "name": "La Techgece Cup #2 [BO3] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6abbead2880ed327106df586/details",
-      "startAt": "2026-10-02T23:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
