@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-02T13:09:23.458Z",
+  "generatedAt": "2026-10-02T19:30:29.688Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a95d0c2abb9482237504c8a",
-      "source": "limitless",
-      "sourceId": "6a95d0c2abb9482237504c8a",
-      "name": "Turtwig Den Revival Series Season 2 Cup 1",
-      "url": "https://play.limitlesstcg.com/tournament/6a95d0c2abb9482237504c8a/details",
-      "startAt": "2026-10-02T16:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab69ac1880ed327106dc5a9",
-      "source": "limitless",
-      "sourceId": "6ab69ac1880ed327106dc5a9",
-      "name": "Nightshades Friday Pre Season",
-      "url": "https://play.limitlesstcg.com/tournament/6ab69ac1880ed327106dc5a9/details",
-      "startAt": "2026-10-02T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab2769af127b1b52c27f7da",
-      "source": "limitless",
-      "sourceId": "6ab2769af127b1b52c27f7da",
-      "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #25",
-      "url": "https://play.limitlesstcg.com/tournament/6ab2769af127b1b52c27f7da/details",
-      "startAt": "2026-10-02T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abd0c8d880ed327106e0182",
-      "source": "limitless",
-      "sourceId": "6abd0c8d880ed327106e0182",
-      "name": "ASRcristiano # 193 - 60 codes - Road to Nice!",
-      "url": "https://play.limitlesstcg.com/tournament/6abd0c8d880ed327106e0182/details",
-      "startAt": "2026-10-02T19:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "CAM",
@@ -79,6 +39,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abbead2880ed327106df586",
+      "source": "limitless",
+      "sourceId": "6abbead2880ed327106df586",
+      "name": "La Techgece Cup #2 [BO3] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6abbead2880ed327106df586/details",
+      "startAt": "2026-10-02T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5a6a738886b36383bdfc4",
       "source": "limitless",
       "sourceId": "6aa5a6a738886b36383bdfc4",
@@ -89,12 +59,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6abbead2880ed327106df586",
+      "id": "limitless:6abfb1c585920e4d25361b22",
       "source": "limitless",
-      "sourceId": "6abbead2880ed327106df586",
-      "name": "La Techgece Cup #2 [BO3] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6abbead2880ed327106df586/details",
-      "startAt": "2026-10-03T00:00:00.000Z"
+      "sourceId": "6abfb1c585920e4d25361b22",
+      "name": "🎃 Domino No Meta #5 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6abfb1c585920e4d25361b22/details",
+      "startAt": "2026-10-03T00:30:00.000Z"
     },
     {
       "format": "LAIC 18/19 (SUM–LOT)",
@@ -119,11 +89,11 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6a8723115a307140955752fb",
+      "id": "limitless:did-you-know",
       "source": "limitless",
-      "sourceId": "6a8723115a307140955752fb",
+      "sourceId": "did-you-know",
       "name": "TOURNAMENT OF DOOM! Did you know...",
-      "url": "https://play.limitlesstcg.com/tournament/6a8723115a307140955752fb/details",
+      "url": "https://play.limitlesstcg.com/tournament/did-you-know/details",
       "startAt": "2026-10-03T02:35:00.000Z"
     },
     {
@@ -145,6 +115,16 @@
       "name": "SEASAC League Challenge #24 (SEASON 5) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6abf3df0783097f8dcb75d2a/details",
       "startAt": "2026-10-03T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abffd8a245696afb3514543",
+      "source": "limitless",
+      "sourceId": "6abffd8a245696afb3514543",
+      "name": "Small Prize Tourney #2",
+      "url": "https://play.limitlesstcg.com/tournament/6abffd8a245696afb3514543/details",
+      "startAt": "2026-10-03T14:00:00.000Z"
     },
     {
       "format": null,
@@ -569,16 +549,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6a95d100abb9482237504c8b",
-      "source": "limitless",
-      "sourceId": "6a95d100abb9482237504c8b",
-      "name": "Turtwig Den Revival Series Season 2 Challenge 4",
-      "url": "https://play.limitlesstcg.com/tournament/6a95d100abb9482237504c8b/details",
-      "startAt": "2026-10-06T16:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ab27720f127b1b52c27f7db",
       "source": "limitless",
       "sourceId": "6ab27720f127b1b52c27f7db",
@@ -659,6 +629,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abfbd4b85920e4d25361c1c",
+      "source": "limitless",
+      "sourceId": "6abfbd4b85920e4d25361c1c",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6abfbd4b85920e4d25361c1c/details",
+      "startAt": "2026-10-08T16:10:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abeef1c783097f8dcb758c7",
       "source": "limitless",
       "sourceId": "6abeef1c783097f8dcb758c7",
@@ -699,12 +679,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abfb4c785920e4d25361b54",
+      "source": "limitless",
+      "sourceId": "6abfb4c785920e4d25361b54",
+      "name": "Oceania Open! | Season 4 - Week 1",
+      "url": "https://play.limitlesstcg.com/tournament/6abfb4c785920e4d25361b54/details",
+      "startAt": "2026-10-09T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d11da4272c53be64cf95",
       "source": "limitless",
       "sourceId": "6aa2d11da4272c53be64cf95",
       "name": "Nightshades Friday Challenge 1",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d11da4272c53be64cf95/details",
       "startAt": "2026-10-09T17:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6aae9d7ee905c1db68745574",
+      "source": "limitless",
+      "sourceId": "6aae9d7ee905c1db68745574",
+      "name": "Custom Tournament: Meta Shakeup",
+      "url": "https://play.limitlesstcg.com/tournament/6aae9d7ee905c1db68745574/details",
+      "startAt": "2026-10-09T18:00:00.000Z"
     },
     {
       "format": "Standard",
