@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-02T00:12:25.435Z",
+  "generatedAt": "2026-10-02T06:10:52.071Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abee02e783097f8dcb757dd",
-      "source": "limitless",
-      "sourceId": "6abee02e783097f8dcb757dd",
-      "name": "Liga Shiny🏆productos sellados🎁 (CHILE)",
-      "url": "https://play.limitlesstcg.com/tournament/6abee02e783097f8dcb757dd/details",
-      "startAt": "2026-10-02T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a944444629039f77d8a5a22",
-      "source": "limitless",
-      "sourceId": "6a944444629039f77d8a5a22",
-      "name": "Torneo Relámpago ⚡ #86 PTCG Live (25 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6a944444629039f77d8a5a22/details",
-      "startAt": "2026-10-02T01:30:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6abca858880ed327106dff7e",
-      "source": "limitless",
-      "sourceId": "6abca858880ed327106dff7e",
-      "name": "Holon Locals #46 (US Friendly)",
-      "url": "https://play.limitlesstcg.com/tournament/6abca858880ed327106dff7e/details",
-      "startAt": "2026-10-02T02:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGL",
@@ -45,6 +15,16 @@
       "name": "Oceania Open Invitational Championships! Season 3",
       "url": "https://play.limitlesstcg.com/tournament/6a4382a0c87cd9ff0a31353c/details",
       "startAt": "2026-10-02T09:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abf0e80880ed327106e17bb",
+      "source": "limitless",
+      "sourceId": "6abf0e80880ed327106e17bb",
+      "name": "SEASAC League Challenge #23 (SEASON 5) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6abf0e80880ed327106e17bb/details",
+      "startAt": "2026-10-02T12:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -177,6 +157,16 @@
       "startAt": "2026-10-03T10:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abf3df0783097f8dcb75d2a",
+      "source": "limitless",
+      "sourceId": "6abf3df0783097f8dcb75d2a",
+      "name": "SEASAC League Challenge #24 (SEASON 5) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6abf3df0783097f8dcb75d2a/details",
+      "startAt": "2026-10-03T11:30:00.000Z"
+    },
+    {
       "format": null,
       "platform": "CAM",
       "id": "limitless:6abbbda8880ed327106df3e0",
@@ -279,6 +269,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abf3e08880ed327106e18e0",
+      "source": "limitless",
+      "sourceId": "6abf3e08880ed327106e18e0",
+      "name": "SEASAC League Challenge #25 (SEASON 5) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6abf3e08880ed327106e18e0/details",
+      "startAt": "2026-10-04T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abe9ca6783097f8dcb7540a",
       "source": "limitless",
       "sourceId": "6abe9ca6783097f8dcb7540a",
@@ -345,6 +345,16 @@
       "name": "TurboBlaze Trials GLC Series - Season 2 Week 6",
       "url": "https://play.limitlesstcg.com/tournament/6abbbd35880ed327106df3dd/details",
       "startAt": "2026-10-05T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abf3e23880ed327106e18e2",
+      "source": "limitless",
+      "sourceId": "6abf3e23880ed327106e18e2",
+      "name": "SEASAC League Cup #4 (SEASON 5) [150 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6abf3e23880ed327106e18e2/details",
+      "startAt": "2026-10-05T11:30:00.000Z"
     },
     {
       "format": null,
@@ -569,6 +579,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abf3e36783097f8dcb75d2c",
+      "source": "limitless",
+      "sourceId": "6abf3e36783097f8dcb75d2c",
+      "name": "SEASAC League Challenge #26 (SEASON 5) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6abf3e36783097f8dcb75d2c/details",
+      "startAt": "2026-10-06T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d100abb9482237504c8b",
       "source": "limitless",
       "sourceId": "6a95d100abb9482237504c8b",
@@ -609,6 +629,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abf3e44880ed327106e18e3",
+      "source": "limitless",
+      "sourceId": "6abf3e44880ed327106e18e3",
+      "name": "SEASAC League Challenge #27 (SEASON 5) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6abf3e44880ed327106e18e3/details",
+      "startAt": "2026-10-07T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abdb84e783097f8dcb74c59",
       "source": "limitless",
       "sourceId": "6abdb84e783097f8dcb74c59",
@@ -635,6 +665,16 @@
       "name": "REFINE Autumn Series Session 6: Jack-O-Lantern",
       "url": "https://play.limitlesstcg.com/tournament/6abe7436783097f8dcb7512c/details",
       "startAt": "2026-10-07T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abf3e58880ed327106e18e4",
+      "source": "limitless",
+      "sourceId": "6abf3e58880ed327106e18e4",
+      "name": "SEASAC League Challenge #28 (SEASON 5) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6abf3e58880ed327106e18e4/details",
+      "startAt": "2026-10-08T11:30:00.000Z"
     },
     {
       "format": "Standard",
