@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-03T19:27:36.557Z",
+  "generatedAt": "2026-10-03T23:19:30.013Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac14830245696afb3515753",
-      "source": "limitless",
-      "sourceId": "6ac14830245696afb3515753",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6ac14830245696afb3515753/details",
-      "startAt": "2026-10-03T20:00:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6a641a8e937230b102d43a93",
-      "source": "limitless",
-      "sourceId": "6a641a8e937230b102d43a93",
-      "name": "Swoop! Rocket Battle",
-      "url": "https://play.limitlesstcg.com/tournament/6a641a8e937230b102d43a93/details",
-      "startAt": "2026-10-03T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abc389a783097f8dcb73b38",
-      "source": "limitless",
-      "sourceId": "6abc389a783097f8dcb73b38",
-      "name": "OTS Pokemon TCG Live Arena #2",
-      "url": "https://play.limitlesstcg.com/tournament/6abc389a783097f8dcb73b38/details",
-      "startAt": "2026-10-03T22:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "CAM",
@@ -67,14 +37,14 @@
       "startAt": "2026-10-04T01:00:00.000Z"
     },
     {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ac14e8a245696afb3515792",
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac1806d85920e4d25363527",
       "source": "limitless",
-      "sourceId": "6ac14e8a245696afb3515792",
-      "name": "Vault of GLC #1: Webcam Monthly",
-      "url": "https://play.limitlesstcg.com/tournament/6ac14e8a245696afb3515792/details",
-      "startAt": "2026-10-04T02:00:00.000Z"
+      "sourceId": "6ac1806d85920e4d25363527",
+      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
+      "url": "https://play.limitlesstcg.com/tournament/6ac1806d85920e4d25363527/details",
+      "startAt": "2026-10-04T01:10:00.000Z"
     },
     {
       "format": "Standard",
@@ -125,6 +95,16 @@
       "name": "Kearney Duos Tournament",
       "url": "https://play.limitlesstcg.com/tournament/6abb186d783097f8dcb73290/details",
       "startAt": "2026-10-04T15:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac1679085920e4d253633d5",
+      "source": "limitless",
+      "sourceId": "6ac1679085920e4d253633d5",
+      "name": "Monster Collectibles After Hours Season 2 #3",
+      "url": "https://play.limitlesstcg.com/tournament/6ac1679085920e4d253633d5/details",
+      "startAt": "2026-10-04T17:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -345,6 +325,16 @@
       "name": "October 2026 | Base-Gym 15/3",
       "url": "https://play.limitlesstcg.com/tournament/6abc0ac6880ed327106df7ce/details",
       "startAt": "2026-10-05T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac16503245696afb35158ac",
+      "source": "limitless",
+      "sourceId": "6ac16503245696afb35158ac",
+      "name": "PHOENIX ONLINE 2°",
+      "url": "https://play.limitlesstcg.com/tournament/6ac16503245696afb35158ac/details",
+      "startAt": "2026-10-05T22:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -665,6 +655,16 @@
       "name": "James G Tournaments #58 - 2017 Worlds (PRC-BUS)",
       "url": "https://play.limitlesstcg.com/tournament/6ac13ac1245696afb351562a/details",
       "startAt": "2026-10-10T01:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ac14e8a245696afb3515792",
+      "source": "limitless",
+      "sourceId": "6ac14e8a245696afb3515792",
+      "name": "Vault of GLC #1: Webcam Monthly",
+      "url": "https://play.limitlesstcg.com/tournament/6ac14e8a245696afb3515792/details",
+      "startAt": "2026-10-10T02:00:00.000Z"
     },
     {
       "format": "Standard",
