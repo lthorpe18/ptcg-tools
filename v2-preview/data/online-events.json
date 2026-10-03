@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-02T23:58:59.839Z",
+  "generatedAt": "2026-10-03T05:43:22.972Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa5a6a738886b36383bdfc4",
-      "source": "limitless",
-      "sourceId": "6aa5a6a738886b36383bdfc4",
-      "name": "🇧🇷 Hit Cup #19 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5a6a738886b36383bdfc4/details",
-      "startAt": "2026-10-03T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abfb1c585920e4d25361b22",
-      "source": "limitless",
-      "sourceId": "6abfb1c585920e4d25361b22",
-      "name": "🎃 Domino No Meta #5 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6abfb1c585920e4d25361b22/details",
-      "startAt": "2026-10-03T00:30:00.000Z"
-    },
-    {
-      "format": "LAIC 18/19 (SUM–LOT)",
-      "platform": "SIM",
-      "id": "limitless:6ab88eb5880ed327106ddb3e",
-      "source": "limitless",
-      "sourceId": "6ab88eb5880ed327106ddb3e",
-      "name": "James G Tournaments #57 - SUM-LOT",
-      "url": "https://play.limitlesstcg.com/tournament/6ab88eb5880ed327106ddb3e/details",
-      "startAt": "2026-10-03T01:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6a438d9583fd320299bd49c4",
-      "source": "limitless",
-      "sourceId": "6a438d9583fd320299bd49c4",
-      "name": "Championships - Budget Build Battles Season 8",
-      "url": "https://play.limitlesstcg.com/tournament/6a438d9583fd320299bd49c4/details",
-      "startAt": "2026-10-03T01:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:did-you-know",
-      "source": "limitless",
-      "sourceId": "did-you-know",
-      "name": "TOURNAMENT OF DOOM! Did you know...",
-      "url": "https://play.limitlesstcg.com/tournament/did-you-know/details",
-      "startAt": "2026-10-03T02:35:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -114,6 +64,16 @@
       "sourceId": "6a5bd3cd52c24ac2da645db3",
       "name": "Webcam Sisterhood Saturdays #3 🩷 Girls & Enbies!",
       "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
+      "startAt": "2026-10-03T17:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": null,
+      "id": "limitless:6ac06c1c85920e4d2536276e",
+      "source": "limitless",
+      "sourceId": "6ac06c1c85920e4d2536276e",
+      "name": "Surprise! Eternal Tournament #37",
+      "url": "https://play.limitlesstcg.com/tournament/6ac06c1c85920e4d2536276e/details",
       "startAt": "2026-10-03T17:00:00.000Z"
     },
     {
@@ -479,6 +439,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac08d9f245696afb3514e00",
+      "source": "limitless",
+      "sourceId": "6ac08d9f245696afb3514e00",
+      "name": "🇧🇷 Hit Challenge #36 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ac08d9f245696afb3514e00/details",
+      "startAt": "2026-10-05T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab69a8e783097f8dcb7059f",
       "source": "limitless",
       "sourceId": "6ab69a8e783097f8dcb7059f",
@@ -529,6 +499,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac08eca245696afb3514e12",
+      "source": "limitless",
+      "sourceId": "6ac08eca245696afb3514e12",
+      "name": "🇧🇷 Hit Challenge #37 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ac08eca245696afb3514e12/details",
+      "startAt": "2026-10-06T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abeaffb783097f8dcb7554d",
       "source": "limitless",
       "sourceId": "6abeaffb783097f8dcb7554d",
@@ -565,6 +545,16 @@
       "name": "⚡Surge's TCG Vault Webcam Wednesdays! #24⚡",
       "url": "https://play.limitlesstcg.com/tournament/6ab27742f127b1b52c27f7de/details",
       "startAt": "2026-10-07T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac0904f245696afb3514e16",
+      "source": "limitless",
+      "sourceId": "6ac0904f245696afb3514e16",
+      "name": "🇧🇷 Hit Challenge #38 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0904f245696afb3514e16/details",
+      "startAt": "2026-10-07T23:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -629,12 +619,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6aa5a6f2f1243e65f97ff28f",
+      "id": "limitless:6ac0918b245696afb3514e6c",
       "source": "limitless",
-      "sourceId": "6aa5a6f2f1243e65f97ff28f",
-      "name": "🇧🇷 Hit Cup #20 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5a6f2f1243e65f97ff28f/details",
-      "startAt": "2026-10-09T00:00:00.000Z"
+      "sourceId": "6ac0918b245696afb3514e6c",
+      "name": "🇧🇷 Hit Challenge #39 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0918b245696afb3514e6c/details",
+      "startAt": "2026-10-08T23:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -678,6 +668,16 @@
     },
     {
       "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ac0523f85920e4d25362589",
+      "source": "limitless",
+      "sourceId": "6ac0523f85920e4d25362589",
+      "name": "Amyverse Webcam Wonders #30 💙 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0523f85920e4d25362589/details",
+      "startAt": "2026-10-09T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aad66bdf127b1b52c27c0ae",
       "source": "limitless",
@@ -689,12 +689,42 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac09203245696afb3514e6d",
+      "source": "limitless",
+      "sourceId": "6ac09203245696afb3514e6d",
+      "name": "🇧🇷 Hit League #6 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ac09203245696afb3514e6d/details",
+      "startAt": "2026-10-10T00:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac056b785920e4d253625c6",
+      "source": "limitless",
+      "sourceId": "6ac056b785920e4d253625c6",
+      "name": "Budget Build Battles! | Season 9 - Week 1",
+      "url": "https://play.limitlesstcg.com/tournament/6ac056b785920e4d253625c6/details",
+      "startAt": "2026-10-10T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5d3a038886b36383be25d",
       "source": "limitless",
       "sourceId": "6aa5d3a038886b36383be25d",
       "name": "TOURNAMENT OF DOOM! KEYCHAIN!",
       "url": "https://play.limitlesstcg.com/tournament/6aa5d3a038886b36383be25d/details",
       "startAt": "2026-10-10T02:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac0936b85920e4d253628b9",
+      "source": "limitless",
+      "sourceId": "6ac0936b85920e4d253628b9",
+      "name": "🇧🇷 Hit Challenge #40 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0936b85920e4d253628b9/details",
+      "startAt": "2026-10-10T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -759,6 +789,26 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aa5a6f2f1243e65f97ff28f",
+      "source": "limitless",
+      "sourceId": "6aa5a6f2f1243e65f97ff28f",
+      "name": "🇧🇷 Hit Cup #20 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5a6f2f1243e65f97ff28f/details",
+      "startAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac0873d85920e4d2536288a",
+      "source": "limitless",
+      "sourceId": "6ac0873d85920e4d2536288a",
+      "name": "Oceania Open! | Season 4 - Week 2",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0873d85920e4d2536288a/details",
+      "startAt": "2026-10-16T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d119629039f77d8a6af7",
       "source": "limitless",
       "sourceId": "6a95d119629039f77d8a6af7",
@@ -797,6 +847,16 @@
       "startAt": "2026-10-16T23:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac08896245696afb3514d84",
+      "source": "limitless",
+      "sourceId": "6ac08896245696afb3514d84",
+      "name": "Budget Build Battles! | Season 9 - Week 2",
+      "url": "https://play.limitlesstcg.com/tournament/6ac08896245696afb3514d84/details",
+      "startAt": "2026-10-17T00:30:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aa5d406f1243e65f97ff818",
@@ -815,6 +875,16 @@
       "name": "Nightshades Monday Cup 2",
       "url": "https://play.limitlesstcg.com/tournament/6aad83bde905c1db68744611/details",
       "startAt": "2026-10-20T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac0875985920e4d2536288c",
+      "source": "limitless",
+      "sourceId": "6ac0875985920e4d2536288c",
+      "name": "Oceania Open! | Season 4 - Week 3",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0875985920e4d2536288c/details",
+      "startAt": "2026-10-23T08:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -847,6 +917,16 @@
       "startAt": "2026-10-23T23:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac088bc85920e4d25362898",
+      "source": "limitless",
+      "sourceId": "6ac088bc85920e4d25362898",
+      "name": "Budget Build Battles! | Season 9 - Week 3",
+      "url": "https://play.limitlesstcg.com/tournament/6ac088bc85920e4d25362898/details",
+      "startAt": "2026-10-24T00:30:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": null,
       "id": "limitless:6abe8331880ed327106e0e64",
@@ -865,6 +945,16 @@
       "name": "Nightshades Monday Cup 3",
       "url": "https://play.limitlesstcg.com/tournament/6aad83d1e905c1db68744612/details",
       "startAt": "2026-10-27T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac0876e85920e4d2536288d",
+      "source": "limitless",
+      "sourceId": "6ac0876e85920e4d2536288d",
+      "name": "Oceania Open! | Season 4 - Week 4",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0876e85920e4d2536288d/details",
+      "startAt": "2026-10-30T08:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -907,6 +997,16 @@
       "startAt": "2026-10-30T23:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac088dd245696afb3514d86",
+      "source": "limitless",
+      "sourceId": "6ac088dd245696afb3514d86",
+      "name": "Budget Build Battles! | Season 9 - Week 4",
+      "url": "https://play.limitlesstcg.com/tournament/6ac088dd245696afb3514d86/details",
+      "startAt": "2026-10-31T00:30:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aad83eee905c1db68744613",
@@ -915,6 +1015,16 @@
       "name": "Nightshades Monday Cup 4",
       "url": "https://play.limitlesstcg.com/tournament/6aad83eee905c1db68744613/details",
       "startAt": "2026-11-03T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac0878385920e4d2536288e",
+      "source": "limitless",
+      "sourceId": "6ac0878385920e4d2536288e",
+      "name": "Oceania Open! | Season 4 - Week 5",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0878385920e4d2536288e/details",
+      "startAt": "2026-11-06T08:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -935,6 +1045,16 @@
       "name": "Nightshades Friday Challenge 5",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d291ab080c8c9580024f/details",
       "startAt": "2026-11-06T18:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac088fd245696afb3514d87",
+      "source": "limitless",
+      "sourceId": "6ac088fd245696afb3514d87",
+      "name": "Budget Build Battles! | Season 9 - Week 5",
+      "url": "https://play.limitlesstcg.com/tournament/6ac088fd245696afb3514d87/details",
+      "startAt": "2026-11-07T00:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -959,6 +1079,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac0879885920e4d2536288f",
+      "source": "limitless",
+      "sourceId": "6ac0879885920e4d2536288f",
+      "name": "Oceania Open! | Season 4 - Week 6",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0879885920e4d2536288f/details",
+      "startAt": "2026-11-13T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d16a629039f77d8a6af9",
       "source": "limitless",
       "sourceId": "6a95d16a629039f77d8a6af9",
@@ -975,6 +1105,16 @@
       "name": "Nightshades Friday Challenge 6",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d29aab080c8c95800250/details",
       "startAt": "2026-11-13T18:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac0891e245696afb3514d88",
+      "source": "limitless",
+      "sourceId": "6ac0891e245696afb3514d88",
+      "name": "Budget Build Battles! | Season 9 - Week 6",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0891e245696afb3514d88/details",
+      "startAt": "2026-11-14T00:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -999,6 +1139,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac087ad85920e4d25362890",
+      "source": "limitless",
+      "sourceId": "6ac087ad85920e4d25362890",
+      "name": "Oceania Open! | Season 4 - Week 7",
+      "url": "https://play.limitlesstcg.com/tournament/6ac087ad85920e4d25362890/details",
+      "startAt": "2026-11-20T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d181629039f77d8a6afa",
       "source": "limitless",
       "sourceId": "6a95d181629039f77d8a6afa",
@@ -1017,6 +1167,16 @@
       "startAt": "2026-11-20T18:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac0893b245696afb3514d89",
+      "source": "limitless",
+      "sourceId": "6ac0893b245696afb3514d89",
+      "name": "Budget Build Battles! | Season 9 - Week 7",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0893b245696afb3514d89/details",
+      "startAt": "2026-11-21T00:30:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aad843cf127b1b52c27c2fe",
@@ -1029,12 +1189,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac087c585920e4d25362891",
+      "source": "limitless",
+      "sourceId": "6ac087c585920e4d25362891",
+      "name": "Oceania Open! | Season 4 - Week 8",
+      "url": "https://play.limitlesstcg.com/tournament/6ac087c585920e4d25362891/details",
+      "startAt": "2026-11-27T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d1a1abb9482237504c92",
       "source": "limitless",
       "sourceId": "6a95d1a1abb9482237504c92",
       "name": "Turtwig Den Revival Series Season 2 Challenge 10",
       "url": "https://play.limitlesstcg.com/tournament/6a95d1a1abb9482237504c92/details",
       "startAt": "2026-11-27T17:05:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac0895685920e4d2536289c",
+      "source": "limitless",
+      "sourceId": "6ac0895685920e4d2536289c",
+      "name": "Budget Build Battles! | Season 9 - Week 8",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0895685920e4d2536289c/details",
+      "startAt": "2026-11-28T00:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -1059,6 +1239,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac087e1245696afb3514d7e",
+      "source": "limitless",
+      "sourceId": "6ac087e1245696afb3514d7e",
+      "name": "Oceania Open! | Season 4 - Week 9",
+      "url": "https://play.limitlesstcg.com/tournament/6ac087e1245696afb3514d7e/details",
+      "startAt": "2026-12-04T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6a95d1b5abb9482237504c93",
       "source": "limitless",
       "sourceId": "6a95d1b5abb9482237504c93",
@@ -1077,6 +1267,16 @@
       "startAt": "2026-12-04T18:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac08975245696afb3514d8a",
+      "source": "limitless",
+      "sourceId": "6ac08975245696afb3514d8a",
+      "name": "Budget Build Battles! | Season 9 - Week 9",
+      "url": "https://play.limitlesstcg.com/tournament/6ac08975245696afb3514d8a/details",
+      "startAt": "2026-12-05T00:30:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aad8479f127b1b52c27c2ff",
@@ -1089,12 +1289,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac087fb245696afb3514d7f",
+      "source": "limitless",
+      "sourceId": "6ac087fb245696afb3514d7f",
+      "name": "Oceania Open! | Season 4 - Week 10",
+      "url": "https://play.limitlesstcg.com/tournament/6ac087fb245696afb3514d7f/details",
+      "startAt": "2026-12-11T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d2cbab080c8c95800255",
       "source": "limitless",
       "sourceId": "6aa2d2cbab080c8c95800255",
       "name": "Nightshades Friday Challenge 9",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d2cbab080c8c95800255/details",
       "startAt": "2026-12-11T18:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac08e3b85920e4d253628af",
+      "source": "limitless",
+      "sourceId": "6ac08e3b85920e4d253628af",
+      "name": "Budget Build Battles! | Season 9 - Week 10",
+      "url": "https://play.limitlesstcg.com/tournament/6ac08e3b85920e4d253628af/details",
+      "startAt": "2026-12-12T00:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -1119,12 +1339,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac08812245696afb3514d80",
+      "source": "limitless",
+      "sourceId": "6ac08812245696afb3514d80",
+      "name": "Oceania Open! | Season 4 - Week 11",
+      "url": "https://play.limitlesstcg.com/tournament/6ac08812245696afb3514d80/details",
+      "startAt": "2026-12-18T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aad8518f127b1b52c27c306",
       "source": "limitless",
       "sourceId": "6aad8518f127b1b52c27c306",
       "name": "Nightshades Friday Challenge 10",
       "url": "https://play.limitlesstcg.com/tournament/6aad8518f127b1b52c27c306/details",
       "startAt": "2026-12-18T18:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac08e59245696afb3514e0e",
+      "source": "limitless",
+      "sourceId": "6ac08e59245696afb3514e0e",
+      "name": "Budget Build Battles! | Season 9 - Week 11",
+      "url": "https://play.limitlesstcg.com/tournament/6ac08e59245696afb3514e0e/details",
+      "startAt": "2026-12-19T00:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -1138,6 +1378,26 @@
     },
     {
       "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac0882585920e4d25362895",
+      "source": "limitless",
+      "sourceId": "6ac0882585920e4d25362895",
+      "name": "Oceania Open! | Season 4 - Week 12",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0882585920e4d25362895/details",
+      "startAt": "2026-12-25T08:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac08e79245696afb3514e0f",
+      "source": "limitless",
+      "sourceId": "6ac08e79245696afb3514e0f",
+      "name": "Budget Build Battles! | Season 9 - Week 12",
+      "url": "https://play.limitlesstcg.com/tournament/6ac08e79245696afb3514e0f/details",
+      "startAt": "2026-12-26T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": null,
       "id": "limitless:6a7c9e942b308b6067b52125",
       "source": "limitless",
@@ -1145,6 +1405,26 @@
       "name": "Pokemon TCG TOPDECK LEAGUE Hoenn — Finals",
       "url": "https://play.limitlesstcg.com/tournament/6a7c9e942b308b6067b52125/details",
       "startAt": "2026-12-27T10:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac0885285920e4d25362896",
+      "source": "limitless",
+      "sourceId": "6ac0885285920e4d25362896",
+      "name": "Oceania Open Invitational Championships! Season 4",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0885285920e4d25362896/details",
+      "startAt": "2027-01-01T08:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ac08e99245696afb3514e10",
+      "source": "limitless",
+      "sourceId": "6ac08e99245696afb3514e10",
+      "name": "Championships - Budget Build Battles Season 9",
+      "url": "https://play.limitlesstcg.com/tournament/6ac08e99245696afb3514e10/details",
+      "startAt": "2027-01-02T00:30:00.000Z"
     },
     {
       "format": "Standard",
