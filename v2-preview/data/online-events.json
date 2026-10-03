@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-03T05:43:22.972Z",
+  "generatedAt": "2026-10-03T12:00:47.854Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab7b68b880ed327106dd0f7",
-      "source": "limitless",
-      "sourceId": "6ab7b68b880ed327106dd0f7",
-      "name": "Perth pokemon week 7",
-      "url": "https://play.limitlesstcg.com/tournament/6ab7b68b880ed327106dd0f7/details",
-      "startAt": "2026-10-03T10:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abf3df0783097f8dcb75d2a",
-      "source": "limitless",
-      "sourceId": "6abf3df0783097f8dcb75d2a",
-      "name": "SEASAC League Challenge #24 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6abf3df0783097f8dcb75d2a/details",
-      "startAt": "2026-10-03T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -84,6 +64,16 @@
       "sourceId": "6ab71ac2783097f8dcb70be5",
       "name": "🇧🇷 Hit Challenge #35 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ab71ac2783097f8dcb70be5/details",
+      "startAt": "2026-10-03T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac0c55d85920e4d253629f8",
+      "source": "limitless",
+      "sourceId": "6ac0c55d85920e4d253629f8",
+      "name": "PokeMagee Weekly #16 - Birthday tournament!",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0c55d85920e4d253629f8/details",
       "startAt": "2026-10-03T18:00:00.000Z"
     },
     {
@@ -485,6 +475,16 @@
       "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
       "url": "https://play.limitlesstcg.com/tournament/6ab27720f127b1b52c27f7db/details",
       "startAt": "2026-10-06T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac09b4785920e4d253628d7",
+      "source": "limitless",
+      "sourceId": "6ac09b4785920e4d253628d7",
+      "name": "🇧🇷 Semanal • Hit Belém #2 | Pokémon TCG",
+      "url": "https://play.limitlesstcg.com/tournament/6ac09b4785920e4d253628d7/details",
+      "startAt": "2026-10-06T22:00:00.000Z"
     },
     {
       "format": null,
