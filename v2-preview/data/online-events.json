@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-03T12:00:47.854Z",
+  "generatedAt": "2026-10-03T16:42:15.565Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abffd8a245696afb3514543",
-      "source": "limitless",
-      "sourceId": "6abffd8a245696afb3514543",
-      "name": "Small Prize Tourney #2",
-      "url": "https://play.limitlesstcg.com/tournament/6abffd8a245696afb3514543/details",
-      "startAt": "2026-10-03T14:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6abbbda8880ed327106df3e0",
-      "source": "limitless",
-      "sourceId": "6abbbda8880ed327106df3e0",
-      "name": "TurboBlaze Presents: The Saturday Special #3",
-      "url": "https://play.limitlesstcg.com/tournament/6abbbda8880ed327106df3e0/details",
-      "startAt": "2026-10-03T16:30:00.000Z"
-    },
     {
       "format": null,
       "platform": "SIM",
@@ -35,16 +15,6 @@
       "name": "Cube League Season 10 - Doubles Cube - Oct '26",
       "url": "https://play.limitlesstcg.com/tournament/6aa93b1738886b36383c0b9e/details",
       "startAt": "2026-10-03T16:45:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6a5bd3cd52c24ac2da645db3",
-      "source": "limitless",
-      "sourceId": "6a5bd3cd52c24ac2da645db3",
-      "name": "Webcam Sisterhood Saturdays #3 🩷 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
-      "startAt": "2026-10-03T17:00:00.000Z"
     },
     {
       "format": null,
@@ -715,6 +685,16 @@
       "name": "TOURNAMENT OF DOOM! KEYCHAIN!",
       "url": "https://play.limitlesstcg.com/tournament/6aa5d3a038886b36383be25d/details",
       "startAt": "2026-10-10T02:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6a5bd3cd52c24ac2da645db3",
+      "source": "limitless",
+      "sourceId": "6a5bd3cd52c24ac2da645db3",
+      "name": "Webcam Sisterhood Saturdays #3 🩷 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
+      "startAt": "2026-10-10T17:00:00.000Z"
     },
     {
       "format": "Standard",
