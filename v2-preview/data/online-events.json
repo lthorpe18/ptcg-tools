@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-04T06:19:52.995Z",
+  "generatedAt": "2026-10-04T12:50:42.479Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,32 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6abb9444783097f8dcb73463",
+      "id": "limitless:6ac2309285920e4d2536391c",
       "source": "limitless",
-      "sourceId": "6abb9444783097f8dcb73463",
-      "name": "YHT Pokémon TCG League",
-      "url": "https://play.limitlesstcg.com/tournament/6abb9444783097f8dcb73463/details",
-      "startAt": "2026-10-04T06:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abf3e08880ed327106e18e0",
-      "source": "limitless",
-      "sourceId": "6abf3e08880ed327106e18e0",
-      "name": "SEASAC League Challenge #25 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6abf3e08880ed327106e18e0/details",
-      "startAt": "2026-10-04T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abe9ca6783097f8dcb7540a",
-      "source": "limitless",
-      "sourceId": "6abe9ca6783097f8dcb7540a",
-      "name": "Tournoi amical LEAGUE canto N63°",
-      "url": "https://play.limitlesstcg.com/tournament/6abe9ca6783097f8dcb7540a/details",
-      "startAt": "2026-10-04T12:00:00.000Z"
+      "sourceId": "6ac2309285920e4d2536391c",
+      "name": "Gigalith Assault Tournament 1",
+      "url": "https://play.limitlesstcg.com/tournament/6ac2309285920e4d2536391c/details",
+      "startAt": "2026-10-04T13:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -84,7 +64,7 @@
       "sourceId": "6abbeb3c880ed327106df588",
       "name": "La Techgece Cup #3 [BO3] (30C Legal!)",
       "url": "https://play.limitlesstcg.com/tournament/6abbeb3c880ed327106df588/details",
-      "startAt": "2026-10-04T23:00:00.000Z"
+      "startAt": "2026-10-04T22:00:00.000Z"
     },
     {
       "format": "Standard",
