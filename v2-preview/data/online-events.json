@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-04T12:50:42.479Z",
+  "generatedAt": "2026-10-04T18:21:05.125Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac2309285920e4d2536391c",
-      "source": "limitless",
-      "sourceId": "6ac2309285920e4d2536391c",
-      "name": "Gigalith Assault Tournament 1",
-      "url": "https://play.limitlesstcg.com/tournament/6ac2309285920e4d2536391c/details",
-      "startAt": "2026-10-04T13:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abad747783097f8dcb72dab",
-      "source": "limitless",
-      "sourceId": "6abad747783097f8dcb72dab",
-      "name": "FINISTERRAE SERIES TCG #3",
-      "url": "https://play.limitlesstcg.com/tournament/6abad747783097f8dcb72dab/details",
-      "startAt": "2026-10-04T14:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abb186d783097f8dcb73290",
-      "source": "limitless",
-      "sourceId": "6abb186d783097f8dcb73290",
-      "name": "Kearney Duos Tournament",
-      "url": "https://play.limitlesstcg.com/tournament/6abb186d783097f8dcb73290/details",
-      "startAt": "2026-10-04T15:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac1679085920e4d253633d5",
-      "source": "limitless",
-      "sourceId": "6ac1679085920e4d253633d5",
-      "name": "Monster Collectibles After Hours Season 2 #3",
-      "url": "https://play.limitlesstcg.com/tournament/6ac1679085920e4d253633d5/details",
-      "startAt": "2026-10-04T17:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -324,6 +284,16 @@
       "sourceId": "6ab69a8e783097f8dcb7059f",
       "name": "Nightshades Monday Pre Season",
       "url": "https://play.limitlesstcg.com/tournament/6ab69a8e783097f8dcb7059f/details",
+      "startAt": "2026-10-06T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac2958585920e4d25363dda",
+      "source": "limitless",
+      "sourceId": "6ac2958585920e4d25363dda",
+      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 4 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6ac2958585920e4d25363dda/details",
       "startAt": "2026-10-06T00:00:00.000Z"
     },
     {
@@ -868,7 +838,7 @@
     },
     {
       "format": "Standard",
-      "platform": null,
+      "platform": "PTCGL",
       "id": "limitless:6abe8331880ed327106e0e64",
       "source": "limitless",
       "sourceId": "6abe8331880ed327106e0e64",
