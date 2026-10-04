@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-03T23:19:30.013Z",
+  "generatedAt": "2026-10-04T06:19:52.995Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ab9415e880ed327106ddf7c",
-      "source": "limitless",
-      "sourceId": "6ab9415e880ed327106ddf7c",
-      "name": "Amyverse GLC Gatherings #17 💚 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ab9415e880ed327106ddf7c/details",
-      "startAt": "2026-10-04T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab89ead783097f8dcb71c7b",
-      "source": "limitless",
-      "sourceId": "6ab89ead783097f8dcb71c7b",
-      "name": "Vault Of Games #5🏆| SEASON 1|WEEKLY",
-      "url": "https://play.limitlesstcg.com/tournament/6ab89ead783097f8dcb71c7b/details",
-      "startAt": "2026-10-04T01:00:00.000Z"
-    },
-    {
-      "format": "NAIC 2019 (SUM–UNB)",
-      "platform": "SIM",
-      "id": "limitless:6abbbd9d880ed327106df3df",
-      "source": "limitless",
-      "sourceId": "6abbbd9d880ed327106df3df",
-      "name": "C-C Colosseum #20 - 2019 NAIC (SUM-UNB)",
-      "url": "https://play.limitlesstcg.com/tournament/6abbbd9d880ed327106df3df/details",
-      "startAt": "2026-10-04T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac1806d85920e4d25363527",
-      "source": "limitless",
-      "sourceId": "6ac1806d85920e4d25363527",
-      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
-      "url": "https://play.limitlesstcg.com/tournament/6ac1806d85920e4d25363527/details",
-      "startAt": "2026-10-04T01:10:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -509,6 +469,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac0db2885920e4d25362a6a",
+      "source": "limitless",
+      "sourceId": "6ac0db2885920e4d25362a6a",
+      "name": "🇧🇷 2° Batalhas Vip 💲💲",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0db2885920e4d25362a6a/details",
+      "startAt": "2026-10-08T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abf3e58880ed327106e18e4",
       "source": "limitless",
       "sourceId": "6abf3e58880ed327106e18e4",
@@ -565,6 +535,16 @@
       "name": "🇧🇷 Hit Challenge #39 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ac0918b245696afb3514e6c/details",
       "startAt": "2026-10-08T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac1d7d7245696afb3515de0",
+      "source": "limitless",
+      "sourceId": "6ac1d7d7245696afb3515de0",
+      "name": "Le Tournois Du DresseurPokeCharbie #131",
+      "url": "https://play.limitlesstcg.com/tournament/6ac1d7d7245696afb3515de0/details",
+      "startAt": "2026-10-09T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -705,6 +685,16 @@
       "name": "Lhama Champs",
       "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
       "startAt": "2026-10-10T19:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ac1e52d245696afb3515df7",
+      "source": "limitless",
+      "sourceId": "6ac1e52d245696afb3515df7",
+      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ac1e52d245696afb3515df7/details",
+      "startAt": "2026-10-11T00:00:00.000Z"
     },
     {
       "format": "Standard",
