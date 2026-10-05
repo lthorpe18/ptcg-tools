@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-04T21:55:31.320Z",
+  "generatedAt": "2026-10-05T01:15:46.497Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,42 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ab9de13783097f8dcb7258f",
+      "id": "limitless:6ac2e6ab85920e4d25364085",
       "source": "limitless",
-      "sourceId": "6ab9de13783097f8dcb7258f",
-      "name": "Sisterhood Showdown #3 💗 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6ab9de13783097f8dcb7258f/details",
-      "startAt": "2026-10-04T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abbeb3c880ed327106df588",
-      "source": "limitless",
-      "sourceId": "6abbeb3c880ed327106df588",
-      "name": "La Techgece Cup #3 [BO3] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6abbeb3c880ed327106df588/details",
-      "startAt": "2026-10-04T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abbc00b783097f8dcb735dd",
-      "source": "limitless",
-      "sourceId": "6abbc00b783097f8dcb735dd",
-      "name": "Rare Candy Club Showdown #47 (30TH LEGAL)",
-      "url": "https://play.limitlesstcg.com/tournament/6abbc00b783097f8dcb735dd/details",
-      "startAt": "2026-10-05T00:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6abbbd35880ed327106df3dd",
-      "source": "limitless",
-      "sourceId": "6abbbd35880ed327106df3dd",
-      "name": "TurboBlaze Trials GLC Series - Season 2 Week 6",
-      "url": "https://play.limitlesstcg.com/tournament/6abbbd35880ed327106df3dd/details",
-      "startAt": "2026-10-05T00:30:00.000Z"
+      "sourceId": "6ac2e6ab85920e4d25364085",
+      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #13",
+      "url": "https://play.limitlesstcg.com/tournament/6ac2e6ab85920e4d25364085/details",
+      "startAt": "2026-10-05T02:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -75,6 +45,16 @@
       "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
       "url": "https://play.limitlesstcg.com/tournament/6abe7c95880ed327106e0e00/details",
       "startAt": "2026-10-05T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac2ee1185920e4d253640c4",
+      "source": "limitless",
+      "sourceId": "6ac2ee1185920e4d253640c4",
+      "name": "Pumpkaweekly",
+      "url": "https://play.limitlesstcg.com/tournament/6ac2ee1185920e4d253640c4/details",
+      "startAt": "2026-10-05T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -315,6 +295,16 @@
       "name": "SEASAC League Challenge #26 (SEASON 5) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6abf3e36783097f8dcb75d2c/details",
       "startAt": "2026-10-06T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": null,
+      "id": "limitless:6ac2d5d885920e4d25364008",
+      "source": "limitless",
+      "sourceId": "6ac2d5d885920e4d25364008",
+      "name": "Semanal Liga Nova 🐕‍🦺",
+      "url": "https://play.limitlesstcg.com/tournament/6ac2d5d885920e4d25364008/details",
+      "startAt": "2026-10-06T15:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -675,6 +665,16 @@
       "name": "Vault Of Games #6 🏆| SEASON 1|WEEKLY",
       "url": "https://play.limitlesstcg.com/tournament/6ac2ba8585920e4d25363f3e/details",
       "startAt": "2026-10-11T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab9de13783097f8dcb7258f",
+      "source": "limitless",
+      "sourceId": "6ab9de13783097f8dcb7258f",
+      "name": "Sisterhood Showdown #3 💗 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6ab9de13783097f8dcb7258f/details",
+      "startAt": "2026-10-11T22:00:00.000Z"
     },
     {
       "format": "Standard",
