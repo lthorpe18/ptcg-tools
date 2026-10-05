@@ -5,6 +5,9 @@ on:
   push:
     paths:
       - 'scripts/update-events.mjs'
+      - 'scripts/event-sources.mjs'
+      - 'tests/event-sources.test.mjs'
+      - 'tests/fixtures/events/**'
       - 'scripts/apply-event-retention.mjs'
       - '.github/workflows/update-events.yml'
   schedule:
@@ -23,6 +26,8 @@ jobs:
           node-version: '20'
       - name: Apply Events retention and lifecycle contract
         run: node scripts/apply-event-retention.mjs
+      - name: Verify event sources and merging
+        run: node --test tests/event-sources.test.mjs
       - name: Refresh UK event feed
         run: node scripts/update-events.mjs
       - name: Validate Events JavaScript

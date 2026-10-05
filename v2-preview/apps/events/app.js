@@ -130,7 +130,7 @@
   }
   function organiserIdentity(value){
     if(typeof value==='string'){const name=aliasOrganiserLabel(value);return name?`organiser:${name.toLowerCase().replace(/\s+/g,' ')}`:null}
-    if(!value||typeof value!=='object')return null;const id=value.organiserId||value.organizerId||value.leagueId||value.shopId;if(id)return `organiser:${value.source||'local'}:${id}`;
+    if(!value||typeof value!=='object')return null;const id=value.organiserId||value.organizerId||value.leagueId||value.shopId;if(id)return `organiser:${value.organiserSource||value.source||'local'}:${id}`;
     const name=value.scope==='local'?organiserName(value):aliasOrganiserLabel(value.name||value.organiser),canonical=aliasOrganiserLabel(name);return canonical?`organiser:${canonical.toLowerCase().replace(/\s+/g,' ')}`:null;
   }
   function organiserRowName(row){return displayOrganiserLabel(typeof row==='string'?row:(row&&row.name)||(row&&row.organiser)||'Saved organiser')}
@@ -171,7 +171,7 @@
   function toast(message){els.toast.textContent=message;els.toast.classList.remove('hidden');clearTimeout(els.toast._timer);els.toast._timer=setTimeout(()=>els.toast.classList.add('hidden'),2100)}
   function showError(message){els.error.textContent=message;els.error.classList.toggle('hidden',!message)}
   function setLoading(on){els.loading.classList.toggle('hidden',!on)}
-  function freshnessInfo(){if(!dataset||!dataset.lastSuccessfulUpdate)return {label:'Update time unavailable',stale:true};const d=new Date(dataset.lastSuccessfulUpdate);if(Number.isNaN(d.getTime()))return {label:'Update time unavailable',stale:true};const hours=(Date.now()-d.getTime())/3600000;const label=`Updated ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})} ${d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}`;return {label,stale:hours>36}}
+  function freshnessInfo(){if(!dataset||!dataset.lastSuccessfulUpdate)return {label:'Update time unavailable',stale:true};const d=new Date(dataset.lastSuccessfulUpdate);if(Number.isNaN(d.getTime()))return {label:'Update time unavailable',stale:true};const hours=(Date.now()-d.getTime())/3600000;const label=`Updated ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})} ${d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}`;return {label,stale:dataset.status==='partial'||hours>36}}
   function renderSourceStatus(){const info=freshnessInfo(),dot=els.sourcePill.querySelector('.source-dot');dot.classList.toggle('good',!info.stale);dot.classList.toggle('stale',info.stale);els.sourcePill.querySelector('span:last-child').textContent=info.stale?'Event data may be stale':'Event data current';els.freshness.textContent=info.label}
 
   function nearbyEvents(){

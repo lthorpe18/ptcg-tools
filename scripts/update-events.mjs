@@ -1,81 +1,45 @@
 import fs from 'node:fs/promises';
+import {pathToFileURL} from 'node:url';
+import {fetchPokedata,fetchBattlefields,mergeEvents} from './event-sources.mjs';
 
 const OUTPUT=new URL('../v2-preview/data/events.json',import.meta.url);
-const POKEDATA='https://www.pokedata.ovh/events/api';
-const TYPES=['cups','challenges','pre'];
-const SEEDS=[
-  {name:'Great Britain',latitude:54.5,longitude:-2.5,radiusMiles:360},
-  {name:'Northern Ireland',latitude:54.6,longitude:-5.93,radiusMiles:120}
-];
-
-function isoDate(date){return date.toISOString().slice(0,10)}
-function horizonDate(from){const d=new Date(from);d.setUTCMonth(d.getUTCMonth()+6);return d}
-function nullable(value){const text=String(value??'').trim();return text||null}
-function numberOrNull(value){const n=Number(value);return Number.isFinite(n)?n:null}
-function startParts(raw){
-  const when=nullable(raw.when);
-  if(when){const m=when.match(/^(\d{4}-\d{2}-\d{2})(?:[ T](\d{2}:\d{2}(?::\d{2})?))?/);if(m)return {date:m[1],time:m[2]||null}}
-  const date=nullable(raw.date)||nullable(raw.start_date)||nullable(raw.startDate);
-  const time=nullable(raw.time)||nullable(raw.start_time)||nullable(raw.startTime);
-  return {date,time};
-}
-function isUK(raw){
-  const country=String(raw.country||raw.country_code||'').trim().toLowerCase();
-  if(['gb','uk','gbr','united kingdom','great britain'].includes(country))return true;
-  const region=String(raw.state||raw.region||'').trim().toLowerCase();
-  if(['england','scotland','wales','cymru / wales','northern ireland'].includes(region))return true;
-  const address=String(raw.street_address||raw.address||'').toUpperCase();
-  return /(?:\bUK\b|\bGB\b|UNITED KINGDOM|GREAT BRITAIN)\s*$/.test(address);
-}
-function typeName(raw,fallback){
-  const supplied=nullable(raw.type);
-  if(supplied)return supplied.replace(/^Pre Release$/i,'Prerelease');
-  return fallback==='cups'?'League Cup':fallback==='challenges'?'League Challenge':'Prerelease';
-}
-function normalise(raw,fallbackType){
-  const sourceId=nullable(raw.guid)||nullable(raw.id);if(!sourceId)return null;
-  const {date,time}=startParts(raw);if(!date)return null;
-  const contact=raw.contact_data&&typeof raw.contact_data==='object'?raw.contact_data:{};
-  const organiserId=nullable(raw.organiser_id)||nullable(raw.organizer_id)||nullable(raw.league_id)||nullable(raw.league_guid)||nullable(raw.league)||nullable(raw.shop_id)||nullable(raw.shop_guid);
-  const organiser=nullable(raw.organiser)||nullable(raw.organizer)||nullable(raw.league_name);
-  return {
-    id:`pokedata:${sourceId}`,source:'pokedata',sourceId,scope:'local',type:typeName(raw,fallbackType),
-    name:nullable(raw.name)||nullable(raw.shop)||'Pokémon TCG event',venue:nullable(raw.shop),organiser,organiserId,
-    startDate:date,startTime:time,endDate:null,endTime:null,address:nullable(raw.street_address)||nullable(raw.address),
-    city:nullable(raw.city),region:nullable(raw.state)||nullable(raw.region),postcode:nullable(raw.postal_code)||nullable(raw.postcode),country:nullable(raw.country)||'GB',
-    latitude:numberOrNull(raw.latitude),longitude:numberOrNull(raw.longitude),distanceFromSeedMiles:null,cost:nullable(raw.cost),status:nullable(raw.status),
-    officialUrl:nullable(raw.pokemon_url),registrationUrl:nullable(raw.registration_url)||nullable(contact.Registration)||nullable(contact.registration),
-    sourceUrl:'https://www.pokedata.ovh/events/',secondarySourceUrl:null,details:nullable(contact.Details)||nullable(raw.details)
-  };
-}
-async function fetchJson(url){
-  const response=await fetch(url,{headers:{'user-agent':'PTCG-Tools event updater (GitHub Actions)'}});
-  if(!response.ok)throw new Error(`${response.status} ${response.statusText} for ${url}`);
-  const data=await response.json();if(!Array.isArray(data))throw new Error(`Unexpected Pokédata payload for ${url}`);return data;
-}
-
-const now=new Date(),today=isoDate(now),horizon=isoDate(horizonDate(now));
-const existing=JSON.parse(await fs.readFile(OUTPUT,'utf8'));
-const collected=new Map(),queries=[];
-for(const seed of SEEDS){
-  for(const tournamentType of TYPES){
-    const url=`${POKEDATA}/_tcg/${tournamentType}/_latitude/${seed.latitude}/_longitude/${seed.longitude}/_radius/${seed.radiusMiles}/_unit/mi/_start/${today}`;
-    const rows=await fetchJson(url);let accepted=0;
-    for(const raw of rows){
-      if(!isUK(raw))continue;
-      const event=normalise(raw,tournamentType);if(!event||event.startDate<today||event.startDate>horizon)continue;
-      collected.set(event.id,event);accepted++;
-    }
-    queries.push({seed:seed.name,type:tournamentType,radiusMiles:seed.radiusMiles,returned:rows.length,accepted});
+export async function updateEvents(existing,{now=new Date(),fetcher=fetch}={}){
+  const verifiedAt=now.toISOString(),today=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
+  const future=new Date(`${today}T12:00:00Z`);future.setUTCMonth(future.getUTCMonth()+6);const horizon=future.toISOString().slice(0,10);
+  const previous=(existing.events||[]).filter(e=>e.scope==='local'&&e.startDate>=today&&e.startDate<=horizon);
+  const adapters={},errors=[];
+  function cached(name,failedUrls=null){
+    return previous.filter(e=>(e.sources||[e.source]).includes(name)&&(!failedUrls||failedUrls.has(e.registrationUrl)||failedUrls.has(e.secondarySourceUrl)||failedUrls.has(e.sourceUrl))).map(e=>{
+      const sourceId=e.sourceIds?.[name]||(e.source===name?e.sourceId:null);
+      return {...e,id:`${name}:${sourceId}`,source:name,sourceId,sources:[name],sourceIds:{[name]:sourceId},lastVerifiedAt:{[name]:e.lastVerifiedAt?.[name]||existing.lastSuccessfulUpdate},staleSources:[name]};
+    });
   }
+  async function readSource(name,operation){
+    try{
+      const result=await operation();adapters[name]={...result.diagnostics,lastAttemptedUpdate:verifiedAt};
+      if(result.diagnostics.status==='partial'){
+        errors.push(name);const successful=new Set(result.events.map(e=>e.id)),failedUrls=new Set(result.diagnostics.rejectedSamples.map(e=>e.url));
+        result.events.push(...cached(name,failedUrls).filter(e=>!successful.has(e.id)));
+        adapters[name].lastSuccessfulUpdate=existing.sources?.local?.adapters?.[name]?.lastSuccessfulUpdate||null;
+      }
+      return result.events;
+    }catch(error){
+      errors.push(name);const previousMeta=existing.sources?.local?.adapters?.[name];
+      adapters[name]={...previousMeta,provider:name,status:'error',lastAttemptedUpdate:verifiedAt,error:String(error.message),lastSuccessfulUpdate:previousMeta?.lastSuccessfulUpdate||(name==='pokedata'?existing.lastSuccessfulUpdate:null)};
+      return cached(name);
+    }
+  }
+  const pokedata=await readSource('pokedata',()=>fetchPokedata({today,horizon,verifiedAt,fetcher}));
+  const battlefields=await readSource('battlefields',()=>fetchBattlefields({today,horizon,verifiedAt,known:[...pokedata,...previous],fetcher}));
+  if(errors.length===2&&adapters.pokedata.status==='error'&&adapters.battlefields.status==='error')throw new Error(`Both event sources failed: ${JSON.stringify(adapters)}`);
+  const merged=mergeEvents(pokedata,battlefields,previous);
+  const local=[...new Map(merged.events.map(e=>[e.id,e])).values()].sort((a,b)=>`${a.startDate} ${a.startTime||''} ${a.id}`.localeCompare(`${b.startDate} ${b.startTime||''} ${b.id}`));
+  const majors=(existing.events||[]).filter(e=>e.scope==='major');
+  return {...existing,schemaVersion:5,status:errors.length?'partial':'ok',lastAttemptedUpdate:verifiedAt,lastSuccessfulUpdate:errors.length?existing.lastSuccessfulUpdate:verifiedAt,eventCount:local.length+majors.length,
+    sources:{...(existing.sources||{}),local:{provider:'multi-source',ingestionVersion:2,providers:['pokedata','battlefields'],url:'https://www.pokedata.ovh/events/',coverage:'United Kingdom',retention:{past:'none',futureMonths:6},adapters,merge:merged.diagnostics}},events:[...local,...majors]};
 }
-const local=[...collected.values()].sort((a,b)=>`${a.startDate} ${a.startTime||''}`.localeCompare(`${b.startDate} ${b.startTime||''}`));
-const majors=(existing.events||[]).filter(event=>event&&event.scope==='major');
-const generatedAt=new Date().toISOString();
-const output={
-  ...existing,schemaVersion:5,status:'ok',lastAttemptedUpdate:generatedAt,lastSuccessfulUpdate:generatedAt,eventCount:local.length+majors.length,
-  sources:{...(existing.sources||{}),local:{provider:'pokedata',url:'https://www.pokedata.ovh/events/',coverage:'United Kingdom',retention:{past:'none',futureMonths:6},queries}},
-  events:[...local,...majors]
-};
-await fs.writeFile(OUTPUT,JSON.stringify(output,null,2)+'\n');
-console.log(`Wrote ${local.length} UK local events through ${horizon}; retained ${majors.length} major events.`);
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
+  const existing=JSON.parse(await fs.readFile(OUTPUT,'utf8')),output=await updateEvents(existing);
+  const temporary=new URL('./events.json.tmp',OUTPUT);await fs.writeFile(temporary,JSON.stringify(output,null,2)+'\n');await fs.rename(temporary,OUTPUT);
+  console.log(`Wrote ${output.events.filter(e=>e.scope==='local').length} UK local events; status ${output.status}; ${JSON.stringify(output.sources.local.merge)}`);
+}
