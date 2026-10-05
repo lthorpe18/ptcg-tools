@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-05T01:15:46.497Z",
+  "generatedAt": "2026-10-05T09:35:51.965Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac2e6ab85920e4d25364085",
-      "source": "limitless",
-      "sourceId": "6ac2e6ab85920e4d25364085",
-      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #13",
-      "url": "https://play.limitlesstcg.com/tournament/6ac2e6ab85920e4d25364085/details",
-      "startAt": "2026-10-05T02:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -259,6 +249,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac316a3245696afb35168d5",
+      "source": "limitless",
+      "sourceId": "6ac316a3245696afb35168d5",
+      "name": "La Techgece Casual #5 [BO1] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac316a3245696afb35168d5/details",
+      "startAt": "2026-10-05T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab69a8e783097f8dcb7059f",
       "source": "limitless",
       "sourceId": "6ab69a8e783097f8dcb7059f",
@@ -394,6 +394,16 @@
       "sourceId": "6ac0904f245696afb3514e16",
       "name": "🇧🇷 Hit Challenge #38 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ac0904f245696afb3514e16/details",
+      "startAt": "2026-10-07T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac3170e245696afb35168d7",
+      "source": "limitless",
+      "sourceId": "6ac3170e245696afb35168d7",
+      "name": "La Techgece Casual #6 [BO1] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3170e245696afb35168d7/details",
       "startAt": "2026-10-07T23:00:00.000Z"
     },
     {
@@ -559,6 +569,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac3175585920e4d25364358",
+      "source": "limitless",
+      "sourceId": "6ac3175585920e4d25364358",
+      "name": "La Techgece Cup #4 [BO3] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3175585920e4d25364358/details",
+      "startAt": "2026-10-09T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac09203245696afb3514e6d",
       "source": "limitless",
       "sourceId": "6ac09203245696afb3514e6d",
@@ -674,6 +694,16 @@
       "sourceId": "6ab9de13783097f8dcb7258f",
       "name": "Sisterhood Showdown #3 💗 Girls & Enbies!",
       "url": "https://play.limitlesstcg.com/tournament/6ab9de13783097f8dcb7258f/details",
+      "startAt": "2026-10-11T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac3179985920e4d25364359",
+      "source": "limitless",
+      "sourceId": "6ac3179985920e4d25364359",
+      "name": "La Techgece Cup #5 [BO3] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3179985920e4d25364359/details",
       "startAt": "2026-10-11T22:00:00.000Z"
     },
     {
