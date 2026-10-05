@@ -1,201 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-05T09:35:51.965Z",
+  "generatedAt": "2026-10-05T19:23:23.372Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abf3e23880ed327106e18e2",
-      "source": "limitless",
-      "sourceId": "6abf3e23880ed327106e18e2",
-      "name": "SEASAC League Cup #4 (SEASON 5) [150 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6abf3e23880ed327106e18e2/details",
-      "startAt": "2026-10-05T11:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ab14c45e905c1db68746f00",
-      "source": "limitless",
-      "sourceId": "6ab14c45e905c1db68746f00",
-      "name": "TurboBlaze Troll Async - Yellow Series - Oct 26",
-      "url": "https://play.limitlesstcg.com/tournament/6ab14c45e905c1db68746f00/details",
-      "startAt": "2026-10-05T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abe7c95880ed327106e0e00",
-      "source": "limitless",
-      "sourceId": "6abe7c95880ed327106e0e00",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6abe7c95880ed327106e0e00/details",
-      "startAt": "2026-10-05T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac2ee1185920e4d253640c4",
-      "source": "limitless",
-      "sourceId": "6ac2ee1185920e4d253640c4",
-      "name": "Pumpkaweekly",
-      "url": "https://play.limitlesstcg.com/tournament/6ac2ee1185920e4d253640c4/details",
-      "startAt": "2026-10-05T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ab277ebf127b1b52c27f7e3",
-      "source": "limitless",
-      "sourceId": "6ab277ebf127b1b52c27f7e3",
-      "name": "⚡Surge's TCG Vault Webcam Play!⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6ab277ebf127b1b52c27f7e3/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "Base–Fossil",
-      "platform": "CAM",
-      "id": "limitless:6abc0795880ed327106df7a5",
-      "source": "limitless",
-      "sourceId": "6abc0795880ed327106df7a5",
-      "name": "October 2026 | Base-Fossil Webcam",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0795880ed327106df7a5/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "Base–Fossil",
-      "platform": "SIM",
-      "id": "limitless:6abc0803783097f8dcb7391a",
-      "source": "limitless",
-      "sourceId": "6abc0803783097f8dcb7391a",
-      "name": "October 2026 | Base-Fossil TCG1",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0803783097f8dcb7391a/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "Base–Fossil",
-      "platform": "CAM",
-      "id": "limitless:6abc083e880ed327106df7a6",
-      "source": "limitless",
-      "sourceId": "6abc083e880ed327106df7a6",
-      "name": "October 2026 | Base-Fossil Point Buy",
-      "url": "https://play.limitlesstcg.com/tournament/6abc083e880ed327106df7a6/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6abc0873880ed327106df7a9",
-      "source": "limitless",
-      "sourceId": "6abc0873880ed327106df7a9",
-      "name": "October 2026 | Base-Fossil 50HP (Ancient Mew)",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0873880ed327106df7a9/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "Base Only",
-      "platform": "CAM",
-      "id": "limitless:6abc09ea880ed327106df7c7",
-      "source": "limitless",
-      "sourceId": "6abc09ea880ed327106df7c7",
-      "name": "October 2026 | Base Set Only",
-      "url": "https://play.limitlesstcg.com/tournament/6abc09ea880ed327106df7c7/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "Base–Fossil",
-      "platform": "CAM",
-      "id": "limitless:6abc0a10880ed327106df7c8",
-      "source": "limitless",
-      "sourceId": "6abc0a10880ed327106df7c8",
-      "name": "October 2026 | Base-Jungle",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0a10880ed327106df7c8/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "Rocket–LC Modified",
-      "platform": "CAM",
-      "id": "limitless:6abc0a23783097f8dcb73924",
-      "source": "limitless",
-      "sourceId": "6abc0a23783097f8dcb73924",
-      "name": "October 2026 | Rocket-LC",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0a23783097f8dcb73924/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "Base–Neo",
-      "platform": "CAM",
-      "id": "limitless:6abc0a3c880ed327106df7c9",
-      "source": "limitless",
-      "sourceId": "6abc0a3c880ed327106df7c9",
-      "name": "October 2026 | Base-Neo Point Buy",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0a3c880ed327106df7c9/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "Base–Neo",
-      "platform": "CAM",
-      "id": "limitless:6abc0a54880ed327106df7ca",
-      "source": "limitless",
-      "sourceId": "6abc0a54880ed327106df7ca",
-      "name": "October 2026 | Base-Neo Point Buy (Hareruya2)",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0a54880ed327106df7ca/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "Pokémon TCG for Game Boy",
-      "platform": "CAM",
-      "id": "limitless:6abc0a68783097f8dcb73926",
-      "source": "limitless",
-      "sourceId": "6abc0a68783097f8dcb73926",
-      "name": "October 2026 | Pokemon TCG Game Boy (NSO)",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0a68783097f8dcb73926/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6abc0a85880ed327106df7cb",
-      "source": "limitless",
-      "sourceId": "6abc0a85880ed327106df7cb",
-      "name": "October 2026 | VS Half Deck",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0a85880ed327106df7cb/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6abc0a9c783097f8dcb73928",
-      "source": "limitless",
-      "sourceId": "6abc0a9c783097f8dcb73928",
-      "name": "October 2026 | WotC GLC",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0a9c783097f8dcb73928/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "e-Card (EXP–SKR)",
-      "platform": "CAM",
-      "id": "limitless:6abc0ab4880ed327106df7cd",
-      "source": "limitless",
-      "sourceId": "6abc0ab4880ed327106df7cd",
-      "name": "October 2026 | e-Card",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0ab4880ed327106df7cd/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
-    {
-      "format": "Prop 15/3",
-      "platform": "CAM",
-      "id": "limitless:6abc0ac6880ed327106df7ce",
-      "source": "limitless",
-      "sourceId": "6abc0ac6880ed327106df7ce",
-      "name": "October 2026 | Base-Gym 15/3",
-      "url": "https://play.limitlesstcg.com/tournament/6abc0ac6880ed327106df7ce/details",
-      "startAt": "2026-10-05T19:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -259,6 +69,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac3d41885920e4d25364786",
+      "source": "limitless",
+      "sourceId": "6ac3d41885920e4d25364786",
+      "name": "PokéLunes por codigos!",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3d41885920e4d25364786/details",
+      "startAt": "2026-10-05T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab69a8e783097f8dcb7059f",
       "source": "limitless",
       "sourceId": "6ab69a8e783097f8dcb7059f",
@@ -279,12 +99,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6aa5d01c38886b36383be23c",
+      "id": "limitless:6ac3f5a685920e4d25364ab9",
       "source": "limitless",
-      "sourceId": "6aa5d01c38886b36383be23c",
-      "name": "CHALLENGE OF DOOM! I will.....",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5d01c38886b36383be23c/details",
-      "startAt": "2026-10-06T03:35:00.000Z"
+      "sourceId": "6ac3f5a685920e4d25364ab9",
+      "name": "🏛💫 Card Temple Weekly Battles #79",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3f5a685920e4d25364ab9/details",
+      "startAt": "2026-10-06T02:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -315,6 +135,16 @@
       "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
       "url": "https://play.limitlesstcg.com/tournament/6ab27720f127b1b52c27f7db/details",
       "startAt": "2026-10-06T18:00:00.000Z"
+    },
+    {
+      "format": "Base–Neo",
+      "platform": "CAM",
+      "id": "limitless:6ac3b87285920e4d253645ed",
+      "source": "limitless",
+      "sourceId": "6ac3b87285920e4d253645ed",
+      "name": "October 2026 | Base-Neo 30HP",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3b87285920e4d253645ed/details",
+      "startAt": "2026-10-06T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -378,6 +208,16 @@
     },
     {
       "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac395ae85920e4d253644b0",
+      "source": "limitless",
+      "sourceId": "6ac395ae85920e4d253644b0",
+      "name": "ASRcristiano # 194 - 60 codes - Road to Nice!",
+      "url": "https://play.limitlesstcg.com/tournament/6ac395ae85920e4d253644b0/details",
+      "startAt": "2026-10-07T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "CAM",
       "id": "limitless:6ab27742f127b1b52c27f7de",
       "source": "limitless",
@@ -385,6 +225,16 @@
       "name": "⚡Surge's TCG Vault Webcam Wednesdays! #24⚡",
       "url": "https://play.limitlesstcg.com/tournament/6ab27742f127b1b52c27f7de/details",
       "startAt": "2026-10-07T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac3bb8f245696afb3516b95",
+      "source": "limitless",
+      "sourceId": "6ac3bb8f245696afb3516b95",
+      "name": "Zard-Pokénight #021",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3bb8f245696afb3516b95/details",
+      "startAt": "2026-10-07T22:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -479,6 +329,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac395d6245696afb3516a5d",
+      "source": "limitless",
+      "sourceId": "6ac395d6245696afb3516a5d",
+      "name": "ASRcristiano # 195 - 60 codes - Road to Nice!",
+      "url": "https://play.limitlesstcg.com/tournament/6ac395d6245696afb3516a5d/details",
+      "startAt": "2026-10-08T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abea067880ed327106e10d2",
       "source": "limitless",
       "sourceId": "6abea067880ed327106e10d2",
@@ -545,6 +405,16 @@
       "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #26",
       "url": "https://play.limitlesstcg.com/tournament/6ab27786f127b1b52c27f7e0/details",
       "startAt": "2026-10-09T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac395f4245696afb3516a5e",
+      "source": "limitless",
+      "sourceId": "6ac395f4245696afb3516a5e",
+      "name": "ASRcristiano # 196 - 60 codes - Road to Nice!",
+      "url": "https://play.limitlesstcg.com/tournament/6ac395f4245696afb3516a5e/details",
+      "startAt": "2026-10-09T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -759,12 +629,42 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aa5d01c38886b36383be23c",
+      "source": "limitless",
+      "sourceId": "6aa5d01c38886b36383be23c",
+      "name": "CHALLENGE OF DOOM! I will.....",
+      "url": "https://play.limitlesstcg.com/tournament/6aa5d01c38886b36383be23c/details",
+      "startAt": "2026-10-13T03:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5a6f2f1243e65f97ff28f",
       "source": "limitless",
       "sourceId": "6aa5a6f2f1243e65f97ff28f",
       "name": "🇧🇷 Hit Cup #20 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6aa5a6f2f1243e65f97ff28f/details",
       "startAt": "2026-10-14T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac3bf1a85920e4d25364635",
+      "source": "limitless",
+      "sourceId": "6ac3bf1a85920e4d25364635",
+      "name": "Pudding Weekly #16 | Louisville Lock in Time",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3bf1a85920e4d25364635/details",
+      "startAt": "2026-10-14T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac3bc08245696afb3516ba6",
+      "source": "limitless",
+      "sourceId": "6ac3bc08245696afb3516ba6",
+      "name": "Zard-Pokénight #022",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3bc08245696afb3516ba6/details",
+      "startAt": "2026-10-14T22:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -869,6 +769,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac3bc7a245696afb3516baa",
+      "source": "limitless",
+      "sourceId": "6ac3bc7a245696afb3516baa",
+      "name": "Zard-Pokénight #023",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3bc7a245696afb3516baa/details",
+      "startAt": "2026-10-21T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac0875985920e4d2536288c",
       "source": "limitless",
       "sourceId": "6ac0875985920e4d2536288c",
@@ -945,6 +855,16 @@
       "name": "🆓 Domino Arena Free | Temporada 3 | Semana 7 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6ac29c00245696afb35163ef/details",
       "startAt": "2026-10-27T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac3bcc885920e4d25364626",
+      "source": "limitless",
+      "sourceId": "6ac3bcc885920e4d25364626",
+      "name": "Zard-Pokénight #024",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3bcc885920e4d25364626/details",
+      "startAt": "2026-10-28T22:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -1299,6 +1219,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac3d40a245696afb3516cdc",
+      "source": "limitless",
+      "sourceId": "6ac3d40a245696afb3516cdc",
+      "name": "Turtwig Den Revival Series Season 2 Challenge 11",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3d40a245696afb3516cdc/details",
+      "startAt": "2026-12-11T17:05:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa2d2cbab080c8c95800255",
       "source": "limitless",
       "sourceId": "6aa2d2cbab080c8c95800255",
@@ -1349,6 +1279,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac3d49b85920e4d2536478f",
+      "source": "limitless",
+      "sourceId": "6ac3d49b85920e4d2536478f",
+      "name": "Turtwig Den Revival Series Season 2 Challenge 12",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3d49b85920e4d2536478f/details",
+      "startAt": "2026-12-18T17:05:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aad8518f127b1b52c27c306",
       "source": "limitless",
       "sourceId": "6aad8518f127b1b52c27c306",
@@ -1387,6 +1327,16 @@
       "startAt": "2026-12-25T08:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac3d4b7245696afb3516ce5",
+      "source": "limitless",
+      "sourceId": "6ac3d4b7245696afb3516ce5",
+      "name": "Turtwig Den Revival Series Season 2 Challenge 13",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3d4b7245696afb3516ce5/details",
+      "startAt": "2026-12-25T17:05:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6ac08e79245696afb3514e0f",
@@ -1415,6 +1365,16 @@
       "name": "Oceania Open Invitational Championships! Season 4",
       "url": "https://play.limitlesstcg.com/tournament/6ac0885285920e4d25362896/details",
       "startAt": "2027-01-01T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac3d4d285920e4d25364794",
+      "source": "limitless",
+      "sourceId": "6ac3d4d285920e4d25364794",
+      "name": "Turtwig Den Revival Series Season 2 Cup 3",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3d4d285920e4d25364794/details",
+      "startAt": "2027-01-01T17:05:00.000Z"
     },
     {
       "format": null,
