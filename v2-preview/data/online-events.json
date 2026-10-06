@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-06T16:55:45.588Z",
+  "generatedAt": "2026-10-06T22:47:26.909Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab27720f127b1b52c27f7db",
-      "source": "limitless",
-      "sourceId": "6ab27720f127b1b52c27f7db",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6ab27720f127b1b52c27f7db/details",
-      "startAt": "2026-10-06T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac5116c85920e4d2536555d",
-      "source": "limitless",
-      "sourceId": "6ac5116c85920e4d2536555d",
-      "name": "👑CrownOfSpain 👑 #10 (10€ paypal)",
-      "url": "https://play.limitlesstcg.com/tournament/6ac5116c85920e4d2536555d/details",
-      "startAt": "2026-10-06T18:00:00.000Z"
-    },
-    {
-      "format": "Base–Neo",
-      "platform": "CAM",
-      "id": "limitless:6ac3b87285920e4d253645ed",
-      "source": "limitless",
-      "sourceId": "6ac3b87285920e4d253645ed",
-      "name": "October 2026 | Base-Neo 30HP",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3b87285920e4d253645ed/details",
-      "startAt": "2026-10-06T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac09b4785920e4d253628d7",
-      "source": "limitless",
-      "sourceId": "6ac09b4785920e4d253628d7",
-      "name": "🇧🇷 Semanal • Hit Belém #2 | Pokémon TCG",
-      "url": "https://play.limitlesstcg.com/tournament/6ac09b4785920e4d253628d7/details",
-      "startAt": "2026-10-06T22:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGL",
@@ -79,6 +39,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac573d085920e4d25365944",
+      "source": "limitless",
+      "sourceId": "6ac573d085920e4d25365944",
+      "name": "Pudding Weekly #16 | The Forgotten One",
+      "url": "https://play.limitlesstcg.com/tournament/6ac573d085920e4d25365944/details",
+      "startAt": "2026-10-07T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abeaffb783097f8dcb7554d",
       "source": "limitless",
       "sourceId": "6abeaffb783097f8dcb7554d",
@@ -95,6 +65,16 @@
       "name": "SEASAC League Challenge #27 (SEASON 5) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6abf3e44880ed327106e18e3/details",
       "startAt": "2026-10-07T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac54c8385920e4d25365808",
+      "source": "limitless",
+      "sourceId": "6ac54c8385920e4d25365808",
+      "name": "Team Corna Weekly September's #9",
+      "url": "https://play.limitlesstcg.com/tournament/6ac54c8385920e4d25365808/details",
+      "startAt": "2026-10-07T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -655,6 +635,16 @@
       "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 5 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6ac2a7b985920e4d25363eaa/details",
       "startAt": "2026-10-15T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac5488285920e4d253657e8",
+      "source": "limitless",
+      "sourceId": "6ac5488285920e4d253657e8",
+      "name": "TWISTER TEAM | ROAD TO CHAMPIONS! #1",
+      "url": "https://play.limitlesstcg.com/tournament/6ac5488285920e4d253657e8/details",
+      "startAt": "2026-10-15T18:00:00.000Z"
     },
     {
       "format": "Standard",
