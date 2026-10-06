@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-06T01:26:49.145Z",
+  "generatedAt": "2026-10-06T09:24:25.643Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3f5a685920e4d25364ab9",
-      "source": "limitless",
-      "sourceId": "6ac3f5a685920e4d25364ab9",
-      "name": "🏛💫 Card Temple Weekly Battles #79",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3f5a685920e4d25364ab9/details",
-      "startAt": "2026-10-06T02:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -545,6 +535,16 @@
       "name": "⚡Surge's TCG Vault Webcam Play!⚡",
       "url": "https://play.limitlesstcg.com/tournament/6ab27807e905c1db68747ad6/details",
       "startAt": "2026-10-12T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac3f54d85920e4d25364ab2",
+      "source": "limitless",
+      "sourceId": "6ac3f54d85920e4d25364ab2",
+      "name": "Sunny's Weekly #277 Judge Appreciation Week!",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3f54d85920e4d25364ab2/details",
+      "startAt": "2026-10-12T22:05:00.000Z"
     },
     {
       "format": null,
