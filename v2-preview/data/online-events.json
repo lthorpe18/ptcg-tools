@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-06T09:24:25.643Z",
+  "generatedAt": "2026-10-06T16:55:45.588Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,31 +9,21 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6abf3e36783097f8dcb75d2c",
-      "source": "limitless",
-      "sourceId": "6abf3e36783097f8dcb75d2c",
-      "name": "SEASAC League Challenge #26 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6abf3e36783097f8dcb75d2c/details",
-      "startAt": "2026-10-06T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": null,
-      "id": "limitless:6ac2d5d885920e4d25364008",
-      "source": "limitless",
-      "sourceId": "6ac2d5d885920e4d25364008",
-      "name": "Semanal Liga Nova 🐕‍🦺",
-      "url": "https://play.limitlesstcg.com/tournament/6ac2d5d885920e4d25364008/details",
-      "startAt": "2026-10-06T15:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ab27720f127b1b52c27f7db",
       "source": "limitless",
       "sourceId": "6ab27720f127b1b52c27f7db",
       "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
       "url": "https://play.limitlesstcg.com/tournament/6ab27720f127b1b52c27f7db/details",
+      "startAt": "2026-10-06T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac5116c85920e4d2536555d",
+      "source": "limitless",
+      "sourceId": "6ac5116c85920e4d2536555d",
+      "name": "👑CrownOfSpain 👑 #10 (10€ paypal)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac5116c85920e4d2536555d/details",
       "startAt": "2026-10-06T18:00:00.000Z"
     },
     {
@@ -289,6 +279,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac5063685920e4d25365516",
+      "source": "limitless",
+      "sourceId": "6ac5063685920e4d25365516",
+      "name": "Rare Candy Club Blitz #3 (30TH LEGAL)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac5063685920e4d25365516/details",
+      "startAt": "2026-10-09T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abfb4c785920e4d25361b54",
       "source": "limitless",
       "sourceId": "6abfb4c785920e4d25361b54",
@@ -507,6 +507,16 @@
       "startAt": "2026-10-11T01:00:00.000Z"
     },
     {
+      "format": "NAIC 2019 (SUM–UNB)",
+      "platform": "SIM",
+      "id": "limitless:6ac4e6b085920e4d25365404",
+      "source": "limitless",
+      "sourceId": "6ac4e6b085920e4d25365404",
+      "name": "C-C Colosseum #20 - 2019 NAIC (SUM-UNB)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac4e6b085920e4d25365404/details",
+      "startAt": "2026-10-11T01:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ab9de13783097f8dcb7258f",
@@ -595,6 +605,16 @@
       "name": "CHALLENGE OF DOOM! I will.....",
       "url": "https://play.limitlesstcg.com/tournament/6aa5d01c38886b36383be23c/details",
       "startAt": "2026-10-13T03:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac51e2b245696afb351798d",
+      "source": "limitless",
+      "sourceId": "6ac51e2b245696afb351798d",
+      "name": "👑CrownOfSpain 👑 #11 (10€ paypal)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac51e2b245696afb351798d/details",
+      "startAt": "2026-10-13T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -1345,6 +1365,16 @@
       "name": "Championships - Budget Build Battles Season 9",
       "url": "https://play.limitlesstcg.com/tournament/6ac08e99245696afb3514e10/details",
       "startAt": "2027-01-02T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac51749245696afb3517965",
+      "source": "limitless",
+      "sourceId": "6ac51749245696afb3517965",
+      "name": "Nightshades Fall Series Main Event $50 GTD",
+      "url": "https://play.limitlesstcg.com/tournament/6ac51749245696afb3517965/details",
+      "startAt": "2027-01-03T20:30:00.000Z"
     },
     {
       "format": "Standard",
