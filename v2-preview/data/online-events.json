@@ -1,101 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-05T19:23:23.372Z",
+  "generatedAt": "2026-10-06T01:26:49.145Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac16503245696afb35158ac",
-      "source": "limitless",
-      "sourceId": "6ac16503245696afb35158ac",
-      "name": "PHOENIX ONLINE 2°",
-      "url": "https://play.limitlesstcg.com/tournament/6ac16503245696afb35158ac/details",
-      "startAt": "2026-10-05T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abaccb3783097f8dcb72d09",
-      "source": "limitless",
-      "sourceId": "6abaccb3783097f8dcb72d09",
-      "name": "Sunny's Weekly #276 Carved from Stone",
-      "url": "https://play.limitlesstcg.com/tournament/6abaccb3783097f8dcb72d09/details",
-      "startAt": "2026-10-05T22:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa87a0af1243e65f980190d",
-      "source": "limitless",
-      "sourceId": "6aa87a0af1243e65f980190d",
-      "name": "#Brazil Limitless Trainer #006",
-      "url": "https://play.limitlesstcg.com/tournament/6aa87a0af1243e65f980190d/details",
-      "startAt": "2026-10-05T22:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6abe7dff783097f8dcb751a3",
-      "source": "limitless",
-      "sourceId": "6abe7dff783097f8dcb751a3",
-      "name": "💰 Control Players Unite's Pauper Tournament! #42",
-      "url": "https://play.limitlesstcg.com/tournament/6abe7dff783097f8dcb751a3/details",
-      "startAt": "2026-10-05T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac08d9f245696afb3514e00",
-      "source": "limitless",
-      "sourceId": "6ac08d9f245696afb3514e00",
-      "name": "🇧🇷 Hit Challenge #36 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ac08d9f245696afb3514e00/details",
-      "startAt": "2026-10-05T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac316a3245696afb35168d5",
-      "source": "limitless",
-      "sourceId": "6ac316a3245696afb35168d5",
-      "name": "La Techgece Casual #5 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ac316a3245696afb35168d5/details",
-      "startAt": "2026-10-05T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3d41885920e4d25364786",
-      "source": "limitless",
-      "sourceId": "6ac3d41885920e4d25364786",
-      "name": "PokéLunes por codigos!",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3d41885920e4d25364786/details",
-      "startAt": "2026-10-05T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab69a8e783097f8dcb7059f",
-      "source": "limitless",
-      "sourceId": "6ab69a8e783097f8dcb7059f",
-      "name": "Nightshades Monday Pre Season",
-      "url": "https://play.limitlesstcg.com/tournament/6ab69a8e783097f8dcb7059f/details",
-      "startAt": "2026-10-06T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac2958585920e4d25363dda",
-      "source": "limitless",
-      "sourceId": "6ac2958585920e4d25363dda",
-      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 4 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6ac2958585920e4d25363dda/details",
-      "startAt": "2026-10-06T00:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -179,6 +89,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac4144085920e4d25364c31",
+      "source": "limitless",
+      "sourceId": "6ac4144085920e4d25364c31",
+      "name": "Last Prize Series S4 #3",
+      "url": "https://play.limitlesstcg.com/tournament/6ac4144085920e4d25364c31/details",
+      "startAt": "2026-10-06T23:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abeaffb783097f8dcb7554d",
       "source": "limitless",
       "sourceId": "6abeaffb783097f8dcb7554d",
@@ -225,6 +145,16 @@
       "name": "⚡Surge's TCG Vault Webcam Wednesdays! #24⚡",
       "url": "https://play.limitlesstcg.com/tournament/6ab27742f127b1b52c27f7de/details",
       "startAt": "2026-10-07T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac4196e85920e4d25364c51",
+      "source": "limitless",
+      "sourceId": "6ac4196e85920e4d25364c51",
+      "name": "Hideout TCG MID-WEEK Meta NO DRAGAPULT ALLOWED",
+      "url": "https://play.limitlesstcg.com/tournament/6ac4196e85920e4d25364c51/details",
+      "startAt": "2026-10-07T21:20:00.000Z"
     },
     {
       "format": "Standard",
@@ -418,6 +348,26 @@
     },
     {
       "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac3f9ba85920e4d25364acd",
+      "source": "limitless",
+      "sourceId": "6ac3f9ba85920e4d25364acd",
+      "name": "LUDUSP - Pokémon - Liga semanal #2",
+      "url": "https://play.limitlesstcg.com/tournament/6ac3f9ba85920e4d25364acd/details",
+      "startAt": "2026-10-09T21:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac419c7245696afb3517125",
+      "source": "limitless",
+      "sourceId": "6ac419c7245696afb3517125",
+      "name": "FULL BENCH FRIDAYS PTCGL $$CASH PRIZE$$#15",
+      "url": "https://play.limitlesstcg.com/tournament/6ac419c7245696afb3517125/details",
+      "startAt": "2026-10-09T21:15:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "CAM",
       "id": "limitless:6ac0523f85920e4d25362589",
       "source": "limitless",
@@ -525,6 +475,16 @@
       "name": "Lhama Champs",
       "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
       "startAt": "2026-10-10T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ac419f4245696afb3517128",
+      "source": "limitless",
+      "sourceId": "6ac419f4245696afb3517128",
+      "name": "The Hideout:Cash Is King PTCG Webcam Event $10 #11",
+      "url": "https://play.limitlesstcg.com/tournament/6ac419f4245696afb3517128/details",
+      "startAt": "2026-10-10T20:15:00.000Z"
     },
     {
       "format": null,
