@@ -4,7 +4,7 @@
   "sourceUrl": "https://labs.limitlesstcg.com",
   "format": "TEF-30C",
   "formatStart": "2026-09-24T00:00:00.000Z",
-  "generatedAt": "2026-10-06T12:13:59.591Z",
+  "generatedAt": "2026-10-07T12:00:52.637Z",
   "events": [
     {
       "id": "0075",
@@ -838,7 +838,7 @@
         },
         {
           "archetype": "Dragapult",
-          "placing": 33,
+          "placing": 32,
           "player": "Miguel Angel Rojas Duk",
           "tournament": "Regional Championship Recife",
           "eventId": "0075",
@@ -16326,7 +16326,7 @@
         },
         {
           "archetype": "Ceruledge",
-          "placing": 32,
+          "placing": 33,
           "player": "Guilherme Vitoratti",
           "tournament": "Regional Championship Recife",
           "eventId": "0075",
@@ -26119,12 +26119,12 @@
         },
         {
           "name": "Lopunny Dusknoir",
-          "entries": 51,
-          "share": 1.83,
-          "wins": 216,
-          "losses": 205,
-          "ties": 42,
-          "winRate": 49.68,
+          "entries": 53,
+          "share": 1.9,
+          "wins": 223,
+          "losses": 213,
+          "ties": 43,
+          "winRate": 49.55,
           "url": "https://labs.limitlesstcg.com/0074/decks/lopunny-dusknoir"
         },
         {
@@ -26278,16 +26278,6 @@
           "url": "https://labs.limitlesstcg.com/0074/decks/hops-trevenant"
         },
         {
-          "name": "Mew Box",
-          "entries": 14,
-          "share": 0.5,
-          "wins": 65,
-          "losses": 55,
-          "ties": 11,
-          "winRate": 52.42,
-          "url": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
           "name": "Mega Venusaur",
           "entries": 12,
           "share": 0.43,
@@ -26296,6 +26286,16 @@
           "ties": 20,
           "winRate": 34.54,
           "url": "https://labs.limitlesstcg.com/0074/decks/mega-venusaur-ex"
+        },
+        {
+          "name": "Mew Box",
+          "entries": 12,
+          "share": 0.43,
+          "wins": 58,
+          "losses": 47,
+          "ties": 10,
+          "winRate": 53.33,
+          "url": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
         },
         {
           "name": "Toxtricity Box",
@@ -61372,6 +61372,22 @@
         },
         {
           "archetype": "Lopunny Dusknoir",
+          "placing": 549,
+          "player": "René Wolff",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 5,
+            "losses": 3,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1501/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/lopunny-dusknoir"
+        },
+        {
+          "archetype": "Lopunny Dusknoir",
           "placing": 593,
           "player": "Karlis Simanovics",
           "tournament": "Regional Championship Frankfurt",
@@ -61784,6 +61800,22 @@
             "ties": 2
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1427/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/lopunny-dusknoir"
+        },
+        {
+          "archetype": "Lopunny Dusknoir",
+          "placing": 2099,
+          "player": "Paul Stoll",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 2,
+            "losses": 5,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/0773/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/lopunny-dusknoir"
         },
         {
@@ -68011,230 +68043,6 @@
           "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/hops-trevenant"
         },
         {
-          "archetype": "Mew Box",
-          "placing": 92,
-          "player": "Mees Brenninkmeijer",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 9,
-            "losses": 3,
-            "ties": 2
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1896/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 149,
-          "player": "Jelle van Kampen",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 9,
-            "losses": 4,
-            "ties": 1
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1863/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 186,
-          "player": "Arthur Trutzschler",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 8,
-            "losses": 3,
-            "ties": 3
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1961/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 288,
-          "player": "Laura Teske",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 8,
-            "losses": 5,
-            "ties": 1
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2550/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 549,
-          "player": "René Wolff",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 5,
-            "losses": 3,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1501/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 985,
-          "player": "Krisztián Kiss",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 4,
-            "losses": 3,
-            "ties": 1
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2637/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 1127,
-          "player": "Daichi Tamai",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 4,
-            "losses": 4,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/0964/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 1716,
-          "player": "Patrick Buhse",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 3,
-            "losses": 3,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2460/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 1739,
-          "player": "Emil Sklenar",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 3,
-            "losses": 4,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1298/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 1748,
-          "player": "Alessandro Meyer",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 3,
-            "losses": 4,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2140/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 1791,
-          "player": "Lukas Eßer",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 3,
-            "losses": 5,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2204/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 2099,
-          "player": "Paul Stoll",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 2,
-            "losses": 5,
-            "ties": 1
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/0773/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 2143,
-          "player": "Riley Robinson",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 2,
-            "losses": 5,
-            "ties": 1
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1641/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 2205,
-          "player": "David Meulenbroeks",
-          "tournament": "Regional Championship Frankfurt",
-          "eventId": "0074",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 2793,
-          "record": {
-            "wins": 2,
-            "losses": 4,
-            "ties": 1
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/0927/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
-        },
-        {
           "archetype": "Mega Venusaur",
           "placing": 503,
           "player": "Peter Seemann",
@@ -68425,6 +68233,198 @@
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2038/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mega-venusaur-ex"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 92,
+          "player": "Mees Brenninkmeijer",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 9,
+            "losses": 3,
+            "ties": 2
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1896/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 149,
+          "player": "Jelle van Kampen",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 9,
+            "losses": 4,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1863/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 186,
+          "player": "Arthur Trutzschler",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 8,
+            "losses": 3,
+            "ties": 3
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1961/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 288,
+          "player": "Laura Teske",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 8,
+            "losses": 5,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2550/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 985,
+          "player": "Krisztián Kiss",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 4,
+            "losses": 3,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2637/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 1127,
+          "player": "Daichi Tamai",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 4,
+            "losses": 4,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/0964/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 1716,
+          "player": "Patrick Buhse",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 3,
+            "losses": 3,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2460/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 1739,
+          "player": "Emil Sklenar",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 3,
+            "losses": 4,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1298/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 1748,
+          "player": "Alessandro Meyer",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 3,
+            "losses": 4,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2140/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 1791,
+          "player": "Lukas Eßer",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 3,
+            "losses": 5,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/2204/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 2143,
+          "player": "Riley Robinson",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 2,
+            "losses": 5,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1641/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 2205,
+          "player": "David Meulenbroeks",
+          "tournament": "Regional Championship Frankfurt",
+          "eventId": "0074",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 2793,
+          "record": {
+            "wins": 2,
+            "losses": 4,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0074/player/0927/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
         },
         {
           "archetype": "Toxtricity Box",
@@ -70655,9 +70655,9 @@
         {
           "a": "Dragapult",
           "b": "Lopunny Dusknoir",
-          "games": 58,
-          "wins": 24,
-          "losses": 34,
+          "games": 64,
+          "wins": 27,
+          "losses": 37,
           "ties": 0
         },
         {
@@ -70758,14 +70758,6 @@
         },
         {
           "a": "Dragapult",
-          "b": "Mew Box",
-          "games": 25,
-          "wins": 8,
-          "losses": 17,
-          "ties": 0
-        },
-        {
-          "a": "Dragapult",
           "b": "Dragapult Dudunsparce",
           "games": 23,
           "wins": 14,
@@ -70778,6 +70770,14 @@
           "games": 19,
           "wins": 7,
           "losses": 12,
+          "ties": 0
+        },
+        {
+          "a": "Dragapult",
+          "b": "Mew Box",
+          "games": 19,
+          "wins": 5,
+          "losses": 14,
           "ties": 0
         },
         {
@@ -71271,8 +71271,8 @@
         {
           "a": "N's Zoroark",
           "b": "Lopunny Dusknoir",
-          "games": 37,
-          "wins": 23,
+          "games": 38,
+          "wins": 24,
           "losses": 14,
           "ties": 0
         },
@@ -71374,18 +71374,18 @@
         },
         {
           "a": "N's Zoroark",
-          "b": "Mew Box",
-          "games": 9,
-          "wins": 8,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "N's Zoroark",
           "b": "Mega Venusaur",
           "games": 8,
           "wins": 2,
           "losses": 6,
+          "ties": 0
+        },
+        {
+          "a": "N's Zoroark",
+          "b": "Mew Box",
+          "games": 8,
+          "wins": 7,
+          "losses": 1,
           "ties": 0
         },
         {
@@ -72335,8 +72335,8 @@
         {
           "a": "Slowking",
           "b": "Lopunny Dusknoir",
-          "games": 39,
-          "wins": 24,
+          "games": 40,
+          "wins": 25,
           "losses": 15,
           "ties": 0
         },
@@ -72471,8 +72471,8 @@
         {
           "a": "Slowking",
           "b": "Mew Box",
-          "games": 10,
-          "wins": 6,
+          "games": 9,
+          "wins": 5,
           "losses": 4,
           "ties": 0
         },
@@ -72839,9 +72839,9 @@
         {
           "a": "Basic Box",
           "b": "Lopunny Dusknoir",
-          "games": 34,
-          "wins": 20,
-          "losses": 14,
+          "games": 36,
+          "wins": 21,
+          "losses": 15,
           "ties": 0
         },
         {
@@ -72950,14 +72950,6 @@
         },
         {
           "a": "Basic Box",
-          "b": "Mew Box",
-          "games": 9,
-          "wins": 4,
-          "losses": 5,
-          "ties": 0
-        },
-        {
-          "a": "Basic Box",
           "b": "Other",
           "games": 8,
           "wins": 6,
@@ -72970,6 +72962,14 @@
           "games": 7,
           "wins": 4,
           "losses": 3,
+          "ties": 0
+        },
+        {
+          "a": "Basic Box",
+          "b": "Mew Box",
+          "games": 7,
+          "wins": 3,
+          "losses": 4,
           "ties": 0
         },
         {
@@ -74447,9 +74447,9 @@
         {
           "a": "Mega Excadrill",
           "b": "Lopunny Dusknoir",
-          "games": 17,
+          "games": 18,
           "wins": 9,
-          "losses": 8,
+          "losses": 9,
           "ties": 0
         },
         {
@@ -74558,14 +74558,6 @@
         },
         {
           "a": "Mega Excadrill",
-          "b": "Mew Box",
-          "games": 6,
-          "wins": 2,
-          "losses": 4,
-          "ties": 0
-        },
-        {
-          "a": "Mega Excadrill",
           "b": "Ethan's Typhlosion",
           "games": 6,
           "wins": 0,
@@ -74575,6 +74567,14 @@
         {
           "a": "Mega Excadrill",
           "b": "Greninja",
+          "games": 5,
+          "wins": 2,
+          "losses": 3,
+          "ties": 0
+        },
+        {
+          "a": "Mega Excadrill",
+          "b": "Mew Box",
           "games": 5,
           "wins": 2,
           "losses": 3,
@@ -75390,6 +75390,14 @@
         },
         {
           "a": "Dhelmise",
+          "b": "Lopunny Dusknoir",
+          "games": 12,
+          "wins": 9,
+          "losses": 3,
+          "ties": 0
+        },
+        {
+          "a": "Dhelmise",
           "b": "Mega Lucario",
           "games": 12,
           "wins": 10,
@@ -75406,26 +75414,10 @@
         },
         {
           "a": "Dhelmise",
-          "b": "Lopunny Dusknoir",
-          "games": 11,
-          "wins": 8,
-          "losses": 3,
-          "ties": 0
-        },
-        {
-          "a": "Dhelmise",
           "b": "Sharpedo Toxtricity",
           "games": 11,
           "wins": 1,
           "losses": 10,
-          "ties": 0
-        },
-        {
-          "a": "Dhelmise",
-          "b": "Mew Box",
-          "games": 10,
-          "wins": 6,
-          "losses": 4,
           "ties": 0
         },
         {
@@ -75442,6 +75434,14 @@
           "games": 9,
           "wins": 4,
           "losses": 5,
+          "ties": 0
+        },
+        {
+          "a": "Dhelmise",
+          "b": "Mew Box",
+          "games": 9,
+          "wins": 5,
+          "losses": 4,
           "ties": 0
         },
         {
@@ -76223,9 +76223,9 @@
         {
           "a": "Crustle",
           "b": "Lopunny Dusknoir",
-          "games": 14,
+          "games": 15,
           "wins": 2,
-          "losses": 12,
+          "losses": 13,
           "ties": 0
         },
         {
@@ -76526,14 +76526,6 @@
         },
         {
           "a": "Crustle",
-          "b": "Mew Box",
-          "games": 1,
-          "wins": 0,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Crustle",
           "b": "Ogerpon Meganium Arboliva",
           "games": 1,
           "wins": 1,
@@ -76695,9 +76687,9 @@
         {
           "a": "Lopunny Dudunsparce",
           "b": "Lopunny Dusknoir",
-          "games": 14,
+          "games": 15,
           "wins": 11,
-          "losses": 3,
+          "losses": 4,
           "ties": 0
         },
         {
@@ -76814,14 +76806,6 @@
         },
         {
           "a": "Lopunny Dudunsparce",
-          "b": "Mew Box",
-          "games": 4,
-          "wins": 1,
-          "losses": 3,
-          "ties": 0
-        },
-        {
-          "a": "Lopunny Dudunsparce",
           "b": "Hop's Trevenant",
           "games": 3,
           "wins": 3,
@@ -76834,6 +76818,14 @@
           "games": 3,
           "wins": 0,
           "losses": 3,
+          "ties": 0
+        },
+        {
+          "a": "Lopunny Dudunsparce",
+          "b": "Mew Box",
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
           "ties": 0
         },
         {
@@ -77558,18 +77550,18 @@
         },
         {
           "a": "Rocket's Honchkrow",
-          "b": "Mega Lucario",
+          "b": "Lopunny Dusknoir",
           "games": 8,
-          "wins": 6,
-          "losses": 2,
+          "wins": 5,
+          "losses": 3,
           "ties": 0
         },
         {
           "a": "Rocket's Honchkrow",
-          "b": "Lopunny Dusknoir",
-          "games": 7,
-          "wins": 4,
-          "losses": 3,
+          "b": "Mega Lucario",
+          "games": 8,
+          "wins": 6,
+          "losses": 2,
           "ties": 0
         },
         {
@@ -77638,18 +77630,18 @@
         },
         {
           "a": "Rocket's Honchkrow",
-          "b": "Mew Box",
-          "games": 4,
-          "wins": 3,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Rocket's Honchkrow",
           "b": "Hop's Trevenant",
           "games": 3,
           "wins": 0,
           "losses": 3,
+          "ties": 0
+        },
+        {
+          "a": "Rocket's Honchkrow",
+          "b": "Mew Box",
+          "games": 3,
+          "wins": 2,
+          "losses": 1,
           "ties": 0
         },
         {
@@ -77831,33 +77823,33 @@
         {
           "a": "Lopunny Dusknoir",
           "b": "Dragapult",
-          "games": 58,
-          "wins": 29,
-          "losses": 29,
+          "games": 64,
+          "wins": 32,
+          "losses": 32,
           "ties": 0
         },
         {
           "a": "Lopunny Dusknoir",
           "b": "Slowking",
-          "games": 39,
+          "games": 40,
           "wins": 15,
-          "losses": 24,
+          "losses": 25,
           "ties": 0
         },
         {
           "a": "Lopunny Dusknoir",
           "b": "N's Zoroark",
-          "games": 37,
+          "games": 38,
           "wins": 13,
-          "losses": 24,
+          "losses": 25,
           "ties": 0
         },
         {
           "a": "Lopunny Dusknoir",
           "b": "Basic Box",
-          "games": 34,
+          "games": 36,
           "wins": 14,
-          "losses": 20,
+          "losses": 22,
           "ties": 0
         },
         {
@@ -77887,8 +77879,8 @@
         {
           "a": "Lopunny Dusknoir",
           "b": "Mega Excadrill",
-          "games": 17,
-          "wins": 7,
+          "games": 18,
+          "wins": 8,
           "losses": 10,
           "ties": 0
         },
@@ -77903,16 +77895,16 @@
         {
           "a": "Lopunny Dusknoir",
           "b": "Crustle",
-          "games": 14,
-          "wins": 11,
+          "games": 15,
+          "wins": 12,
           "losses": 3,
           "ties": 0
         },
         {
           "a": "Lopunny Dusknoir",
           "b": "Lopunny Dudunsparce",
-          "games": 14,
-          "wins": 2,
+          "games": 15,
+          "wins": 3,
           "losses": 12,
           "ties": 0
         },
@@ -77927,9 +77919,9 @@
         {
           "a": "Lopunny Dusknoir",
           "b": "Dhelmise",
-          "games": 11,
+          "games": 12,
           "wins": 2,
-          "losses": 9,
+          "losses": 10,
           "ties": 0
         },
         {
@@ -77951,9 +77943,9 @@
         {
           "a": "Lopunny Dusknoir",
           "b": "Rocket's Honchkrow",
-          "games": 7,
+          "games": 8,
           "wins": 3,
-          "losses": 4,
+          "losses": 5,
           "ties": 0
         },
         {
@@ -77978,6 +77970,14 @@
           "games": 6,
           "wins": 4,
           "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Lopunny Dusknoir",
+          "b": "Mega Lucario",
+          "games": 5,
+          "wins": 2,
+          "losses": 3,
           "ties": 0
         },
         {
@@ -78007,14 +78007,6 @@
         {
           "a": "Lopunny Dusknoir",
           "b": "Raging Bolt Ogerpon",
-          "games": 4,
-          "wins": 1,
-          "losses": 3,
-          "ties": 0
-        },
-        {
-          "a": "Lopunny Dusknoir",
-          "b": "Mega Lucario",
           "games": 4,
           "wins": 1,
           "losses": 3,
@@ -79110,26 +79102,18 @@
         },
         {
           "a": "Mega Lucario",
+          "b": "Lopunny Dusknoir",
+          "games": 5,
+          "wins": 3,
+          "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Mega Lucario",
           "b": "Ogerpon Meganium Hydrapple",
           "games": 5,
           "wins": 1,
           "losses": 4,
-          "ties": 0
-        },
-        {
-          "a": "Mega Lucario",
-          "b": "Lopunny Dusknoir",
-          "games": 4,
-          "wins": 3,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Mega Lucario",
-          "b": "Mew Box",
-          "games": 4,
-          "wins": 3,
-          "losses": 1,
           "ties": 0
         },
         {
@@ -79154,6 +79138,14 @@
           "games": 3,
           "wins": 1,
           "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Mega Lucario",
+          "b": "Mew Box",
+          "games": 3,
+          "wins": 3,
+          "losses": 0,
           "ties": 0
         },
         {
@@ -82813,222 +82805,6 @@
           "ties": 0
         },
         {
-          "a": "Mew Box",
-          "b": "Dragapult",
-          "games": 25,
-          "wins": 16,
-          "losses": 9,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Slowking",
-          "games": 10,
-          "wins": 4,
-          "losses": 6,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Dhelmise",
-          "games": 10,
-          "wins": 4,
-          "losses": 6,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Basic Box",
-          "games": 9,
-          "wins": 4,
-          "losses": 5,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "N's Zoroark",
-          "games": 9,
-          "wins": 1,
-          "losses": 8,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Alakazam Dudunsparce",
-          "games": 7,
-          "wins": 4,
-          "losses": 3,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Mega Excadrill",
-          "games": 6,
-          "wins": 4,
-          "losses": 2,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Festival Lead",
-          "games": 6,
-          "wins": 3,
-          "losses": 3,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Dragapult Dusknoir",
-          "games": 5,
-          "wins": 5,
-          "losses": 0,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Dragapult Blaziken",
-          "games": 5,
-          "wins": 4,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Lucario Hariyama",
-          "games": 5,
-          "wins": 5,
-          "losses": 0,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Sharpedo Toxtricity",
-          "games": 4,
-          "wins": 1,
-          "losses": 3,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Lopunny Dudunsparce",
-          "games": 4,
-          "wins": 2,
-          "losses": 2,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Mega Lucario",
-          "games": 4,
-          "wins": 1,
-          "losses": 3,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Rocket's Honchkrow",
-          "games": 4,
-          "wins": 1,
-          "losses": 3,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Ogerpon Meganium Hydrapple",
-          "games": 3,
-          "wins": 1,
-          "losses": 2,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Lopunny Dusknoir",
-          "games": 3,
-          "wins": 1,
-          "losses": 2,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Raging Bolt Ogerpon",
-          "games": 3,
-          "wins": 1,
-          "losses": 2,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Grimmsnarl Froslass",
-          "games": 1,
-          "wins": 0,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Wailord",
-          "games": 1,
-          "wins": 1,
-          "losses": 0,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Seaking Festival Lead",
-          "games": 1,
-          "wins": 0,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Crustle",
-          "games": 1,
-          "wins": 1,
-          "losses": 0,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Manectric Eelektrik",
-          "games": 1,
-          "wins": 0,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Mega Greninja",
-          "games": 1,
-          "wins": 1,
-          "losses": 0,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Okidogi Barbaracle",
-          "games": 1,
-          "wins": 0,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Ogerpon Meganium Arboliva",
-          "games": 1,
-          "wins": 1,
-          "losses": 0,
-          "ties": 0
-        },
-        {
-          "a": "Mew Box",
-          "b": "Greninja",
-          "games": 1,
-          "wins": 1,
-          "losses": 0,
-          "ties": 0
-        },
-        {
           "a": "Mega Venusaur",
           "b": "Dragapult",
           "games": 11,
@@ -83250,6 +83026,214 @@
           "games": 1,
           "wins": 0,
           "losses": 1,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Dragapult",
+          "games": 19,
+          "wins": 13,
+          "losses": 6,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Slowking",
+          "games": 9,
+          "wins": 4,
+          "losses": 5,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Dhelmise",
+          "games": 9,
+          "wins": 4,
+          "losses": 5,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "N's Zoroark",
+          "games": 8,
+          "wins": 1,
+          "losses": 7,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Alakazam Dudunsparce",
+          "games": 7,
+          "wins": 4,
+          "losses": 3,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Basic Box",
+          "games": 7,
+          "wins": 4,
+          "losses": 3,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Festival Lead",
+          "games": 6,
+          "wins": 3,
+          "losses": 3,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Dragapult Dusknoir",
+          "games": 5,
+          "wins": 5,
+          "losses": 0,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Dragapult Blaziken",
+          "games": 5,
+          "wins": 4,
+          "losses": 1,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Mega Excadrill",
+          "games": 5,
+          "wins": 3,
+          "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Lucario Hariyama",
+          "games": 5,
+          "wins": 5,
+          "losses": 0,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Sharpedo Toxtricity",
+          "games": 4,
+          "wins": 1,
+          "losses": 3,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Ogerpon Meganium Hydrapple",
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Lopunny Dudunsparce",
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Rocket's Honchkrow",
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Mega Lucario",
+          "games": 3,
+          "wins": 0,
+          "losses": 3,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Lopunny Dusknoir",
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Raging Bolt Ogerpon",
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Grimmsnarl Froslass",
+          "games": 1,
+          "wins": 0,
+          "losses": 1,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Wailord",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Seaking Festival Lead",
+          "games": 1,
+          "wins": 0,
+          "losses": 1,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Manectric Eelektrik",
+          "games": 1,
+          "wins": 0,
+          "losses": 1,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Mega Greninja",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Okidogi Barbaracle",
+          "games": 1,
+          "wins": 0,
+          "losses": 1,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Ogerpon Meganium Arboliva",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "ties": 0
+        },
+        {
+          "a": "Mew Box",
+          "b": "Greninja",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
           "ties": 0
         },
         {
@@ -84110,16 +84094,6 @@
           "url": "https://labs.limitlesstcg.com/0073/decks/hops-trevenant"
         },
         {
-          "name": "Mew Box",
-          "entries": 3,
-          "share": 0.37,
-          "wins": 10,
-          "losses": 13,
-          "ties": 1,
-          "winRate": 43.06,
-          "url": "https://labs.limitlesstcg.com/0073/decks/mew-ex-30c"
-        },
-        {
           "name": "Ogerpon Meganium Arboliva",
           "entries": 3,
           "share": 0.37,
@@ -84218,6 +84192,16 @@
           "ties": 1,
           "winRate": 52.08,
           "url": "https://labs.limitlesstcg.com/0073/decks/metagross-cri"
+        },
+        {
+          "name": "Mew Box",
+          "entries": 2,
+          "share": 0.25,
+          "wins": 6,
+          "losses": 9,
+          "ties": 1,
+          "winRate": 39.58,
+          "url": "https://labs.limitlesstcg.com/0073/decks/mew-ex-30c"
         },
         {
           "name": "Yanmega",
@@ -96543,54 +96527,6 @@
           "sourceUrl": "https://labs.limitlesstcg.com/0073/decks/hops-trevenant"
         },
         {
-          "archetype": "Mew Box",
-          "placing": 343,
-          "player": "Jair Chan",
-          "tournament": "Regional Championship Brisbane",
-          "eventId": "0073",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 817,
-          "record": {
-            "wins": 4,
-            "losses": 4,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0073/player/0282/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0073/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 370,
-          "player": "Ryan Burt",
-          "tournament": "Regional Championship Brisbane",
-          "eventId": "0073",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 817,
-          "record": {
-            "wins": 4,
-            "losses": 4,
-            "ties": 0
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0073/player/0444/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0073/decks/mew-ex-30c"
-        },
-        {
-          "archetype": "Mew Box",
-          "placing": 594,
-          "player": "Maya Taylor",
-          "tournament": "Regional Championship Brisbane",
-          "eventId": "0073",
-          "date": "2026-09-26T00:00:00.000Z",
-          "players": 817,
-          "record": {
-            "wins": 2,
-            "losses": 5,
-            "ties": 1
-          },
-          "decklistUrl": "https://labs.limitlesstcg.com/0073/player/0778/decklist",
-          "sourceUrl": "https://labs.limitlesstcg.com/0073/decks/mew-ex-30c"
-        },
-        {
           "archetype": "Ogerpon Meganium Arboliva",
           "placing": 153,
           "player": "Toshiyuki Otake",
@@ -96941,6 +96877,38 @@
           },
           "decklistUrl": "https://labs.limitlesstcg.com/0073/player/0225/decklist",
           "sourceUrl": "https://labs.limitlesstcg.com/0073/decks/metagross-cri"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 343,
+          "player": "Jair Chan",
+          "tournament": "Regional Championship Brisbane",
+          "eventId": "0073",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 817,
+          "record": {
+            "wins": 4,
+            "losses": 4,
+            "ties": 0
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0073/player/0282/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0073/decks/mew-ex-30c"
+        },
+        {
+          "archetype": "Mew Box",
+          "placing": 594,
+          "player": "Maya Taylor",
+          "tournament": "Regional Championship Brisbane",
+          "eventId": "0073",
+          "date": "2026-09-26T00:00:00.000Z",
+          "players": 817,
+          "record": {
+            "wins": 2,
+            "losses": 5,
+            "ties": 1
+          },
+          "decklistUrl": "https://labs.limitlesstcg.com/0073/player/0778/decklist",
+          "sourceUrl": "https://labs.limitlesstcg.com/0073/decks/mew-ex-30c"
         },
         {
           "archetype": "Yanmega",
@@ -97762,6 +97730,14 @@
         },
         {
           "a": "Mega Excadrill",
+          "b": "Other",
+          "games": 6,
+          "wins": 5,
+          "losses": 1,
+          "ties": 0
+        },
+        {
+          "a": "Mega Excadrill",
           "b": "Lopunny Dudunsparce",
           "games": 6,
           "wins": 4,
@@ -97782,14 +97758,6 @@
           "games": 5,
           "wins": 0,
           "losses": 5,
-          "ties": 0
-        },
-        {
-          "a": "Mega Excadrill",
-          "b": "Other",
-          "games": 5,
-          "wins": 4,
-          "losses": 1,
           "ties": 0
         },
         {
@@ -97963,14 +97931,6 @@
         {
           "a": "Mega Excadrill",
           "b": "Dragapult Dudunsparce",
-          "games": 1,
-          "wins": 1,
-          "losses": 0,
-          "ties": 0
-        },
-        {
-          "a": "Mega Excadrill",
-          "b": "Mew Box",
           "games": 1,
           "wins": 1,
           "losses": 0,
@@ -98562,6 +98522,14 @@
         },
         {
           "a": "N's Zoroark",
+          "b": "Other",
+          "games": 6,
+          "wins": 4,
+          "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "N's Zoroark",
           "b": "Rocket's Honchkrow",
           "games": 6,
           "wins": 3,
@@ -98582,14 +98550,6 @@
           "games": 5,
           "wins": 1,
           "losses": 4,
-          "ties": 0
-        },
-        {
-          "a": "N's Zoroark",
-          "b": "Other",
-          "games": 5,
-          "wins": 3,
-          "losses": 2,
           "ties": 0
         },
         {
@@ -98618,14 +98578,6 @@
         },
         {
           "a": "N's Zoroark",
-          "b": "Mew Box",
-          "games": 3,
-          "wins": 2,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "N's Zoroark",
           "b": "Mega Venusaur",
           "games": 3,
           "wins": 1,
@@ -98638,6 +98590,14 @@
           "games": 2,
           "wins": 0,
           "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "N's Zoroark",
+          "b": "Mew Box",
+          "games": 2,
+          "wins": 1,
+          "losses": 1,
           "ties": 0
         },
         {
@@ -98954,6 +98914,14 @@
         },
         {
           "a": "Slowking",
+          "b": "Other",
+          "games": 6,
+          "wins": 4,
+          "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Slowking",
           "b": "Grimmsnarl Froslass",
           "games": 6,
           "wins": 3,
@@ -98987,14 +98955,6 @@
         {
           "a": "Slowking",
           "b": "Lopunny Dudunsparce",
-          "games": 5,
-          "wins": 3,
-          "losses": 2,
-          "ties": 0
-        },
-        {
-          "a": "Slowking",
-          "b": "Other",
           "games": 5,
           "wins": 3,
           "losses": 2,
@@ -99070,14 +99030,6 @@
           "games": 2,
           "wins": 2,
           "losses": 0,
-          "ties": 0
-        },
-        {
-          "a": "Slowking",
-          "b": "Mew Box",
-          "games": 2,
-          "wins": 1,
-          "losses": 1,
           "ties": 0
         },
         {
@@ -99246,6 +99198,14 @@
           "games": 1,
           "wins": 1,
           "losses": 0,
+          "ties": 0
+        },
+        {
+          "a": "Slowking",
+          "b": "Mew Box",
+          "games": 1,
+          "wins": 0,
+          "losses": 1,
           "ties": 0
         },
         {
@@ -99706,14 +99666,6 @@
         },
         {
           "a": "Dragapult Dusknoir",
-          "b": "Mew Box",
-          "games": 5,
-          "wins": 2,
-          "losses": 3,
-          "ties": 0
-        },
-        {
-          "a": "Dragapult Dusknoir",
           "b": "Rocket's Honchkrow",
           "games": 5,
           "wins": 4,
@@ -99754,6 +99706,14 @@
         },
         {
           "a": "Dragapult Dusknoir",
+          "b": "Other",
+          "games": 4,
+          "wins": 3,
+          "losses": 1,
+          "ties": 0
+        },
+        {
+          "a": "Dragapult Dusknoir",
           "b": "Lopunny Dusknoir",
           "games": 4,
           "wins": 0,
@@ -99774,6 +99734,14 @@
           "games": 3,
           "wins": 2,
           "losses": 1,
+          "ties": 0
+        },
+        {
+          "a": "Dragapult Dusknoir",
+          "b": "Mew Box",
+          "games": 3,
+          "wins": 1,
+          "losses": 2,
           "ties": 0
         },
         {
@@ -99838,14 +99806,6 @@
           "games": 2,
           "wins": 1,
           "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Dragapult Dusknoir",
-          "b": "Other",
-          "games": 2,
-          "wins": 2,
-          "losses": 0,
           "ties": 0
         },
         {
@@ -100306,6 +100266,14 @@
         },
         {
           "a": "Dhelmise",
+          "b": "Other",
+          "games": 7,
+          "wins": 3,
+          "losses": 4,
+          "ties": 0
+        },
+        {
+          "a": "Dhelmise",
           "b": "Lucario Hariyama",
           "games": 7,
           "wins": 6,
@@ -100318,14 +100286,6 @@
           "games": 7,
           "wins": 3,
           "losses": 4,
-          "ties": 0
-        },
-        {
-          "a": "Dhelmise",
-          "b": "Other",
-          "games": 6,
-          "wins": 3,
-          "losses": 3,
           "ties": 0
         },
         {
@@ -100459,14 +100419,6 @@
         {
           "a": "Dhelmise",
           "b": "Ceruledge",
-          "games": 1,
-          "wins": 0,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Dhelmise",
-          "b": "Mew Box",
           "games": 1,
           "wins": 0,
           "losses": 1,
@@ -103170,6 +103122,14 @@
         },
         {
           "a": "Mega Greninja",
+          "b": "Other",
+          "games": 2,
+          "wins": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        {
+          "a": "Mega Greninja",
           "b": "Lucario Hariyama",
           "games": 2,
           "wins": 0,
@@ -103198,14 +103158,6 @@
           "games": 1,
           "wins": 1,
           "losses": 0,
-          "ties": 0
-        },
-        {
-          "a": "Mega Greninja",
-          "b": "Other",
-          "games": 1,
-          "wins": 0,
-          "losses": 1,
           "ties": 0
         },
         {
@@ -103275,14 +103227,6 @@
         {
           "a": "Mega Greninja",
           "b": "Yanmega",
-          "games": 1,
-          "wins": 0,
-          "losses": 1,
-          "ties": 0
-        },
-        {
-          "a": "Mega Greninja",
-          "b": "Mew Box",
           "games": 1,
           "wins": 0,
           "losses": 1,
@@ -105927,10 +105871,10 @@
     },
     {
       "name": "Lopunny Dusknoir",
-      "entries": 76,
-      "wins": 297,
-      "losses": 300,
-      "ties": 54
+      "entries": 78,
+      "wins": 304,
+      "losses": 308,
+      "ties": 55
     },
     {
       "name": "Cynthia's Garchomp",
@@ -106038,18 +105982,18 @@
       "ties": 19
     },
     {
-      "name": "Mew Box",
-      "entries": 22,
-      "wins": 98,
-      "losses": 87,
-      "ties": 19
-    },
-    {
       "name": "Starmie Froslass",
       "entries": 20,
       "wins": 61,
       "losses": 73,
       "ties": 12
+    },
+    {
+      "name": "Mew Box",
+      "entries": 19,
+      "wins": 87,
+      "losses": 75,
+      "ties": 18
     },
     {
       "name": "Hop's Trevenant",
@@ -106611,9 +106555,9 @@
     {
       "a": "Dragapult",
       "b": "Lopunny Dusknoir",
-      "games": 95,
-      "wins": 40,
-      "losses": 55,
+      "games": 101,
+      "wins": 43,
+      "losses": 58,
       "ties": 0
     },
     {
@@ -106675,9 +106619,9 @@
     {
       "a": "Dragapult",
       "b": "Mew Box",
-      "games": 39,
-      "wins": 11,
-      "losses": 28,
+      "games": 33,
+      "wins": 8,
+      "losses": 25,
       "ties": 0
     },
     {
@@ -107075,8 +107019,8 @@
     {
       "a": "N's Zoroark",
       "b": "Mew Box",
-      "games": 20,
-      "wins": 15,
+      "games": 18,
+      "wins": 13,
       "losses": 5,
       "ties": 0
     },
@@ -107091,8 +107035,8 @@
     {
       "a": "N's Zoroark",
       "b": "Lopunny Dusknoir",
-      "games": 54,
-      "wins": 38,
+      "games": 55,
+      "wins": 39,
       "losses": 16,
       "ties": 0
     },
@@ -107107,8 +107051,8 @@
     {
       "a": "N's Zoroark",
       "b": "Other",
-      "games": 23,
-      "wins": 16,
+      "games": 24,
+      "wins": 17,
       "losses": 7,
       "ties": 0
     },
@@ -107779,9 +107723,9 @@
     {
       "a": "Basic Box",
       "b": "Lopunny Dusknoir",
-      "games": 50,
-      "wins": 32,
-      "losses": 18,
+      "games": 52,
+      "wins": 33,
+      "losses": 19,
       "ties": 0
     },
     {
@@ -107859,9 +107803,9 @@
     {
       "a": "Basic Box",
       "b": "Mew Box",
-      "games": 12,
-      "wins": 7,
-      "losses": 5,
+      "games": 10,
+      "wins": 6,
+      "losses": 4,
       "ties": 0
     },
     {
@@ -108195,9 +108139,9 @@
     {
       "a": "Dragapult Dusknoir",
       "b": "Other",
-      "games": 13,
-      "wins": 7,
-      "losses": 6,
+      "games": 15,
+      "wins": 8,
+      "losses": 7,
       "ties": 0
     },
     {
@@ -108307,9 +108251,9 @@
     {
       "a": "Dragapult Dusknoir",
       "b": "Mew Box",
-      "games": 11,
-      "wins": 2,
-      "losses": 9,
+      "games": 9,
+      "wins": 1,
+      "losses": 8,
       "ties": 0
     },
     {
@@ -108507,8 +108451,8 @@
     {
       "a": "Slowking",
       "b": "Mew Box",
-      "games": 16,
-      "wins": 8,
+      "games": 14,
+      "wins": 6,
       "losses": 8,
       "ties": 0
     },
@@ -108595,8 +108539,8 @@
     {
       "a": "Slowking",
       "b": "Other",
-      "games": 21,
-      "wins": 9,
+      "games": 22,
+      "wins": 10,
       "losses": 12,
       "ties": 0
     },
@@ -108611,8 +108555,8 @@
     {
       "a": "Slowking",
       "b": "Lopunny Dusknoir",
-      "games": 46,
-      "wins": 28,
+      "games": 47,
+      "wins": 29,
       "losses": 18,
       "ties": 0
     },
@@ -108859,9 +108803,9 @@
     {
       "a": "Mega Excadrill",
       "b": "Lopunny Dusknoir",
-      "games": 28,
+      "games": 29,
       "wins": 12,
-      "losses": 16,
+      "losses": 17,
       "ties": 0
     },
     {
@@ -108923,8 +108867,8 @@
     {
       "a": "Mega Excadrill",
       "b": "Other",
-      "games": 15,
-      "wins": 11,
+      "games": 16,
+      "wins": 12,
       "losses": 4,
       "ties": 0
     },
@@ -109507,9 +109451,9 @@
     {
       "a": "Crustle",
       "b": "Lopunny Dusknoir",
-      "games": 23,
+      "games": 24,
       "wins": 4,
-      "losses": 19,
+      "losses": 20,
       "ties": 0
     },
     {
@@ -109715,9 +109659,9 @@
     {
       "a": "Crustle",
       "b": "Mew Box",
-      "games": 2,
+      "games": 1,
       "wins": 1,
-      "losses": 1,
+      "losses": 0,
       "ties": 0
     },
     {
@@ -111059,9 +111003,9 @@
     {
       "a": "Dhelmise",
       "b": "Mew Box",
-      "games": 13,
-      "wins": 6,
-      "losses": 7,
+      "games": 11,
+      "wins": 5,
+      "losses": 6,
       "ties": 0
     },
     {
@@ -111075,9 +111019,9 @@
     {
       "a": "Dhelmise",
       "b": "Other",
-      "games": 15,
+      "games": 16,
       "wins": 4,
-      "losses": 11,
+      "losses": 12,
       "ties": 0
     },
     {
@@ -111107,8 +111051,8 @@
     {
       "a": "Dhelmise",
       "b": "Lopunny Dusknoir",
-      "games": 16,
-      "wins": 13,
+      "games": 17,
+      "wins": 14,
       "losses": 3,
       "ties": 0
     },
@@ -111563,9 +111507,9 @@
     {
       "a": "Lopunny Dudunsparce",
       "b": "Mew Box",
-      "games": 7,
+      "games": 6,
       "wins": 4,
-      "losses": 3,
+      "losses": 2,
       "ties": 0
     },
     {
@@ -111579,9 +111523,9 @@
     {
       "a": "Lopunny Dudunsparce",
       "b": "Lopunny Dusknoir",
-      "games": 17,
+      "games": 18,
       "wins": 13,
-      "losses": 4,
+      "losses": 5,
       "ties": 0
     },
     {
@@ -111699,9 +111643,9 @@
     {
       "a": "Lopunny Dusknoir",
       "b": "Dragapult",
-      "games": 95,
-      "wins": 49,
-      "losses": 46,
+      "games": 101,
+      "wins": 52,
+      "losses": 49,
       "ties": 0
     },
     {
@@ -111715,17 +111659,17 @@
     {
       "a": "Lopunny Dusknoir",
       "b": "Basic Box",
-      "games": 50,
+      "games": 52,
       "wins": 18,
-      "losses": 32,
+      "losses": 34,
       "ties": 0
     },
     {
       "a": "Lopunny Dusknoir",
       "b": "N's Zoroark",
-      "games": 54,
+      "games": 55,
       "wins": 14,
-      "losses": 40,
+      "losses": 41,
       "ties": 0
     },
     {
@@ -111739,8 +111683,8 @@
     {
       "a": "Lopunny Dusknoir",
       "b": "Crustle",
-      "games": 23,
-      "wins": 18,
+      "games": 24,
+      "wins": 19,
       "losses": 5,
       "ties": 0
     },
@@ -111755,8 +111699,8 @@
     {
       "a": "Lopunny Dusknoir",
       "b": "Mega Excadrill",
-      "games": 28,
-      "wins": 15,
+      "games": 29,
+      "wins": 16,
       "losses": 13,
       "ties": 0
     },
@@ -111787,8 +111731,8 @@
     {
       "a": "Lopunny Dusknoir",
       "b": "Lopunny Dudunsparce",
-      "games": 17,
-      "wins": 3,
+      "games": 18,
+      "wins": 4,
       "losses": 14,
       "ties": 0
     },
@@ -111803,9 +111747,9 @@
     {
       "a": "Lopunny Dusknoir",
       "b": "Rocket's Honchkrow",
-      "games": 10,
+      "games": 11,
       "wins": 3,
-      "losses": 7,
+      "losses": 8,
       "ties": 0
     },
     {
@@ -111843,17 +111787,17 @@
     {
       "a": "Lopunny Dusknoir",
       "b": "Dhelmise",
-      "games": 16,
+      "games": 17,
       "wins": 2,
-      "losses": 14,
+      "losses": 15,
       "ties": 0
     },
     {
       "a": "Lopunny Dusknoir",
       "b": "Slowking",
-      "games": 46,
+      "games": 47,
       "wins": 18,
-      "losses": 28,
+      "losses": 29,
       "ties": 0
     },
     {
@@ -111915,8 +111859,8 @@
     {
       "a": "Lopunny Dusknoir",
       "b": "Mega Lucario",
-      "games": 5,
-      "wins": 2,
+      "games": 6,
+      "wins": 3,
       "losses": 3,
       "ties": 0
     },
@@ -112339,9 +112283,9 @@
     {
       "a": "Mega Lucario",
       "b": "Lopunny Dusknoir",
-      "games": 5,
+      "games": 6,
       "wins": 3,
-      "losses": 2,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -113107,8 +113051,8 @@
     {
       "a": "Rocket's Honchkrow",
       "b": "Lopunny Dusknoir",
-      "games": 10,
-      "wins": 7,
+      "games": 11,
+      "wins": 8,
       "losses": 3,
       "ties": 0
     },
@@ -114195,25 +114139,25 @@
     {
       "a": "Mew Box",
       "b": "Dragapult",
-      "games": 36,
-      "wins": 24,
-      "losses": 12,
+      "games": 30,
+      "wins": 21,
+      "losses": 9,
       "ties": 0
     },
     {
       "a": "Mew Box",
       "b": "N's Zoroark",
-      "games": 17,
+      "games": 16,
       "wins": 4,
-      "losses": 13,
+      "losses": 12,
       "ties": 0
     },
     {
       "a": "Mew Box",
       "b": "Slowking",
-      "games": 14,
+      "games": 13,
       "wins": 6,
-      "losses": 8,
+      "losses": 7,
       "ties": 0
     },
     {
@@ -114235,8 +114179,8 @@
     {
       "a": "Mew Box",
       "b": "Lopunny Dudunsparce",
-      "games": 7,
-      "wins": 2,
+      "games": 6,
+      "wins": 1,
       "losses": 5,
       "ties": 0
     },
@@ -114251,17 +114195,17 @@
     {
       "a": "Mew Box",
       "b": "Basic Box",
-      "games": 11,
+      "games": 9,
       "wins": 4,
-      "losses": 7,
+      "losses": 5,
       "ties": 0
     },
     {
       "a": "Mew Box",
       "b": "Dhelmise",
-      "games": 12,
+      "games": 11,
       "wins": 6,
-      "losses": 6,
+      "losses": 5,
       "ties": 0
     },
     {
@@ -114339,8 +114283,8 @@
     {
       "a": "Mew Box",
       "b": "Crustle",
-      "games": 2,
-      "wins": 1,
+      "games": 1,
+      "wins": 0,
       "losses": 1,
       "ties": 0
     },
@@ -116227,9 +116171,9 @@
     {
       "a": "Mega Excadrill",
       "b": "Mew Box",
-      "games": 7,
-      "wins": 3,
-      "losses": 4,
+      "games": 5,
+      "wins": 2,
+      "losses": 3,
       "ties": 0
     },
     {
@@ -117450,18 +117394,18 @@
     },
     {
       "a": "Rocket's Honchkrow",
-      "b": "Mew Box",
-      "games": 5,
-      "wins": 4,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Rocket's Honchkrow",
       "b": "Hop's Trevenant",
       "games": 3,
       "wins": 0,
       "losses": 3,
+      "ties": 0
+    },
+    {
+      "a": "Rocket's Honchkrow",
+      "b": "Mew Box",
+      "games": 4,
+      "wins": 3,
+      "losses": 1,
       "ties": 0
     },
     {
@@ -118178,18 +118122,18 @@
     },
     {
       "a": "Mega Lucario",
-      "b": "Mew Box",
-      "games": 4,
-      "wins": 3,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Mega Lucario",
       "b": "Ogerpon Meganium Arboliva",
       "games": 3,
       "wins": 1,
       "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Mega Lucario",
+      "b": "Mew Box",
+      "games": 3,
+      "wins": 3,
+      "losses": 0,
       "ties": 0
     },
     {
@@ -118835,9 +118779,9 @@
     {
       "a": "Mega Greninja",
       "b": "Mew Box",
-      "games": 2,
+      "games": 1,
       "wins": 0,
-      "losses": 2,
+      "losses": 1,
       "ties": 0
     },
     {
@@ -120577,102 +120521,6 @@
       "ties": 0
     },
     {
-      "a": "Mew Box",
-      "b": "Mega Excadrill",
-      "games": 6,
-      "wins": 4,
-      "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Lucario Hariyama",
-      "games": 5,
-      "wins": 5,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Mega Lucario",
-      "games": 4,
-      "wins": 1,
-      "losses": 3,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Rocket's Honchkrow",
-      "games": 4,
-      "wins": 1,
-      "losses": 3,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Lopunny Dusknoir",
-      "games": 3,
-      "wins": 1,
-      "losses": 2,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Grimmsnarl Froslass",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Wailord",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Seaking Festival Lead",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Manectric Eelektrik",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Okidogi Barbaracle",
-      "games": 1,
-      "wins": 0,
-      "losses": 1,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Ogerpon Meganium Arboliva",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
-      "a": "Mew Box",
-      "b": "Greninja",
-      "games": 1,
-      "wins": 1,
-      "losses": 0,
-      "ties": 0
-    },
-    {
       "a": "Mega Venusaur",
       "b": "Alakazam Dudunsparce",
       "games": 10,
@@ -120806,6 +120654,102 @@
       "games": 4,
       "wins": 0,
       "losses": 4,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Mega Excadrill",
+      "games": 5,
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Lucario Hariyama",
+      "games": 5,
+      "wins": 5,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Rocket's Honchkrow",
+      "games": 3,
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Mega Lucario",
+      "games": 3,
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Lopunny Dusknoir",
+      "games": 3,
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Grimmsnarl Froslass",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Wailord",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Seaking Festival Lead",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Manectric Eelektrik",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Okidogi Barbaracle",
+      "games": 1,
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Ogerpon Meganium Arboliva",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "a": "Mew Box",
+      "b": "Greninja",
+      "games": 1,
+      "wins": 1,
+      "losses": 0,
       "ties": 0
     },
     {
@@ -121875,9 +121819,9 @@
     {
       "a": "Mega Greninja",
       "b": "Other",
-      "games": 1,
+      "games": 2,
       "wins": 0,
-      "losses": 1,
+      "losses": 2,
       "ties": 0
     },
     {
@@ -123323,24 +123267,8 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0075/decks/n-zoroark"
     },
     {
-      "archetype": "Ceruledge",
-      "placing": 32,
-      "player": "Guilherme Vitoratti",
-      "tournament": "Regional Championship Recife",
-      "eventId": "0075",
-      "date": "2026-10-03T00:00:00.000Z",
-      "players": 1074,
-      "record": {
-        "wins": 9,
-        "losses": 3,
-        "ties": 1
-      },
-      "decklistUrl": "https://labs.limitlesstcg.com/0075/player/0895/decklist",
-      "sourceUrl": "https://labs.limitlesstcg.com/0075/decks/ceruledge-ex"
-    },
-    {
       "archetype": "Dragapult",
-      "placing": 33,
+      "placing": 32,
       "player": "Miguel Angel Rojas Duk",
       "tournament": "Regional Championship Recife",
       "eventId": "0075",
@@ -123353,6 +123281,22 @@
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0075/player/0083/decklist",
       "sourceUrl": "https://labs.limitlesstcg.com/0075/decks/dragapult-ex"
+    },
+    {
+      "archetype": "Ceruledge",
+      "placing": 33,
+      "player": "Guilherme Vitoratti",
+      "tournament": "Regional Championship Recife",
+      "eventId": "0075",
+      "date": "2026-10-03T00:00:00.000Z",
+      "players": 1074,
+      "record": {
+        "wins": 9,
+        "losses": 3,
+        "ties": 1
+      },
+      "decklistUrl": "https://labs.limitlesstcg.com/0075/player/0895/decklist",
+      "sourceUrl": "https://labs.limitlesstcg.com/0075/decks/ceruledge-ex"
     },
     {
       "archetype": "Alakazam Dudunsparce",
@@ -151595,22 +151539,6 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/clefairy-ogerpon"
     },
     {
-      "archetype": "Mew Box",
-      "placing": 370,
-      "player": "Ryan Burt",
-      "tournament": "Regional Championship Brisbane",
-      "eventId": "0073",
-      "date": "2026-09-26T00:00:00.000Z",
-      "players": 817,
-      "record": {
-        "wins": 4,
-        "losses": 4,
-        "ties": 0
-      },
-      "decklistUrl": "https://labs.limitlesstcg.com/0073/player/0444/decklist",
-      "sourceUrl": "https://labs.limitlesstcg.com/0073/decks/mew-ex-30c"
-    },
-    {
       "archetype": "Dragapult",
       "placing": 371,
       "player": "Alp Ehliz",
@@ -157195,7 +157123,7 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0073/decks/dragapult-ex"
     },
     {
-      "archetype": "Mew Box",
+      "archetype": "Lopunny Dusknoir",
       "placing": 549,
       "player": "René Wolff",
       "tournament": "Regional Championship Frankfurt",
@@ -157208,7 +157136,7 @@
         "ties": 0
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0074/player/1501/decklist",
-      "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+      "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/lopunny-dusknoir"
     },
     {
       "archetype": "Mega Excadrill",
@@ -185595,7 +185523,7 @@
       "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mega-excadrill-ex"
     },
     {
-      "archetype": "Mew Box",
+      "archetype": "Lopunny Dusknoir",
       "placing": 2099,
       "player": "Paul Stoll",
       "tournament": "Regional Championship Frankfurt",
@@ -185608,7 +185536,7 @@
         "ties": 1
       },
       "decklistUrl": "https://labs.limitlesstcg.com/0074/player/0773/decklist",
-      "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/mew-ex-30c"
+      "sourceUrl": "https://labs.limitlesstcg.com/0074/decks/lopunny-dusknoir"
     },
     {
       "archetype": "Mega Excadrill",
