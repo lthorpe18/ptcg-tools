@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-06T22:47:26.909Z",
+  "generatedAt": "2026-10-07T06:26:56.753Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6abe7dab783097f8dcb7519e",
-      "source": "limitless",
-      "sourceId": "6abe7dab783097f8dcb7519e",
-      "name": "♠️ Control Players Unite's Aceless Tournament! #41",
-      "url": "https://play.limitlesstcg.com/tournament/6abe7dab783097f8dcb7519e/details",
-      "startAt": "2026-10-06T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac08eca245696afb3514e12",
-      "source": "limitless",
-      "sourceId": "6ac08eca245696afb3514e12",
-      "name": "🇧🇷 Hit Challenge #37 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ac08eca245696afb3514e12/details",
-      "startAt": "2026-10-06T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac4144085920e4d25364c31",
-      "source": "limitless",
-      "sourceId": "6ac4144085920e4d25364c31",
-      "name": "Last Prize Series S4 #3",
-      "url": "https://play.limitlesstcg.com/tournament/6ac4144085920e4d25364c31/details",
-      "startAt": "2026-10-06T23:35:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac573d085920e4d25365944",
-      "source": "limitless",
-      "sourceId": "6ac573d085920e4d25365944",
-      "name": "Pudding Weekly #16 | The Forgotten One",
-      "url": "https://play.limitlesstcg.com/tournament/6ac573d085920e4d25365944/details",
-      "startAt": "2026-10-07T01:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -429,6 +389,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac4463a85920e4d25365072",
+      "source": "limitless",
+      "sourceId": "6ac4463a85920e4d25365072",
+      "name": "🇧🇷🧅 North League #2",
+      "url": "https://play.limitlesstcg.com/tournament/6ac4463a85920e4d25365072/details",
+      "startAt": "2026-10-10T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac0936b85920e4d253628b9",
       "source": "limitless",
       "sourceId": "6ac0936b85920e4d253628b9",
@@ -612,7 +582,7 @@
       "id": "limitless:6ac3bf1a85920e4d25364635",
       "source": "limitless",
       "sourceId": "6ac3bf1a85920e4d25364635",
-      "name": "Pudding Weekly #16 | Louisville Lock in Time",
+      "name": "Pudding Weekly #17 | Where is my supersuit?",
       "url": "https://play.limitlesstcg.com/tournament/6ac3bf1a85920e4d25364635/details",
       "startAt": "2026-10-14T01:00:00.000Z"
     },
@@ -735,6 +705,16 @@
       "name": "🆓 Domino Arena Free | Temporada 3 | Semana 6 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6ac29bac85920e4d25363e2c/details",
       "startAt": "2026-10-20T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac5bce085920e4d25365cc1",
+      "source": "limitless",
+      "sourceId": "6ac5bce085920e4d25365cc1",
+      "name": "Pudding Weekly #18 | CHITTY CHITTY BANG BANG",
+      "url": "https://play.limitlesstcg.com/tournament/6ac5bce085920e4d25365cc1/details",
+      "startAt": "2026-10-21T01:00:00.000Z"
     },
     {
       "format": "Standard",
