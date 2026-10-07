@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-07T13:54:22.094Z",
+  "generatedAt": "2026-10-07T20:08:27.105Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac54c8385920e4d25365808",
-      "source": "limitless",
-      "sourceId": "6ac54c8385920e4d25365808",
-      "name": "Team Corna Weekly September's #9",
-      "url": "https://play.limitlesstcg.com/tournament/6ac54c8385920e4d25365808/details",
-      "startAt": "2026-10-07T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abdb84e783097f8dcb74c59",
-      "source": "limitless",
-      "sourceId": "6abdb84e783097f8dcb74c59",
-      "name": "Amyverse PTCG Live Weekly #16 💛 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6abdb84e783097f8dcb74c59/details",
-      "startAt": "2026-10-07T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abeaffb783097f8dcb7554d",
-      "source": "limitless",
-      "sourceId": "6abeaffb783097f8dcb7554d",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #5",
-      "url": "https://play.limitlesstcg.com/tournament/6abeaffb783097f8dcb7554d/details",
-      "startAt": "2026-10-07T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac395ae85920e4d253644b0",
-      "source": "limitless",
-      "sourceId": "6ac395ae85920e4d253644b0",
-      "name": "ASRcristiano # 194 - 60 codes - Road to Nice!",
-      "url": "https://play.limitlesstcg.com/tournament/6ac395ae85920e4d253644b0/details",
-      "startAt": "2026-10-07T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ab27742f127b1b52c27f7de",
-      "source": "limitless",
-      "sourceId": "6ab27742f127b1b52c27f7de",
-      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #24⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6ab27742f127b1b52c27f7de/details",
-      "startAt": "2026-10-07T19:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -129,6 +79,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac686e3245696afb351842d",
+      "source": "limitless",
+      "sourceId": "6ac686e3245696afb351842d",
+      "name": "TCG ESTADIO ONLINE - BO1",
+      "url": "https://play.limitlesstcg.com/tournament/6ac686e3245696afb351842d/details",
+      "startAt": "2026-10-08T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6abf3e58880ed327106e18e4",
       "source": "limitless",
       "sourceId": "6abf3e58880ed327106e18e4",
@@ -139,22 +99,22 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6abfbd4b85920e4d25361c1c",
-      "source": "limitless",
-      "sourceId": "6abfbd4b85920e4d25361c1c",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6abfbd4b85920e4d25361c1c/details",
-      "startAt": "2026-10-08T16:10:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6abeef1c783097f8dcb758c7",
       "source": "limitless",
       "sourceId": "6abeef1c783097f8dcb758c7",
       "name": "Amyverse Bulk Box Battles #2 🧡 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6abeef1c783097f8dcb758c7/details",
       "startAt": "2026-10-08T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abfbd4b85920e4d25361c1c",
+      "source": "limitless",
+      "sourceId": "6abfbd4b85920e4d25361c1c",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6abfbd4b85920e4d25361c1c/details",
+      "startAt": "2026-10-08T17:10:00.000Z"
     },
     {
       "format": "Standard",
@@ -392,7 +352,7 @@
       "id": "limitless:6ac4463a85920e4d25365072",
       "source": "limitless",
       "sourceId": "6ac4463a85920e4d25365072",
-      "name": "🇧🇷🧅 North League #2",
+      "name": "🇧🇷🧅 North League #2 Prize!!",
       "url": "https://play.limitlesstcg.com/tournament/6ac4463a85920e4d25365072/details",
       "startAt": "2026-10-10T17:00:00.000Z"
     },
@@ -485,6 +445,16 @@
       "name": "La Techgece Cup #5 [BO3] (30C Legal!)",
       "url": "https://play.limitlesstcg.com/tournament/6ac3179985920e4d25364359/details",
       "startAt": "2026-10-11T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac694a385920e4d25366173",
+      "source": "limitless",
+      "sourceId": "6ac694a385920e4d25366173",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac694a385920e4d25366173/details",
+      "startAt": "2026-10-12T16:00:00.000Z"
     },
     {
       "format": "Standard",
