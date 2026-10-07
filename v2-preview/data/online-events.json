@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-07T06:26:56.753Z",
+  "generatedAt": "2026-10-07T13:54:22.094Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abeaffb783097f8dcb7554d",
-      "source": "limitless",
-      "sourceId": "6abeaffb783097f8dcb7554d",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #5",
-      "url": "https://play.limitlesstcg.com/tournament/6abeaffb783097f8dcb7554d/details",
-      "startAt": "2026-10-07T07:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abf3e44880ed327106e18e3",
-      "source": "limitless",
-      "sourceId": "6abf3e44880ed327106e18e3",
-      "name": "SEASAC League Challenge #27 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6abf3e44880ed327106e18e3/details",
-      "startAt": "2026-10-07T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -45,6 +25,16 @@
       "name": "Amyverse PTCG Live Weekly #16 💛 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6abdb84e783097f8dcb74c59/details",
       "startAt": "2026-10-07T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6abeaffb783097f8dcb7554d",
+      "source": "limitless",
+      "sourceId": "6abeaffb783097f8dcb7554d",
+      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #5",
+      "url": "https://play.limitlesstcg.com/tournament/6abeaffb783097f8dcb7554d/details",
+      "startAt": "2026-10-07T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -344,6 +334,16 @@
       "sourceId": "6ac056b785920e4d253625c6",
       "name": "Budget Build Battles! | Season 9 - Week 1",
       "url": "https://play.limitlesstcg.com/tournament/6ac056b785920e4d253625c6/details",
+      "startAt": "2026-10-10T00:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ac63c28245696afb3518147",
+      "source": "limitless",
+      "sourceId": "6ac63c28245696afb3518147",
+      "name": "TurboBlaze Trials GLC Series - Season 2 Week 7",
+      "url": "https://play.limitlesstcg.com/tournament/6ac63c28245696afb3518147/details",
       "startAt": "2026-10-10T00:30:00.000Z"
     },
     {
