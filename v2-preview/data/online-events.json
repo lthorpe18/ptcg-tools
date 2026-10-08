@@ -1,71 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-08T14:00:39.941Z",
+  "generatedAt": "2026-10-08T20:06:57.599Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abeef1c783097f8dcb758c7",
-      "source": "limitless",
-      "sourceId": "6abeef1c783097f8dcb758c7",
-      "name": "Amyverse Bulk Box Battles #2 🧡 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6abeef1c783097f8dcb758c7/details",
-      "startAt": "2026-10-08T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abfbd4b85920e4d25361c1c",
-      "source": "limitless",
-      "sourceId": "6abfbd4b85920e4d25361c1c",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6abfbd4b85920e4d25361c1c/details",
-      "startAt": "2026-10-08T17:10:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac74a4d85920e4d253668eb",
-      "source": "limitless",
-      "sourceId": "6ac74a4d85920e4d253668eb",
-      "name": "⚗️PokéKhemistry TURBO Thursday",
-      "url": "https://play.limitlesstcg.com/tournament/6ac74a4d85920e4d253668eb/details",
-      "startAt": "2026-10-08T17:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab27766e905c1db68747ad3",
-      "source": "limitless",
-      "sourceId": "6ab27766e905c1db68747ad3",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6ab27766e905c1db68747ad3/details",
-      "startAt": "2026-10-08T18:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac395d6245696afb3516a5d",
-      "source": "limitless",
-      "sourceId": "6ac395d6245696afb3516a5d",
-      "name": "ASRcristiano # 195 - 60 codes - Road to Nice!",
-      "url": "https://play.limitlesstcg.com/tournament/6ac395d6245696afb3516a5d/details",
-      "startAt": "2026-10-08T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abea067880ed327106e10d2",
-      "source": "limitless",
-      "sourceId": "6abea067880ed327106e10d2",
-      "name": "12° Torneo del circuito CarroTCG/Prof. Fili",
-      "url": "https://play.limitlesstcg.com/tournament/6abea067880ed327106e10d2/details",
-      "startAt": "2026-10-08T19:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -234,6 +174,16 @@
       "sourceId": "6ac63c28245696afb3518147",
       "name": "TurboBlaze Trials GLC Series - Season 2 Week 7",
       "url": "https://play.limitlesstcg.com/tournament/6ac63c28245696afb3518147/details",
+      "startAt": "2026-10-10T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac7b59585920e4d25366b75",
+      "source": "limitless",
+      "sourceId": "6ac7b59585920e4d25366b75",
+      "name": "Torneo Online Alain Cards #12",
+      "url": "https://play.limitlesstcg.com/tournament/6ac7b59585920e4d25366b75/details",
       "startAt": "2026-10-10T00:30:00.000Z"
     },
     {
@@ -535,6 +485,16 @@
       "name": "TWISTER TEAM | ROAD TO CHAMPIONS! #1",
       "url": "https://play.limitlesstcg.com/tournament/6ac5488285920e4d253657e8/details",
       "startAt": "2026-10-15T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac7d9ac85920e4d25366e02",
+      "source": "limitless",
+      "sourceId": "6ac7d9ac85920e4d25366e02",
+      "name": "13° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6ac7d9ac85920e4d25366e02/details",
+      "startAt": "2026-10-15T19:30:00.000Z"
     },
     {
       "format": "Standard",
