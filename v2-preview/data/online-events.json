@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-08T06:38:14.972Z",
+  "generatedAt": "2026-10-08T14:00:39.941Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abf3e58880ed327106e18e4",
-      "source": "limitless",
-      "sourceId": "6abf3e58880ed327106e18e4",
-      "name": "SEASAC League Challenge #28 (SEASON 5) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6abf3e58880ed327106e18e4/details",
-      "startAt": "2026-10-08T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -39,12 +29,22 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ac74a4d85920e4d253668eb",
+      "source": "limitless",
+      "sourceId": "6ac74a4d85920e4d253668eb",
+      "name": "⚗️PokéKhemistry TURBO Thursday",
+      "url": "https://play.limitlesstcg.com/tournament/6ac74a4d85920e4d253668eb/details",
+      "startAt": "2026-10-08T17:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab27766e905c1db68747ad3",
       "source": "limitless",
       "sourceId": "6ab27766e905c1db68747ad3",
       "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
       "url": "https://play.limitlesstcg.com/tournament/6ab27766e905c1db68747ad3/details",
-      "startAt": "2026-10-08T19:00:00.000Z"
+      "startAt": "2026-10-08T18:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -74,6 +74,16 @@
       "sourceId": "6ac0918b245696afb3514e6c",
       "name": "🇧🇷 Hit Challenge #39 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ac0918b245696afb3514e6c/details",
+      "startAt": "2026-10-08T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac79a3785920e4d25366a5d",
+      "source": "limitless",
+      "sourceId": "6ac79a3785920e4d25366a5d",
+      "name": "La Techgece Casual #7 [BO1] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac79a3785920e4d25366a5d/details",
       "startAt": "2026-10-08T23:00:00.000Z"
     },
     {
