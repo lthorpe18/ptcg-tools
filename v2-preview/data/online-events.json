@@ -1,91 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-07T20:08:27.105Z",
+  "generatedAt": "2026-10-08T00:24:03.211Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac4196e85920e4d25364c51",
-      "source": "limitless",
-      "sourceId": "6ac4196e85920e4d25364c51",
-      "name": "Hideout TCG MID-WEEK Meta NO DRAGAPULT ALLOWED",
-      "url": "https://play.limitlesstcg.com/tournament/6ac4196e85920e4d25364c51/details",
-      "startAt": "2026-10-07T21:20:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3bb8f245696afb3516b95",
-      "source": "limitless",
-      "sourceId": "6ac3bb8f245696afb3516b95",
-      "name": "Zard-Pokénight #021",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3bb8f245696afb3516b95/details",
-      "startAt": "2026-10-07T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac0904f245696afb3514e16",
-      "source": "limitless",
-      "sourceId": "6ac0904f245696afb3514e16",
-      "name": "🇧🇷 Hit Challenge #38 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0904f245696afb3514e16/details",
-      "startAt": "2026-10-07T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3170e245696afb35168d7",
-      "source": "limitless",
-      "sourceId": "6ac3170e245696afb35168d7",
-      "name": "La Techgece Casual #6 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3170e245696afb35168d7/details",
-      "startAt": "2026-10-07T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abe7436783097f8dcb7512c",
-      "source": "limitless",
-      "sourceId": "6abe7436783097f8dcb7512c",
-      "name": "REFINE Autumn Series Session 6: Jack-O-Lantern",
-      "url": "https://play.limitlesstcg.com/tournament/6abe7436783097f8dcb7512c/details",
-      "startAt": "2026-10-07T23:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac0db2885920e4d25362a6a",
-      "source": "limitless",
-      "sourceId": "6ac0db2885920e4d25362a6a",
-      "name": "🇧🇷 2° Batalhas Vip 💲💲",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0db2885920e4d25362a6a/details",
-      "startAt": "2026-10-08T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac29c7485920e4d25363e2f",
-      "source": "limitless",
-      "sourceId": "6ac29c7485920e4d25363e2f",
-      "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 4 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6ac29c7485920e4d25363e2f/details",
-      "startAt": "2026-10-08T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac686e3245696afb351842d",
-      "source": "limitless",
-      "sourceId": "6ac686e3245696afb351842d",
-      "name": "TCG ESTADIO ONLINE - BO1",
-      "url": "https://play.limitlesstcg.com/tournament/6ac686e3245696afb351842d/details",
-      "startAt": "2026-10-08T00:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -192,7 +112,7 @@
       "id": "limitless:6aa2d11da4272c53be64cf95",
       "source": "limitless",
       "sourceId": "6aa2d11da4272c53be64cf95",
-      "name": "Nightshades Friday Challenge 1",
+      "name": "Nightshades Friday Challenge 1 25 Codes",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d11da4272c53be64cf95/details",
       "startAt": "2026-10-09T17:00:00.000Z"
     },
@@ -502,7 +422,7 @@
       "id": "limitless:6aad8311e905c1db687445ea",
       "source": "limitless",
       "sourceId": "6aad8311e905c1db687445ea",
-      "name": "Nightshades Monday Cup 1",
+      "name": "Nightshades Monday Cup 1 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad8311e905c1db687445ea/details",
       "startAt": "2026-10-13T00:00:00.000Z"
     },
@@ -555,6 +475,16 @@
       "name": "Pudding Weekly #17 | Where is my supersuit?",
       "url": "https://play.limitlesstcg.com/tournament/6ac3bf1a85920e4d25364635/details",
       "startAt": "2026-10-14T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac6c3ee85920e4d253664a7",
+      "source": "limitless",
+      "sourceId": "6ac6c3ee85920e4d253664a7",
+      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #6",
+      "url": "https://play.limitlesstcg.com/tournament/6ac6c3ee85920e4d253664a7/details",
+      "startAt": "2026-10-14T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -612,7 +542,7 @@
       "id": "limitless:6aa2d234a4272c53be64cfe5",
       "source": "limitless",
       "sourceId": "6aa2d234a4272c53be64cfe5",
-      "name": "Nightshades Friday Challenge 2",
+      "name": "Nightshades Friday Challenge 2 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d234a4272c53be64cfe5/details",
       "startAt": "2026-10-16T17:00:00.000Z"
     },
@@ -662,7 +592,7 @@
       "id": "limitless:6aad83bde905c1db68744611",
       "source": "limitless",
       "sourceId": "6aad83bde905c1db68744611",
-      "name": "Nightshades Monday Cup 2",
+      "name": "Nightshades Monday Cup 2 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad83bde905c1db68744611/details",
       "startAt": "2026-10-20T00:00:00.000Z"
     },
@@ -722,7 +652,7 @@
       "id": "limitless:6aa2d276a4272c53be64cfe7",
       "source": "limitless",
       "sourceId": "6aa2d276a4272c53be64cfe7",
-      "name": "Nightshades Friday Challenge 3",
+      "name": "Nightshades Friday Challenge 3 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d276a4272c53be64cfe7/details",
       "startAt": "2026-10-23T17:00:00.000Z"
     },
@@ -735,6 +665,16 @@
       "name": "Elite Four Fridays",
       "url": "https://play.limitlesstcg.com/tournament/6aad6718e905c1db68744465/details",
       "startAt": "2026-10-23T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac412d9245696afb35170f1",
+      "source": "limitless",
+      "sourceId": "6ac412d9245696afb35170f1",
+      "name": "Rotom Rivals #1",
+      "url": "https://play.limitlesstcg.com/tournament/6ac412d9245696afb35170f1/details",
+      "startAt": "2026-10-24T00:00:00.000Z"
     },
     {
       "format": null,
@@ -762,7 +702,7 @@
       "id": "limitless:6aad83d1e905c1db68744612",
       "source": "limitless",
       "sourceId": "6aad83d1e905c1db68744612",
-      "name": "Nightshades Monday Cup 3",
+      "name": "Nightshades Monday Cup 3 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad83d1e905c1db68744612/details",
       "startAt": "2026-10-27T00:00:00.000Z"
     },
@@ -812,7 +752,7 @@
       "id": "limitless:6aa2d284a4272c53be64cfe9",
       "source": "limitless",
       "sourceId": "6aa2d284a4272c53be64cfe9",
-      "name": "Nightshades Friday Challenge 4",
+      "name": "Nightshades Friday Challenge 4 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d284a4272c53be64cfe9/details",
       "startAt": "2026-10-30T17:00:00.000Z"
     },
