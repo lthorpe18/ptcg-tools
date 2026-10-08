@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-08T00:24:03.211Z",
+  "generatedAt": "2026-10-08T06:38:14.972Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -475,6 +475,16 @@
       "name": "Pudding Weekly #17 | Where is my supersuit?",
       "url": "https://play.limitlesstcg.com/tournament/6ac3bf1a85920e4d25364635/details",
       "startAt": "2026-10-14T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac6f35c85920e4d253667d5",
+      "source": "limitless",
+      "sourceId": "6ac6f35c85920e4d253667d5",
+      "name": "Amyverse PTCG Live Weekly #17 💛 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ac6f35c85920e4d253667d5/details",
+      "startAt": "2026-10-14T18:00:00.000Z"
     },
     {
       "format": "Standard",
