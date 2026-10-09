@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-09T06:40:53.186Z",
+  "generatedAt": "2026-10-09T13:47:24.336Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abfb4c785920e4d25361b54",
-      "source": "limitless",
-      "sourceId": "6abfb4c785920e4d25361b54",
-      "name": "Oceania Open! | Season 4 - Week 1",
-      "url": "https://play.limitlesstcg.com/tournament/6abfb4c785920e4d25361b54/details",
-      "startAt": "2026-10-09T08:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac86d5785920e4d25367576",
-      "source": "limitless",
-      "sourceId": "6ac86d5785920e4d25367576",
-      "name": "SEASAC World Championships Qualifiers | $15 PRIZE",
-      "url": "https://play.limitlesstcg.com/tournament/6ac86d5785920e4d25367576/details",
-      "startAt": "2026-10-09T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -134,6 +114,16 @@
       "sourceId": "6ac09203245696afb3514e6d",
       "name": "🇧🇷 Hit League #6 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ac09203245696afb3514e6d/details",
+      "startAt": "2026-10-10T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac8edc48a8383117e3e7a06",
+      "source": "limitless",
+      "sourceId": "6ac8edc48a8383117e3e7a06",
+      "name": "BZGC Online🔥 ~ Pa lo Nuevo y Lo Viejo",
+      "url": "https://play.limitlesstcg.com/tournament/6ac8edc48a8383117e3e7a06/details",
       "startAt": "2026-10-10T00:00:00.000Z"
     },
     {
@@ -305,6 +295,16 @@
       "name": "C-C Colosseum #20 - 2019 NAIC (SUM-UNB)",
       "url": "https://play.limitlesstcg.com/tournament/6ac4e6b085920e4d25365404/details",
       "startAt": "2026-10-11T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac8cc7e8a8383117e3e783b",
+      "source": "limitless",
+      "sourceId": "6ac8cc7e8a8383117e3e783b",
+      "name": "SEASAC League Challenge #1 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ac8cc7e8a8383117e3e783b/details",
+      "startAt": "2026-10-11T11:30:00.000Z"
     },
     {
       "format": "Standard",
