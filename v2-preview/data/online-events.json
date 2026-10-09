@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-09T00:38:57.378Z",
+  "generatedAt": "2026-10-09T06:40:53.186Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac82df0245696afb35195aa",
-      "source": "limitless",
-      "sourceId": "6ac82df0245696afb35195aa",
-      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
-      "url": "https://play.limitlesstcg.com/tournament/6ac82df0245696afb35195aa/details",
-      "startAt": "2026-10-09T01:10:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -25,6 +15,16 @@
       "name": "Oceania Open! | Season 4 - Week 1",
       "url": "https://play.limitlesstcg.com/tournament/6abfb4c785920e4d25361b54/details",
       "startAt": "2026-10-09T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac86d5785920e4d25367576",
+      "source": "limitless",
+      "sourceId": "6ac86d5785920e4d25367576",
+      "name": "SEASAC World Championships Qualifiers | $15 PRIZE",
+      "url": "https://play.limitlesstcg.com/tournament/6ac86d5785920e4d25367576/details",
+      "startAt": "2026-10-09T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -198,6 +198,16 @@
     },
     {
       "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac86d6b85920e4d25367577",
+      "source": "limitless",
+      "sourceId": "6ac86d6b85920e4d25367577",
+      "name": "SEASAC World Championships | $15 PRIZE",
+      "url": "https://play.limitlesstcg.com/tournament/6ac86d6b85920e4d25367577/details",
+      "startAt": "2026-10-10T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "CAM",
       "id": "limitless:6a5bd3cd52c24ac2da645db3",
       "source": "limitless",
@@ -224,6 +234,16 @@
       "sourceId": "6ac0936b85920e4d253628b9",
       "name": "🇧🇷 Hit Challenge #40 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ac0936b85920e4d253628b9/details",
+      "startAt": "2026-10-10T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ac863ba85920e4d2536753a",
+      "source": "limitless",
+      "sourceId": "6ac863ba85920e4d2536753a",
+      "name": "⚡Surge's TCG Vault Webcam Play!⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6ac863ba85920e4d2536753a/details",
       "startAt": "2026-10-10T18:00:00.000Z"
     },
     {
@@ -305,6 +325,16 @@
       "name": "La Techgece Cup #5 [BO3] (30C Legal!)",
       "url": "https://play.limitlesstcg.com/tournament/6ac3179985920e4d25364359/details",
       "startAt": "2026-10-11T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac8526f85920e4d253674ab",
+      "source": "limitless",
+      "sourceId": "6ac8526f85920e4d253674ab",
+      "name": "Rare Candy Club Showdown #48 (30TH LEGAL)",
+      "url": "https://play.limitlesstcg.com/tournament/6ac8526f85920e4d253674ab/details",
+      "startAt": "2026-10-12T00:00:00.000Z"
     },
     {
       "format": "Standard",
