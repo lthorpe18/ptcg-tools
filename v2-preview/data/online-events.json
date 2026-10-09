@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-08T20:06:57.599Z",
+  "generatedAt": "2026-10-09T00:38:57.378Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,42 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ac0918b245696afb3514e6c",
+      "id": "limitless:6ac82df0245696afb35195aa",
       "source": "limitless",
-      "sourceId": "6ac0918b245696afb3514e6c",
-      "name": "🇧🇷 Hit Challenge #39 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0918b245696afb3514e6c/details",
-      "startAt": "2026-10-08T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac79a3785920e4d25366a5d",
-      "source": "limitless",
-      "sourceId": "6ac79a3785920e4d25366a5d",
-      "name": "La Techgece Casual #7 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ac79a3785920e4d25366a5d/details",
-      "startAt": "2026-10-08T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac1d7d7245696afb3515de0",
-      "source": "limitless",
-      "sourceId": "6ac1d7d7245696afb3515de0",
-      "name": "Le Tournois Du DresseurPokeCharbie #131",
-      "url": "https://play.limitlesstcg.com/tournament/6ac1d7d7245696afb3515de0/details",
-      "startAt": "2026-10-09T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac5063685920e4d25365516",
-      "source": "limitless",
-      "sourceId": "6ac5063685920e4d25365516",
-      "name": "Rare Candy Club Blitz #3 (30TH LEGAL)",
-      "url": "https://play.limitlesstcg.com/tournament/6ac5063685920e4d25365516/details",
-      "startAt": "2026-10-09T00:00:00.000Z"
+      "sourceId": "6ac82df0245696afb35195aa",
+      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
+      "url": "https://play.limitlesstcg.com/tournament/6ac82df0245696afb35195aa/details",
+      "startAt": "2026-10-09T01:10:00.000Z"
     },
     {
       "format": "Standard",
@@ -55,6 +25,16 @@
       "name": "Oceania Open! | Season 4 - Week 1",
       "url": "https://play.limitlesstcg.com/tournament/6abfb4c785920e4d25361b54/details",
       "startAt": "2026-10-09T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac6821e245696afb3518406",
+      "source": "limitless",
+      "sourceId": "6ac6821e245696afb3518406",
+      "name": "Team Corna Weekly October's #2",
+      "url": "https://play.limitlesstcg.com/tournament/6ac6821e245696afb3518406/details",
+      "startAt": "2026-10-09T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -232,7 +212,7 @@
       "id": "limitless:6ac4463a85920e4d25365072",
       "source": "limitless",
       "sourceId": "6ac4463a85920e4d25365072",
-      "name": "🇧🇷🧅 North League #2 Prize!!",
+      "name": "🇧🇷🧅 North League #2 [30th Anniversary Codes]",
       "url": "https://play.limitlesstcg.com/tournament/6ac4463a85920e4d25365072/details",
       "startAt": "2026-10-10T17:00:00.000Z"
     },
@@ -495,6 +475,16 @@
       "name": "13° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6ac7d9ac85920e4d25366e02/details",
       "startAt": "2026-10-15T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac8336a85920e4d253672fe",
+      "source": "limitless",
+      "sourceId": "6ac8336a85920e4d253672fe",
+      "name": "Le Tournois Du DresseurPokeCharbie #132",
+      "url": "https://play.limitlesstcg.com/tournament/6ac8336a85920e4d253672fe/details",
+      "startAt": "2026-10-16T00:00:00.000Z"
     },
     {
       "format": "Standard",
