@@ -1,81 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-09T19:44:39.573Z",
+  "generatedAt": "2026-10-10T00:18:38.909Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3f9ba85920e4d25364acd",
-      "source": "limitless",
-      "sourceId": "6ac3f9ba85920e4d25364acd",
-      "name": "LUDUSP - Pokémon - Liga semanal #2",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3f9ba85920e4d25364acd/details",
-      "startAt": "2026-10-09T21:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac419c7245696afb3517125",
-      "source": "limitless",
-      "sourceId": "6ac419c7245696afb3517125",
-      "name": "FULL BENCH FRIDAYS PTCGL $$CASH PRIZE$$#15",
-      "url": "https://play.limitlesstcg.com/tournament/6ac419c7245696afb3517125/details",
-      "startAt": "2026-10-09T21:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ac0523f85920e4d25362589",
-      "source": "limitless",
-      "sourceId": "6ac0523f85920e4d25362589",
-      "name": "Amyverse Webcam Wonders #30 💙 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0523f85920e4d25362589/details",
-      "startAt": "2026-10-09T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad66bdf127b1b52c27c0ae",
-      "source": "limitless",
-      "sourceId": "6aad66bdf127b1b52c27c0ae",
-      "name": "Elite Four Fridays",
-      "url": "https://play.limitlesstcg.com/tournament/6aad66bdf127b1b52c27c0ae/details",
-      "startAt": "2026-10-09T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3175585920e4d25364358",
-      "source": "limitless",
-      "sourceId": "6ac3175585920e4d25364358",
-      "name": "La Techgece Cup #4 [BO3] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3175585920e4d25364358/details",
-      "startAt": "2026-10-09T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac09203245696afb3514e6d",
-      "source": "limitless",
-      "sourceId": "6ac09203245696afb3514e6d",
-      "name": "🇧🇷 Hit League #6 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ac09203245696afb3514e6d/details",
-      "startAt": "2026-10-10T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac8edc48a8383117e3e7a06",
-      "source": "limitless",
-      "sourceId": "6ac8edc48a8383117e3e7a06",
-      "name": "BZGC Online🔥 ~ Pa lo Nuevo y Lo Viejo",
-      "url": "https://play.limitlesstcg.com/tournament/6ac8edc48a8383117e3e7a06/details",
-      "startAt": "2026-10-10T00:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGL",
@@ -115,6 +45,16 @@
       "name": "James G Tournaments #58 - 2017 Worlds (PRC-BUS)",
       "url": "https://play.limitlesstcg.com/tournament/6ac13ac1245696afb351562a/details",
       "startAt": "2026-10-10T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac97f84115c12b73a5a0243",
+      "source": "limitless",
+      "sourceId": "6ac97f84115c12b73a5a0243",
+      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
+      "url": "https://play.limitlesstcg.com/tournament/6ac97f84115c12b73a5a0243/details",
+      "startAt": "2026-10-10T01:10:00.000Z"
     },
     {
       "format": null,
@@ -535,6 +475,16 @@
       "name": "🏆 LING TV ARENA 🏆",
       "url": "https://play.limitlesstcg.com/tournament/6abe1b7a783097f8dcb74e64/details",
       "startAt": "2026-10-16T18:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ac0523f85920e4d25362589",
+      "source": "limitless",
+      "sourceId": "6ac0523f85920e4d25362589",
+      "name": "Amyverse Webcam Wonders #30 💙 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ac0523f85920e4d25362589/details",
+      "startAt": "2026-10-16T22:00:00.000Z"
     },
     {
       "format": "Standard",
