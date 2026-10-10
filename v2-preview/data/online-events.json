@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-10T18:50:06.656Z",
+  "generatedAt": "2026-10-10T23:49:01.275Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa74ce538886b36383bf593",
-      "source": "limitless",
-      "sourceId": "6aa74ce538886b36383bf593",
-      "name": "Lhama Champs",
-      "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
-      "startAt": "2026-10-10T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ac419f4245696afb3517128",
-      "source": "limitless",
-      "sourceId": "6ac419f4245696afb3517128",
-      "name": "The Hideout:Cash Is King PTCG Webcam Event $10 #11",
-      "url": "https://play.limitlesstcg.com/tournament/6ac419f4245696afb3517128/details",
-      "startAt": "2026-10-10T20:15:00.000Z"
-    },
     {
       "format": null,
       "platform": "CAM",
@@ -397,6 +377,16 @@
       "startAt": "2026-10-16T23:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aca8936115c12b73a5a0d16",
+      "source": "limitless",
+      "sourceId": "6aca8936115c12b73a5a0d16",
+      "name": "🇧🇷 Hit Challenge #43 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aca8936115c12b73a5a0d16/details",
+      "startAt": "2026-10-16T23:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6ac08896245696afb3514d84",
@@ -419,10 +409,20 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aca8ac7115c12b73a5a0d28",
+      "source": "limitless",
+      "sourceId": "6aca8ac7115c12b73a5a0d28",
+      "name": "🇧🇷 Hit Challenge #44 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aca8ac7115c12b73a5a0d28/details",
+      "startAt": "2026-10-17T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aca14b7115c12b73a5a0669",
       "source": "limitless",
       "sourceId": "6aca14b7115c12b73a5a0669",
-      "name": "🇧🇷 39° Torneio Padrão do Zap ! Hora do Pix",
+      "name": "🇧🇷 38° Torneio Padrão do Zap ! Hora do Pix",
       "url": "https://play.limitlesstcg.com/tournament/6aca14b7115c12b73a5a0669/details",
       "startAt": "2026-10-19T00:00:00.000Z"
     },
