@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-10T06:22:27.103Z",
+  "generatedAt": "2026-10-10T13:02:15.931Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac86d6b85920e4d25367577",
-      "source": "limitless",
-      "sourceId": "6ac86d6b85920e4d25367577",
-      "name": "SEASAC World Championships | $15 PRIZE",
-      "url": "https://play.limitlesstcg.com/tournament/6ac86d6b85920e4d25367577/details",
-      "startAt": "2026-10-10T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -455,6 +445,16 @@
       "name": "TOURNAMENT OF DOOM! DINNER?",
       "url": "https://play.limitlesstcg.com/tournament/6aa5d406f1243e65f97ff818/details",
       "startAt": "2026-10-17T02:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aca14b7115c12b73a5a0669",
+      "source": "limitless",
+      "sourceId": "6aca14b7115c12b73a5a0669",
+      "name": "🇧🇷 39° Torneio Padrão do Zap ! Hora do Pix",
+      "url": "https://play.limitlesstcg.com/tournament/6aca14b7115c12b73a5a0669/details",
+      "startAt": "2026-10-19T00:00:00.000Z"
     },
     {
       "format": "Standard",
