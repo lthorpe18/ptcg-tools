@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-11T19:09:25.153Z",
+  "generatedAt": "2026-10-11T23:58:33.713Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,42 +9,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6acbc7f68a8383117e3e99c5",
-      "source": "limitless",
-      "sourceId": "6acbc7f68a8383117e3e99c5",
-      "name": "Pipe's Sunday Cup #1",
-      "url": "https://play.limitlesstcg.com/tournament/6acbc7f68a8383117e3e99c5/details",
-      "startAt": "2026-10-11T21:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab9de13783097f8dcb7258f",
-      "source": "limitless",
-      "sourceId": "6ab9de13783097f8dcb7258f",
-      "name": "Sisterhood Showdown #3 💗 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6ab9de13783097f8dcb7258f/details",
-      "startAt": "2026-10-11T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3179985920e4d25364359",
-      "source": "limitless",
-      "sourceId": "6ac3179985920e4d25364359",
-      "name": "La Techgece Cup #5 [BO3] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3179985920e4d25364359/details",
-      "startAt": "2026-10-11T22:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ac8526f85920e4d253674ab",
       "source": "limitless",
       "sourceId": "6ac8526f85920e4d253674ab",
       "name": "Rare Candy Club Showdown #48 (30TH LEGAL)",
       "url": "https://play.limitlesstcg.com/tournament/6ac8526f85920e4d253674ab/details",
-      "startAt": "2026-10-12T00:00:00.000Z"
+      "startAt": "2026-10-12T00:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acad38c115c12b73a5a0f28",
+      "source": "limitless",
+      "sourceId": "6acad38c115c12b73a5a0f28",
+      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
+      "url": "https://play.limitlesstcg.com/tournament/6acad38c115c12b73a5a0f28/details",
+      "startAt": "2026-10-12T01:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acc0c288a8383117e3e9d18",
+      "source": "limitless",
+      "sourceId": "6acc0c288a8383117e3e9d18",
+      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #15",
+      "url": "https://play.limitlesstcg.com/tournament/6acc0c288a8383117e3e9d18/details",
+      "startAt": "2026-10-12T02:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -55,6 +45,16 @@
       "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
       "url": "https://play.limitlesstcg.com/tournament/6ac694a385920e4d25366173/details",
       "startAt": "2026-10-12T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acc1426115c12b73a5a1ab8",
+      "source": "limitless",
+      "sourceId": "6acc1426115c12b73a5a1ab8",
+      "name": "Pumpkaweekly",
+      "url": "https://play.limitlesstcg.com/tournament/6acc1426115c12b73a5a1ab8/details",
+      "startAt": "2026-10-12T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -135,6 +135,16 @@
       "name": "CHALLENGE OF DOOM! I will.....",
       "url": "https://play.limitlesstcg.com/tournament/6aa5d01c38886b36383be23c/details",
       "startAt": "2026-10-13T03:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acbde978a8383117e3e9ab9",
+      "source": "limitless",
+      "sourceId": "6acbde978a8383117e3e9ab9",
+      "name": "Semanal LigaNova Out/2",
+      "url": "https://play.limitlesstcg.com/tournament/6acbde978a8383117e3e9ab9/details",
+      "startAt": "2026-10-13T15:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -388,6 +398,16 @@
     },
     {
       "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6a5bd3cd52c24ac2da645db3",
+      "source": "limitless",
+      "sourceId": "6a5bd3cd52c24ac2da645db3",
+      "name": "Webcam Sisterhood Saturdays #3 🩷 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
+      "startAt": "2026-10-17T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aca8ac7115c12b73a5a0d28",
       "source": "limitless",
@@ -535,6 +555,16 @@
       "name": "($115 PRIZE POOL) OCTOBER COOKOFF CHALLENGE",
       "url": "https://play.limitlesstcg.com/tournament/6abe8331880ed327106e0e64/details",
       "startAt": "2026-10-24T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acbd48c115c12b73a5a1817",
+      "source": "limitless",
+      "sourceId": "6acbd48c115c12b73a5a1817",
+      "name": "FINISTERRAE SERIES TCG #4",
+      "url": "https://play.limitlesstcg.com/tournament/6acbd48c115c12b73a5a1817/details",
+      "startAt": "2026-10-25T15:00:00.000Z"
     },
     {
       "format": "Standard",
