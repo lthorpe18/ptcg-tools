@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v33';
+const CACHE_NAME = 'ptcg-tools-v34';
 const CORE = [
   './',
   './home-content.html',
@@ -73,6 +73,18 @@ async function networkFirstNavigation(request) {
   return (await cache.match(key)) || Response.error();
 }
 
+async function networkFirstStateAsset(request) {
+  const cache = await caches.open(CACHE_NAME);
+  try {
+    const response = await fetch(new Request(request, { cache:'no-store' }));
+    if (response && response.ok) {
+      await cache.put(request, response.clone());
+      return response;
+    }
+  } catch (_) {}
+  return (await cache.match(request)) || Response.error();
+}
+
 async function staleWhileRevalidate(request, cacheKey = request) {
   const cache = await caches.open(CACHE_NAME);
   const cached = await cache.match(cacheKey);
@@ -88,6 +100,12 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+
+  const canonicalStateAsset = /\/apps\/_shared\/(?:storage|match-store)\.js$/.test(url.pathname);
+  if (canonicalStateAsset) {
+    event.respondWith(networkFirstStateAsset(request));
+    return;
+  }
 
   if (request.cache === 'no-store' || url.searchParams.has('v') || url.searchParams.has('_pt')) return;
 
