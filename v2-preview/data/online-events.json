@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-11T13:30:33.295Z",
+  "generatedAt": "2026-10-11T19:09:25.153Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,42 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6acb2b8b115c12b73a5a1198",
+      "id": "limitless:6acbc7f68a8383117e3e99c5",
       "source": "limitless",
-      "sourceId": "6acb2b8b115c12b73a5a1198",
-      "name": "Monster Collectibles After Hours Season 2 #4",
-      "url": "https://play.limitlesstcg.com/tournament/6acb2b8b115c12b73a5a1198/details",
-      "startAt": "2026-10-11T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac940b5115c12b73a59ff05",
-      "source": "limitless",
-      "sourceId": "6ac940b5115c12b73a59ff05",
-      "name": "Domingou#11",
-      "url": "https://play.limitlesstcg.com/tournament/6ac940b5115c12b73a59ff05/details",
-      "startAt": "2026-10-11T17:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acb5892115c12b73a5a1211",
-      "source": "limitless",
-      "sourceId": "6acb5892115c12b73a5a1211",
-      "name": "Redraftowa Liga Pokemon TCG - 11.10.2026",
-      "url": "https://play.limitlesstcg.com/tournament/6acb5892115c12b73a5a1211/details",
-      "startAt": "2026-10-11T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acb738a8a8383117e3e95a5",
-      "source": "limitless",
-      "sourceId": "6acb738a8a8383117e3e95a5",
-      "name": "Poof! #8: Doing it again baby! (Bo3)",
-      "url": "https://play.limitlesstcg.com/tournament/6acb738a8a8383117e3e95a5/details",
-      "startAt": "2026-10-11T18:30:00.000Z"
+      "sourceId": "6acbc7f68a8383117e3e99c5",
+      "name": "Pipe's Sunday Cup #1",
+      "url": "https://play.limitlesstcg.com/tournament/6acbc7f68a8383117e3e99c5/details",
+      "startAt": "2026-10-11T21:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -95,6 +65,16 @@
       "name": "⚡Surge's TCG Vault Webcam Play!⚡",
       "url": "https://play.limitlesstcg.com/tournament/6ab27807e905c1db68747ad6/details",
       "startAt": "2026-10-12T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acb9f67115c12b73a5a13ce",
+      "source": "limitless",
+      "sourceId": "6acb9f67115c12b73a5a13ce",
+      "name": "TREINO PRO LAIC - SÓ BR - #001",
+      "url": "https://play.limitlesstcg.com/tournament/6acb9f67115c12b73a5a13ce/details",
+      "startAt": "2026-10-12T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -385,6 +365,16 @@
       "name": "Budget Build Battles! | Season 9 - Week 2",
       "url": "https://play.limitlesstcg.com/tournament/6ac08896245696afb3514d84/details",
       "startAt": "2026-10-17T00:30:00.000Z"
+    },
+    {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6acba97b115c12b73a5a14a9",
+      "source": "limitless",
+      "sourceId": "6acba97b115c12b73a5a14a9",
+      "name": "James G Tournaments #59 - EX Series (RS-PK)",
+      "url": "https://play.limitlesstcg.com/tournament/6acba97b115c12b73a5a14a9/details",
+      "startAt": "2026-10-17T01:00:00.000Z"
     },
     {
       "format": "Standard",
