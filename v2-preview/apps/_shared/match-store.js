@@ -30,6 +30,14 @@
   function gamesFromScore(wins,losses,draws,wentFirst=null){const results=[];for(const [result,count] of [['win',wins],['loss',losses],['draw',draws]]){const total=Math.max(0,Math.min(9,Number(count)||0));for(let index=0;index<total;index++)results.push({result,wentFirst:index===0?wentFirst:null})}return results}
   function score(match){return (match?.games||[]).reduce((out,game)=>{if(game.result==='win')out.wins++;else if(game.result==='loss')out.losses++;else if(game.result==='draw')out.draws++;return out},{wins:0,losses:0,draws:0})}
   function stats(rows=all()){const out={wins:0,losses:0,draws:0,total:0,gameWins:0,gameLosses:0,gameDraws:0,winRate:0};for(const match of rows){if(match.result==='win')out.wins++;else if(match.result==='loss')out.losses++;else if(match.result==='draw')out.draws++;else continue;out.total++;const games=score(match);out.gameWins+=games.wins;out.gameLosses+=games.losses;out.gameDraws+=games.draws}out.winRate=out.total?out.wins/out.total:0;return out}
-  function subscribe(callback){if(typeof callback!=='function')return ()=>{};const onStorage=event=>{if(event.key===global.PTCGStorage?.ROOT_KEY)callback()};global.addEventListener('storage',onStorage);return ()=>global.removeEventListener('storage',onStorage)}
+  function subscribe(callback){
+    if(typeof callback!=='function')return ()=>{};
+    const rootKey=global.PTCGStorage?.ROOT_KEY;
+    const onStorage=event=>{if(event.key===rootKey)callback({source:'storage'})};
+    const onLocalChange=event=>{if(!event?.detail?.source||event.detail.source==='root-state')callback({source:'local-change'})};
+    global.addEventListener('storage',onStorage);
+    global.addEventListener('ptcg:local-change',onLocalChange);
+    return ()=>{global.removeEventListener('storage',onStorage);global.removeEventListener('ptcg:local-change',onLocalChange)};
+  }
   global.PTCGMatchStore={MODEL_VERSION,ROUND_STAGES,all,get,findByImportHash,put,remove,normalise,gamesFromScore,score,stats,subscribe};
 })(window);
