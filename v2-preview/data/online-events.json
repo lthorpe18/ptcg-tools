@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-12T06:30:12.660Z",
+  "generatedAt": "2026-10-12T16:05:20.735Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -14,17 +14,7 @@
       "sourceId": "6ac694a385920e4d25366173",
       "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
       "url": "https://play.limitlesstcg.com/tournament/6ac694a385920e4d25366173/details",
-      "startAt": "2026-10-12T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acb9f67115c12b73a5a13ce",
-      "source": "limitless",
-      "sourceId": "6acb9f67115c12b73a5a13ce",
-      "name": "TREINO PRO LAIC - SÓ BR - #001",
-      "url": "https://play.limitlesstcg.com/tournament/6acb9f67115c12b73a5a13ce/details",
-      "startAt": "2026-10-12T16:00:00.000Z"
+      "startAt": "2026-10-12T16:10:00.000Z"
     },
     {
       "format": "Standard",
@@ -35,16 +25,6 @@
       "name": "Pumpkaweekly",
       "url": "https://play.limitlesstcg.com/tournament/6acc1426115c12b73a5a1ab8/details",
       "startAt": "2026-10-12T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ab27807e905c1db68747ad6",
-      "source": "limitless",
-      "sourceId": "6ab27807e905c1db68747ad6",
-      "name": "⚡Surge's TCG Vault Webcam Play!⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6ab27807e905c1db68747ad6/details",
-      "startAt": "2026-10-12T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -129,12 +109,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6accac1b8a8383117e3ea164",
+      "source": "limitless",
+      "sourceId": "6accac1b8a8383117e3ea164",
+      "name": "SEASAC League Challenge #3 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6accac1b8a8383117e3ea164/details",
+      "startAt": "2026-10-13T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6acbde978a8383117e3e9ab9",
       "source": "limitless",
       "sourceId": "6acbde978a8383117e3e9ab9",
       "name": "Semanal LigaNova Out/2",
       "url": "https://play.limitlesstcg.com/tournament/6acbde978a8383117e3e9ab9/details",
       "startAt": "2026-10-13T15:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acc878a8a8383117e3ea118",
+      "source": "limitless",
+      "sourceId": "6acc878a8a8383117e3ea118",
+      "name": "Team Corna Weekly October's #3",
+      "url": "https://play.limitlesstcg.com/tournament/6acc878a8a8383117e3ea118/details",
+      "startAt": "2026-10-13T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -185,6 +185,16 @@
       "name": "Pudding Weekly #17 | Where is my supersuit?",
       "url": "https://play.limitlesstcg.com/tournament/6ac3bf1a85920e4d25364635/details",
       "startAt": "2026-10-14T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6accac288a8383117e3ea165",
+      "source": "limitless",
+      "sourceId": "6accac288a8383117e3ea165",
+      "name": "SEASAC League Challenge #4 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6accac288a8383117e3ea165/details",
+      "startAt": "2026-10-14T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -245,6 +255,16 @@
       "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 5 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6ac2a7b985920e4d25363eaa/details",
       "startAt": "2026-10-15T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6accac388a8383117e3ea166",
+      "source": "limitless",
+      "sourceId": "6accac388a8383117e3ea166",
+      "name": "SEASAC League Challenge #5 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6accac388a8383117e3ea166/details",
+      "startAt": "2026-10-15T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -325,16 +345,6 @@
       "name": "Nightshades Friday Challenge 2 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d234a4272c53be64cfe5/details",
       "startAt": "2026-10-16T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abe1b7a783097f8dcb74e64",
-      "source": "limitless",
-      "sourceId": "6abe1b7a783097f8dcb74e64",
-      "name": "🏆 LING TV ARENA 🏆",
-      "url": "https://play.limitlesstcg.com/tournament/6abe1b7a783097f8dcb74e64/details",
-      "startAt": "2026-10-16T18:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -479,6 +489,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abe1b7a783097f8dcb74e64",
+      "source": "limitless",
+      "sourceId": "6abe1b7a783097f8dcb74e64",
+      "name": "🏆 LING TV ARENA 🏆",
+      "url": "https://play.limitlesstcg.com/tournament/6abe1b7a783097f8dcb74e64/details",
+      "startAt": "2026-10-19T18:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aad83bde905c1db68744611",
       "source": "limitless",
       "sourceId": "6aad83bde905c1db68744611",
@@ -599,6 +619,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6abe23b5880ed327106e0b8b",
+      "source": "limitless",
+      "sourceId": "6abe23b5880ed327106e0b8b",
+      "name": "🏆Ling TV ARENA🏆",
+      "url": "https://play.limitlesstcg.com/tournament/6abe23b5880ed327106e0b8b/details",
+      "startAt": "2026-10-26T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aad83d1e905c1db68744612",
       "source": "limitless",
       "sourceId": "6aad83d1e905c1db68744612",
@@ -659,16 +689,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6abe23b5880ed327106e0b8b",
-      "source": "limitless",
-      "sourceId": "6abe23b5880ed327106e0b8b",
-      "name": "🏆Ling TV ARENA🏆",
-      "url": "https://play.limitlesstcg.com/tournament/6abe23b5880ed327106e0b8b/details",
-      "startAt": "2026-10-30T19:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6aad6751e905c1db68744467",
       "source": "limitless",
       "sourceId": "6aad6751e905c1db68744467",
@@ -695,6 +715,26 @@
       "name": "Nightshades Monday Cup 4 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad83eee905c1db68744613/details",
       "startAt": "2026-11-03T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6accf81e8a8383117e3ea311",
+      "source": "limitless",
+      "sourceId": "6accf81e8a8383117e3ea311",
+      "name": "Torneo Relámpago ⚡ #87 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6accf81e8a8383117e3ea311/details",
+      "startAt": "2026-11-04T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acd04a2115c12b73a5a211a",
+      "source": "limitless",
+      "sourceId": "6acd04a2115c12b73a5a211a",
+      "name": "Torneo Relámpago ⚡ #88 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6acd04a2115c12b73a5a211a/details",
+      "startAt": "2026-11-06T01:30:00.000Z"
     },
     {
       "format": "Standard",
