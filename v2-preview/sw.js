@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ptcg-tools-v34';
+const CACHE_NAME = 'ptcg-tools-v35';
 const CORE = [
   './',
   './home-content.html',
