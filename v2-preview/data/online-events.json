@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-12T16:05:20.735Z",
+  "generatedAt": "2026-10-12T23:12:59.030Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac694a385920e4d25366173",
-      "source": "limitless",
-      "sourceId": "6ac694a385920e4d25366173",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ac694a385920e4d25366173/details",
-      "startAt": "2026-10-12T16:10:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acc1426115c12b73a5a1ab8",
-      "source": "limitless",
-      "sourceId": "6acc1426115c12b73a5a1ab8",
-      "name": "Pumpkaweekly",
-      "url": "https://play.limitlesstcg.com/tournament/6acc1426115c12b73a5a1ab8/details",
-      "startAt": "2026-10-12T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3f54d85920e4d25364ab2",
-      "source": "limitless",
-      "sourceId": "6ac3f54d85920e4d25364ab2",
-      "name": "Sunny's Weekly #277 Judge Appreciation Week!",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3f54d85920e4d25364ab2/details",
-      "startAt": "2026-10-12T22:05:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6ab59691e905c1db68749984",
-      "source": "limitless",
-      "sourceId": "6ab59691e905c1db68749984",
-      "name": "Aceless Academy - Standard Aceless Format #3",
-      "url": "https://play.limitlesstcg.com/tournament/6ab59691e905c1db68749984/details",
-      "startAt": "2026-10-12T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acc557d115c12b73a5a1da6",
-      "source": "limitless",
-      "sourceId": "6acc557d115c12b73a5a1da6",
-      "name": "La Techgece Casual #8 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6acc557d115c12b73a5a1da6/details",
-      "startAt": "2026-10-12T23:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -99,6 +49,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6acd081f8a8383117e3ea435",
+      "source": "limitless",
+      "sourceId": "6acd081f8a8383117e3ea435",
+      "name": "🏛💫 Card Temple Weekly Battles #80",
+      "url": "https://play.limitlesstcg.com/tournament/6acd081f8a8383117e3ea435/details",
+      "startAt": "2026-10-13T02:01:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5d01c38886b36383be23c",
       "source": "limitless",
       "sourceId": "6aa5d01c38886b36383be23c",
@@ -125,16 +85,6 @@
       "name": "Semanal LigaNova Out/2",
       "url": "https://play.limitlesstcg.com/tournament/6acbde978a8383117e3e9ab9/details",
       "startAt": "2026-10-13T15:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acc878a8a8383117e3ea118",
-      "source": "limitless",
-      "sourceId": "6acc878a8a8383117e3ea118",
-      "name": "Team Corna Weekly October's #3",
-      "url": "https://play.limitlesstcg.com/tournament/6acc878a8a8383117e3ea118/details",
-      "startAt": "2026-10-13T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -169,6 +119,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6acd23b88a8383117e3ea5f4",
+      "source": "limitless",
+      "sourceId": "6acd23b88a8383117e3ea5f4",
+      "name": "🇲🇽 Torneo PTCGL premio 🏆 Póster Collection 30th",
+      "url": "https://play.limitlesstcg.com/tournament/6acd23b88a8383117e3ea5f4/details",
+      "startAt": "2026-10-13T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa5a6f2f1243e65f97ff28f",
       "source": "limitless",
       "sourceId": "6aa5a6f2f1243e65f97ff28f",
@@ -195,6 +155,16 @@
       "name": "SEASAC League Challenge #4 (SEASON 6) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6accac288a8383117e3ea165/details",
       "startAt": "2026-10-14T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acc878a8a8383117e3ea118",
+      "source": "limitless",
+      "sourceId": "6acc878a8a8383117e3ea118",
+      "name": "Team Corna Weekly October's #3",
+      "url": "https://play.limitlesstcg.com/tournament/6acc878a8a8383117e3ea118/details",
+      "startAt": "2026-10-14T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -245,6 +215,16 @@
       "name": "La Techgece Casual #8 [BO1] (30C Legal!)",
       "url": "https://play.limitlesstcg.com/tournament/6acc55db8a8383117e3ea0a0/details",
       "startAt": "2026-10-14T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acd18b78a8383117e3ea4c6",
+      "source": "limitless",
+      "sourceId": "6acd18b78a8383117e3ea4c6",
+      "name": "REFINE Autumn Series Session 7: Candy Corn",
+      "url": "https://play.limitlesstcg.com/tournament/6acd18b78a8383117e3ea4c6/details",
+      "startAt": "2026-10-14T23:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -415,6 +395,16 @@
       "name": "TOURNAMENT OF DOOM! DINNER?",
       "url": "https://play.limitlesstcg.com/tournament/6aa5d406f1243e65f97ff818/details",
       "startAt": "2026-10-17T02:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acd25e9115c12b73a5a24f7",
+      "source": "limitless",
+      "sourceId": "6acd25e9115c12b73a5a24f7",
+      "name": "YHT Pokémon TCG League",
+      "url": "https://play.limitlesstcg.com/tournament/6acd25e9115c12b73a5a24f7/details",
+      "startAt": "2026-10-17T06:30:00.000Z"
     },
     {
       "format": "Standard",
