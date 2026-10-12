@@ -25,5 +25,5 @@ test('installed app refreshes canonical root and Match store scripts network-fir
   assert.match(sw,/networkFirstStateAsset/);
   assert.match(sw,/\(\?:storage\|match-store\)\\\.js/);
   assert.match(sw,/cache:'no-store'/);
-  assert.match(sw,/ptcg-tools-v34/);
+  assert.match(sw,/ptcg-tools-v35/);
 });
