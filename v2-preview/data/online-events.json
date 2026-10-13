@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-13T07:05:40.545Z",
+  "generatedAt": "2026-10-13T16:25:54.357Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,22 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6accac1b8a8383117e3ea164",
-      "source": "limitless",
-      "sourceId": "6accac1b8a8383117e3ea164",
-      "name": "SEASAC League Challenge #3 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6accac1b8a8383117e3ea164/details",
-      "startAt": "2026-10-13T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6acbde978a8383117e3e9ab9",
       "source": "limitless",
       "sourceId": "6acbde978a8383117e3e9ab9",
       "name": "Semanal LigaNova Out/2",
       "url": "https://play.limitlesstcg.com/tournament/6acbde978a8383117e3e9ab9/details",
-      "startAt": "2026-10-13T15:00:00.000Z"
+      "startAt": "2026-10-13T17:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -69,12 +59,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6aca5d3c8a8383117e3e8cde",
+      "id": "limitless:6ace0167115c12b73a5a2d8c",
       "source": "limitless",
-      "sourceId": "6aca5d3c8a8383117e3e8cde",
-      "name": "🇧🇷 Semanal • Hit Belém #3 | Pokémon TCG",
-      "url": "https://play.limitlesstcg.com/tournament/6aca5d3c8a8383117e3e8cde/details",
-      "startAt": "2026-10-13T22:00:00.000Z"
+      "sourceId": "6ace0167115c12b73a5a2d8c",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6ace0167115c12b73a5a2d8c/details",
+      "startAt": "2026-10-13T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -397,6 +387,16 @@
       "startAt": "2026-10-17T06:30:00.000Z"
     },
     {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ace4669115c12b73a5a2f4d",
+      "source": "limitless",
+      "sourceId": "6ace4669115c12b73a5a2f4d",
+      "name": "TurboBlaze Presents: The Saturday Special #4",
+      "url": "https://play.limitlesstcg.com/tournament/6ace4669115c12b73a5a2f4d/details",
+      "startAt": "2026-10-17T16:30:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "CAM",
       "id": "limitless:6a5bd3cd52c24ac2da645db3",
@@ -465,6 +465,26 @@
       "name": "🇧🇷 38° Torneio Padrão do Zap ! Hora do Pix",
       "url": "https://play.limitlesstcg.com/tournament/6aca14b7115c12b73a5a0669/details",
       "startAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ace4600115c12b73a5a2f49",
+      "source": "limitless",
+      "sourceId": "6ace4600115c12b73a5a2f49",
+      "name": "TurboBlaze Trials GLC Series - Season 2 Week 8",
+      "url": "https://play.limitlesstcg.com/tournament/6ace4600115c12b73a5a2f49/details",
+      "startAt": "2026-10-19T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ace21698a8383117e3eaf39",
+      "source": "limitless",
+      "sourceId": "6ace21698a8383117e3eaf39",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ace21698a8383117e3eaf39/details",
+      "startAt": "2026-10-19T16:00:00.000Z"
     },
     {
       "format": "Standard",
