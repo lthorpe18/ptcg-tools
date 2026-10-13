@@ -1,71 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-12T23:12:59.030Z",
+  "generatedAt": "2026-10-13T07:05:40.545Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a320126e334c3c9befd8433",
-      "source": "limitless",
-      "sourceId": "6a320126e334c3c9befd8433",
-      "name": "🇧🇷 Hit Team #1 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6a320126e334c3c9befd8433/details",
-      "startAt": "2026-10-13T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad8311e905c1db687445ea",
-      "source": "limitless",
-      "sourceId": "6aad8311e905c1db687445ea",
-      "name": "Nightshades Monday Cup 1 (25 Codes)",
-      "url": "https://play.limitlesstcg.com/tournament/6aad8311e905c1db687445ea/details",
-      "startAt": "2026-10-13T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac29b5485920e4d25363e2b",
-      "source": "limitless",
-      "sourceId": "6ac29b5485920e4d25363e2b",
-      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 5 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6ac29b5485920e4d25363e2b/details",
-      "startAt": "2026-10-13T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acc59f68a8383117e3ea0c2",
-      "source": "limitless",
-      "sourceId": "6acc59f68a8383117e3ea0c2",
-      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #16",
-      "url": "https://play.limitlesstcg.com/tournament/6acc59f68a8383117e3ea0c2/details",
-      "startAt": "2026-10-13T02:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acd081f8a8383117e3ea435",
-      "source": "limitless",
-      "sourceId": "6acd081f8a8383117e3ea435",
-      "name": "🏛💫 Card Temple Weekly Battles #80",
-      "url": "https://play.limitlesstcg.com/tournament/6acd081f8a8383117e3ea435/details",
-      "startAt": "2026-10-13T02:01:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa5d01c38886b36383be23c",
-      "source": "limitless",
-      "sourceId": "6aa5d01c38886b36383be23c",
-      "name": "CHALLENGE OF DOOM! I will.....",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5d01c38886b36383be23c/details",
-      "startAt": "2026-10-13T03:35:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -109,6 +49,26 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6acd7786115c12b73a5a29fd",
+      "source": "limitless",
+      "sourceId": "6acd7786115c12b73a5a29fd",
+      "name": "Draw 7 Tourney #1",
+      "url": "https://play.limitlesstcg.com/tournament/6acd7786115c12b73a5a29fd/details",
+      "startAt": "2026-10-13T18:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa74ce538886b36383bf593",
+      "source": "limitless",
+      "sourceId": "6aa74ce538886b36383bf593",
+      "name": "Lhama Champs",
+      "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
+      "startAt": "2026-10-13T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aca5d3c8a8383117e3e8cde",
       "source": "limitless",
       "sourceId": "6aca5d3c8a8383117e3e8cde",
@@ -125,6 +85,16 @@
       "name": "🇲🇽 Torneo PTCGL premio 🏆 Póster Collection 30th",
       "url": "https://play.limitlesstcg.com/tournament/6acd23b88a8383117e3ea5f4/details",
       "startAt": "2026-10-13T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acd76e1115c12b73a5a29f9",
+      "source": "limitless",
+      "sourceId": "6acd76e1115c12b73a5a29f9",
+      "name": "Last Prize Series S4 #4",
+      "url": "https://play.limitlesstcg.com/tournament/6acd76e1115c12b73a5a29f9/details",
+      "startAt": "2026-10-13T23:35:00.000Z"
     },
     {
       "format": "Standard",
@@ -259,6 +229,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6acd93e28a8383117e3eac3e",
+      "source": "limitless",
+      "sourceId": "6acd93e28a8383117e3eac3e",
+      "name": "Amyverse Bulk Box Battles #3 🧡 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6acd93e28a8383117e3eac3e/details",
+      "startAt": "2026-10-15T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac5488285920e4d253657e8",
       "source": "limitless",
       "sourceId": "6ac5488285920e4d253657e8",
@@ -294,6 +274,16 @@
       "sourceId": "6ac8336a85920e4d253672fe",
       "name": "Le Tournois Du DresseurPokeCharbie #132",
       "url": "https://play.limitlesstcg.com/tournament/6ac8336a85920e4d253672fe/details",
+      "startAt": "2026-10-16T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acd936a8a8383117e3eac3c",
+      "source": "limitless",
+      "sourceId": "6acd936a8a8383117e3eac3c",
+      "name": "Heart of the Games Online Series - S105",
+      "url": "https://play.limitlesstcg.com/tournament/6acd936a8a8383117e3eac3c/details",
       "startAt": "2026-10-16T00:00:00.000Z"
     },
     {
@@ -485,6 +475,16 @@
       "name": "🏆 LING TV ARENA 🏆",
       "url": "https://play.limitlesstcg.com/tournament/6abe1b7a783097f8dcb74e64/details",
       "startAt": "2026-10-19T18:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acd2914115c12b73a5a2514",
+      "source": "limitless",
+      "sourceId": "6acd2914115c12b73a5a2514",
+      "name": "Sunny's Weekly #278 Sunny of the Corn!",
+      "url": "https://play.limitlesstcg.com/tournament/6acd2914115c12b73a5a2514/details",
+      "startAt": "2026-10-19T22:05:00.000Z"
     },
     {
       "format": "Standard",
