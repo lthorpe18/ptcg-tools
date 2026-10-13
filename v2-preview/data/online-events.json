@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-13T16:25:54.357Z",
+  "generatedAt": "2026-10-13T21:32:25.610Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,70 +9,10 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6acbde978a8383117e3e9ab9",
-      "source": "limitless",
-      "sourceId": "6acbde978a8383117e3e9ab9",
-      "name": "Semanal LigaNova Out/2",
-      "url": "https://play.limitlesstcg.com/tournament/6acbde978a8383117e3e9ab9/details",
-      "startAt": "2026-10-13T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acb6596115c12b73a5a1243",
-      "source": "limitless",
-      "sourceId": "6acb6596115c12b73a5a1243",
-      "name": "Becca Bootcamp - Prizing Perchance?",
-      "url": "https://play.limitlesstcg.com/tournament/6acb6596115c12b73a5a1243/details",
-      "startAt": "2026-10-13T17:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac51e2b245696afb351798d",
-      "source": "limitless",
-      "sourceId": "6ac51e2b245696afb351798d",
-      "name": "👑CrownOfSpain 👑 #11 (10€ paypal)",
-      "url": "https://play.limitlesstcg.com/tournament/6ac51e2b245696afb351798d/details",
-      "startAt": "2026-10-13T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acd7786115c12b73a5a29fd",
-      "source": "limitless",
-      "sourceId": "6acd7786115c12b73a5a29fd",
-      "name": "Draw 7 Tourney #1",
-      "url": "https://play.limitlesstcg.com/tournament/6acd7786115c12b73a5a29fd/details",
-      "startAt": "2026-10-13T18:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa74ce538886b36383bf593",
-      "source": "limitless",
-      "sourceId": "6aa74ce538886b36383bf593",
-      "name": "Lhama Champs",
-      "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
-      "startAt": "2026-10-13T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ace0167115c12b73a5a2d8c",
-      "source": "limitless",
-      "sourceId": "6ace0167115c12b73a5a2d8c",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6ace0167115c12b73a5a2d8c/details",
-      "startAt": "2026-10-13T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6acd23b88a8383117e3ea5f4",
       "source": "limitless",
       "sourceId": "6acd23b88a8383117e3ea5f4",
-      "name": "🇲🇽 Torneo PTCGL premio 🏆 Póster Collection 30th",
+      "name": "🇲🇽 Torneo PTCGL premio 🏆 Tech Sticker 30th",
       "url": "https://play.limitlesstcg.com/tournament/6acd23b88a8383117e3ea5f4/details",
       "startAt": "2026-10-13T22:30:00.000Z"
     },
@@ -144,6 +84,16 @@
       "sourceId": "6ac6c3ee85920e4d253664a7",
       "name": "TAVERNA LEAGUE - SEASON 0 - DAY #6",
       "url": "https://play.limitlesstcg.com/tournament/6ac6c3ee85920e4d253664a7/details",
+      "startAt": "2026-10-14T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ace6c22115c12b73a5a30f9",
+      "source": "limitless",
+      "sourceId": "6ace6c22115c12b73a5a30f9",
+      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #25⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6ace6c22115c12b73a5a30f9/details",
       "startAt": "2026-10-14T19:00:00.000Z"
     },
     {
@@ -239,6 +189,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ace6c4a115c12b73a5a30fa",
+      "source": "limitless",
+      "sourceId": "6ace6c4a115c12b73a5a30fa",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6ace6c4a115c12b73a5a30fa/details",
+      "startAt": "2026-10-15T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac7d9ac85920e4d25366e02",
       "source": "limitless",
       "sourceId": "6ac7d9ac85920e4d25366e02",
@@ -279,6 +239,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ace82e5115c12b73a5a339b",
+      "source": "limitless",
+      "sourceId": "6ace82e5115c12b73a5a339b",
+      "name": "Rare Candy Club Blitz #4 (30TH LEGAL)",
+      "url": "https://play.limitlesstcg.com/tournament/6ace82e5115c12b73a5a339b/details",
+      "startAt": "2026-10-16T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac0873d85920e4d2536288a",
       "source": "limitless",
       "sourceId": "6ac0873d85920e4d2536288a",
@@ -305,6 +275,16 @@
       "name": "Nightshades Friday Challenge 2 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d234a4272c53be64cfe5/details",
       "startAt": "2026-10-16T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ace6c698a8383117e3eb1a5",
+      "source": "limitless",
+      "sourceId": "6ace6c698a8383117e3eb1a5",
+      "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #27",
+      "url": "https://play.limitlesstcg.com/tournament/6ace6c698a8383117e3eb1a5/details",
+      "startAt": "2026-10-16T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -435,6 +415,16 @@
       "name": "Vault Of Games #7🏆| REGIONAL FORMAT|WEEKLY",
       "url": "https://play.limitlesstcg.com/tournament/6acb2b2a115c12b73a5a1197/details",
       "startAt": "2026-10-18T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aa74ce538886b36383bf593",
+      "source": "limitless",
+      "sourceId": "6aa74ce538886b36383bf593",
+      "name": "Lhama Champs",
+      "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
+      "startAt": "2026-10-18T19:00:00.000Z"
     },
     {
       "format": "Standard",
