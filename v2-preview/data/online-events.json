@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-14T14:00:44.211Z",
+  "generatedAt": "2026-10-14T18:52:49.370Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acc878a8a8383117e3ea118",
-      "source": "limitless",
-      "sourceId": "6acc878a8a8383117e3ea118",
-      "name": "Team Corna Weekly October's #3",
-      "url": "https://play.limitlesstcg.com/tournament/6acc878a8a8383117e3ea118/details",
-      "startAt": "2026-10-14T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac6f35c85920e4d253667d5",
-      "source": "limitless",
-      "sourceId": "6ac6f35c85920e4d253667d5",
-      "name": "Amyverse PTCG Live Weekly #17 💛 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ac6f35c85920e4d253667d5/details",
-      "startAt": "2026-10-14T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -49,6 +29,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6acfc48a115c12b73a5a3f87",
+      "source": "limitless",
+      "sourceId": "6acfc48a115c12b73a5a3f87",
+      "name": "TheDipidis Rapid Rounds Test",
+      "url": "https://play.limitlesstcg.com/tournament/6acfc48a115c12b73a5a3f87/details",
+      "startAt": "2026-10-14T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac3bc08245696afb3516ba6",
       "source": "limitless",
       "sourceId": "6ac3bc08245696afb3516ba6",
@@ -59,21 +49,21 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6aca5c748a8383117e3e8ccf",
-      "source": "limitless",
-      "sourceId": "6aca5c748a8383117e3e8ccf",
-      "name": "🇧🇷 Hit Challenge #41 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aca5c748a8383117e3e8ccf/details",
-      "startAt": "2026-10-14T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6acc55db8a8383117e3ea0a0",
       "source": "limitless",
       "sourceId": "6acc55db8a8383117e3ea0a0",
       "name": "La Techgece Casual #8 [BO1] (30C Legal!)",
       "url": "https://play.limitlesstcg.com/tournament/6acc55db8a8383117e3ea0a0/details",
+      "startAt": "2026-10-14T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aca5c748a8383117e3e8ccf",
+      "source": "limitless",
+      "sourceId": "6aca5c748a8383117e3e8ccf",
+      "name": "🇧🇷 Hit Challenge #41 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aca5c748a8383117e3e8ccf/details",
       "startAt": "2026-10-14T23:00:00.000Z"
     },
     {
@@ -184,6 +174,16 @@
       "sourceId": "6aca5f028a8383117e3e8cfb",
       "name": "🇧🇷 Hit Challenge #42 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6aca5f028a8383117e3e8cfb/details",
+      "startAt": "2026-10-15T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acfb41f8a8383117e3ebb8e",
+      "source": "limitless",
+      "sourceId": "6acfb41f8a8383117e3ebb8e",
+      "name": "TCG FIRE AGREGADOS PARA TREINO",
+      "url": "https://play.limitlesstcg.com/tournament/6acfb41f8a8383117e3ebb8e/details",
       "startAt": "2026-10-15T23:00:00.000Z"
     },
     {
