@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-13T21:32:25.610Z",
+  "generatedAt": "2026-10-14T01:22:56.493Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acd23b88a8383117e3ea5f4",
-      "source": "limitless",
-      "sourceId": "6acd23b88a8383117e3ea5f4",
-      "name": "🇲🇽 Torneo PTCGL premio 🏆 Tech Sticker 30th",
-      "url": "https://play.limitlesstcg.com/tournament/6acd23b88a8383117e3ea5f4/details",
-      "startAt": "2026-10-13T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acd76e1115c12b73a5a29f9",
-      "source": "limitless",
-      "sourceId": "6acd76e1115c12b73a5a29f9",
-      "name": "Last Prize Series S4 #4",
-      "url": "https://play.limitlesstcg.com/tournament/6acd76e1115c12b73a5a29f9/details",
-      "startAt": "2026-10-13T23:35:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa5a6f2f1243e65f97ff28f",
-      "source": "limitless",
-      "sourceId": "6aa5a6f2f1243e65f97ff28f",
-      "name": "🇧🇷 Hit Cup #20 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aa5a6f2f1243e65f97ff28f/details",
-      "startAt": "2026-10-14T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3bf1a85920e4d25364635",
-      "source": "limitless",
-      "sourceId": "6ac3bf1a85920e4d25364635",
-      "name": "Pudding Weekly #17 | Where is my supersuit?",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3bf1a85920e4d25364635/details",
-      "startAt": "2026-10-14T01:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -145,6 +105,26 @@
       "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 5 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6ac2a7b985920e4d25363eaa/details",
       "startAt": "2026-10-15T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aceabce8a8383117e3eb434",
+      "source": "limitless",
+      "sourceId": "6aceabce8a8383117e3eb434",
+      "name": "🇲🇽 Torneo Por Tech Sticker 30th aniversario.",
+      "url": "https://play.limitlesstcg.com/tournament/6aceabce8a8383117e3eb434/details",
+      "startAt": "2026-10-15T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aced505115c12b73a5a37c5",
+      "source": "limitless",
+      "sourceId": "6aced505115c12b73a5a37c5",
+      "name": "🪎Vault Of Games | 🤯💥Midweek MAYHEM #4",
+      "url": "https://play.limitlesstcg.com/tournament/6aced505115c12b73a5a37c5/details",
+      "startAt": "2026-10-15T01:00:00.000Z"
     },
     {
       "format": "Standard",
