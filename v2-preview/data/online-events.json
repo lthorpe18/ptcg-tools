@@ -1,71 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-14T18:52:49.370Z",
+  "generatedAt": "2026-10-14T23:26:18.564Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac6c3ee85920e4d253664a7",
-      "source": "limitless",
-      "sourceId": "6ac6c3ee85920e4d253664a7",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #6",
-      "url": "https://play.limitlesstcg.com/tournament/6ac6c3ee85920e4d253664a7/details",
-      "startAt": "2026-10-14T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ace6c22115c12b73a5a30f9",
-      "source": "limitless",
-      "sourceId": "6ace6c22115c12b73a5a30f9",
-      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #25⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6ace6c22115c12b73a5a30f9/details",
-      "startAt": "2026-10-14T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acfc48a115c12b73a5a3f87",
-      "source": "limitless",
-      "sourceId": "6acfc48a115c12b73a5a3f87",
-      "name": "TheDipidis Rapid Rounds Test",
-      "url": "https://play.limitlesstcg.com/tournament/6acfc48a115c12b73a5a3f87/details",
-      "startAt": "2026-10-14T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3bc08245696afb3516ba6",
-      "source": "limitless",
-      "sourceId": "6ac3bc08245696afb3516ba6",
-      "name": "Zard-Pokénight #022",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3bc08245696afb3516ba6/details",
-      "startAt": "2026-10-14T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acc55db8a8383117e3ea0a0",
-      "source": "limitless",
-      "sourceId": "6acc55db8a8383117e3ea0a0",
-      "name": "La Techgece Casual #8 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6acc55db8a8383117e3ea0a0/details",
-      "startAt": "2026-10-14T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aca5c748a8383117e3e8ccf",
-      "source": "limitless",
-      "sourceId": "6aca5c748a8383117e3e8ccf",
-      "name": "🇧🇷 Hit Challenge #41 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aca5c748a8383117e3e8ccf/details",
-      "startAt": "2026-10-14T23:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -105,6 +45,16 @@
       "name": "🪎Vault Of Games | 🤯💥Midweek MAYHEM #4",
       "url": "https://play.limitlesstcg.com/tournament/6aced505115c12b73a5a37c5/details",
       "startAt": "2026-10-15T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acff99e115c12b73a5a4252",
+      "source": "limitless",
+      "sourceId": "6acff99e115c12b73a5a4252",
+      "name": "TheDipidis Rapid Rounds TEF-30C #1",
+      "url": "https://play.limitlesstcg.com/tournament/6acff99e115c12b73a5a4252/details",
+      "startAt": "2026-10-15T09:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -225,6 +175,16 @@
       "name": "Oceania Open! | Season 4 - Week 2",
       "url": "https://play.limitlesstcg.com/tournament/6ac0873d85920e4d2536288a/details",
       "startAt": "2026-10-16T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acffa558a8383117e3ebea7",
+      "source": "limitless",
+      "sourceId": "6acffa558a8383117e3ebea7",
+      "name": "TheDipidis Rapid Rounds TEF-30C #2",
+      "url": "https://play.limitlesstcg.com/tournament/6acffa558a8383117e3ebea7/details",
+      "startAt": "2026-10-16T09:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -495,6 +455,16 @@
       "name": "Pudding Weekly #18 | CHITTY CHITTY BANG BANG",
       "url": "https://play.limitlesstcg.com/tournament/6ac5bce085920e4d25365cc1/details",
       "startAt": "2026-10-21T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acffb1b115c12b73a5a4259",
+      "source": "limitless",
+      "sourceId": "6acffb1b115c12b73a5a4259",
+      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #7",
+      "url": "https://play.limitlesstcg.com/tournament/6acffb1b115c12b73a5a4259/details",
+      "startAt": "2026-10-21T19:00:00.000Z"
     },
     {
       "format": "Standard",
