@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-14T23:26:18.564Z",
+  "generatedAt": "2026-10-15T05:10:25.998Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acd18b78a8383117e3ea4c6",
-      "source": "limitless",
-      "sourceId": "6acd18b78a8383117e3ea4c6",
-      "name": "REFINE Autumn Series Session 7: Candy Corn",
-      "url": "https://play.limitlesstcg.com/tournament/6acd18b78a8383117e3ea4c6/details",
-      "startAt": "2026-10-14T23:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac2a7b985920e4d25363eaa",
-      "source": "limitless",
-      "sourceId": "6ac2a7b985920e4d25363eaa",
-      "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 5 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6ac2a7b985920e4d25363eaa/details",
-      "startAt": "2026-10-15T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aceabce8a8383117e3eb434",
-      "source": "limitless",
-      "sourceId": "6aceabce8a8383117e3eb434",
-      "name": "🇲🇽 Torneo Por Tech Sticker 30th aniversario.",
-      "url": "https://play.limitlesstcg.com/tournament/6aceabce8a8383117e3eb434/details",
-      "startAt": "2026-10-15T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aced505115c12b73a5a37c5",
-      "source": "limitless",
-      "sourceId": "6aced505115c12b73a5a37c5",
-      "name": "🪎Vault Of Games | 🤯💥Midweek MAYHEM #4",
-      "url": "https://play.limitlesstcg.com/tournament/6aced505115c12b73a5a37c5/details",
-      "startAt": "2026-10-15T01:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -164,6 +124,16 @@
       "sourceId": "6ace82e5115c12b73a5a339b",
       "name": "Rare Candy Club Blitz #4 (30TH LEGAL)",
       "url": "https://play.limitlesstcg.com/tournament/6ace82e5115c12b73a5a339b/details",
+      "startAt": "2026-10-16T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad048c6115c12b73a5a45c4",
+      "source": "limitless",
+      "sourceId": "6ad048c6115c12b73a5a45c4",
+      "name": "🏆 Jarvis Tcg League.",
+      "url": "https://play.limitlesstcg.com/tournament/6ad048c6115c12b73a5a45c4/details",
       "startAt": "2026-10-16T00:00:00.000Z"
     },
     {
@@ -349,6 +319,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad02ed4115c12b73a5a44d7",
+      "source": "limitless",
+      "sourceId": "6ad02ed4115c12b73a5a44d7",
+      "name": "Carnelian Cave Invitational Qualifier #1",
+      "url": "https://play.limitlesstcg.com/tournament/6ad02ed4115c12b73a5a44d7/details",
+      "startAt": "2026-10-18T14:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aa74ce538886b36383bf593",
       "source": "limitless",
       "sourceId": "6aa74ce538886b36383bf593",
@@ -459,6 +439,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad02719115c12b73a5a446f",
+      "source": "limitless",
+      "sourceId": "6ad02719115c12b73a5a446f",
+      "name": "Amyverse PTCG Live Weekly #18 💛 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad02719115c12b73a5a446f/details",
+      "startAt": "2026-10-21T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6acffb1b115c12b73a5a4259",
       "source": "limitless",
       "sourceId": "6acffb1b115c12b73a5a4259",
@@ -535,6 +525,16 @@
       "name": "Budget Build Battles! | Season 9 - Week 3",
       "url": "https://play.limitlesstcg.com/tournament/6ac088bc85920e4d25362898/details",
       "startAt": "2026-10-24T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aceb2328a8383117e3eb45e",
+      "source": "limitless",
+      "sourceId": "6aceb2328a8383117e3eb45e",
+      "name": "TOURNAMENT OF DOOM! Seriously people.....",
+      "url": "https://play.limitlesstcg.com/tournament/6aceb2328a8383117e3eb45e/details",
+      "startAt": "2026-10-24T02:35:00.000Z"
     },
     {
       "format": "Standard",
@@ -645,6 +645,16 @@
       "name": "Budget Build Battles! | Season 9 - Week 4",
       "url": "https://play.limitlesstcg.com/tournament/6ac088dd245696afb3514d86/details",
       "startAt": "2026-10-31T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad011b88a8383117e3ebf67",
+      "source": "limitless",
+      "sourceId": "6ad011b88a8383117e3ebf67",
+      "name": "ACE Tourneys Premier — Store Launch Event. PLAYMAT",
+      "url": "https://play.limitlesstcg.com/tournament/6ad011b88a8383117e3ebf67/details",
+      "startAt": "2026-11-01T23:30:00.000Z"
     },
     {
       "format": "Standard",
