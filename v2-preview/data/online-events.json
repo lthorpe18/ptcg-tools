@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-15T12:06:19.572Z",
+  "generatedAt": "2026-10-15T17:20:41.046Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac926d4115c12b73a59fd2d",
-      "source": "limitless",
-      "sourceId": "6ac926d4115c12b73a59fd2d",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ac926d4115c12b73a59fd2d/details",
-      "startAt": "2026-10-15T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad0b5188a8383117e3ec36d",
-      "source": "limitless",
-      "sourceId": "6ad0b5188a8383117e3ec36d",
-      "name": "Team Corna Weekly October's #4",
-      "url": "https://play.limitlesstcg.com/tournament/6ad0b5188a8383117e3ec36d/details",
-      "startAt": "2026-10-15T16:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acd93e28a8383117e3eac3e",
-      "source": "limitless",
-      "sourceId": "6acd93e28a8383117e3eac3e",
-      "name": "Amyverse Bulk Box Battles #3 🧡 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6acd93e28a8383117e3eac3e/details",
-      "startAt": "2026-10-15T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad07746115c12b73a5a463c",
-      "source": "limitless",
-      "sourceId": "6ad07746115c12b73a5a463c",
-      "name": "⚗️PokéKhemistry TURBO Thursday",
-      "url": "https://play.limitlesstcg.com/tournament/6ad07746115c12b73a5a463c/details",
-      "startAt": "2026-10-15T17:15:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -75,6 +35,16 @@
       "name": "13° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6ac7d9ac85920e4d25366e02/details",
       "startAt": "2026-10-15T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad0fbee8a8383117e3ec5c6",
+      "source": "limitless",
+      "sourceId": "6ad0fbee8a8383117e3ec5c6",
+      "name": "🟢Jolly Good Weekly #9 | Top Cut!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad0fbee8a8383117e3ec5c6/details",
+      "startAt": "2026-10-15T22:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -395,6 +365,16 @@
       "name": "🏆 LING TV ARENA 🏆",
       "url": "https://play.limitlesstcg.com/tournament/6abe1b7a783097f8dcb74e64/details",
       "startAt": "2026-10-19T18:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad0f82d115c12b73a5a489a",
+      "source": "limitless",
+      "sourceId": "6ad0f82d115c12b73a5a489a",
+      "name": "PHOENIX ONLINE 3°",
+      "url": "https://play.limitlesstcg.com/tournament/6ad0f82d115c12b73a5a489a/details",
+      "startAt": "2026-10-19T22:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -1155,6 +1135,16 @@
       "name": "RDG! January Open Qualifier",
       "url": "https://play.limitlesstcg.com/tournament/6a690435937230b102d47bb3/details",
       "startAt": "2027-01-10T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac65923245696afb3518220",
+      "source": "limitless",
+      "sourceId": "6ac65923245696afb3518220",
+      "name": "Nightshades Cash Tournament",
+      "url": "https://play.limitlesstcg.com/tournament/6ac65923245696afb3518220/details",
+      "startAt": "2027-01-10T18:00:00.000Z"
     },
     {
       "format": "Standard",
