@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-15T17:20:41.046Z",
+  "generatedAt": "2026-10-15T21:45:21.529Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac5488285920e4d253657e8",
-      "source": "limitless",
-      "sourceId": "6ac5488285920e4d253657e8",
-      "name": "TWISTER TEAM | ROAD TO CHAMPIONS! #1",
-      "url": "https://play.limitlesstcg.com/tournament/6ac5488285920e4d253657e8/details",
-      "startAt": "2026-10-15T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ace6c4a115c12b73a5a30fa",
-      "source": "limitless",
-      "sourceId": "6ace6c4a115c12b73a5a30fa",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6ace6c4a115c12b73a5a30fa/details",
-      "startAt": "2026-10-15T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac7d9ac85920e4d25366e02",
-      "source": "limitless",
-      "sourceId": "6ac7d9ac85920e4d25366e02",
-      "name": "13° Torneo del circuito CarroTCG/Prof. Fili",
-      "url": "https://play.limitlesstcg.com/tournament/6ac7d9ac85920e4d25366e02/details",
-      "startAt": "2026-10-15T19:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -109,6 +79,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad13e558a8383117e3ec932",
+      "source": "limitless",
+      "sourceId": "6ad13e558a8383117e3ec932",
+      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
+      "url": "https://play.limitlesstcg.com/tournament/6ad13e558a8383117e3ec932/details",
+      "startAt": "2026-10-16T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac0873d85920e4d2536288a",
       "source": "limitless",
       "sourceId": "6ac0873d85920e4d2536288a",
@@ -125,6 +105,16 @@
       "name": "TheDipidis Rapid Rounds TEF-30C #2",
       "url": "https://play.limitlesstcg.com/tournament/6acffa558a8383117e3ebea7/details",
       "startAt": "2026-10-16T09:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad147a38a8383117e3ec981",
+      "source": "limitless",
+      "sourceId": "6ad147a38a8383117e3ec981",
+      "name": "Team Corna Weekly October's #4",
+      "url": "https://play.limitlesstcg.com/tournament/6ad147a38a8383117e3ec981/details",
+      "startAt": "2026-10-16T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -445,6 +435,26 @@
       "name": "Zard-Pokénight #023",
       "url": "https://play.limitlesstcg.com/tournament/6ac3bc7a245696afb3516baa/details",
       "startAt": "2026-10-21T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad13bd3115c12b73a5a4bf0",
+      "source": "limitless",
+      "sourceId": "6ad13bd3115c12b73a5a4bf0",
+      "name": "TWISTER TEAM | TRY TO BEAT CYNTHIA #2",
+      "url": "https://play.limitlesstcg.com/tournament/6ad13bd3115c12b73a5a4bf0/details",
+      "startAt": "2026-10-22T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad117b08a8383117e3ec72a",
+      "source": "limitless",
+      "sourceId": "6ad117b08a8383117e3ec72a",
+      "name": "14° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6ad117b08a8383117e3ec72a/details",
+      "startAt": "2026-10-22T19:30:00.000Z"
     },
     {
       "format": "Standard",
