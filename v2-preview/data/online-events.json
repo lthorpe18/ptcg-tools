@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-15T05:10:25.998Z",
+  "generatedAt": "2026-10-15T12:06:19.572Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acff99e115c12b73a5a4252",
-      "source": "limitless",
-      "sourceId": "6acff99e115c12b73a5a4252",
-      "name": "TheDipidis Rapid Rounds TEF-30C #1",
-      "url": "https://play.limitlesstcg.com/tournament/6acff99e115c12b73a5a4252/details",
-      "startAt": "2026-10-15T09:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6accac388a8383117e3ea166",
-      "source": "limitless",
-      "sourceId": "6accac388a8383117e3ea166",
-      "name": "SEASAC League Challenge #5 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6accac388a8383117e3ea166/details",
-      "startAt": "2026-10-15T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -39,12 +19,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad0b5188a8383117e3ec36d",
+      "source": "limitless",
+      "sourceId": "6ad0b5188a8383117e3ec36d",
+      "name": "Team Corna Weekly October's #4",
+      "url": "https://play.limitlesstcg.com/tournament/6ad0b5188a8383117e3ec36d/details",
+      "startAt": "2026-10-15T16:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6acd93e28a8383117e3eac3e",
       "source": "limitless",
       "sourceId": "6acd93e28a8383117e3eac3e",
       "name": "Amyverse Bulk Box Battles #3 🧡 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6acd93e28a8383117e3eac3e/details",
       "startAt": "2026-10-15T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad07746115c12b73a5a463c",
+      "source": "limitless",
+      "sourceId": "6ad07746115c12b73a5a463c",
+      "name": "⚗️PokéKhemistry TURBO Thursday",
+      "url": "https://play.limitlesstcg.com/tournament/6ad07746115c12b73a5a463c/details",
+      "startAt": "2026-10-15T17:15:00.000Z"
     },
     {
       "format": "Standard",
