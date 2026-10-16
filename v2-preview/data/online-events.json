@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-16T07:30:38.057Z",
+  "generatedAt": "2026-10-16T13:31:02.303Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac0873d85920e4d2536288a",
-      "source": "limitless",
-      "sourceId": "6ac0873d85920e4d2536288a",
-      "name": "Oceania Open! | Season 4 - Week 2",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0873d85920e4d2536288a/details",
-      "startAt": "2026-10-16T08:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acffa558a8383117e3ebea7",
-      "source": "limitless",
-      "sourceId": "6acffa558a8383117e3ebea7",
-      "name": "TheDipidis Rapid Rounds TEF-30C #2",
-      "url": "https://play.limitlesstcg.com/tournament/6acffa558a8383117e3ebea7/details",
-      "startAt": "2026-10-16T09:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -65,6 +45,16 @@
       "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #27",
       "url": "https://play.limitlesstcg.com/tournament/6ace6c698a8383117e3eb1a5/details",
       "startAt": "2026-10-16T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad211378a8383117e3ece86",
+      "source": "limitless",
+      "sourceId": "6ad211378a8383117e3ece86",
+      "name": "TheDipidis Rapid Rounds TEF-30C #3",
+      "url": "https://play.limitlesstcg.com/tournament/6ad211378a8383117e3ece86/details",
+      "startAt": "2026-10-16T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -177,6 +167,16 @@
       "startAt": "2026-10-17T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad212d78a8383117e3ece92",
+      "source": "limitless",
+      "sourceId": "6ad212d78a8383117e3ece92",
+      "name": "TheDipidis Rapid Rounds TEF-30C #4",
+      "url": "https://play.limitlesstcg.com/tournament/6ad212d78a8383117e3ece92/details",
+      "startAt": "2026-10-17T20:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "CAM",
       "id": "limitless:6ac1e52d245696afb3515df7",
@@ -215,6 +215,16 @@
       "name": "Lhama Champs",
       "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
       "startAt": "2026-10-18T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad213d68a8383117e3ece96",
+      "source": "limitless",
+      "sourceId": "6ad213d68a8383117e3ece96",
+      "name": "TheDipidis Rapid Rounds TEF-30C #5",
+      "url": "https://play.limitlesstcg.com/tournament/6ad213d68a8383117e3ece96/details",
+      "startAt": "2026-10-18T20:00:00.000Z"
     },
     {
       "format": "Standard",
