@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-15T21:45:21.529Z",
+  "generatedAt": "2026-10-16T00:44:15.184Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,80 +9,10 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ad0fbee8a8383117e3ec5c6",
-      "source": "limitless",
-      "sourceId": "6ad0fbee8a8383117e3ec5c6",
-      "name": "🟢Jolly Good Weekly #9 | Top Cut!",
-      "url": "https://play.limitlesstcg.com/tournament/6ad0fbee8a8383117e3ec5c6/details",
-      "startAt": "2026-10-15T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aca5f028a8383117e3e8cfb",
-      "source": "limitless",
-      "sourceId": "6aca5f028a8383117e3e8cfb",
-      "name": "🇧🇷 Hit Challenge #42 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aca5f028a8383117e3e8cfb/details",
-      "startAt": "2026-10-15T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acfb41f8a8383117e3ebb8e",
-      "source": "limitless",
-      "sourceId": "6acfb41f8a8383117e3ebb8e",
-      "name": "TCG FIRE AGREGADOS PARA TREINO",
-      "url": "https://play.limitlesstcg.com/tournament/6acfb41f8a8383117e3ebb8e/details",
-      "startAt": "2026-10-15T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac8336a85920e4d253672fe",
-      "source": "limitless",
-      "sourceId": "6ac8336a85920e4d253672fe",
-      "name": "Le Tournois Du DresseurPokeCharbie #132",
-      "url": "https://play.limitlesstcg.com/tournament/6ac8336a85920e4d253672fe/details",
-      "startAt": "2026-10-16T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acd936a8a8383117e3eac3c",
-      "source": "limitless",
-      "sourceId": "6acd936a8a8383117e3eac3c",
-      "name": "Heart of the Games Online Series - S105",
-      "url": "https://play.limitlesstcg.com/tournament/6acd936a8a8383117e3eac3c/details",
-      "startAt": "2026-10-16T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ace82e5115c12b73a5a339b",
-      "source": "limitless",
-      "sourceId": "6ace82e5115c12b73a5a339b",
-      "name": "Rare Candy Club Blitz #4 (30TH LEGAL)",
-      "url": "https://play.limitlesstcg.com/tournament/6ace82e5115c12b73a5a339b/details",
-      "startAt": "2026-10-16T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad048c6115c12b73a5a45c4",
-      "source": "limitless",
-      "sourceId": "6ad048c6115c12b73a5a45c4",
-      "name": "🏆 Jarvis Tcg League.",
-      "url": "https://play.limitlesstcg.com/tournament/6ad048c6115c12b73a5a45c4/details",
-      "startAt": "2026-10-16T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ad13e558a8383117e3ec932",
       "source": "limitless",
       "sourceId": "6ad13e558a8383117e3ec932",
-      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
+      "name": "🎁Liga Shiny $3.000🏆BO1🏆 Formato estandar",
       "url": "https://play.limitlesstcg.com/tournament/6ad13e558a8383117e3ec932/details",
       "startAt": "2026-10-16T01:00:00.000Z"
     },
@@ -439,16 +369,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ad13bd3115c12b73a5a4bf0",
-      "source": "limitless",
-      "sourceId": "6ad13bd3115c12b73a5a4bf0",
-      "name": "TWISTER TEAM | TRY TO BEAT CYNTHIA #2",
-      "url": "https://play.limitlesstcg.com/tournament/6ad13bd3115c12b73a5a4bf0/details",
-      "startAt": "2026-10-22T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ad117b08a8383117e3ec72a",
       "source": "limitless",
       "sourceId": "6ad117b08a8383117e3ec72a",
@@ -545,6 +465,16 @@
       "name": "FINISTERRAE SERIES TCG #4",
       "url": "https://play.limitlesstcg.com/tournament/6acbd48c115c12b73a5a1817/details",
       "startAt": "2026-10-25T15:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad13bd3115c12b73a5a4bf0",
+      "source": "limitless",
+      "sourceId": "6ad13bd3115c12b73a5a4bf0",
+      "name": "TWISTER TEAM | TRY TO BEAT CYNTHIA #2",
+      "url": "https://play.limitlesstcg.com/tournament/6ad13bd3115c12b73a5a4bf0/details",
+      "startAt": "2026-10-26T19:00:00.000Z"
     },
     {
       "format": "Standard",
