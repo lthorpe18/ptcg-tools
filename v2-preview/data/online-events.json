@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-16T00:44:15.184Z",
+  "generatedAt": "2026-10-16T07:30:38.057Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad13e558a8383117e3ec932",
-      "source": "limitless",
-      "sourceId": "6ad13e558a8383117e3ec932",
-      "name": "🎁Liga Shiny $3.000🏆BO1🏆 Formato estandar",
-      "url": "https://play.limitlesstcg.com/tournament/6ad13e558a8383117e3ec932/details",
-      "startAt": "2026-10-16T01:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -369,12 +359,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad18d0f8a8383117e3ecce9",
+      "source": "limitless",
+      "sourceId": "6ad18d0f8a8383117e3ecce9",
+      "name": "Amyverse Bulk Box Battles #4 🧡 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad18d0f8a8383117e3ecce9/details",
+      "startAt": "2026-10-22T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad117b08a8383117e3ec72a",
       "source": "limitless",
       "sourceId": "6ad117b08a8383117e3ec72a",
       "name": "14° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6ad117b08a8383117e3ec72a/details",
       "startAt": "2026-10-22T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad1795c8a8383117e3ecc4f",
+      "source": "limitless",
+      "sourceId": "6ad1795c8a8383117e3ecc4f",
+      "name": "Le Tournois Du DresseurPokeCharbie #133",
+      "url": "https://play.limitlesstcg.com/tournament/6ad1795c8a8383117e3ecc4f/details",
+      "startAt": "2026-10-23T00:00:00.000Z"
     },
     {
       "format": "Standard",
