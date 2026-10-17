@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-17T00:45:57.583Z",
+  "generatedAt": "2026-10-17T07:11:15.056Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6acba97b115c12b73a5a14a9",
-      "source": "limitless",
-      "sourceId": "6acba97b115c12b73a5a14a9",
-      "name": "James G Tournaments #59 - EX Series (RS-PK)",
-      "url": "https://play.limitlesstcg.com/tournament/6acba97b115c12b73a5a14a9/details",
-      "startAt": "2026-10-17T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad2b5f38a8383117e3ed6e6",
-      "source": "limitless",
-      "sourceId": "6ad2b5f38a8383117e3ed6e6",
-      "name": "Friday night practice",
-      "url": "https://play.limitlesstcg.com/tournament/6ad2b5f38a8383117e3ed6e6/details",
-      "startAt": "2026-10-17T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad2c2a9115c12b73a5a5abc",
-      "source": "limitless",
-      "sourceId": "6ad2c2a9115c12b73a5a5abc",
-      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
-      "url": "https://play.limitlesstcg.com/tournament/6ad2c2a9115c12b73a5a5abc/details",
-      "startAt": "2026-10-17T01:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:dinner",
-      "source": "limitless",
-      "sourceId": "dinner",
-      "name": "TOURNAMENT OF DOOM! DINNER?",
-      "url": "https://play.limitlesstcg.com/tournament/dinner/details",
-      "startAt": "2026-10-17T02:35:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acd25e9115c12b73a5a24f7",
-      "source": "limitless",
-      "sourceId": "6acd25e9115c12b73a5a24f7",
-      "name": "YHT Pokémon TCG League",
-      "url": "https://play.limitlesstcg.com/tournament/6acd25e9115c12b73a5a24f7/details",
-      "startAt": "2026-10-17T06:30:00.000Z"
-    },
     {
       "format": null,
       "platform": "CAM",
@@ -74,6 +24,16 @@
       "sourceId": "6a5bd3cd52c24ac2da645db3",
       "name": "Webcam Sisterhood Saturdays #3 🩷 Girls & Enbies!",
       "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
+      "startAt": "2026-10-17T17:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": null,
+      "id": "limitless:6ad30114115c12b73a5a5e43",
+      "source": "limitless",
+      "sourceId": "6ad30114115c12b73a5a5e43",
+      "name": "Surprise! Eternal Tournament #38 rerun",
+      "url": "https://play.limitlesstcg.com/tournament/6ad30114115c12b73a5a5e43/details",
       "startAt": "2026-10-17T17:00:00.000Z"
     },
     {
@@ -125,6 +85,16 @@
       "name": "Carnelian Cave Invitational Qualifier #1",
       "url": "https://play.limitlesstcg.com/tournament/6ad02ed4115c12b73a5a44d7/details",
       "startAt": "2026-10-18T14:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "SIM",
+      "id": "limitless:6ad30201115c12b73a5a5e45",
+      "source": "limitless",
+      "sourceId": "6ad30201115c12b73a5a5e45",
+      "name": "BS-ASR Old Banlist Tournament #1",
+      "url": "https://play.limitlesstcg.com/tournament/6ad30201115c12b73a5a5e45/details",
+      "startAt": "2026-10-18T17:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -237,6 +207,26 @@
       "startAt": "2026-10-19T22:05:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ad2dc978a8383117e3ed910",
+      "source": "limitless",
+      "sourceId": "6ad2dc978a8383117e3ed910",
+      "name": "💰 Control Players Unite's Pauper Tournament! #43",
+      "url": "https://play.limitlesstcg.com/tournament/6ad2dc978a8383117e3ed910/details",
+      "startAt": "2026-10-19T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad3035f8a8383117e3edae6",
+      "source": "limitless",
+      "sourceId": "6ad3035f8a8383117e3edae6",
+      "name": "🇧🇷 Hit Challenge #45 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad3035f8a8383117e3edae6/details",
+      "startAt": "2026-10-19T23:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aad83bde905c1db68744611",
@@ -289,6 +279,46 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad2e5d38a8383117e3ed989",
+      "source": "limitless",
+      "sourceId": "6ad2e5d38a8383117e3ed989",
+      "name": "Draw 7 Tourney #2",
+      "url": "https://play.limitlesstcg.com/tournament/6ad2e5d38a8383117e3ed989/details",
+      "startAt": "2026-10-20T18:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad305c18a8383117e3edae8",
+      "source": "limitless",
+      "sourceId": "6ad305c18a8383117e3edae8",
+      "name": "🇧🇷 Semanal • Hit Belém #3 | Pokémon TCG",
+      "url": "https://play.limitlesstcg.com/tournament/6ad305c18a8383117e3edae8/details",
+      "startAt": "2026-10-20T22:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ad2dcdf115c12b73a5a5bcd",
+      "source": "limitless",
+      "sourceId": "6ad2dcdf115c12b73a5a5bcd",
+      "name": "♠️ Control Players Unite's Aceless Tournament! #41",
+      "url": "https://play.limitlesstcg.com/tournament/6ad2dcdf115c12b73a5a5bcd/details",
+      "startAt": "2026-10-20T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad304eb115c12b73a5a5e51",
+      "source": "limitless",
+      "sourceId": "6ad304eb115c12b73a5a5e51",
+      "name": "🇧🇷 Hit Challenge #46 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad304eb115c12b73a5a5e51/details",
+      "startAt": "2026-10-20T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac5bce085920e4d25365cc1",
       "source": "limitless",
       "sourceId": "6ac5bce085920e4d25365cc1",
@@ -335,6 +365,26 @@
       "name": "Zard-Pokénight #023",
       "url": "https://play.limitlesstcg.com/tournament/6ac3bc7a245696afb3516baa/details",
       "startAt": "2026-10-21T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad3124a8a8383117e3edb76",
+      "source": "limitless",
+      "sourceId": "6ad3124a8a8383117e3edb76",
+      "name": "🇧🇷 Hit Challenge #47 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad3124a8a8383117e3edb76/details",
+      "startAt": "2026-10-21T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad2d3e18a8383117e3ed889",
+      "source": "limitless",
+      "sourceId": "6ad2d3e18a8383117e3ed889",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ad2d3e18a8383117e3ed889/details",
+      "startAt": "2026-10-22T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -425,6 +475,16 @@
       "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #28",
       "url": "https://play.limitlesstcg.com/tournament/6ad246a7115c12b73a5a53f4/details",
       "startAt": "2026-10-23T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ad2cd48115c12b73a5a5b25",
+      "source": "limitless",
+      "sourceId": "6ad2cd48115c12b73a5a5b25",
+      "name": "Amyverse Webcam Wonders #31 💙 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad2cd48115c12b73a5a5b25/details",
+      "startAt": "2026-10-23T22:00:00.000Z"
     },
     {
       "format": "Standard",
