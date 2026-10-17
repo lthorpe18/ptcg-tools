@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-17T18:48:42.376Z",
+  "generatedAt": "2026-10-17T22:39:10.741Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad212d78a8383117e3ece92",
-      "source": "limitless",
-      "sourceId": "6ad212d78a8383117e3ece92",
-      "name": "TheDipidis Rapid Rounds TEF-30C #4",
-      "url": "https://play.limitlesstcg.com/tournament/6ad212d78a8383117e3ece92/details",
-      "startAt": "2026-10-17T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad3b12b115c12b73a5a651a",
-      "source": "limitless",
-      "sourceId": "6ad3b12b115c12b73a5a651a",
-      "name": "REDACTED POP UP!  DRAGAPULT BANNED!",
-      "url": "https://play.limitlesstcg.com/tournament/6ad3b12b115c12b73a5a651a/details",
-      "startAt": "2026-10-17T22:05:00.000Z"
-    },
     {
       "format": null,
       "platform": "CAM",
@@ -45,6 +25,16 @@
       "name": "Vault Of Games #7🏆| REGIONAL FORMAT|WEEKLY",
       "url": "https://play.limitlesstcg.com/tournament/6acb2b2a115c12b73a5a1197/details",
       "startAt": "2026-10-18T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad2c2a9115c12b73a5a5abc",
+      "source": "limitless",
+      "sourceId": "6ad2c2a9115c12b73a5a5abc",
+      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
+      "url": "https://play.limitlesstcg.com/tournament/6ad2c2a9115c12b73a5a5abc/details",
+      "startAt": "2026-10-18T01:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -75,16 +65,6 @@
       "name": "Lhama Champs",
       "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
       "startAt": "2026-10-18T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad213d68a8383117e3ece96",
-      "source": "limitless",
-      "sourceId": "6ad213d68a8383117e3ece96",
-      "name": "TheDipidis Rapid Rounds TEF-30C #5",
-      "url": "https://play.limitlesstcg.com/tournament/6ad213d68a8383117e3ece96/details",
-      "startAt": "2026-10-18T20:00:00.000Z"
     },
     {
       "format": "Standard",
