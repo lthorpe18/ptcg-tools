@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-16T21:42:13.992Z",
+  "generatedAt": "2026-10-17T00:45:57.583Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ac0523f85920e4d25362589",
-      "source": "limitless",
-      "sourceId": "6ac0523f85920e4d25362589",
-      "name": "Amyverse Webcam Wonders #30 💙 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0523f85920e4d25362589/details",
-      "startAt": "2026-10-16T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acc563f8a8383117e3ea0a1",
-      "source": "limitless",
-      "sourceId": "6acc563f8a8383117e3ea0a1",
-      "name": "La Techgece Cup #6 [BO3] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6acc563f8a8383117e3ea0a1/details",
-      "startAt": "2026-10-16T22:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad66cde905c1db6874444f",
-      "source": "limitless",
-      "sourceId": "6aad66cde905c1db6874444f",
-      "name": "Elite Four Fridays",
-      "url": "https://play.limitlesstcg.com/tournament/6aad66cde905c1db6874444f/details",
-      "startAt": "2026-10-16T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aca8936115c12b73a5a0d16",
-      "source": "limitless",
-      "sourceId": "6aca8936115c12b73a5a0d16",
-      "name": "🇧🇷 Hit Challenge #43 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aca8936115c12b73a5a0d16/details",
-      "startAt": "2026-10-16T23:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6ac08896245696afb3514d84",
-      "source": "limitless",
-      "sourceId": "6ac08896245696afb3514d84",
-      "name": "Budget Build Battles! | Season 9 - Week 2",
-      "url": "https://play.limitlesstcg.com/tournament/6ac08896245696afb3514d84/details",
-      "startAt": "2026-10-17T00:30:00.000Z"
-    },
     {
       "format": "EX Series (RS–PK)",
       "platform": "SIM",
@@ -65,6 +15,26 @@
       "name": "James G Tournaments #59 - EX Series (RS-PK)",
       "url": "https://play.limitlesstcg.com/tournament/6acba97b115c12b73a5a14a9/details",
       "startAt": "2026-10-17T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad2b5f38a8383117e3ed6e6",
+      "source": "limitless",
+      "sourceId": "6ad2b5f38a8383117e3ed6e6",
+      "name": "Friday night practice",
+      "url": "https://play.limitlesstcg.com/tournament/6ad2b5f38a8383117e3ed6e6/details",
+      "startAt": "2026-10-17T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad2c2a9115c12b73a5a5abc",
+      "source": "limitless",
+      "sourceId": "6ad2c2a9115c12b73a5a5abc",
+      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
+      "url": "https://play.limitlesstcg.com/tournament/6ad2c2a9115c12b73a5a5abc/details",
+      "startAt": "2026-10-17T01:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -365,6 +335,16 @@
       "name": "Zard-Pokénight #023",
       "url": "https://play.limitlesstcg.com/tournament/6ac3bc7a245696afb3516baa/details",
       "startAt": "2026-10-21T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad29d84115c12b73a5a58a2",
+      "source": "limitless",
+      "sourceId": "6ad29d84115c12b73a5a58a2",
+      "name": "Becca Bootcamp - Phantom Dive Fanclub",
+      "url": "https://play.limitlesstcg.com/tournament/6ad29d84115c12b73a5a58a2/details",
+      "startAt": "2026-10-22T16:30:00.000Z"
     },
     {
       "format": "Standard",
