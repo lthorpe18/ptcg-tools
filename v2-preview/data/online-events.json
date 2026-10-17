@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-17T07:11:15.056Z",
+  "generatedAt": "2026-10-17T18:48:42.376Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ace4669115c12b73a5a2f4d",
-      "source": "limitless",
-      "sourceId": "6ace4669115c12b73a5a2f4d",
-      "name": "TurboBlaze Presents: The Saturday Special #4",
-      "url": "https://play.limitlesstcg.com/tournament/6ace4669115c12b73a5a2f4d/details",
-      "startAt": "2026-10-17T16:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6a5bd3cd52c24ac2da645db3",
-      "source": "limitless",
-      "sourceId": "6a5bd3cd52c24ac2da645db3",
-      "name": "Webcam Sisterhood Saturdays #3 🩷 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
-      "startAt": "2026-10-17T17:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": null,
-      "id": "limitless:6ad30114115c12b73a5a5e43",
-      "source": "limitless",
-      "sourceId": "6ad30114115c12b73a5a5e43",
-      "name": "Surprise! Eternal Tournament #38 rerun",
-      "url": "https://play.limitlesstcg.com/tournament/6ad30114115c12b73a5a5e43/details",
-      "startAt": "2026-10-17T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aca8ac7115c12b73a5a0d28",
-      "source": "limitless",
-      "sourceId": "6aca8ac7115c12b73a5a0d28",
-      "name": "🇧🇷 Hit Challenge #44 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aca8ac7115c12b73a5a0d28/details",
-      "startAt": "2026-10-17T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -55,6 +15,16 @@
       "name": "TheDipidis Rapid Rounds TEF-30C #4",
       "url": "https://play.limitlesstcg.com/tournament/6ad212d78a8383117e3ece92/details",
       "startAt": "2026-10-17T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad3b12b115c12b73a5a651a",
+      "source": "limitless",
+      "sourceId": "6ad3b12b115c12b73a5a651a",
+      "name": "REDACTED POP UP!  DRAGAPULT BANNED!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad3b12b115c12b73a5a651a/details",
+      "startAt": "2026-10-17T22:05:00.000Z"
     },
     {
       "format": null,
@@ -525,6 +495,16 @@
       "name": "TOURNAMENT OF DOOM! Seriously people.....",
       "url": "https://play.limitlesstcg.com/tournament/6aceb2328a8383117e3eb45e/details",
       "startAt": "2026-10-24T02:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6a5bd3cd52c24ac2da645db3",
+      "source": "limitless",
+      "sourceId": "6a5bd3cd52c24ac2da645db3",
+      "name": "Webcam Sisterhood Saturdays #3 🩷 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
+      "startAt": "2026-10-24T17:00:00.000Z"
     },
     {
       "format": "Standard",
