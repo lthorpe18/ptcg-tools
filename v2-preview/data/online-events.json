@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-18T05:06:41.294Z",
+  "generatedAt": "2026-10-18T11:41:15.752Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -35,6 +35,16 @@
       "name": "BS-ASR Old Banlist Tournament #1",
       "url": "https://play.limitlesstcg.com/tournament/6ad30201115c12b73a5a5e45/details",
       "startAt": "2026-10-18T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad49b59115c12b73a5a6f13",
+      "source": "limitless",
+      "sourceId": "6ad49b59115c12b73a5a6f13",
+      "name": "Redraftowa Liga Pokemon TCG - 18.10.2026",
+      "url": "https://play.limitlesstcg.com/tournament/6ad49b59115c12b73a5a6f13/details",
+      "startAt": "2026-10-18T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -95,6 +105,16 @@
       "name": "TurboBlaze Trials GLC Series - Season 2 Week 8",
       "url": "https://play.limitlesstcg.com/tournament/6ace4600115c12b73a5a2f49/details",
       "startAt": "2026-10-19T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad47a5f8a8383117e3ee7cf",
+      "source": "limitless",
+      "sourceId": "6ad47a5f8a8383117e3ee7cf",
+      "name": "SEASAC League Challenge #8 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ad47a5f8a8383117e3ee7cf/details",
+      "startAt": "2026-10-19T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -185,6 +205,16 @@
       "name": "Mega Lunes 21",
       "url": "https://play.limitlesstcg.com/tournament/6ad288e2115c12b73a5a57d6/details",
       "startAt": "2026-10-20T01:10:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad47a9f8a8383117e3ee7d0",
+      "source": "limitless",
+      "sourceId": "6ad47a9f8a8383117e3ee7d0",
+      "name": "SEASAC League Challenge #9 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ad47a9f8a8383117e3ee7d0/details",
+      "startAt": "2026-10-20T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -374,6 +404,16 @@
       "sourceId": "6ad41c1d115c12b73a5a69bd",
       "name": "🇧🇷 Hit Cup #21 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ad41c1d115c12b73a5a69bd/details",
+      "startAt": "2026-10-23T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad485eb115c12b73a5a6e6b",
+      "source": "limitless",
+      "sourceId": "6ad485eb115c12b73a5a6e6b",
+      "name": "1° Mini Torneio A Lenda de Lucario",
+      "url": "https://play.limitlesstcg.com/tournament/6ad485eb115c12b73a5a6e6b/details",
       "startAt": "2026-10-23T00:00:00.000Z"
     },
     {
