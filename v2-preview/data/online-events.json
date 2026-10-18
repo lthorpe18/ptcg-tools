@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-18T00:18:25.551Z",
+  "generatedAt": "2026-10-18T05:06:41.294Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acb2b2a115c12b73a5a1197",
-      "source": "limitless",
-      "sourceId": "6acb2b2a115c12b73a5a1197",
-      "name": "Vault Of Games #7🏆| REGIONAL FORMAT|WEEKLY",
-      "url": "https://play.limitlesstcg.com/tournament/6acb2b2a115c12b73a5a1197/details",
-      "startAt": "2026-10-18T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad2c2a9115c12b73a5a5abc",
-      "source": "limitless",
-      "sourceId": "6ad2c2a9115c12b73a5a5abc",
-      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
-      "url": "https://play.limitlesstcg.com/tournament/6ad2c2a9115c12b73a5a5abc/details",
-      "startAt": "2026-10-18T01:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -389,6 +369,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad41c1d115c12b73a5a69bd",
+      "source": "limitless",
+      "sourceId": "6ad41c1d115c12b73a5a69bd",
+      "name": "🇧🇷 Hit Cup #21 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41c1d115c12b73a5a69bd/details",
+      "startAt": "2026-10-23T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac0875985920e4d2536288c",
       "source": "limitless",
       "sourceId": "6ac0875985920e4d2536288c",
@@ -449,6 +439,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad41fc3115c12b73a5a69d1",
+      "source": "limitless",
+      "sourceId": "6ad41fc3115c12b73a5a69d1",
+      "name": "🇧🇷 Hit Challenge #48 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41fc3115c12b73a5a69d1/details",
+      "startAt": "2026-10-23T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac412d9245696afb35170f1",
       "source": "limitless",
       "sourceId": "6ac412d9245696afb35170f1",
@@ -495,6 +495,26 @@
       "name": "($115 PRIZE POOL) OCTOBER COOKOFF CHALLENGE",
       "url": "https://play.limitlesstcg.com/tournament/6abe8331880ed327106e0e64/details",
       "startAt": "2026-10-24T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad42159115c12b73a5a69e0",
+      "source": "limitless",
+      "sourceId": "6ad42159115c12b73a5a69e0",
+      "name": "🇧🇷 Hit Challenge #49 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad42159115c12b73a5a69e0/details",
+      "startAt": "2026-10-24T18:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ad410fe115c12b73a5a6917",
+      "source": "limitless",
+      "sourceId": "6ad410fe115c12b73a5a6917",
+      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad410fe115c12b73a5a6917/details",
+      "startAt": "2026-10-25T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -619,6 +639,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad41dee8a8383117e3ee546",
+      "source": "limitless",
+      "sourceId": "6ad41dee8a8383117e3ee546",
+      "name": "🇧🇷 Hit Cup #22 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41dee8a8383117e3ee546/details",
+      "startAt": "2026-11-03T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aad83eee905c1db68744613",
       "source": "limitless",
       "sourceId": "6aad83eee905c1db68744613",
@@ -709,6 +739,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad41e6d115c12b73a5a69ca",
+      "source": "limitless",
+      "sourceId": "6ad41e6d115c12b73a5a69ca",
+      "name": "🇧🇷 Hit Cup #23 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41e6d115c12b73a5a69ca/details",
+      "startAt": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac0879885920e4d2536288f",
       "source": "limitless",
       "sourceId": "6ac0879885920e4d2536288f",
@@ -765,6 +805,16 @@
       "name": "Nightshades Monday Cup 6 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad8426e905c1db68744640/details",
       "startAt": "2026-11-17T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad41ed6115c12b73a5a69cd",
+      "source": "limitless",
+      "sourceId": "6ad41ed6115c12b73a5a69cd",
+      "name": "🇧🇷 Hit Cup #24 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41ed6115c12b73a5a69cd/details",
+      "startAt": "2026-11-20T00:00:00.000Z"
     },
     {
       "format": "Standard",
