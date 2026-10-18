@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-18T11:41:15.752Z",
+  "generatedAt": "2026-10-18T16:07:59.032Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad02ed4115c12b73a5a44d7",
-      "source": "limitless",
-      "sourceId": "6ad02ed4115c12b73a5a44d7",
-      "name": "Carnelian Cave Invitational Qualifier #1",
-      "url": "https://play.limitlesstcg.com/tournament/6ad02ed4115c12b73a5a44d7/details",
-      "startAt": "2026-10-18T14:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad3ff7d8a8383117e3ee3fc",
-      "source": "limitless",
-      "sourceId": "6ad3ff7d8a8383117e3ee3fc",
-      "name": "Kearney Duos Tournament #2",
-      "url": "https://play.limitlesstcg.com/tournament/6ad3ff7d8a8383117e3ee3fc/details",
-      "startAt": "2026-10-18T15:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "SIM",
@@ -35,6 +15,16 @@
       "name": "BS-ASR Old Banlist Tournament #1",
       "url": "https://play.limitlesstcg.com/tournament/6ad30201115c12b73a5a5e45/details",
       "startAt": "2026-10-18T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad4e393115c12b73a5a719d",
+      "source": "limitless",
+      "sourceId": "6ad4e393115c12b73a5a719d",
+      "name": "Domingou #11",
+      "url": "https://play.limitlesstcg.com/tournament/6ad4e393115c12b73a5a719d/details",
+      "startAt": "2026-10-18T17:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -55,6 +45,16 @@
       "name": "Lhama Champs",
       "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
       "startAt": "2026-10-18T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad4eca3115c12b73a5a7200",
+      "source": "limitless",
+      "sourceId": "6ad4eca3115c12b73a5a7200",
+      "name": "Pipe's Sunday Cup #2",
+      "url": "https://play.limitlesstcg.com/tournament/6ad4eca3115c12b73a5a7200/details",
+      "startAt": "2026-10-18T21:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -125,6 +125,16 @@
       "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
       "url": "https://play.limitlesstcg.com/tournament/6ace21698a8383117e3eaf39/details",
       "startAt": "2026-10-19T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad4e8fe8a8383117e3eeae5",
+      "source": "limitless",
+      "sourceId": "6ad4e8fe8a8383117e3eeae5",
+      "name": "Pumpkaweekly",
+      "url": "https://play.limitlesstcg.com/tournament/6ad4e8fe8a8383117e3eeae5/details",
+      "startAt": "2026-10-19T18:00:00.000Z"
     },
     {
       "format": "Standard",
