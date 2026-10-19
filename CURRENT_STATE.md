@@ -1,10 +1,12 @@
 # PTCG Tools — current state
 
-## UI/UX rebuild — CP00 documentation handoff
+## UI/UX rebuild — CP01 review handoff
 
 The owner has requested a staged UI/UX rebuild. Read [rebuild status](docs/UI_UX_REBUILD_STATUS.md), [guide](docs/UI_UX_REBUILD_GUIDE.md), [decisions](docs/UI_UX_DECISIONS.md) and [CP01](handoffs/ui-ux/CP-01.md). CP00 verified remote main at `8e9d8e2a81121924f3ecc6420dcc833c3d2a52d0`; newer changes since #81 were generated feeds, preserved here. No open PRs were found at checkpoint start.
 
-The previous baseline descriptions below retain historical context. The guide now governs target UI/navigation, not current production. Reuse the existing stack/shared engines under an isolated `v3-preview/`; no runtime, data or production cutover in CP00. Collection remains future implementation; Kanto stays separate pending reviewed migration. Calendar production concerns and device acceptance remain unresolved, not waived. Documentation PR merge is pending.
+PR #82 is merged at `606f7dd1e0f9bdc12c83d7edd524759d023df206`. CP01 resumed against main `c5000b37445b83b40272bba533028a02259065fb`, preserving later generated feeds. Its isolated `v3-preview/` foundation is implemented on `ui-ux/cp01-foundation`, pending PR review and explicit merge authorization. Read [CP01 completion](handoffs/ui-ux/CP-01-COMPLETION.md) for verification and [CP02](handoffs/ui-ux/CP-02.md) for the next bounded prompt. No CP02 work has started.
+
+The previous baseline descriptions below retain historical context. The guide governs target UI/navigation, not current production. Production root, V2, auth, data and service-worker scope are unchanged. No hosted preview or production deployment has been made by CP01; owner-device acceptance is pending. Collection remains future implementation; Kanto stays separate. Calendar production concerns and device acceptance remain unresolved, not waived.
 
 Review: 19 September 2026, after source-of-truth documentation PR #80 merged; Meta exact-detail evidence loading fix PR #81 is merged; device acceptance remains unverified here. Read this first, then the linked handoff and current GitHub refs. This is an evidence snapshot, not a claim that branches stop moving.
 

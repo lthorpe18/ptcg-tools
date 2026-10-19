@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#061514" />
+    <title>PTCG Tools · UI preview</title>
+    <link rel="stylesheet" href="./shared/tokens.css" />
+    <link rel="stylesheet" href="./shared/components.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="app-shell">
+      <header class="app-bar">
+        <a href="#/specimen" class="brand"
+          >PTCG <strong>Tools</strong><span>UI PREVIEW · CP01</span></a
+        >
+        <div class="app-actions">
+          <a href="#/utilities">Tools</a><a href="#/settings">Settings</a>
+        </div>
+      </header>
+      <main id="main" tabindex="-1"></main>
+      <nav class="bottom-nav" aria-label="Primary"></nav>
+    </div>
+    <script src="../v2-preview/apps/_shared/card-images.js"></script>
+    <script src="../v2-preview/apps/_shared/deck-sprites.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
