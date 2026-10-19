@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-19T05:18:15.562Z",
+  "generatedAt": "2026-10-19T13:55:50.571Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,22 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ad47a5f8a8383117e3ee7cf",
-      "source": "limitless",
-      "sourceId": "6ad47a5f8a8383117e3ee7cf",
-      "name": "SEASAC League Challenge #8 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ad47a5f8a8383117e3ee7cf/details",
-      "startAt": "2026-10-19T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ace21698a8383117e3eaf39",
       "source": "limitless",
       "sourceId": "6ace21698a8383117e3eaf39",
       "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
       "url": "https://play.limitlesstcg.com/tournament/6ace21698a8383117e3eaf39/details",
-      "startAt": "2026-10-19T16:00:00.000Z"
+      "startAt": "2026-10-19T16:10:00.000Z"
     },
     {
       "format": "Standard",
@@ -434,6 +424,16 @@
       "sourceId": "6ac088bc85920e4d25362898",
       "name": "Budget Build Battles! | Season 9 - Week 3",
       "url": "https://play.limitlesstcg.com/tournament/6ac088bc85920e4d25362898/details",
+      "startAt": "2026-10-24T00:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ad61850115c12b73a5a7937",
+      "source": "limitless",
+      "sourceId": "6ad61850115c12b73a5a7937",
+      "name": "TurboBlaze Trials GLC Series - Season 2 Week 9",
+      "url": "https://play.limitlesstcg.com/tournament/6ad61850115c12b73a5a7937/details",
       "startAt": "2026-10-24T00:30:00.000Z"
     },
     {
