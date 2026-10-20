@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-20T17:30:49.950Z",
+  "generatedAt": "2026-10-20T21:51:43.507Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad24689115c12b73a5a53f3",
-      "source": "limitless",
-      "sourceId": "6ad24689115c12b73a5a53f3",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6ad24689115c12b73a5a53f3/details",
-      "startAt": "2026-10-20T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad749ed115c12b73a5a83c0",
-      "source": "limitless",
-      "sourceId": "6ad749ed115c12b73a5a83c0",
-      "name": "👑CrownOfSpain 👑 #12 (10€ paypal)",
-      "url": "https://play.limitlesstcg.com/tournament/6ad749ed115c12b73a5a83c0/details",
-      "startAt": "2026-10-20T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad2e5d38a8383117e3ed989",
-      "source": "limitless",
-      "sourceId": "6ad2e5d38a8383117e3ed989",
-      "name": "Draw 7 Tourney #2",
-      "url": "https://play.limitlesstcg.com/tournament/6ad2e5d38a8383117e3ed989/details",
-      "startAt": "2026-10-20T18:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad28f7d115c12b73a5a57fe",
-      "source": "limitless",
-      "sourceId": "6ad28f7d115c12b73a5a57fe",
-      "name": "LigaNova Semanal Out/3",
-      "url": "https://play.limitlesstcg.com/tournament/6ad28f7d115c12b73a5a57fe/details",
-      "startAt": "2026-10-20T21:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -95,6 +55,26 @@
       "name": "🇧🇷 Hit Challenge #46 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ad304eb115c12b73a5a5e51/details",
       "startAt": "2026-10-20T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad7a6e98a8383117e3f01c6",
+      "source": "limitless",
+      "sourceId": "6ad7a6e98a8383117e3f01c6",
+      "name": "Torneo Gratis Sidedeck Online Martes 20 Octubre",
+      "url": "https://play.limitlesstcg.com/tournament/6ad7a6e98a8383117e3f01c6/details",
+      "startAt": "2026-10-20T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad7ad7b115c12b73a5a86bd",
+      "source": "limitless",
+      "sourceId": "6ad7ad7b115c12b73a5a86bd",
+      "name": "LPS S4 #5 Regional Puebla Practice NoCodes 💔",
+      "url": "https://play.limitlesstcg.com/tournament/6ad7ad7b115c12b73a5a86bd/details",
+      "startAt": "2026-10-20T23:35:00.000Z"
     },
     {
       "format": "EX Series (RS–PK)",
@@ -175,6 +155,16 @@
       "name": "🇧🇷 Hit Challenge #47 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ad3124a8a8383117e3edb76/details",
       "startAt": "2026-10-21T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad7c7148a8383117e3f0387",
+      "source": "limitless",
+      "sourceId": "6ad7c7148a8383117e3f0387",
+      "name": "REFINE Autumn Series Session 8: Spoopy?",
+      "url": "https://play.limitlesstcg.com/tournament/6ad7c7148a8383117e3f0387/details",
+      "startAt": "2026-10-21T23:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -364,6 +354,16 @@
       "sourceId": "6ad6492f8a8383117e3ef464",
       "name": "La Techgece Cup #8 [BO3] (30C Legal!)",
       "url": "https://play.limitlesstcg.com/tournament/6ad6492f8a8383117e3ef464/details",
+      "startAt": "2026-10-23T22:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad7bc87115c12b73a5a87e9",
+      "source": "limitless",
+      "sourceId": "6ad7bc87115c12b73a5a87e9",
+      "name": "FULL BENCH FRIDAYS PTCGL $$CASH PRIZE$$#15",
+      "url": "https://play.limitlesstcg.com/tournament/6ad7bc87115c12b73a5a87e9/details",
       "startAt": "2026-10-23T22:15:00.000Z"
     },
     {
@@ -675,6 +675,16 @@
       "name": "Budget Build Battles! | Season 9 - Week 4",
       "url": "https://play.limitlesstcg.com/tournament/6ac088dd245696afb3514d86/details",
       "startAt": "2026-10-31T00:30:00.000Z"
+    },
+    {
+      "format": "Worlds 2010 (DP–UL)",
+      "platform": "SIM",
+      "id": "limitless:6ad7e06d115c12b73a5a8985",
+      "source": "limitless",
+      "sourceId": "6ad7e06d115c12b73a5a8985",
+      "name": "James G Tournaments #60 - 2010 Worlds (DP-UL)",
+      "url": "https://play.limitlesstcg.com/tournament/6ad7e06d115c12b73a5a8985/details",
+      "startAt": "2026-10-31T01:00:00.000Z"
     },
     {
       "format": "Standard",
