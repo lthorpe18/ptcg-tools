@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-19T23:55:53.477Z",
+  "generatedAt": "2026-10-20T05:15:51.067Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad83bde905c1db68744611",
-      "source": "limitless",
-      "sourceId": "6aad83bde905c1db68744611",
-      "name": "Nightshades Monday Cup 2 (75 Codes)",
-      "url": "https://play.limitlesstcg.com/tournament/6aad83bde905c1db68744611/details",
-      "startAt": "2026-10-20T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac29bac85920e4d25363e2c",
-      "source": "limitless",
-      "sourceId": "6ac29bac85920e4d25363e2c",
-      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 6 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6ac29bac85920e4d25363e2c/details",
-      "startAt": "2026-10-20T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad288e2115c12b73a5a57d6",
-      "source": "limitless",
-      "sourceId": "6ad288e2115c12b73a5a57d6",
-      "name": "Mega Lunes 21",
-      "url": "https://play.limitlesstcg.com/tournament/6ad288e2115c12b73a5a57d6/details",
-      "startAt": "2026-10-20T01:10:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad6ac698a8383117e3efb5f",
-      "source": "limitless",
-      "sourceId": "6ad6ac698a8383117e3efb5f",
-      "name": "🎁Liga Shiny $3.000🏆BO1🏆 Formato estandar",
-      "url": "https://play.limitlesstcg.com/tournament/6ad6ac698a8383117e3efb5f/details",
-      "startAt": "2026-10-20T01:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad6a03d8a8383117e3efad2",
-      "source": "limitless",
-      "sourceId": "6ad6a03d8a8383117e3efad2",
-      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #18",
-      "url": "https://play.limitlesstcg.com/tournament/6ad6a03d8a8383117e3efad2/details",
-      "startAt": "2026-10-20T02:15:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -327,6 +277,16 @@
       "startAt": "2026-10-23T00:00:00.000Z"
     },
     {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6ad6c7ce115c12b73a5a8215",
+      "source": "limitless",
+      "sourceId": "6ad6c7ce115c12b73a5a8215",
+      "name": "Holon Locals #47 (US Friendly)",
+      "url": "https://play.limitlesstcg.com/tournament/6ad6c7ce115c12b73a5a8215/details",
+      "startAt": "2026-10-23T01:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ac0875985920e4d2536288c",
@@ -509,12 +469,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad6cdde115c12b73a5a8251",
+      "source": "limitless",
+      "sourceId": "6ad6cdde115c12b73a5a8251",
+      "name": "Vault Of Games #8🏆| REGIONAL FORMAT|WEEKLY",
+      "url": "https://play.limitlesstcg.com/tournament/6ad6cdde115c12b73a5a8251/details",
+      "startAt": "2026-10-25T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6acbd48c115c12b73a5a1817",
       "source": "limitless",
       "sourceId": "6acbd48c115c12b73a5a1817",
       "name": "FINISTERRAE SERIES TCG #4",
       "url": "https://play.limitlesstcg.com/tournament/6acbd48c115c12b73a5a1817/details",
       "startAt": "2026-10-25T15:00:00.000Z"
+    },
+    {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6ad6c76b8a8383117e3efd08",
+      "source": "limitless",
+      "sourceId": "6ad6c76b8a8383117e3efd08",
+      "name": "The Holon Open - October",
+      "url": "https://play.limitlesstcg.com/tournament/6ad6c76b8a8383117e3efd08/details",
+      "startAt": "2026-10-25T17:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -565,6 +545,16 @@
       "name": "🏆Ling TV ARENA🏆",
       "url": "https://play.limitlesstcg.com/tournament/6abe23b5880ed327106e0b8b/details",
       "startAt": "2026-10-26T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad67c92115c12b73a5a7dbe",
+      "source": "limitless",
+      "sourceId": "6ad67c92115c12b73a5a7dbe",
+      "name": "Sunny's Weekly #279 This is Halloween! (In Sparta)",
+      "url": "https://play.limitlesstcg.com/tournament/6ad67c92115c12b73a5a7dbe/details",
+      "startAt": "2026-10-26T22:05:00.000Z"
     },
     {
       "format": "Standard",
