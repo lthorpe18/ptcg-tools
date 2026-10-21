@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-21T00:55:15.145Z",
+  "generatedAt": "2026-10-21T07:59:20.768Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac5bce085920e4d25365cc1",
-      "source": "limitless",
-      "sourceId": "6ac5bce085920e4d25365cc1",
-      "name": "Pudding Weekly #18 | CHITTY CHITTY BANG BANG",
-      "url": "https://play.limitlesstcg.com/tournament/6ac5bce085920e4d25365cc1/details",
-      "startAt": "2026-10-21T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad7fa7d8a8383117e3f0558",
-      "source": "limitless",
-      "sourceId": "6ad7fa7d8a8383117e3f0558",
-      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #19",
-      "url": "https://play.limitlesstcg.com/tournament/6ad7fa7d8a8383117e3f0558/details",
-      "startAt": "2026-10-21T02:15:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -35,6 +15,16 @@
       "name": "SEASAC League Challenge #10 (SEASON 6) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6ad807f28a8383117e3f063d/details",
       "startAt": "2026-10-21T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad852d68a8383117e3f090d",
+      "source": "limitless",
+      "sourceId": "6ad852d68a8383117e3f090d",
+      "name": "Team Corna Weekly October's #5",
+      "url": "https://play.limitlesstcg.com/tournament/6ad852d68a8383117e3f090d/details",
+      "startAt": "2026-10-21T16:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -105,6 +95,16 @@
       "name": "REFINE Autumn Series Session 8: Spoopy?",
       "url": "https://play.limitlesstcg.com/tournament/6ad7c7148a8383117e3f0387/details",
       "startAt": "2026-10-21T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ac2a7b985920e4d25363eaa",
+      "source": "limitless",
+      "sourceId": "6ac2a7b985920e4d25363eaa",
+      "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 6 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6ac2a7b985920e4d25363eaa/details",
+      "startAt": "2026-10-22T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -252,7 +252,7 @@
       "id": "limitless:6ad6745a8a8383117e3ef801",
       "source": "limitless",
       "sourceId": "6ad6745a8a8383117e3ef801",
-      "name": "Team Corna Weekly October's #5",
+      "name": "Team Corna Weekly October's #6",
       "url": "https://play.limitlesstcg.com/tournament/6ad6745a8a8383117e3ef801/details",
       "startAt": "2026-10-23T16:00:00.000Z"
     },
@@ -345,6 +345,16 @@
       "name": "TSN ESPORTS Tournament - October 2026",
       "url": "https://play.limitlesstcg.com/tournament/6ad61dca8a8383117e3ef228/details",
       "startAt": "2026-10-23T23:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGO",
+      "id": "limitless:6ad844b58a8383117e3f08f9",
+      "source": "limitless",
+      "sourceId": "6ad844b58a8383117e3f08f9",
+      "name": "BPL TCG Chaos Cup",
+      "url": "https://play.limitlesstcg.com/tournament/6ad844b58a8383117e3f08f9/details",
+      "startAt": "2026-10-23T23:15:00.000Z"
     },
     {
       "format": "Standard",
@@ -569,12 +579,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad84066115c12b73a5a8d98",
+      "source": "limitless",
+      "sourceId": "6ad84066115c12b73a5a8d98",
+      "name": "Pudding Weekly #19 | SATURWEEN!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad84066115c12b73a5a8d98/details",
+      "startAt": "2026-10-28T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac3bcc885920e4d25364626",
       "source": "limitless",
       "sourceId": "6ac3bcc885920e4d25364626",
       "name": "Zard-Pokénight #024",
       "url": "https://play.limitlesstcg.com/tournament/6ac3bcc885920e4d25364626/details",
       "startAt": "2026-10-28T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad826ad115c12b73a5a8cca",
+      "source": "limitless",
+      "sourceId": "6ad826ad115c12b73a5a8cca",
+      "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 7 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6ad826ad115c12b73a5a8cca/details",
+      "startAt": "2026-10-29T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -659,6 +689,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad826eb115c12b73a5a8ccb",
+      "source": "limitless",
+      "sourceId": "6ad826eb115c12b73a5a8ccb",
+      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 8 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6ad826eb115c12b73a5a8ccb/details",
+      "startAt": "2026-11-03T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aad83eee905c1db68744613",
       "source": "limitless",
       "sourceId": "6aad83eee905c1db68744613",
@@ -675,6 +715,16 @@
       "name": "Torneo Relámpago ⚡ #87 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6accf81e8a8383117e3ea311/details",
       "startAt": "2026-11-04T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad827588a8383117e3f0825",
+      "source": "limitless",
+      "sourceId": "6ad827588a8383117e3f0825",
+      "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 8 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6ad827588a8383117e3f0825/details",
+      "startAt": "2026-11-05T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -739,6 +789,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad82790115c12b73a5a8ccd",
+      "source": "limitless",
+      "sourceId": "6ad82790115c12b73a5a8ccd",
+      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 9 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6ad82790115c12b73a5a8ccd/details",
+      "startAt": "2026-11-10T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aad840ff127b1b52c27c2fb",
       "source": "limitless",
       "sourceId": "6aad840ff127b1b52c27c2fb",
@@ -754,6 +814,16 @@
       "sourceId": "6ad41e6d115c12b73a5a69ca",
       "name": "🇧🇷 Hit Cup #23 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ad41e6d115c12b73a5a69ca/details",
+      "startAt": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad828488a8383117e3f082a",
+      "source": "limitless",
+      "sourceId": "6ad828488a8383117e3f082a",
+      "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 9 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6ad828488a8383117e3f082a/details",
       "startAt": "2026-11-12T00:00:00.000Z"
     },
     {
