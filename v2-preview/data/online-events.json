@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-21T07:59:20.768Z",
+  "generatedAt": "2026-10-21T14:06:44.847Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad807f28a8383117e3f063d",
-      "source": "limitless",
-      "sourceId": "6ad807f28a8383117e3f063d",
-      "name": "SEASAC League Challenge #10 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ad807f28a8383117e3f063d/details",
-      "startAt": "2026-10-21T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -54,6 +44,16 @@
       "sourceId": "6acffb1b115c12b73a5a4259",
       "name": "TAVERNA LEAGUE - SEASON 0 - DAY #7",
       "url": "https://play.limitlesstcg.com/tournament/6acffb1b115c12b73a5a4259/details",
+      "startAt": "2026-10-21T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad8a7d1115c12b73a5a8e4b",
+      "source": "limitless",
+      "sourceId": "6ad8a7d1115c12b73a5a8e4b",
+      "name": "ASRcristiano # 197 - 60 codes - Road to Gdansk!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad8a7d1115c12b73a5a8e4b/details",
       "startAt": "2026-10-21T19:00:00.000Z"
     },
     {
@@ -179,6 +179,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad8a808115c12b73a5a8e4f",
+      "source": "limitless",
+      "sourceId": "6ad8a808115c12b73a5a8e4f",
+      "name": "ASRcristiano # 198 - 60 codes - Road to Gdansk!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad8a808115c12b73a5a8e4f/details",
+      "startAt": "2026-10-22T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad117b08a8383117e3ec72a",
       "source": "limitless",
       "sourceId": "6ad117b08a8383117e3ec72a",
@@ -247,6 +257,16 @@
       "startAt": "2026-10-23T08:30:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ad80874115c12b73a5a8b2c",
+      "source": "limitless",
+      "sourceId": "6ad80874115c12b73a5a8b2c",
+      "name": "SEASAC Special Event (TERA) #3",
+      "url": "https://play.limitlesstcg.com/tournament/6ad80874115c12b73a5a8b2c/details",
+      "startAt": "2026-10-23T11:30:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ad6745a8a8383117e3ef801",
@@ -285,6 +305,16 @@
       "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #28",
       "url": "https://play.limitlesstcg.com/tournament/6ad246a7115c12b73a5a53f4/details",
       "startAt": "2026-10-23T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad8a8598a8383117e3f09e6",
+      "source": "limitless",
+      "sourceId": "6ad8a8598a8383117e3f09e6",
+      "name": "ASRcristiano # 199 - 60 codes - Road to Gdansk!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad8a8598a8383117e3f09e6/details",
+      "startAt": "2026-10-23T19:00:00.000Z"
     },
     {
       "format": "Standard",
