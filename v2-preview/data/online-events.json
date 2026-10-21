@@ -1,71 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-21T18:54:30.486Z",
+  "generatedAt": "2026-10-21T23:36:58.872Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acffb1b115c12b73a5a4259",
-      "source": "limitless",
-      "sourceId": "6acffb1b115c12b73a5a4259",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #7",
-      "url": "https://play.limitlesstcg.com/tournament/6acffb1b115c12b73a5a4259/details",
-      "startAt": "2026-10-21T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad8a7d1115c12b73a5a8e4b",
-      "source": "limitless",
-      "sourceId": "6ad8a7d1115c12b73a5a8e4b",
-      "name": "ASRcristiano # 197 - 60 codes - Road to Gdansk!",
-      "url": "https://play.limitlesstcg.com/tournament/6ad8a7d1115c12b73a5a8e4b/details",
-      "startAt": "2026-10-21T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad648a0115c12b73a5a7ae4",
-      "source": "limitless",
-      "sourceId": "6ad648a0115c12b73a5a7ae4",
-      "name": "La Techgece Casual #11 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ad648a0115c12b73a5a7ae4/details",
-      "startAt": "2026-10-21T22:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3bc7a245696afb3516baa",
-      "source": "limitless",
-      "sourceId": "6ac3bc7a245696afb3516baa",
-      "name": "Zard-Pokénight #023",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3bc7a245696afb3516baa/details",
-      "startAt": "2026-10-21T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad3124a8a8383117e3edb76",
-      "source": "limitless",
-      "sourceId": "6ad3124a8a8383117e3edb76",
-      "name": "🇧🇷 Hit Challenge #47 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad3124a8a8383117e3edb76/details",
-      "startAt": "2026-10-21T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad7c7148a8383117e3f0387",
-      "source": "limitless",
-      "sourceId": "6ad7c7148a8383117e3f0387",
-      "name": "REFINE Autumn Series Session 8: Spoopy?",
-      "url": "https://play.limitlesstcg.com/tournament/6ad7c7148a8383117e3f0387/details",
-      "startAt": "2026-10-21T23:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -165,6 +105,16 @@
       "name": "14° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6ad117b08a8383117e3ec72a/details",
       "startAt": "2026-10-22T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad92350115c12b73a5a9419",
+      "source": "limitless",
+      "sourceId": "6ad92350115c12b73a5a9419",
+      "name": "💥Plantel Battle #35 💥​100 CODES ✔️​ TOP 8",
+      "url": "https://play.limitlesstcg.com/tournament/6ad92350115c12b73a5a9419/details",
+      "startAt": "2026-10-22T23:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -585,6 +535,16 @@
       "name": "Pudding Weekly #19 | SATURWEEN!",
       "url": "https://play.limitlesstcg.com/tournament/6ad84066115c12b73a5a8d98/details",
       "startAt": "2026-10-28T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad93231115c12b73a5a9488",
+      "source": "limitless",
+      "sourceId": "6ad93231115c12b73a5a9488",
+      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #8",
+      "url": "https://play.limitlesstcg.com/tournament/6ad93231115c12b73a5a9488/details",
+      "startAt": "2026-10-28T20:00:00.000Z"
     },
     {
       "format": "Standard",
