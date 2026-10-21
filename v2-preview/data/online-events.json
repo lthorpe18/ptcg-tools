@@ -1,91 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-20T21:51:43.507Z",
+  "generatedAt": "2026-10-21T00:55:15.145Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad305c18a8383117e3edae8",
-      "source": "limitless",
-      "sourceId": "6ad305c18a8383117e3edae8",
-      "name": "🇧🇷 Semanal • Hit Belém #3 | Pokémon TCG",
-      "url": "https://play.limitlesstcg.com/tournament/6ad305c18a8383117e3edae8/details",
-      "startAt": "2026-10-20T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad752e9115c12b73a5a841e",
-      "source": "limitless",
-      "sourceId": "6ad752e9115c12b73a5a841e",
-      "name": "🔥⚔️XIX TORNEIO TCG LIVE ⚔️🔥",
-      "url": "https://play.limitlesstcg.com/tournament/6ad752e9115c12b73a5a841e/details",
-      "startAt": "2026-10-20T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad647708a8383117e3ef44a",
-      "source": "limitless",
-      "sourceId": "6ad647708a8383117e3ef44a",
-      "name": "La Techgece Casual #10 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ad647708a8383117e3ef44a/details",
-      "startAt": "2026-10-20T22:15:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6ad2dcdf115c12b73a5a5bcd",
-      "source": "limitless",
-      "sourceId": "6ad2dcdf115c12b73a5a5bcd",
-      "name": "♠️ Control Players Unite's Aceless Tournament! #41",
-      "url": "https://play.limitlesstcg.com/tournament/6ad2dcdf115c12b73a5a5bcd/details",
-      "startAt": "2026-10-20T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad304eb115c12b73a5a5e51",
-      "source": "limitless",
-      "sourceId": "6ad304eb115c12b73a5a5e51",
-      "name": "🇧🇷 Hit Challenge #46 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad304eb115c12b73a5a5e51/details",
-      "startAt": "2026-10-20T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad7a6e98a8383117e3f01c6",
-      "source": "limitless",
-      "sourceId": "6ad7a6e98a8383117e3f01c6",
-      "name": "Torneo Gratis Sidedeck Online Martes 20 Octubre",
-      "url": "https://play.limitlesstcg.com/tournament/6ad7a6e98a8383117e3f01c6/details",
-      "startAt": "2026-10-20T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad7ad7b115c12b73a5a86bd",
-      "source": "limitless",
-      "sourceId": "6ad7ad7b115c12b73a5a86bd",
-      "name": "LPS S4 #5 Regional Puebla Practice NoCodes 💔",
-      "url": "https://play.limitlesstcg.com/tournament/6ad7ad7b115c12b73a5a86bd/details",
-      "startAt": "2026-10-20T23:35:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6ad62b05115c12b73a5a7990",
-      "source": "limitless",
-      "sourceId": "6ad62b05115c12b73a5a7990",
-      "name": "Chile Cuisine Local 01",
-      "url": "https://play.limitlesstcg.com/tournament/6ad62b05115c12b73a5a7990/details",
-      "startAt": "2026-10-21T00:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -95,6 +15,26 @@
       "name": "Pudding Weekly #18 | CHITTY CHITTY BANG BANG",
       "url": "https://play.limitlesstcg.com/tournament/6ac5bce085920e4d25365cc1/details",
       "startAt": "2026-10-21T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad7fa7d8a8383117e3f0558",
+      "source": "limitless",
+      "sourceId": "6ad7fa7d8a8383117e3f0558",
+      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #19",
+      "url": "https://play.limitlesstcg.com/tournament/6ad7fa7d8a8383117e3f0558/details",
+      "startAt": "2026-10-21T02:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad807f28a8383117e3f063d",
+      "source": "limitless",
+      "sourceId": "6ad807f28a8383117e3f063d",
+      "name": "SEASAC League Challenge #10 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ad807f28a8383117e3f063d/details",
+      "startAt": "2026-10-21T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -185,6 +125,16 @@
       "name": "Cardboard Warriors - GLC on PTCGO #1",
       "url": "https://play.limitlesstcg.com/tournament/6ad566e5115c12b73a5a75e4/details",
       "startAt": "2026-10-22T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad80838115c12b73a5a8b28",
+      "source": "limitless",
+      "sourceId": "6ad80838115c12b73a5a8b28",
+      "name": "SEASAC League Challenge #11 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ad80838115c12b73a5a8b28/details",
+      "startAt": "2026-10-22T11:30:00.000Z"
     },
     {
       "format": "Standard",
