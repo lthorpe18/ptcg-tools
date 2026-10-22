@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-22T17:37:22.432Z",
+  "generatedAt": "2026-10-22T21:55:01.131Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad246458a8383117e3ed09b",
-      "source": "limitless",
-      "sourceId": "6ad246458a8383117e3ed09b",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6ad246458a8383117e3ed09b/details",
-      "startAt": "2026-10-22T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad8a808115c12b73a5a8e4f",
-      "source": "limitless",
-      "sourceId": "6ad8a808115c12b73a5a8e4f",
-      "name": "ASRcristiano # 198 - 60 codes - Road to Gdansk!",
-      "url": "https://play.limitlesstcg.com/tournament/6ad8a808115c12b73a5a8e4f/details",
-      "startAt": "2026-10-22T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad117b08a8383117e3ec72a",
-      "source": "limitless",
-      "sourceId": "6ad117b08a8383117e3ec72a",
-      "name": "14° Torneo del circuito CarroTCG/Prof. Fili",
-      "url": "https://play.limitlesstcg.com/tournament/6ad117b08a8383117e3ec72a/details",
-      "startAt": "2026-10-22T19:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -487,6 +457,16 @@
       "startAt": "2026-10-27T18:30:00.000Z"
     },
     {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6ada72b18a8383117e3f1ad8",
+      "source": "limitless",
+      "sourceId": "6ada72b18a8383117e3f1ad8",
+      "name": "Chile Cuisine Local 02",
+      "url": "https://play.limitlesstcg.com/tournament/6ada72b18a8383117e3f1ad8/details",
+      "startAt": "2026-10-27T23:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ad84066115c12b73a5a8d98",
@@ -545,6 +525,26 @@
       "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 7 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6ad826ad115c12b73a5a8cca/details",
       "startAt": "2026-10-29T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ada81e991617679e849e7d0",
+      "source": "limitless",
+      "sourceId": "6ada81e991617679e849e7d0",
+      "name": "Amyverse Bulk Box Battles #5 🧡 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ada81e991617679e849e7d0/details",
+      "startAt": "2026-10-29T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ada51e08a8383117e3f1905",
+      "source": "limitless",
+      "sourceId": "6ada51e08a8383117e3f1905",
+      "name": "15° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6ada51e08a8383117e3f1905/details",
+      "startAt": "2026-10-29T20:30:00.000Z"
     },
     {
       "format": "Standard",
