@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-21T23:36:58.872Z",
+  "generatedAt": "2026-10-22T05:20:26.853Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,32 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ac2a7b985920e4d25363eaa",
+      "id": "limitless:6ad97695115c12b73a5a96d8",
       "source": "limitless",
-      "sourceId": "6ac2a7b985920e4d25363eaa",
-      "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 6 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6ac2a7b985920e4d25363eaa/details",
-      "startAt": "2026-10-22T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad676c88a8383117e3ef827",
-      "source": "limitless",
-      "sourceId": "6ad676c88a8383117e3ef827",
-      "name": "Rare Candy Club Blitz #5",
-      "url": "https://play.limitlesstcg.com/tournament/6ad676c88a8383117e3ef827/details",
-      "startAt": "2026-10-22T00:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGO",
-      "id": "limitless:6ad566e5115c12b73a5a75e4",
-      "source": "limitless",
-      "sourceId": "6ad566e5115c12b73a5a75e4",
-      "name": "Cardboard Warriors - GLC on PTCGO #1",
-      "url": "https://play.limitlesstcg.com/tournament/6ad566e5115c12b73a5a75e4/details",
-      "startAt": "2026-10-22T00:30:00.000Z"
+      "sourceId": "6ad97695115c12b73a5a96d8",
+      "name": "🦘 Outback Roo Showdown Tournament #6 [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ad97695115c12b73a5a96d8/details",
+      "startAt": "2026-10-22T08:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -154,6 +134,16 @@
       "sourceId": "6ad581ac8a8383117e3eefa1",
       "name": "Heart of the Games Online Series - S106",
       "url": "https://play.limitlesstcg.com/tournament/6ad581ac8a8383117e3eefa1/details",
+      "startAt": "2026-10-23T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad962538a8383117e3f1211",
+      "source": "limitless",
+      "sourceId": "6ad962538a8383117e3f1211",
+      "name": "Rare Candy Club Blitz #6",
+      "url": "https://play.limitlesstcg.com/tournament/6ad962538a8383117e3f1211/details",
       "startAt": "2026-10-23T00:00:00.000Z"
     },
     {
@@ -529,12 +519,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad95ff18a8383117e3f11f4",
+      "source": "limitless",
+      "sourceId": "6ad95ff18a8383117e3f11f4",
+      "name": "Draw 7 Tourney #3",
+      "url": "https://play.limitlesstcg.com/tournament/6ad95ff18a8383117e3f11f4/details",
+      "startAt": "2026-10-27T18:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad84066115c12b73a5a8d98",
       "source": "limitless",
       "sourceId": "6ad84066115c12b73a5a8d98",
       "name": "Pudding Weekly #19 | SATURWEEN!",
       "url": "https://play.limitlesstcg.com/tournament/6ad84066115c12b73a5a8d98/details",
       "startAt": "2026-10-28T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad95f0d115c12b73a5a960f",
+      "source": "limitless",
+      "sourceId": "6ad95f0d115c12b73a5a960f",
+      "name": "Amyverse PTCG Live Weekly #19 💛 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad95f0d115c12b73a5a960f/details",
+      "startAt": "2026-10-28T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -555,6 +565,16 @@
       "name": "Zard-Pokénight #024",
       "url": "https://play.limitlesstcg.com/tournament/6ac3bcc885920e4d25364626/details",
       "startAt": "2026-10-28T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad97d02115c12b73a5a9704",
+      "source": "limitless",
+      "sourceId": "6ad97d02115c12b73a5a9704",
+      "name": "REFINE Autumn Series Session 9: Spooky!",
+      "url": "https://play.limitlesstcg.com/tournament/6ad97d02115c12b73a5a9704/details",
+      "startAt": "2026-10-28T23:30:00.000Z"
     },
     {
       "format": "Standard",
