@@ -1,81 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-22T21:55:01.131Z",
+  "generatedAt": "2026-10-23T00:55:54.499Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad92350115c12b73a5a9419",
-      "source": "limitless",
-      "sourceId": "6ad92350115c12b73a5a9419",
-      "name": "💥Plantel Battle #35 💥​100 CODES ✔️​ TOP 8",
-      "url": "https://play.limitlesstcg.com/tournament/6ad92350115c12b73a5a9419/details",
-      "startAt": "2026-10-22T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ada2f36115c12b73a5a9a48",
-      "source": "limitless",
-      "sourceId": "6ada2f36115c12b73a5a9a48",
-      "name": "Torneo Sidedeck Online Jueves 22 Octubre",
-      "url": "https://play.limitlesstcg.com/tournament/6ada2f36115c12b73a5a9a48/details",
-      "startAt": "2026-10-22T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad1795c8a8383117e3ecc4f",
-      "source": "limitless",
-      "sourceId": "6ad1795c8a8383117e3ecc4f",
-      "name": "Le Tournois Du DresseurPokeCharbie #133",
-      "url": "https://play.limitlesstcg.com/tournament/6ad1795c8a8383117e3ecc4f/details",
-      "startAt": "2026-10-23T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad41c1d115c12b73a5a69bd",
-      "source": "limitless",
-      "sourceId": "6ad41c1d115c12b73a5a69bd",
-      "name": "🇧🇷 Hit Cup #21 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad41c1d115c12b73a5a69bd/details",
-      "startAt": "2026-10-23T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad485eb115c12b73a5a6e6b",
-      "source": "limitless",
-      "sourceId": "6ad485eb115c12b73a5a6e6b",
-      "name": "1° Mini Torneio A Lenda de Lucario",
-      "url": "https://play.limitlesstcg.com/tournament/6ad485eb115c12b73a5a6e6b/details",
-      "startAt": "2026-10-23T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad581ac8a8383117e3eefa1",
-      "source": "limitless",
-      "sourceId": "6ad581ac8a8383117e3eefa1",
-      "name": "Heart of the Games Online Series - S106",
-      "url": "https://play.limitlesstcg.com/tournament/6ad581ac8a8383117e3eefa1/details",
-      "startAt": "2026-10-23T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad962538a8383117e3f1211",
-      "source": "limitless",
-      "sourceId": "6ad962538a8383117e3f1211",
-      "name": "Rare Candy Club Blitz #6",
-      "url": "https://play.limitlesstcg.com/tournament/6ad962538a8383117e3f1211/details",
-      "startAt": "2026-10-23T00:00:00.000Z"
-    },
     {
       "format": "EX Series (RS–PK)",
       "platform": "SIM",
