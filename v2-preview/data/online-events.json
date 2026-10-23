@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-23T07:55:45.817Z",
+  "generatedAt": "2026-10-23T13:48:11.080Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac0875985920e4d2536288c",
-      "source": "limitless",
-      "sourceId": "6ac0875985920e4d2536288c",
-      "name": "Oceania Open! | Season 4 - Week 3",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0875985920e4d2536288c/details",
-      "startAt": "2026-10-23T08:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6ad80874115c12b73a5a8b2c",
-      "source": "limitless",
-      "sourceId": "6ad80874115c12b73a5a8b2c",
-      "name": "SEASAC Special Event (TERA) #3",
-      "url": "https://play.limitlesstcg.com/tournament/6ad80874115c12b73a5a8b2c/details",
-      "startAt": "2026-10-23T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -75,6 +55,16 @@
       "name": "ASRcristiano # 199 - 60 codes - Road to Gdansk!",
       "url": "https://play.limitlesstcg.com/tournament/6ad8a8598a8383117e3f09e6/details",
       "startAt": "2026-10-23T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adb366d91617679e849ec3e",
+      "source": "limitless",
+      "sourceId": "6adb366d91617679e849ec3e",
+      "name": "TheDipidis Rapid Rounds TEF-30C #5",
+      "url": "https://play.limitlesstcg.com/tournament/6adb366d91617679e849ec3e/details",
+      "startAt": "2026-10-23T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -227,6 +217,26 @@
       "startAt": "2026-10-24T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adb36e497e21d82e5c6d134",
+      "source": "limitless",
+      "sourceId": "6adb36e497e21d82e5c6d134",
+      "name": "TheDipidis Rapid Rounds TEF-30C #6",
+      "url": "https://play.limitlesstcg.com/tournament/6adb36e497e21d82e5c6d134/details",
+      "startAt": "2026-10-24T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adb597f97e21d82e5c6d2b8",
+      "source": "limitless",
+      "sourceId": "6adb597f97e21d82e5c6d2b8",
+      "name": "Circuito LGBTCG #10 🏳️‍🌈 Ginásio da Sabiaguaba",
+      "url": "https://play.limitlesstcg.com/tournament/6adb597f97e21d82e5c6d2b8/details",
+      "startAt": "2026-10-24T22:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "CAM",
       "id": "limitless:6ad410fe115c12b73a5a6917",
@@ -252,7 +262,7 @@
       "id": "limitless:6ad6cdde115c12b73a5a8251",
       "source": "limitless",
       "sourceId": "6ad6cdde115c12b73a5a8251",
-      "name": "Vault Of Games #8🏆| REGIONAL FORMAT|WEEKLY",
+      "name": "🪎Vault Of Games #8🪙|REGIONAL FORMAT🏆|WEEKLY📅",
       "url": "https://play.limitlesstcg.com/tournament/6ad6cdde115c12b73a5a8251/details",
       "startAt": "2026-10-25T01:00:00.000Z"
     },
@@ -289,6 +299,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6adb371e97e21d82e5c6d136",
+      "source": "limitless",
+      "sourceId": "6adb371e97e21d82e5c6d136",
+      "name": "TheDipidis Rapid Rounds TEF-30C #7",
+      "url": "https://play.limitlesstcg.com/tournament/6adb371e97e21d82e5c6d136/details",
+      "startAt": "2026-10-25T21:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab9de13783097f8dcb7258f",
       "source": "limitless",
       "sourceId": "6ab9de13783097f8dcb7258f",
@@ -315,6 +335,16 @@
       "name": "RCC 2000 MEMBERS | $50 USD PRIZE | NO ENTRY FEE",
       "url": "https://play.limitlesstcg.com/tournament/6ad6629b8a8383117e3ef670/details",
       "startAt": "2026-10-26T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adb374397e21d82e5c6d138",
+      "source": "limitless",
+      "sourceId": "6adb374397e21d82e5c6d138",
+      "name": "TheDipidis Rapid Rounds TEF-30C #8",
+      "url": "https://play.limitlesstcg.com/tournament/6adb374397e21d82e5c6d138/details",
+      "startAt": "2026-10-26T10:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -379,6 +409,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6adb376697e21d82e5c6d139",
+      "source": "limitless",
+      "sourceId": "6adb376697e21d82e5c6d139",
+      "name": "TheDipidis Rapid Rounds TEF-30C #9",
+      "url": "https://play.limitlesstcg.com/tournament/6adb376697e21d82e5c6d139/details",
+      "startAt": "2026-10-27T10:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad95ff18a8383117e3f11f4",
       "source": "limitless",
       "sourceId": "6ad95ff18a8383117e3f11f4",
@@ -405,6 +445,26 @@
       "name": "Pudding Weekly #19 | SATURWEEN!",
       "url": "https://play.limitlesstcg.com/tournament/6ad84066115c12b73a5a8d98/details",
       "startAt": "2026-10-28T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adb378897e21d82e5c6d13a",
+      "source": "limitless",
+      "sourceId": "6adb378897e21d82e5c6d13a",
+      "name": "TheDipidis Rapid Rounds TEF-30C #10",
+      "url": "https://play.limitlesstcg.com/tournament/6adb378897e21d82e5c6d13a/details",
+      "startAt": "2026-10-28T10:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGO",
+      "id": "limitless:6adb521e91617679e849ed1b",
+      "source": "limitless",
+      "sourceId": "6adb521e91617679e849ed1b",
+      "name": "Cardboard Warriors - GLC on PTCGO #2",
+      "url": "https://play.limitlesstcg.com/tournament/6adb521e91617679e849ed1b/details",
+      "startAt": "2026-10-28T17:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -455,6 +515,16 @@
       "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 7 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6ad826ad115c12b73a5a8cca/details",
       "startAt": "2026-10-29T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adb37aa91617679e849ec44",
+      "source": "limitless",
+      "sourceId": "6adb37aa91617679e849ec44",
+      "name": "TheDipidis Rapid Rounds TEF-30C #11",
+      "url": "https://play.limitlesstcg.com/tournament/6adb37aa91617679e849ec44/details",
+      "startAt": "2026-10-29T10:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -515,6 +585,16 @@
       "name": "Elite Four Fridays",
       "url": "https://play.limitlesstcg.com/tournament/6aad6751e905c1db68744467/details",
       "startAt": "2026-10-30T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adab01991617679e849ea7c",
+      "source": "limitless",
+      "sourceId": "6adab01991617679e849ea7c",
+      "name": "🇧🇷 3° Batalhas Vip 💲💲",
+      "url": "https://play.limitlesstcg.com/tournament/6adab01991617679e849ea7c/details",
+      "startAt": "2026-10-31T00:00:00.000Z"
     },
     {
       "format": null,
