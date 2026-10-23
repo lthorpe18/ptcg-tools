@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-23T00:55:54.499Z",
+  "generatedAt": "2026-10-23T07:55:45.817Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6ad6c7ce115c12b73a5a8215",
-      "source": "limitless",
-      "sourceId": "6ad6c7ce115c12b73a5a8215",
-      "name": "Holon Locals #47 (US Friendly)",
-      "url": "https://play.limitlesstcg.com/tournament/6ad6c7ce115c12b73a5a8215/details",
-      "startAt": "2026-10-23T01:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -164,6 +154,16 @@
       "sourceId": "6ac412d9245696afb35170f1",
       "name": "Rotom Rivals #1",
       "url": "https://play.limitlesstcg.com/tournament/6ac412d9245696afb35170f1/details",
+      "startAt": "2026-10-24T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adab10d97e21d82e5c6cf02",
+      "source": "limitless",
+      "sourceId": "6adab10d97e21d82e5c6cf02",
+      "name": "🎃 Domino No Meta #6 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6adab10d97e21d82e5c6cf02/details",
       "startAt": "2026-10-24T00:00:00.000Z"
     },
     {
