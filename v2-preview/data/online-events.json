@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-23T18:42:16.410Z",
+  "generatedAt": "2026-10-23T21:41:39.404Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad8a8598a8383117e3f09e6",
-      "source": "limitless",
-      "sourceId": "6ad8a8598a8383117e3f09e6",
-      "name": "ASRcristiano # 199 - 60 codes - Road to Gdansk!",
-      "url": "https://play.limitlesstcg.com/tournament/6ad8a8598a8383117e3f09e6/details",
-      "startAt": "2026-10-23T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adb366d91617679e849ec3e",
-      "source": "limitless",
-      "sourceId": "6adb366d91617679e849ec3e",
-      "name": "TheDipidis Rapid Rounds TEF-30C #5",
-      "url": "https://play.limitlesstcg.com/tournament/6adb366d91617679e849ec3e/details",
-      "startAt": "2026-10-23T20:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "CAM",
@@ -55,6 +35,16 @@
       "name": "FULL BENCH FRIDAYS PTCGL $$CASH PRIZE$$#15",
       "url": "https://play.limitlesstcg.com/tournament/6ad7bc87115c12b73a5a87e9/details",
       "startAt": "2026-10-23T22:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adbd20d91617679e849f3d5",
+      "source": "limitless",
+      "sourceId": "6adbd20d91617679e849f3d5",
+      "name": "Invitation-WinterSeason",
+      "url": "https://play.limitlesstcg.com/tournament/6adbd20d91617679e849f3d5/details",
+      "startAt": "2026-10-23T22:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -214,7 +204,7 @@
       "sourceId": "6ad62646115c12b73a5a7970",
       "name": "C-C Colosseum #21 - 2010 Worlds (DP-UL)",
       "url": "https://play.limitlesstcg.com/tournament/6ad62646115c12b73a5a7970/details",
-      "startAt": "2026-10-25T00:00:00.000Z"
+      "startAt": "2026-10-25T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -609,16 +599,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ad41dee8a8383117e3ee546",
-      "source": "limitless",
-      "sourceId": "6ad41dee8a8383117e3ee546",
-      "name": "🇧🇷 Hit Cup #22 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad41dee8a8383117e3ee546/details",
-      "startAt": "2026-11-03T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ad826eb115c12b73a5a8ccb",
       "source": "limitless",
       "sourceId": "6ad826eb115c12b73a5a8ccb",
@@ -645,6 +625,16 @@
       "name": "CHALLENGE OF DOOM! GOODBYE TO 30TH FORMAT!",
       "url": "https://play.limitlesstcg.com/tournament/6ada4697115c12b73a5a9c22/details",
       "startAt": "2026-11-03T04:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad41dee8a8383117e3ee546",
+      "source": "limitless",
+      "sourceId": "6ad41dee8a8383117e3ee546",
+      "name": "🇧🇷 Hit Cup #22 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41dee8a8383117e3ee546/details",
+      "startAt": "2026-11-04T00:00:00.000Z"
     },
     {
       "format": "Standard",
