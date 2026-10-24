@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-24T01:03:23.347Z",
+  "generatedAt": "2026-10-24T07:35:24.294Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,12 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:decklists",
+      "id": "limitless:6adc41b997e21d82e5c6df40",
       "source": "limitless",
-      "sourceId": "decklists",
-      "name": "TOURNAMENT OF DOOM! Seriously people.....",
-      "url": "https://play.limitlesstcg.com/tournament/decklists/details",
-      "startAt": "2026-10-24T02:35:00.000Z"
+      "sourceId": "6adc41b997e21d82e5c6df40",
+      "name": "SEASAC League Challenge #12 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6adc41b997e21d82e5c6df40/details",
+      "startAt": "2026-10-24T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -99,6 +99,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6adc422e91617679e849fa05",
+      "source": "limitless",
+      "sourceId": "6adc422e91617679e849fa05",
+      "name": "SEASAC League Cup #2 (SEASON 6) [150 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6adc422e91617679e849fa05/details",
+      "startAt": "2026-10-25T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad769248a8383117e3f002a",
       "source": "limitless",
       "sourceId": "6ad769248a8383117e3f002a",
@@ -175,6 +185,16 @@
       "name": "TheDipidis Rapid Rounds TEF-30C #8",
       "url": "https://play.limitlesstcg.com/tournament/6adb374397e21d82e5c6d138/details",
       "startAt": "2026-10-26T10:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adc429b91617679e849fa06",
+      "source": "limitless",
+      "sourceId": "6adc429b91617679e849fa06",
+      "name": "SEASAC League Challenge #13 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6adc429b91617679e849fa06/details",
+      "startAt": "2026-10-26T11:30:00.000Z"
     },
     {
       "format": "Standard",
