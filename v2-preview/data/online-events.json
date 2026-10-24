@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-24T12:54:49.129Z",
+  "generatedAt": "2026-10-24T17:35:03.690Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6a5bd3cd52c24ac2da645db3",
-      "source": "limitless",
-      "sourceId": "6a5bd3cd52c24ac2da645db3",
-      "name": "Webcam Sisterhood Saturdays #3 🩷 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6a5bd3cd52c24ac2da645db3/details",
-      "startAt": "2026-10-24T17:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
