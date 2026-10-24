@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-24T17:35:03.690Z",
+  "generatedAt": "2026-10-24T21:10:55.293Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abe8331880ed327106e0e64",
-      "source": "limitless",
-      "sourceId": "6abe8331880ed327106e0e64",
-      "name": "($115 PRIZE POOL) OCTOBER COOKOFF CHALLENGE",
-      "url": "https://play.limitlesstcg.com/tournament/6abe8331880ed327106e0e64/details",
-      "startAt": "2026-10-24T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad42159115c12b73a5a69e0",
-      "source": "limitless",
-      "sourceId": "6ad42159115c12b73a5a69e0",
-      "name": "🇧🇷 Hit Challenge #49 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad42159115c12b73a5a69e0/details",
-      "startAt": "2026-10-24T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adb36e497e21d82e5c6d134",
-      "source": "limitless",
-      "sourceId": "6adb36e497e21d82e5c6d134",
-      "name": "Casual Testing #6 – don't take it too seriously",
-      "url": "https://play.limitlesstcg.com/tournament/6adb36e497e21d82e5c6d134/details",
-      "startAt": "2026-10-24T20:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
