@@ -1,131 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-23T21:41:39.404Z",
+  "generatedAt": "2026-10-24T01:03:23.347Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ad2cd48115c12b73a5a5b25",
-      "source": "limitless",
-      "sourceId": "6ad2cd48115c12b73a5a5b25",
-      "name": "Amyverse Webcam Wonders #31 💙 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ad2cd48115c12b73a5a5b25/details",
-      "startAt": "2026-10-23T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad6492f8a8383117e3ef464",
-      "source": "limitless",
-      "sourceId": "6ad6492f8a8383117e3ef464",
-      "name": "La Techgece Cup #8 [BO3] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ad6492f8a8383117e3ef464/details",
-      "startAt": "2026-10-23T22:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad7bc87115c12b73a5a87e9",
-      "source": "limitless",
-      "sourceId": "6ad7bc87115c12b73a5a87e9",
-      "name": "FULL BENCH FRIDAYS PTCGL $$CASH PRIZE$$#15",
-      "url": "https://play.limitlesstcg.com/tournament/6ad7bc87115c12b73a5a87e9/details",
-      "startAt": "2026-10-23T22:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adbd20d91617679e849f3d5",
-      "source": "limitless",
-      "sourceId": "6adbd20d91617679e849f3d5",
-      "name": "Invitation-WinterSeason",
-      "url": "https://play.limitlesstcg.com/tournament/6adbd20d91617679e849f3d5/details",
-      "startAt": "2026-10-23T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad6718e905c1db68744465",
-      "source": "limitless",
-      "sourceId": "6aad6718e905c1db68744465",
-      "name": "Elite Four Fridays",
-      "url": "https://play.limitlesstcg.com/tournament/6aad6718e905c1db68744465/details",
-      "startAt": "2026-10-23T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad41fc3115c12b73a5a69d1",
-      "source": "limitless",
-      "sourceId": "6ad41fc3115c12b73a5a69d1",
-      "name": "🇧🇷 Hit Challenge #48 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad41fc3115c12b73a5a69d1/details",
-      "startAt": "2026-10-23T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad61dca8a8383117e3ef228",
-      "source": "limitless",
-      "sourceId": "6ad61dca8a8383117e3ef228",
-      "name": "TSN ESPORTS Tournament - October 2026",
-      "url": "https://play.limitlesstcg.com/tournament/6ad61dca8a8383117e3ef228/details",
-      "startAt": "2026-10-23T23:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGO",
-      "id": "limitless:6ad844b58a8383117e3f08f9",
-      "source": "limitless",
-      "sourceId": "6ad844b58a8383117e3f08f9",
-      "name": "BPL TCG Chaos Cup",
-      "url": "https://play.limitlesstcg.com/tournament/6ad844b58a8383117e3f08f9/details",
-      "startAt": "2026-10-23T23:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac412d9245696afb35170f1",
-      "source": "limitless",
-      "sourceId": "6ac412d9245696afb35170f1",
-      "name": "Rotom Rivals #1",
-      "url": "https://play.limitlesstcg.com/tournament/6ac412d9245696afb35170f1/details",
-      "startAt": "2026-10-24T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adab10d97e21d82e5c6cf02",
-      "source": "limitless",
-      "sourceId": "6adab10d97e21d82e5c6cf02",
-      "name": "🎃 Domino No Meta #6 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6adab10d97e21d82e5c6cf02/details",
-      "startAt": "2026-10-24T00:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6ac088bc85920e4d25362898",
-      "source": "limitless",
-      "sourceId": "6ac088bc85920e4d25362898",
-      "name": "Budget Build Battles! | Season 9 - Week 3",
-      "url": "https://play.limitlesstcg.com/tournament/6ac088bc85920e4d25362898/details",
-      "startAt": "2026-10-24T00:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ad61850115c12b73a5a7937",
-      "source": "limitless",
-      "sourceId": "6ad61850115c12b73a5a7937",
-      "name": "TurboBlaze Trials GLC Series - Season 2 Week 9",
-      "url": "https://play.limitlesstcg.com/tournament/6ad61850115c12b73a5a7937/details",
-      "startAt": "2026-10-24T00:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -535,6 +415,16 @@
       "name": "Nightshades Friday Challenge 4 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d284a4272c53be64cfe9/details",
       "startAt": "2026-10-30T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6adbf92297e21d82e5c6da88",
+      "source": "limitless",
+      "sourceId": "6adbf92297e21d82e5c6da88",
+      "name": "Amyverse Webcam Wonders #32 💙 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6adbf92297e21d82e5c6da88/details",
+      "startAt": "2026-10-30T22:00:00.000Z"
     },
     {
       "format": "Standard",
