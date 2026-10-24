@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-24T07:35:24.294Z",
+  "generatedAt": "2026-10-24T12:54:49.129Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adc41b997e21d82e5c6df40",
-      "source": "limitless",
-      "sourceId": "6adc41b997e21d82e5c6df40",
-      "name": "SEASAC League Challenge #12 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6adc41b997e21d82e5c6df40/details",
-      "startAt": "2026-10-24T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "CAM",
@@ -52,7 +42,7 @@
       "id": "limitless:6adb36e497e21d82e5c6d134",
       "source": "limitless",
       "sourceId": "6adb36e497e21d82e5c6d134",
-      "name": "TheDipidis Rapid Rounds TEF-30C #6",
+      "name": "Casual Testing #6 – don't take it too seriously",
       "url": "https://play.limitlesstcg.com/tournament/6adb36e497e21d82e5c6d134/details",
       "startAt": "2026-10-24T20:00:00.000Z"
     },
@@ -142,7 +132,7 @@
       "id": "limitless:6adb371e97e21d82e5c6d136",
       "source": "limitless",
       "sourceId": "6adb371e97e21d82e5c6d136",
-      "name": "TheDipidis Rapid Rounds TEF-30C #7",
+      "name": "Casual Testing #7 – don't take it too seriously",
       "url": "https://play.limitlesstcg.com/tournament/6adb371e97e21d82e5c6d136/details",
       "startAt": "2026-10-25T21:00:00.000Z"
     },
@@ -182,7 +172,7 @@
       "id": "limitless:6adb374397e21d82e5c6d138",
       "source": "limitless",
       "sourceId": "6adb374397e21d82e5c6d138",
-      "name": "TheDipidis Rapid Rounds TEF-30C #8",
+      "name": "Casual Testing #8 – don't take it too seriously",
       "url": "https://play.limitlesstcg.com/tournament/6adb374397e21d82e5c6d138/details",
       "startAt": "2026-10-26T10:00:00.000Z"
     },
@@ -262,7 +252,7 @@
       "id": "limitless:6adb376697e21d82e5c6d139",
       "source": "limitless",
       "sourceId": "6adb376697e21d82e5c6d139",
-      "name": "TheDipidis Rapid Rounds TEF-30C #9",
+      "name": "Casual Testing #9 – don't take it too seriously",
       "url": "https://play.limitlesstcg.com/tournament/6adb376697e21d82e5c6d139/details",
       "startAt": "2026-10-27T10:00:00.000Z"
     },
@@ -312,7 +302,7 @@
       "id": "limitless:6adb378897e21d82e5c6d13a",
       "source": "limitless",
       "sourceId": "6adb378897e21d82e5c6d13a",
-      "name": "TheDipidis Rapid Rounds TEF-30C #10",
+      "name": "Casual Testing #10 – don't take it too seriously",
       "url": "https://play.limitlesstcg.com/tournament/6adb378897e21d82e5c6d13a/details",
       "startAt": "2026-10-28T10:00:00.000Z"
     },
@@ -382,7 +372,7 @@
       "id": "limitless:6adb37aa91617679e849ec44",
       "source": "limitless",
       "sourceId": "6adb37aa91617679e849ec44",
-      "name": "TheDipidis Rapid Rounds TEF-30C #11",
+      "name": "Casual Testing #11 – don't take it too seriously",
       "url": "https://play.limitlesstcg.com/tournament/6adb37aa91617679e849ec44/details",
       "startAt": "2026-10-29T10:00:00.000Z"
     },
