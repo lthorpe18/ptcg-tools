@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T05:16:54.540Z",
+  "generatedAt": "2026-10-25T11:58:34.874Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adc422e91617679e849fa05",
-      "source": "limitless",
-      "sourceId": "6adc422e91617679e849fa05",
-      "name": "SEASAC League Cup #2 (SEASON 6) [150 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6adc422e91617679e849fa05/details",
-      "startAt": "2026-10-25T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -55,6 +45,16 @@
       "name": "The Holon Open - October",
       "url": "https://play.limitlesstcg.com/tournament/6ad6c76b8a8383117e3efd08/details",
       "startAt": "2026-10-25T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6addaf4091617679e84a069f",
+      "source": "limitless",
+      "sourceId": "6addaf4091617679e84a069f",
+      "name": "Monster Collectibles After Hours season 2 #5",
+      "url": "https://play.limitlesstcg.com/tournament/6addaf4091617679e84a069f/details",
+      "startAt": "2026-10-25T18:00:00.000Z"
     },
     {
       "format": "Standard",
