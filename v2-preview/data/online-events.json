@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-24T21:10:55.293Z",
+  "generatedAt": "2026-10-25T00:30:59.099Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adb597f97e21d82e5c6d2b8",
-      "source": "limitless",
-      "sourceId": "6adb597f97e21d82e5c6d2b8",
-      "name": "Circuito LGBTCG #10 🏳️‍🌈 Ginásio da Sabiaguaba",
-      "url": "https://play.limitlesstcg.com/tournament/6adb597f97e21d82e5c6d2b8/details",
-      "startAt": "2026-10-24T22:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ad410fe115c12b73a5a6917",
-      "source": "limitless",
-      "sourceId": "6ad410fe115c12b73a5a6917",
-      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ad410fe115c12b73a5a6917/details",
-      "startAt": "2026-10-25T00:00:00.000Z"
-    },
     {
       "format": "Worlds 2010 (DP–UL)",
       "platform": "SIM",
@@ -104,6 +84,16 @@
       "sourceId": "6ab9de13783097f8dcb7258f",
       "name": "Sisterhood Showdown #3 💗 Girls & Enbies!",
       "url": "https://play.limitlesstcg.com/tournament/6ab9de13783097f8dcb7258f/details",
+      "startAt": "2026-10-25T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6add2e2597e21d82e5c6e88b",
+      "source": "limitless",
+      "sourceId": "6add2e2597e21d82e5c6e88b",
+      "name": "LUDUSP - Pokémon - Liga semanal #4",
+      "url": "https://play.limitlesstcg.com/tournament/6add2e2597e21d82e5c6e88b/details",
       "startAt": "2026-10-25T22:00:00.000Z"
     },
     {
