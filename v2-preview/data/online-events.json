@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T00:30:59.099Z",
+  "generatedAt": "2026-10-25T05:16:54.540Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Worlds 2010 (DP–UL)",
-      "platform": "SIM",
-      "id": "limitless:6ad62646115c12b73a5a7970",
-      "source": "limitless",
-      "sourceId": "6ad62646115c12b73a5a7970",
-      "name": "C-C Colosseum #21 - 2010 Worlds (DP-UL)",
-      "url": "https://play.limitlesstcg.com/tournament/6ad62646115c12b73a5a7970/details",
-      "startAt": "2026-10-25T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad6cdde115c12b73a5a8251",
-      "source": "limitless",
-      "sourceId": "6ad6cdde115c12b73a5a8251",
-      "name": "🪎Vault Of Games #8🪙|REGIONAL FORMAT🏆|WEEKLY📅",
-      "url": "https://play.limitlesstcg.com/tournament/6ad6cdde115c12b73a5a8251/details",
-      "startAt": "2026-10-25T01:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -55,6 +35,16 @@
       "name": "FINISTERRAE SERIES TCG #4",
       "url": "https://play.limitlesstcg.com/tournament/6acbd48c115c12b73a5a1817/details",
       "startAt": "2026-10-25T15:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6add66cd91617679e84a054b",
+      "source": "limitless",
+      "sourceId": "6add66cd91617679e84a054b",
+      "name": "Kearney Free Standard Tournament #5",
+      "url": "https://play.limitlesstcg.com/tournament/6add66cd91617679e84a054b/details",
+      "startAt": "2026-10-25T16:00:00.000Z"
     },
     {
       "format": "EX Series (RS–PK)",
@@ -435,6 +425,16 @@
       "name": "TOURNAMENT OF DOOM! SPOOOOOOKY!",
       "url": "https://play.limitlesstcg.com/tournament/6ada46598a8383117e3f17ef/details",
       "startAt": "2026-10-31T02:35:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6add4e2e97e21d82e5c6e993",
+      "source": "limitless",
+      "sourceId": "6add4e2e97e21d82e5c6e993",
+      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6add4e2e97e21d82e5c6e993/details",
+      "startAt": "2026-11-01T00:00:00.000Z"
     },
     {
       "format": "Standard",
