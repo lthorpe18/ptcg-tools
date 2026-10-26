@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T13:32:40.336Z",
+  "generatedAt": "2026-10-26T20:08:13.934Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad783bd8a8383117e3f00c5",
-      "source": "limitless",
-      "sourceId": "6ad783bd8a8383117e3f00c5",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ad783bd8a8383117e3f00c5/details",
-      "startAt": "2026-10-26T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad13bd3115c12b73a5a4bf0",
-      "source": "limitless",
-      "sourceId": "6ad13bd3115c12b73a5a4bf0",
-      "name": "TWISTER TEAM | TRY TO BEAT CYNTHIA #2",
-      "url": "https://play.limitlesstcg.com/tournament/6ad13bd3115c12b73a5a4bf0/details",
-      "startAt": "2026-10-26T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ade738c97e21d82e5c6f13b",
-      "source": "limitless",
-      "sourceId": "6ade738c97e21d82e5c6f13b",
-      "name": "Pumpkaweekly",
-      "url": "https://play.limitlesstcg.com/tournament/6ade738c97e21d82e5c6f13b/details",
-      "startAt": "2026-10-26T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6abe23b5880ed327106e0b8b",
-      "source": "limitless",
-      "sourceId": "6abe23b5880ed327106e0b8b",
-      "name": "🏆Ling TV ARENA🏆",
-      "url": "https://play.limitlesstcg.com/tournament/6abe23b5880ed327106e0b8b/details",
-      "startAt": "2026-10-26T19:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -89,12 +49,42 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6adedb2b97e21d82e5c6f5d0",
+      "source": "limitless",
+      "sourceId": "6adedb2b97e21d82e5c6f5d0",
+      "name": "👑💖 TCGirls👉 🏆 Clash Mixto Hermosillo #3 🔥",
+      "url": "https://play.limitlesstcg.com/tournament/6adedb2b97e21d82e5c6f5d0/details",
+      "startAt": "2026-10-27T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adf63db22fd412b92a4d373",
+      "source": "limitless",
+      "sourceId": "6adf63db22fd412b92a4d373",
+      "name": "🏛💫 Card Temple Weekly Battles #81",
+      "url": "https://play.limitlesstcg.com/tournament/6adf63db22fd412b92a4d373/details",
+      "startAt": "2026-10-27T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6adb376697e21d82e5c6d139",
       "source": "limitless",
       "sourceId": "6adb376697e21d82e5c6d139",
       "name": "Casual Testing #9 – don't take it too seriously",
       "url": "https://play.limitlesstcg.com/tournament/6adb376697e21d82e5c6d139/details",
       "startAt": "2026-10-27T10:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adf925880a8f79408d1eb22",
+      "source": "limitless",
+      "sourceId": "6adf925880a8f79408d1eb22",
+      "name": "SEASAC League Challenge #13 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6adf925880a8f79408d1eb22/details",
+      "startAt": "2026-10-27T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -234,6 +224,16 @@
       "sourceId": "6ad826ad115c12b73a5a8cca",
       "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 7 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6ad826ad115c12b73a5a8cca/details",
+      "startAt": "2026-10-29T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adfa8d322fd412b92a4d738",
+      "source": "limitless",
+      "sourceId": "6adfa8d322fd412b92a4d738",
+      "name": "RCC Underground #12 SPOOKY/HALLOWEEN DECKS ONLY",
+      "url": "https://play.limitlesstcg.com/tournament/6adfa8d322fd412b92a4d738/details",
       "startAt": "2026-10-29T00:00:00.000Z"
     },
     {
@@ -437,6 +437,156 @@
       "startAt": "2026-11-01T23:30:00.000Z"
     },
     {
+      "format": "Base–Fossil",
+      "platform": "CAM",
+      "id": "limitless:6adf7d1822fd412b92a4d440",
+      "source": "limitless",
+      "sourceId": "6adf7d1822fd412b92a4d440",
+      "name": "November 2026 | Base-Fossil Webcam",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7d1822fd412b92a4d440/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Base–Fossil",
+      "platform": "SIM",
+      "id": "limitless:6adf7d3c80a8f79408d1ea48",
+      "source": "limitless",
+      "sourceId": "6adf7d3c80a8f79408d1ea48",
+      "name": "November 2026 | Base-Fossil TCG1",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7d3c80a8f79408d1ea48/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Base–Fossil",
+      "platform": "CAM",
+      "id": "limitless:6adf7d5580a8f79408d1ea4c",
+      "source": "limitless",
+      "sourceId": "6adf7d5580a8f79408d1ea4c",
+      "name": "November 2026 | Base-Fossil Point Buy",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7d5580a8f79408d1ea4c/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Base–Fossil",
+      "platform": "CAM",
+      "id": "limitless:6adf7d7280a8f79408d1ea4e",
+      "source": "limitless",
+      "sourceId": "6adf7d7280a8f79408d1ea4e",
+      "name": "November 2026 | Base-Fossil 50HP",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7d7280a8f79408d1ea4e/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Base Only",
+      "platform": "CAM",
+      "id": "limitless:6adf7d8a80a8f79408d1ea4f",
+      "source": "limitless",
+      "sourceId": "6adf7d8a80a8f79408d1ea4f",
+      "name": "November 2026 | Base Set Only",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7d8a80a8f79408d1ea4f/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Base–Fossil",
+      "platform": "CAM",
+      "id": "limitless:6adf7e0622fd412b92a4d44c",
+      "source": "limitless",
+      "sourceId": "6adf7e0622fd412b92a4d44c",
+      "name": "November 2026 | Base-Jungle",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7e0622fd412b92a4d44c/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Rocket–LC Modified",
+      "platform": "CAM",
+      "id": "limitless:6adf7e2122fd412b92a4d44d",
+      "source": "limitless",
+      "sourceId": "6adf7e2122fd412b92a4d44d",
+      "name": "November 2026 | Rocket-LC",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7e2122fd412b92a4d44d/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Base–Neo",
+      "platform": "CAM",
+      "id": "limitless:6adf7e3780a8f79408d1ea52",
+      "source": "limitless",
+      "sourceId": "6adf7e3780a8f79408d1ea52",
+      "name": "November 2026 | Base-Neo Point Buy",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7e3780a8f79408d1ea52/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Base–Neo",
+      "platform": "CAM",
+      "id": "limitless:6adf7e5d80a8f79408d1ea56",
+      "source": "limitless",
+      "sourceId": "6adf7e5d80a8f79408d1ea56",
+      "name": "November 2026 | Base-Neo Point Buy (Hareruya2)",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7e5d80a8f79408d1ea56/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Pokémon TCG for Game Boy",
+      "platform": "CAM",
+      "id": "limitless:6adf7e7222fd412b92a4d452",
+      "source": "limitless",
+      "sourceId": "6adf7e7222fd412b92a4d452",
+      "name": "November 2026 | Pokemon TCG Game Boy (NSO)",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7e7222fd412b92a4d452/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6adf7e8922fd412b92a4d454",
+      "source": "limitless",
+      "sourceId": "6adf7e8922fd412b92a4d454",
+      "name": "November 2026 | VS Half Deck",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7e8922fd412b92a4d454/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Prop 15/3",
+      "platform": "CAM",
+      "id": "limitless:6adf7ea922fd412b92a4d457",
+      "source": "limitless",
+      "sourceId": "6adf7ea922fd412b92a4d457",
+      "name": "November 2026 | Base-Gym 15/3",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7ea922fd412b92a4d457/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "e-Card (EXP–SKR)",
+      "platform": "CAM",
+      "id": "limitless:6adf7ebd22fd412b92a4d458",
+      "source": "limitless",
+      "sourceId": "6adf7ebd22fd412b92a4d458",
+      "name": "November 2026 | e-Card",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7ebd22fd412b92a4d458/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": "Base–Neo",
+      "platform": "CAM",
+      "id": "limitless:6adf7f2a22fd412b92a4d45d",
+      "source": "limitless",
+      "sourceId": "6adf7f2a22fd412b92a4d45d",
+      "name": "November 2026 | Base-Neo 30HP",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7f2a22fd412b92a4d45d/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6adf7f4b80a8f79408d1ea60",
+      "source": "limitless",
+      "sourceId": "6adf7f4b80a8f79408d1ea60",
+      "name": "November 2026 | WotC GLC",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7f4b80a8f79408d1ea60/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ad826eb115c12b73a5a8ccb",
@@ -455,6 +605,16 @@
       "name": "Nightshades Monday Cup 4 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad83eee905c1db68744613/details",
       "startAt": "2026-11-03T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adf63fb80a8f79408d1e903",
+      "source": "limitless",
+      "sourceId": "6adf63fb80a8f79408d1e903",
+      "name": "🏛💫 Card Temple Weekly Battles #82",
+      "url": "https://play.limitlesstcg.com/tournament/6adf63fb80a8f79408d1e903/details",
+      "startAt": "2026-11-03T02:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -579,6 +739,26 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6adf641922fd412b92a4d374",
+      "source": "limitless",
+      "sourceId": "6adf641922fd412b92a4d374",
+      "name": "🏛💫 Card Temple Weekly Battles #83",
+      "url": "https://play.limitlesstcg.com/tournament/6adf641922fd412b92a4d374/details",
+      "startAt": "2026-11-10T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adf708222fd412b92a4d3b7",
+      "source": "limitless",
+      "sourceId": "6adf708222fd412b92a4d3b7",
+      "name": "Torneo Relámpago ⚡ #89 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6adf708222fd412b92a4d3b7/details",
+      "startAt": "2026-11-11T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad41e6d115c12b73a5a69ca",
       "source": "limitless",
       "sourceId": "6ad41e6d115c12b73a5a69ca",
@@ -595,6 +775,16 @@
       "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 9 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6ad828488a8383117e3f082a/details",
       "startAt": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adf71f322fd412b92a4d3c1",
+      "source": "limitless",
+      "sourceId": "6adf71f322fd412b92a4d3c1",
+      "name": "Torneo Relámpago ⚡ #90 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6adf71f322fd412b92a4d3c1/details",
+      "startAt": "2026-11-13T01:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -705,6 +895,16 @@
       "name": "Budget Build Battles! | Season 9 - Week 7",
       "url": "https://play.limitlesstcg.com/tournament/6ac0893b245696afb3514d89/details",
       "startAt": "2026-11-21T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adf7d1822fd412b92a4d43f",
+      "source": "limitless",
+      "sourceId": "6adf7d1822fd412b92a4d43f",
+      "name": "NOVEMBER CHEF CELEBRATIONS COOKOFF",
+      "url": "https://play.limitlesstcg.com/tournament/6adf7d1822fd412b92a4d43f/details",
+      "startAt": "2026-11-21T19:00:00.000Z"
     },
     {
       "format": "Standard",
