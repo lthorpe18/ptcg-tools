@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T05:21:25.345Z",
+  "generatedAt": "2026-10-26T13:32:40.336Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adb374397e21d82e5c6d138",
-      "source": "limitless",
-      "sourceId": "6adb374397e21d82e5c6d138",
-      "name": "Casual Testing #8 – don't take it too seriously",
-      "url": "https://play.limitlesstcg.com/tournament/6adb374397e21d82e5c6d138/details",
-      "startAt": "2026-10-26T10:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adc429b91617679e849fa06",
-      "source": "limitless",
-      "sourceId": "6adc429b91617679e849fa06",
-      "name": "SEASAC League Challenge #13 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6adc429b91617679e849fa06/details",
-      "startAt": "2026-10-26T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
