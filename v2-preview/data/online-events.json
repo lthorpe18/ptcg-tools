@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T21:13:19.842Z",
+  "generatedAt": "2026-10-26T00:42:48.096Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,42 +9,22 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ab9de13783097f8dcb7258f",
+      "id": "limitless:6ade8fff97e21d82e5c6f208",
       "source": "limitless",
-      "sourceId": "6ab9de13783097f8dcb7258f",
-      "name": "Sisterhood Showdown #3 💗 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6ab9de13783097f8dcb7258f/details",
-      "startAt": "2026-10-25T22:00:00.000Z"
+      "sourceId": "6ade8fff97e21d82e5c6f208",
+      "name": "👑💖 TCGirls👉 🏆 Clash Mixto Hermosillo #2 🔥",
+      "url": "https://play.limitlesstcg.com/tournament/6ade8fff97e21d82e5c6f208/details",
+      "startAt": "2026-10-26T01:00:00.000Z"
     },
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6add2e2597e21d82e5c6e88b",
+      "id": "limitless:6add503291617679e84a0431",
       "source": "limitless",
-      "sourceId": "6add2e2597e21d82e5c6e88b",
-      "name": "LUDUSP - Pokémon - Liga semanal #4",
-      "url": "https://play.limitlesstcg.com/tournament/6add2e2597e21d82e5c6e88b/details",
-      "startAt": "2026-10-25T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad64979115c12b73a5a7aea",
-      "source": "limitless",
-      "sourceId": "6ad64979115c12b73a5a7aea",
-      "name": "La Techgece Cup #9 [BO3] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ad64979115c12b73a5a7aea/details",
-      "startAt": "2026-10-25T22:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad6629b8a8383117e3ef670",
-      "source": "limitless",
-      "sourceId": "6ad6629b8a8383117e3ef670",
-      "name": "RCC 2000 MEMBERS | $50 USD PRIZE | NO ENTRY FEE",
-      "url": "https://play.limitlesstcg.com/tournament/6ad6629b8a8383117e3ef670/details",
-      "startAt": "2026-10-26T00:00:00.000Z"
+      "sourceId": "6add503291617679e84a0431",
+      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
+      "url": "https://play.limitlesstcg.com/tournament/6add503291617679e84a0431/details",
+      "startAt": "2026-10-26T01:10:00.000Z"
     },
     {
       "format": "Standard",
@@ -94,6 +74,16 @@
       "sourceId": "6ad13bd3115c12b73a5a4bf0",
       "name": "TWISTER TEAM | TRY TO BEAT CYNTHIA #2",
       "url": "https://play.limitlesstcg.com/tournament/6ad13bd3115c12b73a5a4bf0/details",
+      "startAt": "2026-10-26T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ade738c97e21d82e5c6f13b",
+      "source": "limitless",
+      "sourceId": "6ade738c97e21d82e5c6f13b",
+      "name": "Pumpkaweekly",
+      "url": "https://play.limitlesstcg.com/tournament/6ade738c97e21d82e5c6f13b/details",
       "startAt": "2026-10-26T19:00:00.000Z"
     },
     {
@@ -395,6 +385,16 @@
       "name": "FINISTERRAE SERIES TCG #4",
       "url": "https://play.limitlesstcg.com/tournament/6acbd48c115c12b73a5a1817/details",
       "startAt": "2026-11-01T15:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ab9de13783097f8dcb7258f",
+      "source": "limitless",
+      "sourceId": "6ab9de13783097f8dcb7258f",
+      "name": "Sisterhood Showdown #3 💗 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6ab9de13783097f8dcb7258f/details",
+      "startAt": "2026-11-01T23:00:00.000Z"
     },
     {
       "format": "Standard",
