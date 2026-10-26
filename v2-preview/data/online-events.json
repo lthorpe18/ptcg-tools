@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T00:42:48.096Z",
+  "generatedAt": "2026-10-26T05:21:25.345Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ade8fff97e21d82e5c6f208",
-      "source": "limitless",
-      "sourceId": "6ade8fff97e21d82e5c6f208",
-      "name": "👑💖 TCGirls👉 🏆 Clash Mixto Hermosillo #2 🔥",
-      "url": "https://play.limitlesstcg.com/tournament/6ade8fff97e21d82e5c6f208/details",
-      "startAt": "2026-10-26T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6add503291617679e84a0431",
-      "source": "limitless",
-      "sourceId": "6add503291617679e84a0431",
-      "name": "🎁TORNEO 30 ANIVERSARIO🏆BO1🏆 Formato estandar",
-      "url": "https://play.limitlesstcg.com/tournament/6add503291617679e84a0431/details",
-      "startAt": "2026-10-26T01:10:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6addfd3e91617679e84a08c4",
-      "source": "limitless",
-      "sourceId": "6addfd3e91617679e84a08c4",
-      "name": "Vault Of Games | 🌙 NOT SO Midnight Madness #20",
-      "url": "https://play.limitlesstcg.com/tournament/6addfd3e91617679e84a08c4/details",
-      "startAt": "2026-10-26T02:15:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -109,6 +79,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6adec00f91617679e84a1104",
+      "source": "limitless",
+      "sourceId": "6adec00f91617679e84a1104",
+      "name": "🇧🇷 Hit Challenge #50 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6adec00f91617679e84a1104/details",
+      "startAt": "2026-10-26T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aad83d1e905c1db68744612",
       "source": "limitless",
       "sourceId": "6aad83d1e905c1db68744612",
@@ -157,6 +137,16 @@
       "startAt": "2026-10-27T18:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adec24391617679e84a1118",
+      "source": "limitless",
+      "sourceId": "6adec24391617679e84a1118",
+      "name": "🇧🇷 Semanal • Hit Belém #4 | Pokémon TCG",
+      "url": "https://play.limitlesstcg.com/tournament/6adec24391617679e84a1118/details",
+      "startAt": "2026-10-27T22:00:00.000Z"
+    },
+    {
       "format": "EX Series (RS–PK)",
       "platform": "SIM",
       "id": "limitless:6ada72b18a8383117e3f1ad8",
@@ -164,6 +154,16 @@
       "sourceId": "6ada72b18a8383117e3f1ad8",
       "name": "Chile Cuisine Local 02",
       "url": "https://play.limitlesstcg.com/tournament/6ada72b18a8383117e3f1ad8/details",
+      "startAt": "2026-10-27T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adec0f291617679e84a1108",
+      "source": "limitless",
+      "sourceId": "6adec0f291617679e84a1108",
+      "name": "🇧🇷 Hit Challenge #51 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6adec0f291617679e84a1108/details",
       "startAt": "2026-10-27T23:00:00.000Z"
     },
     {
@@ -229,6 +229,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6adec35991617679e84a1128",
+      "source": "limitless",
+      "sourceId": "6adec35991617679e84a1128",
+      "name": "🇧🇷 Hit Challenge #52 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6adec35991617679e84a1128/details",
+      "startAt": "2026-10-28T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad97d02115c12b73a5a9704",
       "source": "limitless",
       "sourceId": "6ad97d02115c12b73a5a9704",
@@ -275,6 +285,26 @@
       "name": "15° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6ada51e08a8383117e3f1905/details",
       "startAt": "2026-10-29T20:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adec3d497e21d82e5c6f549",
+      "source": "limitless",
+      "sourceId": "6adec3d497e21d82e5c6f549",
+      "name": "🇧🇷 Hit Challenge #53 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6adec3d497e21d82e5c6f549/details",
+      "startAt": "2026-10-29T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adea24597e21d82e5c6f373",
+      "source": "limitless",
+      "sourceId": "6adea24597e21d82e5c6f373",
+      "name": "Heart of the Games Online Series - S107",
+      "url": "https://play.limitlesstcg.com/tournament/6adea24597e21d82e5c6f373/details",
+      "startAt": "2026-10-30T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -329,6 +359,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6adec8a697e21d82e5c6f55b",
+      "source": "limitless",
+      "sourceId": "6adec8a697e21d82e5c6f55b",
+      "name": "🇧🇷 Hit Challenge #54 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6adec8a697e21d82e5c6f55b/details",
+      "startAt": "2026-10-30T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6adab01991617679e849ea7c",
       "source": "limitless",
       "sourceId": "6adab01991617679e849ea7c",
@@ -365,6 +405,16 @@
       "name": "TOURNAMENT OF DOOM! SPOOOOOOKY!",
       "url": "https://play.limitlesstcg.com/tournament/6ada46598a8383117e3f17ef/details",
       "startAt": "2026-10-31T02:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adeca5897e21d82e5c6f585",
+      "source": "limitless",
+      "sourceId": "6adeca5897e21d82e5c6f585",
+      "name": "🇧🇷 Hit Challenge #55 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6adeca5897e21d82e5c6f585/details",
+      "startAt": "2026-10-31T18:00:00.000Z"
     },
     {
       "format": null,
