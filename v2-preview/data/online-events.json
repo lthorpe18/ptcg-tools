@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-27T18:15:25.425Z",
+  "generatedAt": "2026-10-27T22:36:01.067Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,31 +9,21 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ad95ff18a8383117e3f11f4",
-      "source": "limitless",
-      "sourceId": "6ad95ff18a8383117e3f11f4",
-      "name": "Draw 7 Tourney #3",
-      "url": "https://play.limitlesstcg.com/tournament/6ad95ff18a8383117e3f11f4/details",
-      "startAt": "2026-10-27T18:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adec24391617679e84a1118",
-      "source": "limitless",
-      "sourceId": "6adec24391617679e84a1118",
-      "name": "🇧🇷 Semanal • Hit Belém #4 | Pokémon TCG",
-      "url": "https://play.limitlesstcg.com/tournament/6adec24391617679e84a1118/details",
-      "startAt": "2026-10-27T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6adec0f291617679e84a1108",
       "source": "limitless",
       "sourceId": "6adec0f291617679e84a1108",
       "name": "🇧🇷 Hit Challenge #51 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6adec0f291617679e84a1108/details",
+      "startAt": "2026-10-27T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae121ba80a8f79408d1fb07",
+      "source": "limitless",
+      "sourceId": "6ae121ba80a8f79408d1fb07",
+      "name": "Torneo Gratis Sidedeck Online Martes 27 Octubre",
+      "url": "https://play.limitlesstcg.com/tournament/6ae121ba80a8f79408d1fb07/details",
       "startAt": "2026-10-27T23:00:00.000Z"
     },
     {
@@ -55,6 +45,16 @@
       "name": "Pudding Weekly #19 | SATURWEEN!",
       "url": "https://play.limitlesstcg.com/tournament/6ad84066115c12b73a5a8d98/details",
       "startAt": "2026-10-28T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae10a7a22fd412b92a4e408",
+      "source": "limitless",
+      "sourceId": "6ae10a7a22fd412b92a4e408",
+      "name": "🪎Vault Of Games | 🌙 NOT SO Midnight Madness #22",
+      "url": "https://play.limitlesstcg.com/tournament/6ae10a7a22fd412b92a4e408/details",
+      "startAt": "2026-10-28T02:15:00.000Z"
     },
     {
       "format": "Standard",
@@ -654,6 +654,16 @@
       "sourceId": "6accf81e8a8383117e3ea311",
       "name": "Torneo Relámpago ⚡ #87 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6accf81e8a8383117e3ea311/details",
+      "startAt": "2026-11-04T01:30:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6ae109f122fd412b92a4e406",
+      "source": "limitless",
+      "sourceId": "6ae109f122fd412b92a4e406",
+      "name": "BZGC Online🔥 ~ ExPAnDED",
+      "url": "https://play.limitlesstcg.com/tournament/6ae109f122fd412b92a4e406/details",
       "startAt": "2026-11-04T01:30:00.000Z"
     },
     {
