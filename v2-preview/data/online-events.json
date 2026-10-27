@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-27T05:34:48.941Z",
+  "generatedAt": "2026-10-27T12:39:38.473Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adb376697e21d82e5c6d139",
-      "source": "limitless",
-      "sourceId": "6adb376697e21d82e5c6d139",
-      "name": "Casual Testing #9 – don't take it too seriously",
-      "url": "https://play.limitlesstcg.com/tournament/6adb376697e21d82e5c6d139/details",
-      "startAt": "2026-10-27T10:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adf925880a8f79408d1eb22",
-      "source": "limitless",
-      "sourceId": "6adf925880a8f79408d1eb22",
-      "name": "SEASAC League Challenge #13 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6adf925880a8f79408d1eb22/details",
-      "startAt": "2026-10-27T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -349,6 +329,26 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae0407e22fd412b92a4dfb6",
+      "source": "limitless",
+      "sourceId": "6ae0407e22fd412b92a4dfb6",
+      "name": "Perth Pokemon Season 2",
+      "url": "https://play.limitlesstcg.com/tournament/6ae0407e22fd412b92a4dfb6/details",
+      "startAt": "2026-10-31T10:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": null,
+      "id": "limitless:6ae0601280a8f79408d1f630",
+      "source": "limitless",
+      "sourceId": "6ae0601280a8f79408d1f630",
+      "name": "Surprise! Eternal Tournament #38",
+      "url": "https://play.limitlesstcg.com/tournament/6ae0601280a8f79408d1f630/details",
+      "startAt": "2026-10-31T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6adeca5897e21d82e5c6f585",
       "source": "limitless",
       "sourceId": "6adeca5897e21d82e5c6f585",
@@ -405,6 +405,16 @@
       "name": "ACE Tourneys Premier — Store Launch Event. PLAYMAT",
       "url": "https://play.limitlesstcg.com/tournament/6ad011b88a8383117e3ebf67/details",
       "startAt": "2026-11-01T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae083c680a8f79408d1f6af",
+      "source": "limitless",
+      "sourceId": "6ae083c680a8f79408d1f6af",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae083c680a8f79408d1f6af/details",
+      "startAt": "2026-11-02T17:00:00.000Z"
     },
     {
       "format": "Base–Fossil",
