@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-27T12:39:38.473Z",
+  "generatedAt": "2026-10-27T18:15:25.425Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ada81e991617679e849e7d0",
-      "source": "limitless",
-      "sourceId": "6ada81e991617679e849e7d0",
-      "name": "Amyverse Bulk Box Battles #5 🧡 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ada81e991617679e849e7d0/details",
-      "startAt": "2026-10-27T17:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -37,16 +27,6 @@
       "startAt": "2026-10-27T22:00:00.000Z"
     },
     {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6ada72b18a8383117e3f1ad8",
-      "source": "limitless",
-      "sourceId": "6ada72b18a8383117e3f1ad8",
-      "name": "Chile Cuisine Local 02",
-      "url": "https://play.limitlesstcg.com/tournament/6ada72b18a8383117e3f1ad8/details",
-      "startAt": "2026-10-27T23:00:00.000Z"
-    },
-    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6adec0f291617679e84a1108",
@@ -55,6 +35,16 @@
       "name": "🇧🇷 Hit Challenge #51 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6adec0f291617679e84a1108/details",
       "startAt": "2026-10-27T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae0b27d80a8f79408d1f7e9",
+      "source": "limitless",
+      "sourceId": "6ae0b27d80a8f79408d1f7e9",
+      "name": "Last Prize Series S4 #6",
+      "url": "https://play.limitlesstcg.com/tournament/6ae0b27d80a8f79408d1f7e9/details",
+      "startAt": "2026-10-27T23:35:00.000Z"
     },
     {
       "format": "Standard",
@@ -379,6 +369,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae0d0e180a8f79408d1f898",
+      "source": "limitless",
+      "sourceId": "6ae0d0e180a8f79408d1f898",
+      "name": "YHT Pokémon TCG League",
+      "url": "https://play.limitlesstcg.com/tournament/6ae0d0e180a8f79408d1f898/details",
+      "startAt": "2026-11-01T06:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6acbd48c115c12b73a5a1817",
       "source": "limitless",
       "sourceId": "6acbd48c115c12b73a5a1817",
@@ -567,6 +567,16 @@
       "startAt": "2026-11-02T20:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ae0e2ba80a8f79408d1f947",
+      "source": "limitless",
+      "sourceId": "6ae0e2ba80a8f79408d1f947",
+      "name": "November 2026 | VS Mixed Back",
+      "url": "https://play.limitlesstcg.com/tournament/6ae0e2ba80a8f79408d1f947/details",
+      "startAt": "2026-11-02T20:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6adeb9a797e21d82e5c6f4a6",
@@ -615,6 +625,16 @@
       "name": "CHALLENGE OF DOOM! GOODBYE TO 30TH FORMAT!",
       "url": "https://play.limitlesstcg.com/tournament/6ada4697115c12b73a5a9c22/details",
       "startAt": "2026-11-03T04:35:00.000Z"
+    },
+    {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6ada72b18a8383117e3f1ad8",
+      "source": "limitless",
+      "sourceId": "6ada72b18a8383117e3f1ad8",
+      "name": "Chile Cuisine Local 02",
+      "url": "https://play.limitlesstcg.com/tournament/6ada72b18a8383117e3f1ad8/details",
+      "startAt": "2026-11-03T23:00:00.000Z"
     },
     {
       "format": "Standard",
