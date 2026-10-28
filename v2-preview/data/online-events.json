@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-28T08:58:07.191Z",
+  "generatedAt": "2026-10-28T16:49:25.522Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adb378897e21d82e5c6d13a",
-      "source": "limitless",
-      "sourceId": "6adb378897e21d82e5c6d13a",
-      "name": "Casual Testing #10 – don't take it too seriously",
-      "url": "https://play.limitlesstcg.com/tournament/6adb378897e21d82e5c6d13a/details",
-      "startAt": "2026-10-28T10:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae1872022fd412b92a4e851",
-      "source": "limitless",
-      "sourceId": "6ae1872022fd412b92a4e851",
-      "name": "SEASAC League Challenge #14 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ae1872022fd412b92a4e851/details",
-      "startAt": "2026-10-28T11:30:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGO",
@@ -55,6 +35,16 @@
       "name": "TAVERNA LEAGUE - SEASON 0 - DAY #8",
       "url": "https://play.limitlesstcg.com/tournament/6ad93231115c12b73a5a9488/details",
       "startAt": "2026-10-28T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae20d6f22fd412b92a4ea1c",
+      "source": "limitless",
+      "sourceId": "6ae20d6f22fd412b92a4ea1c",
+      "name": "La Techgece Casual #12 [BO1] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae20d6f22fd412b92a4ea1c/details",
+      "startAt": "2026-10-28T22:15:00.000Z"
     },
     {
       "format": "Standard",
@@ -169,6 +159,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae21b2e80a8f79408d20191",
+      "source": "limitless",
+      "sourceId": "6ae21b2e80a8f79408d20191",
+      "name": "🔥⚗️PokéKhemistry TURBO Thursday 🧪",
+      "url": "https://play.limitlesstcg.com/tournament/6ae21b2e80a8f79408d20191/details",
+      "startAt": "2026-10-29T18:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ada51e08a8383117e3f1905",
       "source": "limitless",
       "sourceId": "6ada51e08a8383117e3f1905",
@@ -185,6 +185,16 @@
       "name": "🇧🇷 Semanal • Hit Belém #4 | Pokémon TCG",
       "url": "https://play.limitlesstcg.com/tournament/6adec24391617679e84a1118/details",
       "startAt": "2026-10-29T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae20e3922fd412b92a4ea1e",
+      "source": "limitless",
+      "sourceId": "6ae20e3922fd412b92a4ea1e",
+      "name": "La Techgece Casual #13 [BO1] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae20e3922fd412b92a4ea1e/details",
+      "startAt": "2026-10-29T22:15:00.000Z"
     },
     {
       "format": "Standard",
@@ -255,6 +265,16 @@
       "name": "Amyverse Webcam Wonders #32 💙 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6adbf92297e21d82e5c6da88/details",
       "startAt": "2026-10-30T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae20ea422fd412b92a4ea20",
+      "source": "limitless",
+      "sourceId": "6ae20ea422fd412b92a4ea20",
+      "name": "La Techgece Cup #10 [BO3] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae20ea422fd412b92a4ea20/details",
+      "startAt": "2026-10-30T22:15:00.000Z"
     },
     {
       "format": "Standard",
@@ -337,6 +357,26 @@
       "startAt": "2026-10-31T10:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGO",
+      "id": "limitless:6ae2143a22fd412b92a4ea30",
+      "source": "limitless",
+      "sourceId": "6ae2143a22fd412b92a4ea30",
+      "name": "Mensal de outubro",
+      "url": "https://play.limitlesstcg.com/tournament/6ae2143a22fd412b92a4ea30/details",
+      "startAt": "2026-10-31T15:28:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ae20c1b22fd412b92a4ea11",
+      "source": "limitless",
+      "sourceId": "6ae20c1b22fd412b92a4ea11",
+      "name": "TurboBlaze Presents: The Saturday Special #5",
+      "url": "https://play.limitlesstcg.com/tournament/6ae20c1b22fd412b92a4ea11/details",
+      "startAt": "2026-10-31T16:30:00.000Z"
+    },
+    {
       "format": null,
       "platform": null,
       "id": "limitless:6ae0601280a8f79408d1f630",
@@ -399,6 +439,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae20ee622fd412b92a4ea21",
+      "source": "limitless",
+      "sourceId": "6ae20ee622fd412b92a4ea21",
+      "name": "La Techgece Cup #11 [BO3] (30C Legal!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae20ee622fd412b92a4ea21/details",
+      "startAt": "2026-11-01T22:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ab9de13783097f8dcb7258f",
       "source": "limitless",
       "sourceId": "6ab9de13783097f8dcb7258f",
@@ -415,6 +465,16 @@
       "name": "ACE Tourneys Premier — Store Launch Event. PLAYMAT",
       "url": "https://play.limitlesstcg.com/tournament/6ad011b88a8383117e3ebf67/details",
       "startAt": "2026-11-01T23:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ae20ae822fd412b92a4ea0f",
+      "source": "limitless",
+      "sourceId": "6ae20ae822fd412b92a4ea0f",
+      "name": "TurboBlaze Trials GLC Series - Season 2 Week 10",
+      "url": "https://play.limitlesstcg.com/tournament/6ae20ae822fd412b92a4ea0f/details",
+      "startAt": "2026-11-02T01:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -699,6 +759,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae21b7a22fd412b92a4ea4d",
+      "source": "limitless",
+      "sourceId": "6ae21b7a22fd412b92a4ea4d",
+      "name": "🔥⚗️PokéKhemistry TURBO Thursday 🧪",
+      "url": "https://play.limitlesstcg.com/tournament/6ae21b7a22fd412b92a4ea4d/details",
+      "startAt": "2026-11-05T18:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6acd04a2115c12b73a5a211a",
       "source": "limitless",
       "sourceId": "6acd04a2115c12b73a5a211a",
@@ -889,12 +959,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae2170c80a8f79408d20181",
+      "source": "limitless",
+      "sourceId": "6ae2170c80a8f79408d20181",
+      "name": "Torneo Relámpago ⚡ #91 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae2170c80a8f79408d20181/details",
+      "startAt": "2026-11-18T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad41ed6115c12b73a5a69cd",
       "source": "limitless",
       "sourceId": "6ad41ed6115c12b73a5a69cd",
       "name": "🇧🇷 Hit Cup #24 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ad41ed6115c12b73a5a69cd/details",
       "startAt": "2026-11-20T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae2174680a8f79408d20182",
+      "source": "limitless",
+      "sourceId": "6ae2174680a8f79408d20182",
+      "name": "Torneo Relámpago ⚡ #92 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae2174680a8f79408d20182/details",
+      "startAt": "2026-11-20T01:30:00.000Z"
     },
     {
       "format": "Standard",
