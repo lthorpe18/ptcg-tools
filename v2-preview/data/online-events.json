@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-28T01:41:36.346Z",
+  "generatedAt": "2026-10-28T08:58:07.191Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae10a7a22fd412b92a4e408",
-      "source": "limitless",
-      "sourceId": "6ae10a7a22fd412b92a4e408",
-      "name": "🪎Vault Of Games | 🌙 NOT SO Midnight Madness #22",
-      "url": "https://play.limitlesstcg.com/tournament/6ae10a7a22fd412b92a4e408/details",
-      "startAt": "2026-10-28T02:15:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -25,6 +15,16 @@
       "name": "Casual Testing #10 – don't take it too seriously",
       "url": "https://play.limitlesstcg.com/tournament/6adb378897e21d82e5c6d13a/details",
       "startAt": "2026-10-28T10:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae1872022fd412b92a4e851",
+      "source": "limitless",
+      "sourceId": "6ae1872022fd412b92a4e851",
+      "name": "SEASAC League Challenge #14 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ae1872022fd412b92a4e851/details",
+      "startAt": "2026-10-28T11:30:00.000Z"
     },
     {
       "format": null,
@@ -129,12 +129,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae1540d80a8f79408d1fd98",
+      "source": "limitless",
+      "sourceId": "6ae1540d80a8f79408d1fd98",
+      "name": "🪎Vault Of Games | 🤯💥Midweek MAYHEM #6",
+      "url": "https://play.limitlesstcg.com/tournament/6ae1540d80a8f79408d1fd98/details",
+      "startAt": "2026-10-29T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6adb37aa91617679e849ec44",
       "source": "limitless",
       "sourceId": "6adb37aa91617679e849ec44",
       "name": "Casual Testing #11 – don't take it too seriously",
       "url": "https://play.limitlesstcg.com/tournament/6adb37aa91617679e849ec44/details",
       "startAt": "2026-10-29T10:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae1874622fd412b92a4e852",
+      "source": "limitless",
+      "sourceId": "6ae1874622fd412b92a4e852",
+      "name": "SEASAC League Challenge #15 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ae1874622fd412b92a4e852/details",
+      "startAt": "2026-10-29T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -295,6 +315,16 @@
       "name": "TOURNAMENT OF DOOM! SPOOOOOOKY!",
       "url": "https://play.limitlesstcg.com/tournament/6ada46598a8383117e3f17ef/details",
       "startAt": "2026-10-31T02:35:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "SIM",
+      "id": "limitless:6ae12a4780a8f79408d1fb52",
+      "source": "limitless",
+      "sourceId": "6ae12a4780a8f79408d1fb52",
+      "name": "Torneo Halloween Tropical Beach Expanded",
+      "url": "https://play.limitlesstcg.com/tournament/6ae12a4780a8f79408d1fb52/details",
+      "startAt": "2026-10-31T03:05:00.000Z"
     },
     {
       "format": "Standard",
@@ -605,6 +635,16 @@
       "name": "CHALLENGE OF DOOM! GOODBYE TO 30TH FORMAT!",
       "url": "https://play.limitlesstcg.com/tournament/6ada4697115c12b73a5a9c22/details",
       "startAt": "2026-11-03T04:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae1701822fd412b92a4e805",
+      "source": "limitless",
+      "sourceId": "6ae1701822fd412b92a4e805",
+      "name": "Amyverse Bulk Box Battles #6 🧡 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ae1701822fd412b92a4e805/details",
+      "startAt": "2026-11-03T18:00:00.000Z"
     },
     {
       "format": "EX Series (RS–PK)",
