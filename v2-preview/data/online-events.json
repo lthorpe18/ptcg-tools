@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-28T16:49:25.522Z",
+  "generatedAt": "2026-10-28T22:50:43.040Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGO",
-      "id": "limitless:6adb521e91617679e849ed1b",
-      "source": "limitless",
-      "sourceId": "6adb521e91617679e849ed1b",
-      "name": "Cardboard Warriors - GLC on PTCGO #2",
-      "url": "https://play.limitlesstcg.com/tournament/6adb521e91617679e849ed1b/details",
-      "startAt": "2026-10-28T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad95f0d115c12b73a5a960f",
-      "source": "limitless",
-      "sourceId": "6ad95f0d115c12b73a5a960f",
-      "name": "Amyverse PTCG Live Weekly #19 💛 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ad95f0d115c12b73a5a960f/details",
-      "startAt": "2026-10-28T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad93231115c12b73a5a9488",
-      "source": "limitless",
-      "sourceId": "6ad93231115c12b73a5a9488",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #8",
-      "url": "https://play.limitlesstcg.com/tournament/6ad93231115c12b73a5a9488/details",
-      "startAt": "2026-10-28T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae20d6f22fd412b92a4ea1c",
-      "source": "limitless",
-      "sourceId": "6ae20d6f22fd412b92a4ea1c",
-      "name": "La Techgece Casual #12 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae20d6f22fd412b92a4ea1c/details",
-      "startAt": "2026-10-28T22:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac3bcc885920e4d25364626",
-      "source": "limitless",
-      "sourceId": "6ac3bcc885920e4d25364626",
-      "name": "Zard-Pokénight #024",
-      "url": "https://play.limitlesstcg.com/tournament/6ac3bcc885920e4d25364626/details",
-      "startAt": "2026-10-28T22:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -227,6 +177,16 @@
       "startAt": "2026-10-30T00:00:00.000Z"
     },
     {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6ae24f4a80a8f79408d2046f",
+      "source": "limitless",
+      "sourceId": "6ae24f4a80a8f79408d2046f",
+      "name": "Holon Locals #48 (US Friendly)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae24f4a80a8f79408d2046f/details",
+      "startAt": "2026-10-30T01:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ac0876e85920e4d2536288d",
@@ -314,6 +274,16 @@
       "sourceId": "6ac088dd245696afb3514d86",
       "name": "Budget Build Battles! | Season 9 - Week 4",
       "url": "https://play.limitlesstcg.com/tournament/6ac088dd245696afb3514d86/details",
+      "startAt": "2026-10-31T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae230b722fd412b92a4eb09",
+      "source": "limitless",
+      "sourceId": "6ae230b722fd412b92a4eb09",
+      "name": "Torneo Online Alain Cards #13",
+      "url": "https://play.limitlesstcg.com/tournament/6ae230b722fd412b92a4eb09/details",
       "startAt": "2026-10-31T00:30:00.000Z"
     },
     {
@@ -434,6 +404,16 @@
       "sourceId": "6acbd48c115c12b73a5a1817",
       "name": "FINISTERRAE SERIES TCG #4",
       "url": "https://play.limitlesstcg.com/tournament/6acbd48c115c12b73a5a1817/details",
+      "startAt": "2026-11-01T15:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae2444422fd412b92a4ec1c",
+      "source": "limitless",
+      "sourceId": "6ae2444422fd412b92a4ec1c",
+      "name": "KDS torneo Noviembre",
+      "url": "https://play.limitlesstcg.com/tournament/6ae2444422fd412b92a4ec1c/details",
       "startAt": "2026-11-01T15:00:00.000Z"
     },
     {
@@ -655,6 +635,16 @@
       "name": "Sunny's Weekly #280 Smoke on the Water!",
       "url": "https://play.limitlesstcg.com/tournament/6adeb9a797e21d82e5c6f4a6/details",
       "startAt": "2026-11-02T23:05:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae2338380a8f79408d2024b",
+      "source": "limitless",
+      "sourceId": "6ae2338380a8f79408d2024b",
+      "name": "TCG Live: Torneo Express - Temática Halloween",
+      "url": "https://play.limitlesstcg.com/tournament/6ae2338380a8f79408d2024b/details",
+      "startAt": "2026-11-02T23:30:00.000Z"
     },
     {
       "format": "Standard",
