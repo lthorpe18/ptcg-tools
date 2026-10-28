@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-27T22:36:01.067Z",
+  "generatedAt": "2026-10-28T01:41:36.346Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adec0f291617679e84a1108",
-      "source": "limitless",
-      "sourceId": "6adec0f291617679e84a1108",
-      "name": "🇧🇷 Hit Challenge #51 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6adec0f291617679e84a1108/details",
-      "startAt": "2026-10-27T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae121ba80a8f79408d1fb07",
-      "source": "limitless",
-      "sourceId": "6ae121ba80a8f79408d1fb07",
-      "name": "Torneo Gratis Sidedeck Online Martes 27 Octubre",
-      "url": "https://play.limitlesstcg.com/tournament/6ae121ba80a8f79408d1fb07/details",
-      "startAt": "2026-10-27T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae0b27d80a8f79408d1f7e9",
-      "source": "limitless",
-      "sourceId": "6ae0b27d80a8f79408d1f7e9",
-      "name": "Last Prize Series S4 #6",
-      "url": "https://play.limitlesstcg.com/tournament/6ae0b27d80a8f79408d1f7e9/details",
-      "startAt": "2026-10-27T23:35:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad84066115c12b73a5a8d98",
-      "source": "limitless",
-      "sourceId": "6ad84066115c12b73a5a8d98",
-      "name": "Pudding Weekly #19 | SATURWEEN!",
-      "url": "https://play.limitlesstcg.com/tournament/6ad84066115c12b73a5a8d98/details",
-      "startAt": "2026-10-28T01:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -159,6 +119,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae13b7180a8f79408d1fc98",
+      "source": "limitless",
+      "sourceId": "6ae13b7180a8f79408d1fc98",
+      "name": "👑💖 TCGirls👉 Copa 🏆 PokéQueens 💖 #1 🔥",
+      "url": "https://play.limitlesstcg.com/tournament/6ae13b7180a8f79408d1fc98/details",
+      "startAt": "2026-10-29T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6adb37aa91617679e849ec44",
       "source": "limitless",
       "sourceId": "6adb37aa91617679e849ec44",
@@ -185,6 +155,16 @@
       "name": "15° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6ada51e08a8383117e3f1905/details",
       "startAt": "2026-10-29T20:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adec24391617679e84a1118",
+      "source": "limitless",
+      "sourceId": "6adec24391617679e84a1118",
+      "name": "🇧🇷 Semanal • Hit Belém #4 | Pokémon TCG",
+      "url": "https://play.limitlesstcg.com/tournament/6adec24391617679e84a1118/details",
+      "startAt": "2026-10-29T22:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -662,7 +642,7 @@
       "id": "limitless:6ae109f122fd412b92a4e406",
       "source": "limitless",
       "sourceId": "6ae109f122fd412b92a4e406",
-      "name": "BZGC Online🔥 ~ ExPAnDED",
+      "name": "BZGC Online🔥 ~ ExPAnDED is back on the Menu",
       "url": "https://play.limitlesstcg.com/tournament/6ae109f122fd412b92a4e406/details",
       "startAt": "2026-11-04T01:30:00.000Z"
     },
@@ -672,7 +652,7 @@
       "id": "limitless:6ad827588a8383117e3f0825",
       "source": "limitless",
       "sourceId": "6ad827588a8383117e3f0825",
-      "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 8 [CL]",
+      "name": "💰 Domino Arena Rush | Temporada 3 | Semana 8 💰",
       "url": "https://play.limitlesstcg.com/tournament/6ad827588a8383117e3f0825/details",
       "startAt": "2026-11-05T00:00:00.000Z"
     },
