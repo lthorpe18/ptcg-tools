@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T06:26:44.367Z",
+  "generatedAt": "2026-10-29T13:42:11.206Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adb37aa91617679e849ec44",
-      "source": "limitless",
-      "sourceId": "6adb37aa91617679e849ec44",
-      "name": "Casual Testing #11 – don't take it too seriously",
-      "url": "https://play.limitlesstcg.com/tournament/6adb37aa91617679e849ec44/details",
-      "startAt": "2026-10-29T10:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae1874622fd412b92a4e852",
-      "source": "limitless",
-      "sourceId": "6ae1874622fd412b92a4e852",
-      "name": "SEASAC League Challenge #15 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ae1874622fd412b92a4e852/details",
-      "startAt": "2026-10-29T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -385,6 +365,16 @@
       "name": "ACE Tourneys Premier — Store Launch Event. PLAYMAT",
       "url": "https://play.limitlesstcg.com/tournament/6ad011b88a8383117e3ebf67/details",
       "startAt": "2026-11-01T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae34b0022fd412b92a4f4b7",
+      "source": "limitless",
+      "sourceId": "6ae34b0022fd412b92a4f4b7",
+      "name": "Rare Candy Club Showdown #50 (50 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae34b0022fd412b92a4f4b7/details",
+      "startAt": "2026-11-02T01:00:00.000Z"
     },
     {
       "format": null,
