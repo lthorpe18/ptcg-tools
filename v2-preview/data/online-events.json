@@ -1,81 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-28T22:50:43.040Z",
+  "generatedAt": "2026-10-29T06:26:44.367Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adec35991617679e84a1128",
-      "source": "limitless",
-      "sourceId": "6adec35991617679e84a1128",
-      "name": "🇧🇷 Hit Challenge #52 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6adec35991617679e84a1128/details",
-      "startAt": "2026-10-28T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad97d02115c12b73a5a9704",
-      "source": "limitless",
-      "sourceId": "6ad97d02115c12b73a5a9704",
-      "name": "REFINE Autumn Series Session 9: Spooky!",
-      "url": "https://play.limitlesstcg.com/tournament/6ad97d02115c12b73a5a9704/details",
-      "startAt": "2026-10-28T23:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad826ad115c12b73a5a8cca",
-      "source": "limitless",
-      "sourceId": "6ad826ad115c12b73a5a8cca",
-      "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 7 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6ad826ad115c12b73a5a8cca/details",
-      "startAt": "2026-10-29T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adfa8d322fd412b92a4d738",
-      "source": "limitless",
-      "sourceId": "6adfa8d322fd412b92a4d738",
-      "name": "RCC Underground #12 SPOOKY/HALLOWEEN DECKS ONLY",
-      "url": "https://play.limitlesstcg.com/tournament/6adfa8d322fd412b92a4d738/details",
-      "startAt": "2026-10-29T00:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGO",
-      "id": "limitless:6adfc3c722fd412b92a4d9c3",
-      "source": "limitless",
-      "sourceId": "6adfc3c722fd412b92a4d9c3",
-      "name": "Cardboard Warriors - GLC on PTCGO #3",
-      "url": "https://play.limitlesstcg.com/tournament/6adfc3c722fd412b92a4d9c3/details",
-      "startAt": "2026-10-29T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae13b7180a8f79408d1fc98",
-      "source": "limitless",
-      "sourceId": "6ae13b7180a8f79408d1fc98",
-      "name": "👑💖 TCGirls👉 Copa 🏆 PokéQueens 💖 #1 🔥",
-      "url": "https://play.limitlesstcg.com/tournament/6ae13b7180a8f79408d1fc98/details",
-      "startAt": "2026-10-29T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae1540d80a8f79408d1fd98",
-      "source": "limitless",
-      "sourceId": "6ae1540d80a8f79408d1fd98",
-      "name": "🪎Vault Of Games | 🤯💥Midweek MAYHEM #6",
-      "url": "https://play.limitlesstcg.com/tournament/6ae1540d80a8f79408d1fd98/details",
-      "startAt": "2026-10-29T01:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -174,6 +104,16 @@
       "sourceId": "6adfee5822fd412b92a4dd37",
       "name": "Rare Candy Club Blitz #7",
       "url": "https://play.limitlesstcg.com/tournament/6adfee5822fd412b92a4dd37/details",
+      "startAt": "2026-10-30T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae27e0a22fd412b92a4ef94",
+      "source": "limitless",
+      "sourceId": "6ae27e0a22fd412b92a4ef94",
+      "name": "Le Tournois Du DresseurPokeCharbie #134",
+      "url": "https://play.limitlesstcg.com/tournament/6ae27e0a22fd412b92a4ef94/details",
       "startAt": "2026-10-30T00:00:00.000Z"
     },
     {
@@ -739,6 +679,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae2893122fd412b92a4f026",
+      "source": "limitless",
+      "sourceId": "6ae2893122fd412b92a4f026",
+      "name": "Amyverse PTCG Live Weekly #20 💛 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ae2893122fd412b92a4f026/details",
+      "startAt": "2026-11-04T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad827588a8383117e3f0825",
       "source": "limitless",
       "sourceId": "6ad827588a8383117e3f0825",
@@ -845,6 +795,16 @@
       "name": "🏛💫 Card Temple Weekly Battles #83",
       "url": "https://play.limitlesstcg.com/tournament/6adf641922fd412b92a4d374/details",
       "startAt": "2026-11-10T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae284ed80a8f79408d206ca",
+      "source": "limitless",
+      "sourceId": "6ae284ed80a8f79408d206ca",
+      "name": "🇧🇷 39° Torneio Padrão do Zap Códigos",
+      "url": "https://play.limitlesstcg.com/tournament/6ae284ed80a8f79408d206ca/details",
+      "startAt": "2026-11-11T00:00:00.000Z"
     },
     {
       "format": "Standard",
