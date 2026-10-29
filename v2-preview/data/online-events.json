@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T13:42:11.206Z",
+  "generatedAt": "2026-10-29T19:50:51.214Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adba23c91617679e849f17d",
-      "source": "limitless",
-      "sourceId": "6adba23c91617679e849f17d",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6adba23c91617679e849f17d/details",
-      "startAt": "2026-10-29T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae21b2e80a8f79408d20191",
-      "source": "limitless",
-      "sourceId": "6ae21b2e80a8f79408d20191",
-      "name": "🔥⚗️PokéKhemistry TURBO Thursday 🧪",
-      "url": "https://play.limitlesstcg.com/tournament/6ae21b2e80a8f79408d20191/details",
-      "startAt": "2026-10-29T18:15:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -35,16 +15,6 @@
       "name": "15° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6ada51e08a8383117e3f1905/details",
       "startAt": "2026-10-29T20:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adec24391617679e84a1118",
-      "source": "limitless",
-      "sourceId": "6adec24391617679e84a1118",
-      "name": "🇧🇷 Semanal • Hit Belém #4 | Pokémon TCG",
-      "url": "https://play.limitlesstcg.com/tournament/6adec24391617679e84a1118/details",
-      "startAt": "2026-10-29T22:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -699,6 +669,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae398d780a8f79408d21047",
+      "source": "limitless",
+      "sourceId": "6ae398d780a8f79408d21047",
+      "name": "16° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6ae398d780a8f79408d21047/details",
+      "startAt": "2026-11-05T20:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6acd04a2115c12b73a5a211a",
       "source": "limitless",
       "sourceId": "6acd04a2115c12b73a5a211a",
@@ -755,6 +735,16 @@
       "name": "CHAMPIONSHIP OF DOOM! TEN!",
       "url": "https://play.limitlesstcg.com/tournament/chamionship-of-doom-ten/details",
       "startAt": "2026-11-07T16:00:00.000Z"
+    },
+    {
+      "format": "Worlds 2022 (SSH–PGO)",
+      "platform": "SIM",
+      "id": "limitless:6ae3676322fd412b92a4f575",
+      "source": "limitless",
+      "sourceId": "6ae3676322fd412b92a4f575",
+      "name": "C-C Colosseum #22 - 2022 Worlds (SSH-PGO)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae3676322fd412b92a4f575/details",
+      "startAt": "2026-11-08T02:00:00.000Z"
     },
     {
       "format": "Standard",
