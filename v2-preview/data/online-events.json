@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-30T13:32:22.360Z",
+  "generatedAt": "2026-10-30T19:41:48.902Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a95d139abb9482237504c8f",
-      "source": "limitless",
-      "sourceId": "6a95d139abb9482237504c8f",
-      "name": "Turtwig Den Revival Series Season 2 Challenge 7",
-      "url": "https://play.limitlesstcg.com/tournament/6a95d139abb9482237504c8f/details",
-      "startAt": "2026-10-30T16:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa2d284a4272c53be64cfe9",
-      "source": "limitless",
-      "sourceId": "6aa2d284a4272c53be64cfe9",
-      "name": "Nightshades Friday Challenge 4 (25 Codes)",
-      "url": "https://play.limitlesstcg.com/tournament/6aa2d284a4272c53be64cfe9/details",
-      "startAt": "2026-10-30T17:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "CAM",
@@ -64,6 +44,16 @@
       "sourceId": "6adec8a697e21d82e5c6f55b",
       "name": "🇧🇷 Hit Challenge #54 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6adec8a697e21d82e5c6f55b/details",
+      "startAt": "2026-10-30T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae4e2320d00101b48bf2841",
+      "source": "limitless",
+      "sourceId": "6ae4e2320d00101b48bf2841",
+      "name": "🏵️PKMN CENTRO OCCIDENTE (25 Codes)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae4e2320d00101b48bf2841/details",
       "startAt": "2026-10-30T23:00:00.000Z"
     },
     {
@@ -119,11 +109,11 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ada46598a8383117e3f17ef",
+      "id": "limitless:spooooky",
       "source": "limitless",
-      "sourceId": "6ada46598a8383117e3f17ef",
+      "sourceId": "spooooky",
       "name": "TOURNAMENT OF DOOM! SPOOOOOOKY!",
-      "url": "https://play.limitlesstcg.com/tournament/6ada46598a8383117e3f17ef/details",
+      "url": "https://play.limitlesstcg.com/tournament/spooooky/details",
       "startAt": "2026-10-31T02:35:00.000Z"
     },
     {
@@ -145,6 +135,26 @@
       "name": "Perth Pokemon Season 2",
       "url": "https://play.limitlesstcg.com/tournament/6ae0407e22fd412b92a4dfb6/details",
       "startAt": "2026-10-31T10:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae4b3470d00101b48bf257e",
+      "source": "limitless",
+      "sourceId": "6ae4b3470d00101b48bf257e",
+      "name": "SEASAC League Challenge #17 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ae4b3470d00101b48bf257e/details",
+      "startAt": "2026-10-31T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae4e8380d00101b48bf28e3",
+      "source": "limitless",
+      "sourceId": "6ae4e8380d00101b48bf28e3",
+      "name": "Last Before Delta Reign!",
+      "url": "https://play.limitlesstcg.com/tournament/6ae4e8380d00101b48bf28e3/details",
+      "startAt": "2026-10-31T14:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -215,6 +225,16 @@
       "name": "YHT Pokémon TCG League",
       "url": "https://play.limitlesstcg.com/tournament/6ae0d0e180a8f79408d1f898/details",
       "startAt": "2026-11-01T06:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae4b41aae67092a4073f0fc",
+      "source": "limitless",
+      "sourceId": "6ae4b41aae67092a4073f0fc",
+      "name": "SEASAC League Challenge #18 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ae4b41aae67092a4073f0fc/details",
+      "startAt": "2026-11-01T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -615,6 +635,16 @@
       "name": "💰 Domino Arena Rush | Temporada 3 | Semana 8 💰",
       "url": "https://play.limitlesstcg.com/tournament/6ad827588a8383117e3f0825/details",
       "startAt": "2026-11-05T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae4ccc50d00101b48bf267c",
+      "source": "limitless",
+      "sourceId": "6ae4ccc50d00101b48bf267c",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae4ccc50d00101b48bf267c/details",
+      "startAt": "2026-11-05T17:00:00.000Z"
     },
     {
       "format": "Standard",
