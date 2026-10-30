@@ -1,71 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T19:50:51.214Z",
+  "generatedAt": "2026-10-30T00:20:32.642Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ada51e08a8383117e3f1905",
-      "source": "limitless",
-      "sourceId": "6ada51e08a8383117e3f1905",
-      "name": "15° Torneo del circuito CarroTCG/Prof. Fili",
-      "url": "https://play.limitlesstcg.com/tournament/6ada51e08a8383117e3f1905/details",
-      "startAt": "2026-10-29T20:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae20e3922fd412b92a4ea1e",
-      "source": "limitless",
-      "sourceId": "6ae20e3922fd412b92a4ea1e",
-      "name": "La Techgece Casual #13 [BO1] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae20e3922fd412b92a4ea1e/details",
-      "startAt": "2026-10-29T22:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adec3d497e21d82e5c6f549",
-      "source": "limitless",
-      "sourceId": "6adec3d497e21d82e5c6f549",
-      "name": "🇧🇷 Hit Challenge #53 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6adec3d497e21d82e5c6f549/details",
-      "startAt": "2026-10-29T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adea24597e21d82e5c6f373",
-      "source": "limitless",
-      "sourceId": "6adea24597e21d82e5c6f373",
-      "name": "Heart of the Games Online Series - S107",
-      "url": "https://play.limitlesstcg.com/tournament/6adea24597e21d82e5c6f373/details",
-      "startAt": "2026-10-30T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adfee5822fd412b92a4dd37",
-      "source": "limitless",
-      "sourceId": "6adfee5822fd412b92a4dd37",
-      "name": "Rare Candy Club Blitz #7",
-      "url": "https://play.limitlesstcg.com/tournament/6adfee5822fd412b92a4dd37/details",
-      "startAt": "2026-10-30T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae27e0a22fd412b92a4ef94",
-      "source": "limitless",
-      "sourceId": "6ae27e0a22fd412b92a4ef94",
-      "name": "Le Tournois Du DresseurPokeCharbie #134",
-      "url": "https://play.limitlesstcg.com/tournament/6ae27e0a22fd412b92a4ef94/details",
-      "startAt": "2026-10-30T00:00:00.000Z"
-    },
     {
       "format": "EX Series (RS–PK)",
       "platform": "SIM",
@@ -557,6 +497,16 @@
       "startAt": "2026-11-03T00:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ae3ad2680a8f79408d211fe",
+      "source": "limitless",
+      "sourceId": "6ae3ad2680a8f79408d211fe",
+      "name": "💰 Control Players Unite's Pauper Tournament! #44",
+      "url": "https://play.limitlesstcg.com/tournament/6ae3ad2680a8f79408d211fe/details",
+      "startAt": "2026-11-03T00:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aad83eee905c1db68744613",
@@ -614,6 +564,16 @@
       "sourceId": "6ad41dee8a8383117e3ee546",
       "name": "🇧🇷 Hit Cup #22 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ad41dee8a8383117e3ee546/details",
+      "startAt": "2026-11-04T00:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ae3ada722fd412b92a4f8b6",
+      "source": "limitless",
+      "sourceId": "6ae3ada722fd412b92a4f8b6",
+      "name": "♠️ Control Players Unite's Aceless Tournament! #42",
+      "url": "https://play.limitlesstcg.com/tournament/6ae3ada722fd412b92a4f8b6/details",
       "startAt": "2026-11-04T00:00:00.000Z"
     },
     {
