@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T00:02:17.856Z",
+  "generatedAt": "2026-10-31T06:16:05.335Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6ac088dd245696afb3514d86",
-      "source": "limitless",
-      "sourceId": "6ac088dd245696afb3514d86",
-      "name": "Budget Build Battles! | Season 9 - Week 4",
-      "url": "https://play.limitlesstcg.com/tournament/6ac088dd245696afb3514d86/details",
-      "startAt": "2026-10-31T00:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae230b722fd412b92a4eb09",
-      "source": "limitless",
-      "sourceId": "6ae230b722fd412b92a4eb09",
-      "name": "Torneo Online Alain Cards #13",
-      "url": "https://play.limitlesstcg.com/tournament/6ae230b722fd412b92a4eb09/details",
-      "startAt": "2026-10-31T00:30:00.000Z"
-    },
-    {
-      "format": "Worlds 2010 (DP–UL)",
-      "platform": "SIM",
-      "id": "limitless:6ad7e06d115c12b73a5a8985",
-      "source": "limitless",
-      "sourceId": "6ad7e06d115c12b73a5a8985",
-      "name": "James G Tournaments #60 - 2010 Worlds (DP-UL)",
-      "url": "https://play.limitlesstcg.com/tournament/6ad7e06d115c12b73a5a8985/details",
-      "startAt": "2026-10-31T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:spooooky",
-      "source": "limitless",
-      "sourceId": "spooooky",
-      "name": "TOURNAMENT OF DOOM! SPOOOOOOKY!",
-      "url": "https://play.limitlesstcg.com/tournament/spooooky/details",
-      "startAt": "2026-10-31T02:35:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "SIM",
-      "id": "limitless:6ae12a4780a8f79408d1fb52",
-      "source": "limitless",
-      "sourceId": "6ae12a4780a8f79408d1fb52",
-      "name": "Torneo Halloween Tropical Beach Expanded",
-      "url": "https://play.limitlesstcg.com/tournament/6ae12a4780a8f79408d1fb52/details",
-      "startAt": "2026-10-31T03:05:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
