@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T06:16:05.335Z",
+  "generatedAt": "2026-10-31T13:03:06.929Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae0407e22fd412b92a4dfb6",
-      "source": "limitless",
-      "sourceId": "6ae0407e22fd412b92a4dfb6",
-      "name": "Perth Pokemon Season 2",
-      "url": "https://play.limitlesstcg.com/tournament/6ae0407e22fd412b92a4dfb6/details",
-      "startAt": "2026-10-31T10:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae4b3470d00101b48bf257e",
-      "source": "limitless",
-      "sourceId": "6ae4b3470d00101b48bf257e",
-      "name": "SEASAC League Challenge #17 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ae4b3470d00101b48bf257e/details",
-      "startAt": "2026-10-31T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -105,6 +85,16 @@
       "name": "YHT Pokémon TCG League",
       "url": "https://play.limitlesstcg.com/tournament/6ae0d0e180a8f79408d1f898/details",
       "startAt": "2026-11-01T06:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae0407e22fd412b92a4dfb6",
+      "source": "limitless",
+      "sourceId": "6ae0407e22fd412b92a4dfb6",
+      "name": "Perth Pokemon Season 2",
+      "url": "https://play.limitlesstcg.com/tournament/6ae0407e22fd412b92a4dfb6/details",
+      "startAt": "2026-11-01T10:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -447,6 +437,16 @@
       "startAt": "2026-11-03T19:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adec24391617679e84a1118",
+      "source": "limitless",
+      "sourceId": "6adec24391617679e84a1118",
+      "name": "🇧🇷 Semanal • Hit Belém #4 | Pokémon TCG",
+      "url": "https://play.limitlesstcg.com/tournament/6adec24391617679e84a1118/details",
+      "startAt": "2026-11-03T22:00:00.000Z"
+    },
+    {
       "format": "EX Series (RS–PK)",
       "platform": "SIM",
       "id": "limitless:6ada72b18a8383117e3f1ad8",
@@ -509,6 +509,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae5e254ae67092a4073fc46",
+      "source": "limitless",
+      "sourceId": "6ae5e254ae67092a4073fc46",
+      "name": "🇧🇷 Hit Challenge #56 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ae5e254ae67092a4073fc46/details",
+      "startAt": "2026-11-04T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad827588a8383117e3f0825",
       "source": "limitless",
       "sourceId": "6ad827588a8383117e3f0825",
@@ -545,6 +555,16 @@
       "name": "16° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6ae398d780a8f79408d21047/details",
       "startAt": "2026-11-05T20:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae5e319ae67092a4073fc48",
+      "source": "limitless",
+      "sourceId": "6ae5e319ae67092a4073fc48",
+      "name": "🇧🇷 Hit Challenge #57 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ae5e319ae67092a4073fc48/details",
+      "startAt": "2026-11-05T23:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -587,6 +607,16 @@
       "startAt": "2026-11-06T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae5e3a20d00101b48bf331c",
+      "source": "limitless",
+      "sourceId": "6ae5e3a20d00101b48bf331c",
+      "name": "🇧🇷 Hit Challenge #58 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ae5e3a20d00101b48bf331c/details",
+      "startAt": "2026-11-06T23:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6ac088fd245696afb3514d87",
@@ -605,6 +635,16 @@
       "name": "CHAMPIONSHIP OF DOOM! TEN!",
       "url": "https://play.limitlesstcg.com/tournament/chamionship-of-doom-ten/details",
       "startAt": "2026-11-07T16:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae5e417ae67092a4073fc4f",
+      "source": "limitless",
+      "sourceId": "6ae5e417ae67092a4073fc4f",
+      "name": "🇧🇷 Hit Challenge #59 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ae5e417ae67092a4073fc4f/details",
+      "startAt": "2026-11-07T18:00:00.000Z"
     },
     {
       "format": "Worlds 2022 (SSH–PGO)",
@@ -669,16 +709,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ad41e6d115c12b73a5a69ca",
-      "source": "limitless",
-      "sourceId": "6ad41e6d115c12b73a5a69ca",
-      "name": "🇧🇷 Hit Cup #23 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad41e6d115c12b73a5a69ca/details",
-      "startAt": "2026-11-12T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ad828488a8383117e3f082a",
       "source": "limitless",
       "sourceId": "6ad828488a8383117e3f082a",
@@ -695,6 +725,16 @@
       "name": "⚗️🔥PokéKhemistry TURBO Thursday 🧪",
       "url": "https://play.limitlesstcg.com/tournament/6ae454a20d00101b48bf2113/details",
       "startAt": "2026-11-12T18:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad41e6d115c12b73a5a69ca",
+      "source": "limitless",
+      "sourceId": "6ad41e6d115c12b73a5a69ca",
+      "name": "🇧🇷 Hit Cup #23 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41e6d115c12b73a5a69ca/details",
+      "startAt": "2026-11-13T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -779,16 +819,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ad41ed6115c12b73a5a69cd",
-      "source": "limitless",
-      "sourceId": "6ad41ed6115c12b73a5a69cd",
-      "name": "🇧🇷 Hit Cup #24 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad41ed6115c12b73a5a69cd/details",
-      "startAt": "2026-11-20T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ae2174680a8f79408d20182",
       "source": "limitless",
       "sourceId": "6ae2174680a8f79408d20182",
@@ -845,6 +875,16 @@
       "name": "NOVEMBER CHEF CELEBRATIONS COOKOFF",
       "url": "https://play.limitlesstcg.com/tournament/6adf7d1822fd412b92a4d43f/details",
       "startAt": "2026-11-21T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad41ed6115c12b73a5a69cd",
+      "source": "limitless",
+      "sourceId": "6ad41ed6115c12b73a5a69cd",
+      "name": "🇧🇷 Hit Cup #24 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41ed6115c12b73a5a69cd/details",
+      "startAt": "2026-11-22T00:00:00.000Z"
     },
     {
       "format": "Standard",
