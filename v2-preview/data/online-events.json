@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T13:03:06.929Z",
+  "generatedAt": "2026-10-31T18:44:33.209Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae4e8380d00101b48bf28e3",
-      "source": "limitless",
-      "sourceId": "6ae4e8380d00101b48bf28e3",
-      "name": "Last Before Delta Reign!",
-      "url": "https://play.limitlesstcg.com/tournament/6ae4e8380d00101b48bf28e3/details",
-      "startAt": "2026-10-31T14:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGO",
@@ -24,37 +14,7 @@
       "sourceId": "6ae2143a22fd412b92a4ea30",
       "name": "Mensal de outubro",
       "url": "https://play.limitlesstcg.com/tournament/6ae2143a22fd412b92a4ea30/details",
-      "startAt": "2026-10-31T15:28:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ae20c1b22fd412b92a4ea11",
-      "source": "limitless",
-      "sourceId": "6ae20c1b22fd412b92a4ea11",
-      "name": "TurboBlaze Presents: The Saturday Special #5",
-      "url": "https://play.limitlesstcg.com/tournament/6ae20c1b22fd412b92a4ea11/details",
-      "startAt": "2026-10-31T16:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": null,
-      "id": "limitless:6ae0601280a8f79408d1f630",
-      "source": "limitless",
-      "sourceId": "6ae0601280a8f79408d1f630",
-      "name": "Surprise! Eternal Tournament #38",
-      "url": "https://play.limitlesstcg.com/tournament/6ae0601280a8f79408d1f630/details",
-      "startAt": "2026-10-31T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adeca5897e21d82e5c6f585",
-      "source": "limitless",
-      "sourceId": "6adeca5897e21d82e5c6f585",
-      "name": "🇧🇷 Hit Challenge #55 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6adeca5897e21d82e5c6f585/details",
-      "startAt": "2026-10-31T18:00:00.000Z"
+      "startAt": "2026-10-31T23:30:00.000Z"
     },
     {
       "format": null,
