@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T18:44:33.209Z",
+  "generatedAt": "2026-10-31T23:43:24.817Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGO",
-      "id": "limitless:6ae2143a22fd412b92a4ea30",
-      "source": "limitless",
-      "sourceId": "6ae2143a22fd412b92a4ea30",
-      "name": "Mensal de outubro",
-      "url": "https://play.limitlesstcg.com/tournament/6ae2143a22fd412b92a4ea30/details",
-      "startAt": "2026-10-31T23:30:00.000Z"
-    },
     {
       "format": null,
       "platform": "CAM",
@@ -24,6 +14,16 @@
       "sourceId": "6add4e2e97e21d82e5c6e993",
       "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6add4e2e97e21d82e5c6e993/details",
+      "startAt": "2026-11-01T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6adeca5897e21d82e5c6f585",
+      "source": "limitless",
+      "sourceId": "6adeca5897e21d82e5c6f585",
+      "name": "🇧🇷 Hit Challenge #55 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6adeca5897e21d82e5c6f585/details",
       "startAt": "2026-11-01T00:00:00.000Z"
     },
     {
@@ -65,6 +65,16 @@
       "name": "SEASAC League Challenge #18 (SEASON 6) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6ae4b41aae67092a4073f0fc/details",
       "startAt": "2026-11-01T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae64704ae67092a40740268",
+      "source": "limitless",
+      "sourceId": "6ae64704ae67092a40740268",
+      "name": "Mini, mini, tournoi n17° Entrainement FR",
+      "url": "https://play.limitlesstcg.com/tournament/6ae64704ae67092a40740268/details",
+      "startAt": "2026-11-01T13:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -574,6 +584,16 @@
       "sourceId": "6ae5e3a20d00101b48bf331c",
       "name": "🇧🇷 Hit Challenge #58 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ae5e3a20d00101b48bf331c/details",
+      "startAt": "2026-11-06T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6ae66b8a0d00101b48bf3963",
+      "source": "limitless",
+      "sourceId": "6ae66b8a0d00101b48bf3963",
+      "name": "Amyverse Webcam Wonders #33 💙 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6ae66b8a0d00101b48bf3963/details",
       "startAt": "2026-11-06T23:00:00.000Z"
     },
     {
