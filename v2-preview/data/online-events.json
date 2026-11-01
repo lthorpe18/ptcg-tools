@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T23:43:24.817Z",
+  "generatedAt": "2026-11-01T06:49:28.526Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6add4e2e97e21d82e5c6e993",
-      "source": "limitless",
-      "sourceId": "6add4e2e97e21d82e5c6e993",
-      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6add4e2e97e21d82e5c6e993/details",
-      "startAt": "2026-11-01T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adeca5897e21d82e5c6f585",
-      "source": "limitless",
-      "sourceId": "6adeca5897e21d82e5c6f585",
-      "name": "🇧🇷 Hit Challenge #55 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6adeca5897e21d82e5c6f585/details",
-      "startAt": "2026-11-01T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adfe08680a8f79408d1f1d6",
-      "source": "limitless",
-      "sourceId": "6adfe08680a8f79408d1f1d6",
-      "name": "🪎Vault Of Games #9🪙|REGIONAL FORMAT🏆|WEEKLY📅",
-      "url": "https://play.limitlesstcg.com/tournament/6adfe08680a8f79408d1f1d6/details",
-      "startAt": "2026-11-01T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae0d0e180a8f79408d1f898",
-      "source": "limitless",
-      "sourceId": "6ae0d0e180a8f79408d1f898",
-      "name": "YHT Pokémon TCG League",
-      "url": "https://play.limitlesstcg.com/tournament/6ae0d0e180a8f79408d1f898/details",
-      "startAt": "2026-11-01T06:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -95,6 +55,16 @@
       "name": "KDS torneo Noviembre",
       "url": "https://play.limitlesstcg.com/tournament/6ae2444422fd412b92a4ec1c/details",
       "startAt": "2026-11-01T15:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae67fbc0d00101b48bf39c7",
+      "source": "limitless",
+      "sourceId": "6ae67fbc0d00101b48bf39c7",
+      "name": "Kearney Free Standard Tournament #6",
+      "url": "https://play.limitlesstcg.com/tournament/6ae67fbc0d00101b48bf39c7/details",
+      "startAt": "2026-11-01T17:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -504,6 +474,16 @@
       "sourceId": "6ae4ccc50d00101b48bf267c",
       "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
       "url": "https://play.limitlesstcg.com/tournament/6ae4ccc50d00101b48bf267c/details",
+      "startAt": "2026-11-05T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGO",
+      "id": "limitless:6ae6ac460d00101b48bf3b03",
+      "source": "limitless",
+      "sourceId": "6ae6ac460d00101b48bf3b03",
+      "name": "Mensal de novembro",
+      "url": "https://play.limitlesstcg.com/tournament/6ae6ac460d00101b48bf3b03/details",
       "startAt": "2026-11-05T17:00:00.000Z"
     },
     {
