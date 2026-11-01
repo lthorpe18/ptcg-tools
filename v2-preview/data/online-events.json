@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T06:49:28.526Z",
+  "generatedAt": "2026-11-01T15:26:57.137Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae0407e22fd412b92a4dfb6",
-      "source": "limitless",
-      "sourceId": "6ae0407e22fd412b92a4dfb6",
-      "name": "Perth Pokemon Season 2",
-      "url": "https://play.limitlesstcg.com/tournament/6ae0407e22fd412b92a4dfb6/details",
-      "startAt": "2026-11-01T10:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae4b41aae67092a4073f0fc",
-      "source": "limitless",
-      "sourceId": "6ae4b41aae67092a4073f0fc",
-      "name": "SEASAC League Challenge #18 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ae4b41aae67092a4073f0fc/details",
-      "startAt": "2026-11-01T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae64704ae67092a40740268",
-      "source": "limitless",
-      "sourceId": "6ae64704ae67092a40740268",
-      "name": "Mini, mini, tournoi n17° Entrainement FR",
-      "url": "https://play.limitlesstcg.com/tournament/6ae64704ae67092a40740268/details",
-      "startAt": "2026-11-01T13:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acbd48c115c12b73a5a1817",
-      "source": "limitless",
-      "sourceId": "6acbd48c115c12b73a5a1817",
-      "name": "FINISTERRAE SERIES TCG #4",
-      "url": "https://play.limitlesstcg.com/tournament/6acbd48c115c12b73a5a1817/details",
-      "startAt": "2026-11-01T15:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae2444422fd412b92a4ec1c",
-      "source": "limitless",
-      "sourceId": "6ae2444422fd412b92a4ec1c",
-      "name": "KDS torneo Noviembre",
-      "url": "https://play.limitlesstcg.com/tournament/6ae2444422fd412b92a4ec1c/details",
-      "startAt": "2026-11-01T15:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -585,6 +535,16 @@
       "name": "Budget Build Battles! | Season 9 - Week 5",
       "url": "https://play.limitlesstcg.com/tournament/6ac088fd245696afb3514d87/details",
       "startAt": "2026-11-07T00:30:00.000Z"
+    },
+    {
+      "format": "POG 2021 (TEU–EVS)",
+      "platform": "SIM",
+      "id": "limitless:6ae75930ae67092a40740b71",
+      "source": "limitless",
+      "sourceId": "6ae75930ae67092a40740b71",
+      "name": "James G Tournaments #61 - POG 2021 (TEU-EVS)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae75930ae67092a40740b71/details",
+      "startAt": "2026-11-07T02:00:00.000Z"
     },
     {
       "format": "Standard",
