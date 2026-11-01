@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T15:26:57.137Z",
+  "generatedAt": "2026-11-01T20:49:26.732Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,12 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ae67fbc0d00101b48bf39c7",
+      "id": "limitless:6add2e2597e21d82e5c6e88b",
       "source": "limitless",
-      "sourceId": "6ae67fbc0d00101b48bf39c7",
-      "name": "Kearney Free Standard Tournament #6",
-      "url": "https://play.limitlesstcg.com/tournament/6ae67fbc0d00101b48bf39c7/details",
-      "startAt": "2026-11-01T17:00:00.000Z"
+      "sourceId": "6add2e2597e21d82e5c6e88b",
+      "name": "LUDUSP - Pokémon - Liga semanal #4",
+      "url": "https://play.limitlesstcg.com/tournament/6add2e2597e21d82e5c6e88b/details",
+      "startAt": "2026-11-01T22:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -305,6 +305,16 @@
       "name": "CHALLENGE OF DOOM! GOODBYE TO 30TH FORMAT!",
       "url": "https://play.limitlesstcg.com/tournament/6ada4697115c12b73a5a9c22/details",
       "startAt": "2026-11-03T04:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae76a500d00101b48bf3fe5",
+      "source": "limitless",
+      "sourceId": "6ae76a500d00101b48bf3fe5",
+      "name": "SEASAC League Challenge #19 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6ae76a500d00101b48bf3fe5/details",
+      "startAt": "2026-11-03T11:30:00.000Z"
     },
     {
       "format": "Standard",
