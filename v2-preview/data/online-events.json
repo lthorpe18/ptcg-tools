@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-02T01:48:05.752Z",
+  "generatedAt": "2026-11-02T09:56:16.381Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae7e776ae67092a40740fee",
-      "source": "limitless",
-      "sourceId": "6ae7e776ae67092a40740fee",
-      "name": "Are we bringing back the HCS?",
-      "url": "https://play.limitlesstcg.com/tournament/6ae7e776ae67092a40740fee/details",
-      "startAt": "2026-11-02T02:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -25,6 +15,16 @@
       "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
       "url": "https://play.limitlesstcg.com/tournament/6ae083c680a8f79408d1f6af/details",
       "startAt": "2026-11-02T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae81f560d00101b48bf4756",
+      "source": "limitless",
+      "sourceId": "6ae81f560d00101b48bf4756",
+      "name": "Pumpkaweekly - delta reign prizing",
+      "url": "https://play.limitlesstcg.com/tournament/6ae81f560d00101b48bf4756/details",
+      "startAt": "2026-11-02T19:00:00.000Z"
     },
     {
       "format": "Base–Fossil",
@@ -224,6 +224,16 @@
       "sourceId": "6ae3ad2680a8f79408d211fe",
       "name": "💰 Control Players Unite's Pauper Tournament! #44",
       "url": "https://play.limitlesstcg.com/tournament/6ae3ad2680a8f79408d211fe/details",
+      "startAt": "2026-11-03T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7f6b30d00101b48bf4543",
+      "source": "limitless",
+      "sourceId": "6ae7f6b30d00101b48bf4543",
+      "name": "E4MC Modern Mondays",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7f6b30d00101b48bf4543/details",
       "startAt": "2026-11-03T00:00:00.000Z"
     },
     {
@@ -497,6 +507,16 @@
       "startAt": "2026-11-06T23:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7fe3a0d00101b48bf460a",
+      "source": "limitless",
+      "sourceId": "6ae7fe3a0d00101b48bf460a",
+      "name": "Elite Four Fridays",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7fe3a0d00101b48bf460a/details",
+      "startAt": "2026-11-07T00:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6ac088fd245696afb3514d87",
@@ -574,6 +594,16 @@
       "sourceId": "6ad82790115c12b73a5a8ccd",
       "name": "🆓 Domino Arena Free | Temporada 3 | Semana 9 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6ad82790115c12b73a5a8ccd/details",
+      "startAt": "2026-11-10T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7fa53ae67092a4074106b",
+      "source": "limitless",
+      "sourceId": "6ae7fa53ae67092a4074106b",
+      "name": "E4MC Modern Mondays",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7fa53ae67092a4074106b/details",
       "startAt": "2026-11-10T00:00:00.000Z"
     },
     {
@@ -687,6 +717,16 @@
       "startAt": "2026-11-13T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7fee8ae67092a4074108f",
+      "source": "limitless",
+      "sourceId": "6ae7fee8ae67092a4074108f",
+      "name": "Elite Four Fridays",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7fee8ae67092a4074108f/details",
+      "startAt": "2026-11-14T00:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6ac0891e245696afb3514d88",
@@ -715,6 +755,16 @@
       "name": "ACETCGS.COM Weekly #9 - STORE CREDIT/CASH PRIZING",
       "url": "https://play.limitlesstcg.com/tournament/6ae7cdb30d00101b48bf4383/details",
       "startAt": "2026-11-16T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7fadbae67092a4074106d",
+      "source": "limitless",
+      "sourceId": "6ae7fadbae67092a4074106d",
+      "name": "E4MC Modern Mondays",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7fadbae67092a4074106d/details",
+      "startAt": "2026-11-17T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -777,6 +827,16 @@
       "startAt": "2026-11-20T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7ff2d0d00101b48bf460d",
+      "source": "limitless",
+      "sourceId": "6ae7ff2d0d00101b48bf460d",
+      "name": "Elite Four Fridays",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7ff2d0d00101b48bf460d/details",
+      "startAt": "2026-11-21T00:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6ac0893b245696afb3514d89",
@@ -809,6 +869,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae7fd0e0d00101b48bf45bf",
+      "source": "limitless",
+      "sourceId": "6ae7fd0e0d00101b48bf45bf",
+      "name": "E4MC Modern Mondays",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7fd0e0d00101b48bf45bf/details",
+      "startAt": "2026-11-24T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aad843cf127b1b52c27c2fe",
       "source": "limitless",
       "sourceId": "6aad843cf127b1b52c27c2fe",
@@ -837,6 +907,16 @@
       "startAt": "2026-11-27T17:05:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7ff760d00101b48bf4610",
+      "source": "limitless",
+      "sourceId": "6ae7ff760d00101b48bf4610",
+      "name": "Elite Four Fridays",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7ff760d00101b48bf4610/details",
+      "startAt": "2026-11-28T00:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6ac0895685920e4d2536289c",
@@ -855,6 +935,16 @@
       "name": "Vault of Games 🏆|LATIN AMERICA CHAMPIONSHIP |",
       "url": "https://play.limitlesstcg.com/tournament/6ab7309b880ed327106dcf5d/details",
       "startAt": "2026-11-29T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7fd6b0d00101b48bf45c1",
+      "source": "limitless",
+      "sourceId": "6ae7fd6b0d00101b48bf45c1",
+      "name": "E4MC Modern Mondays",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7fd6b0d00101b48bf45c1/details",
+      "startAt": "2026-12-01T00:00:00.000Z"
     },
     {
       "format": "Standard",
