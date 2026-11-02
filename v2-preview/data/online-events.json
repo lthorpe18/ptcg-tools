@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T20:49:26.732Z",
+  "generatedAt": "2026-11-02T01:48:05.752Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,62 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6add2e2597e21d82e5c6e88b",
+      "id": "limitless:6ae7e776ae67092a40740fee",
       "source": "limitless",
-      "sourceId": "6add2e2597e21d82e5c6e88b",
-      "name": "LUDUSP - Pokémon - Liga semanal #4",
-      "url": "https://play.limitlesstcg.com/tournament/6add2e2597e21d82e5c6e88b/details",
-      "startAt": "2026-11-01T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae20ee622fd412b92a4ea21",
-      "source": "limitless",
-      "sourceId": "6ae20ee622fd412b92a4ea21",
-      "name": "La Techgece Cup #11 [BO3] (30C Legal!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae20ee622fd412b92a4ea21/details",
-      "startAt": "2026-11-01T22:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ab9de13783097f8dcb7258f",
-      "source": "limitless",
-      "sourceId": "6ab9de13783097f8dcb7258f",
-      "name": "Sisterhood Showdown #3 💗 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6ab9de13783097f8dcb7258f/details",
-      "startAt": "2026-11-01T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad011b88a8383117e3ebf67",
-      "source": "limitless",
-      "sourceId": "6ad011b88a8383117e3ebf67",
-      "name": "ACE Tourneys Premier — Store Launch Event. PLAYMAT",
-      "url": "https://play.limitlesstcg.com/tournament/6ad011b88a8383117e3ebf67/details",
-      "startAt": "2026-11-01T23:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae34b0022fd412b92a4f4b7",
-      "source": "limitless",
-      "sourceId": "6ae34b0022fd412b92a4f4b7",
-      "name": "Rare Candy Club Showdown #50 (50 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae34b0022fd412b92a4f4b7/details",
-      "startAt": "2026-11-02T01:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ae20ae822fd412b92a4ea0f",
-      "source": "limitless",
-      "sourceId": "6ae20ae822fd412b92a4ea0f",
-      "name": "TurboBlaze Trials GLC Series - Season 2 Week 10",
-      "url": "https://play.limitlesstcg.com/tournament/6ae20ae822fd412b92a4ea0f/details",
-      "startAt": "2026-11-02T01:30:00.000Z"
+      "sourceId": "6ae7e776ae67092a40740fee",
+      "name": "Are we bringing back the HCS?",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7e776ae67092a40740fee/details",
+      "startAt": "2026-11-02T02:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -399,6 +349,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae7b181ae67092a40740e44",
+      "source": "limitless",
+      "sourceId": "6ae7b181ae67092a40740e44",
+      "name": "Pudding Weekly #20 | Day 3/30 (good luck soldier)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7b181ae67092a40740e44/details",
+      "startAt": "2026-11-04T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae2893122fd412b92a4f026",
       "source": "limitless",
       "sourceId": "6ae2893122fd412b92a4f026",
@@ -577,6 +537,16 @@
       "startAt": "2026-11-07T18:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6add4e2e97e21d82e5c6e993",
+      "source": "limitless",
+      "sourceId": "6add4e2e97e21d82e5c6e993",
+      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6add4e2e97e21d82e5c6e993/details",
+      "startAt": "2026-11-08T01:00:00.000Z"
+    },
+    {
       "format": "Worlds 2022 (SSH–PGO)",
       "platform": "SIM",
       "id": "limitless:6ae3676322fd412b92a4f575",
@@ -585,6 +555,16 @@
       "name": "C-C Colosseum #22 - 2022 Worlds (SSH-PGO)",
       "url": "https://play.limitlesstcg.com/tournament/6ae3676322fd412b92a4f575/details",
       "startAt": "2026-11-08T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7e6e00d00101b48bf441c",
+      "source": "limitless",
+      "sourceId": "6ae7e6e00d00101b48bf441c",
+      "name": "Sisterhood Showdown #4 💗 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7e6e00d00101b48bf441c/details",
+      "startAt": "2026-11-09T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -725,6 +705,16 @@
       "name": "RDG! November Elite Qualifier",
       "url": "https://play.limitlesstcg.com/tournament/6a69081652c24ac2da64eb2a/details",
       "startAt": "2026-11-15T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7cdb30d00101b48bf4383",
+      "source": "limitless",
+      "sourceId": "6ae7cdb30d00101b48bf4383",
+      "name": "ACETCGS.COM Weekly #9 - STORE CREDIT/CASH PRIZING",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7cdb30d00101b48bf4383/details",
+      "startAt": "2026-11-16T00:00:00.000Z"
     },
     {
       "format": "Standard",
