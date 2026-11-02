@@ -1,191 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-02T09:56:16.381Z",
+  "generatedAt": "2026-11-02T20:29:48.171Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae083c680a8f79408d1f6af",
-      "source": "limitless",
-      "sourceId": "6ae083c680a8f79408d1f6af",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae083c680a8f79408d1f6af/details",
-      "startAt": "2026-11-02T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae81f560d00101b48bf4756",
-      "source": "limitless",
-      "sourceId": "6ae81f560d00101b48bf4756",
-      "name": "Pumpkaweekly - delta reign prizing",
-      "url": "https://play.limitlesstcg.com/tournament/6ae81f560d00101b48bf4756/details",
-      "startAt": "2026-11-02T19:00:00.000Z"
-    },
-    {
-      "format": "Base–Fossil",
-      "platform": "CAM",
-      "id": "limitless:6adf7d1822fd412b92a4d440",
-      "source": "limitless",
-      "sourceId": "6adf7d1822fd412b92a4d440",
-      "name": "November 2026 | Base-Fossil Webcam",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7d1822fd412b92a4d440/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Base–Fossil",
-      "platform": "SIM",
-      "id": "limitless:6adf7d3c80a8f79408d1ea48",
-      "source": "limitless",
-      "sourceId": "6adf7d3c80a8f79408d1ea48",
-      "name": "November 2026 | Base-Fossil TCG1",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7d3c80a8f79408d1ea48/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Base–Fossil",
-      "platform": "CAM",
-      "id": "limitless:6adf7d5580a8f79408d1ea4c",
-      "source": "limitless",
-      "sourceId": "6adf7d5580a8f79408d1ea4c",
-      "name": "November 2026 | Base-Fossil Point Buy",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7d5580a8f79408d1ea4c/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Base–Fossil",
-      "platform": "CAM",
-      "id": "limitless:6adf7d7280a8f79408d1ea4e",
-      "source": "limitless",
-      "sourceId": "6adf7d7280a8f79408d1ea4e",
-      "name": "November 2026 | Base-Fossil 50HP",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7d7280a8f79408d1ea4e/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Base Only",
-      "platform": "CAM",
-      "id": "limitless:6adf7d8a80a8f79408d1ea4f",
-      "source": "limitless",
-      "sourceId": "6adf7d8a80a8f79408d1ea4f",
-      "name": "November 2026 | Base Set Only",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7d8a80a8f79408d1ea4f/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Base–Fossil",
-      "platform": "CAM",
-      "id": "limitless:6adf7e0622fd412b92a4d44c",
-      "source": "limitless",
-      "sourceId": "6adf7e0622fd412b92a4d44c",
-      "name": "November 2026 | Base-Jungle",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7e0622fd412b92a4d44c/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Rocket–LC Modified",
-      "platform": "CAM",
-      "id": "limitless:6adf7e2122fd412b92a4d44d",
-      "source": "limitless",
-      "sourceId": "6adf7e2122fd412b92a4d44d",
-      "name": "November 2026 | Rocket-LC",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7e2122fd412b92a4d44d/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Base–Neo",
-      "platform": "CAM",
-      "id": "limitless:6adf7e3780a8f79408d1ea52",
-      "source": "limitless",
-      "sourceId": "6adf7e3780a8f79408d1ea52",
-      "name": "November 2026 | Base-Neo Point Buy",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7e3780a8f79408d1ea52/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Base–Neo",
-      "platform": "CAM",
-      "id": "limitless:6adf7e5d80a8f79408d1ea56",
-      "source": "limitless",
-      "sourceId": "6adf7e5d80a8f79408d1ea56",
-      "name": "November 2026 | Base-Neo Point Buy (Hareruya2)",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7e5d80a8f79408d1ea56/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Pokémon TCG for Game Boy",
-      "platform": "CAM",
-      "id": "limitless:6adf7e7222fd412b92a4d452",
-      "source": "limitless",
-      "sourceId": "6adf7e7222fd412b92a4d452",
-      "name": "November 2026 | Pokemon TCG Game Boy (NSO)",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7e7222fd412b92a4d452/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6adf7e8922fd412b92a4d454",
-      "source": "limitless",
-      "sourceId": "6adf7e8922fd412b92a4d454",
-      "name": "November 2026 | VS Half Deck",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7e8922fd412b92a4d454/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Prop 15/3",
-      "platform": "CAM",
-      "id": "limitless:6adf7ea922fd412b92a4d457",
-      "source": "limitless",
-      "sourceId": "6adf7ea922fd412b92a4d457",
-      "name": "November 2026 | Base-Gym 15/3",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7ea922fd412b92a4d457/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "e-Card (EXP–SKR)",
-      "platform": "CAM",
-      "id": "limitless:6adf7ebd22fd412b92a4d458",
-      "source": "limitless",
-      "sourceId": "6adf7ebd22fd412b92a4d458",
-      "name": "November 2026 | e-Card",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7ebd22fd412b92a4d458/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": "Base–Neo",
-      "platform": "CAM",
-      "id": "limitless:6adf7f2a22fd412b92a4d45d",
-      "source": "limitless",
-      "sourceId": "6adf7f2a22fd412b92a4d45d",
-      "name": "November 2026 | Base-Neo 30HP",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7f2a22fd412b92a4d45d/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6adf7f4b80a8f79408d1ea60",
-      "source": "limitless",
-      "sourceId": "6adf7f4b80a8f79408d1ea60",
-      "name": "November 2026 | WotC GLC",
-      "url": "https://play.limitlesstcg.com/tournament/6adf7f4b80a8f79408d1ea60/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ae0e2ba80a8f79408d1f947",
-      "source": "limitless",
-      "sourceId": "6ae0e2ba80a8f79408d1f947",
-      "name": "November 2026 | VS Mixed Back",
-      "url": "https://play.limitlesstcg.com/tournament/6ae0e2ba80a8f79408d1f947/details",
-      "startAt": "2026-11-02T20:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -289,6 +109,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae8e81de94eae0f94745ae0",
+      "source": "limitless",
+      "sourceId": "6ae8e81de94eae0f94745ae0",
+      "name": "👑CrownOfSpain 👑 #13 (10€ paypal)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae8e81de94eae0f94745ae0/details",
+      "startAt": "2026-11-03T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae3e41780a8f79408d214bc",
       "source": "limitless",
       "sourceId": "6ae3e41780a8f79408d214bc",
@@ -367,6 +197,16 @@
       "startAt": "2026-11-04T02:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGO",
+      "id": "limitless:6ae8da14e94eae0f947459c6",
+      "source": "limitless",
+      "sourceId": "6ae8da14e94eae0f947459c6",
+      "name": "Cardboard Warriors - GLC on PTCGO #4",
+      "url": "https://play.limitlesstcg.com/tournament/6ae8da14e94eae0f947459c6/details",
+      "startAt": "2026-11-04T18:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ae2893122fd412b92a4f026",
@@ -375,6 +215,16 @@
       "name": "Amyverse PTCG Live Weekly #20 💛 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6ae2893122fd412b92a4f026/details",
       "startAt": "2026-11-04T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae39f8080a8f79408d210f9",
+      "source": "limitless",
+      "sourceId": "6ae39f8080a8f79408d210f9",
+      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #9",
+      "url": "https://play.limitlesstcg.com/tournament/6ae39f8080a8f79408d210f9/details",
+      "startAt": "2026-11-04T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -395,6 +245,16 @@
       "name": "💰 Domino Arena Rush | Temporada 3 | Semana 8 💰",
       "url": "https://play.limitlesstcg.com/tournament/6ad827588a8383117e3f0825/details",
       "startAt": "2026-11-05T00:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGO",
+      "id": "limitless:6ae8da9b0c463890f3049956",
+      "source": "limitless",
+      "sourceId": "6ae8da9b0c463890f3049956",
+      "name": "Cardboard Warriors - GLC on PTCGO #5",
+      "url": "https://play.limitlesstcg.com/tournament/6ae8da9b0c463890f3049956/details",
+      "startAt": "2026-11-05T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -445,6 +305,16 @@
       "name": "🇧🇷 Hit Challenge #57 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ae5e319ae67092a4073fc48/details",
       "startAt": "2026-11-05T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae8cf850c463890f3049906",
+      "source": "limitless",
+      "sourceId": "6ae8cf850c463890f3049906",
+      "name": "Rare Candy Club Blitz #8",
+      "url": "https://play.limitlesstcg.com/tournament/6ae8cf850c463890f3049906/details",
+      "startAt": "2026-11-06T01:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -527,6 +397,16 @@
       "startAt": "2026-11-07T00:30:00.000Z"
     },
     {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ae89739ae67092a40741361",
+      "source": "limitless",
+      "sourceId": "6ae89739ae67092a40741361",
+      "name": "TurboBlaze Trials GLC Series - Season 2 Week 11",
+      "url": "https://play.limitlesstcg.com/tournament/6ae89739ae67092a40741361/details",
+      "startAt": "2026-11-07T01:30:00.000Z"
+    },
+    {
       "format": "POG 2021 (TEU–EVS)",
       "platform": "SIM",
       "id": "limitless:6ae75930ae67092a40740b71",
@@ -585,6 +465,16 @@
       "name": "Sisterhood Showdown #4 💗 Girls & Enbies!",
       "url": "https://play.limitlesstcg.com/tournament/6ae7e6e00d00101b48bf441c/details",
       "startAt": "2026-11-09T01:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ae8e099e94eae0f94745a1f",
+      "source": "limitless",
+      "sourceId": "6ae8e099e94eae0f94745a1f",
+      "name": "TurboBlaze GLC Async Challenge - Nov 2026",
+      "url": "https://play.limitlesstcg.com/tournament/6ae8e099e94eae0f94745a1f/details",
+      "startAt": "2026-11-09T17:00:00.000Z"
     },
     {
       "format": "Standard",
