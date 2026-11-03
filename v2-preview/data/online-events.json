@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-03T10:03:17.901Z",
+  "generatedAt": "2026-11-03T18:01:43.038Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae76a500d00101b48bf3fe5",
-      "source": "limitless",
-      "sourceId": "6ae76a500d00101b48bf3fe5",
-      "name": "SEASAC League Challenge #19 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6ae76a500d00101b48bf3fe5/details",
-      "startAt": "2026-11-03T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae1701822fd412b92a4e805",
-      "source": "limitless",
-      "sourceId": "6ae1701822fd412b92a4e805",
-      "name": "Amyverse Bulk Box Battles #6 🧡 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ae1701822fd412b92a4e805/details",
-      "startAt": "2026-11-03T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -35,6 +15,16 @@
       "name": "👑CrownOfSpain 👑 #13 (10€ paypal)",
       "url": "https://play.limitlesstcg.com/tournament/6ae8e81de94eae0f94745ae0/details",
       "startAt": "2026-11-03T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae9dbb10c463890f304a50c",
+      "source": "limitless",
+      "sourceId": "6ae9dbb10c463890f304a50c",
+      "name": "OTS Pokemon TCG Live Arena Pop Up",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9dbb10c463890f304a50c/details",
+      "startAt": "2026-11-03T20:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -97,16 +87,6 @@
       "startAt": "2026-11-04T01:30:00.000Z"
     },
     {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6ae109f122fd412b92a4e406",
-      "source": "limitless",
-      "sourceId": "6ae109f122fd412b92a4e406",
-      "name": "BZGC Online🔥 ~ ExPAnDED is back on the Menu",
-      "url": "https://play.limitlesstcg.com/tournament/6ae109f122fd412b92a4e406/details",
-      "startAt": "2026-11-04T01:30:00.000Z"
-    },
-    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ae7b181ae67092a40740e44",
@@ -145,6 +125,16 @@
       "name": "TAVERNA LEAGUE - SEASON 0 - DAY #9",
       "url": "https://play.limitlesstcg.com/tournament/6ae39f8080a8f79408d210f9/details",
       "startAt": "2026-11-04T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae9db7e0c463890f304a50b",
+      "source": "limitless",
+      "sourceId": "6ae9db7e0c463890f304a50b",
+      "name": "Zard-Pokénight #025",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9db7e0c463890f304a50b/details",
+      "startAt": "2026-11-04T22:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -267,6 +257,16 @@
       "startAt": "2026-11-06T01:30:00.000Z"
     },
     {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6ae109f122fd412b92a4e406",
+      "source": "limitless",
+      "sourceId": "6ae109f122fd412b92a4e406",
+      "name": "BZGC Online🔥 ~ ExPAnDED is back on the Menu",
+      "url": "https://play.limitlesstcg.com/tournament/6ae109f122fd412b92a4e406/details",
+      "startAt": "2026-11-06T01:30:00.000Z"
+    },
+    {
       "format": null,
       "platform": "CAM",
       "id": "limitless:6ae93a93e94eae0f9474611b",
@@ -315,6 +315,16 @@
       "name": "Draw 7 Tourney #4",
       "url": "https://play.limitlesstcg.com/tournament/6ae3e41780a8f79408d214bc/details",
       "startAt": "2026-11-06T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae9e1f40c463890f304a545",
+      "source": "limitless",
+      "sourceId": "6ae9e1f40c463890f304a545",
+      "name": "TORNEIO DE 30 ANOS - ARTEUS TCG",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9e1f40c463890f304a545/details",
+      "startAt": "2026-11-06T22:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -397,6 +407,16 @@
       "startAt": "2026-11-07T18:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae9d7610c463890f304a4e0",
+      "source": "limitless",
+      "sourceId": "6ae9d7610c463890f304a4e0",
+      "name": "OTS Pokemon TCG Live Arena #3",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9d7610c463890f304a4e0/details",
+      "startAt": "2026-11-07T23:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "CAM",
       "id": "limitless:6add4e2e97e21d82e5c6e993",
@@ -427,6 +447,16 @@
       "startAt": "2026-11-09T01:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": null,
+      "id": "limitless:6ae9f1df0c463890f304a5b1",
+      "source": "limitless",
+      "sourceId": "6ae9f1df0c463890f304a5b1",
+      "name": "Rookie League #1 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9f1df0c463890f304a5b1/details",
+      "startAt": "2026-11-09T01:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "CAM",
       "id": "limitless:6ae8e099e94eae0f94745a1f",
@@ -435,6 +465,16 @@
       "name": "TurboBlaze GLC Async Challenge - Nov 2026",
       "url": "https://play.limitlesstcg.com/tournament/6ae8e099e94eae0f94745a1f/details",
       "startAt": "2026-11-09T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae9c2f4e94eae0f947464af",
+      "source": "limitless",
+      "sourceId": "6ae9c2f4e94eae0f947464af",
+      "name": "🏆Ling TV ARENA🏆",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9c2f4e94eae0f947464af/details",
+      "startAt": "2026-11-09T19:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -505,6 +545,16 @@
       "name": "Torneo Relámpago ⚡ #89 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6adf708222fd412b92a4d3b7/details",
       "startAt": "2026-11-11T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae9ddfc0c463890f304a531",
+      "source": "limitless",
+      "sourceId": "6ae9ddfc0c463890f304a531",
+      "name": "Zard-Pokénight #026",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9ddfc0c463890f304a531/details",
+      "startAt": "2026-11-11T15:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -629,6 +679,26 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aea02270c463890f304a5fd",
+      "source": "limitless",
+      "sourceId": "6aea02270c463890f304a5fd",
+      "name": "Copa Elemental Cusca #1 PTCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aea02270c463890f304a5fd/details",
+      "startAt": "2026-11-16T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae9c470e94eae0f947464c0",
+      "source": "limitless",
+      "sourceId": "6ae9c470e94eae0f947464c0",
+      "name": "🏆Ling TV ARENA🏆",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9c470e94eae0f947464c0/details",
+      "startAt": "2026-11-16T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae7fadbae67092a4074106d",
       "source": "limitless",
       "sourceId": "6ae7fadbae67092a4074106d",
@@ -655,6 +725,16 @@
       "name": "Torneo Relámpago ⚡ #91 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6ae2170c80a8f79408d20181/details",
       "startAt": "2026-11-18T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae9e10be94eae0f94746566",
+      "source": "limitless",
+      "sourceId": "6ae9e10be94eae0f94746566",
+      "name": "Zard-Pokénight #027",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9e10be94eae0f94746566/details",
+      "startAt": "2026-11-18T10:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -749,6 +829,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae9c5020c463890f304a46f",
+      "source": "limitless",
+      "sourceId": "6ae9c5020c463890f304a46f",
+      "name": "🏆Ling TV ARENA🏆",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9c5020c463890f304a46f/details",
+      "startAt": "2026-11-23T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae7fd0e0d00101b48bf45bf",
       "source": "limitless",
       "sourceId": "6ae7fd0e0d00101b48bf45bf",
@@ -765,6 +855,16 @@
       "name": "Nightshades Monday Cup 7 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad843cf127b1b52c27c2fe/details",
       "startAt": "2026-11-24T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae9e3390c463890f304a54a",
+      "source": "limitless",
+      "sourceId": "6ae9e3390c463890f304a54a",
+      "name": "Zard-Pokénight #028",
+      "url": "https://play.limitlesstcg.com/tournament/6ae9e3390c463890f304a54a/details",
+      "startAt": "2026-11-25T22:30:00.000Z"
     },
     {
       "format": "Standard",
