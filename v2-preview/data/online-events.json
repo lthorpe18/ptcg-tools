@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-03T18:01:43.038Z",
+  "generatedAt": "2026-11-03T23:39:45.529Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae8e81de94eae0f94745ae0",
-      "source": "limitless",
-      "sourceId": "6ae8e81de94eae0f94745ae0",
-      "name": "👑CrownOfSpain 👑 #13 (10€ paypal)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae8e81de94eae0f94745ae0/details",
-      "startAt": "2026-11-03T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae9dbb10c463890f304a50c",
-      "source": "limitless",
-      "sourceId": "6ae9dbb10c463890f304a50c",
-      "name": "OTS Pokemon TCG Live Arena Pop Up",
-      "url": "https://play.limitlesstcg.com/tournament/6ae9dbb10c463890f304a50c/details",
-      "startAt": "2026-11-03T20:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adec24391617679e84a1118",
-      "source": "limitless",
-      "sourceId": "6adec24391617679e84a1118",
-      "name": "🇧🇷 Semanal • Hit Belém #4 | Pokémon TCG",
-      "url": "https://play.limitlesstcg.com/tournament/6adec24391617679e84a1118/details",
-      "startAt": "2026-11-03T22:00:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6ada72b18a8383117e3f1ad8",
-      "source": "limitless",
-      "sourceId": "6ada72b18a8383117e3f1ad8",
-      "name": "Chile Cuisine Local 02",
-      "url": "https://play.limitlesstcg.com/tournament/6ada72b18a8383117e3f1ad8/details",
-      "startAt": "2026-11-03T23:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -97,6 +57,16 @@
       "startAt": "2026-11-04T02:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aea6a79e94eae0f94746ad9",
+      "source": "limitless",
+      "sourceId": "6aea6a79e94eae0f94746ad9",
+      "name": "🪎Vault Of Games | 🌙 NOT SO Midnight Madness #24",
+      "url": "https://play.limitlesstcg.com/tournament/6aea6a79e94eae0f94746ad9/details",
+      "startAt": "2026-11-04T03:15:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGO",
       "id": "limitless:6ae8da14e94eae0f947459c6",
@@ -119,12 +89,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ae39f8080a8f79408d210f9",
+      "id": "limitless:6aea3933e94eae0f9474689e",
       "source": "limitless",
-      "sourceId": "6ae39f8080a8f79408d210f9",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #9",
-      "url": "https://play.limitlesstcg.com/tournament/6ae39f8080a8f79408d210f9/details",
-      "startAt": "2026-11-04T20:00:00.000Z"
+      "sourceId": "6aea3933e94eae0f9474689e",
+      "name": "Redraftowa Liga Pokemon TCG - 04.11.2026",
+      "url": "https://play.limitlesstcg.com/tournament/6aea3933e94eae0f9474689e/details",
+      "startAt": "2026-11-04T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -205,6 +175,16 @@
       "name": "🔥⚗️PokéKhemistry TURBO Thursday 🧪",
       "url": "https://play.limitlesstcg.com/tournament/6ae21b7a22fd412b92a4ea4d/details",
       "startAt": "2026-11-05T18:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae39f8080a8f79408d210f9",
+      "source": "limitless",
+      "sourceId": "6ae39f8080a8f79408d210f9",
+      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #9",
+      "url": "https://play.limitlesstcg.com/tournament/6ae39f8080a8f79408d210f9/details",
+      "startAt": "2026-11-05T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -469,6 +449,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aea2850e94eae0f947467c5",
+      "source": "limitless",
+      "sourceId": "6aea2850e94eae0f947467c5",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6aea2850e94eae0f947467c5/details",
+      "startAt": "2026-11-09T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae9c2f4e94eae0f947464af",
       "source": "limitless",
       "sourceId": "6ae9c2f4e94eae0f947464af",
@@ -525,6 +515,26 @@
       "name": "🏛💫 Card Temple Weekly Battles #83",
       "url": "https://play.limitlesstcg.com/tournament/6adf641922fd412b92a4d374/details",
       "startAt": "2026-11-10T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aea4cf8e94eae0f9474697e",
+      "source": "limitless",
+      "sourceId": "6aea4cf8e94eae0f9474697e",
+      "name": "Amyverse Bulk Box Battles #7 🧡 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6aea4cf8e94eae0f9474697e/details",
+      "startAt": "2026-11-10T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aea3ff8e94eae0f94746915",
+      "source": "limitless",
+      "sourceId": "6aea3ff8e94eae0f94746915",
+      "name": "Clone 👑CrownOfSpain 👑 #13",
+      "url": "https://play.limitlesstcg.com/tournament/6aea3ff8e94eae0f94746915/details",
+      "startAt": "2026-11-10T19:00:00.000Z"
     },
     {
       "format": "Standard",
