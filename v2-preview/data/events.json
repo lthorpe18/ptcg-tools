@@ -1,9 +1,9 @@
 {
   "schemaVersion": 5,
   "status": "partial",
-  "lastAttemptedUpdate": "2026-11-03T14:24:06.044Z",
+  "lastAttemptedUpdate": "2026-11-04T14:39:31.561Z",
   "lastSuccessfulUpdate": "2026-10-16T11:30:47.845Z",
-  "eventCount": 391,
+  "eventCount": 392,
   "sources": {
     "local": {
       "provider": "multi-source",
@@ -24,7 +24,7 @@
           "apiVersion": 2,
           "status": "ok",
           "url": "https://www.pokedata.ovh/events/apiv2",
-          "lastSuccessfulUpdate": "2026-11-03T14:24:06.044Z",
+          "lastSuccessfulUpdate": "2026-11-04T14:39:31.561Z",
           "queries": [
             {
               "type": "cups",
@@ -39,8 +39,8 @@
               "type": "challenges",
               "country": "GB",
               "pages": 3,
-              "returned": 233,
-              "accepted": 233,
+              "returned": 234,
+              "accepted": 234,
               "rejected": {},
               "rejectedSamples": []
             },
@@ -54,7 +54,7 @@
               "rejectedSamples": []
             }
           ],
-          "lastAttemptedUpdate": "2026-11-03T14:24:06.044Z"
+          "lastAttemptedUpdate": "2026-11-04T14:39:31.561Z"
         },
         "battlefields": {
           "provider": "battlefields",
@@ -74,7 +74,7 @@
             }
           ],
           "lastSuccessfulUpdate": "2026-10-16T11:30:47.845Z",
-          "lastAttemptedUpdate": "2026-11-03T14:24:06.044Z",
+          "lastAttemptedUpdate": "2026-11-04T14:39:31.561Z",
           "error": "Battlefields listing structure changed"
         }
       },
@@ -119,134 +119,6 @@
   },
   "events": [
     {
-      "id": "pokedata:9c0d602a-47a0-4c44-9d7c-d7b7f016f196",
-      "source": "pokedata",
-      "sourceId": "9c0d602a-47a0-4c44-9d7c-d7b7f016f196",
-      "scope": "local",
-      "type": "League Challenge",
-      "name": "Barnsley Challenge November 26",
-      "venue": "BARNSLEY MODELS AND GAMES",
-      "organiser": null,
-      "organiserId": "6239910",
-      "startDate": "2026-11-03",
-      "startTime": "18:00:00",
-      "endDate": null,
-      "endTime": null,
-      "address": "37 THE ARCADE, ENGLAND S70 2QP, GB",
-      "city": "Barnsley",
-      "region": "England",
-      "postcode": null,
-      "country": "GB",
-      "latitude": 53.5533,
-      "longitude": -1.48047,
-      "distanceFromSeedMiles": null,
-      "cost": "£10",
-      "status": "sanctioned",
-      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-002237/",
-      "registrationUrl": null,
-      "sourceUrl": "https://www.pokedata.ovh/events/",
-      "secondarySourceUrl": null,
-      "details": "This is a best of 1 format\nplease bring a pre filled in deck list",
-      "registrationStart": "2026-11-03T17:00:00+00:00",
-      "registrationEnd": "2026-11-03T18:00:00Z",
-      "sources": [
-        "pokedata"
-      ],
-      "sourceIds": {
-        "pokedata": "9c0d602a-47a0-4c44-9d7c-d7b7f016f196"
-      },
-      "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
-      },
-      "sanctioned": true,
-      "aliases": []
-    },
-    {
-      "id": "pokedata:c9965461-0d24-4efd-97d8-0e35494c94d0",
-      "source": "pokedata",
-      "sourceId": "c9965461-0d24-4efd-97d8-0e35494c94d0",
-      "scope": "local",
-      "type": "League Challenge",
-      "name": "Challenge 03-10-2026",
-      "venue": "LONGREST GAME CAFE",
-      "organiser": null,
-      "organiserId": "6242918",
-      "startDate": "2026-11-03",
-      "startTime": "18:45:00",
-      "endDate": null,
-      "endTime": null,
-      "address": "CHEAPSIDE HANLEY, STOKE-ON-TRENT, STAFFORDSHIRE ST1 1HE, GB",
-      "city": "Stoke-on-Trent",
-      "region": "England",
-      "postcode": null,
-      "country": "GB",
-      "latitude": 53.0247,
-      "longitude": -2.17656,
-      "distanceFromSeedMiles": null,
-      "cost": null,
-      "status": null,
-      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-013744/",
-      "registrationUrl": null,
-      "sourceUrl": "https://www.pokedata.ovh/events/",
-      "secondarySourceUrl": null,
-      "details": null,
-      "registrationStart": null,
-      "registrationEnd": null,
-      "sources": [
-        "pokedata"
-      ],
-      "sourceIds": {
-        "pokedata": "c9965461-0d24-4efd-97d8-0e35494c94d0"
-      },
-      "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
-      },
-      "sanctioned": false
-    },
-    {
-      "id": "pokedata:b7aa7d45-2cba-4461-8b44-9e1e475678d2",
-      "source": "pokedata",
-      "sourceId": "b7aa7d45-2cba-4461-8b44-9e1e475678d2",
-      "scope": "local",
-      "type": "League Challenge",
-      "name": "TCG League Challenge November",
-      "venue": "COLLECTOR'S EDGE LTD",
-      "organiser": null,
-      "organiserId": "26015942",
-      "startDate": "2026-11-03",
-      "startTime": "19:00:00",
-      "endDate": null,
-      "endTime": null,
-      "address": "UNIT 2 THE COURTYARD, STAPLEFIELD RD, CUCKFIELD RH17 5JT, GB",
-      "city": "Mid Sussex",
-      "region": "England",
-      "postcode": null,
-      "country": "GB",
-      "latitude": 51.0229,
-      "longitude": -0.172295,
-      "distanceFromSeedMiles": null,
-      "cost": null,
-      "status": "sanctioned",
-      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-001144/",
-      "registrationUrl": "https://collectorsedge.co.uk/products/pk-tcg-league-challenge-november",
-      "sourceUrl": "https://www.pokedata.ovh/events/",
-      "secondarySourceUrl": null,
-      "details": "Booking only, please do not turn up without booking online. Important informaiton: Wednesday 3rd November @ 6:30pm arrival Expected finish time - 9:45pm (ish) Each player needs a Pokemon player ID and they need to bring this with them on the day. Bring your deck and extras.",
-      "registrationStart": null,
-      "registrationEnd": null,
-      "sources": [
-        "pokedata"
-      ],
-      "sourceIds": {
-        "pokedata": "b7aa7d45-2cba-4461-8b44-9e1e475678d2"
-      },
-      "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
-      },
-      "sanctioned": true,
-      "aliases": []
-    },
-    {
       "id": "pokedata:57206e46-d742-461f-afd3-460517cc72c5",
       "source": "pokedata",
       "sourceId": "57206e46-d742-461f-afd3-460517cc72c5",
@@ -284,7 +156,7 @@
         "pokedata": "57206e46-d742-461f-afd3-460517cc72c5"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -327,7 +199,7 @@
         "pokedata": "7f6df7a0-3230-417b-9091-b0a7e2858282"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -370,50 +242,7 @@
         "pokedata": "bd7d85dc-8018-4db4-9096-f3f486b343f6"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
-      },
-      "sanctioned": false,
-      "aliases": []
-    },
-    {
-      "id": "pokedata:5dff86f9-f1fa-4a3f-aaaf-283981f0eda7",
-      "source": "pokedata",
-      "sourceId": "5dff86f9-f1fa-4a3f-aaaf-283981f0eda7",
-      "scope": "local",
-      "type": "League Challenge",
-      "name": "Leaky Teacup Nov League Challenge",
-      "venue": "LEAKY TEACUP LTD",
-      "organiser": null,
-      "organiserId": "6244989",
-      "startDate": "2026-11-06",
-      "startTime": "10:00:00",
-      "endDate": null,
-      "endTime": null,
-      "address": "25 BRIDGEGATE, RETFORD, ENGLAND DN22 7UX, GB",
-      "city": "Bassetlaw",
-      "region": "England",
-      "postcode": null,
-      "country": "GB",
-      "latitude": 53.324,
-      "longitude": -0.945666,
-      "distanceFromSeedMiles": null,
-      "cost": null,
-      "status": null,
-      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-012321/",
-      "registrationUrl": null,
-      "sourceUrl": "https://www.pokedata.ovh/events/",
-      "secondarySourceUrl": null,
-      "details": null,
-      "registrationStart": null,
-      "registrationEnd": null,
-      "sources": [
-        "pokedata"
-      ],
-      "sourceIds": {
-        "pokedata": "5dff86f9-f1fa-4a3f-aaaf-283981f0eda7"
-      },
-      "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -456,7 +285,7 @@
         "pokedata": "847ded3a-6d4f-44f8-b7c0-dca97e2adddf"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -499,7 +328,7 @@
         "pokedata": "0458f283-f7b8-4a60-a5e3-9e00c8110b77"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -542,7 +371,7 @@
         "pokedata": "16b5c9c1-9bd7-4dc3-bdb4-176d3175b164"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -585,9 +414,52 @@
         "pokedata": "1eb926db-0ab7-4e32-adcf-3f23a7a332fd"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
+      "aliases": []
+    },
+    {
+      "id": "pokedata:5dff86f9-f1fa-4a3f-aaaf-283981f0eda7",
+      "source": "pokedata",
+      "sourceId": "5dff86f9-f1fa-4a3f-aaaf-283981f0eda7",
+      "scope": "local",
+      "type": "League Challenge",
+      "name": "Leaky Teacup Nov League Challenge",
+      "venue": "LEAKY TEACUP LTD",
+      "organiser": null,
+      "organiserId": "6244989",
+      "startDate": "2026-11-07",
+      "startTime": "10:00:00",
+      "endDate": null,
+      "endTime": null,
+      "address": "25 BRIDGEGATE, RETFORD, ENGLAND DN22 7UX, GB",
+      "city": "Bassetlaw",
+      "region": "England",
+      "postcode": null,
+      "country": "GB",
+      "latitude": 53.324,
+      "longitude": -0.945666,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-012321/",
+      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "secondarySourceUrl": null,
+      "details": null,
+      "registrationStart": null,
+      "registrationEnd": null,
+      "sources": [
+        "pokedata"
+      ],
+      "sourceIds": {
+        "pokedata": "5dff86f9-f1fa-4a3f-aaaf-283981f0eda7"
+      },
+      "lastVerifiedAt": {
+        "pokedata": "2026-11-04T14:39:31.561Z"
+      },
+      "sanctioned": false,
       "aliases": []
     },
     {
@@ -628,7 +500,7 @@
         "pokedata": "b89b070f-3692-4901-b52c-64b2e118b19b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -671,7 +543,7 @@
         "pokedata": "828cf442-94d4-43b4-b196-b3ee34f50d69"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -714,7 +586,7 @@
         "pokedata": "93df6f3e-483e-477e-a7f3-dcd1bc74e28f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -757,7 +629,7 @@
         "pokedata": "0370a7b5-da5c-4bdd-9ad8-b3e85de82304"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -800,7 +672,7 @@
         "pokedata": "0fd4464b-0826-43cc-92b9-88fc37cccffe"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -843,7 +715,7 @@
         "pokedata": "5c283124-93b0-45d8-b4b3-07f9963f74f6"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -886,7 +758,7 @@
         "pokedata": "6fdb8b95-cb7c-431a-a834-f84ed68b4cbd"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -929,7 +801,7 @@
         "pokedata": "e6592dd9-8a31-48df-b7c2-42458f8c80fd"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -972,7 +844,7 @@
         "pokedata": "9ab10911-2d1e-45f0-b898-e7bfb3b816eb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1015,7 +887,7 @@
         "pokedata": "071596a5-e551-4bba-a2c3-d66c5f9d4ee5"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -1058,7 +930,7 @@
         "pokedata": "0c866362-eccd-4a02-b448-d03590529113"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1101,7 +973,7 @@
         "pokedata": "3ff92794-2b76-4b1b-ba20-ec176f49109b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -1144,7 +1016,7 @@
         "pokedata": "c31401c5-1a72-4abf-b036-f8cc8d78d714"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1187,7 +1059,7 @@
         "pokedata": "d6536540-3148-4736-a77b-87dc74e9a7bb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -1230,7 +1102,7 @@
         "pokedata": "f81b2ee0-5521-47a0-9623-30abb0b728ef"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1273,7 +1145,7 @@
         "pokedata": "75034aea-bc1a-4bf0-8629-f51e9e51021f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -1316,7 +1188,7 @@
         "pokedata": "fcd72d09-a675-4dd6-826c-a2f4a8184b37"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1359,7 +1231,7 @@
         "pokedata": "0cbbf59c-17c0-4477-a3c9-6208d01c916e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -1402,7 +1274,7 @@
         "pokedata": "2515f26b-c1b6-496e-b80d-1fd3733bb1e4"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -1445,50 +1317,7 @@
         "pokedata": "e54c31d5-2ee1-44d1-a71c-131bfc4d1dca"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
-      },
-      "sanctioned": false,
-      "aliases": []
-    },
-    {
-      "id": "pokedata:ea704c56-6ce3-42d5-adc6-81e43725b4bf",
-      "source": "pokedata",
-      "sourceId": "ea704c56-6ce3-42d5-adc6-81e43725b4bf",
-      "scope": "local",
-      "type": "League Challenge",
-      "name": "Northern Alliance Games League Challenge",
-      "venue": "NORTHERN ALLIANCE GAMES",
-      "organiser": null,
-      "organiserId": "25109461",
-      "startDate": "2026-11-07",
-      "startTime": "13:00:00",
-      "endDate": null,
-      "endTime": null,
-      "address": "HOULTS YARD WALKER RD, NEWCASTLE UPON TYNE, ENGLAND NE6 2HL, GB",
-      "city": "Newcastle upon Tyne",
-      "region": "England",
-      "postcode": null,
-      "country": "GB",
-      "latitude": 54.9694,
-      "longitude": -1.57995,
-      "distanceFromSeedMiles": null,
-      "cost": null,
-      "status": null,
-      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-009661/",
-      "registrationUrl": null,
-      "sourceUrl": "https://www.pokedata.ovh/events/",
-      "secondarySourceUrl": null,
-      "details": null,
-      "registrationStart": null,
-      "registrationEnd": null,
-      "sources": [
-        "pokedata"
-      ],
-      "sourceIds": {
-        "pokedata": "ea704c56-6ce3-42d5-adc6-81e43725b4bf"
-      },
-      "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1531,7 +1360,7 @@
         "pokedata": "0fef3db0-d792-4d7a-9a98-907dbc17a5ab"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1574,7 +1403,7 @@
         "pokedata": "fe5f7542-2b79-42a4-a709-feb185bda8f8"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1617,7 +1446,7 @@
         "pokedata": "58076aab-be4d-434e-94f1-169380fc165a"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1660,7 +1489,7 @@
         "pokedata": "c6d97532-fe69-4ec0-9b7a-b55fcfe83504"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1703,7 +1532,7 @@
         "pokedata": "28e3fe1e-6f6b-401b-a6f9-110c26da8163"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -1746,7 +1575,7 @@
         "pokedata": "30b1151e-ad6e-4fa4-91d7-27f44359daeb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -1789,7 +1618,7 @@
         "pokedata": "000688c3-f3b4-477f-8c18-19efab38d52a"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -1832,7 +1661,7 @@
         "pokedata": "05717583-3eb1-459b-a501-438299598066"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1875,7 +1704,7 @@
         "pokedata": "1115acd7-8f6a-4c8a-a002-3580508b55d5"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -1918,7 +1747,7 @@
         "pokedata": "1f35c345-1609-4242-9121-3b0d8b4d7c81"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -1961,7 +1790,7 @@
         "pokedata": "30a1beeb-04ad-4ffa-ae81-951fdd65fc17"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2004,7 +1833,7 @@
         "pokedata": "53f68392-2eea-4dd4-a544-02d547737d7e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -2047,7 +1876,7 @@
         "pokedata": "5aa0e0c9-1312-4b65-a9d3-71e60c645bff"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2090,7 +1919,7 @@
         "pokedata": "6935b9cb-674d-4a88-b3a2-3483265140c9"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -2133,7 +1962,7 @@
         "pokedata": "7dfa5c01-0b0d-47e6-b733-7d5458a84b8d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2176,7 +2005,7 @@
         "pokedata": "8602f561-75de-4a6c-ba2f-591d1f6e3099"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2219,7 +2048,7 @@
         "pokedata": "8b2ffa33-40c9-4c49-a4da-c51824d130f7"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2262,7 +2091,7 @@
         "pokedata": "ac156b25-79ba-4076-960c-850a7c7156ec"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2305,7 +2134,7 @@
         "pokedata": "b07e683c-d52c-4e7e-b1ca-e9183e596fb8"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2348,7 +2177,7 @@
         "pokedata": "b8a12e8e-4f4d-43c7-ade3-b48d69d4a376"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2391,7 +2220,7 @@
         "pokedata": "f21448fb-da29-495a-b0b6-4c8747420988"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2434,7 +2263,7 @@
         "pokedata": "381ad55d-d70e-4c07-838b-d42171bfd16a"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2477,7 +2306,7 @@
         "pokedata": "46bbb090-a1c2-4ec8-8c02-0b6e443fb0df"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -2520,7 +2349,7 @@
         "pokedata": "69ef1484-733d-48ff-9762-f6cf451692ab"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2563,7 +2392,7 @@
         "pokedata": "c9319fed-02c6-4e88-96f0-f9d5280cdb1c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2606,7 +2435,7 @@
         "pokedata": "689f729f-4700-4333-b14c-33b9fac84d4a"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -2649,7 +2478,7 @@
         "pokedata": "1bf12f56-196f-4ae1-a74c-601ef493fa05"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2692,7 +2521,7 @@
         "pokedata": "303d9b0d-3dea-4469-b4c9-5206151849c1"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2735,7 +2564,7 @@
         "pokedata": "d05330a8-3626-43d0-9ce2-f9b62306c458"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2778,7 +2607,7 @@
         "pokedata": "22c6255d-6e9d-4aa5-811e-183e78bd0859"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2821,7 +2650,7 @@
         "pokedata": "69f9065d-a9bc-4d4b-9f7b-48aba127c8db"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -2864,7 +2693,7 @@
         "pokedata": "2f930645-cd59-4960-b0ca-d67390b6b23b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -2907,7 +2736,7 @@
         "pokedata": "5da05335-1e9f-4578-af76-21d1933d8746"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -2950,7 +2779,7 @@
         "pokedata": "0e3f8921-11f4-4416-861b-9a513f3b68f9"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -2993,10 +2822,52 @@
         "pokedata": "108fec08-a27e-4d06-a88b-f4938e5664ba"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
+    },
+    {
+      "id": "pokedata:29a9beff-5f13-4f51-9c99-d0a107e1aaa0",
+      "source": "pokedata",
+      "sourceId": "29a9beff-5f13-4f51-9c99-d0a107e1aaa0",
+      "scope": "local",
+      "type": "League Challenge",
+      "name": "November TCG League Challenge",
+      "venue": "COLLECTORS LOUNGE",
+      "organiser": null,
+      "organiserId": "6243427",
+      "startDate": "2026-11-10",
+      "startTime": "18:00:00",
+      "endDate": null,
+      "endTime": null,
+      "address": "COLLECTORS LOUNGE UNIT 5, 10 ARMOURY ROAD LUFTON TRADING ESTATE, YEOVIL BA22 8RL, GB",
+      "city": "Brympton",
+      "region": "England",
+      "postcode": null,
+      "country": "GB",
+      "latitude": 50.9501,
+      "longitude": -2.67723,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-014933/",
+      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "secondarySourceUrl": null,
+      "details": null,
+      "registrationStart": null,
+      "registrationEnd": null,
+      "sources": [
+        "pokedata"
+      ],
+      "sourceIds": {
+        "pokedata": "29a9beff-5f13-4f51-9c99-d0a107e1aaa0"
+      },
+      "lastVerifiedAt": {
+        "pokedata": "2026-11-04T14:39:31.561Z"
+      },
+      "sanctioned": false
     },
     {
       "id": "pokedata:62398da5-b891-45e1-890f-af0e5ed423d3",
@@ -3036,7 +2907,7 @@
         "pokedata": "62398da5-b891-45e1-890f-af0e5ed423d3"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -3079,7 +2950,7 @@
         "pokedata": "f354a7ae-9697-450f-8471-0de4269f1354"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -3122,7 +2993,7 @@
         "pokedata": "c11af1c5-8593-45c3-a904-b5a538bb3aa4"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -3165,7 +3036,7 @@
         "pokedata": "d306fe22-c6bb-4414-8bdb-ec07242dc2ae"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -3208,7 +3079,7 @@
         "pokedata": "dec394ed-2955-451a-8663-70f8bbddb63c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -3251,7 +3122,7 @@
         "pokedata": "1f790f4e-4713-41e8-8cff-1e74fa9c2270"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -3294,7 +3165,7 @@
         "pokedata": "10976d85-b7b1-4288-a17c-fd8651c1138c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -3337,7 +3208,7 @@
         "pokedata": "ec8158f1-98f5-420e-948c-44aca4a00f53"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -3380,7 +3251,7 @@
         "pokedata": "f25e8a37-e89f-4970-96b4-4cda545ac1b0"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -3423,7 +3294,7 @@
         "pokedata": "f5359ceb-ac00-4912-885b-304bc160a4a0"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -3466,7 +3337,7 @@
         "pokedata": "fbc865c2-99bd-4530-81de-42118df8d720"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -3509,7 +3380,7 @@
         "pokedata": "ce89dec9-802f-4547-ae36-c9c2ea183029"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -3552,7 +3423,7 @@
         "pokedata": "40950f14-0f5b-49f7-be86-e04aec5a391d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -3595,7 +3466,7 @@
         "pokedata": "560462ed-c50b-4367-96b7-cfd91eed7574"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -3638,7 +3509,7 @@
         "pokedata": "a08c9774-5822-4eda-b6ff-0048371fdc94"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -3681,7 +3552,7 @@
         "pokedata": "15d8aeda-beaf-4eca-886e-3b93b9fe02c4"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -3724,52 +3595,9 @@
         "pokedata": "fc9a2a2a-ebb3-49d2-80d3-7dc20f85f5aa"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
-      "aliases": []
-    },
-    {
-      "id": "pokedata:47687b19-2135-413e-ba87-325f65826eea",
-      "source": "pokedata",
-      "sourceId": "47687b19-2135-413e-ba87-325f65826eea",
-      "scope": "local",
-      "type": "League Cup",
-      "name": "Leaky Teacup League Cup Season 1",
-      "venue": "LEAKY TEACUP LTD",
-      "organiser": null,
-      "organiserId": "6244989",
-      "startDate": "2026-11-13",
-      "startTime": "10:00:00",
-      "endDate": null,
-      "endTime": null,
-      "address": "25 BRIDGEGATE, RETFORD, ENGLAND DN22 7UX, GB",
-      "city": "Bassetlaw",
-      "region": "England",
-      "postcode": null,
-      "country": "GB",
-      "latitude": 53.324,
-      "longitude": -0.945666,
-      "distanceFromSeedMiles": null,
-      "cost": null,
-      "status": null,
-      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-012324/",
-      "registrationUrl": null,
-      "sourceUrl": "https://www.pokedata.ovh/events/",
-      "secondarySourceUrl": null,
-      "details": null,
-      "registrationStart": null,
-      "registrationEnd": null,
-      "sources": [
-        "pokedata"
-      ],
-      "sourceIds": {
-        "pokedata": "47687b19-2135-413e-ba87-325f65826eea"
-      },
-      "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
-      },
-      "sanctioned": false,
       "aliases": []
     },
     {
@@ -3810,7 +3638,7 @@
         "pokedata": "b8af317d-e851-46e5-90a0-3d300d975b21"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -3853,7 +3681,7 @@
         "pokedata": "cb360555-ec93-4e8b-a378-902cbd8cbedd"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -3898,7 +3726,7 @@
         "battlefields": "2758:2026-11-13"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z",
+        "pokedata": "2026-11-04T14:39:31.561Z",
         "battlefields": "2026-10-30T13:02:59.689Z"
       },
       "sanctioned": false,
@@ -3950,7 +3778,7 @@
         "pokedata": "d01cc95a-e5a8-44ce-b6f4-64c247c44a2b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -3993,9 +3821,10 @@
         "pokedata": "a2b6156f-eae9-4dd6-9eb9-7adc7d622715"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
-      "sanctioned": false
+      "sanctioned": false,
+      "aliases": []
     },
     {
       "id": "pokedata:233220d1-3dc7-4b9c-aea9-001c5cb41c06",
@@ -4035,7 +3864,50 @@
         "pokedata": "233220d1-3dc7-4b9c-aea9-001c5cb41c06"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
+      },
+      "sanctioned": false,
+      "aliases": []
+    },
+    {
+      "id": "pokedata:47687b19-2135-413e-ba87-325f65826eea",
+      "source": "pokedata",
+      "sourceId": "47687b19-2135-413e-ba87-325f65826eea",
+      "scope": "local",
+      "type": "League Cup",
+      "name": "Leaky Teacup League Cup Season 1",
+      "venue": "LEAKY TEACUP LTD",
+      "organiser": null,
+      "organiserId": "6244989",
+      "startDate": "2026-11-14",
+      "startTime": "10:00:00",
+      "endDate": null,
+      "endTime": null,
+      "address": "25 BRIDGEGATE, RETFORD, ENGLAND DN22 7UX, GB",
+      "city": "Bassetlaw",
+      "region": "England",
+      "postcode": null,
+      "country": "GB",
+      "latitude": 53.324,
+      "longitude": -0.945666,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-012324/",
+      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "secondarySourceUrl": null,
+      "details": null,
+      "registrationStart": null,
+      "registrationEnd": null,
+      "sources": [
+        "pokedata"
+      ],
+      "sourceIds": {
+        "pokedata": "47687b19-2135-413e-ba87-325f65826eea"
+      },
+      "lastVerifiedAt": {
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -4078,7 +3950,7 @@
         "pokedata": "56b5594d-577f-41a2-9402-838187538e7d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4121,7 +3993,7 @@
         "pokedata": "706dd0cd-8fbe-46da-af5e-e0c169e8841f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4164,7 +4036,7 @@
         "pokedata": "1277cf9e-020f-4d03-929b-d5074a4cbfdd"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -4207,7 +4079,7 @@
         "pokedata": "b4d0491e-2cfb-44eb-91ec-b8ec03d0d15b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4250,7 +4122,7 @@
         "pokedata": "d4956642-1a08-404d-b267-ac2adb4c66b9"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -4293,7 +4165,7 @@
         "pokedata": "f4f6caed-4fd2-4c04-81ed-9e9eabb860f5"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -4336,7 +4208,7 @@
         "pokedata": "022d8fe3-6b00-452a-8c08-24af0dd41701"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -4379,7 +4251,7 @@
         "pokedata": "1eedfb21-4064-4831-98f4-7c86ccc6d103"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -4422,7 +4294,7 @@
         "pokedata": "2841c71c-04e7-4c2d-8221-e5b7f1631a98"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4465,7 +4337,7 @@
         "pokedata": "47080086-eebf-4738-9f48-4f275bd9e982"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4508,7 +4380,7 @@
         "pokedata": "535cab2f-9b9d-46f0-ae9c-31ca30feadd1"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -4551,7 +4423,7 @@
         "pokedata": "6dbd4eca-2cb0-421c-b0d7-0b5a15e156f7"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4594,7 +4466,7 @@
         "pokedata": "6dc86dc3-f83a-4f99-a0f3-e1c78ae4d6a9"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4637,7 +4509,7 @@
         "pokedata": "bb86ecce-9af8-44e8-8b7d-1a94e5919ef0"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4680,7 +4552,7 @@
         "pokedata": "dc618e59-ed9e-45af-93b9-f9511d141daa"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4723,7 +4595,7 @@
         "pokedata": "f40f25e2-af1c-456a-9397-2a392520c4bb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4766,7 +4638,7 @@
         "pokedata": "7ae6d529-3f8e-4e57-b23d-20a960696a9d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -4809,7 +4681,7 @@
         "pokedata": "305d9f8f-d042-49ae-bb52-ff726ba07843"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4852,7 +4724,7 @@
         "pokedata": "5330f0ae-7906-4dfe-87d1-c8d0d9aaa2bb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4895,7 +4767,7 @@
         "pokedata": "f5e37caa-fbd6-4410-b4a3-cdfada137bde"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -4938,7 +4810,7 @@
         "pokedata": "3cdbbc12-5a9a-46c0-90b1-a5e381e5d608"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -4981,7 +4853,7 @@
         "pokedata": "41139903-1f17-44e2-a512-63512b9abddf"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -5024,7 +4896,7 @@
         "pokedata": "577e1544-8be9-4fd4-912d-dfc54f868d3b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5067,7 +4939,7 @@
         "pokedata": "bb0d097d-d909-43df-b6ec-3e594005cea8"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5110,7 +4982,7 @@
         "pokedata": "f75efc46-de08-459d-8b53-16ba03ac5b00"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -5153,7 +5025,7 @@
         "pokedata": "fd193128-1d75-4086-99de-6bcd7ad9f006"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5196,7 +5068,7 @@
         "pokedata": "da580f82-fea2-453e-b006-4412146a070c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5239,7 +5111,7 @@
         "pokedata": "058cc7b9-e5a7-4628-adea-07293817b29d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5282,7 +5154,7 @@
         "pokedata": "0d0ad7a6-03d0-4f6c-a19b-80d9f9099769"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5325,7 +5197,50 @@
         "pokedata": "50fff24a-d4de-44b1-b497-70c2397f98ee"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
+      },
+      "sanctioned": false,
+      "aliases": []
+    },
+    {
+      "id": "pokedata:ea704c56-6ce3-42d5-adc6-81e43725b4bf",
+      "source": "pokedata",
+      "sourceId": "ea704c56-6ce3-42d5-adc6-81e43725b4bf",
+      "scope": "local",
+      "type": "League Challenge",
+      "name": "Northern Alliance Games League Challenge",
+      "venue": "NORTHERN ALLIANCE GAMES",
+      "organiser": null,
+      "organiserId": "25109461",
+      "startDate": "2026-11-14",
+      "startTime": "13:00:00",
+      "endDate": null,
+      "endTime": null,
+      "address": "HOULTS YARD WALKER RD, NEWCASTLE UPON TYNE, ENGLAND NE6 2HL, GB",
+      "city": "Newcastle upon Tyne",
+      "region": "England",
+      "postcode": null,
+      "country": "GB",
+      "latitude": 54.9694,
+      "longitude": -1.57995,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-009661/",
+      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "secondarySourceUrl": null,
+      "details": null,
+      "registrationStart": null,
+      "registrationEnd": null,
+      "sources": [
+        "pokedata"
+      ],
+      "sourceIds": {
+        "pokedata": "ea704c56-6ce3-42d5-adc6-81e43725b4bf"
+      },
+      "lastVerifiedAt": {
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -5368,7 +5283,7 @@
         "pokedata": "d0c5d6e4-e43a-42a4-9a6a-09d293a45b0e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5411,7 +5326,7 @@
         "pokedata": "660298f1-6ee7-4928-a316-100e7caabfe6"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -5454,7 +5369,7 @@
         "pokedata": "f320df15-9486-4920-8769-28785e858f73"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -5497,7 +5412,7 @@
         "pokedata": "4c269a69-f93b-4d7c-9259-758a994bbe23"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -5540,7 +5455,7 @@
         "pokedata": "3b99fdbc-9396-4b9c-865c-6279ed9e0a4c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5583,7 +5498,7 @@
         "pokedata": "851f12ca-8d4b-46ab-84ce-41eca1d26781"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -5626,7 +5541,7 @@
         "pokedata": "20499ca5-4e5d-4dab-9337-2a7722f574cd"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -5669,7 +5584,7 @@
         "pokedata": "cb0f0635-aa05-4654-856f-506a561d15fb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5712,7 +5627,7 @@
         "pokedata": "81c20dce-d176-4793-aecd-e516623c8906"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5755,7 +5670,7 @@
         "pokedata": "edc3aea9-8961-4d1e-b6f5-1c367e40858b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5798,7 +5713,7 @@
         "pokedata": "4b3b95e1-efea-45d2-8983-4eb0fff78bb7"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -5841,7 +5756,7 @@
         "pokedata": "17708ba7-b700-4829-be4a-00211e79317b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5884,7 +5799,7 @@
         "pokedata": "3e88df69-02c1-4ad4-81dc-f1679e2e8675"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -5927,7 +5842,7 @@
         "pokedata": "79247f46-713a-4f0e-8c2a-eb843d0650bb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -5970,7 +5885,7 @@
         "pokedata": "62ad6b71-9e09-4a5b-92d6-c875dd554632"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6013,7 +5928,7 @@
         "pokedata": "c2233ebc-b28f-4fb9-8168-13f2ed66a038"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -6056,7 +5971,7 @@
         "pokedata": "2fa1d189-0ec1-4c4f-83d8-d300ce9c88a3"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -6099,7 +6014,7 @@
         "pokedata": "4a2e02ff-8de2-41be-ac52-6af0ca3288ed"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -6142,7 +6057,7 @@
         "pokedata": "4c0038c3-28be-4577-90c3-64ea568ee6d8"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6185,7 +6100,7 @@
         "pokedata": "5ee6d9ed-7d34-4068-b1e5-eb2876ab5133"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6228,7 +6143,7 @@
         "pokedata": "65259884-4a39-4cd2-b8ba-f8e138185d96"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6271,7 +6186,7 @@
         "pokedata": "7c833979-654e-461a-89d8-b071485a3fbf"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6314,7 +6229,7 @@
         "pokedata": "b1304f98-f7cb-400a-8aba-81407ed5e591"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6357,7 +6272,7 @@
         "pokedata": "b86241f7-cfff-4f2a-8bef-2afb1cf720cd"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6400,7 +6315,7 @@
         "pokedata": "be563b41-2012-49c7-bb28-d4f056300b26"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6443,7 +6358,7 @@
         "pokedata": "d7abba33-fa17-4e39-9cc2-b69aaf8e79ee"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6486,7 +6401,7 @@
         "pokedata": "f099ced6-b4c8-428a-843c-50cb376134cb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -6529,7 +6444,7 @@
         "pokedata": "d768aa2d-abb7-4486-94d8-19fdb6fc5061"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6572,7 +6487,7 @@
         "pokedata": "5f1cd9d5-3fb0-4404-b2d6-aea320860c39"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6615,7 +6530,7 @@
         "pokedata": "00715852-a4c2-4bac-a036-1d85f9c4e998"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6658,7 +6573,7 @@
         "pokedata": "0e62057d-47ef-412b-820d-c6173977e5f4"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6701,7 +6616,7 @@
         "pokedata": "52fbff1b-8440-4af0-88cf-38747946639c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6744,7 +6659,7 @@
         "pokedata": "643331b5-5063-4ccf-89cd-68fdf9d760d7"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6787,7 +6702,7 @@
         "pokedata": "9a30442d-94c4-48bc-998d-1cd529220b9b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6830,7 +6745,7 @@
         "pokedata": "d4f1833a-7e11-4211-97dc-a4b3e59033ba"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -6873,7 +6788,7 @@
         "pokedata": "e386ce21-0f92-4a83-bf4e-c340bc653849"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6916,7 +6831,7 @@
         "pokedata": "f4185c6f-529e-4873-a4de-28d83999628e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -6959,7 +6874,7 @@
         "pokedata": "fe740953-8e0b-4eb5-b11e-b899e1cb5dd9"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7002,7 +6917,7 @@
         "pokedata": "10d1397f-0b57-4587-af87-13bb107d63b5"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7045,7 +6960,7 @@
         "pokedata": "1938c3db-9e19-42cd-b01c-62abc5095714"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7088,7 +7003,7 @@
         "pokedata": "3d91b37a-bb3d-40b3-b65f-28dc4b92cbf6"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7131,7 +7046,7 @@
         "pokedata": "d1ec30f1-ac85-4382-aee1-efd93dbd0cab"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7174,7 +7089,7 @@
         "pokedata": "d7c97f43-4a2e-40ca-b932-9f6d72f4a60d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7217,7 +7132,7 @@
         "pokedata": "46e1e041-ba23-478f-a7a7-df80b7b61cca"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7260,7 +7175,7 @@
         "pokedata": "f69133e3-859d-4c1d-85aa-5fc3876fdd4e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7303,10 +7218,52 @@
         "pokedata": "af13f48b-aefc-4bf5-ab4a-a45d05dbf141"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
+    },
+    {
+      "id": "pokedata:7afd45df-81c2-42f0-9c28-611ac11d1467",
+      "source": "pokedata",
+      "sourceId": "7afd45df-81c2-42f0-9c28-611ac11d1467",
+      "scope": "local",
+      "type": "League Challenge",
+      "name": "Cyrils Fun House November Challenge",
+      "venue": "CYRILS FUN HOUSE",
+      "organiser": null,
+      "organiserId": "6242143",
+      "startDate": "2026-11-17",
+      "startTime": "18:00:00",
+      "endDate": null,
+      "endTime": null,
+      "address": "3 ACTON RD, LONG EATON, NOTTINGHAM NG10 1FR, UK",
+      "city": "Erewash",
+      "region": "England",
+      "postcode": null,
+      "country": "GB",
+      "latitude": 52.8929,
+      "longitude": -1.26637,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-014747/",
+      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "secondarySourceUrl": null,
+      "details": null,
+      "registrationStart": null,
+      "registrationEnd": null,
+      "sources": [
+        "pokedata"
+      ],
+      "sourceIds": {
+        "pokedata": "7afd45df-81c2-42f0-9c28-611ac11d1467"
+      },
+      "lastVerifiedAt": {
+        "pokedata": "2026-11-04T14:39:31.561Z"
+      },
+      "sanctioned": false
     },
     {
       "id": "pokedata:cc225816-0035-44b3-9b2f-b5a6c1599544",
@@ -7348,7 +7305,7 @@
         "battlefields": "1287:2026-11-17"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z",
+        "pokedata": "2026-11-04T14:39:31.561Z",
         "battlefields": "2026-10-30T13:02:59.689Z"
       },
       "sanctioned": true,
@@ -7400,7 +7357,7 @@
         "pokedata": "13b92cb3-3e3a-4738-a20d-514d930621c1"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7443,7 +7400,7 @@
         "pokedata": "97e079a7-3c84-4d32-8a61-9850cc39caeb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7486,7 +7443,7 @@
         "pokedata": "23938afe-0c8f-4a66-86e0-79680b895669"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7529,7 +7486,7 @@
         "pokedata": "e4c06f0a-bfd7-404d-be50-5baef4e03da6"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7572,7 +7529,7 @@
         "pokedata": "3bec9c94-dc83-4da7-a244-580ad9af32e4"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -7615,7 +7572,7 @@
         "pokedata": "1138297f-19bc-46ad-a8d3-68083fe935f5"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7658,7 +7615,7 @@
         "pokedata": "27f195da-d6d1-4ebd-b9c9-eda67f86b8a5"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -7701,7 +7658,7 @@
         "pokedata": "7a547349-f212-4f4e-a131-884d6ac8783d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7744,7 +7701,7 @@
         "pokedata": "dbd74f3d-110c-486e-a392-36747a0c46be"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -7787,7 +7744,7 @@
         "pokedata": "5f58b33c-0e29-4407-ab3c-e497388bf5ec"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -7830,7 +7787,7 @@
         "pokedata": "f30193cf-1eb9-48b3-af1f-91cd214722b7"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -7873,7 +7830,7 @@
         "pokedata": "41007912-9d4f-4c70-83c5-103be1262616"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7916,7 +7873,7 @@
         "pokedata": "9ae27cd5-2198-4b20-8865-aea4daacf1cf"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -7959,7 +7916,7 @@
         "pokedata": "301fa77f-9e5b-47fc-a3c7-4174d50067c3"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8002,7 +7959,7 @@
         "pokedata": "541e4ac5-a10e-4864-9e4f-dd45bdb83751"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8045,7 +8002,7 @@
         "pokedata": "92bdfc48-a7cd-4b48-a4b5-e466e77f4858"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8088,7 +8045,7 @@
         "pokedata": "fb21e734-b2fb-41a7-b546-7392da9f6843"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8131,7 +8088,7 @@
         "pokedata": "fe58bc07-4a1b-4738-afae-a3275f9a8933"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8174,7 +8131,7 @@
         "pokedata": "09740180-a64e-4924-b5a1-4ff40bbd1918"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8217,7 +8174,7 @@
         "pokedata": "29d2787b-f4ea-4c7e-8e74-74f64ae45ae5"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8260,7 +8217,7 @@
         "pokedata": "549cc610-371d-416f-8635-d4c339f556d8"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8303,7 +8260,7 @@
         "pokedata": "77eeaea4-ca8d-453c-8c18-1511fc6c2064"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8346,7 +8303,7 @@
         "pokedata": "911ed5ff-b1c3-4e13-af7e-106e0b6a1415"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8389,7 +8346,7 @@
         "pokedata": "9468c3c6-a1b7-4270-814b-ce8619fa5918"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8432,7 +8389,7 @@
         "pokedata": "9fea8af2-9e91-49b4-8cf6-2321d6b19415"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8475,7 +8432,7 @@
         "pokedata": "b46e5b94-b8df-4e3c-b16d-ce18b7be6fdc"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -8518,7 +8475,7 @@
         "pokedata": "be1691a4-6ae2-4624-bb19-be189d2d10fd"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -8561,7 +8518,7 @@
         "pokedata": "c1ded639-901e-47a0-98ac-f68730ce0e95"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -8604,7 +8561,7 @@
         "pokedata": "d5d87869-20a1-4dd5-9822-26579a2ff788"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8647,7 +8604,7 @@
         "pokedata": "e08842a5-7a1d-43c6-86bf-f70fb3d3184d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8690,7 +8647,7 @@
         "pokedata": "f3357018-6715-4cba-a086-79d136bba1b9"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -8733,7 +8690,7 @@
         "pokedata": "98d4f44a-4132-4068-a524-3fb354501fbc"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8776,7 +8733,7 @@
         "pokedata": "23be0099-cb07-480e-8005-1a969e7888c3"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8819,7 +8776,7 @@
         "pokedata": "6990dbe4-f53e-42b6-9447-2a4d2e80719c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8862,7 +8819,7 @@
         "pokedata": "4fc679ed-e5dc-4dbb-a603-7f47d9a8ab2c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8905,7 +8862,7 @@
         "pokedata": "6d857827-5db8-4652-9016-a4c02b5849d2"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -8948,7 +8905,7 @@
         "pokedata": "90c2150d-3fad-4623-8392-9afe714f11a8"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -8991,7 +8948,7 @@
         "pokedata": "162e894d-51bc-4ad0-83d4-2370b6de283e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9034,10 +8991,52 @@
         "pokedata": "1928b65f-5af6-442f-988e-bd4cbe82b8bf"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
+    },
+    {
+      "id": "pokedata:651ad76f-3d70-4dd0-ad65-b8fdbf24ca5b",
+      "source": "pokedata",
+      "sourceId": "651ad76f-3d70-4dd0-ad65-b8fdbf24ca5b",
+      "scope": "local",
+      "type": "League Challenge",
+      "name": "Gobsmack Comics November 2026 League Challenge",
+      "venue": "GOBSMACK COMICS",
+      "organiser": null,
+      "organiserId": "6238052",
+      "startDate": "2026-11-21",
+      "startTime": "13:00:00",
+      "endDate": null,
+      "endTime": null,
+      "address": "12 SWAN WALK, ENGLAND RH12 1HQ, GB",
+      "city": "Horsham",
+      "region": "England",
+      "postcode": null,
+      "country": "GB",
+      "latitude": 51.0633,
+      "longitude": -0.329713,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-014799/",
+      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "secondarySourceUrl": null,
+      "details": null,
+      "registrationStart": null,
+      "registrationEnd": null,
+      "sources": [
+        "pokedata"
+      ],
+      "sourceIds": {
+        "pokedata": "651ad76f-3d70-4dd0-ad65-b8fdbf24ca5b"
+      },
+      "lastVerifiedAt": {
+        "pokedata": "2026-11-04T14:39:31.561Z"
+      },
+      "sanctioned": false
     },
     {
       "id": "pokedata:66251ab6-484e-4eac-92e6-90e4e6ce5b14",
@@ -9077,7 +9076,7 @@
         "pokedata": "66251ab6-484e-4eac-92e6-90e4e6ce5b14"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -9120,7 +9119,7 @@
         "pokedata": "7d6cf588-444c-4e58-8df5-7e4dd4b7ff44"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9163,7 +9162,7 @@
         "pokedata": "e8a6b1f2-e220-45fa-be5c-43f7341d5e0f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -9206,7 +9205,7 @@
         "pokedata": "d92dac47-e4c8-4dce-b9d8-b36a3215d3d8"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9249,7 +9248,7 @@
         "pokedata": "1bc54c2a-0c8b-451d-86fb-d6d5eeeac2ca"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9292,7 +9291,7 @@
         "pokedata": "e62083bc-ebca-4687-ade7-930e938d34a9"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -9335,7 +9334,7 @@
         "pokedata": "2d9077d5-9d97-47b4-b391-4d50bfcf7183"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9378,7 +9377,7 @@
         "pokedata": "c998e801-ee88-4f48-bd7c-d86e9320eb69"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -9421,7 +9420,7 @@
         "pokedata": "23d19d9d-21cb-4745-b3bb-584d22c83b81"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9464,7 +9463,7 @@
         "pokedata": "318c9406-7b9b-4462-9b61-7d4c9e1173cc"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9507,7 +9506,7 @@
         "pokedata": "8cdf82d0-5e50-4d6b-9996-5c1edb37af8f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -9550,7 +9549,7 @@
         "pokedata": "218c1158-8145-40ab-8150-bb84922923fd"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -9593,7 +9592,7 @@
         "pokedata": "43f0d2f2-66f4-42fa-83f4-3d940fcb5795"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9636,7 +9635,7 @@
         "pokedata": "4d50e9fb-c87b-444d-8c1c-626fe0499ed5"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9679,7 +9678,7 @@
         "pokedata": "720825e6-16ce-403c-94c4-278ec2207238"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9722,7 +9721,7 @@
         "pokedata": "39cf78f9-82bb-4390-bf8e-c7004dac5980"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -9765,7 +9764,7 @@
         "pokedata": "746e4045-b56b-489a-8851-b2344e198772"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -9808,7 +9807,7 @@
         "pokedata": "0bc747c2-7e92-432a-8dc1-8e37db43db9b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -9851,7 +9850,7 @@
         "pokedata": "1bd21cc8-521c-4f4c-a804-82f3f63f8347"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9894,7 +9893,7 @@
         "pokedata": "2d51116d-139f-47a8-be8a-3fda1c713739"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9937,7 +9936,7 @@
         "pokedata": "3b59a326-6ac1-4b9a-be7b-68e904a48cc4"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -9980,7 +9979,7 @@
         "pokedata": "4d6acea2-06e3-4d28-a850-e715ebb5a2d1"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10023,7 +10022,7 @@
         "pokedata": "6d728271-859a-478f-b799-c64c4b3df49a"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10066,7 +10065,7 @@
         "pokedata": "9389eec5-9340-496a-8f1a-4856619f364f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10109,7 +10108,7 @@
         "pokedata": "a3b4cb59-21fe-45c9-8da1-69b858b94ce1"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -10152,7 +10151,7 @@
         "pokedata": "b3b67562-83f3-4483-8426-26a805066292"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10195,7 +10194,7 @@
         "pokedata": "b9ec6cfb-33ae-4afc-84d2-d89e3f773cfe"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10238,7 +10237,7 @@
         "pokedata": "c6cecce3-b19c-487a-a428-90e6e03b02e3"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -10281,7 +10280,7 @@
         "pokedata": "2d572a9a-4b8e-443b-b568-4e0a9c9f2dc7"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10324,7 +10323,7 @@
         "pokedata": "4902ee42-ca07-48af-8717-67e695a5c9f1"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10367,7 +10366,7 @@
         "pokedata": "83d55d9e-20f8-4428-bd34-260b1454525d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -10410,7 +10409,7 @@
         "pokedata": "a6affadf-787b-4f8d-8fb5-f5a63eade114"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10453,7 +10452,7 @@
         "pokedata": "0d6a09f4-19ec-41ae-97a1-412d9665d113"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -10496,7 +10495,7 @@
         "pokedata": "2393daf0-e909-4c77-b8f0-8b463eb1777d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10539,7 +10538,7 @@
         "pokedata": "9fd8e138-d63f-4856-b5c7-be9e8e605647"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10582,7 +10581,7 @@
         "pokedata": "a3ba763a-4ddb-480f-af9a-f80ef0081558"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10625,7 +10624,7 @@
         "pokedata": "ff2a73a0-7206-4e76-82ab-f8a65e36d487"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10668,7 +10667,7 @@
         "pokedata": "0319b461-ec2b-492c-a373-52e8883a4f62"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10711,7 +10710,7 @@
         "pokedata": "9dff9435-6c3f-40e5-bfd8-66eef4c67cf7"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10754,7 +10753,7 @@
         "pokedata": "e6b564e1-b988-40fe-98a5-0ab7fcc68c60"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -10797,7 +10796,7 @@
         "pokedata": "cdf2eaee-b033-420c-8b81-0f0abf96381e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -10840,7 +10839,7 @@
         "pokedata": "24e8a959-45df-415c-96cd-85376cc2b32d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -10883,10 +10882,52 @@
         "pokedata": "a1f59bfc-e28c-497a-9a3b-1af87083272f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
+    },
+    {
+      "id": "pokedata:917e3a77-315f-4365-836a-9764f3d54abe",
+      "source": "pokedata",
+      "sourceId": "917e3a77-315f-4365-836a-9764f3d54abe",
+      "scope": "local",
+      "type": "League Challenge",
+      "name": "Toy Barnhaus November 2026 League Challenge",
+      "venue": "TILGATE COMMUNITY CENTRE",
+      "organiser": null,
+      "organiserId": "1251",
+      "startDate": "2026-11-23",
+      "startTime": "18:30:00",
+      "endDate": null,
+      "endTime": null,
+      "address": "15 SHACKLETON RD CRAWLEY, ENGLAND RH10 5BX, GB",
+      "city": "Crawley",
+      "region": "England",
+      "postcode": null,
+      "country": "GB",
+      "latitude": 51.103,
+      "longitude": -0.18174,
+      "distanceFromSeedMiles": null,
+      "cost": null,
+      "status": null,
+      "officialUrl": "https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon-tournaments/26-11-014794/",
+      "registrationUrl": null,
+      "sourceUrl": "https://www.pokedata.ovh/events/",
+      "secondarySourceUrl": null,
+      "details": null,
+      "registrationStart": null,
+      "registrationEnd": null,
+      "sources": [
+        "pokedata"
+      ],
+      "sourceIds": {
+        "pokedata": "917e3a77-315f-4365-836a-9764f3d54abe"
+      },
+      "lastVerifiedAt": {
+        "pokedata": "2026-11-04T14:39:31.561Z"
+      },
+      "sanctioned": false
     },
     {
       "id": "pokedata:6b80c84d-f1af-4171-9055-6a5dd6559664",
@@ -10926,7 +10967,7 @@
         "pokedata": "6b80c84d-f1af-4171-9055-6a5dd6559664"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -10969,7 +11010,7 @@
         "pokedata": "f806498d-35f3-41c8-a66b-b0d4e710e824"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -11012,7 +11053,7 @@
         "pokedata": "1f61ea1d-1d1e-4831-92b9-3947ec1834b9"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11055,7 +11096,7 @@
         "pokedata": "9df0557e-caab-42bd-8b3b-559d9e0dbed3"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -11098,7 +11139,7 @@
         "pokedata": "616a253c-1760-4355-91ea-4b0cbb562def"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11141,7 +11182,7 @@
         "pokedata": "5a26942a-c3c0-46f3-a5ac-2507cbd5ead7"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11184,7 +11225,7 @@
         "pokedata": "10016f9a-7f3e-46ea-9045-be30fb970bf6"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11227,7 +11268,7 @@
         "pokedata": "37c953fe-6eaf-4565-b05c-1ca9c3ebbf5b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11270,7 +11311,7 @@
         "pokedata": "43ba9117-db24-492a-87a2-d6030bb6f1f7"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -11313,7 +11354,7 @@
         "pokedata": "58a62d64-305f-401e-9c57-cd44681ce0d0"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11356,7 +11397,7 @@
         "pokedata": "64c073d0-258c-46b6-a5f5-e294b686c282"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -11399,7 +11440,7 @@
         "pokedata": "71181405-0f47-462d-ae4a-b942adf5c302"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11442,7 +11483,7 @@
         "pokedata": "a942f08f-5e59-49aa-98c5-2b05b2fdcc73"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -11485,7 +11526,7 @@
         "pokedata": "8b8e1e94-1534-43b0-af70-f92e65fd6553"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -11528,7 +11569,7 @@
         "pokedata": "196ab8d0-67f9-4ab3-a35c-29bf9e5abf4c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -11571,7 +11612,7 @@
         "pokedata": "34760694-59ac-4deb-a0b9-e94dc336b40f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11614,7 +11655,7 @@
         "pokedata": "65de46e1-e5eb-4089-b463-201c8d2c9b0d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -11657,7 +11698,7 @@
         "pokedata": "ca5e47e0-2955-4d27-ab7b-8c580c783e36"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -11700,7 +11741,7 @@
         "pokedata": "000fd548-ca78-4826-b4b4-50ba131891ab"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11743,7 +11784,7 @@
         "pokedata": "6027385e-04b1-4022-a3d7-73bce15db999"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11786,7 +11827,7 @@
         "pokedata": "613e4c6e-aa98-4f50-abb8-745bdefabde6"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11829,7 +11870,7 @@
         "pokedata": "a4386075-1265-45af-a2d8-472813c197dc"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11872,7 +11913,7 @@
         "pokedata": "418acfb1-9389-493b-a0c3-998260b06509"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11915,7 +11956,7 @@
         "pokedata": "53569b2c-24ae-4503-a04e-45887ade0df8"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -11958,7 +11999,7 @@
         "pokedata": "634b960b-4283-48f4-90c7-f454ce643a6f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12001,7 +12042,7 @@
         "pokedata": "930bd1ff-8082-4aac-a557-4caa320e6856"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12044,7 +12085,7 @@
         "pokedata": "ad3c383b-6167-4a14-a2dc-b1660a57c9c5"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12087,7 +12128,7 @@
         "pokedata": "a0c8772a-db2f-464d-967d-8055fc232f09"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12130,7 +12171,7 @@
         "pokedata": "ffa5f24c-b784-43e0-b476-c95a7bf30084"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -12173,7 +12214,7 @@
         "pokedata": "1725b4f6-a720-4f2c-9e86-567ac9131d75"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -12218,7 +12259,7 @@
         "battlefields": "2407:2026-11-28"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z",
+        "pokedata": "2026-11-04T14:39:31.561Z",
         "battlefields": "2026-10-16T11:30:47.845Z"
       },
       "sanctioned": false,
@@ -12270,7 +12311,7 @@
         "pokedata": "5f5801da-e402-4e87-aca1-3f1080f3ddf8"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12313,7 +12354,7 @@
         "pokedata": "6445c807-cf30-4e52-8304-9e2dadb8868c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12356,7 +12397,7 @@
         "pokedata": "119c9631-caaa-498e-82a5-0fdc813614a3"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12399,7 +12440,7 @@
         "pokedata": "1734d2ca-8c97-4e2c-985a-9f6b03f64d55"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12442,7 +12483,7 @@
         "pokedata": "61ec2224-167f-471d-9a92-2a6c83bd36df"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -12485,7 +12526,7 @@
         "pokedata": "19054417-6105-48e9-856c-612108e6cbd4"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12528,7 +12569,7 @@
         "pokedata": "27f51c75-2b6f-4903-ae03-ece627f177bc"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12571,7 +12612,7 @@
         "pokedata": "3e71ceaa-6daa-41ad-9de8-70ba13c56006"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12614,7 +12655,7 @@
         "pokedata": "7ceb8e4e-6c0b-4309-a569-bfc7385db48b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12657,7 +12698,7 @@
         "pokedata": "8556042f-f1eb-4e53-84e1-ea6796384ef4"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12700,7 +12741,7 @@
         "pokedata": "ab5bd221-96a4-4f5c-ba6a-3e24343973d7"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12743,7 +12784,7 @@
         "pokedata": "f7780156-e33e-46dd-97b0-15129d4350e6"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12786,7 +12827,7 @@
         "pokedata": "2a25b413-9e6b-439e-9146-a522fef4784b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12829,7 +12870,7 @@
         "pokedata": "0dd61791-183c-4476-92e5-e7acbd02fabb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12872,7 +12913,7 @@
         "pokedata": "908d7fb3-1f22-440c-be57-318848ab2086"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -12915,7 +12956,7 @@
         "pokedata": "94488b32-0d70-4e0c-ab1d-59bb02be6b9e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -12958,7 +12999,7 @@
         "pokedata": "98e09c76-4bb7-4e6d-96a7-4b8dc39d6a61"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13001,7 +13042,7 @@
         "pokedata": "fcdb0978-0841-4a7a-8fe8-8f544f6c9b37"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -13044,7 +13085,7 @@
         "pokedata": "01a13f1a-1920-4c27-815e-dc1f6492c940"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -13087,7 +13128,7 @@
         "pokedata": "03044ec9-9952-4d1f-80a9-8f3c0869ffc9"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13130,7 +13171,7 @@
         "pokedata": "132ca7a6-6176-447f-98fd-12eaaf5210f2"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -13173,7 +13214,7 @@
         "pokedata": "144ebec0-2c90-4830-9f94-73b3e417d0db"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13216,7 +13257,7 @@
         "pokedata": "1ed5ce77-d196-4b93-a01c-1d0a4a5eaaef"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -13259,7 +13300,7 @@
         "pokedata": "29f2fd7b-ddc7-405b-a317-35cade415e25"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13302,7 +13343,7 @@
         "pokedata": "7bcd0949-7c53-4353-87b0-ea4fd3e59f68"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13345,7 +13386,7 @@
         "pokedata": "91b0cf1b-a945-4479-8bb7-11b243ad37fc"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13388,7 +13429,7 @@
         "pokedata": "d73cf761-70eb-4ddc-879a-4cf7574d6f4e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13431,7 +13472,7 @@
         "pokedata": "de690fa6-d38b-45b2-b818-d45fdd51b68b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13474,7 +13515,7 @@
         "pokedata": "fba49e5c-3eac-4bed-a04b-d7bfd45871ff"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13517,7 +13558,7 @@
         "pokedata": "54cccbd2-95bd-4a26-9ebf-2458007e14df"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -13560,7 +13601,7 @@
         "pokedata": "1c60c21f-6598-44ad-9db4-3f2aafce59fe"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13603,7 +13644,7 @@
         "pokedata": "39abe784-3baa-45a6-8a00-b7c872db7b68"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13646,7 +13687,7 @@
         "pokedata": "48b03d3e-0476-4f0a-a8e8-63515380a094"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13689,7 +13730,7 @@
         "pokedata": "86c9780e-ea30-4cec-81ef-9372156f9014"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13732,7 +13773,7 @@
         "pokedata": "922519f9-795e-429c-98b5-901416152c12"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13775,7 +13816,7 @@
         "pokedata": "a6d5d17e-8b3b-48af-94f6-1f0d9b953568"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -13818,7 +13859,7 @@
         "pokedata": "ac1fe390-08e3-4c0b-a4c7-6c287469c00f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13861,7 +13902,7 @@
         "pokedata": "ec3ef6d8-c526-4ae9-8b61-258283a35f76"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13904,7 +13945,7 @@
         "pokedata": "7380e649-3a72-490d-8e2a-90c0fa7c6c3d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13947,7 +13988,7 @@
         "pokedata": "e2ff2fc1-1846-4106-a896-a813dfadb1ea"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -13990,7 +14031,7 @@
         "pokedata": "94ccef49-04c8-4cd1-a7a8-2703a177bcb4"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14033,7 +14074,7 @@
         "pokedata": "79c83886-19df-4cbb-b832-0dc39d61d781"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -14076,7 +14117,7 @@
         "pokedata": "7ade450a-8b98-4261-9ed3-401320f88d8f"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -14119,7 +14160,7 @@
         "pokedata": "796a62f9-a98f-467f-b0e9-eee3d8a84cfa"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14162,7 +14203,7 @@
         "pokedata": "273f11b0-fe5c-4d5d-90de-702accb64bd8"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -14205,7 +14246,7 @@
         "pokedata": "ce97f71d-0eeb-4073-8806-4d3f94aead43"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14248,7 +14289,7 @@
         "pokedata": "40301712-d15b-4b43-a792-cb9a9425e9df"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14291,7 +14332,7 @@
         "pokedata": "a6e45ba6-8fdf-4e18-a3ad-4bd98f3467ef"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14334,7 +14375,7 @@
         "pokedata": "d97f8ab7-d5e9-4fd5-bca7-347571a7af5d"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14377,7 +14418,7 @@
         "pokedata": "ee0bb611-7f9c-4641-af6e-a77684429237"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -14420,7 +14461,7 @@
         "pokedata": "30ed6d1c-018e-4b27-8a1d-c01101abab55"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14463,7 +14504,7 @@
         "pokedata": "9e528b26-f58b-4bcc-97b5-7c64961912ac"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -14506,7 +14547,7 @@
         "pokedata": "ad9123a9-c6f5-4b72-8e13-ab4c2961c4a3"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14549,7 +14590,7 @@
         "pokedata": "11b29acd-6c18-4199-a6d0-60d13d2f2ef4"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14592,7 +14633,7 @@
         "pokedata": "1dd44f86-f829-4734-b860-4081249737d1"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -14635,7 +14676,7 @@
         "pokedata": "4ee251d0-ae6e-40a9-b0cc-1ac9a2d5c63b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14678,7 +14719,7 @@
         "pokedata": "5ceb9034-f991-48fa-9f98-b2fdf153cb2e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14721,7 +14762,7 @@
         "pokedata": "88ec6272-6fa3-4cc8-b7e8-c2f133466c70"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14764,7 +14805,7 @@
         "pokedata": "aab1da42-d9b1-4db7-9507-70dc892fd576"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14807,7 +14848,7 @@
         "pokedata": "bf7b35fb-4517-44f9-8452-697552f79a9b"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14850,7 +14891,7 @@
         "pokedata": "e3d233b4-e017-4a16-b3fe-55daadd32d01"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -14893,7 +14934,7 @@
         "pokedata": "2f3b0ca9-daf1-4bd9-aad5-11ddba2d9ae0"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -14936,7 +14977,7 @@
         "pokedata": "930614c9-0b22-436f-8e5b-26b9c6eb0634"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -14979,7 +15020,7 @@
         "pokedata": "9ff1d76c-bc97-44d7-ab14-5c51e613cb0e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -15022,7 +15063,7 @@
         "pokedata": "abfdf6a1-8ad7-4add-b417-44a3c761c21c"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -15065,7 +15106,7 @@
         "pokedata": "c5e0ff81-e5f7-4ffd-b97c-7ad36acd1052"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -15108,7 +15149,7 @@
         "pokedata": "18aed27b-76ef-448c-9f6a-b15c927bdeeb"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -15151,7 +15192,7 @@
         "pokedata": "8a01ec61-acf3-4479-bbfc-9c9519cf75dc"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -15194,7 +15235,7 @@
         "pokedata": "8bf3f2a3-547a-436f-868f-f508f7b0848e"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -15237,7 +15278,7 @@
         "pokedata": "9cbb4217-bb63-450e-953a-e52ccc227b71"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -15280,7 +15321,7 @@
         "pokedata": "be0c1585-6b63-41ae-8dda-e528adcb3046"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -15323,7 +15364,7 @@
         "pokedata": "d3cab436-0269-40ed-bfd0-81aca8ad9743"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -15366,7 +15407,7 @@
         "pokedata": "e1135609-19cb-4273-85d5-f6f1605da798"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -15409,7 +15450,7 @@
         "pokedata": "38db5a21-7514-4216-a88a-2d1750de8c62"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
@@ -15452,7 +15493,7 @@
         "pokedata": "baf88db8-64be-4813-b5bb-f6907510e3be"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -15495,7 +15536,7 @@
         "pokedata": "74b8398b-dfc3-46e5-a088-5f1bf37468bf"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -15538,7 +15579,7 @@
         "pokedata": "6e4684f1-8779-4449-9922-61cc5cfcdaef"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": false,
       "aliases": []
@@ -15581,7 +15622,7 @@
         "pokedata": "d53c304e-d90d-4718-830b-aac3a3a1a538"
       },
       "lastVerifiedAt": {
-        "pokedata": "2026-11-03T14:24:06.044Z"
+        "pokedata": "2026-11-04T14:39:31.561Z"
       },
       "sanctioned": true,
       "aliases": []
