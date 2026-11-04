@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-04T06:57:54.066Z",
+  "generatedAt": "2026-11-04T16:33:48.874Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aea901de94eae0f94746d31",
-      "source": "limitless",
-      "sourceId": "6aea901de94eae0f94746d31",
-      "name": "SEASAC League Challenge #21 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6aea901de94eae0f94746d31/details",
-      "startAt": "2026-11-04T11:30:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGO",
@@ -39,6 +29,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aeb374fe94eae0f947470ef",
+      "source": "limitless",
+      "sourceId": "6aeb374fe94eae0f947470ef",
+      "name": "ASRcristiano # 200 - 60 codes - Road to Stuttgart!",
+      "url": "https://play.limitlesstcg.com/tournament/6aeb374fe94eae0f947470ef/details",
+      "startAt": "2026-11-04T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae9db7e0c463890f304a50b",
       "source": "limitless",
       "sourceId": "6ae9db7e0c463890f304a50b",
@@ -57,16 +57,6 @@
       "startAt": "2026-11-05T00:00:00.000Z"
     },
     {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad97ee5115c12b73a5a9707",
-      "source": "limitless",
-      "sourceId": "6ad97ee5115c12b73a5a9707",
-      "name": "REFINE Autumn Series Session 10: Mo-vember",
-      "url": "https://play.limitlesstcg.com/tournament/6ad97ee5115c12b73a5a9707/details",
-      "startAt": "2026-11-05T00:30:00.000Z"
-    },
-    {
       "format": null,
       "platform": "PTCGO",
       "id": "limitless:6ae8da9b0c463890f3049956",
@@ -75,6 +65,16 @@
       "name": "Cardboard Warriors - GLC on PTCGO #5",
       "url": "https://play.limitlesstcg.com/tournament/6ae8da9b0c463890f3049956/details",
       "startAt": "2026-11-05T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad97ee5115c12b73a5a9707",
+      "source": "limitless",
+      "sourceId": "6ad97ee5115c12b73a5a9707",
+      "name": "REFINE Autumn Series Session 10: Mo-vember",
+      "url": "https://play.limitlesstcg.com/tournament/6ad97ee5115c12b73a5a9707/details",
+      "startAt": "2026-11-05T01:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -139,6 +139,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aeb3770e94eae0f947470f0",
+      "source": "limitless",
+      "sourceId": "6aeb3770e94eae0f947470f0",
+      "name": "ASRcristiano # 201 - 60 codes - Road to Stuttgart!",
+      "url": "https://play.limitlesstcg.com/tournament/6aeb3770e94eae0f947470f0/details",
+      "startAt": "2026-11-05T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae398d780a8f79408d21047",
       "source": "limitless",
       "sourceId": "6ae398d780a8f79408d21047",
@@ -169,11 +179,31 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aeb22dce94eae0f947470a4",
+      "source": "limitless",
+      "sourceId": "6aeb22dce94eae0f947470a4",
+      "name": "Heart of the Games Online Series - S108",
+      "url": "https://play.limitlesstcg.com/tournament/6aeb22dce94eae0f947470a4/details",
+      "startAt": "2026-11-06T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae8cf850c463890f3049906",
       "source": "limitless",
       "sourceId": "6ae8cf850c463890f3049906",
       "name": "Rare Candy Club Blitz #8",
       "url": "https://play.limitlesstcg.com/tournament/6ae8cf850c463890f3049906/details",
+      "startAt": "2026-11-06T01:00:00.000Z"
+    },
+    {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6aeb56d60c463890f304b23f",
+      "source": "limitless",
+      "sourceId": "6aeb56d60c463890f304b23f",
+      "name": "Holon Locals #49 (US Friendly)",
+      "url": "https://play.limitlesstcg.com/tournament/6aeb56d60c463890f304b23f/details",
       "startAt": "2026-11-06T01:00:00.000Z"
     },
     {
@@ -245,6 +275,16 @@
       "name": "Draw 7 Tourney #4",
       "url": "https://play.limitlesstcg.com/tournament/6ae3e41780a8f79408d214bc/details",
       "startAt": "2026-11-06T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aeb3790e94eae0f947470f2",
+      "source": "limitless",
+      "sourceId": "6aeb3790e94eae0f947470f2",
+      "name": "ASRcristiano # 202 - 60 codes - Road to Stuttgart!",
+      "url": "https://play.limitlesstcg.com/tournament/6aeb3790e94eae0f947470f2/details",
+      "startAt": "2026-11-06T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -405,6 +445,16 @@
       "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
       "url": "https://play.limitlesstcg.com/tournament/6aea2850e94eae0f947467c5/details",
       "startAt": "2026-11-09T17:00:00.000Z"
+    },
+    {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6aeb57360c463890f304b243",
+      "source": "limitless",
+      "sourceId": "6aeb57360c463890f304b243",
+      "name": "Holon Locals #50 (EU Friendly)",
+      "url": "https://play.limitlesstcg.com/tournament/6aeb57360c463890f304b243/details",
+      "startAt": "2026-11-09T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -905,6 +955,16 @@
       "name": "Vault of Games 🏆|LATIN AMERICA CHAMPIONSHIP |",
       "url": "https://play.limitlesstcg.com/tournament/6ab7309b880ed327106dcf5d/details",
       "startAt": "2026-11-29T02:00:00.000Z"
+    },
+    {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6aeb57a3e94eae0f94747186",
+      "source": "limitless",
+      "sourceId": "6aeb57a3e94eae0f94747186",
+      "name": "The Holon Open - November",
+      "url": "https://play.limitlesstcg.com/tournament/6aeb57a3e94eae0f94747186/details",
+      "startAt": "2026-11-29T17:00:00.000Z"
     },
     {
       "format": "Standard",
