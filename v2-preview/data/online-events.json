@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-04T16:33:48.874Z",
+  "generatedAt": "2026-11-04T22:11:01.201Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGO",
-      "id": "limitless:6ae8da14e94eae0f947459c6",
-      "source": "limitless",
-      "sourceId": "6ae8da14e94eae0f947459c6",
-      "name": "Cardboard Warriors - GLC on PTCGO #4",
-      "url": "https://play.limitlesstcg.com/tournament/6ae8da14e94eae0f947459c6/details",
-      "startAt": "2026-11-04T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aea3933e94eae0f9474689e",
-      "source": "limitless",
-      "sourceId": "6aea3933e94eae0f9474689e",
-      "name": "Redraftowa Liga Pokemon TCG - 04.11.2026",
-      "url": "https://play.limitlesstcg.com/tournament/6aea3933e94eae0f9474689e/details",
-      "startAt": "2026-11-04T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aeb374fe94eae0f947470ef",
-      "source": "limitless",
-      "sourceId": "6aeb374fe94eae0f947470ef",
-      "name": "ASRcristiano # 200 - 60 codes - Road to Stuttgart!",
-      "url": "https://play.limitlesstcg.com/tournament/6aeb374fe94eae0f947470ef/details",
-      "startAt": "2026-11-04T20:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -45,16 +15,6 @@
       "name": "Zard-Pokénight #025",
       "url": "https://play.limitlesstcg.com/tournament/6ae9db7e0c463890f304a50b/details",
       "startAt": "2026-11-04T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad827588a8383117e3f0825",
-      "source": "limitless",
-      "sourceId": "6ad827588a8383117e3f0825",
-      "name": "💰 Domino Arena Rush | Temporada 3 | Semana 8 💰",
-      "url": "https://play.limitlesstcg.com/tournament/6ad827588a8383117e3f0825/details",
-      "startAt": "2026-11-05T00:00:00.000Z"
     },
     {
       "format": null,
@@ -165,6 +125,16 @@
       "name": "🇧🇷 Hit Challenge #57 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ae5e319ae67092a4073fc48/details",
       "startAt": "2026-11-05T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad827588a8383117e3f0825",
+      "source": "limitless",
+      "sourceId": "6ad827588a8383117e3f0825",
+      "name": "💰 Domino Arena Rush | Temporada 3 | Semana 8 💰",
+      "url": "https://play.limitlesstcg.com/tournament/6ad827588a8383117e3f0825/details",
+      "startAt": "2026-11-06T00:00:00.000Z"
     },
     {
       "format": "Expanded",
