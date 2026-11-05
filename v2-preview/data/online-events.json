@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-04T22:11:01.201Z",
+  "generatedAt": "2026-11-05T02:45:13.058Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae9db7e0c463890f304a50b",
-      "source": "limitless",
-      "sourceId": "6ae9db7e0c463890f304a50b",
-      "name": "Zard-Pokénight #025",
-      "url": "https://play.limitlesstcg.com/tournament/6ae9db7e0c463890f304a50b/details",
-      "startAt": "2026-11-04T22:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGO",
-      "id": "limitless:6ae8da9b0c463890f3049956",
-      "source": "limitless",
-      "sourceId": "6ae8da9b0c463890f3049956",
-      "name": "Cardboard Warriors - GLC on PTCGO #5",
-      "url": "https://play.limitlesstcg.com/tournament/6ae8da9b0c463890f3049956/details",
-      "startAt": "2026-11-05T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad97ee5115c12b73a5a9707",
-      "source": "limitless",
-      "sourceId": "6ad97ee5115c12b73a5a9707",
-      "name": "REFINE Autumn Series Session 10: Mo-vember",
-      "url": "https://play.limitlesstcg.com/tournament/6ad97ee5115c12b73a5a9707/details",
-      "startAt": "2026-11-05T01:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
