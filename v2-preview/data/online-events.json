@@ -1,91 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-05T12:43:40.265Z",
+  "generatedAt": "2026-11-05T21:13:13.657Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aec59300c463890f304bbf7",
-      "source": "limitless",
-      "sourceId": "6aec59300c463890f304bbf7",
-      "name": "The Dark League | TCG Live Pop Up",
-      "url": "https://play.limitlesstcg.com/tournament/6aec59300c463890f304bbf7/details",
-      "startAt": "2026-11-05T14:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae4ccc50d00101b48bf267c",
-      "source": "limitless",
-      "sourceId": "6ae4ccc50d00101b48bf267c",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae4ccc50d00101b48bf267c/details",
-      "startAt": "2026-11-05T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGO",
-      "id": "limitless:6ae6ac460d00101b48bf3b03",
-      "source": "limitless",
-      "sourceId": "6ae6ac460d00101b48bf3b03",
-      "name": "Mensal de novembro",
-      "url": "https://play.limitlesstcg.com/tournament/6ae6ac460d00101b48bf3b03/details",
-      "startAt": "2026-11-05T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae21b7a22fd412b92a4ea4d",
-      "source": "limitless",
-      "sourceId": "6ae21b7a22fd412b92a4ea4d",
-      "name": "🔥⚗️PokéKhemistry TURBO Thursday 🧪",
-      "url": "https://play.limitlesstcg.com/tournament/6ae21b7a22fd412b92a4ea4d/details",
-      "startAt": "2026-11-05T18:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae2893122fd412b92a4f026",
-      "source": "limitless",
-      "sourceId": "6ae2893122fd412b92a4f026",
-      "name": "Amyverse PTCGL Weekly #20 💛 Delta Reign - Cash!",
-      "url": "https://play.limitlesstcg.com/tournament/6ae2893122fd412b92a4f026/details",
-      "startAt": "2026-11-05T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae39f8080a8f79408d210f9",
-      "source": "limitless",
-      "sourceId": "6ae39f8080a8f79408d210f9",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #9",
-      "url": "https://play.limitlesstcg.com/tournament/6ae39f8080a8f79408d210f9/details",
-      "startAt": "2026-11-05T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aeb3770e94eae0f947470f0",
-      "source": "limitless",
-      "sourceId": "6aeb3770e94eae0f947470f0",
-      "name": "ASRcristiano # 201 - 60 codes - Road to Stuttgart!",
-      "url": "https://play.limitlesstcg.com/tournament/6aeb3770e94eae0f947470f0/details",
-      "startAt": "2026-11-05T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae398d780a8f79408d21047",
-      "source": "limitless",
-      "sourceId": "6ae398d780a8f79408d21047",
-      "name": "16° Torneo del circuito CarroTCG/Prof. Fili",
-      "url": "https://play.limitlesstcg.com/tournament/6ae398d780a8f79408d21047/details",
-      "startAt": "2026-11-05T20:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -132,7 +52,7 @@
       "id": "limitless:6ae8cf850c463890f3049906",
       "source": "limitless",
       "sourceId": "6ae8cf850c463890f3049906",
-      "name": "Rare Candy Club Blitz #8",
+      "name": "Rare Candy Club Blitz #8 (DELTA REIGN LEGAL)",
       "url": "https://play.limitlesstcg.com/tournament/6ae8cf850c463890f3049906/details",
       "startAt": "2026-11-06T01:00:00.000Z"
     },
@@ -509,6 +429,26 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aec9e16e94eae0f94747d8f",
+      "source": "limitless",
+      "sourceId": "6aec9e16e94eae0f94747d8f",
+      "name": "Amyverse PTCG Live Weekly #21 💛 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6aec9e16e94eae0f94747d8f/details",
+      "startAt": "2026-11-11T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae39f8080a8f79408d210f9",
+      "source": "limitless",
+      "sourceId": "6ae39f8080a8f79408d210f9",
+      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #9",
+      "url": "https://play.limitlesstcg.com/tournament/6ae39f8080a8f79408d210f9/details",
+      "startAt": "2026-11-11T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad828488a8383117e3f082a",
       "source": "limitless",
       "sourceId": "6ad828488a8383117e3f082a",
@@ -525,6 +465,16 @@
       "name": "⚗️🔥PokéKhemistry TURBO Thursday 🧪",
       "url": "https://play.limitlesstcg.com/tournament/6ae454a20d00101b48bf2113/details",
       "startAt": "2026-11-12T18:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aecd7710c463890f304c15d",
+      "source": "limitless",
+      "sourceId": "6aecd7710c463890f304c15d",
+      "name": "17° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6aecd7710c463890f304c15d/details",
+      "startAt": "2026-11-12T20:30:00.000Z"
     },
     {
       "format": "Standard",
