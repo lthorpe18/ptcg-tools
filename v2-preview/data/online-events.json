@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-06T02:48:14.259Z",
+  "generatedAt": "2026-11-06T12:27:13.053Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac0878385920e4d2536288e",
-      "source": "limitless",
-      "sourceId": "6ac0878385920e4d2536288e",
-      "name": "Oceania Open! | Season 4 - Week 5",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0878385920e4d2536288e/details",
-      "startAt": "2026-11-06T08:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6aea9095e94eae0f94746d3a",
-      "source": "limitless",
-      "sourceId": "6aea9095e94eae0f94746d3a",
-      "name": "SEASAC Special Event (SPECIAL ENERGY ONLY) #4",
-      "url": "https://play.limitlesstcg.com/tournament/6aea9095e94eae0f94746d3a/details",
-      "startAt": "2026-11-06T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
