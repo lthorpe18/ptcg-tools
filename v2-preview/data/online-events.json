@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-06T12:27:13.053Z",
+  "generatedAt": "2026-11-06T19:40:37.044Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a95d159629039f77d8a6af8",
-      "source": "limitless",
-      "sourceId": "6a95d159629039f77d8a6af8",
-      "name": "Turtwig Den Revival Series Season 2 Cup 2",
-      "url": "https://play.limitlesstcg.com/tournament/6a95d159629039f77d8a6af8/details",
-      "startAt": "2026-11-06T17:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa2d291ab080c8c9580024f",
-      "source": "limitless",
-      "sourceId": "6aa2d291ab080c8c9580024f",
-      "name": "Nightshades Friday Challenge 5 (25 Codes)",
-      "url": "https://play.limitlesstcg.com/tournament/6aa2d291ab080c8c9580024f/details",
-      "startAt": "2026-11-06T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae3e41780a8f79408d214bc",
-      "source": "limitless",
-      "sourceId": "6ae3e41780a8f79408d214bc",
-      "name": "Draw 7 Tourney #4",
-      "url": "https://play.limitlesstcg.com/tournament/6ae3e41780a8f79408d214bc/details",
-      "startAt": "2026-11-06T19:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -82,7 +52,7 @@
       "id": "limitless:6ae7fe3a0d00101b48bf460a",
       "source": "limitless",
       "sourceId": "6ae7fe3a0d00101b48bf460a",
-      "name": "Elite Four Fridays",
+      "name": "Elite Four Fridays (Delta Reign)",
       "url": "https://play.limitlesstcg.com/tournament/6ae7fe3a0d00101b48bf460a/details",
       "startAt": "2026-11-07T00:00:00.000Z"
     },
@@ -115,6 +85,16 @@
       "name": "James G Tournaments #61 - POG 2021 (TEU-EVS)",
       "url": "https://play.limitlesstcg.com/tournament/6ae75930ae67092a40740b71/details",
       "startAt": "2026-11-07T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aee27a9c931f53978d94e0f",
+      "source": "limitless",
+      "sourceId": "6aee27a9c931f53978d94e0f",
+      "name": "Delta Reign!",
+      "url": "https://play.limitlesstcg.com/tournament/6aee27a9c931f53978d94e0f/details",
+      "startAt": "2026-11-07T14:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -239,6 +219,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae5e254ae67092a4073fc46",
+      "source": "limitless",
+      "sourceId": "6ae5e254ae67092a4073fc46",
+      "name": "🇧🇷 Hit Challenge #56 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ae5e254ae67092a4073fc46/details",
+      "startAt": "2026-11-09T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae901a50c463890f3049d40",
       "source": "limitless",
       "sourceId": "6ae901a50c463890f3049d40",
@@ -275,6 +265,16 @@
       "name": "Nightshades Monday Cup 5 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad840ff127b1b52c27c2fb/details",
       "startAt": "2026-11-10T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aee1717c931f53978d94c86",
+      "source": "limitless",
+      "sourceId": "6aee1717c931f53978d94c86",
+      "name": "Mega Lunes 22",
+      "url": "https://play.limitlesstcg.com/tournament/6aee1717c931f53978d94c86/details",
+      "startAt": "2026-11-10T01:10:00.000Z"
     },
     {
       "format": "Standard",
@@ -369,6 +369,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aee20e4c931f53978d94d65",
+      "source": "limitless",
+      "sourceId": "6aee20e4c931f53978d94d65",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6aee20e4c931f53978d94d65/details",
+      "startAt": "2026-11-12T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae454a20d00101b48bf2113",
       "source": "limitless",
       "sourceId": "6ae454a20d00101b48bf2113",
@@ -385,16 +395,6 @@
       "name": "17° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6aecd7710c463890f304c15d/details",
       "startAt": "2026-11-12T20:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad41e6d115c12b73a5a69ca",
-      "source": "limitless",
-      "sourceId": "6ad41e6d115c12b73a5a69ca",
-      "name": "🇧🇷 Hit Cup #23 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad41e6d115c12b73a5a69ca/details",
-      "startAt": "2026-11-13T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -525,6 +525,16 @@
       "name": "🏆Ling TV ARENA🏆",
       "url": "https://play.limitlesstcg.com/tournament/6ae9c470e94eae0f947464c0/details",
       "startAt": "2026-11-16T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad41e6d115c12b73a5a69ca",
+      "source": "limitless",
+      "sourceId": "6ad41e6d115c12b73a5a69ca",
+      "name": "🇧🇷 Hit Cup #23 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41e6d115c12b73a5a69ca/details",
+      "startAt": "2026-11-17T00:00:00.000Z"
     },
     {
       "format": "Standard",
