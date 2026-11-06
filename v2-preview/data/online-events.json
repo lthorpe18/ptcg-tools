@@ -1,101 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-05T21:13:13.657Z",
+  "generatedAt": "2026-11-06T02:48:14.259Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae5e319ae67092a4073fc48",
-      "source": "limitless",
-      "sourceId": "6ae5e319ae67092a4073fc48",
-      "name": "🇧🇷 Hit Challenge #57 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ae5e319ae67092a4073fc48/details",
-      "startAt": "2026-11-05T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad827588a8383117e3f0825",
-      "source": "limitless",
-      "sourceId": "6ad827588a8383117e3f0825",
-      "name": "💰 Domino Arena Rush | Temporada 3 | Semana 8 💰",
-      "url": "https://play.limitlesstcg.com/tournament/6ad827588a8383117e3f0825/details",
-      "startAt": "2026-11-06T00:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6ae907e20c463890f3049dd4",
-      "source": "limitless",
-      "sourceId": "6ae907e20c463890f3049dd4",
-      "name": "The Wild Area TCG Live Expanded #0",
-      "url": "https://play.limitlesstcg.com/tournament/6ae907e20c463890f3049dd4/details",
-      "startAt": "2026-11-06T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aeb22dce94eae0f947470a4",
-      "source": "limitless",
-      "sourceId": "6aeb22dce94eae0f947470a4",
-      "name": "Heart of the Games Online Series - S108",
-      "url": "https://play.limitlesstcg.com/tournament/6aeb22dce94eae0f947470a4/details",
-      "startAt": "2026-11-06T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae8cf850c463890f3049906",
-      "source": "limitless",
-      "sourceId": "6ae8cf850c463890f3049906",
-      "name": "Rare Candy Club Blitz #8 (DELTA REIGN LEGAL)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae8cf850c463890f3049906/details",
-      "startAt": "2026-11-06T01:00:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6aeb56d60c463890f304b23f",
-      "source": "limitless",
-      "sourceId": "6aeb56d60c463890f304b23f",
-      "name": "Holon Locals #49 (US Friendly)",
-      "url": "https://play.limitlesstcg.com/tournament/6aeb56d60c463890f304b23f/details",
-      "startAt": "2026-11-06T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acd04a2115c12b73a5a211a",
-      "source": "limitless",
-      "sourceId": "6acd04a2115c12b73a5a211a",
-      "name": "Torneo Relámpago ⚡ #88 PTCG Live (25 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6acd04a2115c12b73a5a211a/details",
-      "startAt": "2026-11-06T01:30:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6ae109f122fd412b92a4e406",
-      "source": "limitless",
-      "sourceId": "6ae109f122fd412b92a4e406",
-      "name": "BZGC Online🔥 ~ ExPAnDED is back on the Menu",
-      "url": "https://play.limitlesstcg.com/tournament/6ae109f122fd412b92a4e406/details",
-      "startAt": "2026-11-06T01:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ae93a93e94eae0f9474611b",
-      "source": "limitless",
-      "sourceId": "6ae93a93e94eae0f9474611b",
-      "name": "Vault of Gym Leader Challenge | GLC Monthly #1",
-      "url": "https://play.limitlesstcg.com/tournament/6ae93a93e94eae0f9474611b/details",
-      "startAt": "2026-11-06T02:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -105,6 +15,16 @@
       "name": "Oceania Open! | Season 4 - Week 5",
       "url": "https://play.limitlesstcg.com/tournament/6ac0878385920e4d2536288e/details",
       "startAt": "2026-11-06T08:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6aea9095e94eae0f94746d3a",
+      "source": "limitless",
+      "sourceId": "6aea9095e94eae0f94746d3a",
+      "name": "SEASAC Special Event (SPECIAL ENERGY ONLY) #4",
+      "url": "https://play.limitlesstcg.com/tournament/6aea9095e94eae0f94746d3a/details",
+      "startAt": "2026-11-06T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -275,6 +195,16 @@
       "name": "🪎Vault Of Games #10🪙|REGIONAL FORMAT🏆|WEEKLY📅",
       "url": "https://play.limitlesstcg.com/tournament/6aea6ad30c463890f304ab8c/details",
       "startAt": "2026-11-08T02:00:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6aecfdb30c463890f304c37f",
+      "source": "limitless",
+      "sourceId": "6aecfdb30c463890f304c37f",
+      "name": "🟣 Gengar's Hideout | BST - PAR  | 100 codes🟣",
+      "url": "https://play.limitlesstcg.com/tournament/6aecfdb30c463890f304c37f/details",
+      "startAt": "2026-11-08T14:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -505,6 +435,16 @@
       "name": "Oceania Open! | Season 4 - Week 6",
       "url": "https://play.limitlesstcg.com/tournament/6ac0879885920e4d2536288f/details",
       "startAt": "2026-11-13T08:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aecf547e94eae0f947482de",
+      "source": "limitless",
+      "sourceId": "6aecf547e94eae0f947482de",
+      "name": "Unfair Stamp 3v3 Showdown",
+      "url": "https://play.limitlesstcg.com/tournament/6aecf547e94eae0f947482de/details",
+      "startAt": "2026-11-13T12:00:00.000Z"
     },
     {
       "format": "Standard",
