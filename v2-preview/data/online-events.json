@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-06T19:40:37.044Z",
+  "generatedAt": "2026-11-07T00:19:19.018Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aeb3790e94eae0f947470f2",
-      "source": "limitless",
-      "sourceId": "6aeb3790e94eae0f947470f2",
-      "name": "ASRcristiano # 202 - 60 codes - Road to Stuttgart!",
-      "url": "https://play.limitlesstcg.com/tournament/6aeb3790e94eae0f947470f2/details",
-      "startAt": "2026-11-06T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae9e1f40c463890f304a545",
-      "source": "limitless",
-      "sourceId": "6ae9e1f40c463890f304a545",
-      "name": "TORNEIO DE 30 ANOS - ARTEUS TCG",
-      "url": "https://play.limitlesstcg.com/tournament/6ae9e1f40c463890f304a545/details",
-      "startAt": "2026-11-06T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae5e3a20d00101b48bf331c",
-      "source": "limitless",
-      "sourceId": "6ae5e3a20d00101b48bf331c",
-      "name": "🇧🇷 Hit Challenge #58 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ae5e3a20d00101b48bf331c/details",
-      "startAt": "2026-11-06T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6ae66b8a0d00101b48bf3963",
-      "source": "limitless",
-      "sourceId": "6ae66b8a0d00101b48bf3963",
-      "name": "Amyverse Webcam Wonders #33 💙 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6ae66b8a0d00101b48bf3963/details",
-      "startAt": "2026-11-06T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae7fe3a0d00101b48bf460a",
-      "source": "limitless",
-      "sourceId": "6ae7fe3a0d00101b48bf460a",
-      "name": "Elite Four Fridays (Delta Reign)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae7fe3a0d00101b48bf460a/details",
-      "startAt": "2026-11-07T00:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGL",
@@ -319,6 +269,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aee3a74e99f3235a75e271a",
+      "source": "limitless",
+      "sourceId": "6aee3a74e99f3235a75e271a",
+      "name": "🇧🇷 Hit League #7 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aee3a74e99f3235a75e271a/details",
+      "startAt": "2026-11-11T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6adf708222fd412b92a4d3b7",
       "source": "limitless",
       "sourceId": "6adf708222fd412b92a4d3b7",
@@ -359,6 +319,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aee425ee99f3235a75e2752",
+      "source": "limitless",
+      "sourceId": "6aee425ee99f3235a75e2752",
+      "name": "🇧🇷 Hit Challenge #60 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aee425ee99f3235a75e2752/details",
+      "startAt": "2026-11-11T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ad828488a8383117e3f082a",
       "source": "limitless",
       "sourceId": "6ad828488a8383117e3f082a",
@@ -395,6 +365,16 @@
       "name": "17° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6aecd7710c463890f304c15d/details",
       "startAt": "2026-11-12T20:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aee4326c931f53978d95077",
+      "source": "limitless",
+      "sourceId": "6aee4326c931f53978d95077",
+      "name": "🇧🇷 Hit Challenge #61 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aee4326c931f53978d95077/details",
+      "startAt": "2026-11-12T23:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -449,6 +429,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aee451ee99f3235a75e276a",
+      "source": "limitless",
+      "sourceId": "6aee451ee99f3235a75e276a",
+      "name": "🇧🇷 Hit Challenge #62 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aee451ee99f3235a75e276a/details",
+      "startAt": "2026-11-13T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae7fee8ae67092a4074108f",
       "source": "limitless",
       "sourceId": "6ae7fee8ae67092a4074108f",
@@ -475,6 +465,16 @@
       "name": "TOURNAMENT OF DOOM! BIRDS! BIRDS! BIRDS!",
       "url": "https://play.limitlesstcg.com/tournament/6ae978a40c463890f304a3aa/details",
       "startAt": "2026-11-14T03:35:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6aee5566c931f53978d9517a",
+      "source": "limitless",
+      "sourceId": "6aee5566c931f53978d9517a",
+      "name": "🇧🇷 Hit Challenge #63 EXPANDIDO | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aee5566c931f53978d9517a/details",
+      "startAt": "2026-11-14T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -659,16 +659,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ad41ed6115c12b73a5a69cd",
-      "source": "limitless",
-      "sourceId": "6ad41ed6115c12b73a5a69cd",
-      "name": "🇧🇷 Hit Cup #24 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad41ed6115c12b73a5a69cd/details",
-      "startAt": "2026-11-22T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ae9c5020c463890f304a46f",
       "source": "limitless",
       "sourceId": "6ae9c5020c463890f304a46f",
@@ -735,6 +725,16 @@
       "name": "Nightshades Friday Challenge 8 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6ae976600c463890f304a3a6/details",
       "startAt": "2026-11-27T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad41ed6115c12b73a5a69cd",
+      "source": "limitless",
+      "sourceId": "6ad41ed6115c12b73a5a69cd",
+      "name": "🇧🇷 Hit Cup #24 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41ed6115c12b73a5a69cd/details",
+      "startAt": "2026-11-28T00:00:00.000Z"
     },
     {
       "format": "Standard",
