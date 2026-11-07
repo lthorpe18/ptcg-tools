@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T19:01:47.108Z",
+  "generatedAt": "2026-11-07T23:56:38.347Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae9d7610c463890f304a4e0",
-      "source": "limitless",
-      "sourceId": "6ae9d7610c463890f304a4e0",
-      "name": "OTS Pokemon TCG Live Arena #3",
-      "url": "https://play.limitlesstcg.com/tournament/6ae9d7610c463890f304a4e0/details",
-      "startAt": "2026-11-07T23:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "CAM",
@@ -24,6 +14,16 @@
       "sourceId": "6add4e2e97e21d82e5c6e993",
       "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6add4e2e97e21d82e5c6e993/details",
+      "startAt": "2026-11-08T01:00:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6aef9092e99f3235a75e3918",
+      "source": "limitless",
+      "sourceId": "6aef9092e99f3235a75e3918",
+      "name": "RCC Underground #14 EXPANDED",
+      "url": "https://play.limitlesstcg.com/tournament/6aef9092e99f3235a75e3918/details",
       "startAt": "2026-11-08T01:00:00.000Z"
     },
     {
@@ -235,6 +235,16 @@
       "name": "Clone 👑CrownOfSpain 👑 #13",
       "url": "https://play.limitlesstcg.com/tournament/6aea3ff8e94eae0f94746915/details",
       "startAt": "2026-11-10T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aef9042e99f3235a75e3916",
+      "source": "limitless",
+      "sourceId": "6aef9042e99f3235a75e3916",
+      "name": "Draw 7 Tourney #5",
+      "url": "https://play.limitlesstcg.com/tournament/6aef9042e99f3235a75e3916/details",
+      "startAt": "2026-11-10T19:30:00.000Z"
     },
     {
       "format": "Standard",
