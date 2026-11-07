@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T13:31:45.621Z",
+  "generatedAt": "2026-11-07T19:01:47.108Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aee27a9c931f53978d94e0f",
-      "source": "limitless",
-      "sourceId": "6aee27a9c931f53978d94e0f",
-      "name": "Delta Reign!",
-      "url": "https://play.limitlesstcg.com/tournament/6aee27a9c931f53978d94e0f/details",
-      "startAt": "2026-11-07T14:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:chamionship-of-doom-ten",
-      "source": "limitless",
-      "sourceId": "chamionship-of-doom-ten",
-      "name": "CHAMPIONSHIP OF DOOM! TEN!",
-      "url": "https://play.limitlesstcg.com/tournament/chamionship-of-doom-ten/details",
-      "startAt": "2026-11-07T16:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae5e417ae67092a4073fc4f",
-      "source": "limitless",
-      "sourceId": "6ae5e417ae67092a4073fc4f",
-      "name": "🇧🇷 Hit Challenge #59 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ae5e417ae67092a4073fc4f/details",
-      "startAt": "2026-11-07T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -85,6 +55,16 @@
       "name": "SEASAC League Challenge #24 (SEASON 6) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6aeeb490c931f53978d954e2/details",
       "startAt": "2026-11-08T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6aef30f6c931f53978d95815",
+      "source": "limitless",
+      "sourceId": "6aef30f6c931f53978d95815",
+      "name": "League Cup - CardsHall",
+      "url": "https://play.limitlesstcg.com/tournament/6aef30f6c931f53978d95815/details",
+      "startAt": "2026-11-08T13:00:00.000Z"
     },
     {
       "format": "Expanded",
