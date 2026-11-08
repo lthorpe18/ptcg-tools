@@ -1,40 +1,40 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-08T13:52:11.895Z",
+  "generatedAt": "2026-11-08T19:07:36.047Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
     {
-      "format": "Expanded",
+      "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6aecfdb30c463890f304c37f",
+      "id": "limitless:6aa74ce538886b36383bf593",
       "source": "limitless",
-      "sourceId": "6aecfdb30c463890f304c37f",
-      "name": "🟣 Gengar's Hideout | BST - PAR  | 100 codes🟣",
-      "url": "https://play.limitlesstcg.com/tournament/6aecfdb30c463890f304c37f/details",
-      "startAt": "2026-11-08T14:00:00.000Z"
+      "sourceId": "6aa74ce538886b36383bf593",
+      "name": "Lhama Champs",
+      "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
+      "startAt": "2026-11-08T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": null,
+      "id": "limitless:6af0c1ade99f3235a75e43f0",
+      "source": "limitless",
+      "sourceId": "6af0c1ade99f3235a75e43f0",
+      "name": "Izanami pre special",
+      "url": "https://play.limitlesstcg.com/tournament/6af0c1ade99f3235a75e43f0/details",
+      "startAt": "2026-11-08T23:20:00.000Z"
     },
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6af0636cc931f53978d9650e",
+      "id": "limitless:6af08c62c931f53978d966bd",
       "source": "limitless",
-      "sourceId": "6af0636cc931f53978d9650e",
-      "name": "Gigalith Assault Tournament 2",
-      "url": "https://play.limitlesstcg.com/tournament/6af0636cc931f53978d9650e/details",
-      "startAt": "2026-11-08T15:30:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6aefe04fe99f3235a75e3cdb",
-      "source": "limitless",
-      "sourceId": "6aefe04fe99f3235a75e3cdb",
-      "name": "Kearney G to I Rotation Format",
-      "url": "https://play.limitlesstcg.com/tournament/6aefe04fe99f3235a75e3cdb/details",
-      "startAt": "2026-11-08T16:30:00.000Z"
+      "sourceId": "6af08c62c931f53978d966bd",
+      "name": "Delta Reign Pop Up!",
+      "url": "https://play.limitlesstcg.com/tournament/6af08c62c931f53978d966bd/details",
+      "startAt": "2026-11-09T00:15:00.000Z"
     },
     {
       "format": "Standard",
@@ -212,7 +212,7 @@
       "id": "limitless:6aef9042e99f3235a75e3916",
       "source": "limitless",
       "sourceId": "6aef9042e99f3235a75e3916",
-      "name": "Draw 7 Tourney #5",
+      "name": "Draw 7 Tourney #5 (Standard)",
       "url": "https://play.limitlesstcg.com/tournament/6aef9042e99f3235a75e3916/details",
       "startAt": "2026-11-10T19:30:00.000Z"
     },
