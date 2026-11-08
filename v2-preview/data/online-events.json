@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T23:56:38.347Z",
+  "generatedAt": "2026-11-08T06:41:07.789Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6add4e2e97e21d82e5c6e993",
-      "source": "limitless",
-      "sourceId": "6add4e2e97e21d82e5c6e993",
-      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6add4e2e97e21d82e5c6e993/details",
-      "startAt": "2026-11-08T01:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6aef9092e99f3235a75e3918",
-      "source": "limitless",
-      "sourceId": "6aef9092e99f3235a75e3918",
-      "name": "RCC Underground #14 EXPANDED",
-      "url": "https://play.limitlesstcg.com/tournament/6aef9092e99f3235a75e3918/details",
-      "startAt": "2026-11-08T01:00:00.000Z"
-    },
-    {
-      "format": "Worlds 2022 (SSH–PGO)",
-      "platform": "SIM",
-      "id": "limitless:6ae3676322fd412b92a4f575",
-      "source": "limitless",
-      "sourceId": "6ae3676322fd412b92a4f575",
-      "name": "C-C Colosseum #22 - 2022 Worlds (SSH-PGO)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae3676322fd412b92a4f575/details",
-      "startAt": "2026-11-08T02:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aea6ad30c463890f304ab8c",
-      "source": "limitless",
-      "sourceId": "6aea6ad30c463890f304ab8c",
-      "name": "🪎Vault Of Games #10🪙|REGIONAL FORMAT🏆|WEEKLY📅",
-      "url": "https://play.limitlesstcg.com/tournament/6aea6ad30c463890f304ab8c/details",
-      "startAt": "2026-11-08T02:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -75,6 +35,16 @@
       "name": "🟣 Gengar's Hideout | BST - PAR  | 100 codes🟣",
       "url": "https://play.limitlesstcg.com/tournament/6aecfdb30c463890f304c37f/details",
       "startAt": "2026-11-08T14:00:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6aefe04fe99f3235a75e3cdb",
+      "source": "limitless",
+      "sourceId": "6aefe04fe99f3235a75e3cdb",
+      "name": "Kearney G to I Rotation Format",
+      "url": "https://play.limitlesstcg.com/tournament/6aefe04fe99f3235a75e3cdb/details",
+      "startAt": "2026-11-08T16:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -497,6 +467,16 @@
       "startAt": "2026-11-14T18:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6add4e2e97e21d82e5c6e993",
+      "source": "limitless",
+      "sourceId": "6add4e2e97e21d82e5c6e993",
+      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6add4e2e97e21d82e5c6e993/details",
+      "startAt": "2026-11-15T01:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6a69081652c24ac2da64eb2a",
@@ -505,6 +485,16 @@
       "name": "RDG! November Elite Qualifier",
       "url": "https://play.limitlesstcg.com/tournament/6a69081652c24ac2da64eb2a/details",
       "startAt": "2026-11-15T01:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6af00019c931f53978d961e6",
+      "source": "limitless",
+      "sourceId": "6af00019c931f53978d961e6",
+      "name": "C-C Colosseum #23 - 2023 LAIC (BST-PAF)",
+      "url": "https://play.limitlesstcg.com/tournament/6af00019c931f53978d961e6/details",
+      "startAt": "2026-11-15T02:00:00.000Z"
     },
     {
       "format": "Standard",
