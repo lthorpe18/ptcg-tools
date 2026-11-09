@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T00:00:09.266Z",
+  "generatedAt": "2026-11-09T07:10:10.111Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,52 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6af08c62c931f53978d966bd",
+      "id": "limitless:6af11320c931f53978d96cfb",
       "source": "limitless",
-      "sourceId": "6af08c62c931f53978d966bd",
-      "name": "Delta Reign Pop Up!",
-      "url": "https://play.limitlesstcg.com/tournament/6af08c62c931f53978d966bd/details",
-      "startAt": "2026-11-09T00:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae7e6e00d00101b48bf441c",
-      "source": "limitless",
-      "sourceId": "6ae7e6e00d00101b48bf441c",
-      "name": "Sisterhood Showdown #4 💗 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6ae7e6e00d00101b48bf441c/details",
-      "startAt": "2026-11-09T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": null,
-      "id": "limitless:6ae9f1df0c463890f304a5b1",
-      "source": "limitless",
-      "sourceId": "6ae9f1df0c463890f304a5b1",
-      "name": "Rookie League #1 PTCG Live (25 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae9f1df0c463890f304a5b1/details",
-      "startAt": "2026-11-09T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aee7c9fe99f3235a75e29c5",
-      "source": "limitless",
-      "sourceId": "6aee7c9fe99f3235a75e29c5",
-      "name": "Rare Candy Club Showdown #51 DELTA REIGN LEGAL",
-      "url": "https://play.limitlesstcg.com/tournament/6aee7c9fe99f3235a75e29c5/details",
-      "startAt": "2026-11-09T01:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6aef1937c931f53978d956e1",
-      "source": "limitless",
-      "sourceId": "6aef1937c931f53978d956e1",
-      "name": "BZGC Online🔥 ~ ExPAnDED Vol2",
-      "url": "https://play.limitlesstcg.com/tournament/6aef1937c931f53978d956e1/details",
-      "startAt": "2026-11-09T01:00:00.000Z"
+      "sourceId": "6af11320c931f53978d96cfb",
+      "name": "SEASAC League Challenge #25 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6af11320c931f53978d96cfb/details",
+      "startAt": "2026-11-09T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -505,6 +465,16 @@
       "name": "ACETCGS.COM Weekly #9 - STORE CREDIT/CASH PRIZING",
       "url": "https://play.limitlesstcg.com/tournament/6ae7cdb30d00101b48bf4383/details",
       "startAt": "2026-11-16T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7e6e00d00101b48bf441c",
+      "source": "limitless",
+      "sourceId": "6ae7e6e00d00101b48bf441c",
+      "name": "Sisterhood Showdown #4 💗 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7e6e00d00101b48bf441c/details",
+      "startAt": "2026-11-16T01:00:00.000Z"
     },
     {
       "format": "Standard",
