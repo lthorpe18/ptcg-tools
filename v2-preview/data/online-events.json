@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-08T19:07:36.047Z",
+  "generatedAt": "2026-11-09T00:00:09.266Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa74ce538886b36383bf593",
-      "source": "limitless",
-      "sourceId": "6aa74ce538886b36383bf593",
-      "name": "Lhama Champs",
-      "url": "https://play.limitlesstcg.com/tournament/6aa74ce538886b36383bf593/details",
-      "startAt": "2026-11-08T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": null,
-      "id": "limitless:6af0c1ade99f3235a75e43f0",
-      "source": "limitless",
-      "sourceId": "6af0c1ade99f3235a75e43f0",
-      "name": "Izanami pre special",
-      "url": "https://play.limitlesstcg.com/tournament/6af0c1ade99f3235a75e43f0/details",
-      "startAt": "2026-11-08T23:20:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -309,6 +289,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af0ed10c931f53978d96bad",
+      "source": "limitless",
+      "sourceId": "6af0ed10c931f53978d96bad",
+      "name": "REFINE Autumn Series Session 11: Glowing Gobbler",
+      "url": "https://play.limitlesstcg.com/tournament/6af0ed10c931f53978d96bad/details",
+      "startAt": "2026-11-12T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aee20e4c931f53978d94d65",
       "source": "limitless",
       "sourceId": "6aee20e4c931f53978d94d65",
@@ -465,6 +455,16 @@
       "name": "🇧🇷 Hit Challenge #63 EXPANDIDO | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6aee5566c931f53978d9517a/details",
       "startAt": "2026-11-14T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af0cebee99f3235a75e4445",
+      "source": "limitless",
+      "sourceId": "6af0cebee99f3235a75e4445",
+      "name": "AOB's Team Challenge",
+      "url": "https://play.limitlesstcg.com/tournament/6af0cebee99f3235a75e4445/details",
+      "startAt": "2026-11-15T00:00:00.000Z"
     },
     {
       "format": null,
