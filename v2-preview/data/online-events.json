@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T07:10:10.111Z",
+  "generatedAt": "2026-11-09T19:06:36.174Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af11320c931f53978d96cfb",
-      "source": "limitless",
-      "sourceId": "6af11320c931f53978d96cfb",
-      "name": "SEASAC League Challenge #25 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6af11320c931f53978d96cfb/details",
-      "startAt": "2026-11-09T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aea2850e94eae0f947467c5",
-      "source": "limitless",
-      "sourceId": "6aea2850e94eae0f947467c5",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6aea2850e94eae0f947467c5/details",
-      "startAt": "2026-11-09T17:00:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6aeb57360c463890f304b243",
-      "source": "limitless",
-      "sourceId": "6aeb57360c463890f304b243",
-      "name": "Holon Locals #50 (EU Friendly)",
-      "url": "https://play.limitlesstcg.com/tournament/6aeb57360c463890f304b243/details",
-      "startAt": "2026-11-09T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af06b63c931f53978d9656c",
-      "source": "limitless",
-      "sourceId": "6af06b63c931f53978d9656c",
-      "name": "Pumpkaweekly",
-      "url": "https://play.limitlesstcg.com/tournament/6af06b63c931f53978d9656c/details",
-      "startAt": "2026-11-09T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae9c2f4e94eae0f947464af",
-      "source": "limitless",
-      "sourceId": "6ae9c2f4e94eae0f947464af",
-      "name": "🏆Ling TV ARENA🏆",
-      "url": "https://play.limitlesstcg.com/tournament/6ae9c2f4e94eae0f947464af/details",
-      "startAt": "2026-11-09T19:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -92,8 +42,18 @@
       "id": "limitless:6ae7fa53ae67092a4074106b",
       "source": "limitless",
       "sourceId": "6ae7fa53ae67092a4074106b",
-      "name": "E4MC Modern Mondays",
+      "name": "E4MC Modern Mondays (Delta Reign Legal)",
       "url": "https://play.limitlesstcg.com/tournament/6ae7fa53ae67092a4074106b/details",
+      "startAt": "2026-11-10T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af1cb5be99f3235a75e4b93",
+      "source": "limitless",
+      "sourceId": "6af1cb5be99f3235a75e4b93",
+      "name": "Heart of the Games Pop-Up - S101",
+      "url": "https://play.limitlesstcg.com/tournament/6af1cb5be99f3235a75e4b93/details",
       "startAt": "2026-11-10T00:00:00.000Z"
     },
     {
@@ -129,6 +89,26 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af1bac4c931f53978d9719d",
+      "source": "limitless",
+      "sourceId": "6af1bac4c931f53978d9719d",
+      "name": "SEASAC League Challenge #25 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6af1bac4c931f53978d9719d/details",
+      "startAt": "2026-11-10T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af1fd6de99f3235a75e4db2",
+      "source": "limitless",
+      "sourceId": "6af1fd6de99f3235a75e4db2",
+      "name": "Team Corna Weekly November #1",
+      "url": "https://play.limitlesstcg.com/tournament/6af1fd6de99f3235a75e4db2/details",
+      "startAt": "2026-11-10T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aea4cf8e94eae0f9474697e",
       "source": "limitless",
       "sourceId": "6aea4cf8e94eae0f9474697e",
@@ -142,7 +122,7 @@
       "id": "limitless:6aea3ff8e94eae0f94746915",
       "source": "limitless",
       "sourceId": "6aea3ff8e94eae0f94746915",
-      "name": "Clone 👑CrownOfSpain 👑 #13",
+      "name": "👑CrownOfSpain 👑 #13",
       "url": "https://play.limitlesstcg.com/tournament/6aea3ff8e94eae0f94746915/details",
       "startAt": "2026-11-10T19:00:00.000Z"
     },
@@ -372,7 +352,7 @@
       "id": "limitless:6ae7fee8ae67092a4074108f",
       "source": "limitless",
       "sourceId": "6ae7fee8ae67092a4074108f",
-      "name": "Elite Four Fridays",
+      "name": "Elite Four Fridays (Delta Reign Legal)",
       "url": "https://play.limitlesstcg.com/tournament/6ae7fee8ae67092a4074108f/details",
       "startAt": "2026-11-14T00:00:00.000Z"
     },
@@ -459,6 +439,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af1b428c931f53978d9718f",
+      "source": "limitless",
+      "sourceId": "6af1b428c931f53978d9718f",
+      "name": "Tournoi amical LEAGUE canto N65°",
+      "url": "https://play.limitlesstcg.com/tournament/6af1b428c931f53978d9718f/details",
+      "startAt": "2026-11-15T13:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae7cdb30d00101b48bf4383",
       "source": "limitless",
       "sourceId": "6ae7cdb30d00101b48bf4383",
@@ -522,7 +512,7 @@
       "id": "limitless:6ae7fadbae67092a4074106d",
       "source": "limitless",
       "sourceId": "6ae7fadbae67092a4074106d",
-      "name": "E4MC Modern Mondays",
+      "name": "E4MC Modern Mondays  (Delta Reign Legal)",
       "url": "https://play.limitlesstcg.com/tournament/6ae7fadbae67092a4074106d/details",
       "startAt": "2026-11-17T00:00:00.000Z"
     },
@@ -822,7 +812,7 @@
       "id": "limitless:6aee8173c931f53978d95349",
       "source": "limitless",
       "sourceId": "6aee8173c931f53978d95349",
-      "name": "Elite Four Fridays (CASH TOURNAMENT)",
+      "name": "Elite Four Fridays ($100 CASH TOURNAMENT)",
       "url": "https://play.limitlesstcg.com/tournament/6aee8173c931f53978d95349/details",
       "startAt": "2026-12-05T00:00:00.000Z"
     },
