@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-10T12:57:59.655Z",
+  "generatedAt": "2026-11-10T20:59:55.489Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af1fd6de99f3235a75e4db2",
-      "source": "limitless",
-      "sourceId": "6af1fd6de99f3235a75e4db2",
-      "name": "Team Corna Weekly November #1",
-      "url": "https://play.limitlesstcg.com/tournament/6af1fd6de99f3235a75e4db2/details",
-      "startAt": "2026-11-10T17:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aea4cf8e94eae0f9474697e",
-      "source": "limitless",
-      "sourceId": "6aea4cf8e94eae0f9474697e",
-      "name": "Amyverse Bulk Box Battles #7 🧡 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6aea4cf8e94eae0f9474697e/details",
-      "startAt": "2026-11-10T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af2651cc931f53978d97c32",
-      "source": "limitless",
-      "sourceId": "6af2651cc931f53978d97c32",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6af2651cc931f53978d97c32/details",
-      "startAt": "2026-11-10T18:45:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aea3ff8e94eae0f94746915",
-      "source": "limitless",
-      "sourceId": "6aea3ff8e94eae0f94746915",
-      "name": "👑CrownOfSpain 👑 #13",
-      "url": "https://play.limitlesstcg.com/tournament/6aea3ff8e94eae0f94746915/details",
-      "startAt": "2026-11-10T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aef9042e99f3235a75e3916",
-      "source": "limitless",
-      "sourceId": "6aef9042e99f3235a75e3916",
-      "name": "Draw 7 Tourney #5 (Standard)",
-      "url": "https://play.limitlesstcg.com/tournament/6aef9042e99f3235a75e3916/details",
-      "startAt": "2026-11-10T19:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -357,6 +307,16 @@
       "startAt": "2026-11-14T03:35:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af36215dcbca32da6c4d8cd",
+      "source": "limitless",
+      "sourceId": "6af36215dcbca32da6c4d8cd",
+      "name": "YHT Pokémon TCG League",
+      "url": "https://play.limitlesstcg.com/tournament/6af36215dcbca32da6c4d8cd/details",
+      "startAt": "2026-11-14T06:30:00.000Z"
+    },
+    {
       "format": null,
       "platform": null,
       "id": "limitless:6ae0601280a8f79408d1f630",
@@ -535,6 +495,16 @@
       "name": "Nightshades Monday Cup 6 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad8426e905c1db68744640/details",
       "startAt": "2026-11-17T01:00:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6af30be1c931f53978d9818e",
+      "source": "limitless",
+      "sourceId": "6af30be1c931f53978d9818e",
+      "name": "Strategic TCG's TCGL Expanded Weekly #1!",
+      "url": "https://play.limitlesstcg.com/tournament/6af30be1c931f53978d9818e/details",
+      "startAt": "2026-11-17T19:00:00.000Z"
     },
     {
       "format": "Standard",
