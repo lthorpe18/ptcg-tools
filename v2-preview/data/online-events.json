@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-10T02:54:32.608Z",
+  "generatedAt": "2026-11-10T12:57:59.655Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af2734fc931f53978d97dc8",
-      "source": "limitless",
-      "sourceId": "6af2734fc931f53978d97dc8",
-      "name": "🪎Vault Of Games | 🌙 NOT SO Midnight Madness #25",
-      "url": "https://play.limitlesstcg.com/tournament/6af2734fc931f53978d97dc8/details",
-      "startAt": "2026-11-10T03:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af1bac4c931f53978d9719d",
-      "source": "limitless",
-      "sourceId": "6af1bac4c931f53978d9719d",
-      "name": "SEASAC League Challenge #25 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6af1bac4c931f53978d9719d/details",
-      "startAt": "2026-11-10T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -494,6 +474,16 @@
       "sourceId": "6ae8e099e94eae0f94745a1f",
       "name": "TurboBlaze GLC Async Challenge - Nov 2026",
       "url": "https://play.limitlesstcg.com/tournament/6ae8e099e94eae0f94745a1f/details",
+      "startAt": "2026-11-16T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af2f34cc931f53978d980c0",
+      "source": "limitless",
+      "sourceId": "6af2f34cc931f53978d980c0",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6af2f34cc931f53978d980c0/details",
       "startAt": "2026-11-16T17:00:00.000Z"
     },
     {
