@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T19:06:36.174Z",
+  "generatedAt": "2026-11-10T02:54:32.608Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,82 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ae5e254ae67092a4073fc46",
+      "id": "limitless:6af2734fc931f53978d97dc8",
       "source": "limitless",
-      "sourceId": "6ae5e254ae67092a4073fc46",
-      "name": "🇧🇷 Hit Challenge #56 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ae5e254ae67092a4073fc46/details",
-      "startAt": "2026-11-09T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae901a50c463890f3049d40",
-      "source": "limitless",
-      "sourceId": "6ae901a50c463890f3049d40",
-      "name": "Sunny's Weekly #281 My Friend Rayquaza :D",
-      "url": "https://play.limitlesstcg.com/tournament/6ae901a50c463890f3049d40/details",
-      "startAt": "2026-11-09T23:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ad82790115c12b73a5a8ccd",
-      "source": "limitless",
-      "sourceId": "6ad82790115c12b73a5a8ccd",
-      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 9 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6ad82790115c12b73a5a8ccd/details",
-      "startAt": "2026-11-10T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae7fa53ae67092a4074106b",
-      "source": "limitless",
-      "sourceId": "6ae7fa53ae67092a4074106b",
-      "name": "E4MC Modern Mondays (Delta Reign Legal)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae7fa53ae67092a4074106b/details",
-      "startAt": "2026-11-10T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af1cb5be99f3235a75e4b93",
-      "source": "limitless",
-      "sourceId": "6af1cb5be99f3235a75e4b93",
-      "name": "Heart of the Games Pop-Up - S101",
-      "url": "https://play.limitlesstcg.com/tournament/6af1cb5be99f3235a75e4b93/details",
-      "startAt": "2026-11-10T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad840ff127b1b52c27c2fb",
-      "source": "limitless",
-      "sourceId": "6aad840ff127b1b52c27c2fb",
-      "name": "Nightshades Monday Cup 5 (25 Codes)",
-      "url": "https://play.limitlesstcg.com/tournament/6aad840ff127b1b52c27c2fb/details",
-      "startAt": "2026-11-10T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aee1717c931f53978d94c86",
-      "source": "limitless",
-      "sourceId": "6aee1717c931f53978d94c86",
-      "name": "Mega Lunes 22",
-      "url": "https://play.limitlesstcg.com/tournament/6aee1717c931f53978d94c86/details",
-      "startAt": "2026-11-10T01:10:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adf641922fd412b92a4d374",
-      "source": "limitless",
-      "sourceId": "6adf641922fd412b92a4d374",
-      "name": "🏛💫 Card Temple Weekly Battles #83",
-      "url": "https://play.limitlesstcg.com/tournament/6adf641922fd412b92a4d374/details",
-      "startAt": "2026-11-10T02:00:00.000Z"
+      "sourceId": "6af2734fc931f53978d97dc8",
+      "name": "🪎Vault Of Games | 🌙 NOT SO Midnight Madness #25",
+      "url": "https://play.limitlesstcg.com/tournament/6af2734fc931f53978d97dc8/details",
+      "startAt": "2026-11-10T03:15:00.000Z"
     },
     {
       "format": "Standard",
@@ -104,7 +34,7 @@
       "sourceId": "6af1fd6de99f3235a75e4db2",
       "name": "Team Corna Weekly November #1",
       "url": "https://play.limitlesstcg.com/tournament/6af1fd6de99f3235a75e4db2/details",
-      "startAt": "2026-11-10T17:00:00.000Z"
+      "startAt": "2026-11-10T17:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -115,6 +45,16 @@
       "name": "Amyverse Bulk Box Battles #7 🧡 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6aea4cf8e94eae0f9474697e/details",
       "startAt": "2026-11-10T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af2651cc931f53978d97c32",
+      "source": "limitless",
+      "sourceId": "6af2651cc931f53978d97c32",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6af2651cc931f53978d97c32/details",
+      "startAt": "2026-11-10T18:45:00.000Z"
     },
     {
       "format": "Standard",
@@ -179,6 +119,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af23e39e99f3235a75e52ca",
+      "source": "limitless",
+      "sourceId": "6af23e39e99f3235a75e52ca",
+      "name": "Pudding Weekly #21 | an IQ too high?",
+      "url": "https://play.limitlesstcg.com/tournament/6af23e39e99f3235a75e52ca/details",
+      "startAt": "2026-11-11T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae9ddfc0c463890f304a531",
       "source": "limitless",
       "sourceId": "6ae9ddfc0c463890f304a531",
@@ -194,6 +144,16 @@
       "sourceId": "6aec9e16e94eae0f94747d8f",
       "name": "Amyverse PTCG Live Weekly #21 💛 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6aec9e16e94eae0f94747d8f/details",
+      "startAt": "2026-11-11T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6af2660be99f3235a75e55c6",
+      "source": "limitless",
+      "sourceId": "6af2660be99f3235a75e55c6",
+      "name": "⚡Surge's TCG Vault Webcam Wednesdays! #25⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6af2660be99f3235a75e55c6/details",
       "startAt": "2026-11-11T19:00:00.000Z"
     },
     {
@@ -255,6 +215,16 @@
       "name": "⚗️🔥PokéKhemistry TURBO Thursday 🧪",
       "url": "https://play.limitlesstcg.com/tournament/6ae454a20d00101b48bf2113/details",
       "startAt": "2026-11-12T18:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af265ade99f3235a75e55c4",
+      "source": "limitless",
+      "sourceId": "6af265ade99f3235a75e55c4",
+      "name": "⚡ Surge's Winner Takes All - 100 Codes ⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6af265ade99f3235a75e55c4/details",
+      "startAt": "2026-11-12T18:45:00.000Z"
     },
     {
       "format": "Standard",
@@ -329,6 +299,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af26654c931f53978d97c9b",
+      "source": "limitless",
+      "sourceId": "6af26654c931f53978d97c9b",
+      "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #29",
+      "url": "https://play.limitlesstcg.com/tournament/6af26654c931f53978d97c9b/details",
+      "startAt": "2026-11-13T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aee451ee99f3235a75e276a",
       "source": "limitless",
       "sourceId": "6aee451ee99f3235a75e276a",
@@ -367,6 +347,16 @@
       "startAt": "2026-11-14T00:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af273cee99f3235a75e56e3",
+      "source": "limitless",
+      "sourceId": "6af273cee99f3235a75e56e3",
+      "name": "Rotom Rivals #2",
+      "url": "https://play.limitlesstcg.com/tournament/6af273cee99f3235a75e56e3/details",
+      "startAt": "2026-11-14T01:00:00.000Z"
+    },
+    {
       "format": "Worlds 2014 (NXD–FLF)",
       "platform": "SIM",
       "id": "limitless:6aeeea49c931f53978d955c4",
@@ -387,6 +377,16 @@
       "startAt": "2026-11-14T03:35:00.000Z"
     },
     {
+      "format": null,
+      "platform": null,
+      "id": "limitless:6ae0601280a8f79408d1f630",
+      "source": "limitless",
+      "sourceId": "6ae0601280a8f79408d1f630",
+      "name": "Surprise! Eternal Tournament #38 Rerun",
+      "url": "https://play.limitlesstcg.com/tournament/6ae0601280a8f79408d1f630/details",
+      "startAt": "2026-11-14T18:00:00.000Z"
+    },
+    {
       "format": "Expanded",
       "platform": "PTCGL",
       "id": "limitless:6aee5566c931f53978d9517a",
@@ -395,6 +395,16 @@
       "name": "🇧🇷 Hit Challenge #63 EXPANDIDO | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6aee5566c931f53978d9517a/details",
       "startAt": "2026-11-14T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6af27d5ce99f3235a75e578a",
+      "source": "limitless",
+      "sourceId": "6af27d5ce99f3235a75e578a",
+      "name": "⚡Surge's TCG Vault Weekend Webcams! #26⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6af27d5ce99f3235a75e578a/details",
+      "startAt": "2026-11-14T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -495,6 +505,16 @@
       "name": "🏆Ling TV ARENA🏆",
       "url": "https://play.limitlesstcg.com/tournament/6ae9c470e94eae0f947464c0/details",
       "startAt": "2026-11-16T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af22baee99f3235a75e51d9",
+      "source": "limitless",
+      "sourceId": "6af22baee99f3235a75e51d9",
+      "name": "Sunny's Weekly #282 LAIC at Fogo de Chao!",
+      "url": "https://play.limitlesstcg.com/tournament/6af22baee99f3235a75e51d9/details",
+      "startAt": "2026-11-16T23:05:00.000Z"
     },
     {
       "format": "Standard",
