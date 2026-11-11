@@ -21,7 +21,22 @@ export function formatAt(date, environment, rules = resolver) {
 }
 export function classifyEvent(event, environment, declaredFormat, rules = resolver) {
   const date = day(event.date);
-  const context = formatAt(date, environment, rules);
+  let contextDay=date;
+  // Format labels are calendar-day based, but a newly released set can arrive
+  // partway through a UTC day. Classify tournament timestamps against that
+  // verified instant to avoid mixing pre-release games into the new format.
+  if(environment==='online' && String(event.date).includes('T')){
+    const instant=Date.parse(event.date);
+    if(Number.isFinite(instant) && calendar.sets.some(set=>{
+      const fact=set.legality?.online;
+      return fact?.value===date && fact.effectiveAt && instant<Date.parse(fact.effectiveAt);
+    })){
+      const previous=new Date(date+'T00:00:00Z');
+      previous.setUTCDate(previous.getUTCDate()-1);
+      contextDay=previous.toISOString().slice(0,10);
+    }
+  }
+  const context = formatAt(contextDay, environment, rules);
   if (context && !context.contextId) throw new Error(`Unknown ${environment} event-date format on ${date}`);
   if (event.format && event.format !== declaredFormat) throw new Error(`Event ${event.id} format disagrees with dataset`);
   if (!declaredFormat) throw new Error('Dataset format is required');
@@ -47,7 +62,11 @@ export function ingestionContext(environment, date = new Date().toISOString()) {
   const dates = calendar.sets.filter(set=>context.addedSetIds.includes(set.id)).map(set=>set.legality[environment].value).filter(Boolean).sort();
   // Legacy ingestion query boundary, NOT a verified release or legality date.
   const queryStart = dates.at(-1) || '2026-07-17';
-  return {format:context.label, context, queryStart, queryStartBasis:dates.length?'maintained-legality':'legacy-source-query-boundary', date:day(date)};
+  const latest=calendar.sets.find(set=>set.legality?.[environment]?.value===queryStart &&
+    context.addedSetIds.includes(set.id) && set.legality?.[environment]?.effectiveAt);
+  const queryStartAt=latest?.legality?.[environment]?.effectiveAt || queryStart+'T00:00:00Z';
+  return {format:context.label, context, queryStart, queryStartAt,
+    queryStartBasis:dates.length?'maintained-legality':'legacy-source-query-boundary', date:day(date)};
 }
 
 // During an Online/IRL split, finish collecting the outgoing Online format as
@@ -62,7 +81,9 @@ export function ingestionJobs(environment, date = new Date().toISOString()) {
   const other=formatAt(date,environment==='online'?'irl':'online');
   const recent=(new Date(today)-new Date(last))/86400000<=2;
   return previous.format!==current.format && (recent || other?.label===previous.format)
-    ? [{...previous,queryEnd:last},current] : [current];
+    ? [{...previous,queryEnd:last,queryEndAt:calendar.sets.find(set=>set.legality?.[environment]?.value===last &&
+        set.legality?.[environment]?.effectiveAt)?.legality[environment].effectiveAt || last+'T00:00:00Z'},current]
+    : [current];
 }
 
 export function verifyAggregateQuery(html, {format,set,rotation}) {
