@@ -9,6 +9,8 @@ globalThis.fetch=async input=>{
   const url=new URL(input);
   if(url.pathname==='/api/tournaments')return Response.json([
     {id:'synthetic-dlr',name:'SYNTHETIC DLR tournament',date:'2026-11-06T19:00:00Z',players:50},
+    {id:'synthetic-late',name:'SYNTHETIC 5 Nov after Live activation',date:'2026-11-05T19:00:00Z',players:50},
+    {id:'synthetic-early',name:'SYNTHETIC 5 Nov before Live activation',date:'2026-11-05T11:30:00Z',players:50},
     {id:'synthetic-30c',name:'SYNTHETIC 30C tournament',date:'2026-11-04T19:00:00Z',players:50},
   ]);
   if(url.pathname.endsWith('/standings'))return Response.json(Array.from({length:50},(_,i)=>({
