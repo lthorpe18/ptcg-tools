@@ -10,8 +10,8 @@ const ingest=process.env.META_INGEST_FORMAT ? ingestionJobs('online').find(job=>
 if(!ingest)throw new Error('Unsupported ingestion format job');
 const FORMAT_ID=ingest.format;
 const FORMAT_LABEL=FORMAT_ID.replaceAll('-','–');
-const FORMAT_START=ingest.queryStart+'T00:00:00Z';
-const FORMAT_END=ingest.queryEnd ? ingest.queryEnd+'T00:00:00Z' : null;
+const FORMAT_START=ingest.queryStartAt || ingest.queryStart+'T00:00:00Z';
+const FORMAT_END=ingest.queryEndAt || (ingest.queryEnd ? ingest.queryEnd+'T00:00:00Z' : null);
 const withinFormatWindow=event=>{
   const date=new Date(event?.date).getTime();
   return Number.isFinite(date) && date>=new Date(FORMAT_START).getTime() &&
@@ -85,7 +85,7 @@ async function tournamentIndex() {
   return [...unique.values()]
     .filter(t => {
       const ts = new Date(t.date).getTime();
-      return Number.isFinite(ts) && ts >= cutoff && (!ingest.queryEnd || ts < new Date(ingest.queryEnd+'T00:00:00Z').getTime()) && Number(t.players || 0) >= MIN_PLAYERS;
+      return Number.isFinite(ts) && ts >= cutoff && (!FORMAT_END || ts < new Date(FORMAT_END).getTime()) && Number(t.players || 0) >= MIN_PLAYERS;
     })
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
