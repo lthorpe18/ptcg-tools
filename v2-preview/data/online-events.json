@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-11T02:14:12.654Z",
+  "generatedAt": "2026-11-11T09:49:53.927Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -15,6 +15,26 @@
       "name": "Zard-Pokénight #026",
       "url": "https://play.limitlesstcg.com/tournament/6ae9ddfc0c463890f304a531/details",
       "startAt": "2026-11-11T15:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af435bf00d53a11f5b90fd1",
+      "source": "limitless",
+      "sourceId": "6af435bf00d53a11f5b90fd1",
+      "name": "Circuito TCG #7 | Z2 Gaming",
+      "url": "https://play.limitlesstcg.com/tournament/6af435bf00d53a11f5b90fd1/details",
+      "startAt": "2026-11-11T17:00:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6af3f32adcbca32da6c4e0f7",
+      "source": "limitless",
+      "sourceId": "6af3f32adcbca32da6c4e0f7",
+      "name": "Turtwig Den Expanded Tournament 1",
+      "url": "https://play.limitlesstcg.com/tournament/6af3f32adcbca32da6c4e0f7/details",
+      "startAt": "2026-11-11T17:05:00.000Z"
     },
     {
       "format": "Standard",
@@ -465,6 +485,16 @@
       "name": "Nightshades Monday Cup 6 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad8426e905c1db68744640/details",
       "startAt": "2026-11-17T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af3dfba00d53a11f5b90e63",
+      "source": "limitless",
+      "sourceId": "6af3dfba00d53a11f5b90e63",
+      "name": "Amyverse Bulk Box Battles #8 🧡 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6af3dfba00d53a11f5b90e63/details",
+      "startAt": "2026-11-17T18:00:00.000Z"
     },
     {
       "format": "Expanded",
