@@ -1,41 +1,147 @@
 {
   "schemaVersion": 1,
   "kind": "user-maintained",
-  "revision": "user-calendar-2026-09-08.1",
+  "revision": "user-calendar-2026-11-11.dlr1",
   "scope": "tpci-international-standard",
   "sources": {
     "user-2026-09-08": {
       "title": "Project owner supplied current format and 30C legality dates on 8 September 2026",
       "authority": "user-maintained",
       "note": "Not independently verified. Current H–J; TEF through PBL. 30C Online 15 September, IRL 24 September. Later sets and rotation unknown."
+    },
+    "pokemon-dlr-official-2026": {
+      "title": "Official Pokémon TCG Live Delta Reign expansion release announcement",
+      "url": "https://community.pokemon.com/en-us/discussion/26743/mega-evolution-delta-reign-expansion-release",
+      "authority": "official",
+      "note": "Delta Reign cards playable in all TCG Live game modes from 5 November 2026, 17:00 UTC. Day-level resolver records 2026-11-05."
+    },
+    "pokemon-dlr-physical-2026": {
+      "title": "Official Delta Reign product release",
+      "url": "https://www.pokemon.com/uk/news/the-pokemon-tcg-mega-evolution-delta-reign-expansion-is-available-now",
+      "authority": "official",
+      "note": "Booster release 6 November 2026."
+    },
+    "pokemon-play-legality-2026": {
+      "title": "Official 2026 Pokémon TCG tournament product legality policy",
+      "url": "https://community.pokemon.com/en-us/discussion/22216/pokemon-tcg-product-legality-update",
+      "authority": "official",
+      "note": "Play! Pokémon sanctioned events permit regular-set products two weeks after first qualifying booster product; 6 November plus 14 days = 20 November 2026."
     }
   },
   "baseline": {
     "id": "standard-h-j-tef-pbl",
     "asOf": "2026-09-08",
-    "regulationMarks": ["H", "I", "J"],
+    "regulationMarks": [
+      "H",
+      "I",
+      "J"
+    ],
     "earliestSet": "TEF",
-    "latestSets": ["PBL"],
+    "latestSets": [
+      "PBL"
+    ],
     "source": "user-2026-09-08"
   },
   "coverage": {
-    "catalog": {"complete": false, "note": "Maintained format boundaries; exhaustive historical set roster/release dates not supplied."},
-    "online": {"complete": false, "note": "Current baseline and known additions only; no historical rotation date inferred."},
-    "irl": {"complete": false, "note": "Current baseline and known additions only; no historical rotation date inferred."}
+    "catalog": {
+      "complete": false,
+      "note": "Maintained format boundaries; exhaustive historical set roster/release dates not supplied."
+    },
+    "online": {
+      "complete": false,
+      "note": "Current baseline and known additions only; no historical rotation date inferred."
+    },
+    "irl": {
+      "complete": false,
+      "note": "Current baseline and known additions only; no historical rotation date inferred."
+    }
   },
   "sets": [
     {
       "id": "30C",
       "name": "30th Celebration",
-      "release": {"value": null, "status": "announced", "sources": ["user-2026-09-08"], "convention": "calendar-day-inclusive", "note": "Release date not supplied; never copied from a legality date."},
-      "marks": {"value": null, "status": "unknown", "sources": [], "note": "Card-level mark inventory not supplied; ordinary addition retains the maintained rotation boundary."},
+      "release": {
+        "value": null,
+        "status": "announced",
+        "sources": [
+          "user-2026-09-08"
+        ],
+        "convention": "calendar-day-inclusive",
+        "note": "Release date not supplied; never copied from a legality date."
+      },
+      "marks": {
+        "value": null,
+        "status": "unknown",
+        "sources": [],
+        "note": "Card-level mark inventory not supplied; ordinary addition retains the maintained rotation boundary."
+      },
       "legality": {
-        "online": {"value": "2026-09-15", "status": "confirmed", "sources": ["user-2026-09-08"], "convention": "calendar-day-inclusive"},
-        "irl": {"value": "2026-09-24", "status": "confirmed", "sources": ["user-2026-09-08"], "convention": "calendar-day-inclusive"}
+        "online": {
+          "value": "2026-09-15",
+          "status": "confirmed",
+          "sources": [
+            "user-2026-09-08"
+          ],
+          "convention": "calendar-day-inclusive"
+        },
+        "irl": {
+          "value": "2026-09-24",
+          "status": "confirmed",
+          "sources": [
+            "user-2026-09-08"
+          ],
+          "convention": "calendar-day-inclusive"
+        }
+      },
+      "rotation": null
+    },
+    {
+      "id": "DLR",
+      "name": "Mega Evolution—Delta Reign",
+      "release": {
+        "value": "2026-11-06",
+        "status": "confirmed",
+        "sources": [
+          "pokemon-dlr-physical-2026"
+        ],
+        "convention": "calendar-day-inclusive"
+      },
+      "marks": {
+        "value": null,
+        "status": "unknown",
+        "sources": []
+      },
+      "legality": {
+        "online": {
+          "value": "2026-11-05",
+          "status": "confirmed",
+          "sources": [
+            "pokemon-dlr-official-2026"
+          ],
+          "convention": "calendar-day-inclusive",
+          "note": "Play in TCG Live activated at 17:00 UTC; resolver uses inclusive calendar days."
+        },
+        "irl": {
+          "value": "2026-11-20",
+          "status": "confirmed",
+          "sources": [
+            "pokemon-dlr-physical-2026",
+            "pokemon-play-legality-2026"
+          ],
+          "convention": "calendar-day-inclusive",
+          "note": "Derived from official booster release and 14-day official tournament legality policy."
+        }
       },
       "rotation": null
     }
   ],
-  "rotations": {"online": [], "irl": []},
-  "unknowns": ["30C release date", "Next rotation date and lower boundary", "Set releases after 30C"]
+  "rotations": {
+    "online": [],
+    "irl": []
+  },
+  "unknowns": [
+    "30C release date",
+    "Next rotation date and lower boundary",
+    "Set releases after DLR"
+  ]
 }
