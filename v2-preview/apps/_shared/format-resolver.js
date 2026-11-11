@@ -53,7 +53,7 @@
         check(f.value == null || !!dateOnly(f.value), path + ': invalid date');
         check(f.convention === 'calendar-day-inclusive', path + ': missing date convention');
         if(f.effectiveAt!==undefined){
-          check(f.status==='confirmed' && /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/.test(f.effectiveAt) &&
+          check(f.status==='confirmed' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(f.effectiveAt) &&
             Number.isFinite(Date.parse(f.effectiveAt)) && f.effectiveAt.slice(0,10)===f.value,
             path + ': invalid explicit activation instant');
         }
