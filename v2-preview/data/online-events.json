@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-11T09:49:53.927Z",
+  "generatedAt": "2026-11-11T18:01:58.635Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae9ddfc0c463890f304a531",
-      "source": "limitless",
-      "sourceId": "6ae9ddfc0c463890f304a531",
-      "name": "Zard-Pokénight #026",
-      "url": "https://play.limitlesstcg.com/tournament/6ae9ddfc0c463890f304a531/details",
-      "startAt": "2026-11-11T15:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af435bf00d53a11f5b90fd1",
-      "source": "limitless",
-      "sourceId": "6af435bf00d53a11f5b90fd1",
-      "name": "Circuito TCG #7 | Z2 Gaming",
-      "url": "https://play.limitlesstcg.com/tournament/6af435bf00d53a11f5b90fd1/details",
-      "startAt": "2026-11-11T17:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6af3f32adcbca32da6c4e0f7",
-      "source": "limitless",
-      "sourceId": "6af3f32adcbca32da6c4e0f7",
-      "name": "Turtwig Den Expanded Tournament 1",
-      "url": "https://play.limitlesstcg.com/tournament/6af3f32adcbca32da6c4e0f7/details",
-      "startAt": "2026-11-11T17:05:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -69,11 +39,31 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af46ae1dcbca32da6c4e365",
+      "source": "limitless",
+      "sourceId": "6af46ae1dcbca32da6c4e365",
+      "name": "ASRcristiano # 203 - 60 codes - Road to Stuttgart!",
+      "url": "https://play.limitlesstcg.com/tournament/6af46ae1dcbca32da6c4e365/details",
+      "startAt": "2026-11-11T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aee425ee99f3235a75e2752",
       "source": "limitless",
       "sourceId": "6aee425ee99f3235a75e2752",
       "name": "🇧🇷 Hit Challenge #60 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6aee425ee99f3235a75e2752/details",
+      "startAt": "2026-11-11T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af46c86dcbca32da6c4e36a",
+      "source": "limitless",
+      "sourceId": "6af46c86dcbca32da6c4e36a",
+      "name": "La Techgece Casual #14 (BO1) [TEF-DLR]",
+      "url": "https://play.limitlesstcg.com/tournament/6af46c86dcbca32da6c4e36a/details",
       "startAt": "2026-11-11T23:00:00.000Z"
     },
     {
@@ -125,6 +115,16 @@
       "name": "⚡ Surge's Winner Takes All - 100 Codes ⚡",
       "url": "https://play.limitlesstcg.com/tournament/6af265ade99f3235a75e55c4/details",
       "startAt": "2026-11-12T18:45:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af46b40dcbca32da6c4e367",
+      "source": "limitless",
+      "sourceId": "6af46b40dcbca32da6c4e367",
+      "name": "ASRcristiano # 204 - 60 codes - Road to Stuttgart!",
+      "url": "https://play.limitlesstcg.com/tournament/6af46b40dcbca32da6c4e367/details",
+      "startAt": "2026-11-12T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -219,6 +219,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af46b5bdcbca32da6c4e368",
+      "source": "limitless",
+      "sourceId": "6af46b5bdcbca32da6c4e368",
+      "name": "ASRcristiano # 205 - 60 codes - Road to Stuttgart!",
+      "url": "https://play.limitlesstcg.com/tournament/6af46b5bdcbca32da6c4e368/details",
+      "startAt": "2026-11-13T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6aee451ee99f3235a75e276a",
       "source": "limitless",
       "sourceId": "6aee451ee99f3235a75e276a",
@@ -254,6 +264,16 @@
       "sourceId": "6ac0891e245696afb3514d88",
       "name": "Budget Build Battles! | Season 9 - Week 6",
       "url": "https://play.limitlesstcg.com/tournament/6ac0891e245696afb3514d88/details",
+      "startAt": "2026-11-14T00:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af48fd100d53a11f5b91308",
+      "source": "limitless",
+      "sourceId": "6af48fd100d53a11f5b91308",
+      "name": "Torneo Online Alain Cards #14",
+      "url": "https://play.limitlesstcg.com/tournament/6af48fd100d53a11f5b91308/details",
       "startAt": "2026-11-14T00:30:00.000Z"
     },
     {
@@ -525,6 +545,16 @@
       "name": "Zard-Pokénight #027",
       "url": "https://play.limitlesstcg.com/tournament/6ae9e10be94eae0f94746566/details",
       "startAt": "2026-11-18T10:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af46bf7dcbca32da6c4e369",
+      "source": "limitless",
+      "sourceId": "6af46bf7dcbca32da6c4e369",
+      "name": "SPECIAL BANLIST TOURNAMENT !",
+      "url": "https://play.limitlesstcg.com/tournament/6af46bf7dcbca32da6c4e369/details",
+      "startAt": "2026-11-19T19:30:00.000Z"
     },
     {
       "format": "Standard",
