@@ -11,6 +11,12 @@ if(!ingest)throw new Error('Unsupported ingestion format job');
 const FORMAT_ID=ingest.format;
 const FORMAT_LABEL=FORMAT_ID.replaceAll('-','–');
 const FORMAT_START=ingest.queryStart+'T00:00:00Z';
+const FORMAT_END=ingest.queryEnd ? ingest.queryEnd+'T00:00:00Z' : null;
+const withinFormatWindow=event=>{
+  const date=new Date(event?.date).getTime();
+  return Number.isFinite(date) && date>=new Date(FORMAT_START).getTime() &&
+    (!FORMAT_END || date<new Date(FORMAT_END).getTime());
+};
 const MIN_PLAYERS = 50;
 const CONCURRENCY = 8;
 const PAGE_SIZE = 100;
@@ -233,7 +239,15 @@ await fs.mkdir(path.dirname(fieldArchiveFile),{recursive:true});
 if(previousPointer?.format) {
   const target=path.join(root,'data/meta/online-fields',`${previousPointer.format}.json`);
   const archived=await readJson(target,null);
-  if(!archived || String(previousPointer.generatedAt)>String(archived.generatedAt))await fs.writeFile(target,JSON.stringify(previousPointer));
+  if(!archived || String(previousPointer.generatedAt)>String(archived.generatedAt)) {
+    // The previous current pointer may contain tournaments after its format ended.
+    // Do not copy those events into the outgoing-format archive.
+    const saved=previousPointer.format===FORMAT_ID
+      ? {...previousPointer,tournaments:(previousPointer.tournaments||[]).filter(withinFormatWindow)}
+      : previousPointer;
+    if(saved!==previousPointer)saved.tournamentCount=saved.tournaments.length;
+    await fs.writeFile(target,JSON.stringify(saved));
+  }
 }
 const [index, majorWeekend, previousField, previousArchive, fullAggregate, previousResults] = await Promise.all([
   tournamentIndex(), latestMajorWeekend(), readJson(fieldArchiveFile, null), readJson(archiveFile, null), readJson(aggregateFile, null), readJson(resultsFile, { events:[] }),
@@ -241,8 +255,11 @@ const [index, majorWeekend, previousField, previousArchive, fullAggregate, previ
 console.log(`Found ${index.length} qualifying ${FORMAT_ID} online tournaments.`);
 if (majorWeekend) console.log(`Post-major scope starts ${majorWeekend.cutoffIso} after ${majorWeekend.events.map(e=>e.name).join(' + ')}`);
 
-const archiveMap = new Map((previousArchive?.events || []).map(e => [String(e.id), e]));
-const previousFieldMap = new Map((previousField?.tournaments || []).map(e => [String(e.id), e]));
+// On a newly recorded set transition, already-published outgoing source data
+// may contain later events. Reconcile its history against the format's exclusive
+// end date before rebuilding, rather than mislabelling the new format's results.
+const archiveMap = new Map((previousArchive?.events || []).filter(withinFormatWindow).map(e => [String(e.id), e]));
+const previousFieldMap = new Map((previousField?.tournaments || []).filter(withinFormatWindow).map(e => [String(e.id), e]));
 const newestTs = Math.max(0, ...index.map(t=>new Date(t.date).getTime()).filter(Number.isFinite));
 
 const previousCoverage = new Date(previousArchive?.coverageStart || '').getTime();
@@ -307,7 +324,7 @@ const fieldFetched = await mapConcurrent(missingField, CONCURRENCY, async tourna
 });
 for (const event of fieldFetched.filter(Boolean)) fieldMap.set(String(event.id),event);
 
-const previousResultMap = new Map((previousResults?.events || []).map(event => [String(event.id), event]));
+const previousResultMap = new Map((previousResults?.events || []).filter(withinFormatWindow).map(event => [String(event.id), event]));
 const resultTargets = index.slice(0, RESULT_TOURNAMENTS);
 const missingResults = resultTargets.filter(tournament => !previousResultMap.has(String(tournament.id)));
 if (missingResults.length) console.log(`Result fetch: ${missingResults.length} tournament(s); retaining the latest ${RESULT_TOURNAMENTS}.`);
