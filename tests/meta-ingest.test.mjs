@@ -53,10 +53,10 @@ test('delayed DLR rollover removes post-boundary events from 30C and ingests the
   const events=read('data/meta/online-events/TEF-30C.json');
   const results=read('data/meta/online-results/TEF-30C.json');
   assert.equal(current.format,'TEF-DLR');
-  assert.deepEqual(current.tournaments.map(e=>e.id),['synthetic-dlr']);
-  assert.deepEqual(outgoing.tournaments.map(e=>e.id),['synthetic-30c']);
-  assert.deepEqual(events.events.map(e=>e.id),['synthetic-30c']);
-  assert.deepEqual(results.events.map(e=>e.id),['synthetic-30c']);
+  assert.deepEqual(current.tournaments.map(e=>e.id),['synthetic-dlr','synthetic-late']);
+  assert.deepEqual(outgoing.tournaments.map(e=>e.id),['synthetic-early','synthetic-30c']);
+  assert.deepEqual(events.events.map(e=>e.id),['synthetic-early','synthetic-30c']);
+  assert.deepEqual(results.events.map(e=>e.id),['synthetic-early','synthetic-30c']);
   assert.equal(read('data/meta/online-fields/TEF-DLR.json').format,'TEF-DLR');
   assert.equal(read('data/meta/online-results/TEF-DLR.json').events[0].id,'synthetic-dlr');
  } finally {fs.rmSync(directory,{recursive:true,force:true});}
