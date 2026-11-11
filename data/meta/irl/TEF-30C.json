@@ -4,7 +4,7 @@
   "sourceUrl": "https://labs.limitlesstcg.com",
   "format": "TEF-30C",
   "formatStart": "2026-09-24T00:00:00.000Z",
-  "generatedAt": "2026-11-10T13:48:00.313Z",
+  "generatedAt": "2026-11-11T11:45:32.134Z",
   "events": [
     {
       "id": "0079",
@@ -680,7 +680,7 @@
         "date": "2026-11-01",
         "basis": "maintained-calendar",
         "contextId": "maintained-v1:{\"scope\":\"tpci-international-standard\",\"baseline\":\"standard-h-j-tef-pbl\",\"marks\":[\"H\",\"I\",\"J\"],\"earliestSet\":\"TEF\",\"additions\":[\"30C\"],\"rotation\":null}",
-        "calendarRevision": "settings-calendar-20260916T225416344Z",
+        "calendarRevision": "official-calendar-2026-11-11-dlr1",
         "unknowns": []
       },
       "results": [
@@ -39054,7 +39054,7 @@
         "date": "2026-10-24",
         "basis": "maintained-calendar",
         "contextId": "maintained-v1:{\"scope\":\"tpci-international-standard\",\"baseline\":\"standard-h-j-tef-pbl\",\"marks\":[\"H\",\"I\",\"J\"],\"earliestSet\":\"TEF\",\"additions\":[\"30C\"],\"rotation\":null}",
-        "calendarRevision": "settings-calendar-20260916T225416344Z",
+        "calendarRevision": "official-calendar-2026-11-11-dlr1",
         "unknowns": []
       },
       "results": [
@@ -86782,7 +86782,7 @@
         "date": "2026-10-17",
         "basis": "maintained-calendar",
         "contextId": "maintained-v1:{\"scope\":\"tpci-international-standard\",\"baseline\":\"standard-h-j-tef-pbl\",\"marks\":[\"H\",\"I\",\"J\"],\"earliestSet\":\"TEF\",\"additions\":[\"30C\"],\"rotation\":null}",
-        "calendarRevision": "settings-calendar-20260916T225416344Z",
+        "calendarRevision": "official-calendar-2026-11-11-dlr1",
         "unknowns": []
       },
       "results": [
@@ -135712,7 +135712,7 @@
         "date": "2026-10-09",
         "basis": "maintained-calendar",
         "contextId": "maintained-v1:{\"scope\":\"tpci-international-standard\",\"baseline\":\"standard-h-j-tef-pbl\",\"marks\":[\"H\",\"I\",\"J\"],\"earliestSet\":\"TEF\",\"additions\":[\"30C\"],\"rotation\":null}",
-        "calendarRevision": "settings-calendar-20260916T225416344Z",
+        "calendarRevision": "official-calendar-2026-11-11-dlr1",
         "unknowns": []
       },
       "results": [
@@ -194512,7 +194512,7 @@
         "date": "2026-10-03",
         "basis": "maintained-calendar",
         "contextId": "maintained-v1:{\"scope\":\"tpci-international-standard\",\"baseline\":\"standard-h-j-tef-pbl\",\"marks\":[\"H\",\"I\",\"J\"],\"earliestSet\":\"TEF\",\"additions\":[\"30C\"],\"rotation\":null}",
-        "calendarRevision": "settings-calendar-20260916T225416344Z",
+        "calendarRevision": "official-calendar-2026-11-11-dlr1",
         "unknowns": []
       },
       "results": [
@@ -220702,7 +220702,7 @@
         "date": "2026-09-26",
         "basis": "maintained-calendar",
         "contextId": "maintained-v1:{\"scope\":\"tpci-international-standard\",\"baseline\":\"standard-h-j-tef-pbl\",\"marks\":[\"H\",\"I\",\"J\"],\"earliestSet\":\"TEF\",\"additions\":[\"30C\"],\"rotation\":null}",
-        "calendarRevision": "settings-calendar-20260916T225416344Z",
+        "calendarRevision": "official-calendar-2026-11-11-dlr1",
         "unknowns": []
       },
       "results": [
@@ -278516,7 +278516,7 @@
         "date": "2026-09-26",
         "basis": "maintained-calendar",
         "contextId": "maintained-v1:{\"scope\":\"tpci-international-standard\",\"baseline\":\"standard-h-j-tef-pbl\",\"marks\":[\"H\",\"I\",\"J\"],\"earliestSet\":\"TEF\",\"additions\":[\"30C\"],\"rotation\":null}",
-        "calendarRevision": "settings-calendar-20260916T225416344Z",
+        "calendarRevision": "official-calendar-2026-11-11-dlr1",
         "unknowns": []
       },
       "results": [
