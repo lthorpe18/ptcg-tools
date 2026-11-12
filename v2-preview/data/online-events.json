@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T18:35:05.042Z",
+  "generatedAt": "2026-11-12T23:51:54.358Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af265ade99f3235a75e55c4",
-      "source": "limitless",
-      "sourceId": "6af265ade99f3235a75e55c4",
-      "name": "⚡ Surge's Winner Takes All - 100 Codes ⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6af265ade99f3235a75e55c4/details",
-      "startAt": "2026-11-12T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af46b40dcbca32da6c4e367",
-      "source": "limitless",
-      "sourceId": "6af46b40dcbca32da6c4e367",
-      "name": "ASRcristiano # 204 - 60 codes - Road to Stuttgart!",
-      "url": "https://play.limitlesstcg.com/tournament/6af46b40dcbca32da6c4e367/details",
-      "startAt": "2026-11-12T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aecd7710c463890f304c15d",
-      "source": "limitless",
-      "sourceId": "6aecd7710c463890f304c15d",
-      "name": "17° Torneo del circuito CarroTCG/Prof. Fili",
-      "url": "https://play.limitlesstcg.com/tournament/6aecd7710c463890f304c15d/details",
-      "startAt": "2026-11-12T20:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aee4326c931f53978d95077",
-      "source": "limitless",
-      "sourceId": "6aee4326c931f53978d95077",
-      "name": "🇧🇷 Hit Challenge #61 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aee4326c931f53978d95077/details",
-      "startAt": "2026-11-12T23:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -97,16 +57,6 @@
       "startAt": "2026-11-13T08:30:00.000Z"
     },
     {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aecf547e94eae0f947482de",
-      "source": "limitless",
-      "sourceId": "6aecf547e94eae0f947482de",
-      "name": "Unfair Stamp 3v3 Showdown",
-      "url": "https://play.limitlesstcg.com/tournament/6aecf547e94eae0f947482de/details",
-      "startAt": "2026-11-13T12:00:00.000Z"
-    },
-    {
       "format": "Expanded",
       "platform": "PTCGL",
       "id": "limitless:6af30ef3c931f53978d98196",
@@ -115,6 +65,16 @@
       "name": "Expanded Showroom - PTCGL Expanded #0",
       "url": "https://play.limitlesstcg.com/tournament/6af30ef3c931f53978d98196/details",
       "startAt": "2026-11-13T13:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af62161dcbca32da6c4fac4",
+      "source": "limitless",
+      "sourceId": "6af62161dcbca32da6c4fac4",
+      "name": "LAIC Tests #1",
+      "url": "https://play.limitlesstcg.com/tournament/6af62161dcbca32da6c4fac4/details",
+      "startAt": "2026-11-13T14:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -134,6 +94,16 @@
       "sourceId": "6aa2d29aab080c8c95800250",
       "name": "Nightshades Friday Challenge 6 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d29aab080c8c95800250/details",
+      "startAt": "2026-11-13T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aecf547e94eae0f947482de",
+      "source": "limitless",
+      "sourceId": "6aecf547e94eae0f947482de",
+      "name": "Unfair Stamp 3v3 Showdown",
+      "url": "https://play.limitlesstcg.com/tournament/6aecf547e94eae0f947482de/details",
       "startAt": "2026-11-13T18:00:00.000Z"
     },
     {
@@ -497,6 +467,16 @@
       "startAt": "2026-11-18T10:30:00.000Z"
     },
     {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6af6368cdcbca32da6c4fc82",
+      "source": "limitless",
+      "sourceId": "6af6368cdcbca32da6c4fc82",
+      "name": "Turtwig Den Expanded Tournament 2",
+      "url": "https://play.limitlesstcg.com/tournament/6af6368cdcbca32da6c4fc82/details",
+      "startAt": "2026-11-18T17:05:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6af5173300d53a11f5b91b1c",
@@ -535,6 +515,16 @@
       "name": "SPECIAL BANLIST TOURNAMENT !",
       "url": "https://play.limitlesstcg.com/tournament/6af46bf7dcbca32da6c4e369/details",
       "startAt": "2026-11-19T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af6081a00d53a11f5b92340",
+      "source": "limitless",
+      "sourceId": "6af6081a00d53a11f5b92340",
+      "name": "18° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6af6081a00d53a11f5b92340/details",
+      "startAt": "2026-11-19T20:30:00.000Z"
     },
     {
       "format": "Standard",
