@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T00:58:51.539Z",
+  "generatedAt": "2026-11-12T10:16:43.747Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af4f41bdcbca32da6c4ec0c",
-      "source": "limitless",
-      "sourceId": "6af4f41bdcbca32da6c4ec0c",
-      "name": "🪎Vault Of Games | 🤯💥Midweek MAYHEM #8 | DELTA",
-      "url": "https://play.limitlesstcg.com/tournament/6af4f41bdcbca32da6c4ec0c/details",
-      "startAt": "2026-11-12T02:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -194,6 +184,16 @@
       "sourceId": "6ae7fee8ae67092a4074108f",
       "name": "Elite Four Fridays (Delta Reign Legal)",
       "url": "https://play.limitlesstcg.com/tournament/6ae7fee8ae67092a4074108f/details",
+      "startAt": "2026-11-14T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af521bf00d53a11f5b91bf9",
+      "source": "limitless",
+      "sourceId": "6af521bf00d53a11f5b91bf9",
+      "name": "Domino No Meta #7 [CL]",
+      "url": "https://play.limitlesstcg.com/tournament/6af521bf00d53a11f5b91bf9/details",
       "startAt": "2026-11-14T00:00:00.000Z"
     },
     {
@@ -489,12 +489,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af5173300d53a11f5b91b1c",
+      "source": "limitless",
+      "sourceId": "6af5173300d53a11f5b91b1c",
+      "name": "Amyverse PTCG Live Weekly #22 💛 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6af5173300d53a11f5b91b1c/details",
+      "startAt": "2026-11-18T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6af4e97adcbca32da6c4eaec",
       "source": "limitless",
       "sourceId": "6af4e97adcbca32da6c4eaec",
       "name": "TAVERNA LEAGUE - SEASON 0 - DAY #10",
       "url": "https://play.limitlesstcg.com/tournament/6af4e97adcbca32da6c4eaec/details",
       "startAt": "2026-11-18T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af58656dcbca32da6c4f031",
+      "source": "limitless",
+      "sourceId": "6af58656dcbca32da6c4f031",
+      "name": "⚗️🔥PokéKhemistry TURBO Thursday 🧪",
+      "url": "https://play.limitlesstcg.com/tournament/6af58656dcbca32da6c4f031/details",
+      "startAt": "2026-11-19T18:15:00.000Z"
     },
     {
       "format": "Standard",
