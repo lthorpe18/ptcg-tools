@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T10:16:43.747Z",
+  "generatedAt": "2026-11-12T18:35:05.042Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -9,42 +9,12 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6af50be700d53a11f5b91a1b",
-      "source": "limitless",
-      "sourceId": "6af50be700d53a11f5b91a1b",
-      "name": "SEASAC League Challenge #27 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6af50be700d53a11f5b91a1b/details",
-      "startAt": "2026-11-12T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aee20e4c931f53978d94d65",
-      "source": "limitless",
-      "sourceId": "6aee20e4c931f53978d94d65",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6aee20e4c931f53978d94d65/details",
-      "startAt": "2026-11-12T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae454a20d00101b48bf2113",
-      "source": "limitless",
-      "sourceId": "6ae454a20d00101b48bf2113",
-      "name": "⚗️🔥PokéKhemistry TURBO Thursday 🧪",
-      "url": "https://play.limitlesstcg.com/tournament/6ae454a20d00101b48bf2113/details",
-      "startAt": "2026-11-12T18:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6af265ade99f3235a75e55c4",
       "source": "limitless",
       "sourceId": "6af265ade99f3235a75e55c4",
       "name": "⚡ Surge's Winner Takes All - 100 Codes ⚡",
       "url": "https://play.limitlesstcg.com/tournament/6af265ade99f3235a75e55c4/details",
-      "startAt": "2026-11-12T18:45:00.000Z"
+      "startAt": "2026-11-12T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -79,11 +49,31 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af5caf2dcbca32da6c4f35e",
+      "source": "limitless",
+      "sourceId": "6af5caf2dcbca32da6c4f35e",
+      "name": "Heart of the Games Online Series - S108",
+      "url": "https://play.limitlesstcg.com/tournament/6af5caf2dcbca32da6c4f35e/details",
+      "startAt": "2026-11-13T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6af38e6500d53a11f5b90976",
       "source": "limitless",
       "sourceId": "6af38e6500d53a11f5b90976",
       "name": "Rare Candy Club Blitz #9 DELTA REIGN LEGAL",
       "url": "https://play.limitlesstcg.com/tournament/6af38e6500d53a11f5b90976/details",
+      "startAt": "2026-11-13T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af6068c00d53a11f5b92335",
+      "source": "limitless",
+      "sourceId": "6af6068c00d53a11f5b92335",
+      "name": "Atlantis Circuit - Season 2 Preseason",
+      "url": "https://play.limitlesstcg.com/tournament/6af6068c00d53a11f5b92335/details",
       "startAt": "2026-11-13T01:00:00.000Z"
     },
     {
@@ -115,6 +105,16 @@
       "name": "Unfair Stamp 3v3 Showdown",
       "url": "https://play.limitlesstcg.com/tournament/6aecf547e94eae0f947482de/details",
       "startAt": "2026-11-13T12:00:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6af30ef3c931f53978d98196",
+      "source": "limitless",
+      "sourceId": "6af30ef3c931f53978d98196",
+      "name": "Expanded Showroom - PTCGL Expanded #0",
+      "url": "https://play.limitlesstcg.com/tournament/6af30ef3c931f53978d98196/details",
+      "startAt": "2026-11-13T13:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -374,6 +374,16 @@
       "sourceId": "6aea02270c463890f304a5fd",
       "name": "Copa Elemental Cusca #1 PTCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6aea02270c463890f304a5fd/details",
+      "startAt": "2026-11-16T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af5f663dcbca32da6c4f636",
+      "source": "limitless",
+      "sourceId": "6af5f663dcbca32da6c4f636",
+      "name": "Rare Candy Club Showdown #52 DELTA REIGN LEGAL",
+      "url": "https://play.limitlesstcg.com/tournament/6af5f663dcbca32da6c4f636/details",
       "startAt": "2026-11-16T01:00:00.000Z"
     },
     {
