@@ -1,91 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T16:43:18.182Z",
+  "generatedAt": "2026-11-13T23:51:46.791Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a95d16a629039f77d8a6af9",
-      "source": "limitless",
-      "sourceId": "6a95d16a629039f77d8a6af9",
-      "name": "Turtwig Den Revival Series Season 2 Challenge 8",
-      "url": "https://play.limitlesstcg.com/tournament/6a95d16a629039f77d8a6af9/details",
-      "startAt": "2026-11-13T17:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa2d29aab080c8c95800250",
-      "source": "limitless",
-      "sourceId": "6aa2d29aab080c8c95800250",
-      "name": "Nightshades Friday Challenge 6 (25 Codes)",
-      "url": "https://play.limitlesstcg.com/tournament/6aa2d29aab080c8c95800250/details",
-      "startAt": "2026-11-13T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aecf547e94eae0f947482de",
-      "source": "limitless",
-      "sourceId": "6aecf547e94eae0f947482de",
-      "name": "Unfair Stamp 3v3 Showdown",
-      "url": "https://play.limitlesstcg.com/tournament/6aecf547e94eae0f947482de/details",
-      "startAt": "2026-11-13T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af26654c931f53978d97c9b",
-      "source": "limitless",
-      "sourceId": "6af26654c931f53978d97c9b",
-      "name": "⚡ Surge's TCG Vault Winner Takes All Live BO3 #29",
-      "url": "https://play.limitlesstcg.com/tournament/6af26654c931f53978d97c9b/details",
-      "startAt": "2026-11-13T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af46b5bdcbca32da6c4e368",
-      "source": "limitless",
-      "sourceId": "6af46b5bdcbca32da6c4e368",
-      "name": "ASRcristiano # 205 - 60 codes - Road to Stuttgart!",
-      "url": "https://play.limitlesstcg.com/tournament/6af46b5bdcbca32da6c4e368/details",
-      "startAt": "2026-11-13T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aee451ee99f3235a75e276a",
-      "source": "limitless",
-      "sourceId": "6aee451ee99f3235a75e276a",
-      "name": "🇧🇷 Hit Challenge #62 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aee451ee99f3235a75e276a/details",
-      "startAt": "2026-11-13T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6aee92c8e99f3235a75e2a71",
-      "source": "limitless",
-      "sourceId": "6aee92c8e99f3235a75e2a71",
-      "name": "Amyverse Webcam Wonders #33 💙 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6aee92c8e99f3235a75e2a71/details",
-      "startAt": "2026-11-13T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af66e2500d53a11f5b92930",
-      "source": "limitless",
-      "sourceId": "6af66e2500d53a11f5b92930",
-      "name": "Hideout TCG DELTA REGN 100 CODES",
-      "url": "https://play.limitlesstcg.com/tournament/6af66e2500d53a11f5b92930/details",
-      "startAt": "2026-11-13T23:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -104,6 +24,16 @@
       "sourceId": "6af521bf00d53a11f5b91bf9",
       "name": "Domino No Meta #7 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6af521bf00d53a11f5b91bf9/details",
+      "startAt": "2026-11-14T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af77ed8b2fccaf0272d153b",
+      "source": "limitless",
+      "sourceId": "6af77ed8b2fccaf0272d153b",
+      "name": "JustInBasil Online League - 13 November 2026",
+      "url": "https://play.limitlesstcg.com/tournament/6af77ed8b2fccaf0272d153b/details",
       "startAt": "2026-11-14T00:00:00.000Z"
     },
     {
@@ -159,11 +89,11 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ae978a40c463890f304a3aa",
+      "id": "limitless:birds-birds-birds",
       "source": "limitless",
-      "sourceId": "6ae978a40c463890f304a3aa",
+      "sourceId": "birds-birds-birds",
       "name": "TOURNAMENT OF DOOM! BIRDS! BIRDS! BIRDS!",
-      "url": "https://play.limitlesstcg.com/tournament/6ae978a40c463890f304a3aa/details",
+      "url": "https://play.limitlesstcg.com/tournament/birds-birds-birds/details",
       "startAt": "2026-11-14T03:35:00.000Z"
     },
     {
@@ -175,6 +105,26 @@
       "name": "YHT Pokémon TCG League",
       "url": "https://play.limitlesstcg.com/tournament/6af36215dcbca32da6c4d8cd/details",
       "startAt": "2026-11-14T06:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af75704b2fccaf0272d1198",
+      "source": "limitless",
+      "sourceId": "6af75704b2fccaf0272d1198",
+      "name": "LAIC Tests #2",
+      "url": "https://play.limitlesstcg.com/tournament/6af75704b2fccaf0272d1198/details",
+      "startAt": "2026-11-14T14:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6af75c72ee43ef78914737cb",
+      "source": "limitless",
+      "sourceId": "6af75c72ee43ef78914737cb",
+      "name": "Hideout TCG Webcam saturday 60 codes",
+      "url": "https://play.limitlesstcg.com/tournament/6af75c72ee43ef78914737cb/details",
+      "startAt": "2026-11-14T17:00:00.000Z"
     },
     {
       "format": null,
@@ -449,6 +399,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af7643bee43ef78914738ab",
+      "source": "limitless",
+      "sourceId": "6af7643bee43ef78914738ab",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6af7643bee43ef78914738ab/details",
+      "startAt": "2026-11-19T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6af58656dcbca32da6c4f031",
       "source": "limitless",
       "sourceId": "6af58656dcbca32da6c4f031",
@@ -519,6 +479,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af66e2500d53a11f5b92930",
+      "source": "limitless",
+      "sourceId": "6af66e2500d53a11f5b92930",
+      "name": "Hideout TCG DELTA REGN 100 CODES",
+      "url": "https://play.limitlesstcg.com/tournament/6af66e2500d53a11f5b92930/details",
+      "startAt": "2026-11-20T23:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae7ff2d0d00101b48bf460d",
       "source": "limitless",
       "sourceId": "6ae7ff2d0d00101b48bf460d",
@@ -532,7 +502,7 @@
       "id": "limitless:6af6c61db2fccaf0272d0b3c",
       "source": "limitless",
       "sourceId": "6af6c61db2fccaf0272d0b3c",
-      "name": "🇧🇷 40° Torneio Padrão do Zap Pix Especial.",
+      "name": "🇧🇷 40° Torneio Padrão do Zap Pix Especial",
       "url": "https://play.limitlesstcg.com/tournament/6af6c61db2fccaf0272d0b3c/details",
       "startAt": "2026-11-21T00:00:00.000Z"
     },
@@ -545,6 +515,16 @@
       "name": "Budget Build Battles! | Season 9 - Week 7",
       "url": "https://play.limitlesstcg.com/tournament/6ac0893b245696afb3514d89/details",
       "startAt": "2026-11-21T00:30:00.000Z"
+    },
+    {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6af770f0b2fccaf0272d13f7",
+      "source": "limitless",
+      "sourceId": "6af770f0b2fccaf0272d13f7",
+      "name": "James G Tournaments #63 - EX Series (RS-PK)",
+      "url": "https://play.limitlesstcg.com/tournament/6af770f0b2fccaf0272d13f7/details",
+      "startAt": "2026-11-21T02:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -564,6 +544,16 @@
       "sourceId": "6adf7d1822fd412b92a4d43f",
       "name": "NOVEMBER CHEF CELEBRATIONS COOKOFF",
       "url": "https://play.limitlesstcg.com/tournament/6adf7d1822fd412b92a4d43f/details",
+      "startAt": "2026-11-21T19:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6ae768f9ae67092a40740c00",
+      "source": "limitless",
+      "sourceId": "6ae768f9ae67092a40740c00",
+      "name": "Custom Tournament: Delta Reign Expanded Prerelease",
+      "url": "https://play.limitlesstcg.com/tournament/6ae768f9ae67092a40740c00/details",
       "startAt": "2026-11-21T19:00:00.000Z"
     },
     {
