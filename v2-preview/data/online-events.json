@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T07:16:17.053Z",
+  "generatedAt": "2026-11-13T16:43:18.182Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac0879885920e4d2536288f",
-      "source": "limitless",
-      "sourceId": "6ac0879885920e4d2536288f",
-      "name": "Oceania Open! | Season 4 - Week 6",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0879885920e4d2536288f/details",
-      "startAt": "2026-11-13T08:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6af6695fdcbca32da6c4ff7c",
-      "source": "limitless",
-      "sourceId": "6af6695fdcbca32da6c4ff7c",
-      "name": "SEASAC League Challenge #28 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6af6695fdcbca32da6c4ff7c/details",
-      "startAt": "2026-11-13T11:30:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6af30ef3c931f53978d98196",
-      "source": "limitless",
-      "sourceId": "6af30ef3c931f53978d98196",
-      "name": "Expanded Showroom - PTCGL Expanded #0",
-      "url": "https://play.limitlesstcg.com/tournament/6af30ef3c931f53978d98196/details",
-      "startAt": "2026-11-13T13:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af62161dcbca32da6c4fac4",
-      "source": "limitless",
-      "sourceId": "6af62161dcbca32da6c4fac4",
-      "name": "LAIC Tests #1",
-      "url": "https://play.limitlesstcg.com/tournament/6af62161dcbca32da6c4fac4/details",
-      "startAt": "2026-11-13T14:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -295,6 +255,16 @@
       "name": "Tournoi amical LEAGUE canto N65°",
       "url": "https://play.limitlesstcg.com/tournament/6af1b428c931f53978d9718f/details",
       "startAt": "2026-11-15T13:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af70769b2fccaf0272d0d78",
+      "source": "limitless",
+      "sourceId": "6af70769b2fccaf0272d0d78",
+      "name": "TCG Live: 4to Torneo Express",
+      "url": "https://play.limitlesstcg.com/tournament/6af70769b2fccaf0272d0d78/details",
+      "startAt": "2026-11-15T23:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -554,6 +524,16 @@
       "sourceId": "6ae7ff2d0d00101b48bf460d",
       "name": "Elite Four Fridays",
       "url": "https://play.limitlesstcg.com/tournament/6ae7ff2d0d00101b48bf460d/details",
+      "startAt": "2026-11-21T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af6c61db2fccaf0272d0b3c",
+      "source": "limitless",
+      "sourceId": "6af6c61db2fccaf0272d0b3c",
+      "name": "🇧🇷 40° Torneio Padrão do Zap Pix Especial.",
+      "url": "https://play.limitlesstcg.com/tournament/6af6c61db2fccaf0272d0b3c/details",
       "startAt": "2026-11-21T00:00:00.000Z"
     },
     {
