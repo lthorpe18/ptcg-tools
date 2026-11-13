@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T23:51:54.358Z",
+  "generatedAt": "2026-11-13T07:16:17.053Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af5caf2dcbca32da6c4f35e",
-      "source": "limitless",
-      "sourceId": "6af5caf2dcbca32da6c4f35e",
-      "name": "Heart of the Games Online Series - S108",
-      "url": "https://play.limitlesstcg.com/tournament/6af5caf2dcbca32da6c4f35e/details",
-      "startAt": "2026-11-13T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af38e6500d53a11f5b90976",
-      "source": "limitless",
-      "sourceId": "6af38e6500d53a11f5b90976",
-      "name": "Rare Candy Club Blitz #9 DELTA REIGN LEGAL",
-      "url": "https://play.limitlesstcg.com/tournament/6af38e6500d53a11f5b90976/details",
-      "startAt": "2026-11-13T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af6068c00d53a11f5b92335",
-      "source": "limitless",
-      "sourceId": "6af6068c00d53a11f5b92335",
-      "name": "Atlantis Circuit - Season 2 Preseason",
-      "url": "https://play.limitlesstcg.com/tournament/6af6068c00d53a11f5b92335/details",
-      "startAt": "2026-11-13T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6adf71f322fd412b92a4d3c1",
-      "source": "limitless",
-      "sourceId": "6adf71f322fd412b92a4d3c1",
-      "name": "Torneo Relámpago ⚡ #90 PTCG Live (25 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6adf71f322fd412b92a4d3c1/details",
-      "startAt": "2026-11-13T01:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -55,6 +15,16 @@
       "name": "Oceania Open! | Season 4 - Week 6",
       "url": "https://play.limitlesstcg.com/tournament/6ac0879885920e4d2536288f/details",
       "startAt": "2026-11-13T08:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6af6695fdcbca32da6c4ff7c",
+      "source": "limitless",
+      "sourceId": "6af6695fdcbca32da6c4ff7c",
+      "name": "SEASAC League Challenge #28 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6af6695fdcbca32da6c4ff7c/details",
+      "startAt": "2026-11-13T11:30:00.000Z"
     },
     {
       "format": "Expanded",
@@ -145,6 +115,16 @@
       "name": "Amyverse Webcam Wonders #33 💙 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6aee92c8e99f3235a75e2a71/details",
       "startAt": "2026-11-13T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af66e2500d53a11f5b92930",
+      "source": "limitless",
+      "sourceId": "6af66e2500d53a11f5b92930",
+      "name": "Hideout TCG DELTA REGN 100 CODES",
+      "url": "https://play.limitlesstcg.com/tournament/6af66e2500d53a11f5b92930/details",
+      "startAt": "2026-11-13T23:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -624,6 +604,16 @@
       "sourceId": "6ae7fd0e0d00101b48bf45bf",
       "name": "E4MC Modern Mondays",
       "url": "https://play.limitlesstcg.com/tournament/6ae7fd0e0d00101b48bf45bf/details",
+      "startAt": "2026-11-24T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af3c1c400d53a11f5b90c4b",
+      "source": "limitless",
+      "sourceId": "6af3c1c400d53a11f5b90c4b",
+      "name": "🇧🇷 4° Batalhas Vip 💲💲",
+      "url": "https://play.limitlesstcg.com/tournament/6af3c1c400d53a11f5b90c4b/details",
       "startAt": "2026-11-24T00:00:00.000Z"
     },
     {
