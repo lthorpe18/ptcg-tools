@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-14T06:59:53.503Z",
+  "generatedAt": "2026-11-14T15:20:00.535Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af75704b2fccaf0272d1198",
-      "source": "limitless",
-      "sourceId": "6af75704b2fccaf0272d1198",
-      "name": "LAIC Tests #2",
-      "url": "https://play.limitlesstcg.com/tournament/6af75704b2fccaf0272d1198/details",
-      "startAt": "2026-11-14T14:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "CAM",
@@ -37,16 +27,6 @@
       "startAt": "2026-11-14T18:00:00.000Z"
     },
     {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6aee5566c931f53978d9517a",
-      "source": "limitless",
-      "sourceId": "6aee5566c931f53978d9517a",
-      "name": "🇧🇷 Hit Challenge #63 EXPANDIDO | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aee5566c931f53978d9517a/details",
-      "startAt": "2026-11-14T18:00:00.000Z"
-    },
-    {
       "format": "Standard",
       "platform": "CAM",
       "id": "limitless:6af27d5ce99f3235a75e578a",
@@ -55,6 +35,16 @@
       "name": "⚡Surge's TCG Vault Weekend Webcams! #26⚡",
       "url": "https://play.limitlesstcg.com/tournament/6af27d5ce99f3235a75e578a/details",
       "startAt": "2026-11-14T19:00:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6aee5566c931f53978d9517a",
+      "source": "limitless",
+      "sourceId": "6aee5566c931f53978d9517a",
+      "name": "🇧🇷 Hit Challenge #63 EXPANDIDO | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6aee5566c931f53978d9517a/details",
+      "startAt": "2026-11-14T21:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -99,12 +89,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6af84bacee43ef789147457c",
+      "source": "limitless",
+      "sourceId": "6af84bacee43ef789147457c",
+      "name": "🪎Vault Of Games #11 🪙|REGIONAL FORMAT🏆|WEEKLY📅",
+      "url": "https://play.limitlesstcg.com/tournament/6af84bacee43ef789147457c/details",
+      "startAt": "2026-11-15T02:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6af1b428c931f53978d9718f",
       "source": "limitless",
       "sourceId": "6af1b428c931f53978d9718f",
       "name": "Tournoi amical LEAGUE canto N65°",
       "url": "https://play.limitlesstcg.com/tournament/6af1b428c931f53978d9718f/details",
       "startAt": "2026-11-15T13:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6acbfed9115c12b73a5a19ab",
+      "source": "limitless",
+      "sourceId": "6acbfed9115c12b73a5a19ab",
+      "name": "FINISTERRAE SERIES TCG #5",
+      "url": "https://play.limitlesstcg.com/tournament/6acbfed9115c12b73a5a19ab/details",
+      "startAt": "2026-11-15T15:00:00.000Z"
     },
     {
       "format": "Standard",
