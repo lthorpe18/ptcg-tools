@@ -1,111 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T23:51:46.791Z",
+  "generatedAt": "2026-11-14T06:59:53.503Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae7fee8ae67092a4074108f",
-      "source": "limitless",
-      "sourceId": "6ae7fee8ae67092a4074108f",
-      "name": "Elite Four Fridays (Delta Reign Legal)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae7fee8ae67092a4074108f/details",
-      "startAt": "2026-11-14T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af521bf00d53a11f5b91bf9",
-      "source": "limitless",
-      "sourceId": "6af521bf00d53a11f5b91bf9",
-      "name": "Domino No Meta #7 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6af521bf00d53a11f5b91bf9/details",
-      "startAt": "2026-11-14T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af77ed8b2fccaf0272d153b",
-      "source": "limitless",
-      "sourceId": "6af77ed8b2fccaf0272d153b",
-      "name": "JustInBasil Online League - 13 November 2026",
-      "url": "https://play.limitlesstcg.com/tournament/6af77ed8b2fccaf0272d153b/details",
-      "startAt": "2026-11-14T00:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6ac0891e245696afb3514d88",
-      "source": "limitless",
-      "sourceId": "6ac0891e245696afb3514d88",
-      "name": "Budget Build Battles! | Season 9 - Week 6",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0891e245696afb3514d88/details",
-      "startAt": "2026-11-14T00:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af48fd100d53a11f5b91308",
-      "source": "limitless",
-      "sourceId": "6af48fd100d53a11f5b91308",
-      "name": "Torneo Online Alain Cards #14",
-      "url": "https://play.limitlesstcg.com/tournament/6af48fd100d53a11f5b91308/details",
-      "startAt": "2026-11-14T00:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af273cee99f3235a75e56e3",
-      "source": "limitless",
-      "sourceId": "6af273cee99f3235a75e56e3",
-      "name": "Rotom Rivals #2",
-      "url": "https://play.limitlesstcg.com/tournament/6af273cee99f3235a75e56e3/details",
-      "startAt": "2026-11-14T01:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6af399a8dcbca32da6c4db94",
-      "source": "limitless",
-      "sourceId": "6af399a8dcbca32da6c4db94",
-      "name": "BZGC Online🔥 ~ ExPAnDED Vol3",
-      "url": "https://play.limitlesstcg.com/tournament/6af399a8dcbca32da6c4db94/details",
-      "startAt": "2026-11-14T01:00:00.000Z"
-    },
-    {
-      "format": "Worlds 2014 (NXD–FLF)",
-      "platform": "SIM",
-      "id": "limitless:6aeeea49c931f53978d955c4",
-      "source": "limitless",
-      "sourceId": "6aeeea49c931f53978d955c4",
-      "name": "James G Tournaments #62 - 2014 Worlds (NXD-FLF)",
-      "url": "https://play.limitlesstcg.com/tournament/6aeeea49c931f53978d955c4/details",
-      "startAt": "2026-11-14T02:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:birds-birds-birds",
-      "source": "limitless",
-      "sourceId": "birds-birds-birds",
-      "name": "TOURNAMENT OF DOOM! BIRDS! BIRDS! BIRDS!",
-      "url": "https://play.limitlesstcg.com/tournament/birds-birds-birds/details",
-      "startAt": "2026-11-14T03:35:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af36215dcbca32da6c4d8cd",
-      "source": "limitless",
-      "sourceId": "6af36215dcbca32da6c4d8cd",
-      "name": "YHT Pokémon TCG League",
-      "url": "https://play.limitlesstcg.com/tournament/6af36215dcbca32da6c4d8cd/details",
-      "startAt": "2026-11-14T06:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -187,7 +87,7 @@
       "startAt": "2026-11-15T01:30:00.000Z"
     },
     {
-      "format": null,
+      "format": "Expanded",
       "platform": "PTCGL",
       "id": "limitless:6af00019c931f53978d961e6",
       "source": "limitless",
@@ -317,6 +217,16 @@
       "startAt": "2026-11-17T00:00:00.000Z"
     },
     {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6af2cdc3e99f3235a75e59b7",
+      "source": "limitless",
+      "sourceId": "6af2cdc3e99f3235a75e59b7",
+      "name": "💰 C.P.U.'s Pauper Tournament! #45",
+      "url": "https://play.limitlesstcg.com/tournament/6af2cdc3e99f3235a75e59b7/details",
+      "startAt": "2026-11-17T00:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6aad8426e905c1db68744640",
@@ -325,6 +235,16 @@
       "name": "Nightshades Monday Cup 6 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad8426e905c1db68744640/details",
       "startAt": "2026-11-17T01:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6af2d09de99f3235a75e59bb",
+      "source": "limitless",
+      "sourceId": "6af2d09de99f3235a75e59bb",
+      "name": "♠️ C.P.U.'s Aceless Tournament! #43",
+      "url": "https://play.limitlesstcg.com/tournament/6af2d09de99f3235a75e59bb/details",
+      "startAt": "2026-11-17T12:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -475,6 +395,16 @@
       "name": "Nightshades Friday Challenge 7 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aa2d2a3ab080c8c95800251/details",
       "startAt": "2026-11-20T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6af801bcee43ef789147437b",
+      "source": "limitless",
+      "sourceId": "6af801bcee43ef789147437b",
+      "name": "Amyverse Webcam Wonders #34 💙 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6af801bcee43ef789147437b/details",
+      "startAt": "2026-11-20T23:00:00.000Z"
     },
     {
       "format": "Standard",
