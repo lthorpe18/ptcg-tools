@@ -1,70 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-14T20:55:12.081Z",
+  "generatedAt": "2026-11-15T02:07:03.236Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
     {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6aee5566c931f53978d9517a",
-      "source": "limitless",
-      "sourceId": "6aee5566c931f53978d9517a",
-      "name": "🇧🇷 Hit Challenge #63 EXPANDIDO | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aee5566c931f53978d9517a/details",
-      "startAt": "2026-11-14T21:00:00.000Z"
-    },
-    {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6af0cebee99f3235a75e4445",
+      "id": "limitless:6af900e1b2fccaf0272d2ab8",
       "source": "limitless",
-      "sourceId": "6af0cebee99f3235a75e4445",
-      "name": "AOB's Team Challenge",
-      "url": "https://play.limitlesstcg.com/tournament/6af0cebee99f3235a75e4445/details",
-      "startAt": "2026-11-15T00:00:00.000Z"
+      "sourceId": "6af900e1b2fccaf0272d2ab8",
+      "name": "T2TCG VEGAS/ATL TESTING! 100 CODES! DLR LEGAL",
+      "url": "https://play.limitlesstcg.com/tournament/6af900e1b2fccaf0272d2ab8/details",
+      "startAt": "2026-11-15T02:30:00.000Z"
     },
     {
       "format": null,
-      "platform": "CAM",
-      "id": "limitless:6add4e2e97e21d82e5c6e993",
-      "source": "limitless",
-      "sourceId": "6add4e2e97e21d82e5c6e993",
-      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6add4e2e97e21d82e5c6e993/details",
-      "startAt": "2026-11-15T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6a69081652c24ac2da64eb2a",
+      "id": "limitless:6af90e26b2fccaf0272d2bdb",
       "source": "limitless",
-      "sourceId": "6a69081652c24ac2da64eb2a",
-      "name": "RDG! November Elite Qualifier",
-      "url": "https://play.limitlesstcg.com/tournament/6a69081652c24ac2da64eb2a/details",
-      "startAt": "2026-11-15T01:30:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6af00019c931f53978d961e6",
-      "source": "limitless",
-      "sourceId": "6af00019c931f53978d961e6",
-      "name": "C-C Colosseum #23 - 2023 LAIC (BST-PAF)",
-      "url": "https://play.limitlesstcg.com/tournament/6af00019c931f53978d961e6/details",
-      "startAt": "2026-11-15T02:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af84bacee43ef789147457c",
-      "source": "limitless",
-      "sourceId": "6af84bacee43ef789147457c",
-      "name": "🪎Vault Of Games #11 🪙|REGIONAL FORMAT🏆|WEEKLY📅",
-      "url": "https://play.limitlesstcg.com/tournament/6af84bacee43ef789147457c/details",
-      "startAt": "2026-11-15T02:00:00.000Z"
+      "sourceId": "6af90e26b2fccaf0272d2bdb",
+      "name": "SEASAC League Challenge #30 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6af90e26b2fccaf0272d2bdb/details",
+      "startAt": "2026-11-15T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -85,6 +45,26 @@
       "name": "FINISTERRAE SERIES TCG #5",
       "url": "https://play.limitlesstcg.com/tournament/6acbfed9115c12b73a5a19ab/details",
       "startAt": "2026-11-15T15:00:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6af903beee43ef7891474ec3",
+      "source": "limitless",
+      "sourceId": "6af903beee43ef7891474ec3",
+      "name": "Kearney Expanded Tournament #2",
+      "url": "https://play.limitlesstcg.com/tournament/6af903beee43ef7891474ec3/details",
+      "startAt": "2026-11-15T16:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af8e5c1ee43ef7891474d64",
+      "source": "limitless",
+      "sourceId": "6af8e5c1ee43ef7891474d64",
+      "name": "Monster Collectibles After Hours season 2 #6",
+      "url": "https://play.limitlesstcg.com/tournament/6af8e5c1ee43ef7891474d64/details",
+      "startAt": "2026-11-15T18:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -135,6 +115,16 @@
       "name": "Rare Candy Club Showdown #52 DELTA REIGN LEGAL",
       "url": "https://play.limitlesstcg.com/tournament/6af5f663dcbca32da6c4f636/details",
       "startAt": "2026-11-16T01:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6af90e66b2fccaf0272d2bdc",
+      "source": "limitless",
+      "sourceId": "6af90e66b2fccaf0272d2bdc",
+      "name": "SEASAC League Challenge #31 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6af90e66b2fccaf0272d2bdc/details",
+      "startAt": "2026-11-16T11:30:00.000Z"
     },
     {
       "format": null,
@@ -215,6 +205,16 @@
       "name": "Nightshades Monday Cup 6 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad8426e905c1db68744640/details",
       "startAt": "2026-11-17T01:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6af90edbb2fccaf0272d2bdf",
+      "source": "limitless",
+      "sourceId": "6af90edbb2fccaf0272d2bdf",
+      "name": "SEASAC League Challenge #32 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6af90edbb2fccaf0272d2bdf/details",
+      "startAt": "2026-11-17T11:30:00.000Z"
     },
     {
       "format": null,
@@ -465,6 +465,16 @@
       "name": "Custom Tournament: Delta Reign Expanded Prerelease",
       "url": "https://play.limitlesstcg.com/tournament/6ae768f9ae67092a40740c00/details",
       "startAt": "2026-11-21T19:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6af90819b2fccaf0272d2b56",
+      "source": "limitless",
+      "sourceId": "6af90819b2fccaf0272d2b56",
+      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6af90819b2fccaf0272d2b56/details",
+      "startAt": "2026-11-22T01:00:00.000Z"
     },
     {
       "format": "Standard",
