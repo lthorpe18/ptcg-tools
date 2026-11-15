@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-15T09:53:50.072Z",
+  "generatedAt": "2026-11-15T17:23:27.937Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6af90e26b2fccaf0272d2bdb",
-      "source": "limitless",
-      "sourceId": "6af90e26b2fccaf0272d2bdb",
-      "name": "SEASAC League Challenge #30 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6af90e26b2fccaf0272d2bdb/details",
-      "startAt": "2026-11-15T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af1b428c931f53978d9718f",
-      "source": "limitless",
-      "sourceId": "6af1b428c931f53978d9718f",
-      "name": "Tournoi amical LEAGUE canto N65°",
-      "url": "https://play.limitlesstcg.com/tournament/6af1b428c931f53978d9718f/details",
-      "startAt": "2026-11-15T13:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6acbfed9115c12b73a5a19ab",
-      "source": "limitless",
-      "sourceId": "6acbfed9115c12b73a5a19ab",
-      "name": "FINISTERRAE SERIES TCG #5",
-      "url": "https://play.limitlesstcg.com/tournament/6acbfed9115c12b73a5a19ab/details",
-      "startAt": "2026-11-15T15:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6af903beee43ef7891474ec3",
-      "source": "limitless",
-      "sourceId": "6af903beee43ef7891474ec3",
-      "name": "Kearney Expanded Tournament #2",
-      "url": "https://play.limitlesstcg.com/tournament/6af903beee43ef7891474ec3/details",
-      "startAt": "2026-11-15T16:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -55,6 +15,16 @@
       "name": "Monster Collectibles After Hours season 2 #6",
       "url": "https://play.limitlesstcg.com/tournament/6af8e5c1ee43ef7891474d64/details",
       "startAt": "2026-11-15T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af98148b2fccaf0272d301c",
+      "source": "limitless",
+      "sourceId": "6af98148b2fccaf0272d301c",
+      "name": "Redraftowa Liga Pokemon TCG - 15.11.2026",
+      "url": "https://play.limitlesstcg.com/tournament/6af98148b2fccaf0272d301c/details",
+      "startAt": "2026-11-15T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -124,16 +94,6 @@
       "sourceId": "6ae8e099e94eae0f94745a1f",
       "name": "TurboBlaze GLC Async Challenge - Nov 2026",
       "url": "https://play.limitlesstcg.com/tournament/6ae8e099e94eae0f94745a1f/details",
-      "startAt": "2026-11-16T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af2f34cc931f53978d980c0",
-      "source": "limitless",
-      "sourceId": "6af2f34cc931f53978d980c0",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6af2f34cc931f53978d980c0/details",
       "startAt": "2026-11-16T17:00:00.000Z"
     },
     {
