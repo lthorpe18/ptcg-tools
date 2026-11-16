@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-15T23:10:02.615Z",
+  "generatedAt": "2026-11-16T07:15:05.863Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae7cdb30d00101b48bf4383",
-      "source": "limitless",
-      "sourceId": "6ae7cdb30d00101b48bf4383",
-      "name": "ACETCGS.COM Weekly #9 - STORE CREDIT/CASH PRIZING",
-      "url": "https://play.limitlesstcg.com/tournament/6ae7cdb30d00101b48bf4383/details",
-      "startAt": "2026-11-16T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae7e6e00d00101b48bf441c",
-      "source": "limitless",
-      "sourceId": "6ae7e6e00d00101b48bf441c",
-      "name": "Sisterhood Showdown #4 💗 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6ae7e6e00d00101b48bf441c/details",
-      "startAt": "2026-11-16T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aea02270c463890f304a5fd",
-      "source": "limitless",
-      "sourceId": "6aea02270c463890f304a5fd",
-      "name": "Copa Elemental Cusca #1 PTCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6aea02270c463890f304a5fd/details",
-      "startAt": "2026-11-16T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af5f663dcbca32da6c4f636",
-      "source": "limitless",
-      "sourceId": "6af5f663dcbca32da6c4f636",
-      "name": "Rare Candy Club Showdown #52 DELTA REIGN LEGAL",
-      "url": "https://play.limitlesstcg.com/tournament/6af5f663dcbca32da6c4f636/details",
-      "startAt": "2026-11-16T01:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGL",
@@ -109,6 +69,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6afa3b96b2fccaf0272d38d0",
+      "source": "limitless",
+      "sourceId": "6afa3b96b2fccaf0272d38d0",
+      "name": "🇧🇷 Hit Challenge #64 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6afa3b96b2fccaf0272d38d0/details",
+      "startAt": "2026-11-16T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6af22baee99f3235a75e51d9",
       "source": "limitless",
       "sourceId": "6af22baee99f3235a75e51d9",
@@ -129,16 +99,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ad41e6d115c12b73a5a69ca",
-      "source": "limitless",
-      "sourceId": "6ad41e6d115c12b73a5a69ca",
-      "name": "🇧🇷 Hit Cup #23 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad41e6d115c12b73a5a69ca/details",
-      "startAt": "2026-11-17T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ae7fadbae67092a4074106d",
       "source": "limitless",
       "sourceId": "6ae7fadbae67092a4074106d",
@@ -154,6 +114,16 @@
       "sourceId": "6af2cdc3e99f3235a75e59b7",
       "name": "💰 C.P.U.'s Pauper Tournament! #45",
       "url": "https://play.limitlesstcg.com/tournament/6af2cdc3e99f3235a75e59b7/details",
+      "startAt": "2026-11-17T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afa4984b2fccaf0272d3966",
+      "source": "limitless",
+      "sourceId": "6afa4984b2fccaf0272d3966",
+      "name": "🆓 Domino Arena Free | Temporada 3 | Semana 10 CL",
+      "url": "https://play.limitlesstcg.com/tournament/6afa4984b2fccaf0272d3966/details",
       "startAt": "2026-11-17T00:00:00.000Z"
     },
     {
@@ -207,6 +177,36 @@
       "startAt": "2026-11-17T19:00:00.000Z"
     },
     {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6afa56e0b2fccaf0272d3a52",
+      "source": "limitless",
+      "sourceId": "6afa56e0b2fccaf0272d3a52",
+      "name": "Draw 7 Tourney #6 (Expanded)",
+      "url": "https://play.limitlesstcg.com/tournament/6afa56e0b2fccaf0272d3a52/details",
+      "startAt": "2026-11-17T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afa3eb9ee43ef7891475c32",
+      "source": "limitless",
+      "sourceId": "6afa3eb9ee43ef7891475c32",
+      "name": "🇧🇷 Hit Challenge #65 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6afa3eb9ee43ef7891475c32/details",
+      "startAt": "2026-11-17T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afa575dee43ef7891475d9b",
+      "source": "limitless",
+      "sourceId": "6afa575dee43ef7891475d9b",
+      "name": "Las tPrize Series S4 #9",
+      "url": "https://play.limitlesstcg.com/tournament/6afa575dee43ef7891475d9b/details",
+      "startAt": "2026-11-18T00:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ae2170c80a8f79408d20181",
@@ -255,6 +255,16 @@
       "name": "TAVERNA LEAGUE - SEASON 0 - DAY #10",
       "url": "https://play.limitlesstcg.com/tournament/6af4e97adcbca32da6c4eaec/details",
       "startAt": "2026-11-18T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad41e6d115c12b73a5a69ca",
+      "source": "limitless",
+      "sourceId": "6ad41e6d115c12b73a5a69ca",
+      "name": "🇧🇷 Hit Cup #23 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41e6d115c12b73a5a69ca/details",
+      "startAt": "2026-11-19T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -447,6 +457,16 @@
       "startAt": "2026-11-22T01:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ae7e6e00d00101b48bf441c",
+      "source": "limitless",
+      "sourceId": "6ae7e6e00d00101b48bf441c",
+      "name": "Sisterhood Showdown #4 💗 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7e6e00d00101b48bf441c/details",
+      "startAt": "2026-11-23T01:00:00.000Z"
+    },
+    {
       "format": "EX Series (RS–PK)",
       "platform": "SIM",
       "id": "limitless:6afa35efee43ef7891475b83",
@@ -539,16 +559,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ad41ed6115c12b73a5a69cd",
-      "source": "limitless",
-      "sourceId": "6ad41ed6115c12b73a5a69cd",
-      "name": "🇧🇷 Hit Cup #24 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6ad41ed6115c12b73a5a69cd/details",
-      "startAt": "2026-11-28T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6ae7ff760d00101b48bf4610",
       "source": "limitless",
       "sourceId": "6ae7ff760d00101b48bf4610",
@@ -599,6 +609,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ae7cdb30d00101b48bf4383",
+      "source": "limitless",
+      "sourceId": "6ae7cdb30d00101b48bf4383",
+      "name": "ACETCGS.COM Weekly #9 - STORE CREDIT/CASH PRIZING",
+      "url": "https://play.limitlesstcg.com/tournament/6ae7cdb30d00101b48bf4383/details",
+      "startAt": "2026-11-30T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6af4cddf00d53a11f5b91681",
       "source": "limitless",
       "sourceId": "6af4cddf00d53a11f5b91681",
@@ -625,6 +645,16 @@
       "name": "Nightshades Monday Cup 8 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad8450e905c1db68744641/details",
       "startAt": "2026-12-01T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6ad41ed6115c12b73a5a69cd",
+      "source": "limitless",
+      "sourceId": "6ad41ed6115c12b73a5a69cd",
+      "name": "🇧🇷 Hit Cup #24 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6ad41ed6115c12b73a5a69cd/details",
+      "startAt": "2026-12-02T00:00:00.000Z"
     },
     {
       "format": "Standard",
