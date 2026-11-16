@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T07:15:05.863Z",
+  "generatedAt": "2026-11-16T18:53:35.307Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6af90e66b2fccaf0272d2bdc",
-      "source": "limitless",
-      "sourceId": "6af90e66b2fccaf0272d2bdc",
-      "name": "SEASAC League Challenge #31 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6af90e66b2fccaf0272d2bdc/details",
-      "startAt": "2026-11-16T11:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ae8e099e94eae0f94745a1f",
-      "source": "limitless",
-      "sourceId": "6ae8e099e94eae0f94745a1f",
-      "name": "TurboBlaze GLC Async Challenge - Nov 2026",
-      "url": "https://play.limitlesstcg.com/tournament/6ae8e099e94eae0f94745a1f/details",
-      "startAt": "2026-11-16T17:00:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6afa35bcee43ef7891475b82",
-      "source": "limitless",
-      "sourceId": "6afa35bcee43ef7891475b82",
-      "name": "Holon Locals #51 (EU Friendly)",
-      "url": "https://play.limitlesstcg.com/tournament/6afa35bcee43ef7891475b82/details",
-      "startAt": "2026-11-16T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -157,6 +127,16 @@
       "startAt": "2026-11-17T12:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6ae8e099e94eae0f94745a1f",
+      "source": "limitless",
+      "sourceId": "6ae8e099e94eae0f94745a1f",
+      "name": "TurboBlaze GLC Async Challenge - Nov 2026",
+      "url": "https://play.limitlesstcg.com/tournament/6ae8e099e94eae0f94745a1f/details",
+      "startAt": "2026-11-17T17:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6af3dfba00d53a11f5b90e63",
@@ -164,6 +144,16 @@
       "sourceId": "6af3dfba00d53a11f5b90e63",
       "name": "Amyverse Bulk Box Battles #8 🧡 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6af3dfba00d53a11f5b90e63/details",
+      "startAt": "2026-11-17T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afaed8db2fccaf0272d3dc5",
+      "source": "limitless",
+      "sourceId": "6afaed8db2fccaf0272d3dc5",
+      "name": "Team Corna Weekly November #2",
+      "url": "https://play.limitlesstcg.com/tournament/6afaed8db2fccaf0272d3dc5/details",
       "startAt": "2026-11-17T18:00:00.000Z"
     },
     {
@@ -575,6 +565,16 @@
       "name": "Budget Build Battles! | Season 9 - Week 8",
       "url": "https://play.limitlesstcg.com/tournament/6ac0895685920e4d2536289c/details",
       "startAt": "2026-11-28T00:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "SIM",
+      "id": "limitless:6af49de300d53a11f5b91380",
+      "source": "limitless",
+      "sourceId": "6af49de300d53a11f5b91380",
+      "name": "PTCG Lounge GLC Tourney",
+      "url": "https://play.limitlesstcg.com/tournament/6af49de300d53a11f5b91380/details",
+      "startAt": "2026-11-28T02:00:00.000Z"
     },
     {
       "format": "Standard",
