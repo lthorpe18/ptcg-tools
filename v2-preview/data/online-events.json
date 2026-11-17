@@ -1,71 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T13:49:42.324Z",
+  "generatedAt": "2026-11-17T22:38:14.313Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6ae8e099e94eae0f94745a1f",
-      "source": "limitless",
-      "sourceId": "6ae8e099e94eae0f94745a1f",
-      "name": "TurboBlaze GLC Async Challenge - Nov 2026",
-      "url": "https://play.limitlesstcg.com/tournament/6ae8e099e94eae0f94745a1f/details",
-      "startAt": "2026-11-17T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af3dfba00d53a11f5b90e63",
-      "source": "limitless",
-      "sourceId": "6af3dfba00d53a11f5b90e63",
-      "name": "Amyverse Bulk Box Battles #8 🧡 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6af3dfba00d53a11f5b90e63/details",
-      "startAt": "2026-11-17T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afaed8db2fccaf0272d3dc5",
-      "source": "limitless",
-      "sourceId": "6afaed8db2fccaf0272d3dc5",
-      "name": "Team Corna Weekly November #2",
-      "url": "https://play.limitlesstcg.com/tournament/6afaed8db2fccaf0272d3dc5/details",
-      "startAt": "2026-11-17T18:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6af30be1c931f53978d9818e",
-      "source": "limitless",
-      "sourceId": "6af30be1c931f53978d9818e",
-      "name": "Strategic TCG's TCGL Expanded Weekly #1!",
-      "url": "https://play.limitlesstcg.com/tournament/6af30be1c931f53978d9818e/details",
-      "startAt": "2026-11-17T19:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6afa56e0b2fccaf0272d3a52",
-      "source": "limitless",
-      "sourceId": "6afa56e0b2fccaf0272d3a52",
-      "name": "Draw 7 Tourney #6 (Expanded)",
-      "url": "https://play.limitlesstcg.com/tournament/6afa56e0b2fccaf0272d3a52/details",
-      "startAt": "2026-11-17T19:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afc1751b2fccaf0272d4a2e",
-      "source": "limitless",
-      "sourceId": "6afc1751b2fccaf0272d4a2e",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6afc1751b2fccaf0272d4a2e/details",
-      "startAt": "2026-11-17T20:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -89,11 +29,31 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6afcc2b3ee43ef789147762d",
+      "source": "limitless",
+      "sourceId": "6afcc2b3ee43ef789147762d",
+      "name": "Torneo Gratis Sidedeck Online Martes 17 Noviembre",
+      "url": "https://play.limitlesstcg.com/tournament/6afcc2b3ee43ef789147762d/details",
+      "startAt": "2026-11-17T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6afa575dee43ef7891475d9b",
       "source": "limitless",
       "sourceId": "6afa575dee43ef7891475d9b",
-      "name": "Las tPrize Series S4 #9",
+      "name": "Last Prize Series S4 #9",
       "url": "https://play.limitlesstcg.com/tournament/6afa575dee43ef7891475d9b/details",
+      "startAt": "2026-11-18T00:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6afc7e8ab2fccaf0272d4c60",
+      "source": "limitless",
+      "sourceId": "6afc7e8ab2fccaf0272d4c60",
+      "name": "♠️ C.P.U.'s Aceless Tournament! #43",
+      "url": "https://play.limitlesstcg.com/tournament/6afc7e8ab2fccaf0272d4c60/details",
       "startAt": "2026-11-18T00:00:00.000Z"
     },
     {
@@ -104,6 +64,16 @@
       "sourceId": "6ae2170c80a8f79408d20181",
       "name": "Torneo Relámpago ⚡ #91 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6ae2170c80a8f79408d20181/details",
+      "startAt": "2026-11-18T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afcd0c3ee43ef7891477714",
+      "source": "limitless",
+      "sourceId": "6afcd0c3ee43ef7891477714",
+      "name": "T2TCG Vegas/ATL testing 100 codes DLR legal",
+      "url": "https://play.limitlesstcg.com/tournament/6afcd0c3ee43ef7891477714/details",
       "startAt": "2026-11-18T01:30:00.000Z"
     },
     {
@@ -165,6 +135,16 @@
       "name": "TAVERNA LEAGUE - SEASON 0 - DAY #10",
       "url": "https://play.limitlesstcg.com/tournament/6af4e97adcbca32da6c4eaec/details",
       "startAt": "2026-11-18T20:00:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGO",
+      "id": "limitless:6afcb2e6b2fccaf0272d4f27",
+      "source": "limitless",
+      "sourceId": "6afcb2e6b2fccaf0272d4f27",
+      "name": "Torneo Testeo Tropical Beach PTCG Expanded 18/11",
+      "url": "https://play.limitlesstcg.com/tournament/6afcb2e6b2fccaf0272d4f27/details",
+      "startAt": "2026-11-18T23:00:00.000Z"
     },
     {
       "format": "Standard",
