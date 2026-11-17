@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T03:08:47.804Z",
+  "generatedAt": "2026-11-17T13:49:42.324Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6af90edbb2fccaf0272d2bdf",
-      "source": "limitless",
-      "sourceId": "6af90edbb2fccaf0272d2bdf",
-      "name": "SEASAC League Challenge #32 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6af90edbb2fccaf0272d2bdf/details",
-      "startAt": "2026-11-17T11:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6af2d09de99f3235a75e59bb",
-      "source": "limitless",
-      "sourceId": "6af2d09de99f3235a75e59bb",
-      "name": "♠️ C.P.U.'s Aceless Tournament! #43",
-      "url": "https://play.limitlesstcg.com/tournament/6af2d09de99f3235a75e59bb/details",
-      "startAt": "2026-11-17T12:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "CAM",
@@ -75,6 +55,16 @@
       "name": "Draw 7 Tourney #6 (Expanded)",
       "url": "https://play.limitlesstcg.com/tournament/6afa56e0b2fccaf0272d3a52/details",
       "startAt": "2026-11-17T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afc1751b2fccaf0272d4a2e",
+      "source": "limitless",
+      "sourceId": "6afc1751b2fccaf0272d4a2e",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 50 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6afc1751b2fccaf0272d4a2e/details",
+      "startAt": "2026-11-17T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -327,6 +317,16 @@
       "startAt": "2026-11-21T00:30:00.000Z"
     },
     {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6afc4383ee43ef7891477012",
+      "source": "limitless",
+      "sourceId": "6afc4383ee43ef7891477012",
+      "name": "TurboBlaze Trials GLC Series - Season 2 Week 12",
+      "url": "https://play.limitlesstcg.com/tournament/6afc4383ee43ef7891477012/details",
+      "startAt": "2026-11-21T01:30:00.000Z"
+    },
+    {
       "format": "EX Series (RS–PK)",
       "platform": "SIM",
       "id": "limitless:6af770f0b2fccaf0272d13f7",
@@ -375,6 +375,16 @@
       "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6af90819b2fccaf0272d2b56/details",
       "startAt": "2026-11-22T01:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6afc4ee3ee43ef7891477099",
+      "source": "limitless",
+      "sourceId": "6afc4ee3ee43ef7891477099",
+      "name": "TCG Live: Temática GLC",
+      "url": "https://play.limitlesstcg.com/tournament/6afc4ee3ee43ef7891477099/details",
+      "startAt": "2026-11-22T23:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -449,12 +459,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6afc576fee43ef78914770fe",
+      "source": "limitless",
+      "sourceId": "6afc576fee43ef78914770fe",
+      "name": "Torneo Relámpago ⚡ #93 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6afc576fee43ef78914770fe/details",
+      "startAt": "2026-11-25T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae9e3390c463890f304a54a",
       "source": "limitless",
       "sourceId": "6ae9e3390c463890f304a54a",
       "name": "Zard-Pokénight #028",
       "url": "https://play.limitlesstcg.com/tournament/6ae9e3390c463890f304a54a/details",
       "startAt": "2026-11-25T22:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afc5847b2fccaf0272d4b80",
+      "source": "limitless",
+      "sourceId": "6afc5847b2fccaf0272d4b80",
+      "name": "Torneo Relámpago ⚡ #94 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6afc5847b2fccaf0272d4b80/details",
+      "startAt": "2026-11-27T01:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -555,6 +585,16 @@
       "name": "ACETCGS.COM Weekly #9 - STORE CREDIT/CASH PRIZING",
       "url": "https://play.limitlesstcg.com/tournament/6ae7cdb30d00101b48bf4383/details",
       "startAt": "2026-11-30T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afc5905b2fccaf0272d4b86",
+      "source": "limitless",
+      "sourceId": "6afc5905b2fccaf0272d4b86",
+      "name": "Copa Elemental Cusca 🇸🇻 #1 PTCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6afc5905b2fccaf0272d4b86/details",
+      "startAt": "2026-11-30T01:00:00.000Z"
     },
     {
       "format": "Standard",
