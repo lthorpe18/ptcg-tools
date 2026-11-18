@@ -1,51 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T13:25:30.122Z",
+  "generatedAt": "2026-11-18T22:19:44.659Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6af6368cdcbca32da6c4fc82",
-      "source": "limitless",
-      "sourceId": "6af6368cdcbca32da6c4fc82",
-      "name": "Turtwig Den Expanded Tournament 2",
-      "url": "https://play.limitlesstcg.com/tournament/6af6368cdcbca32da6c4fc82/details",
-      "startAt": "2026-11-18T17:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af5173300d53a11f5b91b1c",
-      "source": "limitless",
-      "sourceId": "6af5173300d53a11f5b91b1c",
-      "name": "Amyverse PTCG Live Weekly #22 💛 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6af5173300d53a11f5b91b1c/details",
-      "startAt": "2026-11-18T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af4e97adcbca32da6c4eaec",
-      "source": "limitless",
-      "sourceId": "6af4e97adcbca32da6c4eaec",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #10",
-      "url": "https://play.limitlesstcg.com/tournament/6af4e97adcbca32da6c4eaec/details",
-      "startAt": "2026-11-18T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afda2d1b2fccaf0272d5770",
-      "source": "limitless",
-      "sourceId": "6afda2d1b2fccaf0272d5770",
-      "name": "ASRcristiano # 206 - 60 codes - Road to Stuttgart!",
-      "url": "https://play.limitlesstcg.com/tournament/6afda2d1b2fccaf0272d5770/details",
-      "startAt": "2026-11-18T20:00:00.000Z"
-    },
     {
       "format": "Expanded",
       "platform": "PTCGO",
@@ -69,12 +29,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6ad97d6f8a8383117e3f12f9",
+      "source": "limitless",
+      "sourceId": "6ad97d6f8a8383117e3f12f9",
+      "name": "REFINE Autumn Series Invitational",
+      "url": "https://play.limitlesstcg.com/tournament/6ad97d6f8a8383117e3f12f9/details",
+      "startAt": "2026-11-19T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6afd0050ee43ef7891477a25",
       "source": "limitless",
       "sourceId": "6afd0050ee43ef7891477a25",
       "name": "🏆 Domino Arena Cup| Temporada 3 | Semana 10 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6afd0050ee43ef7891477a25/details",
       "startAt": "2026-11-19T00:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6afdb9a4b2fccaf0272d5802",
+      "source": "limitless",
+      "sourceId": "6afdb9a4b2fccaf0272d5802",
+      "name": "SEASAC League Challenge #34 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6afdb9a4b2fccaf0272d5802/details",
+      "startAt": "2026-11-19T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -317,16 +297,6 @@
       "startAt": "2026-11-22T01:00:00.000Z"
     },
     {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6afc4ee3ee43ef7891477099",
-      "source": "limitless",
-      "sourceId": "6afc4ee3ee43ef7891477099",
-      "name": "TCG Live: Temática GLC",
-      "url": "https://play.limitlesstcg.com/tournament/6afc4ee3ee43ef7891477099/details",
-      "startAt": "2026-11-22T23:30:00.000Z"
-    },
-    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ae7e6e00d00101b48bf441c",
@@ -334,6 +304,16 @@
       "sourceId": "6ae7e6e00d00101b48bf441c",
       "name": "Sisterhood Showdown #4 💗 Girls & Enbies!",
       "url": "https://play.limitlesstcg.com/tournament/6ae7e6e00d00101b48bf441c/details",
+      "startAt": "2026-11-23T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afdf0fe2b9e244e6cee4e26",
+      "source": "limitless",
+      "sourceId": "6afdf0fe2b9e244e6cee4e26",
+      "name": "Rare Candy Club Showdown #53 DELTA REIGN LEGAL",
+      "url": "https://play.limitlesstcg.com/tournament/6afdf0fe2b9e244e6cee4e26/details",
       "startAt": "2026-11-23T01:00:00.000Z"
     },
     {
@@ -365,6 +345,16 @@
       "name": "Sunny's Weekly #283 Alien Durant Farm",
       "url": "https://play.limitlesstcg.com/tournament/6afb6232b2fccaf0272d4289/details",
       "startAt": "2026-11-23T23:05:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6afc4ee3ee43ef7891477099",
+      "source": "limitless",
+      "sourceId": "6afc4ee3ee43ef7891477099",
+      "name": "TCG Live: Temática GLC",
+      "url": "https://play.limitlesstcg.com/tournament/6afc4ee3ee43ef7891477099/details",
+      "startAt": "2026-11-23T23:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -415,6 +405,16 @@
       "name": "Zard-Pokénight #028",
       "url": "https://play.limitlesstcg.com/tournament/6ae9e3390c463890f304a54a/details",
       "startAt": "2026-11-25T22:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGO",
+      "id": "limitless:6afe069c9c256f7bbd23f987",
+      "source": "limitless",
+      "sourceId": "6afe069c9c256f7bbd23f987",
+      "name": "Cardboard Warriors - GLC on PTCGO #6",
+      "url": "https://play.limitlesstcg.com/tournament/6afe069c9c256f7bbd23f987/details",
+      "startAt": "2026-11-26T01:30:00.000Z"
     },
     {
       "format": "Standard",
