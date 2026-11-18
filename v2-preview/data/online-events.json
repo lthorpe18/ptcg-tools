@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T03:51:00.458Z",
+  "generatedAt": "2026-11-18T13:25:30.122Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae9e10be94eae0f94746566",
-      "source": "limitless",
-      "sourceId": "6ae9e10be94eae0f94746566",
-      "name": "Zard-Pokénight #027",
-      "url": "https://play.limitlesstcg.com/tournament/6ae9e10be94eae0f94746566/details",
-      "startAt": "2026-11-18T10:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6afba01eee43ef7891476c1c",
-      "source": "limitless",
-      "sourceId": "6afba01eee43ef7891476c1c",
-      "name": "SEASAC League Challenge #33 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6afba01eee43ef7891476c1c/details",
-      "startAt": "2026-11-18T11:30:00.000Z"
-    },
     {
       "format": "Expanded",
       "platform": "PTCGL",
@@ -54,6 +34,16 @@
       "sourceId": "6af4e97adcbca32da6c4eaec",
       "name": "TAVERNA LEAGUE - SEASON 0 - DAY #10",
       "url": "https://play.limitlesstcg.com/tournament/6af4e97adcbca32da6c4eaec/details",
+      "startAt": "2026-11-18T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afda2d1b2fccaf0272d5770",
+      "source": "limitless",
+      "sourceId": "6afda2d1b2fccaf0272d5770",
+      "name": "ASRcristiano # 206 - 60 codes - Road to Stuttgart!",
+      "url": "https://play.limitlesstcg.com/tournament/6afda2d1b2fccaf0272d5770/details",
       "startAt": "2026-11-18T20:00:00.000Z"
     },
     {
@@ -107,6 +97,16 @@
       "startAt": "2026-11-19T18:15:00.000Z"
     },
     {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6afd8ce9b2fccaf0272d56f9",
+      "source": "limitless",
+      "sourceId": "6afd8ce9b2fccaf0272d56f9",
+      "name": "TCGL Expanded Weekly #2",
+      "url": "https://play.limitlesstcg.com/tournament/6afd8ce9b2fccaf0272d56f9/details",
+      "startAt": "2026-11-19T19:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6af46bf7dcbca32da6c4e369",
@@ -115,6 +115,16 @@
       "name": "SPECIAL BANLIST TOURNAMENT !",
       "url": "https://play.limitlesstcg.com/tournament/6af46bf7dcbca32da6c4e369/details",
       "startAt": "2026-11-19T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afda2edee43ef7891477ecc",
+      "source": "limitless",
+      "sourceId": "6afda2edee43ef7891477ecc",
+      "name": "ASRcristiano # 207 - 60 codes - Road to Stuttgart!",
+      "url": "https://play.limitlesstcg.com/tournament/6afda2edee43ef7891477ecc/details",
+      "startAt": "2026-11-19T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -369,16 +379,6 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6af3c1c400d53a11f5b90c4b",
-      "source": "limitless",
-      "sourceId": "6af3c1c400d53a11f5b90c4b",
-      "name": "🇧🇷 4° Batalhas Vip 💲💲",
-      "url": "https://play.limitlesstcg.com/tournament/6af3c1c400d53a11f5b90c4b/details",
-      "startAt": "2026-11-24T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
       "id": "limitless:6aad843cf127b1b52c27c2fe",
       "source": "limitless",
       "sourceId": "6aad843cf127b1b52c27c2fe",
@@ -554,6 +554,16 @@
       "sourceId": "6ae7fd6b0d00101b48bf45c1",
       "name": "E4MC Modern Mondays",
       "url": "https://play.limitlesstcg.com/tournament/6ae7fd6b0d00101b48bf45c1/details",
+      "startAt": "2026-12-01T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6af3c1c400d53a11f5b90c4b",
+      "source": "limitless",
+      "sourceId": "6af3c1c400d53a11f5b90c4b",
+      "name": "🇧🇷 4° Batalhas Vip 💲💲",
+      "url": "https://play.limitlesstcg.com/tournament/6af3c1c400d53a11f5b90c4b/details",
       "startAt": "2026-12-01T00:00:00.000Z"
     },
     {
