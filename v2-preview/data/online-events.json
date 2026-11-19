@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:52:43.968Z",
+  "generatedAt": "2026-11-19T22:26:03.368Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
@@ -8,73 +8,13 @@
   "events": [
     {
       "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af7643bee43ef78914738ab",
+      "platform": null,
+      "id": "limitless:6aff70b69c256f7bbd2403d5",
       "source": "limitless",
-      "sourceId": "6af7643bee43ef78914738ab",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6af7643bee43ef78914738ab/details",
-      "startAt": "2026-11-19T17:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af58656dcbca32da6c4f031",
-      "source": "limitless",
-      "sourceId": "6af58656dcbca32da6c4f031",
-      "name": "⚗️🔥PokéKhemistry TURBO Thursday 🧪",
-      "url": "https://play.limitlesstcg.com/tournament/6af58656dcbca32da6c4f031/details",
-      "startAt": "2026-11-19T18:15:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6afd8ce9b2fccaf0272d56f9",
-      "source": "limitless",
-      "sourceId": "6afd8ce9b2fccaf0272d56f9",
-      "name": "TCGL Expanded Weekly #2",
-      "url": "https://play.limitlesstcg.com/tournament/6afd8ce9b2fccaf0272d56f9/details",
-      "startAt": "2026-11-19T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af46bf7dcbca32da6c4e369",
-      "source": "limitless",
-      "sourceId": "6af46bf7dcbca32da6c4e369",
-      "name": "SPECIAL BANLIST TOURNAMENT !",
-      "url": "https://play.limitlesstcg.com/tournament/6af46bf7dcbca32da6c4e369/details",
-      "startAt": "2026-11-19T19:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afedd339c256f7bbd23fe5a",
-      "source": "limitless",
-      "sourceId": "6afedd339c256f7bbd23fe5a",
-      "name": "⚡ Surge's Winner Takes All - 250 Codes ⚡",
-      "url": "https://play.limitlesstcg.com/tournament/6afedd339c256f7bbd23fe5a/details",
-      "startAt": "2026-11-19T19:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afda2edee43ef7891477ecc",
-      "source": "limitless",
-      "sourceId": "6afda2edee43ef7891477ecc",
-      "name": "ASRcristiano # 207 - 60 codes - Road to Stuttgart!",
-      "url": "https://play.limitlesstcg.com/tournament/6afda2edee43ef7891477ecc/details",
-      "startAt": "2026-11-19T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af6081a00d53a11f5b92340",
-      "source": "limitless",
-      "sourceId": "6af6081a00d53a11f5b92340",
-      "name": "18° Torneo del circuito CarroTCG/Prof. Fili",
-      "url": "https://play.limitlesstcg.com/tournament/6af6081a00d53a11f5b92340/details",
-      "startAt": "2026-11-19T20:30:00.000Z"
+      "sourceId": "6aff70b69c256f7bbd2403d5",
+      "name": "Pokemon",
+      "url": "https://play.limitlesstcg.com/tournament/6aff70b69c256f7bbd2403d5/details",
+      "startAt": "2026-11-19T22:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -89,11 +29,31 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6aff61b92b9e244e6cee59ca",
+      "source": "limitless",
+      "sourceId": "6aff61b92b9e244e6cee59ca",
+      "name": "Torneo Sidedeck Online Jueves 19 Noviembre",
+      "url": "https://play.limitlesstcg.com/tournament/6aff61b92b9e244e6cee59ca/details",
+      "startAt": "2026-11-19T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6afcec70b2fccaf0272d52ca",
       "source": "limitless",
       "sourceId": "6afcec70b2fccaf0272d52ca",
       "name": "Rare Candy Club Blitz #10 DELTA REIGN LEGAL",
       "url": "https://play.limitlesstcg.com/tournament/6afcec70b2fccaf0272d52ca/details",
+      "startAt": "2026-11-20T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aff31f62b9e244e6cee56e2",
+      "source": "limitless",
+      "sourceId": "6aff31f62b9e244e6cee56e2",
+      "name": "Atlantis Circuit - Season 2 Preseason week 2",
+      "url": "https://play.limitlesstcg.com/tournament/6aff31f62b9e244e6cee56e2/details",
       "startAt": "2026-11-20T01:00:00.000Z"
     },
     {
@@ -445,6 +405,26 @@
       "name": "⚗️PokéKhemistry TURBO Thursday",
       "url": "https://play.limitlesstcg.com/tournament/6afea62c2b9e244e6cee545b/details",
       "startAt": "2026-11-26T18:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aff73102b9e244e6cee5ab1",
+      "source": "limitless",
+      "sourceId": "6aff73102b9e244e6cee5ab1",
+      "name": "Le tournoi des Fiaros - 26.11.2026",
+      "url": "https://play.limitlesstcg.com/tournament/6aff73102b9e244e6cee5ab1/details",
+      "startAt": "2026-11-26T19:45:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6aff4d542b9e244e6cee5908",
+      "source": "limitless",
+      "sourceId": "6aff4d542b9e244e6cee5908",
+      "name": "19° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6aff4d542b9e244e6cee5908/details",
+      "startAt": "2026-11-26T20:30:00.000Z"
     },
     {
       "format": "Standard",
