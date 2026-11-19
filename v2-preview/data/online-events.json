@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T03:50:17.043Z",
+  "generatedAt": "2026-11-19T13:52:43.968Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6afdb9a4b2fccaf0272d5802",
-      "source": "limitless",
-      "sourceId": "6afdb9a4b2fccaf0272d5802",
-      "name": "SEASAC League Challenge #34 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6afdb9a4b2fccaf0272d5802/details",
-      "startAt": "2026-11-19T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -54,6 +44,16 @@
       "sourceId": "6af46bf7dcbca32da6c4e369",
       "name": "SPECIAL BANLIST TOURNAMENT !",
       "url": "https://play.limitlesstcg.com/tournament/6af46bf7dcbca32da6c4e369/details",
+      "startAt": "2026-11-19T19:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afedd339c256f7bbd23fe5a",
+      "source": "limitless",
+      "sourceId": "6afedd339c256f7bbd23fe5a",
+      "name": "⚡ Surge's Winner Takes All - 250 Codes ⚡",
+      "url": "https://play.limitlesstcg.com/tournament/6afedd339c256f7bbd23fe5a/details",
       "startAt": "2026-11-19T19:30:00.000Z"
     },
     {
@@ -125,6 +125,16 @@
       "name": "Oceania Open! | Season 4 - Week 7",
       "url": "https://play.limitlesstcg.com/tournament/6ac087ad85920e4d25362890/details",
       "startAt": "2026-11-20T08:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6afef3b92b9e244e6cee5566",
+      "source": "limitless",
+      "sourceId": "6afef3b92b9e244e6cee5566",
+      "name": "SEASAC League Challenge #35 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6afef3b92b9e244e6cee5566/details",
+      "startAt": "2026-11-20T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -277,6 +287,16 @@
       "startAt": "2026-11-22T01:00:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6afec7d42b9e244e6cee548c",
+      "source": "limitless",
+      "sourceId": "6afec7d42b9e244e6cee548c",
+      "name": "ITA Weekly #5",
+      "url": "https://play.limitlesstcg.com/tournament/6afec7d42b9e244e6cee548c/details",
+      "startAt": "2026-11-22T12:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ae7e6e00d00101b48bf441c",
@@ -415,6 +435,16 @@
       "name": "Cardboard Warriors - GLC on PTCGO #6",
       "url": "https://play.limitlesstcg.com/tournament/6afe069c9c256f7bbd23f987/details",
       "startAt": "2026-11-26T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6afea62c2b9e244e6cee545b",
+      "source": "limitless",
+      "sourceId": "6afea62c2b9e244e6cee545b",
+      "name": "⚗️PokéKhemistry TURBO Thursday",
+      "url": "https://play.limitlesstcg.com/tournament/6afea62c2b9e244e6cee545b/details",
+      "startAt": "2026-11-26T18:15:00.000Z"
     },
     {
       "format": "Standard",
