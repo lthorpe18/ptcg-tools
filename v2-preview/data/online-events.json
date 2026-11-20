@@ -1,81 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T22:26:03.368Z",
+  "generatedAt": "2026-11-20T03:43:21.829Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": null,
-      "id": "limitless:6aff70b69c256f7bbd2403d5",
-      "source": "limitless",
-      "sourceId": "6aff70b69c256f7bbd2403d5",
-      "name": "Pokemon",
-      "url": "https://play.limitlesstcg.com/tournament/6aff70b69c256f7bbd2403d5/details",
-      "startAt": "2026-11-19T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afe2c172b9e244e6cee522d",
-      "source": "limitless",
-      "sourceId": "6afe2c172b9e244e6cee522d",
-      "name": "🇧🇷 Hit Challenge #66 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6afe2c172b9e244e6cee522d/details",
-      "startAt": "2026-11-19T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aff61b92b9e244e6cee59ca",
-      "source": "limitless",
-      "sourceId": "6aff61b92b9e244e6cee59ca",
-      "name": "Torneo Sidedeck Online Jueves 19 Noviembre",
-      "url": "https://play.limitlesstcg.com/tournament/6aff61b92b9e244e6cee59ca/details",
-      "startAt": "2026-11-19T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afcec70b2fccaf0272d52ca",
-      "source": "limitless",
-      "sourceId": "6afcec70b2fccaf0272d52ca",
-      "name": "Rare Candy Club Blitz #10 DELTA REIGN LEGAL",
-      "url": "https://play.limitlesstcg.com/tournament/6afcec70b2fccaf0272d52ca/details",
-      "startAt": "2026-11-20T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aff31f62b9e244e6cee56e2",
-      "source": "limitless",
-      "sourceId": "6aff31f62b9e244e6cee56e2",
-      "name": "Atlantis Circuit - Season 2 Preseason week 2",
-      "url": "https://play.limitlesstcg.com/tournament/6aff31f62b9e244e6cee56e2/details",
-      "startAt": "2026-11-20T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae2174680a8f79408d20182",
-      "source": "limitless",
-      "sourceId": "6ae2174680a8f79408d20182",
-      "name": "Torneo Relámpago ⚡ #92 PTCG Live (25 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae2174680a8f79408d20182/details",
-      "startAt": "2026-11-20T01:30:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6afa3630b2fccaf0272d3866",
-      "source": "limitless",
-      "sourceId": "6afa3630b2fccaf0272d3866",
-      "name": "Holon Locals #52 (US Friendly)",
-      "url": "https://play.limitlesstcg.com/tournament/6afa3630b2fccaf0272d3866/details",
-      "startAt": "2026-11-20T03:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
