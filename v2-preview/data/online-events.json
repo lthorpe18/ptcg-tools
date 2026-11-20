@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-20T13:35:22.852Z",
+  "generatedAt": "2026-11-20T21:57:26.795Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a95d181629039f77d8a6afa",
-      "source": "limitless",
-      "sourceId": "6a95d181629039f77d8a6afa",
-      "name": "Turtwig Den Revival Series Season 2 Challenge 9",
-      "url": "https://play.limitlesstcg.com/tournament/6a95d181629039f77d8a6afa/details",
-      "startAt": "2026-11-20T17:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aa2d2a3ab080c8c95800251",
-      "source": "limitless",
-      "sourceId": "6aa2d2a3ab080c8c95800251",
-      "name": "Nightshades Friday Challenge 7 (25 Codes)",
-      "url": "https://play.limitlesstcg.com/tournament/6aa2d2a3ab080c8c95800251/details",
-      "startAt": "2026-11-20T18:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "CAM",
@@ -67,6 +47,16 @@
       "startAt": "2026-11-21T00:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b00b921ada8eea1c94cef07",
+      "source": "limitless",
+      "sourceId": "6b00b921ada8eea1c94cef07",
+      "name": "JustInBasil Online League - 20 November 2026",
+      "url": "https://play.limitlesstcg.com/tournament/6b00b921ada8eea1c94cef07/details",
+      "startAt": "2026-11-21T00:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGL",
       "id": "limitless:6ac0893b245696afb3514d89",
@@ -99,11 +89,11 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6ae97a1ce94eae0f94746407",
+      "id": "limitless:stuff",
       "source": "limitless",
-      "sourceId": "6ae97a1ce94eae0f94746407",
+      "sourceId": "stuff",
       "name": "TOURNAMENT OF DOOM! Stuff.",
-      "url": "https://play.limitlesstcg.com/tournament/6ae97a1ce94eae0f94746407/details",
+      "url": "https://play.limitlesstcg.com/tournament/stuff/details",
       "startAt": "2026-11-21T03:35:00.000Z"
     },
     {
@@ -187,6 +177,16 @@
       "startAt": "2026-11-23T01:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b00aeeae0b5cca158bb9f19",
+      "source": "limitless",
+      "sourceId": "6b00aeeae0b5cca158bb9f19",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6b00aeeae0b5cca158bb9f19/details",
+      "startAt": "2026-11-23T17:00:00.000Z"
+    },
+    {
       "format": "EX Series (RS–PK)",
       "platform": "SIM",
       "id": "limitless:6afa35efee43ef7891475b83",
@@ -249,6 +249,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6b006d09ada8eea1c94ceba7",
+      "source": "limitless",
+      "sourceId": "6b006d09ada8eea1c94ceba7",
+      "name": "Mega Lunes 23",
+      "url": "https://play.limitlesstcg.com/tournament/6b006d09ada8eea1c94ceba7/details",
+      "startAt": "2026-11-24T01:10:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6afcdf85ee43ef78914777bc",
       "source": "limitless",
       "sourceId": "6afcdf85ee43ef78914777bc",
@@ -265,6 +275,16 @@
       "name": "Torneo Relámpago ⚡ #93 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6afc576fee43ef78914770fe/details",
       "startAt": "2026-11-25T01:30:00.000Z"
+    },
+    {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6b00b346e0b5cca158bb9f27",
+      "source": "limitless",
+      "sourceId": "6b00b346e0b5cca158bb9f27",
+      "name": "Turtwig Den Expanded Tournament 3",
+      "url": "https://play.limitlesstcg.com/tournament/6b00b346e0b5cca158bb9f27/details",
+      "startAt": "2026-11-25T18:05:00.000Z"
     },
     {
       "format": "Standard",
@@ -525,6 +545,16 @@
       "name": "🇧🇷 Hit Cup #24 | TCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6ad41ed6115c12b73a5a69cd/details",
       "startAt": "2026-12-02T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b00af3eada8eea1c94ceea4",
+      "source": "limitless",
+      "sourceId": "6b00af3eada8eea1c94ceea4",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6b00af3eada8eea1c94ceea4/details",
+      "startAt": "2026-12-03T17:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -795,16 +825,6 @@
       "name": "RDG! January Open Qualifier",
       "url": "https://play.limitlesstcg.com/tournament/6a690435937230b102d47bb3/details",
       "startAt": "2027-01-10T01:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ac65923245696afb3518220",
-      "source": "limitless",
-      "sourceId": "6ac65923245696afb3518220",
-      "name": "Nightshades Cash Tournament",
-      "url": "https://play.limitlesstcg.com/tournament/6ac65923245696afb3518220/details",
-      "startAt": "2027-01-10T18:00:00.000Z"
     },
     {
       "format": "Standard",
