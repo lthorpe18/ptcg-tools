@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-21T03:27:56.402Z",
+  "generatedAt": "2026-11-21T12:59:39.687Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:stuff",
-      "source": "limitless",
-      "sourceId": "stuff",
-      "name": "TOURNAMENT OF DOOM! Stuff.",
-      "url": "https://play.limitlesstcg.com/tournament/stuff/details",
-      "startAt": "2026-11-21T03:35:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6b01009cada8eea1c94cf2a0",
-      "source": "limitless",
-      "sourceId": "6b01009cada8eea1c94cf2a0",
-      "name": "SEASAC League Challenge #36 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6b01009cada8eea1c94cf2a0/details",
-      "startAt": "2026-11-21T11:30:00.000Z"
-    },
     {
       "format": "Expanded",
       "platform": "PTCGL",
@@ -394,6 +374,16 @@
       "sourceId": "6af49de300d53a11f5b91380",
       "name": "PTCG Lounge GLC Tourney",
       "url": "https://play.limitlesstcg.com/tournament/6af49de300d53a11f5b91380/details",
+      "startAt": "2026-11-28T02:00:00.000Z"
+    },
+    {
+      "format": "Worlds 2010 (DP–UL)",
+      "platform": "SIM",
+      "id": "limitless:6b015db1e0b5cca158bba57a",
+      "source": "limitless",
+      "sourceId": "6b015db1e0b5cca158bba57a",
+      "name": "James G Tournaments #64 - 2010 Worlds (DP-UL)",
+      "url": "https://play.limitlesstcg.com/tournament/6b015db1e0b5cca158bba57a/details",
       "startAt": "2026-11-28T02:00:00.000Z"
     },
     {
