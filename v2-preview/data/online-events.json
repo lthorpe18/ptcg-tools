@@ -1,91 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-20T21:57:26.795Z",
+  "generatedAt": "2026-11-21T03:27:56.402Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6af801bcee43ef789147437b",
-      "source": "limitless",
-      "sourceId": "6af801bcee43ef789147437b",
-      "name": "Amyverse Webcam Wonders #34 💙 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6af801bcee43ef789147437b/details",
-      "startAt": "2026-11-20T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af66e2500d53a11f5b92930",
-      "source": "limitless",
-      "sourceId": "6af66e2500d53a11f5b92930",
-      "name": "Hideout TCG DELTA REGN 100 CODES",
-      "url": "https://play.limitlesstcg.com/tournament/6af66e2500d53a11f5b92930/details",
-      "startAt": "2026-11-20T23:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae7ff2d0d00101b48bf460d",
-      "source": "limitless",
-      "sourceId": "6ae7ff2d0d00101b48bf460d",
-      "name": "Elite Four Fridays",
-      "url": "https://play.limitlesstcg.com/tournament/6ae7ff2d0d00101b48bf460d/details",
-      "startAt": "2026-11-21T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6af6c61db2fccaf0272d0b3c",
-      "source": "limitless",
-      "sourceId": "6af6c61db2fccaf0272d0b3c",
-      "name": "🇧🇷 40° Torneio Padrão do Zap Pix Especial",
-      "url": "https://play.limitlesstcg.com/tournament/6af6c61db2fccaf0272d0b3c/details",
-      "startAt": "2026-11-21T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b00b921ada8eea1c94cef07",
-      "source": "limitless",
-      "sourceId": "6b00b921ada8eea1c94cef07",
-      "name": "JustInBasil Online League - 20 November 2026",
-      "url": "https://play.limitlesstcg.com/tournament/6b00b921ada8eea1c94cef07/details",
-      "startAt": "2026-11-21T00:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6ac0893b245696afb3514d89",
-      "source": "limitless",
-      "sourceId": "6ac0893b245696afb3514d89",
-      "name": "Budget Build Battles! | Season 9 - Week 7",
-      "url": "https://play.limitlesstcg.com/tournament/6ac0893b245696afb3514d89/details",
-      "startAt": "2026-11-21T00:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6afc4383ee43ef7891477012",
-      "source": "limitless",
-      "sourceId": "6afc4383ee43ef7891477012",
-      "name": "TurboBlaze Trials GLC Series - Season 2 Week 12",
-      "url": "https://play.limitlesstcg.com/tournament/6afc4383ee43ef7891477012/details",
-      "startAt": "2026-11-21T01:30:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6af770f0b2fccaf0272d13f7",
-      "source": "limitless",
-      "sourceId": "6af770f0b2fccaf0272d13f7",
-      "name": "James G Tournaments #63 - EX Series (RS-PK)",
-      "url": "https://play.limitlesstcg.com/tournament/6af770f0b2fccaf0272d13f7/details",
-      "startAt": "2026-11-21T02:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -95,6 +15,16 @@
       "name": "TOURNAMENT OF DOOM! Stuff.",
       "url": "https://play.limitlesstcg.com/tournament/stuff/details",
       "startAt": "2026-11-21T03:35:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6b01009cada8eea1c94cf2a0",
+      "source": "limitless",
+      "sourceId": "6b01009cada8eea1c94cf2a0",
+      "name": "SEASAC League Challenge #36 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6b01009cada8eea1c94cf2a0/details",
+      "startAt": "2026-11-21T11:30:00.000Z"
     },
     {
       "format": "Expanded",
@@ -137,6 +67,16 @@
       "startAt": "2026-11-21T20:00:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "CAM",
+      "id": "limitless:6b01048bada8eea1c94cf2c3",
+      "source": "limitless",
+      "sourceId": "6b01048bada8eea1c94cf2c3",
+      "name": "⚡️Surge's TCG Vault Webcam Play!⚡️",
+      "url": "https://play.limitlesstcg.com/tournament/6b01048bada8eea1c94cf2c3/details",
+      "startAt": "2026-11-21T20:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "CAM",
       "id": "limitless:6af90819b2fccaf0272d2b56",
@@ -145,6 +85,16 @@
       "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6af90819b2fccaf0272d2b56/details",
       "startAt": "2026-11-22T01:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6b0100bdada8eea1c94cf2a1",
+      "source": "limitless",
+      "sourceId": "6b0100bdada8eea1c94cf2a1",
+      "name": "SEASAC League Challenge #37 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6b0100bdada8eea1c94cf2a1/details",
+      "startAt": "2026-11-22T11:30:00.000Z"
     },
     {
       "format": null,
@@ -175,6 +125,16 @@
       "name": "Rare Candy Club Showdown #53 DELTA REIGN LEGAL",
       "url": "https://play.limitlesstcg.com/tournament/6afdf0fe2b9e244e6cee4e26/details",
       "startAt": "2026-11-23T01:00:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6b0100dfe0b5cca158bba279",
+      "source": "limitless",
+      "sourceId": "6b0100dfe0b5cca158bba279",
+      "name": "SEASAC League Challenge #38 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6b0100dfe0b5cca158bba279/details",
+      "startAt": "2026-11-23T11:30:00.000Z"
     },
     {
       "format": "Standard",
