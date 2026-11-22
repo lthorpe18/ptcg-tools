@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T16:37:23.399Z",
+  "generatedAt": "2026-11-22T22:00:31.476Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b02f5ddada8eea1c94d04a0",
-      "source": "limitless",
-      "sourceId": "6b02f5ddada8eea1c94d04a0",
-      "name": "Redraftowa Liga Pokemon TCG - 22.11.2026",
-      "url": "https://play.limitlesstcg.com/tournament/6b02f5ddada8eea1c94d04a0/details",
-      "startAt": "2026-11-22T19:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -45,16 +35,6 @@
       "name": "SEASAC League Challenge #38 (SEASON 6) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6b0100dfe0b5cca158bba279/details",
       "startAt": "2026-11-23T11:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b00aeeae0b5cca158bb9f19",
-      "source": "limitless",
-      "sourceId": "6b00aeeae0b5cca158bb9f19",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6b00aeeae0b5cca158bb9f19/details",
-      "startAt": "2026-11-23T17:00:00.000Z"
     },
     {
       "format": "EX Series (RS–PK)",
@@ -137,6 +117,16 @@
       "startAt": "2026-11-24T01:10:00.000Z"
     },
     {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6b0325aae0b5cca158bbb4ec",
+      "source": "limitless",
+      "sourceId": "6b0325aae0b5cca158bbb4ec",
+      "name": "SEASAC League Challenge #39 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6b0325aae0b5cca158bbb4ec/details",
+      "startAt": "2026-11-24T11:30:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6afcdf85ee43ef78914777bc",
@@ -155,6 +145,16 @@
       "name": "Torneo Relámpago ⚡ #93 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6afc576fee43ef78914770fe/details",
       "startAt": "2026-11-25T01:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6b03263ce0b5cca158bbb4ed",
+      "source": "limitless",
+      "sourceId": "6b03263ce0b5cca158bbb4ed",
+      "name": "SEASAC League Challenge #40 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6b03263ce0b5cca158bbb4ed/details",
+      "startAt": "2026-11-25T11:30:00.000Z"
     },
     {
       "format": "Expanded",
@@ -307,6 +307,16 @@
       "startAt": "2026-11-27T18:00:00.000Z"
     },
     {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6b032899e0b5cca158bbb4fb",
+      "source": "limitless",
+      "sourceId": "6b032899e0b5cca158bbb4fb",
+      "name": "Expanded Weekly #3 (Top Cut + Code Prizing!)",
+      "url": "https://play.limitlesstcg.com/tournament/6b032899e0b5cca158bbb4fb/details",
+      "startAt": "2026-11-27T19:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "CAM",
       "id": "limitless:6b022b1fada8eea1c94cfea2",
@@ -402,7 +412,7 @@
       "id": "limitless:6afc5905b2fccaf0272d4b86",
       "source": "limitless",
       "sourceId": "6afc5905b2fccaf0272d4b86",
-      "name": "Copa Elemental Cusca 🇸🇻 #1 PTCG Live",
+      "name": "Copa Elemental Cusca 🇸🇻 #2 PTCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6afc5905b2fccaf0272d4b86/details",
       "startAt": "2026-11-30T01:00:00.000Z"
     },
