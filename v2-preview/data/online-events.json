@@ -1,40 +1,20 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T07:27:45.951Z",
+  "generatedAt": "2026-11-22T16:37:23.399Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
     {
-      "format": null,
+      "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6b0100bdada8eea1c94cf2a1",
+      "id": "limitless:6b02f5ddada8eea1c94d04a0",
       "source": "limitless",
-      "sourceId": "6b0100bdada8eea1c94cf2a1",
-      "name": "SEASAC League Challenge #37 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6b0100bdada8eea1c94cf2a1/details",
-      "startAt": "2026-11-22T11:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6afec7d42b9e244e6cee548c",
-      "source": "limitless",
-      "sourceId": "6afec7d42b9e244e6cee548c",
-      "name": "ITA Weekly #5",
-      "url": "https://play.limitlesstcg.com/tournament/6afec7d42b9e244e6cee548c/details",
-      "startAt": "2026-11-22T12:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGO",
-      "id": "limitless:6b02410ce0b5cca158bbadf7",
-      "source": "limitless",
-      "sourceId": "6b02410ce0b5cca158bbadf7",
-      "name": "Torneo Testeo Tropical sin lista",
-      "url": "https://play.limitlesstcg.com/tournament/6b02410ce0b5cca158bbadf7/details",
-      "startAt": "2026-11-22T16:00:00.000Z"
+      "sourceId": "6b02f5ddada8eea1c94d04a0",
+      "name": "Redraftowa Liga Pokemon TCG - 22.11.2026",
+      "url": "https://play.limitlesstcg.com/tournament/6b02f5ddada8eea1c94d04a0/details",
+      "startAt": "2026-11-22T19:00:00.000Z"
     },
     {
       "format": "Standard",
