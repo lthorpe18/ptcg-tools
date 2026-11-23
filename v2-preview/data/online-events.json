@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T22:00:31.476Z",
+  "generatedAt": "2026-11-23T03:06:13.857Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae7e6e00d00101b48bf441c",
-      "source": "limitless",
-      "sourceId": "6ae7e6e00d00101b48bf441c",
-      "name": "Sisterhood Showdown #4 💗 Girls & Enbies!",
-      "url": "https://play.limitlesstcg.com/tournament/6ae7e6e00d00101b48bf441c/details",
-      "startAt": "2026-11-23T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afdf0fe2b9e244e6cee4e26",
-      "source": "limitless",
-      "sourceId": "6afdf0fe2b9e244e6cee4e26",
-      "name": "Rare Candy Club Showdown #53 DELTA REIGN LEGAL",
-      "url": "https://play.limitlesstcg.com/tournament/6afdf0fe2b9e244e6cee4e26/details",
-      "startAt": "2026-11-23T01:00:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGL",
@@ -45,6 +25,16 @@
       "name": "Holon Locals #53 (EU Friendly)",
       "url": "https://play.limitlesstcg.com/tournament/6afa35efee43ef7891475b83/details",
       "startAt": "2026-11-23T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b039352ada8eea1c94d0856",
+      "source": "limitless",
+      "sourceId": "6b039352ada8eea1c94d0856",
+      "name": "Pumpkaweekly",
+      "url": "https://play.limitlesstcg.com/tournament/6b039352ada8eea1c94d0856/details",
+      "startAt": "2026-11-23T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -377,6 +367,16 @@
       "startAt": "2026-11-28T03:35:00.000Z"
     },
     {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6b039307e0b5cca158bbb78f",
+      "source": "limitless",
+      "sourceId": "6b039307e0b5cca158bbb78f",
+      "name": "Amyverse GLC Gatherings #18 💚 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6b039307e0b5cca158bbb78f/details",
+      "startAt": "2026-11-29T01:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6ab7309b880ed327106dcf5d",
@@ -414,6 +414,16 @@
       "sourceId": "6afc5905b2fccaf0272d4b86",
       "name": "Copa Elemental Cusca 🇸🇻 #2 PTCG Live",
       "url": "https://play.limitlesstcg.com/tournament/6afc5905b2fccaf0272d4b86/details",
+      "startAt": "2026-11-30T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b03933ce0b5cca158bbb793",
+      "source": "limitless",
+      "sourceId": "6b03933ce0b5cca158bbb793",
+      "name": "Sisterhood Showdown #4 💗 Girls & Enbies!",
+      "url": "https://play.limitlesstcg.com/tournament/6b03933ce0b5cca158bbb793/details",
       "startAt": "2026-11-30T01:00:00.000Z"
     },
     {
