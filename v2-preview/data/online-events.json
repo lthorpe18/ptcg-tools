@@ -1,131 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T15:21:05.124Z",
+  "generatedAt": "2026-11-24T03:02:08.552Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b045609e0b5cca158bbbb48",
-      "source": "limitless",
-      "sourceId": "6b045609e0b5cca158bbbb48",
-      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
-      "url": "https://play.limitlesstcg.com/tournament/6b045609e0b5cca158bbbb48/details",
-      "startAt": "2026-11-23T17:10:00.000Z"
-    },
-    {
-      "format": "EX Series (RS–PK)",
-      "platform": "SIM",
-      "id": "limitless:6afa35efee43ef7891475b83",
-      "source": "limitless",
-      "sourceId": "6afa35efee43ef7891475b83",
-      "name": "Holon Locals #53 (EU Friendly)",
-      "url": "https://play.limitlesstcg.com/tournament/6afa35efee43ef7891475b83/details",
-      "startAt": "2026-11-23T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b042b69ada8eea1c94d0c22",
-      "source": "limitless",
-      "sourceId": "6b042b69ada8eea1c94d0c22",
-      "name": "Team Corna Weekly November's #3",
-      "url": "https://play.limitlesstcg.com/tournament/6b042b69ada8eea1c94d0c22/details",
-      "startAt": "2026-11-23T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b039352ada8eea1c94d0856",
-      "source": "limitless",
-      "sourceId": "6b039352ada8eea1c94d0856",
-      "name": "Pumpkaweekly",
-      "url": "https://play.limitlesstcg.com/tournament/6b039352ada8eea1c94d0856/details",
-      "startAt": "2026-11-23T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae9c5020c463890f304a46f",
-      "source": "limitless",
-      "sourceId": "6ae9c5020c463890f304a46f",
-      "name": "🏆Ling TV ARENA🏆",
-      "url": "https://play.limitlesstcg.com/tournament/6ae9c5020c463890f304a46f/details",
-      "startAt": "2026-11-23T19:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b041b31e0b5cca158bbb9f5",
-      "source": "limitless",
-      "sourceId": "6b041b31e0b5cca158bbb9f5",
-      "name": "🇧🇷 Hit Challenge #68 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6b041b31e0b5cca158bbb9f5/details",
-      "startAt": "2026-11-23T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afb6232b2fccaf0272d4289",
-      "source": "limitless",
-      "sourceId": "6afb6232b2fccaf0272d4289",
-      "name": "Sunny's Weekly #283 Alien Durant Farm",
-      "url": "https://play.limitlesstcg.com/tournament/6afb6232b2fccaf0272d4289/details",
-      "startAt": "2026-11-23T23:05:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6afc4ee3ee43ef7891477099",
-      "source": "limitless",
-      "sourceId": "6afc4ee3ee43ef7891477099",
-      "name": "TCG Live: Temática GLC",
-      "url": "https://play.limitlesstcg.com/tournament/6afc4ee3ee43ef7891477099/details",
-      "startAt": "2026-11-23T23:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae7fd0e0d00101b48bf45bf",
-      "source": "limitless",
-      "sourceId": "6ae7fd0e0d00101b48bf45bf",
-      "name": "E4MC Modern Mondays",
-      "url": "https://play.limitlesstcg.com/tournament/6ae7fd0e0d00101b48bf45bf/details",
-      "startAt": "2026-11-24T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b02335eada8eea1c94cfee7",
-      "source": "limitless",
-      "sourceId": "6b02335eada8eea1c94cfee7",
-      "name": "🆓 Domino Arena Free | T 03 | Week 11 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6b02335eada8eea1c94cfee7/details",
-      "startAt": "2026-11-24T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aad843cf127b1b52c27c2fe",
-      "source": "limitless",
-      "sourceId": "6aad843cf127b1b52c27c2fe",
-      "name": "Nightshades Monday Cup 7 (25 Codes)",
-      "url": "https://play.limitlesstcg.com/tournament/6aad843cf127b1b52c27c2fe/details",
-      "startAt": "2026-11-24T01:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b006d09ada8eea1c94ceba7",
-      "source": "limitless",
-      "sourceId": "6b006d09ada8eea1c94ceba7",
-      "name": "Mega Lunes 23",
-      "url": "https://play.limitlesstcg.com/tournament/6b006d09ada8eea1c94ceba7/details",
-      "startAt": "2026-11-24T01:10:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGL",
@@ -149,6 +29,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6b04c95dada8eea1c94d163f",
+      "source": "limitless",
+      "sourceId": "6b04c95dada8eea1c94d163f",
+      "name": "🇧🇷 Hit Challenge #69 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6b04c95dada8eea1c94d163f/details",
+      "startAt": "2026-11-24T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6afc576fee43ef78914770fe",
       "source": "limitless",
       "sourceId": "6afc576fee43ef78914770fe",
@@ -165,6 +55,16 @@
       "name": "SEASAC League Challenge #40 (SEASON 6) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6b03263ce0b5cca158bbb4ed/details",
       "startAt": "2026-11-25T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b04599ae0b5cca158bbbb5f",
+      "source": "limitless",
+      "sourceId": "6b04599ae0b5cca158bbbb5f",
+      "name": "V1 Delta Reign Online Tournament #1",
+      "url": "https://play.limitlesstcg.com/tournament/6b04599ae0b5cca158bbbb5f/details",
+      "startAt": "2026-11-25T12:00:00.000Z"
     },
     {
       "format": "Expanded",
@@ -208,6 +108,16 @@
     },
     {
       "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b04cdf8ada8eea1c94d1686",
+      "source": "limitless",
+      "sourceId": "6b04cdf8ada8eea1c94d1686",
+      "name": "🇧🇷 Hit Challenge #70 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6b04cdf8ada8eea1c94d1686/details",
+      "startAt": "2026-11-25T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
       "platform": "CAM",
       "id": "limitless:6afe2cf82b9e244e6cee5230",
       "source": "limitless",
@@ -225,6 +135,16 @@
       "name": "🏆 Domino Arena Cup| T 03 | Week 11 [CL]",
       "url": "https://play.limitlesstcg.com/tournament/6b023414e0b5cca158bbad8e/details",
       "startAt": "2026-11-26T00:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b047427ada8eea1c94d0e96",
+      "source": "limitless",
+      "sourceId": "6b047427ada8eea1c94d0e96",
+      "name": "REFINE Autumn Series Session X: Fight Then Feast",
+      "url": "https://play.limitlesstcg.com/tournament/6b047427ada8eea1c94d0e96/details",
+      "startAt": "2026-11-26T00:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -275,6 +195,16 @@
       "name": "19° Torneo del circuito CarroTCG/Prof. Fili",
       "url": "https://play.limitlesstcg.com/tournament/6aff4d542b9e244e6cee5908/details",
       "startAt": "2026-11-26T20:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b047326e0b5cca158bbbc2e",
+      "source": "limitless",
+      "sourceId": "6b047326e0b5cca158bbbc2e",
+      "name": "Heart of the Games Online Series - S109",
+      "url": "https://play.limitlesstcg.com/tournament/6b047326e0b5cca158bbbc2e/details",
+      "startAt": "2026-11-27T00:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -368,6 +298,16 @@
     },
     {
       "format": null,
+      "platform": "CAM",
+      "id": "limitless:6b0474edada8eea1c94d0e9f",
+      "source": "limitless",
+      "sourceId": "6b0474edada8eea1c94d0e9f",
+      "name": "TurboBlaze Trials GLC Series - Season 2 Week 13",
+      "url": "https://play.limitlesstcg.com/tournament/6b0474edada8eea1c94d0e9f/details",
+      "startAt": "2026-11-28T01:30:00.000Z"
+    },
+    {
+      "format": null,
       "platform": "SIM",
       "id": "limitless:6af49de300d53a11f5b91380",
       "source": "limitless",
@@ -395,6 +335,16 @@
       "name": "TOURNAMENT OF DOOM! Uhm.... yep.",
       "url": "https://play.limitlesstcg.com/tournament/6ae97a9ae94eae0f94746409/details",
       "startAt": "2026-11-28T03:35:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "CAM",
+      "id": "limitless:6b047576ada8eea1c94d0ea4",
+      "source": "limitless",
+      "sourceId": "6b047576ada8eea1c94d0ea4",
+      "name": "TurboBlaze Presents: The Saturday Special #6",
+      "url": "https://play.limitlesstcg.com/tournament/6b047576ada8eea1c94d0ea4/details",
+      "startAt": "2026-11-28T17:30:00.000Z"
     },
     {
       "format": null,
@@ -459,12 +409,32 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6b04a114ada8eea1c94d12fc",
+      "source": "limitless",
+      "sourceId": "6b04a114ada8eea1c94d12fc",
+      "name": "Rare Candy Club Showdown #54 DELTA REIGN LEGAL",
+      "url": "https://play.limitlesstcg.com/tournament/6b04a114ada8eea1c94d12fc/details",
+      "startAt": "2026-11-30T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6af4cddf00d53a11f5b91681",
       "source": "limitless",
       "sourceId": "6af4cddf00d53a11f5b91681",
       "name": "TWISTER TEAM | DELTA REIGN CUP #3",
       "url": "https://play.limitlesstcg.com/tournament/6af4cddf00d53a11f5b91681/details",
       "startAt": "2026-11-30T19:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b049be3ada8eea1c94d1283",
+      "source": "limitless",
+      "sourceId": "6b049be3ada8eea1c94d1283",
+      "name": "Sunny's Weekly #284 Live from Vice City!",
+      "url": "https://play.limitlesstcg.com/tournament/6b049be3ada8eea1c94d1283/details",
+      "startAt": "2026-11-30T23:05:00.000Z"
     },
     {
       "format": "Standard",
@@ -687,6 +657,16 @@
       "startAt": "2026-12-12T18:00:00.000Z"
     },
     {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6ae2d5c380a8f79408d20aa9",
+      "source": "limitless",
+      "sourceId": "6ae2d5c380a8f79408d20aa9",
+      "name": "Surprise! Rocket Battle",
+      "url": "https://play.limitlesstcg.com/tournament/6ae2d5c380a8f79408d20aa9/details",
+      "startAt": "2026-12-12T23:00:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6a690411937230b102d47bb2",
@@ -715,6 +695,26 @@
       "name": "Nightshades Monday Cup 10 (25 Codes)",
       "url": "https://play.limitlesstcg.com/tournament/6aad84a3f127b1b52c27c300/details",
       "startAt": "2026-12-15T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b045bbeada8eea1c94d0d70",
+      "source": "limitless",
+      "sourceId": "6b045bbeada8eea1c94d0d70",
+      "name": "Torneo Relámpago ⚡ #99 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6b045bbeada8eea1c94d0d70/details",
+      "startAt": "2026-12-16T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b045bd7e0b5cca158bbbb71",
+      "source": "limitless",
+      "sourceId": "6b045bd7e0b5cca158bbbb71",
+      "name": "Torneo Relámpago ⚡ #100 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6b045bd7e0b5cca158bbbb71/details",
+      "startAt": "2026-12-18T01:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -769,6 +769,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6b045c54ada8eea1c94d0d78",
+      "source": "limitless",
+      "sourceId": "6b045c54ada8eea1c94d0d78",
+      "name": "Torneo Relámpago ⚡ #101 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6b045c54ada8eea1c94d0d78/details",
+      "startAt": "2026-12-23T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ac0882585920e4d25362895",
       "source": "limitless",
       "sourceId": "6ac0882585920e4d25362895",
@@ -805,6 +815,26 @@
       "name": "Pokemon TCG TOPDECK LEAGUE Hoenn — Finals",
       "url": "https://play.limitlesstcg.com/tournament/6a7c9e942b308b6067b52125/details",
       "startAt": "2026-12-27T10:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b045e1ce0b5cca158bbbb94",
+      "source": "limitless",
+      "sourceId": "6b045e1ce0b5cca158bbbb94",
+      "name": "Copa Elemental Cusca 🇸🇻 #4 PTCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6b045e1ce0b5cca158bbbb94/details",
+      "startAt": "2026-12-28T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b045c8ce0b5cca158bbbb83",
+      "source": "limitless",
+      "sourceId": "6b045c8ce0b5cca158bbbb83",
+      "name": "Torneo Relámpago ⚡ #102 PTCG Live (25 CODES)",
+      "url": "https://play.limitlesstcg.com/tournament/6b045c8ce0b5cca158bbbb83/details",
+      "startAt": "2026-12-30T01:30:00.000Z"
     },
     {
       "format": null,
