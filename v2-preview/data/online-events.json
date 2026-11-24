@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-24T03:02:08.552Z",
+  "generatedAt": "2026-11-24T15:15:48.334Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6b0325aae0b5cca158bbb4ec",
-      "source": "limitless",
-      "sourceId": "6b0325aae0b5cca158bbb4ec",
-      "name": "SEASAC League Challenge #39 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6b0325aae0b5cca158bbb4ec/details",
-      "startAt": "2026-11-24T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -25,6 +15,16 @@
       "name": "Amyverse Bulk Box Battles #9 🧡 Cash Prize!",
       "url": "https://play.limitlesstcg.com/tournament/6afcdf85ee43ef78914777bc/details",
       "startAt": "2026-11-24T18:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b0582bbe0b5cca158bbc705",
+      "source": "limitless",
+      "sourceId": "6b0582bbe0b5cca158bbc705",
+      "name": "👑CrownOfSpain 👑 #14 (10€ paypal)",
+      "url": "https://play.limitlesstcg.com/tournament/6b0582bbe0b5cca158bbc705/details",
+      "startAt": "2026-11-24T19:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -364,6 +364,16 @@
       "sourceId": "6ab7309b880ed327106dcf5d",
       "name": "Vault of Games 🏆|LATIN AMERICA CHAMPIONSHIP |",
       "url": "https://play.limitlesstcg.com/tournament/6ab7309b880ed327106dcf5d/details",
+      "startAt": "2026-11-29T02:00:00.000Z"
+    },
+    {
+      "format": "Worlds 2010 (DP–UL)",
+      "platform": "SIM",
+      "id": "limitless:6b052d70e0b5cca158bbc614",
+      "source": "limitless",
+      "sourceId": "6b052d70e0b5cca158bbc614",
+      "name": "C-C Colosseum #24 - 2010 Worlds (DP-UL)",
+      "url": "https://play.limitlesstcg.com/tournament/6b052d70e0b5cca158bbc614/details",
       "startAt": "2026-11-29T02:00:00.000Z"
     },
     {
