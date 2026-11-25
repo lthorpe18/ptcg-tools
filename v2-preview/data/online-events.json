@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-25T11:42:51.394Z",
+  "generatedAt": "2026-11-25T21:58:23.617Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b04599ae0b5cca158bbbb5f",
-      "source": "limitless",
-      "sourceId": "6b04599ae0b5cca158bbbb5f",
-      "name": "V1 Delta Reign Online Tournament #1",
-      "url": "https://play.limitlesstcg.com/tournament/6b04599ae0b5cca158bbbb5f/details",
-      "startAt": "2026-11-25T12:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6b00b346e0b5cca158bb9f27",
-      "source": "limitless",
-      "sourceId": "6b00b346e0b5cca158bb9f27",
-      "name": "Turtwig Den Expanded Tournament 3",
-      "url": "https://play.limitlesstcg.com/tournament/6b00b346e0b5cca158bb9f27/details",
-      "startAt": "2026-11-25T18:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afe5a3b2b9e244e6cee5378",
-      "source": "limitless",
-      "sourceId": "6afe5a3b2b9e244e6cee5378",
-      "name": "Amyverse PTCG Live Weekly #23 💛 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6afe5a3b2b9e244e6cee5378/details",
-      "startAt": "2026-11-25T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b0217a9ada8eea1c94cfe31",
-      "source": "limitless",
-      "sourceId": "6b0217a9ada8eea1c94cfe31",
-      "name": "TAVERNA LEAGUE - SEASON 0 - DAY #11",
-      "url": "https://play.limitlesstcg.com/tournament/6b0217a9ada8eea1c94cfe31/details",
-      "startAt": "2026-11-25T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b06b22cada8eea1c94d2366",
-      "source": "limitless",
-      "sourceId": "6b06b22cada8eea1c94d2366",
-      "name": "ASRcristiano # 208 -Last before Stuttgart!",
-      "url": "https://play.limitlesstcg.com/tournament/6b06b22cada8eea1c94d2366/details",
-      "startAt": "2026-11-25T20:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -117,6 +67,16 @@
       "startAt": "2026-11-26T01:00:00.000Z"
     },
     {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6b070a55e0b5cca158bbd304",
+      "source": "limitless",
+      "sourceId": "6b070a55e0b5cca158bbd304",
+      "name": "Torneo de Expanded Semanal Fecha #1",
+      "url": "https://play.limitlesstcg.com/tournament/6b070a55e0b5cca158bbd304/details",
+      "startAt": "2026-11-26T01:00:00.000Z"
+    },
+    {
       "format": null,
       "platform": "PTCGO",
       "id": "limitless:6afe069c9c256f7bbd23f987",
@@ -169,6 +129,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6b06e7f1ada8eea1c94d24bb",
+      "source": "limitless",
+      "sourceId": "6b06e7f1ada8eea1c94d24bb",
+      "name": "🇧🇷 Hit Challenge #71 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6b06e7f1ada8eea1c94d24bb/details",
+      "startAt": "2026-11-26T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6b047326e0b5cca158bbbc2e",
       "source": "limitless",
       "sourceId": "6b047326e0b5cca158bbbc2e",
@@ -204,6 +174,16 @@
       "sourceId": "6b043a52ada8eea1c94d0c83",
       "name": "Expanded Showroom - PTCGL Expanded #1",
       "url": "https://play.limitlesstcg.com/tournament/6b043a52ada8eea1c94d0c83/details",
+      "startAt": "2026-11-27T13:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b06db92ada8eea1c94d2462",
+      "source": "limitless",
+      "sourceId": "6b06db92ada8eea1c94d2462",
+      "name": "TEAM ROGUE 30TH ANNIVERSARY UPC",
+      "url": "https://play.limitlesstcg.com/tournament/6b06db92ada8eea1c94d2462/details",
       "startAt": "2026-11-27T13:00:00.000Z"
     },
     {
@@ -249,6 +229,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6b06fdb9ada8eea1c94d2532",
+      "source": "limitless",
+      "sourceId": "6b06fdb9ada8eea1c94d2532",
+      "name": "🇧🇷 Hit Challenge #72 | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6b06fdb9ada8eea1c94d2532/details",
+      "startAt": "2026-11-27T23:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae7ff760d00101b48bf4610",
       "source": "limitless",
       "sourceId": "6ae7ff760d00101b48bf4610",
@@ -275,16 +265,6 @@
       "name": "TurboBlaze Trials GLC Series - Season 2 Week 13",
       "url": "https://play.limitlesstcg.com/tournament/6b0474edada8eea1c94d0e9f/details",
       "startAt": "2026-11-28T01:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "SIM",
-      "id": "limitless:6af49de300d53a11f5b91380",
-      "source": "limitless",
-      "sourceId": "6af49de300d53a11f5b91380",
-      "name": "PTCG Lounge GLC Tourney",
-      "url": "https://play.limitlesstcg.com/tournament/6af49de300d53a11f5b91380/details",
-      "startAt": "2026-11-28T02:00:00.000Z"
     },
     {
       "format": "Worlds 2010 (DP–UL)",
@@ -325,6 +305,16 @@
       "name": "TurboBlaze Presents: The Saturday Special #6",
       "url": "https://play.limitlesstcg.com/tournament/6b047576ada8eea1c94d0ea4/details",
       "startAt": "2026-11-28T17:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b0700f0e0b5cca158bbd2c8",
+      "source": "limitless",
+      "sourceId": "6b0700f0e0b5cca158bbd2c8",
+      "name": "🇧🇷 Hit Challenge #73 BANLIST | TCG Live",
+      "url": "https://play.limitlesstcg.com/tournament/6b0700f0e0b5cca158bbd2c8/details",
+      "startAt": "2026-11-28T18:00:00.000Z"
     },
     {
       "format": null,
@@ -505,6 +495,16 @@
       "name": "Torneo Relámpago ⚡ #95 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6b03b14be0b5cca158bbb8d1/details",
       "startAt": "2026-12-02T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b070b1eada8eea1c94d25b1",
+      "source": "limitless",
+      "sourceId": "6b070b1eada8eea1c94d25b1",
+      "name": "V1 Delta Reign Online Tournament #2",
+      "url": "https://play.limitlesstcg.com/tournament/6b070b1eada8eea1c94d25b1/details",
+      "startAt": "2026-12-02T12:00:00.000Z"
     },
     {
       "format": "Standard",
