@@ -1,41 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-24T15:15:48.334Z",
+  "generatedAt": "2026-11-25T01:03:55.511Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afcdf85ee43ef78914777bc",
-      "source": "limitless",
-      "sourceId": "6afcdf85ee43ef78914777bc",
-      "name": "Amyverse Bulk Box Battles #9 🧡 Cash Prize!",
-      "url": "https://play.limitlesstcg.com/tournament/6afcdf85ee43ef78914777bc/details",
-      "startAt": "2026-11-24T18:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b0582bbe0b5cca158bbc705",
-      "source": "limitless",
-      "sourceId": "6b0582bbe0b5cca158bbc705",
-      "name": "👑CrownOfSpain 👑 #14 (10€ paypal)",
-      "url": "https://play.limitlesstcg.com/tournament/6b0582bbe0b5cca158bbc705/details",
-      "startAt": "2026-11-24T19:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b04c95dada8eea1c94d163f",
-      "source": "limitless",
-      "sourceId": "6b04c95dada8eea1c94d163f",
-      "name": "🇧🇷 Hit Challenge #69 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6b04c95dada8eea1c94d163f/details",
-      "startAt": "2026-11-24T23:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -152,7 +122,7 @@
       "id": "limitless:6b001963ada8eea1c94ce94c",
       "source": "limitless",
       "sourceId": "6b001963ada8eea1c94ce94c",
-      "name": "Rare Candy Club Blitz #11 DELTA REIGN LEGAL",
+      "name": "Rare Candy Club Blitz #12 DELTA REIGN LEGAL",
       "url": "https://play.limitlesstcg.com/tournament/6b001963ada8eea1c94ce94c/details",
       "startAt": "2026-11-26T01:00:00.000Z"
     },
@@ -337,6 +307,16 @@
       "startAt": "2026-11-28T03:35:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b061bfde0b5cca158bbce19",
+      "source": "limitless",
+      "sourceId": "6b061bfde0b5cca158bbce19",
+      "name": "Penguin TCG Challenge #1🐧",
+      "url": "https://play.limitlesstcg.com/tournament/6b061bfde0b5cca158bbce19/details",
+      "startAt": "2026-11-28T09:05:00.000Z"
+    },
+    {
       "format": null,
       "platform": "CAM",
       "id": "limitless:6b047576ada8eea1c94d0ea4",
@@ -389,6 +369,16 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
+      "id": "limitless:6b05fde8ada8eea1c94d1ef0",
+      "source": "limitless",
+      "sourceId": "6b05fde8ada8eea1c94d1ef0",
+      "name": "Kearney Grand Champship Qualifiers #1",
+      "url": "https://play.limitlesstcg.com/tournament/6b05fde8ada8eea1c94d1ef0/details",
+      "startAt": "2026-11-29T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
       "id": "limitless:6ae7cdb30d00101b48bf4383",
       "source": "limitless",
       "sourceId": "6ae7cdb30d00101b48bf4383",
@@ -425,6 +415,16 @@
       "name": "Rare Candy Club Showdown #54 DELTA REIGN LEGAL",
       "url": "https://play.limitlesstcg.com/tournament/6b04a114ada8eea1c94d12fc/details",
       "startAt": "2026-11-30T01:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b060728ada8eea1c94d1fac",
+      "source": "limitless",
+      "sourceId": "6b060728ada8eea1c94d1fac",
+      "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
+      "url": "https://play.limitlesstcg.com/tournament/6b060728ada8eea1c94d1fac/details",
+      "startAt": "2026-11-30T17:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -475,6 +475,16 @@
       "name": "CHALLENGE OF DOOM! LET'S GO TO VEGAS!",
       "url": "https://play.limitlesstcg.com/tournament/6affe72ae0b5cca158bb96c2/details",
       "startAt": "2026-12-01T04:35:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b062307e0b5cca158bbce50",
+      "source": "limitless",
+      "sourceId": "6b062307e0b5cca158bbce50",
+      "name": "Amyverse Bulk Box Battles #10 🧡 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6b062307e0b5cca158bbce50/details",
+      "startAt": "2026-12-01T18:00:00.000Z"
     },
     {
       "format": "Standard",
