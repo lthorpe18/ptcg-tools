@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-25T01:03:55.511Z",
+  "generatedAt": "2026-11-25T11:42:51.394Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afc576fee43ef78914770fe",
-      "source": "limitless",
-      "sourceId": "6afc576fee43ef78914770fe",
-      "name": "Torneo Relámpago ⚡ #93 PTCG Live (25 CODES)",
-      "url": "https://play.limitlesstcg.com/tournament/6afc576fee43ef78914770fe/details",
-      "startAt": "2026-11-25T01:30:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6b03263ce0b5cca158bbb4ed",
-      "source": "limitless",
-      "sourceId": "6b03263ce0b5cca158bbb4ed",
-      "name": "SEASAC League Challenge #40 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6b03263ce0b5cca158bbb4ed/details",
-      "startAt": "2026-11-25T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -64,6 +44,16 @@
       "sourceId": "6b0217a9ada8eea1c94cfe31",
       "name": "TAVERNA LEAGUE - SEASON 0 - DAY #11",
       "url": "https://play.limitlesstcg.com/tournament/6b0217a9ada8eea1c94cfe31/details",
+      "startAt": "2026-11-25T20:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b06b22cada8eea1c94d2366",
+      "source": "limitless",
+      "sourceId": "6b06b22cada8eea1c94d2366",
+      "name": "ASRcristiano # 208 -Last before Stuttgart!",
+      "url": "https://play.limitlesstcg.com/tournament/6b06b22cada8eea1c94d2366/details",
       "startAt": "2026-11-25T20:00:00.000Z"
     },
     {
@@ -135,6 +125,16 @@
       "name": "Cardboard Warriors - GLC on PTCGO #6",
       "url": "https://play.limitlesstcg.com/tournament/6afe069c9c256f7bbd23f987/details",
       "startAt": "2026-11-26T01:30:00.000Z"
+    },
+    {
+      "format": null,
+      "platform": "PTCGL",
+      "id": "limitless:6b06c184e0b5cca158bbd133",
+      "source": "limitless",
+      "sourceId": "6b06c184e0b5cca158bbd133",
+      "name": "SEASAC League Challenge #41 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6b06c184e0b5cca158bbd133/details",
+      "startAt": "2026-11-26T11:30:00.000Z"
     },
     {
       "format": "Standard",
@@ -885,6 +885,16 @@
       "name": "Championships - Budget Build Battles Season 9",
       "url": "https://play.limitlesstcg.com/tournament/6ac08e99245696afb3514e10/details",
       "startAt": "2027-01-02T00:30:00.000Z"
+    },
+    {
+      "format": "EX Series (RS–PK)",
+      "platform": "SIM",
+      "id": "limitless:6b06a29aada8eea1c94d234d",
+      "source": "limitless",
+      "sourceId": "6b06a29aada8eea1c94d234d",
+      "name": "The 3rd🏖️EX Yokohama Open⭐️",
+      "url": "https://play.limitlesstcg.com/tournament/6b06a29aada8eea1c94d234d/details",
+      "startAt": "2027-01-02T21:00:00.000Z"
     },
     {
       "format": "Standard",
