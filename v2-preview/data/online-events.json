@@ -1,71 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-26T14:25:49.898Z",
+  "generatedAt": "2026-11-26T23:16:45.278Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b077091e0b5cca158bbd92d",
-      "source": "limitless",
-      "sourceId": "6b077091e0b5cca158bbd92d",
-      "name": "Underground Live Tournament",
-      "url": "https://play.limitlesstcg.com/tournament/6b077091e0b5cca158bbd92d/details",
-      "startAt": "2026-11-26T14:45:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6afea62c2b9e244e6cee545b",
-      "source": "limitless",
-      "sourceId": "6afea62c2b9e244e6cee545b",
-      "name": "⚗️PokéKhemistry TURBO Thursday",
-      "url": "https://play.limitlesstcg.com/tournament/6afea62c2b9e244e6cee545b/details",
-      "startAt": "2026-11-26T18:15:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aff73102b9e244e6cee5ab1",
-      "source": "limitless",
-      "sourceId": "6aff73102b9e244e6cee5ab1",
-      "name": "Le tournoi des Fiaros - 26.11.2026",
-      "url": "https://play.limitlesstcg.com/tournament/6aff73102b9e244e6cee5ab1/details",
-      "startAt": "2026-11-26T19:45:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b083c39ada8eea1c94d312a",
-      "source": "limitless",
-      "sourceId": "6b083c39ada8eea1c94d312a",
-      "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
-      "url": "https://play.limitlesstcg.com/tournament/6b083c39ada8eea1c94d312a/details",
-      "startAt": "2026-11-26T20:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6aff4d542b9e244e6cee5908",
-      "source": "limitless",
-      "sourceId": "6aff4d542b9e244e6cee5908",
-      "name": "19° Torneo del circuito CarroTCG/Prof. Fili",
-      "url": "https://play.limitlesstcg.com/tournament/6aff4d542b9e244e6cee5908/details",
-      "startAt": "2026-11-26T20:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b06e7f1ada8eea1c94d24bb",
-      "source": "limitless",
-      "sourceId": "6b06e7f1ada8eea1c94d24bb",
-      "name": "🇧🇷 Hit Challenge #71 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6b06e7f1ada8eea1c94d24bb/details",
-      "startAt": "2026-11-26T23:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -475,6 +415,16 @@
       "name": "⚗️🔥PokéKhemistry TURBO Thursday",
       "url": "https://play.limitlesstcg.com/tournament/6b07f646e0b5cca158bbdd18/details",
       "startAt": "2026-12-03T18:15:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b087370e0b5cca158bbe064",
+      "source": "limitless",
+      "sourceId": "6b087370e0b5cca158bbe064",
+      "name": "20° Torneo del circuito CarroTCG/Prof. Fili",
+      "url": "https://play.limitlesstcg.com/tournament/6b087370e0b5cca158bbe064/details",
+      "startAt": "2026-12-03T20:30:00.000Z"
     },
     {
       "format": "Standard",
