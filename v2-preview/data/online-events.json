@@ -1,91 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-25T21:58:23.617Z",
+  "generatedAt": "2026-11-26T04:21:50.091Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae9e3390c463890f304a54a",
-      "source": "limitless",
-      "sourceId": "6ae9e3390c463890f304a54a",
-      "name": "Zard-Pokénight #028",
-      "url": "https://play.limitlesstcg.com/tournament/6ae9e3390c463890f304a54a/details",
-      "startAt": "2026-11-25T22:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b04cdf8ada8eea1c94d1686",
-      "source": "limitless",
-      "sourceId": "6b04cdf8ada8eea1c94d1686",
-      "name": "🇧🇷 Hit Challenge #70 | TCG Live",
-      "url": "https://play.limitlesstcg.com/tournament/6b04cdf8ada8eea1c94d1686/details",
-      "startAt": "2026-11-25T23:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "CAM",
-      "id": "limitless:6afe2cf82b9e244e6cee5230",
-      "source": "limitless",
-      "sourceId": "6afe2cf82b9e244e6cee5230",
-      "name": "Pokemon TCG Webcam Wendsday night Clash",
-      "url": "https://play.limitlesstcg.com/tournament/6afe2cf82b9e244e6cee5230/details",
-      "startAt": "2026-11-26T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b023414e0b5cca158bbad8e",
-      "source": "limitless",
-      "sourceId": "6b023414e0b5cca158bbad8e",
-      "name": "🏆 Domino Arena Cup| T 03 | Week 11 [CL]",
-      "url": "https://play.limitlesstcg.com/tournament/6b023414e0b5cca158bbad8e/details",
-      "startAt": "2026-11-26T00:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b047427ada8eea1c94d0e96",
-      "source": "limitless",
-      "sourceId": "6b047427ada8eea1c94d0e96",
-      "name": "REFINE Autumn Series Session X: Fight Then Feast",
-      "url": "https://play.limitlesstcg.com/tournament/6b047427ada8eea1c94d0e96/details",
-      "startAt": "2026-11-26T00:30:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b001963ada8eea1c94ce94c",
-      "source": "limitless",
-      "sourceId": "6b001963ada8eea1c94ce94c",
-      "name": "Rare Candy Club Blitz #12 DELTA REIGN LEGAL",
-      "url": "https://play.limitlesstcg.com/tournament/6b001963ada8eea1c94ce94c/details",
-      "startAt": "2026-11-26T01:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6b070a55e0b5cca158bbd304",
-      "source": "limitless",
-      "sourceId": "6b070a55e0b5cca158bbd304",
-      "name": "Torneo de Expanded Semanal Fecha #1",
-      "url": "https://play.limitlesstcg.com/tournament/6b070a55e0b5cca158bbd304/details",
-      "startAt": "2026-11-26T01:00:00.000Z"
-    },
-    {
-      "format": null,
-      "platform": "PTCGO",
-      "id": "limitless:6afe069c9c256f7bbd23f987",
-      "source": "limitless",
-      "sourceId": "6afe069c9c256f7bbd23f987",
-      "name": "Cardboard Warriors - GLC on PTCGO #6",
-      "url": "https://play.limitlesstcg.com/tournament/6afe069c9c256f7bbd23f987/details",
-      "startAt": "2026-11-26T01:30:00.000Z"
-    },
     {
       "format": null,
       "platform": "PTCGL",
@@ -95,6 +15,16 @@
       "name": "SEASAC League Challenge #41 (SEASON 6) [50 CODES]",
       "url": "https://play.limitlesstcg.com/tournament/6b06c184e0b5cca158bbd133/details",
       "startAt": "2026-11-26T11:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b077091e0b5cca158bbd92d",
+      "source": "limitless",
+      "sourceId": "6b077091e0b5cca158bbd92d",
+      "name": "Underground Live Tournament",
+      "url": "https://play.limitlesstcg.com/tournament/6b077091e0b5cca158bbd92d/details",
+      "startAt": "2026-11-26T14:45:00.000Z"
     },
     {
       "format": "Standard",
@@ -505,6 +435,16 @@
       "name": "V1 Delta Reign Online Tournament #2",
       "url": "https://play.limitlesstcg.com/tournament/6b070b1eada8eea1c94d25b1/details",
       "startAt": "2026-12-02T12:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b078444e0b5cca158bbdada",
+      "source": "limitless",
+      "sourceId": "6b078444e0b5cca158bbdada",
+      "name": "Amyverse PTCG Live Weekly #24 💛 Cash Prize!",
+      "url": "https://play.limitlesstcg.com/tournament/6b078444e0b5cca158bbdada/details",
+      "startAt": "2026-12-02T19:00:00.000Z"
     },
     {
       "format": "Standard",
