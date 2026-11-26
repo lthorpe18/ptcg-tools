@@ -1,21 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-26T04:21:50.091Z",
+  "generatedAt": "2026-11-26T14:25:49.898Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": null,
-      "platform": "PTCGL",
-      "id": "limitless:6b06c184e0b5cca158bbd133",
-      "source": "limitless",
-      "sourceId": "6b06c184e0b5cca158bbd133",
-      "name": "SEASAC League Challenge #41 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6b06c184e0b5cca158bbd133/details",
-      "startAt": "2026-11-26T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -45,6 +35,16 @@
       "name": "Le tournoi des Fiaros - 26.11.2026",
       "url": "https://play.limitlesstcg.com/tournament/6aff73102b9e244e6cee5ab1/details",
       "startAt": "2026-11-26T19:45:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b083c39ada8eea1c94d312a",
+      "source": "limitless",
+      "sourceId": "6b083c39ada8eea1c94d312a",
+      "name": "⚡ Surge's TCG Vault Winner Takes All - 100 Codes",
+      "url": "https://play.limitlesstcg.com/tournament/6b083c39ada8eea1c94d312a/details",
+      "startAt": "2026-11-26T20:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -437,6 +437,16 @@
       "startAt": "2026-12-02T12:00:00.000Z"
     },
     {
+      "format": "Expanded",
+      "platform": "PTCGL",
+      "id": "limitless:6b07d029e0b5cca158bbdce2",
+      "source": "limitless",
+      "sourceId": "6b07d029e0b5cca158bbdce2",
+      "name": "Turtwig Den Expanded Tournament 4",
+      "url": "https://play.limitlesstcg.com/tournament/6b07d029e0b5cca158bbdce2/details",
+      "startAt": "2026-12-02T17:05:00.000Z"
+    },
+    {
       "format": "Standard",
       "platform": "PTCGL",
       "id": "limitless:6b078444e0b5cca158bbdada",
@@ -455,6 +465,16 @@
       "name": "🏆Moujii's Dojo🏆 (Late Registration Available!)",
       "url": "https://play.limitlesstcg.com/tournament/6b00af3eada8eea1c94ceea4/details",
       "startAt": "2026-12-03T17:00:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b07f646e0b5cca158bbdd18",
+      "source": "limitless",
+      "sourceId": "6b07f646e0b5cca158bbdd18",
+      "name": "⚗️🔥PokéKhemistry TURBO Thursday",
+      "url": "https://play.limitlesstcg.com/tournament/6b07f646e0b5cca158bbdd18/details",
+      "startAt": "2026-12-03T18:15:00.000Z"
     },
     {
       "format": "Standard",
