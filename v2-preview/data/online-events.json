@@ -1,61 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-27T09:03:43.500Z",
+  "generatedAt": "2026-11-27T19:38:33.794Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6b043a52ada8eea1c94d0c83",
-      "source": "limitless",
-      "sourceId": "6b043a52ada8eea1c94d0c83",
-      "name": "Expanded Showroom - PTCGL Expanded #1",
-      "url": "https://play.limitlesstcg.com/tournament/6b043a52ada8eea1c94d0c83/details",
-      "startAt": "2026-11-27T13:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b06db92ada8eea1c94d2462",
-      "source": "limitless",
-      "sourceId": "6b06db92ada8eea1c94d2462",
-      "name": "TEAM ROGUE 30TH ANNIVERSARY UPC",
-      "url": "https://play.limitlesstcg.com/tournament/6b06db92ada8eea1c94d2462/details",
-      "startAt": "2026-11-27T13:00:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6a95d1a1abb9482237504c92",
-      "source": "limitless",
-      "sourceId": "6a95d1a1abb9482237504c92",
-      "name": "Turtwig Den Revival Series Season 2 Challenge 10",
-      "url": "https://play.limitlesstcg.com/tournament/6a95d1a1abb9482237504c92/details",
-      "startAt": "2026-11-27T17:05:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae976600c463890f304a3a6",
-      "source": "limitless",
-      "sourceId": "6ae976600c463890f304a3a6",
-      "name": "Nightshades Friday Challenge 8 (25 Codes)",
-      "url": "https://play.limitlesstcg.com/tournament/6ae976600c463890f304a3a6/details",
-      "startAt": "2026-11-27T18:00:00.000Z"
-    },
-    {
-      "format": "Expanded",
-      "platform": "PTCGL",
-      "id": "limitless:6b032899e0b5cca158bbb4fb",
-      "source": "limitless",
-      "sourceId": "6b032899e0b5cca158bbb4fb",
-      "name": "Expanded Weekly #3 (Top Cut + Code Prizing!)",
-      "url": "https://play.limitlesstcg.com/tournament/6b032899e0b5cca158bbb4fb/details",
-      "startAt": "2026-11-27T19:00:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "CAM",
@@ -97,6 +47,16 @@
       "startAt": "2026-11-28T00:30:00.000Z"
     },
     {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b09a8c9e0b5cca158bbeaa6",
+      "source": "limitless",
+      "sourceId": "6b09a8c9e0b5cca158bbeaa6",
+      "name": "Torneo Online Alain Cards #15",
+      "url": "https://play.limitlesstcg.com/tournament/6b09a8c9e0b5cca158bbeaa6/details",
+      "startAt": "2026-11-28T00:30:00.000Z"
+    },
+    {
       "format": null,
       "platform": "CAM",
       "id": "limitless:6b0474edada8eea1c94d0e9f",
@@ -129,22 +89,22 @@
     {
       "format": "Standard",
       "platform": "PTCGL",
-      "id": "limitless:6b061bfde0b5cca158bbce19",
+      "id": "limitless:6b0969e1e0b5cca158bbe832",
       "source": "limitless",
-      "sourceId": "6b061bfde0b5cca158bbce19",
-      "name": "Penguin TCG Challenge #1🐧",
-      "url": "https://play.limitlesstcg.com/tournament/6b061bfde0b5cca158bbce19/details",
-      "startAt": "2026-11-28T09:05:00.000Z"
+      "sourceId": "6b0969e1e0b5cca158bbe832",
+      "name": "SEASAC League Challenge #43 (SEASON 6) [50 CODES]",
+      "url": "https://play.limitlesstcg.com/tournament/6b0969e1e0b5cca158bbe832/details",
+      "startAt": "2026-11-28T11:30:00.000Z"
     },
     {
-      "format": null,
-      "platform": "CAM",
-      "id": "limitless:6b047576ada8eea1c94d0ea4",
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b09cc81ada8eea1c94d4083",
       "source": "limitless",
-      "sourceId": "6b047576ada8eea1c94d0ea4",
-      "name": "TurboBlaze Presents: The Saturday Special #6",
-      "url": "https://play.limitlesstcg.com/tournament/6b047576ada8eea1c94d0ea4/details",
-      "startAt": "2026-11-28T17:30:00.000Z"
+      "sourceId": "6b09cc81ada8eea1c94d4083",
+      "name": "Saturday's Random Tourney (Open)",
+      "url": "https://play.limitlesstcg.com/tournament/6b09cc81ada8eea1c94d4083/details",
+      "startAt": "2026-11-28T14:00:00.000Z"
     },
     {
       "format": "Standard",
@@ -285,6 +245,16 @@
       "name": "Sunny's Weekly #284 Live from Vice City!",
       "url": "https://play.limitlesstcg.com/tournament/6b049be3ada8eea1c94d1283/details",
       "startAt": "2026-11-30T23:05:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b098bc5ada8eea1c94d3cb3",
+      "source": "limitless",
+      "sourceId": "6b098bc5ada8eea1c94d3cb3",
+      "name": "TCG Live: 5to Torneo Express",
+      "url": "https://play.limitlesstcg.com/tournament/6b098bc5ada8eea1c94d3cb3/details",
+      "startAt": "2026-11-30T23:30:00.000Z"
     },
     {
       "format": "Standard",
