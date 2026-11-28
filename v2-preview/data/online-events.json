@@ -1,31 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-28T02:56:58.115Z",
+  "generatedAt": "2026-11-28T13:35:19.285Z",
   "source": {
     "provider": "limitless",
     "discoveryUrl": "https://play.limitlesstcg.com/tournaments/upcoming?game=PTCG&type=online"
   },
   "events": [
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6ae97a9ae94eae0f94746409",
-      "source": "limitless",
-      "sourceId": "6ae97a9ae94eae0f94746409",
-      "name": "TOURNAMENT OF DOOM! Uhm.... yep.",
-      "url": "https://play.limitlesstcg.com/tournament/6ae97a9ae94eae0f94746409/details",
-      "startAt": "2026-11-28T03:35:00.000Z"
-    },
-    {
-      "format": "Standard",
-      "platform": "PTCGL",
-      "id": "limitless:6b0969e1e0b5cca158bbe832",
-      "source": "limitless",
-      "sourceId": "6b0969e1e0b5cca158bbe832",
-      "name": "SEASAC League Challenge #43 (SEASON 6) [50 CODES]",
-      "url": "https://play.limitlesstcg.com/tournament/6b0969e1e0b5cca158bbe832/details",
-      "startAt": "2026-11-28T11:30:00.000Z"
-    },
     {
       "format": "Standard",
       "platform": "PTCGL",
@@ -275,6 +255,16 @@
       "name": "Torneo Relámpago ⚡ #95 PTCG Live (25 CODES)",
       "url": "https://play.limitlesstcg.com/tournament/6b03b14be0b5cca158bbb8d1/details",
       "startAt": "2026-12-02T01:30:00.000Z"
+    },
+    {
+      "format": "Standard",
+      "platform": "PTCGL",
+      "id": "limitless:6b0a4febe0b5cca158bbf4c4",
+      "source": "limitless",
+      "sourceId": "6b0a4febe0b5cca158bbf4c4",
+      "name": "Pudding Weekly #23 | Los Vegas TV",
+      "url": "https://play.limitlesstcg.com/tournament/6b0a4febe0b5cca158bbf4c4/details",
+      "startAt": "2026-12-02T02:00:00.000Z"
     },
     {
       "format": "Standard",
